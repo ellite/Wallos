@@ -1,0 +1,86 @@
+let isDropdownOpen = false;
+
+function toggleDropdown() {
+    const dropdown = document.querySelector('.dropdown');
+    dropdown.classList.toggle('is-open');
+    isDropdownOpen = !isDropdownOpen;
+}
+
+function showErrorMessage(message) {
+    const toast = document.querySelector(".toast#errorToast");
+    (closeIcon = document.querySelector(".close-error")),
+    (errorMessage = document.querySelector(".errorMessage")),
+    (progress = document.querySelector(".progress.error"));
+    let timer1, timer2;
+    errorMessage.textContent = message;
+    toast.classList.add("active");
+    progress.classList.add("active");
+    timer1 = setTimeout(() => {
+      toast.classList.remove("active");
+      closeIcon.removeEventListener("click", () => {});
+    }, 5000);
+  
+    timer2 = setTimeout(() => {
+      progress.classList.remove("active");
+    }, 5300);
+  
+    closeIcon.addEventListener("click", () => {
+      toast.classList.remove("active");
+    
+      setTimeout(() => {
+        progress.classList.remove("active");
+      }, 300);
+    
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      closeIcon.removeEventListener("click", () => {});
+    });
+}
+
+function showSuccessMessage(message) {
+    const toast = document.querySelector(".toast#successToast");
+    (closeIcon = document.querySelector(".close-success")),
+    (successMessage = document.querySelector(".successMessage")),
+    (progress = document.querySelector(".progress.success"));
+    let timer1, timer2;
+    successMessage.textContent = message;
+    toast.classList.add("active");
+    progress.classList.add("active");
+    timer1 = setTimeout(() => {
+      toast.classList.remove("active");
+      closeIcon.removeEventListener("click", () => {});
+    }, 5000);
+  
+    timer2 = setTimeout(() => {
+      progress.classList.remove("active");
+    }, 5300);
+  
+    closeIcon.addEventListener("click", () => {
+      toast.classList.remove("active");
+    
+      setTimeout(() => {
+        progress.classList.remove("active");
+      }, 300);
+    
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      closeIcon.removeEventListener("click", () => {});
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    document.addEventListener('mousedown', function(event) {
+        var dropdown = document.querySelector('.dropdown');
+        var dropdownContent = document.querySelector('.dropdown-content');
+
+        if (!dropdown.contains(event.target) && isDropdownOpen) {
+        dropdown.classList.remove('is-open');
+        isDropdownOpen = false;
+        }
+    });
+
+    document.querySelector('.dropdown-content').addEventListener('focus', function() {
+        isDropdownOpen = true;
+    });
+});

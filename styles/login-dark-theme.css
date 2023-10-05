@@ -1,0 +1,34 @@
+body {
+    background-color: #303030;
+    color: #E0E0E0;
+}
+
+.container {
+    background-color: #222;
+    border: 1px solid #333;
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .container {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"], 
+input[type="checkbox"],
+select {   
+    background-color: #555;
+    border: 1px solid #666;
+    color: #E0E0E0;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+    color: #BBB;
+}

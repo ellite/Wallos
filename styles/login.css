@@ -1,0 +1,119 @@
+body, html {
+    font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    height: 100%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.container {
+    width: 400px;
+    margin: auto;
+    max-width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .container {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+}
+
+.container > header {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group-inline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group-inline label {
+    font-weight: 300;
+    font-size: 13px;
+    margin-bottom: 0px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+input {
+    box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    margin: 0px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: grid;
+    place-content: center;
+}
+
+.error {
+    display: block;
+    color: red;
+    margin-bottom: 20px;
+}
