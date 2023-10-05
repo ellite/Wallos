@@ -1,4 +1,4 @@
-# WALLOS
+![Screenshot](images/wallos.png)
 
 Wallos: Open-Source Personal Subscription Tracker
 
