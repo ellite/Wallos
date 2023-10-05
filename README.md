@@ -78,11 +78,11 @@ bellamy/wallos:latest
 
 ## Usage
 
-Just open the browser and open `ip:port` of the machine running wallos.
-On the first time you run wallos a user account must be created.
-Go to settings and add personalise your Avatar and add members of your household. While there add / remove any categories and currencies.
-Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.
-If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your prefered one.
+Just open the browser and open `ip:port` of the machine running wallos.  
+On the first time you run wallos a user account must be created.  
+Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.  
+Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.  
+If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your prefered one.  
 
 ## Screenshots
 
@@ -100,8 +100,8 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 
 ## Contributing
 
-Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.
-Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.
+Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.  
+Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.  
 I welcome contributions from the community and look forward to working with you to improve this project.
 
 ## License
