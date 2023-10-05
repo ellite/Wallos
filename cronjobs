@@ -1,0 +1,3 @@
+# Run the script every day
+0 0 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
+0 1 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/updateexchange.php >> /var/log/cron/updateexchange.log 2>&1

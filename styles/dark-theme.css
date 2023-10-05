@@ -1,0 +1,109 @@
+body {
+    background-color: #303030;
+    color: #E0E0E0;
+}
+
+body > header {
+    background-color: #222;
+}
+
+header .logo .logo-image {
+    background-image: url("../images/wallossolidwhite.png");
+}
+
+.subscription,
+.subscription-form,
+.account-section,
+.avatar-select,
+.logo-search,
+.dropdown-content,
+.sort-options,
+.statistic {
+    background-color: #222;
+    border: 1px solid #333;
+    box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
+}
+
+.dropbtn {
+    color: #E0E0E0E0;
+}
+
+.dropdown-content a {
+    color: #E0E0E0;
+}
+
+.dropdown-content a:hover {
+    background-color: #333333;
+}
+
+.subscription-form h3 {
+    color: #FFF;
+    border-bottom: 1px solid #EEE;
+}
+
+.close-form {
+    color: #EEE;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+input[type="number"],
+select {
+    background-color: #555;
+    border: 1px solid #666;
+    color: #E0E0E0;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
+input[type="date"]::placeholder,
+input[type="number"]::placeholder,
+select::placeholder {
+    color: #BBB;
+}
+
+input[type="button"].secondary-button {
+    background-color: #222;
+}
+
+input[type="button"].secondary-button:hover {
+    background-color: #111;
+}
+
+.toast {
+    border: 1px solid #333;
+    background: #222;
+    box-shadow: 0 6px 20px -5px rgba(255, 255, 255, 0.1);
+}
+
+.toast .close-error {
+    color: #EEE;
+}
+
+.toast-content .message .text.text-1 {
+    color: #BBB;
+}
+
+.toast-content .message .text {
+    color: #999;
+}
+
+.logo-preview:after {
+    color: #007bff;
+}
+
+.sort-options > ul > li {
+    border-bottom: 1px solid #555;
+    color: #DDD;
+}
+
+.sort-options > ul > li:hover {
+    background-color: #444;
+}
+
+.payment-name {
+    color: #FFF;
+}
