@@ -13,9 +13,10 @@
     } else {
 
         if (isset($_COOKIE['wallos_login'])) {
-            $cookie = explode('|', $_COOKIE['wallos_login'], 2) ;
+            $cookie = explode('|', $_COOKIE['wallos_login'], 3);
             $username = $cookie[0];
             $token = $cookie[1];
+            $main_currency = $cookie[2];
 
             $sql = "SELECT * FROM user WHERE username = :username";
             $stmt = $db->prepare($sql);
