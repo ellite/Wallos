@@ -34,6 +34,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Logo Search: Wallos can search the web for the logo of your subscriptions if you don't have them available for upload.
 - Mobile view: Wallos on the go.
 - Statistics: Another perspective into your spendings.
+- Notifications:  Get notified by email of an upcoming payment.
 
 ## Getting Started
 

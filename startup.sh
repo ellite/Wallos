@@ -16,6 +16,7 @@ sleep 1
 
 # Change permissions on the database directory
 chmod -R 755 /var/www/html/db/
+chown -R www-data:www-data /var/www/html/db/
 
 # Run updatenextpayment.php and wait for it to finish
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php
