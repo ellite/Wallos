@@ -1,5 +1,6 @@
 <?php
-    require_once '/var/www/html/includes/connect_endpoint_crontabs.php';
+    require_once 'conf.php';
+    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
 
     $query = "SELECT api_key FROM fixer";
     $result = $db->query($query);

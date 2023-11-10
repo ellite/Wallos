@@ -144,6 +144,7 @@
             $notes = $_POST["notes"];
             $logoUrl = $_POST['logo-url'];
             $logo = "";
+            $notify = isset($_POST['notifications']) ? true : false;
 
             if($logoUrl !== "") {
                 $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name);
@@ -155,15 +156,15 @@
 
             if (!$isEdit) {
                 $sql = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id) 
+                        payment_method_id, payer_user_id, category_id, notify) 
                         VALUES (:name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId)";
+                        :paymentMethodId, :payerUserId, :categoryId, :notify)";
             } else {
                 $id = $_POST['id'];
                 if ($logo != "") {
-                    $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId WHERE id = :id";
+                    $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify WHERE id = :id";
                 } else {
-                    $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId WHERE id = :id";
+                    $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify WHERE id = :id";
                 }
             }
 
@@ -184,6 +185,7 @@
             $stmt->bindParam(':paymentMethodId', $paymentMethodId, SQLITE3_INTEGER);
             $stmt->bindParam(':payerUserId', $payerUserId, SQLITE3_INTEGER);
             $stmt->bindParam(':categoryId', $categoryId, SQLITE3_INTEGER);
+            $stmt->bindParam(':notify', $notify, SQLITE3_INTEGER);
             
             if ($stmt->execute()) {
                 $success['status'] = "Success";

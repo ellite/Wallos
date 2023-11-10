@@ -317,10 +317,6 @@ main > .contain {
   margin-bottom: 0px;
 }
 
-.account-section .account-settings-list .form-group-inline label {
-  font-size: 16px;
-}
-
 .user-form {
   display: flex;
   flex-direction: column;
@@ -424,11 +420,16 @@ main > .contain {
 .account-members .buttons,
 .account-currencies .buttons, 
 .account-fixer .buttons,
-.account-categories .buttons {
+.account-categories .buttons,
+.account-notifications .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 30px;
+}
+
+.account-notifications .buttons {
+  gap: 15px;
 }
 
 .image-button {
@@ -563,7 +564,7 @@ label {
 
 .form-group-inline label {
   font-weight: 300;
-  font-size: 13px;
+  font-size: 16px;
   margin-bottom: 0px;
   margin-left: 0px;
   cursor: pointer;
@@ -589,6 +590,10 @@ select {
   outline: none;
   color: #202020;
   box-sizing: border-box;
+}
+
+.one-third {
+  max-width: 33%;
 }
 
 select {

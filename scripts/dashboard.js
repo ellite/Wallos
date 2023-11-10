@@ -61,6 +61,9 @@ function fillEditFormFields(subscription) {
   const notes = document.querySelector("#notes");
   notes.value = subscription.notes;
 
+  const notifications = document.querySelector("#notifications");
+  notifications.checked = subscription.notify;
+
   const deleteButton = document.querySelector("#deletesub");
   deleteButton.style = 'display: block';
   deleteButton.setAttribute("onClick", `deleteSubscription(${subscription.id})`);

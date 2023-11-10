@@ -55,7 +55,7 @@ RUN chmod +x /var/www/html/startup.sh
 # Expose port 80 for Nginx
 EXPOSE 80
 
-ARG SOFTWARE_VERSION=0.9.0
+ARG SOFTWARE_VERSION=1.0.0
 
 # Start both PHP-FPM, Nginx
 CMD ["sh", "-c", "/var/www/html/startup.sh"]

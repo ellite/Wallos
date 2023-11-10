@@ -135,6 +135,75 @@
     </section>
 
     <?php
+        $sql = "SELECT * FROM notifications LIMIT 1";
+        $result = $db->query($sql);
+
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notifications = $row;
+            $rowCount++;
+        }
+        
+        if ($rowCount == 0) {
+            $notifications['enabled'] = false;
+            $notifications['days'] = 1;
+            $notifications['smtp_address'] = "";
+            $notifications['smtp_port'] = "";
+            $notifications['smtp_username'] = "";
+            $notifications['smtp_password'] = "";
+        }
+
+    ?>
+
+    <section class="account-section">
+        <header>
+            <h2>Notifications</h2>
+        </header>
+        <div class="account-notifications">
+            <div class="form-group-inline">
+                <input type="checkbox" id="notifications" name="notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
+                <label for="notifications">Enable email notifications</label>
+            </div>
+            <div class="form-group">
+                <label for="days">Notify me: </label>
+                <select name="days" id="days">
+                <?php
+                    for ($i = 1; $i <= 7; $i++) {
+                        $dayText = $i > 1 ? "days" : "day";
+                        $selected = $i == $notifications['days'] ? "selected" : "";
+                        ?>
+                            <option value="<?= $i ?>" <?= $selected ?>>
+                                <?= $i ?> <?= $dayText ?> before
+                            </option>
+                        <?php
+                    }
+                ?>
+                </select>
+            </div>
+            <div class="form-group-inline">
+                <input type="text" name="smtpaddress" id="smtpaddress" placeholder="SMTP Address" value="<?= $notifications['smtp_address'] ?>" />
+                <input type="text" name="smtpport" id="smtpport" placeholder="Port" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="text" name="smtpusername" id="smtpusername" placeholder="SMTP Username"  value="<?= $notifications['smtp_username'] ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="password" name="smtppassword" id="smtppassword" placeholder="SMTP Password"  value="<?= $notifications['smtp_password'] ?>" />
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> SMTP Password is transmitted and stored in plaintext. 
+                    For security, please create an account just for this.</p>
+                <p>
+            </div>
+            <div class="buttons">
+                <input type="button" class="secondary-button" value="Test" id="testNotifications" onClick="testNotificationButton()"/>
+                <input type="submit" value="Save" id="saveNotifications" onClick="saveNotificationsButton()"/>
+            </div>
+        </div>
+    </section>
+
+    <?php
         $sql = "SELECT * FROM categories";
         $result = $db->query($sql);
 
@@ -436,7 +505,7 @@
             <h2>About and Credits</h2>
         </header>
         <div class="credits-list">
-            <p>Wallos v0.9</p>
+            <p>Wallos v1.0</p>
             <p>License: 
                 <span>
                     GPLv3

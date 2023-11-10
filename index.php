@@ -26,6 +26,16 @@
     }
   }
 
+  $notificationsEnabled = false;
+  $query = "SELECT enabled FROM notifications WHERE id = 1";
+  $result = $db->query($query);
+  if ($result) {
+      $row = $result->fetchArray(SQLITE3_ASSOC);
+      if ($row) {
+          $notificationsEnabled = $row['enabled'];
+      }
+  }
+
   $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
   $defaultLogo = $theme == "light" ? "images/wallos.png" : "images/walloswhite.png";
 ?>
@@ -228,6 +238,17 @@
           <div class="form-group">
             <input type="text" id="notes" name="notes" placeholder="Notes">
           </div>
+
+          <?php
+            if ($notificationsEnabled) {
+          ?>
+          <div class="form-group-inline">
+            <input type="checkbox" id="notifications" name="notifications">
+            <label for="notifications">Enable Notifications for this subscription</label>
+          </div>
+          <?php
+            }
+          ?>
 
           <div class="buttons">
                 <input type="button" value="Delete" class="warning-button left" id="deletesub" style="display: none">

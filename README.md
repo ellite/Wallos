@@ -48,6 +48,7 @@ See instructions to run Wallos below.
     - curl
     - gd
     - imagick
+    - openssl
     - sqlite3
 
 #### Docker
@@ -63,9 +64,12 @@ Download or clone this repo and move the files into your web root - usually `/va
 Add the following scripts to your cronjobs with `crontab -e`
 
 ```bash
-0 0 * * * php /var/www/html/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
-0 1 * * * php /var/www/html/endpoints/cronjobs/updateexchange.php >> /var/log/cron/updateexchange.log 2>&1
+0 1 * * * php /var/www/html/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
+0 2 * * * php /var/www/html/endpoints/cronjobs/updateexchange.php >> /var/log/cron/updateexchange.log 2>&1
+0 9 * * * php /var/www/html/endpoints/cronjobs/sendnotifications.php >> /var/log/cron/sendnotifications.log 2>&1
 ```
+
+If your web root is not `/var/www/html/` adjust both the cronjobs above and `/endpoints/cronjobs/conf.php` accordingly.
 
 #### Docker
 

@@ -468,6 +468,86 @@ function addFixerKeyButton() {
   });
 }
 
+function saveNotificationsButton() {
+  const button = document.getElementById("saveNotifications");
+  button.disabled = true;
+
+  const enabled = document.getElementById("notifications").checked ? 1 : 0;
+  const days = document.getElementById("days").value;
+  const smtpAddress = document.getElementById("smtpaddress").value;
+  const smtpPort = document.getElementById("smtpport").value;
+  const smtpUsername = document.getElementById("smtpusername").value;
+  const smtpPassword = document.getElementById("smtppassword").value;
+
+  const data = {
+    enabled: enabled,
+    days: days,
+    smtpaddress: smtpAddress,
+    smtpport: smtpPort,
+    smtpusername: smtpUsername,
+    smtppassword: smtpPassword
+  };
+
+  fetch('/endpoints/notifications/save.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage("Notification settings saved successfully.");
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+      button.disabled = false;
+  })
+  .catch(error => {
+      showErrorMessage("Error saving notification data");
+      button.disabled = false;
+  });
+}
+
+function testNotificationButton()  {
+  const button = document.getElementById("testNotifications");
+  button.disabled = true;
+
+  const smtpAddress = document.getElementById("smtpaddress").value;
+  const smtpPort = document.getElementById("smtpport").value;
+  const smtpUsername = document.getElementById("smtpusername").value;
+  const smtpPassword = document.getElementById("smtppassword").value;
+
+  const data = {
+    smtpaddress: smtpAddress,
+    smtpport: smtpPort,
+    smtpusername: smtpUsername,
+    smtppassword: smtpPassword
+  };
+
+  fetch('/endpoints/notifications/sendtestmail.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage("Notification sent successfully.");
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+      button.disabled = false;
+  })
+  .catch(error => {
+      showErrorMessage("Error sending notification");
+      button.disabled = false;
+  });
+}
+
 function switchTheme() {
   const darkThemeCss = document.querySelector("#dark-theme");
   darkThemeCss.disabled = !darkThemeCss.disabled;

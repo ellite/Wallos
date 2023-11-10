@@ -1,9 +1,11 @@
 <?php 
 
-$databaseFile = '/var/www/html/db/wallos.db';
+require_once 'conf.php';
+
+$databaseFile = $webPath . 'db/wallos.db';
 
 if (!file_exists($databaseFile)) {
-    echo "Database does not exist. Creating it...";
+    echo "Database does not exist. Creating it...\n";
     $db = new SQLite3($databaseFile, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
     $db->busyTimeout(5000);
 
@@ -36,6 +38,7 @@ if (!file_exists($databaseFile)) {
         payment_method_id INTEGER,
         payer_user_id INTEGER,
         category_id INTEGER,
+        notify BOOLEAN DEFAULT false,
         FOREIGN KEY(currency_id) REFERENCES currencies(id),
         FOREIGN KEY(cycle) REFERENCES cycles(id),
         FOREIGN KEY(frequency) REFERENCES frequencies(id),
@@ -90,6 +93,16 @@ if (!file_exists($databaseFile)) {
 
     $db->exec('CREATE TABLE last_update_next_payment_date (
         date DATE NOT NULL
+    )');
+
+    $db-exec('CREATE TABLE notifications (
+        id INTEGER PRIMARY KEY,
+        enabled BOOLEAN DEFAULT false,
+        days INTEGER,
+        smtp_address VARCHAR(255),
+        smtp_port INTEGER,
+        smtp_username VARCHAR(255),
+        smtp_password VARCHAR(255)
     )');
 
     $db->exec("INSERT INTO categories (id, name) VALUES
@@ -218,8 +231,53 @@ if (!file_exists($databaseFile)) {
     (30, 'VeriFone', 'verifone.png'),
     (31, 'WebMoney', 'webmoney.png')");
 
+    echo "Database created.\n";
 } else {
-    echo "Database already exist. Skipping...";
+    echo "Database already exist. Checking for upgrades...\n";
+
+    $databaseFile = $webPath . 'db/wallos.db';
+    $db = new SQLite3($databaseFile);
+    $db->busyTimeout(5000);
+
+    if (!$db) {
+        die('Connection to the database failed.');
+    }
+
+    # v0.9 to v1.0
+    # Added new notifications table
+    # Added notify column to subscriptions table
+
+    $result = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='notifications'");
+    if (!$result->fetchArray(SQLITE3_ASSOC)) {
+        $db->exec('CREATE TABLE notifications (
+            id INTEGER PRIMARY KEY,
+            enabled BOOLEAN DEFAULT false,
+            days INTEGER,
+            smtp_address VARCHAR(255),
+            smtp_port INTEGER,
+            smtp_username VARCHAR(255),
+            smtp_password VARCHAR(255)
+        )');
+        echo "Table 'notifications' created.\n";
+    } else {
+        echo "Table 'notifications' already exists.\n";
+    }
+
+    $result = $db->query("PRAGMA table_info(subscriptions)");
+    $notifyColumnExists = false;
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        if ($row['name'] === 'notify') {
+            $notifyColumnExists = true;
+            break;
+        }
+    }
+    if (!$notifyColumnExists) {
+        $db->exec('ALTER TABLE subscriptions ADD COLUMN notify BOOLEAN DEFAULT false');
+        echo "Column 'notify' added to table 'subscriptions'.\n";
+    } else {
+        echo "Column 'notify' already exists in table 'subscriptions'.\n";
+    }
+
 }
 
 ?>

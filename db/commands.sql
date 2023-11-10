@@ -27,6 +27,7 @@ CREATE TABLE subscriptions (
     payment_method_id INTEGER,
     payer_user_id INTEGER,
     category_id INTEGER,
+    notify BOOLEAN DEFAULT false,
     FOREIGN KEY(currency_id) REFERENCES currencies(id),
     FOREIGN KEY(cycle) REFERENCES cycles(id),
     FOREIGN KEY(frequency) REFERENCES frequencies(id),
@@ -81,7 +82,17 @@ CREATE TABLE last_exchange_update (
 
 CREATE TABLE last_update_next_payment_date (
     date DATE NOT NULL
-)
+);
+
+CREATE TABLE notifications (
+    id INTEGER PRIMARY KEY,
+    enabled BOOLEAN DEFAULT false,
+    days INTEGER,
+    smtp_address VARCHAR(255),
+    smtp_port INTEGER,
+    smtp_username VARCHAR(255),
+    smtp_password VARCHAR(255)
+);
 
 INSERT INTO categories (id, name) VALUES
     (1, 'No category'),

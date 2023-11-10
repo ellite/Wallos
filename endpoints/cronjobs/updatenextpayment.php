@@ -1,5 +1,6 @@
 <?php
-    require_once '/var/www/html/includes/connect_endpoint_crontabs.php';
+    require_once 'conf.php';
+    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
 
     $currentDate = new DateTime();
     $currentDateString = $currentDate->format('Y-m-d');
