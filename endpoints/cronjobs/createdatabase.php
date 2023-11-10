@@ -119,7 +119,7 @@ if (!file_exists($databaseFile)) {
     (11, 'Insurance'),
     (12, 'Gaming'),
     (13, 'News & Magazines'),
-    (14, 'Productivity'),
+    (14, 'Software'),
     (15, 'Technology'),
     (16, 'Cloud Services'),
     (17, 'Charity & Donations')");

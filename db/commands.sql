@@ -108,7 +108,7 @@ INSERT INTO categories (id, name) VALUES
     (11, 'Insurance'),
     (12, 'Gaming'),
     (13, 'News & Magazines'),
-    (14, 'Productivity'),
+    (14, 'Software'),
     (15, 'Technology'),
     (16, 'Charity & Donations:');
 

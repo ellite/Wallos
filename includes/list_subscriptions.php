@@ -50,7 +50,7 @@
             return $price;
         } else {
             $fromRate = $exchangeRate['rate'];
-            return number_format($price * $fromRate, 2);
+            return number_format($price / $fromRate, 2);
         }
     }
 

@@ -27,7 +27,7 @@
                 $mainCurrencyCode = $row['code'];
                 $mainCurrencyId = $row['main_currency'];
 
-                $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=" . $mainCurrencyCode . "&symbols=" . $codes;
+                $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=EUR&symbols=" . $codes;
                 $response = file_get_contents($api_url);
                 $apiData = json_decode($response, true);
 
@@ -131,6 +131,7 @@
             $_SESSION['avatar'] = $avatar;
 
             if ($main_currency != $mainCurrencyId) {
+                $_SESSION['main_currency'] = $main_currency;
                 update_exchange_rate($db);
             }
 

@@ -147,8 +147,9 @@
             <select id="currency" name="currency_id" placeholder="Currency">
               <?php
                 foreach ($currencies as $currency) {
+                  $selected = ($currency['id'] == $main_currency) ? 'selected' : '';
               ?>
-                <option value="<?= $currency['id'] ?>"><?= $currency['name'] ?></option>
+                  <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
               <?php
                 }
               ?>
