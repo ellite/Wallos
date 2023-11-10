@@ -178,7 +178,6 @@ if (!file_exists($databaseFile)) {
     ('Swiss Franc', 'Fr', 'CHF', 1),
     ('Icelandic Króna', 'kr', 'ISK', 1),
     ('Norwegian Krone', 'kr', 'NOK', 1),
-    ('Croatian Kuna', 'kn', 'HRK', 1),
     ('Russian Ruble', '₽', 'RUB', 1),
     ('Turkish Lira', '₺', 'TRY', 1),
     ('Australian Dollar', '$', 'AUD', 1),
