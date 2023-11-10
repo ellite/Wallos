@@ -95,7 +95,7 @@ if (!file_exists($databaseFile)) {
         date DATE NOT NULL
     )');
 
-    $db-exec('CREATE TABLE notifications (
+    $db->exec('CREATE TABLE notifications (
         id INTEGER PRIMARY KEY,
         enabled BOOLEAN DEFAULT false,
         days INTEGER,
