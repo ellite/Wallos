@@ -4,17 +4,14 @@
   function getPricePerMonth($cycle, $frequency, $price) {
     switch ($cycle) {
     case 1:
-        echo "1";
         $numberOfPaymentsPerMonth = (30 / $frequency); 
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 2:
-        echo "2";
         $numberOfPaymentsPerMonth = (4.35 / $frequency);
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 3:
-        echo "3";
         $numberOfPaymentsPerMonth = (1 / $frequency);
         return $price * $numberOfPaymentsPerMonth;
         break;
