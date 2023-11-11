@@ -2,6 +2,7 @@
     session_start();
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $username = $_SESSION['username'];
+        $main_currency = $_SESSION['main_currency'];
         $sql = "SELECT * FROM user WHERE username = :username";
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);

@@ -129,9 +129,9 @@
                 }
             }
             $_SESSION['avatar'] = $avatar;
+            $_SESSION['main_currency'] = $main_currency;
 
             if ($main_currency != $mainCurrencyId) {
-                $_SESSION['main_currency'] = $main_currency;
                 update_exchange_rate($db);
             }
 
