@@ -4,19 +4,26 @@
   function getPricePerMonth($cycle, $frequency, $price) {
     switch ($cycle) {
     case 1:
+        echo "1";
         $numberOfPaymentsPerMonth = (30 / $frequency); 
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 2:
+        echo "2";
         $numberOfPaymentsPerMonth = (4.35 / $frequency);
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 3:
+        echo "3";
         $numberOfPaymentsPerMonth = (1 / $frequency);
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 4:
-        $numberOfPaymentsPerMonth = (0.083 / $frequency);
+        if ($frequency === 1) {
+          return $price / 12;
+          break;
+        }
+        $numberOfPaymentsPerMonth = (0.0833310 / $frequency);
         return $price * $numberOfPaymentsPerMonth;
         break;  
     }
@@ -99,10 +106,6 @@ if ($result) {
       if ((int)$memberCost[$payerId]['cost'] == $memberCost[$payerId]['cost']) {
         $memberCost[$payerId]['cost'] = (int)$memberCost[$payerId]['cost'];
       }
-      $totalCostPerMonth = number_format($totalCostPerMonth, 2, ".", "");
-      if ((int)$totalCostPerMonth == $totalCostPerMonth) {
-        $totalCostPerMonth = (int)$totalCostPerMonth;
-      }
       
       $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
       $tomorrow = new DateTime('tomorrow');
@@ -137,6 +140,11 @@ if ($result) {
     $averageSubscriptionCost = number_format($averageSubscriptionCost, 2, ".", "");
     if ((int)$averageSubscriptionCost == $averageSubscriptionCost) {
       $averageSubscriptionCost = (int)$averageSubscriptionCost;
+    }
+
+    $totalCostPerMonth = number_format($totalCostPerMonth, 2, ".", "");
+    if ((int)$totalCostPerMonth == $totalCostPerMonth) {
+      $totalCostPerMonth = (int)$totalCostPerMonth;
     }
   } else {
     $totalCostPerYear = 0;
