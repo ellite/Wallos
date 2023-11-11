@@ -50,6 +50,7 @@
           $print[$id]['payment_method_icon'] = "images/uploads/icons/" . $payment_methods[$paymentMethodId]['icon'];
           $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
           $print[$id]['category_id'] = $subscription['category_id'];
+          $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
           $print[$id]['price'] = $subscription['price'];
 
           if (isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
@@ -66,7 +67,7 @@
         }
 
         if (isset($print)) {
-          printSubscriptons($print, $sort, $categories);
+          printSubscriptons($print, $sort, $categories, $members);
         }
         
         if (count($subscriptions) == 0) {

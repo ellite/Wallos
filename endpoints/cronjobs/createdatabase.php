@@ -43,7 +43,7 @@ if (!file_exists($databaseFile)) {
         FOREIGN KEY(cycle) REFERENCES cycles(id),
         FOREIGN KEY(frequency) REFERENCES frequencies(id),
         FOREIGN KEY(payment_method_id) REFERENCES payment_methods(id),
-        FOREIGN KEY(payer_user_id) REFERENCES user(id)
+        FOREIGN KEY(payer_user_id) REFERENCES household(id)
         FOREIGN KEY(category_id) REFERENCES categories(id)
     )');
 
