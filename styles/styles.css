@@ -1049,12 +1049,21 @@ input[type="checkbox"] {
   flex-basis: 31%;
   flex-shrink: 0;
   box-sizing: border-box;
-  
+}
+
+.statistic.empty {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
   .statistic {
     flex-basis: 100%;
+  }
+
+  .statistic.empty {
+    display: none;
   }
 }
 

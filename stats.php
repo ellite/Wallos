@@ -38,6 +38,17 @@
       }
   }
 
+//Get household members
+$members = array();
+$query = "SELECT * FROM household";
+$result = $db->query($query);
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $memberId = $row['id'];
+    $members[$memberId] = $row;
+    $memberCost[$memberId]['cost'] = 0;
+    $memberCost[$memberId]['name'] = $row['name'];
+}  
+
 // Get symbol of main currency to display on statistics
 $query = "SELECT c.symbol
           FROM currencies c
@@ -61,7 +72,7 @@ $activeSubscriptions = $row['active_subscriptions'];
 $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment FROM subscriptions";
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id FROM subscriptions";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -75,11 +86,18 @@ if ($result) {
       $cycle = $subscription['cycle'];
       $currency = $subscription['currency_id'];
       $next_payment = $subscription['next_payment'];
+      $payerId = $subscription['payer_user_id'];
       $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
       $totalCostPerMonth += $price;
+      $memberCost[$payerId]['cost'] += $price;
       if ($price > $mostExpensiveSubscription) {
         $mostExpensiveSubscription = $price;
+      }
+
+      $memberCost[$payerId]['cost'] = number_format($memberCost[$payerId]['cost'], 2, ".", "");
+      if ((int)$memberCost[$payerId]['cost'] == $memberCost[$payerId]['cost']) {
+        $memberCost[$payerId]['cost'] = (int)$memberCost[$payerId]['cost'];
       }
       $totalCostPerMonth = number_format($totalCostPerMonth, 2, ".", "");
       if ((int)$totalCostPerMonth == $totalCostPerMonth) {
@@ -125,10 +143,7 @@ if ($result) {
     $averageSubscriptionCost = 0;
   }
 }
-
-// Calculate cost per household member
-
-  
+ 
 ?>
 <section class="contain">
   <div class="statistics">
@@ -156,6 +171,23 @@ if ($result) {
       <span><?= $amountDueThisMonth ?><?= $symbol ?></span>
       <div class="title">Amount due this month</div>
     </div>
+    <?php
+      $numberOfElements = 6;
+      foreach($memberCost as $member) {
+        ?>
+          <div class="statistic">
+            <span><?= $member['cost'] ?><?= $symbol ?></span>
+            <div class="title"><?= $member['name'] ?>'s monthly costs</div>
+          </div>
+        <?php
+        $numberOfElements++;
+      }
+      if (($numberOfElements + 1) % 3 == 0) {
+        ?>
+          <div class="statistic empty"><div>
+        <?php
+      }
+    ?>
   </div>
 </section>
 <?php
