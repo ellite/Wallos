@@ -49,7 +49,7 @@
             require $webPath . 'libs/PHPMailer/SMTP.php';
             require $webPath . 'libs/PHPMailer/Exception.php';
 
-            $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days"
+            $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
             $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
             foreach ($notify as $subscription) {
                 $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
