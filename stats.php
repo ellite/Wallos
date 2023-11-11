@@ -92,14 +92,14 @@ if ($result) {
   
       if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
           $timesToPay = 1;
+          $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
+          $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
           if ($cycle == 1) {
-            $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
-            $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
             $timesToPay = $daysRemaining / $frequency;
           }
           if ($cycle == 2) {
-            $weeksInMonth = $endOfMonth->diff($tomorrow)->weeks + 1;
-            $weeksRemaining = $endOfMonth->diff($nextPaymentDate)->weeks + 1;
+            $weeksInMonth = ceil($daysInMonth / 7);
+            $weeksRemaining = ceil($daysRemaining / 7);
             $timesToPay = $weeksRemaining / $frequency;
           }
           $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
@@ -125,6 +125,9 @@ if ($result) {
     $averageSubscriptionCost = 0;
   }
 }
+
+// Calculate cost per household member
+
   
 ?>
 <section class="contain">
