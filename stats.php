@@ -38,7 +38,7 @@
           return $price;
       } else {
           $fromRate = $exchangeRate['rate'];
-          return number_format($price * $fromRate, 2, ".", "");
+          return $price / $fromRate;
       }
   }
 
@@ -173,7 +173,7 @@ if ($result) {
       <div class="title">Most Expensive Subscription Cost</div>
     </div>
     <div class="statistic">
-      <span><?= $amountDueThisMonth ?><?= $symbol ?></span>
+      <span><?= number_format($amountDueThisMonth, 2, ".", "") ?><?= $symbol ?></span>
       <div class="title">Amount due this month</div>
     </div>
     <?php

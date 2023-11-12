@@ -50,11 +50,11 @@
             return $price;
         } else {
             $fromRate = $exchangeRate['rate'];
-            return number_format($price / $fromRate, 2);
+            return $price / $fromRate;
         }
     }
 
-    function printSubscriptons($subscriptions, $sort, $categories) {
+    function printSubscriptons($subscriptions, $sort, $categories, $members) {
         if ($sort === "price") {
             usort($subscriptions, function($a, $b) {
                 return $a['price'] < $b['price'] ? 1 : -1;
@@ -62,6 +62,7 @@
         }
 
         $currentCategory = 0;
+        $currentPayerUserId = 0;
         foreach ($subscriptions as $subscription) {
             if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
                 ?>
@@ -70,6 +71,14 @@
                     </div>
                 <?php
                 $currentCategory = $subscription['category_id'];
+            }
+            if ($sort == "payer_user_id" && $subscription['payer_user_id'] != $currentPayerUserId) {
+                ?>
+                    <div class="subscription-list-title">
+                        <?= $members[$subscription['payer_user_id']]['name'] ?>
+                    </div>
+                <?php
+                $currentPayerUserId = $subscription['payer_user_id'];
             }
         ?>
             <div class="subscription">
