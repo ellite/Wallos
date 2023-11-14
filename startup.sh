@@ -14,6 +14,9 @@ sleep 1
 # Create database if it does not exist
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/createdatabase.php
 
+# Perform any database migrations
+/usr/local/bin/php /var/www/html/db/migrate.php
+
 # Change permissions on the database directory
 chmod -R 755 /var/www/html/db/
 chown -R www-data:www-data /var/www/html/db/
