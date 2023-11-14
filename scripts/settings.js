@@ -13,7 +13,7 @@ function closeAvatarSelect() {
 }
 
 function changeAvatar(number) {
-  document.getElementById("avatarImg").src = "/images/avatars/" + number + ".svg";
+  document.getElementById("avatarImg").src = "images/avatars/" + number + ".svg";
   document.getElementById("avatarUser").value = number;
   closeAvatarSelect();
 }
@@ -425,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
           if (data.success) {
             var newAvatar = document.getElementById("avatarUser").value;
-            document.getElementById("avatar").src = "/images/avatars/" + newAvatar + ".svg";
+            document.getElementById("avatar").src = "images/avatars/" + newAvatar + ".svg";
             var newUsername = document.getElementById("username").value;
             document.getElementById("user").textContent = newUsername;
             showSuccessMessage("User details saved");

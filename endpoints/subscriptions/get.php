@@ -82,7 +82,7 @@
                   Add First Subscription
                 </button>
             </div>
-            <?
+            <?php
         }
     }
 

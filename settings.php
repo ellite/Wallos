@@ -11,9 +11,9 @@
                     <div class="fields">
                         <div>
                             <div class="user-avatar">
-                                <img src="/images/avatars/<?= $userData['avatar'] ?>.svg" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
+                                <img src="images/avatars/<?= $userData['avatar'] ?>.svg" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
                                 <span class="edit-avatar" onClick="toggleAvatarSelect()">
-                                    <img src="/images/siteicons/editavatar.png" title="Change avatar" />
+                                    <img src="images/siteicons/editavatar.png" title="Change avatar" />
                                 </span>
                             </div>
                             
@@ -433,7 +433,7 @@
             <div>
                 <input type="button" value="Switch Light / Dark Theme" onClick="switchTheme()">
             </div>
-            <?
+            <?php
                 $hidename = isset($_COOKIE['hideNameOnMobile']) && $_COOKIE['hideNameOnMobile'] === 'true';
                 $monthlyprice = isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true';
                 $convertcurrency = isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true';
@@ -447,13 +447,13 @@
             </div>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPriceCookie()" <? if ($monthlyprice) echo 'checked'; ?>>
+                    <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPriceCookie()" <?php if ($monthlyprice) echo 'checked'; ?>>
                     <label for="monthlyprice">Calculate and show monthly price for all subscriptions</label>
                 </div>
             </div>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrencyCookie()" <? if ($convertcurrency) echo 'checked'; ?>>
+                    <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrencyCookie()" <?php if ($convertcurrency) echo 'checked'; ?>>
                     <label for="convertcurrency">Always convert and show prices on my main currency (slower).</label>
                 </div>
             </div>
@@ -467,7 +467,7 @@
         <div class="account-settings-list">
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="removebackground" name="removebackground" onChange="setRemoveBackgroundCookie()" <? if ($removebackground) echo 'checked'; ?>>
+                    <input type="checkbox" id="removebackground" name="removebackground" onChange="setRemoveBackgroundCookie()" <?php if ($removebackground) echo 'checked'; ?>>
                     <label for="removebackground">Attempt to remove background of logos from image search (experimental).</label>
                 </div>
             </div>
@@ -489,7 +489,7 @@
                 foreach ($payments as $payment) {
                     ?>
                         <div class="payments-payment">
-                            <img src="/images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
+                            <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name">
                                 <?= $payment['name'] ?>
                             </span>

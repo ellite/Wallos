@@ -9,5 +9,4 @@ if (!$db) {
     die('Connection to the database failed.');
 }
 
-// $db->close();
 ?>

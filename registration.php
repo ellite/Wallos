@@ -85,11 +85,11 @@ if (isset($_POST['username'])) {
         <div class="content">
             <section class="container">
                 <header>
-                <? 
+                <?php 
                     if ($theme == "light") {
-                        ?> <img src="images/wallossolid.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?
+                        ?> <img src="images/wallossolid.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
                     } else {
-                        ?> <img src="images/wallossolidwhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?
+                        ?> <img src="images/wallossolidwhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
                     }
                 ?>
                     <p>
