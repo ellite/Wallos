@@ -1,4 +1,5 @@
 <?php
+    error_reporting(E_ERROR | E_PARSE);
     require_once '../../includes/connect_endpoint.php';
     session_start();
 

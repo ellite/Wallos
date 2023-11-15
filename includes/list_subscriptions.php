@@ -81,20 +81,27 @@
                 $currentPayerUserId = $subscription['payer_user_id'];
             }
         ?>
-            <div class="subscription">
-                <span class="logo <?= $subscription['hidelogo'] ?>"><img src="<?= $subscription['logo'] ?>"></span>
-                <span class="name <?= $subscription['hidename'] ?> <?= $subscription['resizename'] ?>"><?= $subscription['name'] ?></span>
-                <span class="cycle"><?= $subscription['billing_cycle'] ?></span>
-                <span class="next"><?= $subscription['next_payment'] ?></span>
-                <span class="price">
-                <img src="<?= $subscription['payment_method_icon'] ?>" title="Payment Method: <?= $subscription['payment_method_name'] ?>"/>
-                <?= $subscription['price'] ?><?= $subscription['currency'] ?>
-                </span>
-                <span class="actions">
-                <button class="image-button medium" onClick="openEditSubscription(<?= $subscription['id'] ?>)" name="edit">
-                    <img src="images/siteicons/edit.png" title="Edit subscription">
-                </button>
-                </span>
+            <div class="subscription" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
+                <div class="subscription-main">
+                    <span class="logo"><img src="<?= $subscription['logo'] ?>"></span>
+                    <span class="name"><?= $subscription['name'] ?></span>
+                    <span class="cycle"><?= $subscription['billing_cycle'] ?></span>
+                    <span class="next"><?= $subscription['next_payment'] ?></span>
+                    <span class="price">
+                    <img src="<?= $subscription['payment_method_icon'] ?>" title="Payment Method: <?= $subscription['payment_method_name'] ?>"/>
+                    <?= $subscription['price'] ?><?= $subscription['currency'] ?>
+                    </span>
+                    <span class="actions">
+                    <button class="image-button medium" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)" name="edit">
+                        <img src="images/siteicons/edit.png" title="Edit subscription">
+                    </button>
+                    </span>
+                </div>
+                <div class="subscription-secondary">
+                    <span class="name"><img src="images/siteicons/subscription.png" alt="Subscription" /><?= $subscription['name'] ?></span>
+                    <span class="payer_user" title="Paid By"><img src="images/siteicons/payment.png" alt="Paid By" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
+                    <span class="category" title="Category" ><img src="images/siteicons/category.png" alt="Category" /><?= $categories[$subscription['category_id']]['name'] ?></span>
+                </div>
             </div>
         <?php
         }

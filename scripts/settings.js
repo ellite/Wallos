@@ -556,12 +556,6 @@ function switchTheme() {
   document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 }
 
-function setHideNameOnMobileCookie() {
-  const hideNameCheckbox = document.querySelector("#hidename");
-  const value = hideNameCheckbox.checked;
-  document.cookie = `hideNameOnMobile=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
-}
-
 function setShowMonthlyPriceCookie() {
   const showMonthlyPriceCheckbox = document.querySelector("#monthlyprice");
   const value = showMonthlyPriceCheckbox.checked;

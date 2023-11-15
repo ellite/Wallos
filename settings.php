@@ -434,17 +434,10 @@
                 <input type="button" value="Switch Light / Dark Theme" onClick="switchTheme()">
             </div>
             <?php
-                $hidename = isset($_COOKIE['hideNameOnMobile']) && $_COOKIE['hideNameOnMobile'] === 'true';
                 $monthlyprice = isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true';
                 $convertcurrency = isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true';
                 $removebackground = isset($_COOKIE['removeBackground']) && $_COOKIE['removeBackground'] === 'true';
             ?>
-            <div>
-                <div class="form-group-inline">
-                    <input type="checkbox" id="hidename" name="hidename" onChange="setHideNameOnMobileCookie()"  <?= $hidename ? "checked" : "" ?>>
-                    <label for="hidename">Hide subscripton name on mobile</label>
-                </div>
-            </div>
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPriceCookie()" <?php if ($monthlyprice) echo 'checked'; ?>>

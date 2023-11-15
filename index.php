@@ -89,9 +89,6 @@
               $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
             }
             $print[$id]['price'] = number_format($print[$id]['price'], 2, ".", "");
-            $print[$id]['hidelogo'] = isset($_COOKIE['hideNameOnMobile']) && $_COOKIE['hideNameOnMobile'] === 'true' && $print[$id]['logo'] === "wallos.png" ? "hideonmobile" : "";
-            $print[$id]['hidename'] = isset($_COOKIE['hideNameOnMobile']) && $_COOKIE['hideNameOnMobile'] === 'true' && $print[$id]['logo'] != "wallos.png" ? "hideonmobile" : "";
-            $print[$id]['resizename'] = isset($_COOKIE['hideNameOnMobile']) && $_COOKIE['hideNameOnMobile'] === 'true' && $print[$id]['logo'] === "wallos.png" ? "resize" : "";
           }
 
           if (isset($print)) {

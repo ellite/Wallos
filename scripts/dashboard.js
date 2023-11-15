@@ -1,5 +1,10 @@
 let isSortOptionsOpen = false;
 
+function toggleOpenSubscription(subId) {
+  const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
+  subscriptionElement.classList.toggle('is-open');
+}
+
 function toggleSortOptions() {
   const sortOptions = document.querySelector("#sort-options");
   sortOptions.classList.toggle("is-open");
@@ -74,7 +79,8 @@ function fillEditFormFields(subscription) {
   modal.classList.add("is-open");
 }
 
-function openEditSubscription(id) {
+function openEditSubscription(event, id) {
+    event.stopPropagation();
     const url = `endpoints/subscription/get.php?id=${id}`;
     fetch(url)
     .then((response) => {

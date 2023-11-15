@@ -178,22 +178,42 @@ main > .contain {
 .subscriptions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
+  justify-content: center;
+  font-size: 17px;
 }
 
 .subscription {
   display: flex;
-  flex-direction: row;
-  height: 45px;
-  align-items: center;
+  flex-direction: column;
+  height: auto;
+  justify-content: flex-start;
   gap: 12px;
   background-color: #FFFFFF;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 12px 15px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
-.subscription > span {
+.subscription-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.subscription-secondary {
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 5px;
+}
+
+.subscription-main > span,
+.subscription-secondary > span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -219,28 +239,9 @@ main > .contain {
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
-  .subscription .name.hideonmobile {
-    display: none;
-  }
-
-  .subscription .name.resize {
-    flex-basis: 17%;
-  }
-
-  .subscription .logo.hideonmobile {
-    display: none;
-  }
-}
-
 .subscription .cycle {
   flex-basis: 16%;
-}
-
-@media (max-width: 768px) {
-  .subscription .cycle {
-    display: none;
-  }
+  flex-grow: 1;
 }
 
 .subscription .next {
@@ -264,6 +265,42 @@ main > .contain {
   flex-basis: auto;
 }
 
+.subscription .actions img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.subscription-secondary > .name {
+  display: none;
+  justify-content: flex-start;
+  flex-basis: 33%;
+}
+
+.subscription-secondary > span {
+  justify-content: flex-start;
+  flex-basis: 33%;
+}
+
+@media (max-width: 768px) {
+  .subscription-main > .name {
+    display: none;
+  }
+
+  .subscription-secondary > .name {
+    display: flex;
+  }
+}
+
+.subscription.is-open .subscription-secondary {
+  display: flex;
+}
+
+.subscription-secondary img {
+  height: 20px;
+  margin-right: 10px;
+}
+
 .empty-page {
   display: block;
   max-width: 90%;
@@ -282,12 +319,6 @@ main > .contain {
 
 .empty-page > button {
   margin: 0px auto;
-}
-
-.subscription .actions img {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
 }
 
 .account-section {
