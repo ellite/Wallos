@@ -51,7 +51,18 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $members[$memberId] = $row;
     $memberCost[$memberId]['cost'] = 0;
     $memberCost[$memberId]['name'] = $row['name'];
-}  
+}
+
+// Get categories
+$categories = array();
+$query = "SELECT * FROM categories";
+$result = $db->query($query);
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $categoryId = $row['id'];
+    $categories[$categoryId] = $row;
+    $categoryCost[$categoryId]['cost'] = 0;
+    $categoryCost[$categoryId]['name'] = $row['name'];
+}
 
 // Get symbol of main currency to display on statistics
 $query = "SELECT c.symbol
@@ -76,7 +87,8 @@ $activeSubscriptions = $row['active_subscriptions'];
 $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id FROM subscriptions";
+
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -91,10 +103,12 @@ if ($result) {
       $currency = $subscription['currency_id'];
       $next_payment = $subscription['next_payment'];
       $payerId = $subscription['payer_user_id'];
+      $categoryId = $subscription['category_id'];
       $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
       $totalCostPerMonth += $price;
       $memberCost[$payerId]['cost'] += $price;
+      $categoryCost[$categoryId]['cost'] += $price;
       if ($price > $mostExpensiveSubscription) {
         $mostExpensiveSubscription = $price;
       }
@@ -103,7 +117,13 @@ if ($result) {
       if ((int)$memberCost[$payerId]['cost'] == $memberCost[$payerId]['cost']) {
         $memberCost[$payerId]['cost'] = (int)$memberCost[$payerId]['cost'];
       }
+
+      $categoryCost[$categoryId]['cost'] = number_format($categoryCost[$categoryId]['cost'], 2, ".", "");
+      if ((int)$categoryCost[$categoryId]['cost'] == $categoryCost[$categoryId]['cost']) {
+        $categoryCost[$categoryId]['cost'] = (int)$categoryCost[$categoryId]['cost'];
+      }
       
+      // Calculate ammount due this month
       $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
       $tomorrow = new DateTime('tomorrow');
       $endOfMonth = new DateTime('last day of this month');
@@ -122,6 +142,7 @@ if ($result) {
           }
           $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
       }
+
     }
     $mostExpensiveSubscription = number_format($mostExpensiveSubscription, 2, ".", "");
   
@@ -151,6 +172,7 @@ if ($result) {
  
 ?>
 <section class="contain">
+  <h2>General Statistics</h2>
   <div class="statistics">
     <div class="statistic">
       <span><?= $activeSubscriptions ?></span>
@@ -178,23 +200,81 @@ if ($result) {
     </div>
     <?php
       $numberOfElements = 6;
-      foreach($memberCost as $member) {
-        ?>
-          <div class="statistic">
-            <span><?= $member['cost'] ?><?= $symbol ?></span>
-            <div class="title"><?= $member['name'] ?>'s monthly costs</div>
-          </div>
-        <?php
-        $numberOfElements++;
-      }
       if (($numberOfElements + 1) % 3 == 0) {
         ?>
-          <div class="statistic empty"><div>
+          <div class="statistic empty"></div>
         <?php
       }
-    ?>
+    ?>  
+  </div>
+  <h2>Split Views</h2>
+  <div class="graphs">
+      <?php
+
+        foreach ($categoryCost as $category) {
+          if ($category['cost'] != 0) {
+            $categoryDataPoints[] = [
+                "label" => $category['name'],
+                "y"     => $category["cost"],
+            ];
+          }
+        }
+
+        $showCategoryCostGraph = count($categoryCost) > 1;
+
+        foreach ($memberCost as $member) {
+          if ($member['cost'] != 0) {
+            $memberDataPoints[] = [
+                "label" => $member['name'],
+                "y"     => $member["cost"],
+            ];
+            
+          }
+        }
+
+        $showMemberCostGraph = count($memberCost) > 1;
+
+        if ($showMemberCostGraph) {
+          ?>
+          <section class="graph">
+            <header>
+              Household Split
+              <div class="sub-header">(Monthly cost)</div>
+            </header>
+            <canvas id="memberSplitChart"></canvas>
+        </section>
+          <?php
+        }
+      
+        if ($showCategoryCostGraph) {
+          ?>
+          <section class="graph">
+            <header>
+              Category Split
+              <div class="sub-header">(Monthly cost)</div>
+            </header>
+            <canvas id="categorySplitChart" style="height: 370px; width: 100%;"></canvas>
+          </section>
+          <?php
+        }
+
+      ?>
   </div>
 </section>
+<?php 
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showCostPerMonthGraph) {
+    ?>
+      <script src="scripts/libs/chart.js"></script>
+      <script type="text/javascript">
+      window.onload = function() {
+        loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $symbol ?>", <?= $showCategoryCostGraph ?>);
+        loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $symbol ?>", <?= $showMemberCostGraph ?>);
+      }
+    </script>
+    <?php
+  }
+?>
+<script src="scripts/stats.js"></script>
 <?php
   require_once 'includes/footer.php';
 ?>

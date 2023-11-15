@@ -18,7 +18,8 @@ header .logo .logo-image {
 .logo-search,
 .dropdown-content,
 .sort-options,
-.statistic {
+.statistic,
+.graph {
     background-color: #222;
     border: 1px solid #333;
     box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);

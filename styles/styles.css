@@ -165,7 +165,7 @@ main > .contain {
   background-color: #007bff;
   padding: 12px 30px;
   font-size: 1rem;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   text-decoration: none;
 }
@@ -190,7 +190,7 @@ main > .contain {
   background-color: #FFFFFF;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 12px 15px;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .subscription > span {
@@ -295,7 +295,7 @@ main > .contain {
   border: 1px solid #eee;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .account-section header h2 {
@@ -497,6 +497,7 @@ main > .contain {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  line-break: anywhere;
 }
 
 .credits-list > p {
@@ -586,7 +587,7 @@ select {
   font-size: 16px;
   background-color: #FFFFFF;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   outline: none;
   color: #202020;
   box-sizing: border-box;
@@ -624,7 +625,7 @@ input[type="button"] {
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   box-sizing: border-box;
   border: 2px solid #007bff;
@@ -674,7 +675,7 @@ input[type="checkbox"] {
   margin: 0px;
   background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   display: grid;
   place-content: center;
 }
@@ -697,7 +698,7 @@ input[type="checkbox"] {
   overflow-x: hidden;
   padding: 10px;
   border: 1px solid #EEEEEE;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   box-sizing: border-box;
@@ -758,7 +759,7 @@ input[type="checkbox"] {
   background-color: #FFFFFF;
   padding: 22px;
   border: 1px solid #EEEEEE;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   overflow: hidden;
@@ -852,7 +853,7 @@ input[type="checkbox"] {
   font-size: 16px;
   background-color: #FFFFFF;
   border: 1px solid #EEEEEE;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   top: 48px;
@@ -1040,7 +1041,7 @@ input[type="checkbox"] {
 .statistic {
   background-color: #FFFFFF;
   border: 1px solid #EEEEEE;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 20px 24px 30px;
   display: flex;
@@ -1074,4 +1075,45 @@ input[type="checkbox"] {
 
 .statistic > .title {
   text-align: center;
+}
+
+.graphs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.graph {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-basis: 48%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+  box-sizing: border-box;
+}
+
+.graph > header {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.graph > header > .sub-header {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+@media (max-width: 768px) {
+  .graph {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
 }

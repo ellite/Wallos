@@ -540,6 +540,15 @@
                     </a>
                 </span>
             </p>
+            <p>
+                Chart.js: 
+                <span>
+                    https://www.chartjs.org/
+                    <a href="https://www.chartjs.org/" target="_blank" title="Visit external url">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </span>
+            </p>
         </div>
     </section>
 

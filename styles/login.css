@@ -21,7 +21,7 @@ body, html {
     max-width: 100%;
     padding: 20px;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     border: 1px solid #eee;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
@@ -80,7 +80,7 @@ select {
     padding: 15px;
     font-size: 16px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     outline: none;
 }
 
@@ -91,7 +91,7 @@ input[type="submit"] {
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -107,7 +107,7 @@ input[type="checkbox"] {
     margin: 0px;
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     display: grid;
     place-content: center;
 }
