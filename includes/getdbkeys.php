@@ -17,8 +17,9 @@
     }
 
     $payment_methods = array();
-    $query = "SELECT * FROM payment_methods";
-    $result = $db->query($query);
+    $query = $db->prepare("SELECT * FROM payment_methods WHERE enabled=:enabled");
+    $query->bindValue(':enabled', 1, SQLITE3_INTEGER);
+    $result = $query->execute();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $payment_methodId = $row['id'];
         $payment_methods[$payment_methodId] = $row;
