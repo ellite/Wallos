@@ -186,7 +186,7 @@ if ($result) {
   <h2>Split Views</h2>
   <div class="graphs">
       <?php
-
+        $categoryDataPoints = [];
         foreach ($categoryCost as $category) {
           if ($category['cost'] != 0) {
             $categoryDataPoints[] = [
@@ -196,8 +196,9 @@ if ($result) {
           }
         }
 
-        $showCategoryCostGraph = count($categoryCost) > 1;
+        $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
+        $memberDataPoints = [];
         foreach ($memberCost as $member) {
           if ($member['cost'] != 0) {
             $memberDataPoints[] = [
@@ -208,7 +209,7 @@ if ($result) {
           }
         }
 
-        $showMemberCostGraph = count($memberCost) > 1;
+        $showMemberCostGraph = count($memberDataPoints) > 1;
 
         if ($showMemberCostGraph) {
           ?>
@@ -238,7 +239,7 @@ if ($result) {
   </div>
 </section>
 <?php 
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showCostPerMonthGraph) {
+  if ($showCategoryCostGraph || $showMemberCostGraph) {
     ?>
       <script src="scripts/libs/chart.js"></script>
       <script type="text/javascript">
