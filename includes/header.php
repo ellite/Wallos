@@ -2,6 +2,7 @@
   require_once 'connect.php';
   require_once 'checkuser.php';
   require_once 'checksession.php';
+  require_once 'currency_formatter.php';
 
   if ($userCount == 0) {
     $db->close();

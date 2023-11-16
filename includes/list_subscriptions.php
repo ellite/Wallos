@@ -54,7 +54,7 @@
         }
     }
 
-    function printSubscriptons($subscriptions, $sort, $categories, $members) {
+    function printSubscriptions($subscriptions, $sort, $categories, $members) {
         if ($sort === "price") {
             usort($subscriptions, function($a, $b) {
                 return $a['price'] < $b['price'] ? 1 : -1;
@@ -89,7 +89,7 @@
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
                     <img src="<?= $subscription['payment_method_icon'] ?>" title="Payment Method: <?= $subscription['payment_method_name'] ?>"/>
-                    <?= $subscription['price'] ?><?= $subscription['currency'] ?>
+                    <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
                     </span>
                     <span class="actions">
                     <button class="image-button medium" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)" name="edit">

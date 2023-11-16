@@ -72,7 +72,7 @@
             $frequency = $subscription['frequency'];
             $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency);
             $paymentMethodId = $subscription['payment_method_id'];
-            $print[$id]['currency'] = $currencies[$subscription['currency_id']]['symbol'];
+            $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
             $currencyId = $subscription['currency_id'];
             $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
             $print[$id]['payment_method_icon'] = "images/uploads/icons/" . $payment_methods[$paymentMethodId]['icon'];
@@ -83,16 +83,15 @@
 
             if (isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
               $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
-              $print[$id]['currency'] = $currencies[$mainCurrencyId]['symbol'];
+              $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
             }
             if (isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true') {
               $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
             }
-            $print[$id]['price'] = number_format($print[$id]['price'], 2, ".", "");
           }
 
           if (isset($print)) {
-            printSubscriptons($print, $sort, $categories, $members);
+            printSubscriptions($print, $sort, $categories, $members);
           }
           $db->close();
 

@@ -1,4 +1,4 @@
-function loadGraph(container, dataPoints, symbol, run) {
+function loadGraph(container, dataPoints, currency, run) {
     if (run) {
         var ctx = document.getElementById(container).getContext('2d');
 
@@ -8,7 +8,7 @@ function loadGraph(container, dataPoints, symbol, run) {
                 datasets: [{
                     data: dataPoints.map(point => point.y),
                 }],
-                labels: dataPoints.map(point => `${point.label} (${point.y}${symbol})`),
+                labels: dataPoints.map(point => `(${new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(point.y)})`),
             },
             options: {
                 animation: {
