@@ -15,7 +15,7 @@ sleep 1
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/createdatabase.php
 
 # Perform any database migrations
-/usr/local/bin/php /var/www/html/db/migrate.php
+/usr/local/bin/php /var/www/html/endpoints/db/migrate.php
 
 # Change permissions on the database directory
 chmod -R 755 /var/www/html/db/
