@@ -10,9 +10,10 @@ RUN apk add --no-cache sqlite-dev \
     && docker-php-ext-enable pdo pdo_sqlite
 
 # Install additional PHP extensions and dependencies
-RUN apk add --no-cache libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp \
+RUN apk add --no-cache libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install intl
 
 # Install Imagick extension
 RUN apk add --no-cache imagemagick imagemagick-dev \
