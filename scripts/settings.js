@@ -507,6 +507,7 @@ function saveNotificationsButton() {
   const smtpPort = document.getElementById("smtpport").value;
   const smtpUsername = document.getElementById("smtpusername").value;
   const smtpPassword = document.getElementById("smtppassword").value;
+  const fromEmail = document.getElementById("fromemail").value;
 
   const data = {
     enabled: enabled,
@@ -514,7 +515,8 @@ function saveNotificationsButton() {
     smtpaddress: smtpAddress,
     smtpport: smtpPort,
     smtpusername: smtpUsername,
-    smtppassword: smtpPassword
+    smtppassword: smtpPassword,
+    fromemail: fromEmail
   };
 
   fetch('/endpoints/notifications/save.php', {
@@ -547,12 +549,14 @@ function testNotificationButton()  {
   const smtpPort = document.getElementById("smtpport").value;
   const smtpUsername = document.getElementById("smtpusername").value;
   const smtpPassword = document.getElementById("smtppassword").value;
+  const fromEmail = document.getElementById("fromemail").value;
 
   const data = {
     smtpaddress: smtpAddress,
     smtpport: smtpPort,
     smtpusername: smtpUsername,
-    smtppassword: smtpPassword
+    smtppassword: smtpPassword,
+    fromemail: fromEmail
   };
 
   fetch('/endpoints/notifications/sendtestmail.php', {

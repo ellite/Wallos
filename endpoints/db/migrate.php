@@ -30,6 +30,9 @@ if ($migrationTableExists) {
 }
 
 $allMigrations = glob('migrations/*.php');
+if (count($allMigrations) == 0) {
+    $allMigrations = glob('../../migrations/*.php');
+}
 $requiredMigrations = array_diff($allMigrations, $completedMigrations);
 
 if (count($requiredMigrations) === 0) {

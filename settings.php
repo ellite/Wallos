@@ -151,6 +151,7 @@
             $notifications['smtp_port'] = "";
             $notifications['smtp_username'] = "";
             $notifications['smtp_password'] = "";
+            $notifications['from_email'] = "";
         }
 
     ?>
@@ -189,6 +190,9 @@
             </div>
             <div class="form-group-inline">
                 <input type="password" name="smtppassword" id="smtppassword" placeholder="SMTP Password"  value="<?= $notifications['smtp_password'] ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="text" name="fromemail" id="fromemail" placeholder="From email (Optional)"  value="<?= $notifications['from_email'] || "" ?>" />
             </div>
             <div class="settings-notes">
                 <p>

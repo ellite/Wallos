@@ -16,6 +16,7 @@
         $smtpPort = $row["smtp_port"];
         $smtpUsername = $row["smtp_username"];
         $smtpPassword = $row["smtp_password"];
+        $fromEmail = $row["fromEmail"] ?? "wallos@wallosapp.com";
     } else {
         echo "Notifications are disabled. No need to run.";
     }
@@ -70,7 +71,7 @@
             $email = $user['email'];
             $name = $user['username'];
 
-            $mail->setFrom('wallos@wallosapp.com', 'Wallos App');
+            $mail->setFrom($fromEmail, 'Wallos App');
             $mail->addAddress($email, $name);
 
             $mail->Subject = 'Wallos Notification';

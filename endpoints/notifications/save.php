@@ -15,7 +15,7 @@
         ) {
             $response = [
                 "success" => false,
-                "errorMessage" => "Please fill all fields"
+                "errorMessage" => "Please fill all mandatory fields"
             ];
             echo json_encode($response);
         } else {
@@ -25,6 +25,7 @@
             $smtpPort = $data["smtpport"];
             $smtpUsername = $data["smtpusername"];
             $smtpPassword = $data["smtppassword"];
+            $fromEmail = $data["fromemail"];
 
             $query = "SELECT COUNT(*) FROM notifications";
             $result = $db->querySingle($query);
@@ -37,12 +38,12 @@
                 echo json_encode($response);
             } else {
                 if ($result == 0) {
-                    $query = "INSERT INTO notifications (enabled, days, smtp_address, smtp_port, smtp_username, smtp_password)
-                              VALUES (:enabled, :days, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword)";
+                    $query = "INSERT INTO notifications (enabled, days, smtp_address, smtp_port, smtp_username, smtp_password, from_email)
+                              VALUES (:enabled, :days, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail)";
                 } else {
                     $query = "UPDATE notifications
                               SET enabled = :enabled, days = :days, smtp_address = :smtpAddress, smtp_port = :smtpPort,
-                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword";
+                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail";
                 }
     
                 $stmt = $db->prepare($query);
@@ -52,6 +53,7 @@
                 $stmt->bindValue(':smtpPort', $smtpPort, SQLITE3_INTEGER);
                 $stmt->bindValue(':smtpUsername', $smtpUsername, SQLITE3_TEXT);
                 $stmt->bindValue(':smtpPassword', $smtpPassword, SQLITE3_TEXT);
+                $stmt->bindValue(':fromEmail', $fromEmail, SQLITE3_TEXT);
     
                 if ($stmt->execute()) {
                     $response = [
