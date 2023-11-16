@@ -503,6 +503,12 @@
                 } 
             ?>
         </div>
+        <div class="settings-notes">
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                Click a payment method to disable / enable it.
+            </p>
+        </div>
     </section>
 
     <section class="account-section">
