@@ -479,9 +479,21 @@
         </header>
         <div class="payments-list">
             <?php
+                $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
+                $paymentsInUse = [];
+                while ($row = $paymentsInUseQuery->fetchArray(SQLITE3_ASSOC)) {
+                    $paymentsInUse[] = $row['id'];
+                }
+
                 foreach ($payments as $payment) {
+                    $inUse = in_array($payment['id'], $paymentsInUse);
                     ?>
-                        <div class="payments-payment">
+                        <div class="payments-payment"
+                             data-enabled="<?= $payment['enabled']; ?>"
+                             data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
+                             data-paymentid="<?= $payment['id'] ?>"
+                             title="<?= $inUse ? 'Can\'t delete used payment method' : '' ?>"
+                             onClick="togglePayment(<?= $payment['id'] ?>)">
                             <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name">
                                 <?= $payment['name'] ?>

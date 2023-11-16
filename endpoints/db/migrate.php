@@ -1,6 +1,6 @@
 <?php
 /** @var \SQLite3 $db */
-require_once 'includes/connect_endpoint_crontabs.php';
+require_once 'includes/connect.php';
 
 $completedMigrations = [];
 
