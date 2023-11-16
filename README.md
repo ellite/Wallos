@@ -12,7 +12,9 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Docker](#docker)
   - [Installation](#installation)
     - [Baremetal](#baremetal-1)
+      - [Updating](#updating)
     - [Docker](#docker-1)
+    - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Screenshots](#screenshots)
@@ -73,15 +75,21 @@ Add the following scripts to your cronjobs with `crontab -e`
 
 If your web root is not `/var/www/html/` adjust both the cronjobs above and `/endpoints/cronjobs/conf.php` accordingly.
 
+#### Updating
+
+After an update run `http://domain.example/endpoints/db/migrate.php`
+
 #### Docker
 
 ```bash
 docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 -v /path/to/config/wallos/logos:/var/www/html/images/uploads/logos \
--e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \ 
+-e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
 bellamy/wallos:latest
 ```
-docker-compose.yml
+
+### Docker Compose
+
 ```
 version: '3.0'
 
