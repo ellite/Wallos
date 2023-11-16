@@ -411,6 +411,35 @@ function editCurrency(currencyId) {
   }
 }
 
+function togglePayment(paymentId) {
+    const element = document.querySelector(`div[data-paymentid="${paymentId}"]`);
+
+    if (element.dataset.inUse === 'yes') {
+      return showErrorMessage('Can\'t delete used payment method');
+    }
+
+    const newEnabledState = element.dataset.enabled === '1' ? '0' : '1';
+    const paymentMethodName = element.querySelector('.payment-name').innerText;
+
+    const url = `endpoints/payments/payment.php?action=toggle&paymentId=${paymentId}&enabled=${newEnabledState}`;
+
+    fetch(url).then(response => {
+        if (!response.ok) {
+          throw new Error("There was an error saving the payments method");
+        }
+        return response.json();
+    }).then(data => {
+        if (data.success) {
+            element.dataset.enabled = newEnabledState;
+            showSuccessMessage(`${paymentMethodName} was saved`);
+        } else {
+            showErrorMessage(data.message || "Failed to save payments method");
+        }
+    }).catch(error => {
+        showErrorMessage(error.message || "There was an error saving the payments method");
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById("userForm").addEventListener("submit", function(event) {

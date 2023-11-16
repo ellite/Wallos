@@ -509,6 +509,7 @@ main > .contain {
 }
 
 .payments-list .payments-payment {
+  cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -516,6 +517,15 @@ main > .contain {
   background-color: #8FBFFA;
   padding: 6px 12px;
   border-radius: 8px;
+  transition: filter 300ms;
+}
+
+.payments-list .payments-payment[data-enabled="0"] {
+  filter: grayscale(100%);
+}
+
+.payments-list .payments-payment[data-in-use="yes"] {
+  cursor: not-allowed;
 }
 
 .payments-list .payments-payment > img {
