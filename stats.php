@@ -64,15 +64,15 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categoryCost[$categoryId]['name'] = $row['name'];
 }
 
-// Get symbol of main currency to display on statistics
-$query = "SELECT c.symbol
+// Get code of main currency to display on statistics
+$query = "SELECT c.code
           FROM currencies c
           INNER JOIN user u ON c.id = u.main_currency
           WHERE u.id = 1";
 $stmt = $db->prepare($query);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
-$symbol = $row['symbol'];
+$code = $row['code'];
 
 
 // Calculate active subscriptions
@@ -113,16 +113,6 @@ if ($result) {
         $mostExpensiveSubscription = $price;
       }
 
-      $memberCost[$payerId]['cost'] = number_format($memberCost[$payerId]['cost'], 2, ".", "");
-      if ((int)$memberCost[$payerId]['cost'] == $memberCost[$payerId]['cost']) {
-        $memberCost[$payerId]['cost'] = (int)$memberCost[$payerId]['cost'];
-      }
-
-      $categoryCost[$categoryId]['cost'] = number_format($categoryCost[$categoryId]['cost'], 2, ".", "");
-      if ((int)$categoryCost[$categoryId]['cost'] == $categoryCost[$categoryId]['cost']) {
-        $categoryCost[$categoryId]['cost'] = (int)$categoryCost[$categoryId]['cost'];
-      }
-      
       // Calculate ammount due this month
       $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
       $tomorrow = new DateTime('tomorrow');
@@ -144,26 +134,12 @@ if ($result) {
       }
 
     }
-    $mostExpensiveSubscription = number_format($mostExpensiveSubscription, 2, ".", "");
   
     // Calculate yearly price
     $totalCostPerYear = $totalCostPerMonth * 12;
-    $totalCostPerYear = number_format($totalCostPerYear, 2, ".", "");
-    if ((int)$totalCostPerYear == $totalCostPerYear) {
-      $totalCostPerYear = (int)$totalCostPerYear;
-    }
   
     // Calculate average subscription monthly cost
     $averageSubscriptionCost = $totalCostPerMonth / $activeSubscriptions;
-    $averageSubscriptionCost = number_format($averageSubscriptionCost, 2, ".", "");
-    if ((int)$averageSubscriptionCost == $averageSubscriptionCost) {
-      $averageSubscriptionCost = (int)$averageSubscriptionCost;
-    }
-
-    $totalCostPerMonth = number_format($totalCostPerMonth, 2, ".", "");
-    if ((int)$totalCostPerMonth == $totalCostPerMonth) {
-      $totalCostPerMonth = (int)$totalCostPerMonth;
-    }
   } else {
     $totalCostPerYear = 0;
     $averageSubscriptionCost = 0;
@@ -179,23 +155,23 @@ if ($result) {
       <div class="title">Active Subscriptions</div>
     </div>
     <div class="statistic">
-      <span><?= $totalCostPerMonth ?><?= $symbol ?></span>
+      <span><?= CurrencyFormatter::format($totalCostPerMonth, $code) ?></span>
       <div class="title">Monthly Cost</div>
     </div>
     <div class="statistic">
-      <span><?= $totalCostPerYear ?><?= $symbol ?></span>
+      <span><?= CurrencyFormatter::format($totalCostPerYear, $code) ?></span>
       <div class="title">Yearly Cost</div>
     </div>
     <div class="statistic">
-      <span><?= $averageSubscriptionCost ?><?= $symbol ?></span>
+      <span><?= CurrencyFormatter::format($averageSubscriptionCost, $code) ?></span>
       <div class="title">Average Monthly Subscription Cost</div>
     </div>
     <div class="statistic">
-      <span><?= $mostExpensiveSubscription ?><?= $symbol ?></span>
+      <span><?= CurrencyFormatter::format($mostExpensiveSubscription, $code) ?></span>
       <div class="title">Most Expensive Subscription Cost</div>
     </div>
     <div class="statistic">
-      <span><?= number_format($amountDueThisMonth, 2, ".", "") ?><?= $symbol ?></span>
+      <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
       <div class="title">Amount due this month</div>
     </div>
     <?php
@@ -267,8 +243,8 @@ if ($result) {
       <script src="scripts/libs/chart.js"></script>
       <script type="text/javascript">
       window.onload = function() {
-        loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $symbol ?>", <?= $showCategoryCostGraph ?>);
-        loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $symbol ?>", <?= $showMemberCostGraph ?>);
+        loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
+        loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);
       }
     </script>
     <?php
