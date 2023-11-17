@@ -19,6 +19,8 @@ function resetForm() {
     const logo = document.querySelector("#form-logo");
     logo.src = "";
     logo.style = 'display: none';
+    const logoUrl = document.querySelector("#logo-url");
+    logoUrl.value = "";
     const logoSearchButton = document.querySelector("#logo-search-button");
     logoSearchButton.classList.add("disabled");
     const submitButton = document.querySelector("#save-button");
