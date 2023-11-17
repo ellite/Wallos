@@ -63,9 +63,10 @@ See instructions to run Wallos below.
 
 #### Baremetal
 
-Download or clone this repo and move the files into your web root - usually `/var/www/html`
-
-Add the following scripts to your cronjobs with `crontab -e`
+1. Download or clone this repo and move the files into your web root - usually `/var/www/html`
+2. Rename `/db/wallos.empty.db` to `/db/wallos.db`
+3. Run `http://domain.example/endpoints/db/migrate.php` on your browser
+4. Add the following scripts to your cronjobs with `crontab -e`
 
 ```bash
 0 1 * * * php /var/www/html/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
@@ -73,11 +74,12 @@ Add the following scripts to your cronjobs with `crontab -e`
 0 9 * * * php /var/www/html/endpoints/cronjobs/sendnotifications.php >> /var/log/cron/sendnotifications.log 2>&1
 ```
 
-If your web root is not `/var/www/html/` adjust both the cronjobs above and `/endpoints/cronjobs/conf.php` accordingly.
+5. If your web root is not `/var/www/html/` adjust both the cronjobs above and `/endpoints/cronjobs/conf.php` accordingly.
 
 #### Updating
 
-After an update run `http://domain.example/endpoints/db/migrate.php`
+1. Re-download the repo and move the files into the correct folder or do `git pull` (if you used git clone before)
+2. Run `http://domain.example/endpoints/db/migrate.php`
 
 #### Docker
 
