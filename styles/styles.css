@@ -210,6 +210,7 @@ main > .contain {
   align-items: center;
   gap: 12px;
   padding: 6px 5px;
+  overflow: hidden;
 }
 
 .subscription-main > span,
@@ -289,6 +290,12 @@ main > .contain {
 
   .subscription-secondary > .name {
     display: flex;
+  }
+
+  .subscription-secondary > span {
+    flex-grow: 1;
+    flex-shrink: 1;
+    font-size: 14px;
   }
 }
 
