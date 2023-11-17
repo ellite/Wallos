@@ -79,7 +79,8 @@ See instructions to run Wallos below.
 #### Updating
 
 1. Re-download the repo and move the files into the correct folder or do `git pull` (if you used git clone before)
-2. Run `http://domain.example/endpoints/db/migrate.php`
+2. Check the [Prerequisites](#baremetal) and install / enable the missing ones, if any.
+3. Run `http://domain.example/endpoints/db/migrate.php`
 
 #### Docker
 
