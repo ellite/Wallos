@@ -53,6 +53,10 @@ RUN chown -R www-data:www-data /var/www/html
 
 RUN chmod +x /var/www/html/startup.sh
 
+# SETUP PHP-FPM CONFIG SETTINGS (max_children / max_requests)
+RUN echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
+
 # Expose port 80 for Nginx
 EXPOSE 80
 
