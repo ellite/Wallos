@@ -46,12 +46,12 @@ jobs:
           out=""
           
           # if the workflow is running on a branch, let the tag be the branch name
-          if [[ $GITHUB_REF == "ref/heads/"* ]]; then
-              echo "TAG=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+          if [[ $GITHUB_REF == "refs/heads/"* ]] ; then
+              echo "TAG=${GITHUB_REF#'refs/heads/'}" >> $GITHUB_OUTPUT
               exit 0
           fi
           
-          tag="${GITHUB_REF#refs/tags/}"
+          tag="${GITHUB_REF#'refs/tags/'}"
           case $choice in 
               edge)
                   out="TAG=$tag-edge"
