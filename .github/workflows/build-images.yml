@@ -60,7 +60,7 @@ jobs:
                   out="TAG=$tag-dev"
                   ;;
               stable)
-                  out="TAG=$tag-stable,latest"
+                  out="TAG=$tag-stable,${{ vars.DOCKERHUB_TAG }}:latest"
                   ;;
           esac
           echo $out >> $GITHUB_OUTPUT
