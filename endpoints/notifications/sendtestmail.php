@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $smtpPort = $data["smtpport"];
         $smtpUsername = $data["smtpusername"];
         $smtpPassword = $data["smtppassword"];
-        $fromEmail = $data["fromEmail"] ?? "wallos@wallosapp.com";
+        $fromEmail = $data["fromemail"] ?? "wallos@wallosapp.com";
 
         $mail = new PHPMailer(true);
         $mail->isSMTP();
