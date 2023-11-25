@@ -16,13 +16,9 @@
         return $price * $numberOfPaymentsPerMonth;
         break;
     case 4:
-        if ($frequency === 1) {
-          return $price / 12;
-          break;
-        }
-        $numberOfPaymentsPerMonth = (0.0833310 / $frequency);
-        return $price * $numberOfPaymentsPerMonth;
-        break;  
+      $numberOfMonths = (12 * $frequency);
+      return $price / $numberOfMonths;
+      break;
     }
   }
 
