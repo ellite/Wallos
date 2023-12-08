@@ -53,6 +53,7 @@
           $print[$id]['category_id'] = $subscription['category_id'];
           $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
           $print[$id]['price'] = floatval($subscription['price']);
+          $print[$id]['url'] = $subscription['url'];
 
           if (isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
             $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);

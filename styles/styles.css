@@ -283,6 +283,12 @@ main > .contain {
   flex-basis: 33%;
 }
 
+.subscription-secondary > .url {
+  flex-basis: 20px;
+  margin-left: auto;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .subscription-main > .name {
     display: none;
@@ -306,6 +312,10 @@ main > .contain {
 .subscription-secondary img {
   height: 20px;
   margin-right: 10px;
+}
+
+.subscription-secondary .url img {
+  margin-right: 0px;;
 }
 
 .empty-page {

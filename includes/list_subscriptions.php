@@ -101,6 +101,17 @@
                     <span class="name"><img src="images/siteicons/subscription.png" alt="Subscription" /><?= $subscription['name'] ?></span>
                     <span class="payer_user" title="Paid By"><img src="images/siteicons/payment.png" alt="Paid By" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
                     <span class="category" title="Category" ><img src="images/siteicons/category.png" alt="Category" /><?= $categories[$subscription['category_id']]['name'] ?></span>
+                    <?php
+                        if ($subscription['url'] != "") {
+                            $url = $subscription['url'];
+                            if (!preg_match('/^https?:\/\//', $url)) {
+                                $url = "https://" . $url;
+                            }
+                            ?>
+                                <span class="url" title="External Url"><a href="<?= $url ?>" target="_blank"><img src="images/siteicons/web.png" alt="URL" /></a></span>
+                            <?php
+                        }
+                    ?>
                 </div>
             </div>
         <?php
