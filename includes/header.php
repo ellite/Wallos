@@ -49,8 +49,9 @@
             <span id="user"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
             <a href="stats.php"><i class="fa-solid fa-chart-simple"></i>Stats</a>
+            <a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
+            <a href="about.php"><i class="fa-solid fa-info-circle"></i>About</a>
             <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
           </div>
         </div>
