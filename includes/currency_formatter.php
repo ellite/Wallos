@@ -7,7 +7,11 @@ final class CurrencyFormatter
     private static function getInstance()
     {
         if (self::$instance === null) {
-            self::$instance = new NumberFormatter(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), NumberFormatter::CURRENCY);
+            if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                self::$instance = new NumberFormatter(Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']), NumberFormatter::CURRENCY);
+            } else {
+                self::$instance = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+            }
         }
 
         return self::$instance;
