@@ -63,6 +63,7 @@
 
         $currentCategory = 0;
         $currentPayerUserId = 0;
+        $currentPaymentMethodId = 0;
         foreach ($subscriptions as $subscription) {
             if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
                 ?>
@@ -79,6 +80,14 @@
                     </div>
                 <?php
                 $currentPayerUserId = $subscription['payer_user_id'];
+            }
+            if ($sort == "payment_method_id" && $subscription['payment_method_id'] != $currentPaymentMethodId) {
+                ?>
+                    <div class="subscription-list-title">
+                        <?= $subscription['payment_method_name'] ?>
+                    </div>
+                <?php
+                $currentPaymentMethodId = $subscription['payment_method_id'];
             }
         ?>
             <div class="subscription" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">

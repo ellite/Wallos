@@ -17,7 +17,7 @@
         $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC";
         if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
           $sort = $_COOKIE['sortOrder'];
-          $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id'];
+          $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
           $order = "ASC";
           if ($sort == "price" || $sort == "id") {
             $order = "DESC";
@@ -50,6 +50,7 @@
           $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
           $print[$id]['payment_method_icon'] = "images/uploads/icons/" . $payment_methods[$paymentMethodId]['icon'];
           $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
+          $print[$id]['payment_method_id'] = $paymentMethodId;
           $print[$id]['category_id'] = $subscription['category_id'];
           $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
           $print[$id]['price'] = floatval($subscription['price']);

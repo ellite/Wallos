@@ -918,6 +918,7 @@ input[type="checkbox"] {
   right: 0px;
   display: none;
   width: 144px;
+  width: max-content;
 }
 
 @media (max-width: 380px) {
