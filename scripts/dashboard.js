@@ -266,6 +266,32 @@ function setSortOption(sortOption) {
   toggleSortOptions();
 }
 
+function incrementNextPayment() {
+  const nextPayment = document.querySelector("#next_payment");
+  if (nextPayment.value === "") {
+    nextPayment.value = new Date().toISOString().split('T')[0];
+  }
+
+  const frequency = document.querySelector("#frequency");
+  const cycle = document.querySelector("#cycle");
+  
+  const frequencyValue = parseInt(frequency.value);
+  const cycleValue = parseInt(cycle.value);
+  const nextPaymentDate = new Date(nextPayment.value);
+
+  if (cycleValue === 1) {
+    nextPaymentDate.setDate(nextPaymentDate.getDate() + frequencyValue);
+  } else if (cycleValue === 2) {
+    nextPaymentDate.setDate(nextPaymentDate.getDate() + (frequencyValue * 7));
+  } else if (cycleValue === 3) {
+    nextPaymentDate.setMonth(nextPaymentDate.getMonth() + frequencyValue);
+  } else if (cycleValue === 4) {
+    nextPaymentDate.setFullYear(nextPaymentDate.getFullYear() + frequencyValue);
+  }
+
+  nextPayment.value = nextPaymentDate.toISOString().split('T')[0];
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const subscriptionForm = document.querySelector("#subs-form");
     const submitButton = document.querySelector("#save-button");

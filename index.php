@@ -185,9 +185,15 @@
               </div>
               <div class="split33">
                 <label for="next_payment">Next Payment</label>
-                <input type="date" id="next_payment" name="next_payment" required>
+                <div class="inline">
+                  <input type="date" id="next_payment" name="next_payment" required>
+                  <div class="image-button medium" title="Add a Cycle to selected date">
+                  <img type="button" value=">>" id="increment-next-payment" onClick="incrementNextPayment()" src="images/siteicons/dateadd.png">
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
 
           <div class="form-group">
