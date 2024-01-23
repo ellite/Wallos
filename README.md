@@ -145,9 +145,9 @@ I welcome contributions from the community and look forward to working with you 
 If you want to contribute with a translation of wallos:
 - Add your language code to `includes/i18n/languages.php` in the format `"en" => "English"`. Please use the original language name and not the english translation.
 - Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => "Português".
-- Translate all the values on the language file to the new language. (Incomplete translations will be accepted).
+- Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
 - Create a copy of the file `scripts/i18n/en.php` and rename it to the language code you used above.
-- Translate all the values on the language file to the new language. (Incomplete translations will be accepted).
+- Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
 
 ## License
 
