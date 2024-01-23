@@ -2,6 +2,10 @@
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
 
+require_once 'includes/i18n/languages.php';
+require_once 'includes/i18n/getlang.php';
+require_once 'includes/i18n/' . $lang . '.php';
+
 if ($userCount == 0) {
     header("Location: registration.php");
     exit();
@@ -25,7 +29,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $password = $_POST['password'];
     $rememberMe = isset($_POST['remember']) ? true : false;
 
-    $query = "SELECT id, password, main_currency FROM user WHERE username = :username";
+    $query = "SELECT id, password, main_currency, language FROM user WHERE username = :username";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':username', $username, SQLITE3_TEXT);
     $result = $stmt->execute();
@@ -35,10 +39,13 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $hashedPasswordFromDb = $row['password'];
         $userId = $row['id'];
         $main_currency = $row['main_currency'];
+        $language = $row['language'];
         if (password_verify($password, $hashedPasswordFromDb)) {
             $_SESSION['username'] = $username;
             $_SESSION['loggedin'] = true;
             $_SESSION['main_currency'] = $main_currency;
+            $cookieExpire = time() + (30 * 24 * 60 * 60);
+            setcookie('language', $language, $cookieExpire, '/');
             if ($rememberMe) {
                 $token = bin2hex(random_bytes(32));
                 $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (?, ?)";
@@ -47,9 +54,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 $addLoginTokensStmt->bindValue(2, $token, SQLITE3_TEXT);
                 $addLoginTokensStmt->execute();
                 $_SESSION['token'] = $token;
-                $cookieExpire = time() + (30 * 24 * 60 * 60);
                 $cookieValue = $username . "|" . $token . "|" . $main_currency;
-                setcookie('wallos_login', $cookieValue , $cookieExpire, '/');
+                setcookie('wallos_login', $cookieValue, $cookieExpire, '/');
             }
             $db->close();
             header("Location: /");
@@ -87,33 +93,33 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     }
                 ?>
                 <p>
-                    Please login.
+                    <?= translate('please_login', $i18n) ?>
                 </p>
             </header>
             <form action="login.php" method="post">
                 <div class="form-group">
-                    <label for="username">Username:</label>
+                    <label for="username"><?= translate('username', $i18n) ?>:</label>
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label for="password"><?= translate('password', $i18n) ?>:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">Stay logged in (30 days)</label>
+                    <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
                 </div>
                 <?php
                     if ($loginFailed) {
                         ?>
                         <sup class="error">
-                            Login details are incorrect.
+                            <?= translate('login_failed', $i18n) ?>.
                         </sup>
                         <?php
                     }
                 ?>
                 <div class="form-group">
-                    <input type="submit" value="Login">
+                    <input type="submit" value="<?= translate('login', $i18n) ?>">
                 </div>
             </form>
         </section>

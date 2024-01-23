@@ -12,11 +12,11 @@
                 http_response_code(204);
             } else {
                 http_response_code(500);
-                echo json_encode(array("message" => "Error deleting the subscription."));
+                echo json_encode(array("message" => translate('error_deleting_subscription', $i18n)));
             }
         } else {
             http_response_code(405);
-            echo json_encode(array("message" => "Invalid request method."));
+            echo json_encode(array("message" => translate('invalid_request_method', $i18n)));
         }
     }
     $db->close();

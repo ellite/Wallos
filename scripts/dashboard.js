@@ -15,7 +15,7 @@ function resetForm() {
     const id = document.querySelector("#id");
     id.value = "";
     const formTitle = document.querySelector("#form-title");
-    formTitle.textContent = "Add subscription";
+    formTitle.textContent = translate('add_subscription');
     const logo = document.querySelector("#form-logo");
     logo.src = "";
     logo.style = 'display: none';
@@ -35,7 +35,7 @@ function resetForm() {
 
 function fillEditFormFields(subscription) {
   const formTitle = document.querySelector("#form-title");
-  formTitle.textContent = "Edit subscription";
+  formTitle.textContent = translate('edit_subscription');
   const logo = document.querySelector("#form-logo");
   const defaultLogo = window.theme && window.theme == "light" ? "images/wallos.png" : "images/walloswhite.png";
   const logoFile = subscription.logo !== null ? "images/uploads/logos/" + subscription.logo : defaultLogo;
@@ -91,19 +91,19 @@ function openEditSubscription(event, id) {
       if (response.ok) {
         return response.json();
       } else {
-        showErrorMessage("Failed to load subscription");
+        showErrorMessage(translate('failed_to_load_subscription'));
       }
     })
     .then((data) => {
       if (data.error || data === "Error") {
-        showErrorMessage("Failed to load subscription");
+        showErrorMessage(translate('failed_to_load_subscription'));
       } else {
         const subscription = data;
         fillEditFormFields(subscription);
       }
     })
     .catch((error) => {
-      showErrorMessage("Failed to load subscription");
+      showErrorMessage(translate('failed_to_load_subscription'));
     });
 }
 
@@ -145,11 +145,11 @@ function deleteSubscription(id) {
     })
     .then(response => {
         if (response.ok) {
-          showSuccessMessage("Subscription deleted");
+          showSuccessMessage(translate('subscription_deleted'));
           fetchSubscriptions();
           closeAddSubscription();
         } else {
-          alert("Error deleting the subscription");
+          alert(translate('error_deleting_subscription'));
         }
     })
     .catch(error => {
@@ -188,7 +188,7 @@ function searchLogo() {
                 }
             })
             .catch(error => {
-                console.error("Error fetching image results:", error);
+                console.error(translate('error_fetching_image_results'), error);
             });
   } else {
     nameInput.focus();
@@ -243,7 +243,7 @@ function fetchSubscriptions() {
       }
     })
     .catch(error => {
-      console.error("Error reloading subscriptions:", error);
+      console.error(translate('error_reloading_subscription'), error);
     });
 }
 

@@ -15,7 +15,7 @@
         ) {
             $response = [
                 "success" => false,
-                "errorMessage" => "Please fill all mandatory fields"
+                "errorMessage" => translate('fill_mandatory_fields', $i18n)
             ];
             echo json_encode($response);
         } else {
@@ -33,7 +33,7 @@
             if ($result === false) {
                 $response = [
                     "success" => false,
-                    "errorMessage" => "Error saving notifications data"
+                    "errorMessage" => translate('error_saving_notifications', $i18n)
                 ];
                 echo json_encode($response);
             } else {
@@ -57,13 +57,14 @@
     
                 if ($stmt->execute()) {
                     $response = [
-                        "success" => true
+                        "success" => true,
+                        "message" => translate('notifications_settings_saved', $i18n)
                     ];
                     echo json_encode($response);
                 } else {
                     $response = [
                         "success" => false,
-                        "errorMessage" => "Error saving notification data"
+                        "errorMessage" => translate('error_saving_notifications', $i18n)
                     ];
                     echo json_encode($response);
                 }

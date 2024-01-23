@@ -87,6 +87,7 @@ header .logo .logo-image {
   min-width: 130px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 5;
+  width: max-content;
 }
 
 .dropdown-content a {

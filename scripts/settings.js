@@ -24,8 +24,8 @@ function addMemberButton(memberId) {
   fetch(url)
   .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok');
-      showErrorMessage("Failed to add member");
+      throw new Error(translate('network_response_error'));
+      showErrorMessage(translate('failed_add_member'));
     }
     return response.json();
   })
@@ -39,9 +39,9 @@ function addMemberButton(memberId) {
 
       let input = document.createElement("input");
       input.type = "text";
-      input.placeholder = "Member";
+      input.placeholder = translate('member');
       input.name = "member";
-      input.value = "Member";
+      input.value = translate('member');
 
       let editLink = document.createElement("button");
       editLink.className = "image-button medium"
@@ -52,7 +52,7 @@ function addMemberButton(memberId) {
 
       let editImage = document.createElement("img");
       editImage.src = "images/siteicons/save.png";
-      editImage.title = "Save Member";
+      editImage.title = translate('save_member');
 
       editLink.appendChild(editImage);
 
@@ -65,7 +65,7 @@ function addMemberButton(memberId) {
 
       let deleteImage = document.createElement("img");
       deleteImage.src = "images/siteicons/delete.png";
-      deleteImage.title = "Delete Member";
+      deleteImage.title = translate('delete_member');
 
       deleteLink.appendChild(deleteImage);
 
@@ -80,7 +80,7 @@ function addMemberButton(memberId) {
     document.getElementById("addMember").disabled = false;
   })
   .catch(error => {
-    showErrorMessage("Failed to add member");
+    showErrorMessage(translate('failed_add_member'));
     document.getElementById("addMember").disabled = false;
   });
 
@@ -91,7 +91,7 @@ function removeMember(memberId) {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(translate('network_response_error'));
       }
       return response.json();
     })
@@ -101,13 +101,13 @@ function removeMember(memberId) {
       if (divToRemove) {
         divToRemove.parentNode.removeChild(divToRemove);
       }
-      showSuccessMessage("Member removed");
+      showSuccessMessage(responseData.message);
      } else {
-      showErrorMessage(responseData.errorMessage || "Failed to remove member");
+      showErrorMessage(responseData.errorMessage || translate('failed_remove_member'));
      }
     })
     .catch(error => {
-      showErrorMessage("Failed to remove member");
+      showErrorMessage(translate('failed_remove_member'));
     });
 }
 
@@ -124,19 +124,19 @@ function editMember(memberId) {
       .then(response => {
         saveButton.classList.remove("disabled");
         if (!response.ok) {
-          showErrorMessage("Failed to save member");
+          showErrorMessage(translate('failed_save_member'));
         }
         return response.json();
       })
       .then(responseData => {
         if (responseData.success) {
-          showSuccessMessage("Member saved");
+          showSuccessMessage(responseData.message);
         } else {
-          showErrorMessage(responseData.errorMessage || "Failed to save member");
+          showErrorMessage(responseData.errorMessage || translate('failed_save_member'));
         }
       })
       .catch(error => {
-        showErrorMessage("Failed to save member");
+        showErrorMessage(translate('failed_save_member'));
       });
   }
 }
@@ -147,8 +147,8 @@ function addCategoryButton(categoryId) {
   fetch(url)
   .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok');
-      showErrorMessage("Failed to add category");
+      throw new Error(translate('network_response_error'));
+      showErrorMessage(translate('failed_add_category'));
     }
     return response.json();
   })
@@ -162,9 +162,9 @@ function addCategoryButton(categoryId) {
 
       let input = document.createElement("input");
       input.type = "text";
-      input.placeholder = "Category";
+      input.placeholder = translate('category');
       input.name = "category";
-      input.value = "Category";
+      input.value = translate('category');
 
       let editLink = document.createElement("button");
       editLink.className = "image-button medium"
@@ -175,7 +175,7 @@ function addCategoryButton(categoryId) {
 
       let editImage = document.createElement("img");
       editImage.src = "images/siteicons/save.png";
-      editImage.title = "Save Category";
+      editImage.title = translate('save_category');
 
       editLink.appendChild(editImage);
 
@@ -188,7 +188,7 @@ function addCategoryButton(categoryId) {
 
       let deleteImage = document.createElement("img");
       deleteImage.src = "images/siteicons/delete.png";
-      deleteImage.title = "Delete Category";
+      deleteImage.title = translate('delete_category');
 
       deleteLink.appendChild(deleteImage);
 
@@ -203,7 +203,7 @@ function addCategoryButton(categoryId) {
     document.getElementById("addCategory").disabled = false;
   })
   .catch(error => {
-    showErrorMessage("Failed to add category");
+    showErrorMessage(translate('failed_add_category'));
     document.getElementById("addCategory").disabled = false;
   });
 
@@ -214,7 +214,7 @@ function removeCategory(categoryId) {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(translate('network_response_error'));
       }
       return response.json();
     })
@@ -224,13 +224,13 @@ function removeCategory(categoryId) {
       if (divToRemove) {
         divToRemove.parentNode.removeChild(divToRemove);
       }
-      showSuccessMessage("Category removed");
+      showSuccessMessage(responseData.message);
      } else {
-      showErrorMessage(responseData.errorMessage || "Failed to remove category");
+      showErrorMessage(responseData.errorMessage || translate('failed_remove_category'));
      }
     })
     .catch(error => {
-      showErrorMessage("Failed to remove category");
+      showErrorMessage(translate('failed_remove_category'));
     });
 }
 
@@ -247,19 +247,19 @@ function editCategory(categoryId) {
       .then(response => {
         saveButton.classList.remove("disabled");
         if (!response.ok) {
-          showErrorMessage("Failed to save category");
+          showErrorMessage(translate('failed_save_category'));
         }
         return response.json();
       })
       .then(responseData => {
         if (responseData.success) {
-          showSuccessMessage("Category saved");
+          showSuccessMessage(responseData.message);
         } else {
-          showErrorMessage(responseData.errorMessage || "Failed to save category");
+          showErrorMessage(responseData.errorMessage || translate('failed_save_category'));
         }
       })
       .catch(error => {
-        showErrorMessage("Failed to save category");
+        showErrorMessage(translate('failed_save_category'));
       });
   }
 }
@@ -270,7 +270,7 @@ function addCurrencyButton(currencyId) {
   fetch(url)
   .then(response => {
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(translate('network_response_error'));
       showErrorMessage(response.text());
     }
     return response.text();
@@ -292,13 +292,13 @@ function addCurrencyButton(currencyId) {
 
       let inputName = document.createElement("input");
       inputName.type = "text";
-      inputName.placeholder = "Currency";
+      inputName.placeholder = translate('currency');
       inputName.name = "currency";
-      inputName.value = "Currency";
+      inputName.value = translate('currency');
 
       let inputCode = document.createElement("input");
       inputCode.type = "text";
-      inputCode.placeholder = "Currency Code";
+      inputCode.placeholder = translate('currency_code');
       inputCode.name = "code";
       inputCode.value = "CODE";
 
@@ -311,7 +311,7 @@ function addCurrencyButton(currencyId) {
 
       let editImage = document.createElement("img");
       editImage.src = "images/siteicons/save.png";
-      editImage.title = "Save Currency";
+      editImage.title = translate('save_currency');
 
       editLink.appendChild(editImage);
 
@@ -324,7 +324,7 @@ function addCurrencyButton(currencyId) {
 
       let deleteImage = document.createElement("img");
       deleteImage.src = "images/siteicons/delete.png";
-      deleteImage.title = "Delete Currency";
+      deleteImage.title = translate('delete_currency');
 
       deleteLink.appendChild(deleteImage);
 
@@ -352,23 +352,23 @@ function removeCurrency(currencyId) {
   fetch(url)
   .then(response => {
     if (!response.ok) {
-      throw new Error("There was an error removing the currency");
+      throw new Error(translate('network_response_error'));
     }
     return response.json();
   })
   .then(data => {
     if (data.success) {
-      showSuccessMessage("Currency removed");
+      showSuccessMessage(data.message);
       let divToRemove = document.querySelector(`[data-currencyid="${currencyId}"]`);
       if (divToRemove) {
         divToRemove.parentNode.removeChild(divToRemove);
       }
     } else {
-      showErrorMessage(data.message || "Failed to remove currency");
+      showErrorMessage(data.message || translate('failed_remove_currency'));
     }
   })
   .catch(error => {
-    showErrorMessage(error.message || "There was an error removing the currency");
+    showErrorMessage(error.message || translate('failed_remove_currency'));
   });
 }
 
@@ -388,7 +388,7 @@ function editCurrency(currencyId) {
     fetch(url)
       .then(response => {
         if (!response.ok) {
-          throw new Error("There was an error saving the currency");
+          throw new Error(translate('network_response_error'));
         }
         return response.json();
       })
@@ -396,17 +396,17 @@ function editCurrency(currencyId) {
         if (data.success) {
           saveButton.classList.remove("disabled");
           saveButton.disabled = false;
-          showSuccessMessage(currencyName + " was saved");
+          showSuccessMessage(decodeURI(data.message));
         } else {
           saveButton.classList.remove("disabled");
           saveButton.disabled = false;
-          showErrorMessage(data.message || "Failed to save currency");
+          showErrorMessage(data.message || translate('failed_save_currency'));
         }
       })
       .catch(error => {
         saveButton.classList.remove("disabled");
         saveButton.disabled = false;
-        showErrorMessage(error.message || "There was an error saving the currency");
+        showErrorMessage(error.message || translate('failed_save_currency'));
       });
   }
 }
@@ -415,7 +415,7 @@ function togglePayment(paymentId) {
     const element = document.querySelector(`div[data-paymentid="${paymentId}"]`);
 
     if (element.dataset.inUse === 'yes') {
-      return showErrorMessage('Can\'t delete used payment method');
+      return showErrorMessage(translate(cant_disable_payment_in_use));
     }
 
     const newEnabledState = element.dataset.enabled === '1' ? '0' : '1';
@@ -425,18 +425,18 @@ function togglePayment(paymentId) {
 
     fetch(url).then(response => {
         if (!response.ok) {
-          throw new Error("There was an error saving the payments method");
+          throw new Error(translate('network_response_error'));
         }
         return response.json();
     }).then(data => {
         if (data.success) {
             element.dataset.enabled = newEnabledState;
-            showSuccessMessage(`${paymentMethodName} was saved`);
+            showSuccessMessage(`${paymentMethodName} ${data.message}`);
         } else {
-            showErrorMessage(data.message || "Failed to save payments method");
+            showErrorMessage(data.message || translate('failed_save_payment_method'));
         }
     }).catch(error => {
-        showErrorMessage(error.message || "There was an error saving the payments method");
+        showErrorMessage(error.message || translate('failed_save_payment_method'));
     });
 }
 
@@ -457,14 +457,14 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById("avatar").src = "images/avatars/" + newAvatar + ".svg";
             var newUsername = document.getElementById("username").value;
             document.getElementById("user").textContent = newUsername;
-            showSuccessMessage("User details saved");
+            showSuccessMessage(data.message);
           } else {
             showErrorMessage(data.errorMessage);
           }
           document.getElementById("userSubmit").disabled = false;
         })
         .catch(error => {
-          showErrorMessage("Unknown error, please try again");
+          showErrorMessage(translate('unknown_error'));
         });
       });        
 
@@ -484,7 +484,7 @@ function addFixerKeyButton() {
   .then(response => response.json())
   .then(data => {
       if (data.success) {
-          showSuccessMessage("API key saved successfully");
+          showSuccessMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
       } else {
           showErrorMessage(data.message);
@@ -529,14 +529,14 @@ function saveNotificationsButton() {
   .then(response => response.json())
   .then(data => {
       if (data.success) {
-          showSuccessMessage("Notification settings saved successfully.");
+          showSuccessMessage(data.message);
       } else {
           showErrorMessage(data.errorMessage);
       }
       button.disabled = false;
   })
   .catch(error => {
-      showErrorMessage("Error saving notification data");
+      showErrorMessage(translate('error_saving_notification_data'));
       button.disabled = false;
   });
 }
@@ -569,14 +569,14 @@ function testNotificationButton()  {
   .then(response => response.json())
   .then(data => {
       if (data.success) {
-          showSuccessMessage("Notification sent successfully.");
+          showSuccessMessage(data.message);
       } else {
           showErrorMessage(data.errorMessage);
       }
       button.disabled = false;
   })
   .catch(error => {
-      showErrorMessage("Error sending notification");
+      showErrorMessage(translate('error_sending_notification'));
       button.disabled = false;
   });
 }

@@ -17,6 +17,7 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
 - [Contributing](#contributing)
+  - [Translations](#translations)
 - [Screenshots](#screenshots)
 - [License](#license)
 
@@ -138,6 +139,15 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.  
 Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.  
 I welcome contributions from the community and look forward to working with you to improve this project.
+
+### Translations
+
+If you want to contribute with a translation of wallos:
+- Add your language code to `includes/i18n/languages.php` in the format `"en" => "English"`. Please use the original language name and not the english translation.
+- Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => "Português".
+- Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
+- Create a copy of the file `scripts/i18n/en.php` and rename it to the language code you used above.
+- Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
 
 ## License
 

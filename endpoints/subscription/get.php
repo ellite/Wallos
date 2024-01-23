@@ -31,10 +31,10 @@
                 header('Content-Type: application/json');
                 echo $subscriptionJson;
             } else {
-                echo "Error";
+                echo translate('error', $i18n);
             }
         } else {
-            echo "Error";
+            echo translate('error', $i18n);
         }
     }
     $db->close();

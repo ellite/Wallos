@@ -19,7 +19,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $currencyId = $db->lastInsertRowID();
             echo $currencyId;
         } else {
-            echo "Error adding currency entry.";
+            echo translate('error_adding_currency', $i18n);
         }
     } else if (isset($_GET['action']) && $_GET['action'] == "edit") {
         if (isset($_GET['currencyId']) && $_GET['currencyId'] != "" && isset($_GET['name']) && $_GET['name'] != "" && isset($_GET['symbol']) && $_GET['symbol'] != "") {
@@ -36,18 +36,22 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $result = $stmt->execute();
 
             if ($result) {
-                echo json_encode(["success" => true]);
+                $response = [
+                    "success" => true,
+                    "message" => $name . " " . translate('currency_saved', $i18n)
+                ];
+                echo json_encode($response);
             } else {
                 $response = [
                     "success" => false,
-                    "message" => "Failed to store Currency on the Database"
+                    "message" => translate('failed_to_store_currency', $i18n)
                 ];
                 echo json_encode($response);
             }
         } else {
             $response = [
                 "success" => false,
-                "message" => "Some fields are missing"
+                "message" => translate('fields_missing', $i18n)
             ];
             echo json_encode($response);
         }
@@ -70,7 +74,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             if ($count > 0) {
                 $response = [
                     "success" => false,
-                    "message" => "Currency is in use in subscriptions and can't be deleted."
+                    "message" => translate('currency_in_use', $i18n)
                 ];
                 echo json_encode($response);
                 exit;
@@ -78,7 +82,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 if ($currencyId == $mainCurrencyId) {
                     $response = [
                         "success" => false,
-                        "message" => "Currency is set as main currency and can't be deleted."
+                        "message" => translate('currency_is_main', $i18n)
                     ];
                     echo json_encode($response);
                     exit;
@@ -88,11 +92,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     $stmt->bindParam(':currencyId', $currencyId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     if ($result) {
-                        echo json_encode(["success" => true]);
+                        echo json_encode(["success" => true, "message" => translate('currency_removed', $i18n)]);
                     } else {
                         $response = [
                             "success" => false,
-                            "message" => "Failed to remove currency from the Database"
+                            "message" => translate('failed_to_remove_currency', $i18n)
                         ];
                         echo json_encode($response);
                     }
@@ -101,7 +105,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         } else {
             $response = [
                 "success" => false,
-                "message" => "Some fields are missing."
+                "message" => translate('fields_missing', $i18n)
             ];
             echo json_encode($response);
         }
@@ -111,7 +115,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 } else {
     $response = [
         "success" => false,
-        "message" => "Your session expired. Please login again"
+        "message" => translate('session_expired', $i18n)
     ];
     echo json_encode($response);
 }

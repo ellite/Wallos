@@ -76,6 +76,7 @@
         $email = $_POST['email'];
         $avatar = $_POST['avatar'];
         $main_currency = $_POST['main_currency'];
+        $language = $_POST['language'];
 
         if (isset($_POST['password']) && $_POST['password'] != "") {
             $password = $_POST['password'];
@@ -84,7 +85,7 @@
                 if ($password != $confirm) {
                     $response = [
                         "success" => false,
-                        "errorMessage" => "Passwords do not match"
+                        "errorMessage" => translate('passwords_dont_match', $i18n)
                     ];
                     echo json_encode($response);
                     exit();
@@ -92,7 +93,7 @@
             } else {
                 $response = [
                     "success" => false,
-                    "errorMessage" => "Passwords do not match"
+                    "errorMessage" => translate('passwords_dont_match', $i18n)
                 ];
                 echo json_encode($response);
                 exit();
@@ -100,9 +101,9 @@
         }
 
         if (isset($_POST['password']) && $_POST['password'] != "") {
-            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, password = :password, main_currency = :main_currency WHERE id = 1";
+            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = 1";
         } else {
-            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, main_currency = :main_currency WHERE id = 1";
+            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, main_currency = :main_currency, language = :language WHERE id = 1";
         }
         
         $stmt = $db->prepare($sql);
@@ -110,6 +111,7 @@
         $stmt->bindParam(':username', $username, SQLITE3_TEXT);
         $stmt->bindParam(':email', $email, SQLITE3_TEXT);
         $stmt->bindParam(':main_currency', $main_currency, SQLITE3_INTEGER);
+        $stmt->bindParam(':language', $language, SQLITE3_TEXT);
 
         if (isset($_POST['password']) && $_POST['password'] != "") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -119,12 +121,13 @@
         $result = $stmt->execute();
 
         if ($result) {
+            $cookieExpire = time() + (30 * 24 * 60 * 60);
+            setcookie('language', $language, $cookieExpire, '/');
             if ($username != $oldUsername) {
                 $_SESSION['username'] = $username;
                 if (isset($_COOKIE['wallos_login'])) {
                     $cookie = explode('|', $_COOKIE['wallos_login'], 2) ;
                     $token = $cookie[1];
-                    $cookieExpire = time() + (30 * 24 * 60 * 60);
                     $cookieValue = $username . "|" . $token . "|" . $main_currency;
                 }
             }
@@ -137,12 +140,13 @@
 
             $response = [
                 "success" => true,
+                "message" => translate('user_details_saved', $i18n)
             ];
             echo json_encode($response);
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => "Error updating user data"
+                "errorMessage" => translate('error_updating_user_data', $i18n)
             ];
             echo json_encode($response);
         }
@@ -151,7 +155,7 @@
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => "Please fill all fields"
+            "errorMessage" => translate('fill_all_fields', $i18n)
         ];
         echo json_encode($response);
         exit();

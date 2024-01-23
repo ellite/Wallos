@@ -17,21 +17,21 @@
                     $stmt->bindParam(":api_key", $newApiKey, SQLITE3_TEXT);
                     $result = $stmt->execute();
                     if ($result) {
-                        echo json_encode(["success" => true]);
+                        echo json_encode(["success" => true, "message" => translate('api_key_saved', $i18n)]);
                     } else {
                         $response = [
                             "success" => false,
-                            "message" => "Failed to store API Key on the Database"
+                            "message" => translate('failed_to_store_api_key', $i18n)
                         ];
                         echo json_encode($response);
                     }
                 } else {
-                    echo json_encode(["success" => true]);
+                    echo json_encode(["success" => true, "message" => translate('apy_key_saved', $i18n)]);
                 }
             } else {
                 $response = [
                     "success" => false,
-                    "message" => "Invalid API Key"
+                    "message" => translate('invalid_api_key', $i18n)
                 ];
                 echo json_encode($response);
             }

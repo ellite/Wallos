@@ -1,18 +1,20 @@
 <?php
 
-    function getBillingCycle($cycle, $frequency) {
+    require_once 'i18n/getlang.php';
+
+    function getBillingCycle($cycle, $frequency, $i18n) {
         switch ($cycle) {
         case 1:
-            return $frequency == 1 ? "Daily" : $frequency . " days";
+            return $frequency == 1 ? translate('Daily', $i18n) : $frequency . " " . translate('days', $i18n);
             break;
         case 2:
-            return $frequency == 1 ? "Weekly" : $frequency . " weeks";
+            return $frequency == 1 ? translate('Weekly', $i18n) : $frequency . " " . translate('weeks', $i18n);
             break;
         case 3:
-            return $frequency == 1 ? "Monthly" : $frequency . " months";
+            return $frequency == 1 ? translate('Monthly', $i18n) : $frequency . " " . translate('months', $i18n);
             break;
         case 4:
-            return $frequency == 1 ? "Yearly" : $frequency . " years";
+            return $frequency == 1 ? translate('YEarly', $i18n) : $frequency . " " . translate('years', $i18n);
             break;  
         }
     }
@@ -54,7 +56,7 @@
         }
     }
 
-    function printSubscriptions($subscriptions, $sort, $categories, $members) {
+    function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n) {
         if ($sort === "price") {
             usort($subscriptions, function($a, $b) {
                 return $a['price'] < $b['price'] ? 1 : -1;
@@ -97,19 +99,19 @@
                     <span class="cycle"><?= $subscription['billing_cycle'] ?></span>
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
-                    <img src="<?= $subscription['payment_method_icon'] ?>" title="Payment Method: <?= $subscription['payment_method_name'] ?>"/>
+                    <img src="<?= $subscription['payment_method_icon'] ?>" title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>"/>
                     <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
                     </span>
                     <span class="actions">
                     <button class="image-button medium" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)" name="edit">
-                        <img src="images/siteicons/edit.png" title="Edit subscription">
+                        <img src="images/siteicons/edit.png" title="<?= translate('edit_subscription', $i18n) ?>">
                     </button>
                     </span>
                 </div>
                 <div class="subscription-secondary">
-                    <span class="name"><img src="images/siteicons/subscription.png" alt="Subscription" /><?= $subscription['name'] ?></span>
-                    <span class="payer_user" title="Paid By"><img src="images/siteicons/payment.png" alt="Paid By" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
-                    <span class="category" title="Category" ><img src="images/siteicons/category.png" alt="Category" /><?= $categories[$subscription['category_id']]['name'] ?></span>
+                    <span class="name"><img src="images/siteicons/subscription.png" alt="<?= translate('subscription', $i18n) ?>" /><?= $subscription['name'] ?></span>
+                    <span class="payer_user" title="<?= translate('paid_by', $i18n) ?>"><img src="images/siteicons/payment.png" alt="<?= translate('paid_by', $i18n) ?>" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
+                    <span class="category" title="<?= translate('category', $i18n) ?>" ><img src="images/siteicons/category.png" alt="<?= translate('category', $i18n) ?>" /><?= $categories[$subscription['category_id']]['name'] ?></span>
                     <?php
                         if ($subscription['url'] != "") {
                             $url = $subscription['url'];
@@ -117,7 +119,7 @@
                                 $url = "https://" . $url;
                             }
                             ?>
-                                <span class="url" title="External Url"><a href="<?= $url ?>" target="_blank"><img src="images/siteicons/web.png" alt="URL" /></a></span>
+                                <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"><img src="images/siteicons/web.png" alt="<?= translate('url', $i18n) ?>" /></a></span>
                             <?php
                         }
                     ?>
