@@ -72,7 +72,7 @@
         if (count($subscriptions) == 0) {
             ?>
             <div class="empty-page">
-                <img src="images/siteimages/empty.png" alt="Empty page" />
+                <img src="images/siteimages/empty.png" alt="<?= translate('empty_page', $i18n) ?>" />
                 <p>
                   <?= translate('no_subscriptions_yet', $i18n) ?>
                 </p>

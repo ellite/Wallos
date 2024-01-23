@@ -45,6 +45,7 @@ $i18n = [
     "months"          => "meses",
     "years"           => "anos",
     "external_url"    => "Visitar URL Externo",
+    "empty_page"      => "Página Vazia",
     // Subscription form
     "add_subscription" => "Adicionar subscrição",
     "edit_subscription" => "Modificar subscrição",
