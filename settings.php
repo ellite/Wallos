@@ -4,7 +4,7 @@
 <section class="contain settings">
     <section class="account-section">
         <header>
-            <h2>User details</h2>
+            <h2><?= translate('user_details', $i18n) ?></h2>
         </header>
             <form action="endpoints/user/saveuser.php" method="post" id="userForm">
                 <div class="user-form">
@@ -34,48 +34,61 @@
                             </div>
                         </div>
                         <div class="grow">
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm_password">Confirm Password:</label>
-                            <input type="password" id="confirm_password" name="confirm_password">
-                        </div>
-                        <?php
-                            $currencies = array();
-                            $query = "SELECT * FROM currencies";
-                            $result = $db->query($query);
-                            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-                                $currencyId = $row['id'];
-                                $currencies[$currencyId] = $row;
-                            }
-                        ?>
-                        <div class="form-group">
-                            <label for="currency">Main Currency:</label>
-                            <select id="currency" name="main_currency" placeholder="Currency">
+                            <div class="form-group">
+                                <label for="username"><?= translate('username', $i18n) ?>:</label>
+                                <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><?= translate('email', $i18n) ?>:</label>
+                                <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><?= translate('password', $i18n) ?>:</label>
+                                <input type="password" id="password" name="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
+                                <input type="password" id="confirm_password" name="confirm_password">
+                            </div>
                             <?php
-                                foreach ($currencies as $currency) {
-                                    $selected = ($currency['id'] == $userData['main_currency']) ? 'selected' : '';    
-                            ?>
-                                    <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
-                            <?php
+                                $currencies = array();
+                                $query = "SELECT * FROM currencies";
+                                $result = $db->query($query);
+                                while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                                    $currencyId = $row['id'];
+                                    $currencies[$currencyId] = $row;
                                 }
                             ?>
-                            </select>
-                        </div>
+                            <div class="form-group">
+                                <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
+                                <select id="currency" name="main_currency" placeholder="Currency">
+                                <?php
+                                    foreach ($currencies as $currency) {
+                                        $selected = ($currency['id'] == $userData['main_currency']) ? 'selected' : '';    
+                                ?>
+                                        <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
+                                <?php
+                                    }
+                                ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="language"><?= translate('language', $i18n) ?>:</label>
+                                <select id="language" name="language" placeholder="Language">
+                                <?php 
+                                    foreach ($languages as $code => $name) {
+                                        $selected = ($code === $lang) ? 'selected' : '';
+                                ?>
+                                        <option value="<?= $code ?>" <?= $selected ?>><?= $name ?></option>
+                                <?php
+                                    }
+                                ?>
+                                </select>
+                            </div>
                         </div>  
                     </div>
                     <div class="buttons">
-                        <input type="submit" value="Save" id="userSubmit"/>
+                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit"/>
                     </div>
                 </div>
             </form>
@@ -96,7 +109,7 @@
 
     <section class="account-section">
         <header>
-            <h2>Household</h2>
+            <h2><?= translate('household', $i18n) ?></h2>
         </header>
         <div class="account-members">
             <div  id="householdMembers">
@@ -106,19 +119,19 @@
                     <div class="form-group-inline" data-memberid="<?= $member['id'] ?>">
                         <input type="text" name="member" value="<?= $member['name'] ?>" placeholder="Member">
                         <button class="image-button medium"  onClick="editMember(<?= $member['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="Save Member">
+                            <img src="images/siteicons/save.png" title="<?= translate('save_member', $i18n) ?>">
                         </button>
                         <?php
                             if ($member['id'] != 1) {
                                 ?>
                                     <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)">
-                                        <img src="images/siteicons/delete.png" title="Delete Member">
+                                        <img src="images/siteicons/delete.png" title="<?= translate('delete_member', $i18n) ?>">
                                     </button>
                                 <?php
                             } else {
                                 ?>
                                     <button class="image-button medium disabled">
-                                        <img src="images/siteicons/delete.png" title="Can't delete main member">
+                                        <img src="images/siteicons/delete.png" title="<?= translate('cant_delete_member', $i18n) ?>">
                                     </button>
                                 <?php
                             }
@@ -129,7 +142,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="Add" id="addMember" onClick="addMemberButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"/>
             </div>
         </div>
     </section>
@@ -158,23 +171,23 @@
 
     <section class="account-section">
         <header>
-            <h2>Notifications</h2>
+            <h2><?= translate('notifications', $i18n) ?></h2>
         </header>
         <div class="account-notifications">
             <div class="form-group-inline">
                 <input type="checkbox" id="notifications" name="notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
-                <label for="notifications">Enable email notifications</label>
+                <label for="notifications"><?= translate('enable_email_notifications', $i18n) ?></label>
             </div>
             <div class="form-group">
-                <label for="days">Notify me: </label>
+                <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
                 <select name="days" id="days">
                 <?php
                     for ($i = 1; $i <= 7; $i++) {
-                        $dayText = $i > 1 ? "days" : "day";
+                        $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
                         $selected = $i == $notifications['days'] ? "selected" : "";
                         ?>
                             <option value="<?= $i ?>" <?= $selected ?>>
-                                <?= $i ?> <?= $dayText ?> before
+                                <?= $i ?> <?= $dayText ?>
                             </option>
                         <?php
                     }
@@ -182,27 +195,26 @@
                 </select>
             </div>
             <div class="form-group-inline">
-                <input type="text" name="smtpaddress" id="smtpaddress" placeholder="SMTP Address" value="<?= $notifications['smtp_address'] ?>" />
-                <input type="text" name="smtpport" id="smtpport" placeholder="Port" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
+                <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notifications['smtp_address'] ?>" />
+                <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="text" name="smtpusername" id="smtpusername" placeholder="SMTP Username"  value="<?= $notifications['smtp_username'] ?>" />
+                <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notifications['smtp_username'] ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="password" name="smtppassword" id="smtppassword" placeholder="SMTP Password"  value="<?= $notifications['smtp_password'] ?>" />
+                <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notifications['smtp_password'] ?>" />
             </div>
             <div class="form-group-inline">
                 <input type="text" name="fromemail" id="fromemail" placeholder="From email (Optional)"  value="<?= $notifications['from_email'] ?>" />
             </div>
             <div class="settings-notes">
                 <p>
-                    <i class="fa-solid fa-circle-info"></i> SMTP Password is transmitted and stored in plaintext. 
-                    For security, please create an account just for this.</p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('smtp_info', $i18n) ?></p>
                 <p>
             </div>
             <div class="buttons">
-                <input type="button" class="secondary-button" value="Test" id="testNotifications" onClick="testNotificationButton()"/>
-                <input type="submit" value="Save" id="saveNotifications" onClick="saveNotificationsButton()"/>
+                <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()"/>
             </div>
         </div>
     </section>
@@ -221,7 +233,7 @@
 
     <section class="account-section">
         <header>
-            <h2>Categories</h2>
+            <h2><?= translate('categories', $i18n) ?></h2>
         </header>
         <div class="account-categories">
             <div  id="categories">
@@ -244,19 +256,19 @@
                     <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
                         <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
                         <button class="image-button medium"  onClick="editCategory(<?= $category['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="Save Category">
+                            <img src="images/siteicons/save.png" title="<?= translate('save_category', $i18n) ?>">
                         </button>
                         <?php
                             if ($canDelete) {
                             ?>
                                 <button class="image-button medium" onClick="removeCategory(<?= $category['id'] ?>)">
-                                    <img src="images/siteicons/delete.png" title="Delete Category">
+                                    <img src="images/siteicons/delete.png" title="<?= translate('delete_category', $i18n) ?>">
                                 </button>
                             <?php
                             } else {
                             ?>
                                 <button class="image-button medium disabled">
-                                    <img src="images/siteicons/delete.png" title="Can't delete category in use in subscription">
+                                    <img src="images/siteicons/delete.png" title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
                                 </button>
                             <?php
                             }
@@ -268,7 +280,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="Add" id="addCategory" onClick="addCategoryButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory" onClick="addCategoryButton()"/>
             </div>
         </div>
     </section>
@@ -309,7 +321,7 @@
 
     <section class="account-section">
         <header>
-            <h2>Currencies</h2>
+            <h2><?= translate('currencies', $i18n) ?></h2>
         </header>
         <div class="account-currencies">
             <div id="currencies">
@@ -339,20 +351,20 @@
                         <input type="text" name="currency" value="<?= $currency['name'] ?>" placeholder="Currency Name">
                         <input type="text" name="code" value="<?= $currency['code'] ?>" placeholder="Currency Code">
                         <button class="image-button medium"  onClick="editCurrency(<?= $currency['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="Save Currency">
+                            <img src="images/siteicons/save.png" title="<?= translate('save_currency', $i18n) ?>">
                         </button>
                         <?php
                             if ($canDelete) {
                             ?>
                                 <button class="image-button medium" onClick="removeCurrency(<?= $currency['id'] ?>)">
-                                    <img src="images/siteicons/delete.png" title="Delete Currency">
+                                    <img src="images/siteicons/delete.png" title="<?= translate('delete_currency', $i18n) ?>">
                                 </button>
                             <?php
                             } else {
-                                $cantDeleteMessage = $isMainCurrency ? "main currency" : "used currency";
+                                $cantDeleteMessage = $isMainCurrency ? translate('cant_delete_main_currency', $i18n) : translate('cant_delete_currency_in_use', $i18n);
                             ?>
                                 <button class="image-button medium disabled">
-                                    <img src="images/siteicons/delete.png" title="Can't delete <?= $cantDeleteMessage ?>">
+                                    <img src="images/siteicons/delete.png" title="<?= $cantDeleteMessage ?>">
                                 </button>
                             <?php
                             }
@@ -364,19 +376,19 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="Add" id="addCurrency" onClick="addCurrencyButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency" onClick="addCurrencyButton()"/>
             </div>
             <div class="settings-notes">
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
-                    Exchange rates last updated on 
+                    <?= translate('exchange_update', $i18n) ?>
                     <span>
                         <?= $exchange_rates_last_updated ?>
                     </span>
                 </p>
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
-                    Find the supported currencies and correct currency codes on 
+                    <?= translate('currency_info', $i18n) ?>
                     <span>
                         fixer.io 
                         <a href="https://fixer.io/symbols" target="_blank" title="Currency codes">
@@ -385,7 +397,7 @@
                     </span>
                 </p>
                 <p>
-                    For improved performance keep only the currencies you use.
+                    <?= translate('currency_performance', $i18n) ?>
                 </p>
             </div>
         </div>
@@ -409,12 +421,11 @@
         </header>
         <div class="account-fixer">
             <div class="form-group">
-                <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>" placeholder="ApiKey">
+                <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>" placeholder="<?= translate('api_key', $i18n) ?>">
             </div>
             <div class="settings-notes">
-                <p><i class="fa-solid fa-circle-info"></i> If you use multiple currencies, and want accurate statistics and sorting on the subscriptions, 
-                    a FREE API Key from Fixer is necessary.</p>
-                <p>Get your key at: 
+                <p><i class="fa-solid fa-circle-info"></i><?= translate('fixer_info', $i18n) ?></p>
+                <p><?= translate('get_key', $i18n) ?>: 
                     <span>
                         https://fixer.io/ 
                         <a href="https://fixer.io/#pricing_plan" title="Get free fixer api key" target="_blank">
@@ -424,18 +435,18 @@
                 </p>    
             </div>
             <div class="buttons">
-                <input type="submit" value="Save" id="addFixerKey" onClick="addFixerKeyButton()"/>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()"/>
             </div>
         </div>
     </section>    
 
     <section class="account-section">
         <header>
-            <h2>Display settings</h2>
+            <h2><?= translate('display_settings', $i18n) ?></h2>
         </header>
         <div class="account-settings-list">
             <div>
-                <input type="button" value="Switch Light / Dark Theme" onClick="switchTheme()">
+                <input type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()">
             </div>
             <?php
                 $monthlyprice = isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true';
@@ -445,13 +456,13 @@
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPriceCookie()" <?php if ($monthlyprice) echo 'checked'; ?>>
-                    <label for="monthlyprice">Calculate and show monthly price for all subscriptions</label>
+                    <label for="monthlyprice"><?= translate('calculate_monthly_price', $i18n) ?></label>
                 </div>
             </div>
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrencyCookie()" <?php if ($convertcurrency) echo 'checked'; ?>>
-                    <label for="convertcurrency">Always convert and show prices on my main currency (slower).</label>
+                    <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
                 </div>
             </div>
         </div>
@@ -459,27 +470,27 @@
 
     <section class="account-section">
         <header>
-            <h2>Experimental settings</h2>
+            <h2><?= translate('experimental_settings', $i18n) ?></h2>
         </header>
         <div class="account-settings-list">
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="removebackground" name="removebackground" onChange="setRemoveBackgroundCookie()" <?php if ($removebackground) echo 'checked'; ?>>
-                    <label for="removebackground">Attempt to remove background of logos from image search (experimental).</label>
+                    <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
                 </div>
             </div>
         </div>
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
-                Experimental settings will probably not work perfectly.
+                <?= translate('experimental_info', $i18n) ?>
             </p>
         </div>
     </section>    
 
     <section class="account-section">
         <header>
-            <h2>Payment Methods</h2>
+            <h2><?= translate('payment_methods', $i18n) ?></h2>
         </header>
         <div class="payments-list">
             <?php
@@ -496,7 +507,7 @@
                              data-enabled="<?= $payment['enabled']; ?>"
                              data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
                              data-paymentid="<?= $payment['id'] ?>"
-                             title="<?= $inUse ? 'Can\'t delete used payment method' : '' ?>"
+                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
                              onClick="togglePayment(<?= $payment['id'] ?>)">
                             <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name">
@@ -510,7 +521,7 @@
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
-                Click a payment method to disable / enable it.
+                <?= translate('payment_methods_info', $i18n) ?>
             </p>
         </div>
     </section>

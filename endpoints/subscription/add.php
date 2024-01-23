@@ -25,13 +25,13 @@
             if (saveLogo($imageData, $uploadFile, $name)) {
                 return $fileName;
             } else {
-                echo "Error fetching image: " . curl_error($ch);
+                echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
                 return "";
             }
             
             curl_close($ch);
         } else {
-            echo "Error fetching image: " . curl_error($ch);
+            echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
             return "";
         }
     }
@@ -194,13 +194,13 @@
             if ($stmt->execute()) {
                 $success['status'] = "Success";
                 $text = $isEdit ? "updated" : "added";
-                $success['message'] = "Subscription " . $text . " successfuly";
+                $success['message'] = translate('subscription_' . $text . '_successfuly', $i18n);
                 $json = json_encode($success);
                 header('Content-Type: application/json');
                 echo $json;
                 exit();
             } else {
-                echo "Error: " . $db->lastErrorMsg();
+                echo translate('error', $i18n) . ": " . $db->lastErrorMsg();
             }
         }
     }

@@ -4,14 +4,14 @@ session_start();
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
-        "message" => "Your session expired. Please login again"
+        "message" => translate('session_expired', $i18n)
     ]));
 }
 
 if (!isset($_GET['paymentId']) || !isset($_GET['enabled'])) {
     die(json_encode([
         "success" => false,
-        "message" => "Some fields are missing."
+        "message" => translate('fields_missing', $i18n)
     ]));
 }
 
@@ -21,7 +21,7 @@ $inUse = $db->querySingle('SELECT COUNT(*) as count FROM subscriptions WHERE pay
 if ($inUse) {
     die(json_encode([
         "success" => false,
-        "message" => "Can't delete used payment method"
+        "message" => translate('payment_in_use', $i18n)
     ]));
 }
 
@@ -33,13 +33,16 @@ $stmtUpdate->bindParam(':enabled', $enabled);
 $stmtUpdate->bindParam(':id', $paymentId);
 $resultUpdate = $stmtUpdate->execute();
 
+$text = $enabled ? "enabled" : "disabled";
+
 if ($resultUpdate) {
     die(json_encode([
-        "success" => true
+        "success" => true,
+        "message" => translate($text, $i18n)
     ]));
 }
 
 die(json_encode([
     "success" => false,
-    "message" => "Failed to update payment method in the database"
+    "message" => tranlate('failed_update_payment', $i18n)
 ]));

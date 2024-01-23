@@ -2,6 +2,10 @@
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
 
+require_once 'includes/i18n/languages.php';
+require_once 'includes/i18n/getlang.php';
+require_once 'includes/i18n/' . $lang . '.php';
+
 if ($userCount > 0) {
     header("Location: login.php");
     exit();
@@ -28,12 +32,13 @@ if (isset($_POST['username'])) {
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $main_currency = $_POST['main_currency'];
+    $language = $_POST['language'];
     $avatar = "0";
 
     if ($password != $confirm_password) {
         $passwordMismatch = true;
     } else {
-        $query = "INSERT INTO user (username, email, password, main_currency, avatar) VALUES (:username, :email, :password, :main_currency, :avatar)";
+        $query = "INSERT INTO user (username, email, password, main_currency, avatar, language) VALUES (:username, :email, :password, :main_currency, :avatar, :language)";
         $stmt = $db->prepare($query);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
@@ -41,6 +46,7 @@ if (isset($_POST['username'])) {
         $stmt->bindValue(':password', $hashedPassword, SQLITE3_TEXT);
         $stmt->bindValue(':main_currency', $main_currency, SQLITE3_TEXT);
         $stmt->bindValue(':avatar', $avatar, SQLITE3_TEXT);
+        $stmt->bindValue(':language', $language, SQLITE3_TEXT);
         $result = $stmt->execute();
 
         if ($result) {
@@ -80,6 +86,7 @@ if (isset($_POST['username'])) {
         <link rel="manifest" href="images/icon/site.webmanifest">
         <link rel="stylesheet" href="styles/login.css">
         <link rel="stylesheet" href="styles/login-dark-theme.css" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
+        <script type="text/javascript" src="scripts/registration.js"></script>
     </head>
     <body>
         <div class="content">
@@ -93,33 +100,46 @@ if (isset($_POST['username'])) {
                     }
                 ?>
                     <p>
-                        You need to create an account before you're able to login.
+                        <?= translate('create_account', $i18n) ?>
                     </p>
                 </header>
                 <form action="registration.php" method="post">
                     <div class="form-group">
-                        <label for="username">Username:</label>
+                        <label for="username"><?= translate('username', $i18n) ?>:</label>
                         <input type="text" id="username" name="username" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email:</label>
+                        <label for="email"><?= translate('email', $i18n) ?>:</label>
                         <input type="email" id="email" name="email" required>
                     </div>
                     <div class="form-group">
-                        <label for="password">Password:</label>
+                        <label for="password"><?= translate('password', $i18n) ?>:</label>
                         <input type="password" id="password" name="password" required>
                     </div>
                     <div class="form-group">
-                        <label for="confirm_password">Confirm Password:</label>
+                        <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
                         <input type="password" id="confirm_password" name="confirm_password" required>
                     </div>
                     <div class="form-group">
-                        <label for="currency">Main Currency:</label>
+                        <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
                         <select id="currency" name="main_currency" placeholder="Currency">
                         <?php
                             foreach ($currencies as $currency) {
                         ?>
                             <option value="<?= $currency['id'] ?>"><?= $currency['name'] ?></option>
+                        <?php   
+                            }
+                        ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="language"><?= translate('language', $i18n) ?>:</label>
+                        <select id="language" name="language" placeholder="Language" onchange="changeLanguage(this.value)">
+                        <?php 
+                            foreach ($languages as $code => $name) {
+                                $selected = ($code === $lang) ? 'selected' : '';
+                        ?>
+                                <option value="<?= $code ?>" <?= $selected ?>><?= $name ?></option>
                         <?php
                             }
                         ?>
@@ -129,7 +149,7 @@ if (isset($_POST['username'])) {
                         if ($passwordMismatch) {
                             ?>
                             <sup class="error">
-                                Passwords do not match.
+                                <?= translate('passwords_dont_match', $i18n) ?>
                             </sup>
                             <?php
                         }
@@ -138,13 +158,13 @@ if (isset($_POST['username'])) {
                         if ($registrationFailed) {
                             ?>
                             <sup class="error">
-                                Registration failed, please try again.
+                                <?= translate('registration_failed', $i18n) ?>
                             </sup>
                             <?php
                         }
                     ?>
                     <div class="form-group">
-                        <input type="submit" value="Register">
+                        <input type="submit" value="<?= translate('register', $i18n) ?>">
                     </div>
                 </form>
             </section>

@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ) {
         $response = [
             "success" => false,
-            "errorMessage" => "Please fill all fields"
+            "errorMessage" => translate('fill_all_fields', $i18n)
         ];
         echo json_encode($response);
     } else {
@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fromEmail = $data["fromemail"] ?? "wallos@wallosapp.com";
 
         $mail = new PHPMailer(true);
+        $mail->CharSet="UTF-8";
         $mail->isSMTP();
 
         $mail->Host = $smtpAddress;
@@ -51,18 +52,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->setFrom($fromEmail, 'Wallos App');
         $mail->addAddress($email, $name);
 
-        $mail->Subject = 'Wallos Notification';
-        $mail->Body = 'This is a test notification. If you\'re seeing this, the configuration is correct.';
+        $mail->Subject = translate('wallos_notification', $i18n);
+        $mail->Body = translate('test_notification', $i18n);
 
         if ($mail->send()) {
             $response = [
                 "success" => true,
+                "message" => translate('notification_sent_successfuly', $i18n)
             ];
             echo json_encode($response);
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => "Error sending email." . $mail->ErrorInfo
+                "errorMessage" => translate('email_error', $i18n) . $mail->ErrorInfo
             ];
             echo json_encode($response);
         }

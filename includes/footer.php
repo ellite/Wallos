@@ -4,7 +4,7 @@
     <div class="toast-content">
       <i class="fas fa-solid fa-x toast-icon error"></i>
       <div class="message">
-        <span class="text text-1">Error</span>
+        <span class="text text-1"><?= translate("error", $i18n) ?></span>
         <span class="text text-2 errorMessage"></span>
       </div>
     </div>
@@ -16,7 +16,7 @@
     <div class="toast-content">
       <i class="fas fa-solid fa-check toast-icon success"></i>
       <div class="message">
-        <span class="text text-1">Success</span>
+        <span class="text text-1"><?= translate("success", $i18n) ?></span>
         <span class="text text-2 successMessage"></span>
       </div>
     </div>

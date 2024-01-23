@@ -19,7 +19,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => "Failed to add category"
+                "errorMessage" => translate('failed_add_category', $i18n)
             ];
             echo json_encode($response);
         }
@@ -35,20 +35,21 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
             if ($result) {
                 $response = [
-                    "success" => true
+                    "success" => true,
+                    "message" => translate('category_saved', $i18n)
                 ];
                 echo json_encode($response);
             } else {
                 $response = [
                     "success" => false,
-                    "errorMessage" => "Failed to edit category"
+                    "errorMessage" => translate('failed_edit_category', $i18n)
                 ];
                 echo json_encode($response);
             }
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => "Please fill all the fields"
+                "errorMessage" => translate('fill_all_fields', $i18n)
             ];
             echo json_encode($response);
         }
@@ -65,7 +66,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             if ($count > 0) {
                 $response = [
                     "success" => false,
-                    "errorMessage" => "Category is in use in subscriptions and can't be removed"
+                    "errorMessage" => translate('category_in_use', $i18n)
                 ];
                 echo json_encode($response);
             } else {
@@ -75,13 +76,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 $result = $stmt->execute();
                 if ($result) {
                     $response = [
-                        "success" => true
+                        "success" => true,
+                        "message" => translate('category_removed', $i18n)
                     ];
                     echo json_encode($response);
                 } else {
                     $response = [
                         "success" => false,
-                        "errorMessage" => "Failed to remove category"
+                        "errorMessage" => translate('failed_remove_category', $i18n)
                     ];
                     echo json_encode($response);
                 }
@@ -89,15 +91,15 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => "Failed to remove category"
+                "errorMessage" => translate('failed_remove_category', $i18n)
             ];
             echo json_encode($response);
         }
     } else {
-        echo "Error";
+        echo translate('error', $i18n);
     }
 } else {
-    echo "Error";
+    echo translate('error', $i18n);
 }
 
 ?>

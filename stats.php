@@ -144,31 +144,31 @@ if ($result) {
  
 ?>
 <section class="contain">
-  <h2>General Statistics</h2>
+  <h2><?= translate('general_statistics', $i18n) ?></h2>
   <div class="statistics">
     <div class="statistic">
       <span><?= $activeSubscriptions ?></span>
-      <div class="title">Active Subscriptions</div>
+      <div class="title"><?= translate('active_subscriptions', $i18n) ?></div>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($totalCostPerMonth, $code) ?></span>
-      <div class="title">Monthly Cost</div>
+      <div class="title"><?= translate('monthly_cost', $i18n) ?></div>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($totalCostPerYear, $code) ?></span>
-      <div class="title">Yearly Cost</div>
+      <div class="title"><?= translate('yearly_cost', $i18n) ?></div>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($averageSubscriptionCost, $code) ?></span>
-      <div class="title">Average Monthly Subscription Cost</div>
+      <div class="title"><?= translate('average_monthly', $i18n) ?></div>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($mostExpensiveSubscription, $code) ?></span>
-      <div class="title">Most Expensive Subscription Cost</div>
+      <div class="title"><?= translate('most_expensive', $i18n) ?></div>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
-      <div class="title">Amount due this month</div>
+      <div class="title"><?= translate('amount_due', $i18n) ?></div>
     </div>
     <?php
       $numberOfElements = 6;
@@ -179,7 +179,7 @@ if ($result) {
       }
     ?>  
   </div>
-  <h2>Split Views</h2>
+  <h2><?= translate('split_views', $i18n) ?></h2>
   <div class="graphs">
       <?php
         $categoryDataPoints = [];
@@ -211,8 +211,8 @@ if ($result) {
           ?>
           <section class="graph">
             <header>
-              Household Split
-              <div class="sub-header">(Monthly cost)</div>
+              <?= translate('household_split', $i18n) ?>
+              <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
             </header>
             <canvas id="memberSplitChart"></canvas>
         </section>
@@ -223,8 +223,8 @@ if ($result) {
           ?>
           <section class="graph">
             <header>
-              Category Split
-              <div class="sub-header">(Monthly cost)</div>
+              <?= translate('category_split', $i18n) ?>
+              <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
             </header>
             <canvas id="categorySplitChart" style="height: 370px; width: 100%;"></canvas>
           </section>

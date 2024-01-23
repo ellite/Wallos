@@ -4,6 +4,10 @@
   require_once 'checksession.php';
   require_once 'currency_formatter.php';
 
+  require_once 'i18n/languages.php';
+  require_once 'i18n/getlang.php';
+  require_once 'i18n/' . $lang . '.php';
+
   if ($userCount == 0) {
     $db->close();
     header("Location: registration.php");
@@ -32,7 +36,10 @@
   <script type="text/javascript" src="scripts/common.js"></script>
   <script type="text/javascript">
     window.theme = "<?= $theme ?>";
+    window.lang = "<?=$lang ?>";
   </script>
+  <script type="text/javascript" src="scripts/i18n/<?= $lang ?>.js"></script>
+  <script type="text/javascript" src="scripts/i18n/getlang.js"></script>
 </head>
 <body>
   <header>
@@ -49,10 +56,11 @@
             <span id="user"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="stats.php"><i class="fa-solid fa-chart-simple"></i>Stats</a>
-            <a href="settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
-            <a href="about.php"><i class="fa-solid fa-info-circle"></i>About</a>
-            <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i>Logout</a>
+            <a href="/"><i class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
+            <a href="stats.php"><i class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
+            <a href="settings.php"><i class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
+            <a href="about.php"><i class="fa-solid fa-info-circle"></i><?= translate('about', $i18n) ?></a>
+            <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i><?= translate('logout', $i18n) ?></a>
           </div>
         </div>
       </nav>

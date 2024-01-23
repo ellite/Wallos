@@ -43,7 +43,7 @@
           $print[$id]['name']= $subscription['name'];
           $cycle = $subscription['cycle'];
           $frequency = $subscription['frequency'];
-          $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency);
+          $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
           $paymentMethodId = $subscription['payment_method_id'];
           $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
           $currencyId = $subscription['currency_id'];
@@ -66,7 +66,7 @@
         }
 
         if (isset($print)) {
-          printSubscriptions($print, $sort, $categories, $members);
+          printSubscriptions($print, $sort, $categories, $members, $i18n);
         }
         
         if (count($subscriptions) == 0) {
@@ -74,11 +74,11 @@
             <div class="empty-page">
                 <img src="images/siteimages/empty.png" alt="Empty page" />
                 <p>
-                  You don't have any subscriptions yet
+                  <?= translate('no_subscriptions_yet', $i18n) ?>
                 </p>
                 <button class="button" onClick="addSubscription()">
                   <img class="button-icon" src="images/siteicons/plusicon.png">
-                  Add First Subscription
+                  <?= translate('add_first_subscription', $i18n) ?>
                 </button>
             </div>
             <?php
