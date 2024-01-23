@@ -4,6 +4,7 @@
     $languages = [
         "en" => "English",
         "pt" => "Português",
+        "fr" => "Français",
     ]
 
 ?>
