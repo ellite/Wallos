@@ -10,7 +10,7 @@ $i18n = [
     "main_currency" => "Devise principale",
     "language" => "Langue",
     "passwords_dont_match" => "Les mots de passe ne correspondent pas",
-    "registration_failed" => "L'inscription a échouée, veuillez réessayer.",
+    "registration_failed" => "L'inscription a échoué, veuillez réessayer.",
     "register" => "S'inscrire",
     // Page de connexion
     'please_login' => "Veuillez vous connecter",
