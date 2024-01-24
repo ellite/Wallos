@@ -13,7 +13,7 @@ function translate($text, $translations) {
     if (array_key_exists($text, $translations)) {
         return $translations[$text];
     } else {
-        require_once 'en.php';
+        require 'en.php';
         if (array_key_exists($text, $i18n)) {
             return $i18n[$text];
         } else {
