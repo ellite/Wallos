@@ -14,7 +14,7 @@
             return $frequency == 1 ? translate('Monthly', $i18n) : $frequency . " " . translate('months', $i18n);
             break;
         case 4:
-            return $frequency == 1 ? translate('YEarly', $i18n) : $frequency . " " . translate('years', $i18n);
+            return $frequency == 1 ? translate('Yearly', $i18n) : $frequency . " " . translate('years', $i18n);
             break;  
         }
     }
