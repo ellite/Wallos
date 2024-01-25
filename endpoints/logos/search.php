@@ -7,6 +7,20 @@
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Convert all environment variable keys to lowercase
+        $envVars = array_change_key_case($_SERVER, CASE_LOWER);
+
+        // Check for http_proxy or https_proxy environment variables
+        $httpProxy = isset($envVars['http_proxy']) ? $envVars['http_proxy'] : null;
+        $httpsProxy = isset($envVars['https_proxy']) ? $envVars['https_proxy'] : null;
+
+        if (!empty($httpProxy)) {
+            curl_setopt($ch, CURLOPT_PROXY, $httpProxy);
+        } elseif (!empty($httpsProxy)) {
+            curl_setopt($ch, CURLOPT_PROXY, $httpsProxy);
+        }
+
         $response = curl_exec($ch);
 
         if ($response === false) {
