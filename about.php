@@ -9,7 +9,7 @@
             <h2><?= translate('about_and_credits', $i18n) ?></h2>
         </header>
         <div class="credits-list">
-            <p>Wallos v1.2.0</p>
+            <p>Wallos v1.2.1</p>
             <p><?= translate('license', $i18n) ?>: 
                 <span>
                     GPLv3

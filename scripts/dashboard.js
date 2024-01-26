@@ -85,6 +85,8 @@ function fillEditFormFields(subscription) {
 
 function openEditSubscription(event, id) {
     event.stopPropagation();
+    const body = document.querySelector('body');
+    body.classList.add('no-scroll');
     const url = `endpoints/subscription/get.php?id=${id}`;
     fetch(url)
     .then((response) => {
@@ -111,11 +113,15 @@ function addSubscription() {
     resetForm();
     const modal = document.getElementById('subscription-form');
     modal.classList.add("is-open"); 
+    const body = document.querySelector('body');
+    body.classList.add('no-scroll');
 }
 
 function closeAddSubscription() {
     const modal = document.getElementById('subscription-form');
     modal.classList.remove("is-open"); 
+    const body = document.querySelector('body');
+    body.classList.remove('no-scroll');
     resetForm();
 }
 

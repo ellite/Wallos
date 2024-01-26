@@ -6,6 +6,10 @@ body {
   color: #202020;
 }
 
+body.no-scroll {
+  overflow-y: hidden; 
+}
+
 h2, h3 {
   font-weight: 500;
 }
@@ -821,13 +825,15 @@ input[type="checkbox"] {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow: hidden;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
   z-index: 3;
   max-width: 800px;
+  max-height: calc(100vh - 34px);
+  overflow: auto;
+  overflow-y: auto;
   width: 90%;
   display: none;
 }
@@ -853,6 +859,7 @@ input[type="checkbox"] {
 @media (max-width: 768px) {
   .subscription-form {
     width: 100%;
+    max-height: 100vh;
   }
 
   .subscription-form .buttons input {
