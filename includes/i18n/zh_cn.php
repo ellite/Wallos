@@ -15,7 +15,7 @@ $i18n = [
 
     // 登录页面
     'please_login'    => "请登录",
-    'stay_logged_in'  => "保持登录状态（30 天）",
+    'stay_logged_in'  => "30 天内免登录",
     'login'           => "登录",
     'login_failed'    => "登录信息错误",
 
