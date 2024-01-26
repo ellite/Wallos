@@ -122,6 +122,7 @@
 
         if ($result) {
             $cookieExpire = time() + (30 * 24 * 60 * 60);
+            $oldLanguage = isset($_COOKIE['language']) ? $_COOKIE['language'] : "en";
             setcookie('language', $language, $cookieExpire, '/');
             if ($username != $oldUsername) {
                 $_SESSION['username'] = $username;
@@ -138,9 +139,12 @@
                 update_exchange_rate($db);
             }
 
+            $reload = $oldLanguage != $language;
+
             $response = [
                 "success" => true,
-                "message" => translate('user_details_saved', $i18n)
+                "message" => translate('user_details_saved', $i18n),
+                "reload"  => $reload
             ];
             echo json_encode($response);
         } else {

@@ -458,6 +458,9 @@ document.addEventListener('DOMContentLoaded', function() {
             var newUsername = document.getElementById("username").value;
             document.getElementById("user").textContent = newUsername;
             showSuccessMessage(data.message);
+            if (data.reload) {
+              location.reload();
+            }
           } else {
             showErrorMessage(data.errorMessage);
           }
