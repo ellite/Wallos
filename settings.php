@@ -205,7 +205,7 @@
                 <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notifications['smtp_password'] ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="text" name="fromemail" id="fromemail" placeholder="From email (Optional)"  value="<?= $notifications['from_email'] ?>" />
+                <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $notifications['from_email'] ?>" />
             </div>
             <div class="settings-notes">
                 <p>
