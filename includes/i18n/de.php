@@ -2,7 +2,7 @@
 
 $i18n = [
     // Registration page
-    "create_account"  => "You need to create an account before you're able to login", // TODO
+    "create_account"  => "Bitte erstelle zunächst einen Account, um dich einloggen zu können",
     'username'        => "Benutzername",
     'password'        => "Passwort",
     "email"           => "E-Mail",
@@ -16,7 +16,7 @@ $i18n = [
     'please_login'    => "Bitte einloggen",
     'stay_logged_in'  => "Angemeldet bleiben (30 Tage)",
     'login'           => "Login",
-    'login_failed'    => "Login details are incorrect", // TODO
+    'login_failed'    => "Loginangaben sind nicht korrekt",
     // Header
     'subscriptions'   => "Abonnements",
     'stats'           => "Statistiken",
@@ -74,17 +74,17 @@ $i18n = [
     'yearly_cost'     => "Jährliche Kosten",
     'average_monthly' => "Durchschnittliche monatliche Kosten",
     'most_expensive'  => "Kosten des teuersten Abonnements",
-    'amount_due'      => "Amount due this month", // TODO
-    'split_views'     => "Split Views", // TODO
-    'category_split'  => "Category Split", // TODO
-    'household_split' => "Household Split", // TODO
+    'amount_due'      => "Diesen Monat fällige Summe",
+    'split_views'     => "Aufgeteilte Ansichten",
+    'category_split'  => "Kategorien",
+    'household_split' => "Haushalt",
     // About page
-    'about_and_credits' => "About and Credits", // TODO
+    'about_and_credits' => "Informationen und Danksagungen",
     'license'         => "Lizenz",
-    'issues_and_requests' => "Issues and Requests", // TODO
+    'issues_and_requests' => "Issues und Anfragen",
     'the_author'      => "Der Autor",
     'icons'           => "Icons",
-    'payment_icons'   => "Payment Icons", // TODO
+    'payment_icons'   => "Zahlungsweisen Icons",
     // Settings page
     'user_details'    => "Benutzerdetails",
     "household"        => "Haushalt",
@@ -113,7 +113,7 @@ $i18n = [
     "cant_delete_main_currency" => "Hautwährung kann nicht gelöscht werden",
     "cant_delete_currency_in_use" => "Währungen die in Abonnements genutzt werden können nicht gelöscht werden",
     "exchange_update" => "Umrechnungskurs zuletzt aktualisiert am",
-    "currency_info"   => "Find the supported currencies and correct currency codes on", // TODO
+    "currency_info"   => "Finde die unterstützten Währungen und korrekten Währungscodes auf",
     "currency_performance" => "Aus Gründen der Performance wähle bitte ausschließlich die genutzen Währungen.",
     "fixer_api_key"   => "Fixer API Key",
     "api_key"         => "API Key",
@@ -137,10 +137,10 @@ $i18n = [
     "add"             => "Hinzufügen",
     "save"            => "Speichern",
     // Toast
-    "success"         => "Success", // TODO
+    "success"         => "Erfolgreich",
     // Endpoint responses
     "session_expired" => "Session abgelaufen. Bitte erneut einloggen",
-    "fields_missing"  => "Some fields are missing", // TODO
+    "fields_missing"  => "Einige Felder fehlen",
     "fill_all_fields" => "Bitte alle Felder ausfüllen",
     "fill_mandatory_fields" => "Bitte alle Pflichtfelder ausfüllen",
     "error"           => "Fehler",
@@ -182,11 +182,11 @@ $i18n = [
     "enabled"          => "aktiviert",
     "disabled"         => "deaktiviert",
     // Subscription
-    "error_fetching_image" => "Error fetching image", // TODO
+    "error_fetching_image" => "Fehler beim Laden des Bildes",
     "subscription_updated_successfuly" => "Abonnement erfolgreich aktualisiert",
     "subscription_added_successfuly" => "Abonnement erfolgreich hinzugefügt",
     "error_deleting_subscription" => "Abonnement konnte nicht gelöscht werden.",
-    "invalid_request_method" => "Invalid request method.", // TODO
+    "invalid_request_method" => "Ungültige Request Methode.",
     // User
     "error_updating_user_data" => "Benutzerangaben konnten nicht aktualisiert werden.",
     "user_details_saved" => "Benutzerangaben gespeichert",
