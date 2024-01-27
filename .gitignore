@@ -1,3 +1,4 @@
 /db/*
 !/db/wallos.empty.db
 /images/uploads/logos/
+.DS_Store

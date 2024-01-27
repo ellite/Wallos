@@ -172,7 +172,7 @@ $i18n = [
     "wallos_notification" => "Wallos Notification",
     "test_notification" => "This is a test notification. If you\'re seeing this, the configuration is correct.",
     "email_error"      => "Error sending email",
-    "notification_sent_successfuly" => "Notification sent successfuly",
+    "notification_sent_successfuly" => "Notification sent successfully",
     "notifications_settings_saved" => "Notification settings saved successfully.",
     // Payments
     "payment_in_use"   => "Can't disable used payment method",
@@ -181,8 +181,8 @@ $i18n = [
     "disabled"         => "disabled",
     // Subscription
     "error_fetching_image" => "Error fetching image",
-    "subscription_updated_successfuly" => "Subscription updated successfuly",
-    "subscription_added_successfuly" => "Subscription added successfuly",
+    "subscription_updated_successfuly" => "Subscription updated successfully",
+    "subscription_added_successfuly" => "Subscription added successfully",
     "error_deleting_subscription" => "Error deleting subscription.",
     "invalid_request_method" => "Invalid request method.",
     // User
