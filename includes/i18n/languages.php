@@ -7,6 +7,7 @@
         "fr" => "Français",
         "de" => "Deutsch",
         "zh_cn" => "简体中文",
+        "jp" => "日本語",
     ]
 
 ?>
