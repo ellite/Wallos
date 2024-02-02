@@ -16,7 +16,7 @@
         $smtpPort = $row["smtp_port"];
         $smtpUsername = $row["smtp_username"];
         $smtpPassword = $row["smtp_password"];
-        $fromEmail = $row["from_email"] ?? "wallos@wallosapp.com";
+        $fromEmail = $row["from_email"] ? $row["from_email"] : "wallos@wallosapp.com";
     } else {
         echo "Notifications are disabled. No need to run.";
     }
@@ -57,6 +57,7 @@
             }
 
             $mail = new PHPMailer(true);
+            $mail->CharSet="UTF-8";
             $mail->isSMTP();
 
             $mail->Host = $smtpAddress;
