@@ -38,6 +38,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Mobile view: Wallos on the go.
 - Statistics: Another perspective into your spendings.
 - Notifications:  Get notified by email of an upcoming payment.
+- Multi Language support.
 
 ## Getting Started
 
@@ -91,6 +92,16 @@ docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 -e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
 bellamy/wallos:latest
 ```
+
+For ARM processors you need to use the tag main
+
+```bash
+docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
+-v /path/to/config/wallos/logos:/var/www/html/images/uploads/logos \
+-e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
+bellamy/wallos:main
+```
+
 
 ### Docker Compose
 
