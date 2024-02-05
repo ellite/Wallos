@@ -6,6 +6,8 @@ require_once 'includes/i18n/languages.php';
 require_once 'includes/i18n/getlang.php';
 require_once 'includes/i18n/' . $lang . '.php';
 
+require_once 'includes/version.php';
+
 if ($userCount > 0) {
     header("Location: login.php");
     exit();
@@ -84,9 +86,9 @@ if (isset($_POST['username'])) {
         <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
         <link rel="manifest" href="images/icon/site.webmanifest">
-        <link rel="stylesheet" href="styles/login.css">
-        <link rel="stylesheet" href="styles/login-dark-theme.css" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
-        <script type="text/javascript" src="scripts/registration.js"></script>
+        <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
+        <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
+        <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
     </head>
     <body>
         <div class="content">

@@ -247,7 +247,7 @@ if ($result) {
     <?php
   }
 ?>
-<script src="scripts/stats.js"></script>
+<script src="scripts/stats.js?<?= $version ?>"></script>
 <?php
   require_once 'includes/footer.php';
 ?>

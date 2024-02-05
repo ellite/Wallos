@@ -527,7 +527,7 @@
     </section>
 
 </section>
-<script src="scripts/settings.js"></script>
+<script src="scripts/settings.js?<?= $version ?>"></script>
 
 <?php
     require_once 'includes/footer.php';

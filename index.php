@@ -264,7 +264,7 @@
         </form>
       </section>
     </section>
-    <script src="scripts/dashboard.js"></script>
+    <script src="scripts/dashboard.js?<?= $version ?>"></script>
 
 <?php
   require_once 'includes/footer.php';
