@@ -3,11 +3,12 @@
 
     $languages = [
         "en" => "English",
-        "pt" => "Português",
-        "fr" => "Français",
         "de" => "Deutsch",
-        "zh_cn" => "简体中文",
+        "es" => "Español",
+        "fr" => "Français",
         "jp" => "日本語",
+        "pt" => "Português",
+        "zh_cn" => "简体中文",
     ]
 
 ?>
