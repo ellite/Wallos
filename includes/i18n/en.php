@@ -170,7 +170,7 @@ $i18n = [
     // Notifications
     "error_saving_notifications" => "Error saving notifications data.",
     "wallos_notification" => "Wallos Notification",
-    "test_notification" => "This is a test notification. If you\'re seeing this, the configuration is correct.",
+    "test_notification" => "This is a test notification. If you're seeing this, the configuration is correct.",
     "email_error"      => "Error sending email",
     "notification_sent_successfuly" => "Notification sent successfully",
     "notifications_settings_saved" => "Notification settings saved successfully.",
