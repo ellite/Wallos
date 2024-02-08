@@ -9,6 +9,13 @@
         return $filename;
     }
 
+    function validate($value) {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = htmlspecialchars($value);
+        $value = htmlentities($value);
+        return $value;
+    }
     function getLogoFromUrl($url, $uploadDir, $name) {
         
         $ch = curl_init($url);
@@ -134,7 +141,7 @@
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $isEdit = isset($_POST['id']) && $_POST['id'] != "";
-            $name = $_POST["name"];
+            $name = validate($_POST["name"]);
             $price = $_POST['price'];
             $currencyId = $_POST["currency_id"];
             $frequency = $_POST["frequency"];
@@ -143,9 +150,9 @@
             $paymentMethodId = $_POST["payment_method_id"];
             $payerUserId = $_POST["payer_user_id"];
             $categoryId = $_POST['category_id'];
-            $notes = $_POST["notes"];
-            $url = $_POST['url'];
-            $logoUrl = $_POST['logo-url'];
+            $notes = validate($_POST["notes"]);
+            $url = validate($_POST['url']);
+            $logoUrl = validate($_POST['logo-url']);
             $logo = "";
             $notify = isset($_POST['notifications']) ? true : false;
 

@@ -1,6 +1,13 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 session_start();
+function validate($value) {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    $value = htmlentities($value);
+    return $value;
+}
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $categoryName = "Category";
@@ -26,7 +33,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else if (isset($_GET['action']) && $_GET['action'] == "edit") {
         if (isset($_GET['categoryId']) && $_GET['categoryId'] != "" && isset($_GET['name']) && $_GET['name'] != "") {
             $categoryId = $_GET['categoryId'];
-            $name = $_GET['name'];
+            $name = validate($_GET['name']);
             $sql = "UPDATE categories SET name = :name WHERE id = :categoryId";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
