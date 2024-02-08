@@ -10,7 +10,7 @@ function validate($value) {
 }
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
-        $householdName = "Member";
+        $householdName = validate("Member");
         $sqlInsert = "INSERT INTO household (name) VALUES (:name)";
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $householdName, SQLITE3_TEXT);
