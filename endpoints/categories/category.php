@@ -10,7 +10,7 @@ function validate($value) {
 }
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
-        $categoryName = validate("Category");
+        $categoryName = "Category";
         $sqlInsert = "INSERT INTO categories (name) VALUES (:name)";
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $categoryName, SQLITE3_TEXT);
