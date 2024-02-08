@@ -2,6 +2,14 @@
     require_once '../../includes/connect_endpoint.php';
     session_start();
 
+    function validate($value) {
+        $value = trim($value);
+        $value = stripslashes($value);
+        $value = htmlspecialchars($value);
+        $value = htmlentities($value);
+        return $value;
+    }
+
     function update_exchange_rate($db) {
         $query = "SELECT api_key FROM fixer";
         $result = $db->query($query);
@@ -72,8 +80,8 @@
 
     if (isset($_SESSION['username']) && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['avatar'])) {
         $oldUsername = $_SESSION['username'];
-        $username = $_POST['username'];
-        $email = $_POST['email'];
+        $username = validate($_POST['username']);
+        $email = validate($_POST['email']);
         $avatar = $_POST['avatar'];
         $main_currency = $_POST['main_currency'];
         $language = $_POST['language'];

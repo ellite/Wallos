@@ -8,6 +8,14 @@ require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
 
+function validate($value) {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    $value = htmlentities($value);
+    return $value;
+}
+
 if ($userCount > 0) {
     header("Location: login.php");
     exit();
@@ -29,8 +37,8 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 $passwordMismatch = false;
 $registrationFailed = false;
 if (isset($_POST['username'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
+    $username = validate($_POST['username']);
+    $email = validate($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
     $main_currency = $_POST['main_currency'];
