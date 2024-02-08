@@ -10,9 +10,9 @@ function validate($value) {
 }
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
-        $currencyName = validate("Currency");
-        $currencySymbol = validate("$");
-        $currencyCode = validate("CODE");
+        $currencyName = "Currency";
+        $currencySymbol = "$";
+        $currencyCode = "CODE";
         $currencyRate = 1;
         $sqlInsert = "INSERT INTO currencies (name, symbol, code, rate) VALUES (:name, :symbol, :code, :rate)";
         $stmtInsert = $db->prepare($sqlInsert);
