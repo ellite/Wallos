@@ -1,0 +1,68 @@
+name: Build & Release
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - main
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+env:
+  # login to github registry using the default credentials associated with pipeline
+  REGISTRY: docker.io
+  REGISTRY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: rp
+        uses: google-github-actions/release-please-action@v4
+        with:
+          release-type: node
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+      - name: Prepare tags for Docker meta
+        id: tags
+        env:
+          is_release: ${{ steps.rp.outputs.release_created }}
+          version: v${{ steps.rp.outputs.major }}.${{ steps.rp.outputs.minor }}.${{ steps.rp.outputs.patch }}
+        run: |
+          tags=""
+          if [[ "$is_release" = 'true' ]]; then
+            tags="type=semver,pattern={{version}},value=$version
+          type=semver,pattern={{major}},value=$version
+          type=semver,pattern={{major}}.{{minor}},value=$version"
+          else
+            tags="type=ref,event=branch
+          type=ref,event=pr"
+          fi
+          {
+            echo 'tags<<EOF'
+            echo "$tags"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: ${{ steps.tags.outputs.tags }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: APP_VERSION=${{ steps.meta.outputs.version }}
