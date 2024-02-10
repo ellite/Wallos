@@ -1,6 +1,8 @@
 <?php
     error_reporting(E_ERROR | E_PARSE);
     require_once '../../includes/connect_endpoint.php';
+    require_once '../../includes/inputvalidation.php';
+    
     session_start();
 
     function sanitizeFilename($filename) {
@@ -9,13 +11,6 @@
         return $filename;
     }
 
-    function validate($value) {
-        $value = trim($value);
-        $value = stripslashes($value);
-        $value = htmlspecialchars($value);
-        $value = htmlentities($value);
-        return $value;
-    }
     function getLogoFromUrl($url, $uploadDir, $name) {
         
         $ch = curl_init($url);

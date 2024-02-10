@@ -1,13 +1,9 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/inputvalidation.php';
+
 session_start();
-function validate($value) {
-    $value = trim($value);
-    $value = stripslashes($value);
-    $value = htmlspecialchars($value);
-    $value = htmlentities($value);
-    return $value;
-}
+
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $currencyName = "Currency";

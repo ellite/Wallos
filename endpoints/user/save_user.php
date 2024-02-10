@@ -1,14 +1,8 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
+    require_once '../../includes/inputvalidation.php';
+    
     session_start();
-
-    function validate($value) {
-        $value = trim($value);
-        $value = stripslashes($value);
-        $value = htmlspecialchars($value);
-        $value = htmlentities($value);
-        return $value;
-    }
 
     function update_exchange_rate($db) {
         $query = "SELECT api_key FROM fixer";
