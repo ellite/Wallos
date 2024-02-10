@@ -1,6 +1,13 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 session_start();
+function validate($value) {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    $value = htmlentities($value);
+    return $value;
+}
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $householdName = "Member";
@@ -26,7 +33,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else if (isset($_GET['action']) && $_GET['action'] == "edit") {
         if (isset($_GET['memberId']) && $_GET['memberId'] != "" && isset($_GET['name']) && $_GET['name'] != "") {
             $memberId = $_GET['memberId'];
-            $name = $_GET['name'];
+            $name = validate($_GET['name']);
             $sql = "UPDATE household SET name = :name WHERE id = :memberId";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);

@@ -1,6 +1,13 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 session_start();
+function validate($value) {
+    $value = trim($value);
+    $value = stripslashes($value);
+    $value = htmlspecialchars($value);
+    $value = htmlentities($value);
+    return $value;
+}
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $currencyName = "Currency";
@@ -24,9 +31,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else if (isset($_GET['action']) && $_GET['action'] == "edit") {
         if (isset($_GET['currencyId']) && $_GET['currencyId'] != "" && isset($_GET['name']) && $_GET['name'] != "" && isset($_GET['symbol']) && $_GET['symbol'] != "") {
             $currencyId = $_GET['currencyId'];
-            $name = $_GET['name'];
-            $symbol = $_GET['symbol'];
-            $code = $_GET['code'];
+            $name = validate($_GET['name']);
+            $symbol = validate($_GET['symbol']);
+            $code = validate($_GET['code']);
             $sql = "UPDATE currencies SET name = :name, symbol = :symbol, code = :code WHERE id = :currencyId";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
