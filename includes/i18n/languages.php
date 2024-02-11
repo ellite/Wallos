@@ -5,6 +5,7 @@
         "en" => "English",
         "de" => "Deutsch",
         "es" => "Español",
+        "el" => "Ελληνικά",
         "fr" => "Français",
         "jp" => "日本語",
         "pt" => "Português",
