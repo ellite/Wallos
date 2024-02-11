@@ -15,7 +15,7 @@ let i18n = {
   delete_member: "Delete member",
   failed_remove_member: "Failed to remove member",
   failed_save_member: "Failed to save member",
-  failed_add_category: "Failed to add categpry",
+  failed_add_category: "Failed to add category",
   category: "Category",
   save_category: "Save category",
   delete_category: "Delete category",
