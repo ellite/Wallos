@@ -12,9 +12,9 @@ permissions:
   packages: write
 env:
   # login to github registry using the default credentials associated with pipeline
-  REGISTRY: docker.io
-  REGISTRY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+  REGISTRY: ghcr.io
+  REGISTRY_USERNAME: ${{ github.actor }}
+  REGISTRY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
   # For release-please, see available types at https://github.com/google-github-actions/release-please-action/tree/v4/?tab=readme-ov-file#release-types-supported
