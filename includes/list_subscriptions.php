@@ -111,6 +111,13 @@
                 <div class="subscription-secondary">
                     <span class="name"><img src="images/siteicons/subscription.png" alt="<?= translate('subscription', $i18n) ?>" /><?= $subscription['name'] ?></span>
                     <span class="payer_user" title="<?= translate('paid_by', $i18n) ?>"><img src="images/siteicons/payment.png" alt="<?= translate('paid_by', $i18n) ?>" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
+                    <?php
+                    if (strlen($subscription['notes']) > 0) {
+                        ?>
+                        <span class="notes" title="<?= translate('notes', $i18n) ?>"><img src="images/siteicons/notepad-text.png" alt="<?= translate('notes', $i18n) ?>" /><?= $subscription['notes'] ?></span>
+                        <?php
+                    }
+                    ?>
                     <span class="category" title="<?= translate('category', $i18n) ?>" ><img src="images/siteicons/category.png" alt="<?= translate('category', $i18n) ?>" /><?= $categories[$subscription['category_id']]['name'] ?></span>
                     <?php
                         if ($subscription['url'] != "") {
