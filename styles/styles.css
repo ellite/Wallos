@@ -201,12 +201,11 @@ main > .contain {
   cursor: pointer;
 }
 
-.subscription.inactive{
-  filter: grayscale(100%);
+.subscription.inactive {
   color: #808080;
   text-decoration: line-through;
   font-style: italic;
-  z-index: -1;
+  background-color: #F8F8FF;
 }
 
 .subscription-main {
