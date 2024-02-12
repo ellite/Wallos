@@ -33,6 +33,7 @@ $i18n = [
     'last_added'      => "Τελευταία προσθήκη",
     'price'           => "Τιμή",
     'next_payment'    => "Επόμενη πληρωμή",
+    'activated'       => "Ενεργή συνδρομή",
     'member'          => "Χρήστης",
     'category'        => "Κατηγορία",
     'payment_method'  => "Τρόπος πληρωμής",
@@ -70,6 +71,7 @@ $i18n = [
     // Statistics page
     'general_statistics' => "Γενικές στατιστικές",
     'active_subscriptions' => "Ενεργές συνδρομές",
+    'inactive_subscriptions' => "Ανενεργές συνδρομές",
     'monthly_cost'    => "Μηνιαίο κόστος",
     'yearly_cost'     => "Ετήσιο κόστος",
     'average_monthly' => "Μέσο μηνιαίο κόστος συνδρομής",

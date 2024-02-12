@@ -72,19 +72,27 @@ $code = $row['code'];
 
 
 // Calculate active subscriptions
-$query = "SELECT COUNT(*) AS active_subscriptions FROM subscriptions";
+$query = "SELECT COUNT(*) AS active_subscriptions FROM subscriptions WHERE activated = true";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':criteria', $criteria, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $activeSubscriptions = $row['active_subscriptions'];
 
+// Calculate inactive subscriptions
+$query = "SELECT COUNT(*) AS inactive_subscriptions FROM subscriptions WHERE activated = false";
+$stmt = $db->prepare($query);
+$stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$row = $result->fetchArray(SQLITE3_ASSOC);
+$inactiveSubscriptions = $row['inactive_subscriptions'];
+
 // Calculate total monthly price
 $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions";
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions WHERE activated = true";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -150,6 +158,15 @@ if ($result) {
       <span><?= $activeSubscriptions ?></span>
       <div class="title"><?= translate('active_subscriptions', $i18n) ?></div>
     </div>
+      <?php  if ($inactiveSubscriptions > 0) {
+      ?>
+      <div class="statistic">
+          <span><?= $inactiveSubscriptions ?></span>
+          <div class="title"><?= translate('inactive_subscriptions', $i18n) ?></div>
+      </div>
+      <?php
+      }
+      ?>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($totalCostPerMonth, $code) ?></span>
       <div class="title"><?= translate('monthly_cost', $i18n) ?></div>

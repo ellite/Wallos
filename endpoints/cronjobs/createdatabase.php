@@ -39,6 +39,7 @@ if (!file_exists($databaseFile)) {
         payer_user_id INTEGER,
         category_id INTEGER,
         notify BOOLEAN DEFAULT false,
+        activated BOOLEAN DEFAULT false,
         FOREIGN KEY(currency_id) REFERENCES currencies(id),
         FOREIGN KEY(cycle) REFERENCES cycles(id),
         FOREIGN KEY(frequency) REFERENCES frequencies(id),
