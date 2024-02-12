@@ -63,8 +63,8 @@ function fillEditFormFields(subscription) {
   const payerSelect = document.querySelector("#payer_user");
   payerSelect.value = subscription.payer_user_id;
 
-  const nextPament = document.querySelector("#next_payment");
-  nextPament.value = subscription.next_payment;
+  const nextPayment = document.querySelector("#next_payment");
+  nextPayment.value = subscription.next_payment;
   const notes = document.querySelector("#notes");
   notes.value = subscription.notes;
   const url = document.querySelector("#url");
