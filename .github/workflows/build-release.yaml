@@ -11,12 +11,11 @@ permissions:
   pull-requests: write
   packages: write
 env:
-  # login to github registry using the default credentials associated with pipeline
+  # login to docker hub with provided secrets
   REGISTRY: docker.io
   REGISTRY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: bellamy/wallos
   # For release-please, see available types at https://github.com/google-github-actions/release-please-action/tree/v4/?tab=readme-ov-file#release-types-supported
   PROJECT_TYPE: simple
 jobs:
