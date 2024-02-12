@@ -25,7 +25,7 @@ function storeFormFields() {
 
 function restoreFormFieldValue(fieldId) {
     var fieldElement = document.getElementById(fieldId);
-    if (fieldElement) {
+    if (localStorage.getItem(fieldId)) {
         fieldElement.value = localStorage.getItem(fieldId) || '';
     }
 }
