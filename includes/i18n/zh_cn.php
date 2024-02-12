@@ -36,6 +36,7 @@ $i18n = [
     'last_added'      => "创建时间",
     'price'           => "价格",
     'next_payment'    => "下次支付时间",
+    'activated'       => "有效订阅",
     'member'          => "成员",
     'category'        => "分类",
     'payment_method'  => "支付方式",
@@ -75,6 +76,7 @@ $i18n = [
     // 统计页面
     'general_statistics' => "总体统计",
     'active_subscriptions' => "活跃订阅",
+    'inactive_subscriptions' => "非活动订阅",
     'monthly_cost'    => "月费用",
     'yearly_cost'     => "年费用",
     'average_monthly' => "平均每月订阅费用",

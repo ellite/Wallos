@@ -33,6 +33,7 @@ $i18n = [
     'last_added'      => "最終追加日",
     'price'           => "金額",
     'next_payment'    => "次回支払い",
+    'activated'       => "アクティブ購読",
     'member'          => "メンバー",
     'category'        => "カテゴリ",
     'payment_method'  => "支払い方法",
@@ -70,6 +71,7 @@ $i18n = [
     // Statistics page
     'general_statistics' => "一般統計",
     'active_subscriptions' => "アクティブな定期購入",
+    'inactive_subscriptions' => "非アクティブなサブスクリプション",
     'monthly_cost'    => "月間費用",
     'yearly_cost'     => "年間費用",
     'average_monthly' => "月額平均費用",
