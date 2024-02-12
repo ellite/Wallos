@@ -60,6 +60,12 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.tags.outputs.tags }}
+      # necessary for multi-platform images
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      # necessary for multi-platform images
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
