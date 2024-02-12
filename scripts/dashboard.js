@@ -145,7 +145,7 @@ function handleFileSelect(event) {
 }
 
 function deleteSubscription(id) {
-  if (confirm("Are you sure you want to delete this subscription?")) {
+  if (confirm(translate('confirm_delete_subscription'))) {
     fetch(`endpoints/subscription/delete.php?id=${id}`, {
       method: 'DELETE',
     })

@@ -7,6 +7,7 @@ let i18n = {
     'failed_to_load_subscription': "加载订阅失败",
     'edit_subscription': "编辑订阅",
     'add_subscription': "添加订阅",
+    'confirm_delete_subscription': "您确定要删除此订阅吗",
     // Settings
     'network_response_error': "网络响应不正常",
     'failed_add_member': '添加成员失败',

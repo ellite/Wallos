@@ -7,6 +7,7 @@ let i18n = {
     'failed_to_load_subscription': 'Falha ao carregar a subscrição',
     'edit_subscription': 'Editar subscrição',
     'add_subscription': 'Adicionar subscrição',
+    'confirm_delete_subscription': "Tem a certeza de que pretende apagar esta subscrição?",
     // Settings
     'network_response_error': 'Erro de resposta de rede',
     'failed_add_member': 'Falha ao adicionar membro',
