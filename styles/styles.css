@@ -310,6 +310,12 @@ main > .contain {
   }
 }
 
+@media (max-width: 375px) {
+  .subscription-main > .cycle {
+    display: none;
+  }
+}
+
 .subscription.is-open .subscription-secondary {
   display: flex;
 }
