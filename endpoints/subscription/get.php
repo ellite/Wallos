@@ -26,6 +26,7 @@
                 $subscriptionData['category_id'] = $row['category_id'];
                 $subscriptionData['notify'] = $row['notify'];
                 $subscriptionData['url'] = $row['url'];
+                $subscriptionData['notes'] = $row['notes'];
 
                 $subscriptionJson = json_encode($subscriptionData);
                 header('Content-Type: application/json');
