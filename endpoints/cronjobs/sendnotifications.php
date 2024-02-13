@@ -30,7 +30,7 @@
             $currencies[$currencyId] = $row;
         }
 
-        $querySubscriptions = "SELECT * FROM subscriptions WHERE notify = 1";
+        $querySubscriptions = "SELECT * FROM subscriptions WHERE notify = 1 AND activated = 0";
         $resultSubscriptions = $db->query($querySubscriptions);
     
         $notify = []; $i = 0;
