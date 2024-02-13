@@ -6,6 +6,6 @@ $columnQuery = $db->query("SELECT * FROM pragma_table_info('subscriptions') WHER
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
-    $db->exec('ALTER TABLE subscriptions ADD COLUMN activated BOOLEAN DEFAULT false');
+    $db->exec('ALTER TABLE subscriptions ADD COLUMN activated BOOLEAN DEFAULT true');
     $db->exec('UPDATE subscriptions SET activated = true');
 }
