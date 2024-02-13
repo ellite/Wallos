@@ -63,8 +63,8 @@ function fillEditFormFields(subscription) {
   const payerSelect = document.querySelector("#payer_user");
   payerSelect.value = subscription.payer_user_id;
 
-  const nextPayment = document.querySelector("#next_payment");
-  nextPayment.value = subscription.next_payment;
+  const nextPament = document.querySelector("#next_payment");
+  nextPament.value = subscription.next_payment;
   const notes = document.querySelector("#notes");
   notes.value = subscription.notes;
   const activated = document.querySelector("#activated");
@@ -147,7 +147,7 @@ function handleFileSelect(event) {
 }
 
 function deleteSubscription(id) {
-  if (confirm(translate('confirm_delete_subscription'))) {
+  if (confirm("Are you sure you want to delete this subscription?")) {
     fetch(`endpoints/subscription/delete.php?id=${id}`, {
       method: 'DELETE',
     })

@@ -7,7 +7,6 @@ let i18n = {
   failed_to_load_subscription: "定期購入の読み込みに失敗しました",
   edit_subscription: "定期購入の編集",
   add_subscription: "定期購入の追加",
-  confirm_delete_subscription: "この購読を削除してもよろしいですか？",
   // Settings
   network_response_error: "ネットワークの応答異常",
   failed_add_member: "世帯員の追加に失敗",

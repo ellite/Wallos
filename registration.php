@@ -132,7 +132,7 @@ if (isset($_POST['username'])) {
                     </div>
                     <div class="form-group">
                         <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
-                        <select id="currency" name="main_currency" placeholder="Currency" required>
+                        <select id="currency" name="main_currency" placeholder="Currency">
                         <?php
                             foreach ($currencies as $currency) {
                         ?>
