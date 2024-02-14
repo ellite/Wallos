@@ -218,6 +218,13 @@ main > .contain {
   overflow: hidden;
 }
 
+.subscription-notes {
+  display: none;
+  flex-direction: row;
+  padding: 6px 5px;
+  overflow: hidden;
+}
+
 .subscription-main > span,
 .subscription-secondary > span {
   display: flex;
@@ -294,6 +301,12 @@ main > .contain {
   cursor: pointer;
 }
 
+.subscription-notes > span {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   .subscription-main > .name {
     display: none;
@@ -316,11 +329,13 @@ main > .contain {
   }
 }
 
-.subscription.is-open .subscription-secondary {
+.subscription.is-open .subscription-secondary,
+.subscription.is-open .subscription-notes {
   display: flex;
 }
 
-.subscription-secondary img {
+.subscription-secondary img,
+.subscription-notes img {
   height: 20px;
   margin-right: 10px;
 }

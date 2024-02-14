@@ -124,6 +124,18 @@
                         }
                     ?>
                 </div>
+                <?php
+                    if ($subscription['notes'] != "") {
+                        ?>
+                            <div class="subscription-notes">
+                                <span class="notes">
+                                    <img src="images/siteicons/notes.png" alt="<?= translate('notes', $i18n) ?>" />
+                                    <?= $subscription['notes'] ?>
+                                </span>
+                            </div>
+                        <?php
+                    }
+                ?>    
             </div>
         <?php
         }
