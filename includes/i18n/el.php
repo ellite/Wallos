@@ -134,6 +134,8 @@ $i18n = [
     "test"            => "Δοκιμή",
     "add"             => "Προσθήκη",
     "save"            => "Αποθήκευση",
+    "export_subscriptions" => "Εξαγωγή συνδρομών",
+    "export_to_json"  => "Εξαγωγή σε JSON",
     // Toast
     "success"         => "Επιτυχία",
     // Endpoint responses

@@ -134,6 +134,8 @@ $i18n = [
     "test" => "Test",
     "add" => "Ajouter",
     "save" => "Enregistrer",
+    "export_subscriptions" => "Exporter les abonnements",
+    "export_to_json" => "Exporter en JSON",
     // Toast
     "success" => "Succès",
     // Réponses de l'API

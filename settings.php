@@ -526,6 +526,15 @@
         </div>
     </section>
 
+    <section class="account-section">
+        <header>
+            <h2><?= translate('export_subscriptions', $i18n) ?></h2>
+        </header>
+        <div>
+            <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
+        <div>        
+    </section>
+
 </section>
 <script src="scripts/settings.js?<?= $version ?>"></script>
 

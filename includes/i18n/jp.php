@@ -134,6 +134,8 @@ $i18n = [
     "test"            => "テスト",
     "add"             => "追加",
     "save"            => "保存",
+    "export_subscriptions" => "購読をエクスポート",
+    "export_to_json"  => "JSONにエクスポート",
     // Toast
     "success"         => "成功",
     // Endpoint responses

@@ -141,6 +141,8 @@ $i18n = [
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
+    "export_subscriptions" => "导出订阅",
+    "export_to_json"  => "导出为 JSON",
     
     // Toast
     "success"         => "成功",

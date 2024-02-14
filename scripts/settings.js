@@ -609,3 +609,7 @@ function setRemoveBackgroundCookie() {
   const value = removeBackgroundCheckbox.checked;
   document.cookie = `removeBackground=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
 }
+
+function exportToJson() {
+  window.location.href = "endpoints/subscriptions/export.php";
+}
