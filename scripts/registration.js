@@ -52,7 +52,18 @@ function changeLanguage(selectedLanguage) {
     location.reload();
 }
 
+function runDatabaseMigration() {
+    let url = "endpoints/db/migrate.php";
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(translate('network_response_error'));
+        }
+    });
+}
+
 window.onload = function () {
     restoreFormFields();
     removeFromStorage();
+    runDatabaseMigration();
 };
