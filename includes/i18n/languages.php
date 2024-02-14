@@ -6,8 +6,8 @@
         "en" => "English",
         // Remaining sorted alphabetically by language code
         "de" => "Deutsch",
-        "es" => "Español",
         "el" => "Ελληνικά",
+        "es" => "Español",
         "fr" => "Français",
         "jp" => "日本語",
         "pt" => "Português",
