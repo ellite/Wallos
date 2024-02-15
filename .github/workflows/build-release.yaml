@@ -24,6 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: rp
+        if: github.event_name != 'pull_request' && github.ref_name == 'main'
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: ${{ env.PROJECT_TYPE }}
@@ -36,6 +37,7 @@ jobs:
       - name: Prepare tags for Docker meta
         id: tags
         env:
+          # When release please is skipped, these values will be empty
           is_release: ${{ steps.rp.outputs.release_created }}
           version: v${{ steps.rp.outputs.major }}.${{ steps.rp.outputs.minor }}.${{ steps.rp.outputs.patch }}
         run: |
