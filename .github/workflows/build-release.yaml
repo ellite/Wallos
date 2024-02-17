@@ -43,10 +43,11 @@ jobs:
         run: |
           tags=""
           if [[ "$is_release" = 'true' ]]; then
-            tags="type=semver,pattern={{version}},value=$version"
+            tags="type=semver,pattern={{version}},value=$version
+            type=ref,event=branch,value=main"
           else
             tags="type=ref,event=branch
-          type=ref,event=pr"
+            type=ref,event=pr"
           fi
           {
             echo 'tags<<EOF'
