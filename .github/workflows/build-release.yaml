@@ -15,7 +15,7 @@ env:
   REGISTRY: docker.io
   REGISTRY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-  IMAGE_NAME: bellamy/wallos
+  IMAGE_NAME: ${{ vars.DOCKERHUB_TAG }}
   # For release-please, see available types at https://github.com/google-github-actions/release-please-action/tree/v4/?tab=readme-ov-file#release-types-supported
   PROJECT_TYPE: simple
 jobs:
@@ -43,9 +43,7 @@ jobs:
         run: |
           tags=""
           if [[ "$is_release" = 'true' ]]; then
-            tags="type=semver,pattern={{version}},value=$version
-          type=semver,pattern={{major}},value=$version
-          type=semver,pattern={{major}}.{{minor}},value=$version"
+            tags="type=semver,pattern={{version}},value=$version"
           else
             tags="type=ref,event=branch
           type=ref,event=pr"
