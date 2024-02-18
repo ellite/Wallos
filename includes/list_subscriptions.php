@@ -70,7 +70,13 @@
             if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
                 ?>
                     <div class="subscription-list-title">
-                        <?= $categories[$subscription['category_id']]['name'] ?>
+                        <?php
+                            if ($subscription['category_id'] == 1) {
+                                echo translate('no_category', $i18n);
+                            } else {
+                                echo $categories[$subscription['category_id']]['name'];
+                            }
+                        ?>
                     </div>
                 <?php
                 $currentCategory = $subscription['category_id'];
