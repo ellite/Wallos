@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/ellite/Wallos/compare/v1.0.0...v1.0.1) (2024-02-18)
+
+
+### Bug Fixes
+
+* show translated no category when sorting by category ([#122](https://github.com/ellite/Wallos/issues/122)) ([330c061](https://github.com/ellite/Wallos/commit/330c061b74ad1580173f3d3bc7b14048492e22d2))
+
 ## 1.0.0 (2024-02-15)
 
 
