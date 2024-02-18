@@ -83,6 +83,7 @@ $i18n = [
     'split_views'     => "拆分视图",
     'category_split'  => "分类视图",
     'household_split' => "家庭视图",
+    'payment_method_split' => "支付方式视图",
     
     // 关于页面
     'about_and_credits' => "关于和鸣谢",

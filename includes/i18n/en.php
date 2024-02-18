@@ -78,6 +78,7 @@ $i18n = [
     'split_views'     => "Split Views",
     'category_split'  => "Category Split",
     'household_split' => "Household Split",
+    'payment_method_split' => "Payment Method Split",
     // About page
     'about_and_credits' => "About and Credits",
     'license'         => "License",

@@ -78,6 +78,7 @@ $i18n = [
     'split_views'     => "分割表示",
     'category_split'  => "カテゴリ別",
     'household_split' => "世帯別",
+    'payment_method_split' => "支払い方法別",
     // About page
     'about_and_credits' => "概要とクレジット",
     'license'         => "License",
