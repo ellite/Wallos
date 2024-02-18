@@ -78,6 +78,7 @@ $i18n = [
     'split_views' => "Bölünmüş Görünümler",
     'category_split' => "Kategori Bölümü",
     'household_split' => "Hane Bölümü",
+    'payment_method_split' => "Ödeme Yöntemi Bölümü",
     // About page
     'about_and_credits' => "Hakkında ve Teşekkürler",
     'license' => "Lisans",

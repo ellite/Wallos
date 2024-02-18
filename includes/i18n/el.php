@@ -78,6 +78,7 @@ $i18n = [
     'split_views'     => "Διαχωρισμένες προβολές",
     'category_split'  => "Διαχωρισμός κατηγορίας",
     'household_split' => "Διαχωρισμός νοικοκυριού",
+    'payment_method_split' => "Διαχωρισμός τρόπου πληρωμής",
     // About page
     'about_and_credits' => "Σχετικά και Credits",
     'license'         => "License",

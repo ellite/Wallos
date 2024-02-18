@@ -7,6 +7,7 @@ let i18n = {
     failed_to_load_subscription: "Impossible de charger l'abonnement",
     edit_subscription: "Modifier l'abonnement",
     add_subscription: "Ajouter un abonnement",
+    confirm_delete_subscription: "Êtes-vous sûr de vouloir supprimer cet abonnement ?",
     // Paramètres
     network_response_error: "La réponse du réseau n'était pas correcte",
     failed_add_member: "Échec de l'ajout du membre",

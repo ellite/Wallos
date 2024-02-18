@@ -83,6 +83,7 @@ $i18n = [
     'split_views'     => "分割表示",
     'category_split'  => "類別表示",
     'household_split' => "家庭表示",
+    'payment_method_split' => "付款方式表示",
     
     // 關於頁面
     'about_and_credits' => "關於和致謝",

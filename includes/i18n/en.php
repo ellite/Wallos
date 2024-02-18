@@ -44,7 +44,7 @@ $i18n = [
     "weeks"           => "weeks",
     "months"          => "months",
     "years"           => "years",
-    "external_url"    => "Visit Externarl URL",
+    "external_url"    => "Visit External URL",
     "empty_page"      => "Empty Page",
     // Subscription form
     "add_subscription" => "Add subscription",
@@ -78,6 +78,7 @@ $i18n = [
     'split_views'     => "Split Views",
     'category_split'  => "Category Split",
     'household_split' => "Household Split",
+    'payment_method_split' => "Payment Method Split",
     // About page
     'about_and_credits' => "About and Credits",
     'license'         => "License",

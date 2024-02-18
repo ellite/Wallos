@@ -78,6 +78,7 @@ $i18n = [
     'split_views'     => "Vistas Divididas",
     'category_split'  => "Por Categoria",
     'household_split' => "Por Membro",
+    'payment_method_split' => "Por Método de Pagamento",
     // About page
     'about_and_credits' => "Sobre e Créditos",
     'license'         => "Licença",

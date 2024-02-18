@@ -8,7 +8,13 @@ function loadGraph(container, dataPoints, currency, run) {
                 datasets: [{
                     data: dataPoints.map(point => point.y),
                 }],
-                labels: dataPoints.map(point => `${point.label} (${new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(point.y)})`),
+                labels: dataPoints.map(point => {
+                    if (currency) {
+                        return `${point.label} (${new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(point.y)})`;
+                    } else {
+                        return `${point.label} (${new Intl.NumberFormat(navigator.language).format(point.y)})`;
+                    }
+                }),
             },
             options: {
                 animation: {
