@@ -522,7 +522,7 @@ function saveNotificationsButton() {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/save.php', {
+  fetch('endpoints/notifications/save.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -562,7 +562,7 @@ function testNotificationButton()  {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/sendtestmail.php', {
+  fetch('endpoints/notifications/sendtestmail.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
