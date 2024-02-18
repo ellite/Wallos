@@ -125,7 +125,7 @@
         if ($result) {
             $cookieExpire = time() + (30 * 24 * 60 * 60);
             $oldLanguage = isset($_COOKIE['language']) ? $_COOKIE['language'] : "en";
-            setcookie('language', $language, $cookieExpire, '/');
+            setcookie('language', $language, $cookieExpire);
             if ($username != $oldUsername) {
                 $_SESSION['username'] = $username;
                 if (isset($_COOKIE['wallos_login'])) {

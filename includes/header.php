@@ -47,7 +47,7 @@
   <header>
     <div class="contain">
       <div class="logo">
-          <a href="/">
+          <a href=".">
               <div class="logo-image"></div>
           </a>
       </div>
@@ -58,7 +58,7 @@
             <span id="user"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="/"><i class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
+            <a href="."><i class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
             <a href="stats.php"><i class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
             <a href="about.php"><i class="fa-solid fa-info-circle"></i><?= translate('about', $i18n) ?></a>
