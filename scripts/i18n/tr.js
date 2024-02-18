@@ -7,6 +7,7 @@ let i18n = {
   failed_to_load_subscription: "Abonelik yüklenemedi",
   edit_subscription: "Aboneliği Düzenle",
   add_subscription: "Abonelik Ekle",
+  confirm_delete_subscription: "Bu aboneliği silmek istediğinizden emin misiniz?",
   // Ayarlar
   network_response_error: "Ağ yanıtı kabul edilmedi",
   failed_add_member: "Üye eklenemedi",

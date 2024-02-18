@@ -7,6 +7,7 @@ let i18n = {
     'failed_to_load_subscription': "讀取訂閱失敗",
     'edit_subscription': "編輯訂閱",
     'add_subscription': "新增訂閱",
+    'confirm_delete_subscription': "您確定要刪除此訂閱嗎？",
     // Settings
     'network_response_error': "網路無回應",
     'failed_add_member': '新增成員失敗',
