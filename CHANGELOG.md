@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/ellite/Wallos/compare/v1.0.1...v1.1.0) (2024-02-18)
+
+
+### Features
+
+* new statistics per payment method ([#124](https://github.com/ellite/Wallos/issues/124)) ([6200fa5](https://github.com/ellite/Wallos/commit/6200fa5e87d3f60853c3d8b95f5d676e39b378f4))
+
 ## [1.0.1](https://github.com/ellite/Wallos/compare/v1.0.0...v1.0.1) (2024-02-18)
 
 
