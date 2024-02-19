@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/ellite/Wallos/compare/v1.1.0...v1.2.0) (2024-02-19)
+
+
+### Features
+
+* enable deployment in subdirectory ([e2af9af](https://github.com/ellite/Wallos/commit/e2af9afc32bfc248f594336c50d44ad6f36f197e))
+
 ## [1.1.0](https://github.com/ellite/Wallos/compare/v1.0.1...v1.1.0) (2024-02-18)
 
 
