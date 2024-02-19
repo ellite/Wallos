@@ -2,20 +2,25 @@
 require_once '../../includes/connect_endpoint.php';
 
 $shouldUpdate = true;
-$query = "SELECT date FROM last_exchange_update";
-$result = $db->querySingle($query);
 
-if ($result) {
-    $lastUpdateDate = new DateTime($result);
-    $currentDate = new DateTime();
-    $lastUpdateDateString = $lastUpdateDate->format('Y-m-d');
-    $currentDateString = $currentDate->format('Y-m-d');
-    $shouldUpdate = $lastUpdateDateString < $currentDateString;
-}
+if (isset($_GET['force']) && $_GET['force'] === "true") {
+    $shouldUpdate = true;
+} else {
+    $query = "SELECT date FROM last_exchange_update";
+    $result = $db->querySingle($query);
 
-if (!$shouldUpdate) {
-    echo "Rates are current, no need to update.";
-    exit;
+    if ($result) {
+        $lastUpdateDate = new DateTime($result);
+        $currentDate = new DateTime();
+        $lastUpdateDateString = $lastUpdateDate->format('Y-m-d');
+        $currentDateString = $currentDate->format('Y-m-d');
+        $shouldUpdate = $lastUpdateDateString < $currentDateString;
+    }
+    
+    if (!$shouldUpdate) {
+        echo "Rates are current, no need to update.";
+        exit;
+    }
 }
 
 $query = "SELECT api_key, provider FROM fixer";
@@ -52,10 +57,8 @@ if ($result) {
             ]);
             $response = file_get_contents($api_url, false, $context);
         } else {
-
             $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=EUR&symbols=" . $codes;
             $response = file_get_contents($api_url);
-
         }
 
         $apiData = json_decode($response, true);

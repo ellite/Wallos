@@ -5,7 +5,7 @@
     session_start();
 
     function update_exchange_rate($db) {
-        $query = "SELECT api_key FROM fixer";
+        $query = "SELECT api_key, provider FROM fixer";
         $result = $db->query($query);
 
         if ($result) {
@@ -13,6 +13,7 @@
             
             if ($row) {
                 $apiKey = $row['api_key'];
+                $provider = $row['provider'];
 
                 $codes = "";
                 $query = "SELECT id, name, symbol, code FROM currencies";
@@ -29,8 +30,20 @@
                 $mainCurrencyCode = $row['code'];
                 $mainCurrencyId = $row['main_currency'];
 
-                $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=EUR&symbols=" . $codes;
-                $response = file_get_contents($api_url);
+                if ($provider === 1) {
+                    $api_url = "https://api.apilayer.com/fixer/latest?base=EUR&symbols=" . $codes;
+                    $context = stream_context_create([
+                        'http' => [
+                            'method' => 'GET',
+                            'header' => 'apikey: ' . $apiKey,
+                        ]
+                    ]);
+                    $response = file_get_contents($api_url, false, $context);
+                } else {
+                    $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=EUR&symbols=" . $codes;
+                    $response = file_get_contents($api_url);
+                }
+
                 $apiData = json_decode($response, true);
 
                 $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];

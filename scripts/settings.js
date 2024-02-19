@@ -490,6 +490,8 @@ function addFixerKeyButton() {
       if (data.success) {
           showSuccessMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
+          // update currency exchange rates
+          fetch("endpoints/currency/update_exchange.php?force=true");
       } else {
           showErrorMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
