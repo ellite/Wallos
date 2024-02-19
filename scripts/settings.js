@@ -522,7 +522,7 @@ function saveNotificationsButton() {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/save.php', {
+  fetch('endpoints/notifications/save.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -562,7 +562,7 @@ function testNotificationButton()  {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/sendtestmail.php', {
+  fetch('endpoints/notifications/sendtestmail.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -589,25 +589,25 @@ function switchTheme() {
   darkThemeCss.disabled = !darkThemeCss.disabled;
 
   const themeChoice = darkThemeCss.disabled ? 'light' : 'dark';
-  document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+  document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 }
 
 function setShowMonthlyPriceCookie() {
   const showMonthlyPriceCheckbox = document.querySelector("#monthlyprice");
   const value = showMonthlyPriceCheckbox.checked;
-  document.cookie = `showMonthlyPrice=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+  document.cookie = `showMonthlyPrice=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 }
 
 function setConvertCurrencyCookie() {
   const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
   const value = convertCurrencyCheckbox.checked;
-  document.cookie = `convertCurrency=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+  document.cookie = `convertCurrency=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 }
 
 function setRemoveBackgroundCookie() {
   const removeBackgroundCheckbox = document.querySelector("#removebackground");
   const value = removeBackgroundCheckbox.checked;
-  document.cookie = `removeBackground=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+  document.cookie = `removeBackground=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 }
 
 function exportToJson() {

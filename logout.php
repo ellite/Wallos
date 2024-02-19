@@ -12,8 +12,8 @@
     $_SESSION = array();
     session_destroy();
     $cookieExpire = time() - 3600;
-    setcookie('wallos_login', '', $cookieExpire, '/');
+    setcookie('wallos_login', '', $cookieExpire);
     $db->close();
-    header("Location: /");
+    header("Location: .");
     exit();
 ?>
