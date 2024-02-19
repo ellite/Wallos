@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/ellite/Wallos/compare/v1.2.0...v1.3.0) (2024-02-19)
+
+
+### Features
+
+* add apilayer as provider for fixer api ([0f19dd6](https://github.com/ellite/Wallos/commit/0f19dd688fe3a2156e7d26d1bf1e1f8b30ce79ad))
+* add apilayer as provider for fixer api ([#127](https://github.com/ellite/Wallos/issues/127)) ([0f19dd6](https://github.com/ellite/Wallos/commit/0f19dd688fe3a2156e7d26d1bf1e1f8b30ce79ad))
+* update exchange rate when saving api key ([0f19dd6](https://github.com/ellite/Wallos/commit/0f19dd688fe3a2156e7d26d1bf1e1f8b30ce79ad))
+
 ## [1.2.0](https://github.com/ellite/Wallos/compare/v1.1.0...v1.2.0) (2024-02-19)
 
 
