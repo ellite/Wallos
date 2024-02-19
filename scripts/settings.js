@@ -477,12 +477,13 @@ function addFixerKeyButton() {
   document.getElementById("addFixerKey").disabled = true;
   const apiKeyInput = document.querySelector("#fixerKey");
   apiKey = apiKeyInput.value.trim();
+  const provider = document.querySelector("#fixerProvider").value;
   fetch("endpoints/currency/fixer_api_key.php", {
     method: "POST",
     headers: {
         "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `api_key=${encodeURIComponent(apiKey)}`,
+    body: `api_key=${encodeURIComponent(apiKey)} & provider=${encodeURIComponent(provider)}`,
   })
   .then(response => response.json())
   .then(data => {

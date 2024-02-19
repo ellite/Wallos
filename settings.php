@@ -405,12 +405,15 @@
 
     <?php
         $apiKey = "";
-        $sql = "SELECT api_key FROM fixer";
+        $sql = "SELECT api_key, provider FROM fixer";
         $result = $db->query($sql);
         if ($result) {
             $row = $result->fetchArray(SQLITE3_ASSOC);
             if ($row) {
                 $apiKey = $row['api_key'];
+                $provider = $row['provider'];
+            } else {
+                $provider = 0;
             }
         }
     ?>
@@ -423,16 +426,32 @@
             <div class="form-group">
                 <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>" placeholder="<?= translate('api_key', $i18n) ?>">
             </div>
+            <div class="form-group">
+                 <label for="fixerProvider"><?= translate('provider', $i18n) ?>:</label>
+                <select name="fixer-provider" id="fixerProvider">
+                    <option value="0" <?= $provider == 0 ? 'selected' : '' ?>>fixer.io</option>
+                    <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
+                </select>
+            </div>
             <div class="settings-notes">
                 <p><i class="fa-solid fa-circle-info"></i><?= translate('fixer_info', $i18n) ?></p>
                 <p><?= translate('get_key', $i18n) ?>: 
                     <span>
                         https://fixer.io/ 
-                        <a href="https://fixer.io/#pricing_plan" title="Get free fixer api key" target="_blank">
+                        <a href="https://fixer.io/#pricing_plan" title="<?= translate("get_free_fixer_api_key", $i18n) ?>" target="_blank">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </span>
-                </p>    
+                </p>
+                <p>
+                    <?= translate("get_key_alternative", $i18n) ?>
+                    <span>
+                        https://apilayer.com
+                        <a href="https://apilayer.com/marketplace/fixer-api" title="Get free fixer api key" target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                </p>
             </div>
             <div class="buttons">
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()"/>
