@@ -4,6 +4,13 @@ require_once '../../includes/connect_endpoint.php';
 
 session_start();
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('session_expired', $i18n)
+    ]));
+}
+
 require_once '../../includes/getdbkeys.php';
 
 $query = "SELECT * FROM subscriptions";
