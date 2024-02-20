@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/ellite/Wallos/compare/v1.3.0...v1.3.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* missing authentication check ([#133](https://github.com/ellite/Wallos/issues/133)) ([b887d3a](https://github.com/ellite/Wallos/commit/b887d3a0503585dadde4b1b59b023c981b0f7f66))
+
 ## [1.3.0](https://github.com/ellite/Wallos/compare/v1.2.0...v1.3.0) (2024-02-19)
 
 
