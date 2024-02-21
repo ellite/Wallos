@@ -1,6 +1,7 @@
 <?php
     require_once 'includes/header.php';
 ?>
+
 <section class="contain settings">
     <section class="account-section">
         <header>
@@ -465,22 +466,17 @@
         </header>
         <div class="account-settings-list">
             <div>
-                <input type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()">
+                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()">
             </div>
-            <?php
-                $monthlyprice = isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true';
-                $convertcurrency = isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true';
-                $removebackground = isset($_COOKIE['removeBackground']) && $_COOKIE['removeBackground'] === 'true';
-            ?>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPriceCookie()" <?php if ($monthlyprice) echo 'checked'; ?>>
+                    <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPrice()" <?php if ($settings['monthly_price']) echo 'checked'; ?>>
                     <label for="monthlyprice"><?= translate('calculate_monthly_price', $i18n) ?></label>
                 </div>
             </div>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrencyCookie()" <?php if ($convertcurrency) echo 'checked'; ?>>
+                    <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrency()" <?php if ($settings['convert_currency']) echo 'checked'; ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
                 </div>
             </div>
@@ -494,7 +490,7 @@
         <div class="account-settings-list">
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="removebackground" name="removebackground" onChange="setRemoveBackgroundCookie()" <?php if ($removebackground) echo 'checked'; ?>>
+                    <input type="checkbox" id="removebackground" name="removebackground" onChange="setRemoveBackground()" <?php if ($settings['remove_background']) echo 'checked'; ?>>
                     <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
                 </div>
             </div>

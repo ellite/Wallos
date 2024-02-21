@@ -593,24 +593,67 @@ function switchTheme() {
 
   const themeChoice = darkThemeCss.disabled ? 'light' : 'dark';
   document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  const button = document.getElementById("switchTheme");
+  button.disabled = true;
+
+  fetch('endpoints/settings/theme.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({theme: themeChoice === 'dark'})
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+      button.disabled = false;
+  }).catch(error => {
+      button.disabled = false;
+  });
 }
 
-function setShowMonthlyPriceCookie() {
+function storeSettingsOnDB(endpoint, value) {
+  fetch('endpoints/settings/' + endpoint + '.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"value": value})
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+  });
+}
+
+function setShowMonthlyPrice() {
   const showMonthlyPriceCheckbox = document.querySelector("#monthlyprice");
   const value = showMonthlyPriceCheckbox.checked;
-  document.cookie = `showMonthlyPrice=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  storeSettingsOnDB('monthly_price', value);
 }
 
-function setConvertCurrencyCookie() {
+function setConvertCurrency() {
   const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
   const value = convertCurrencyCheckbox.checked;
-  document.cookie = `convertCurrency=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  storeSettingsOnDB('convert_currency', value);
 }
 
-function setRemoveBackgroundCookie() {
+function setRemoveBackground() {
   const removeBackgroundCheckbox = document.querySelector("#removebackground");
   const value = removeBackgroundCheckbox.checked;
-  document.cookie = `removeBackground=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  storeSettingsOnDB('remove_background', value);
 }
 
 function exportToJson() {
