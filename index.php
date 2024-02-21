@@ -195,11 +195,6 @@
             </div>
           </div>
 
-          <div class="form-group-inline">
-            <input type="checkbox" id="inactive" name="inactive">
-            <label for="inactive"><?= translate('inactive', $i18n) ?></label>
-          </div>
-
           <div class="form-group">
             <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
             <select id="payment_method" name="payment_method_id">
@@ -250,6 +245,11 @@
 
           <div class="form-group">
             <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
+          </div>
+
+          <div class="form-group-inline">
+            <input type="checkbox" id="inactive" name="inactive">
+            <label for="inactive"><?= translate('inactive', $i18n) ?></label>
           </div>
 
           <?php
