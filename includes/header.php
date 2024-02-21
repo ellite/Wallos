@@ -8,6 +8,8 @@
   require_once 'i18n/getlang.php';
   require_once 'i18n/' . $lang . '.php';
 
+  require_once 'getsettings.php';
+
   require_once 'version.php';
 
   if ($userCount == 0) {
@@ -17,8 +19,8 @@
   }
 
   $theme = "light";
-  if (isset($_COOKIE['theme'])) {
-    $theme = $_COOKIE['theme'];
+  if (isset($settings['theme'])) {
+    $theme = $settings['theme'];
   }
 
 ?>
