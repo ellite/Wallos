@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.0](https://github.com/ellite/Wallos/compare/v1.3.1...v1.4.0) (2024-02-21)
+
+
+### Features
+
+* persist display and experimental settings on the db ([f0a6f1a](https://github.com/ellite/Wallos/commit/f0a6f1a2f18b329c9f784a9f1953cd0e7616e1c6))
+* small styles changed ([f0a6f1a](https://github.com/ellite/Wallos/commit/f0a6f1a2f18b329c9f784a9f1953cd0e7616e1c6))
+
 ## [1.3.1](https://github.com/ellite/Wallos/compare/v1.3.0...v1.3.1) (2024-02-20)
 
 
