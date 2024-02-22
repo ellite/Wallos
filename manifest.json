@@ -13,13 +13,13 @@
             "sizes": "512x512"
         },
         {
-            "src": "images/icon/android-chrome-192x192.png",
+            "src": "images/icon/maskable_icon_x192.png",
             "type": "image/png",
             "sizes": "192x192",
             "purpose": "maskable"
         },
         {
-            "src": "/images/icon/android-chrome-512x512.png",
+            "src": "/images/icon/maskable_icon_x512.png",
             "type": "image/png",
             "sizes": "512x512",
             "purpose": "maskable"
