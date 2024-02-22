@@ -5,7 +5,7 @@
   include_once 'includes/list_subscriptions.php';
 
   $sort = "next_payment";
-  $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC";
+  $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
     $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
@@ -14,7 +14,7 @@
       $order = "DESC";
     }
     if (in_array($sort, $allowedSortCriteria)) {
-      $sql = "SELECT * FROM subscriptions ORDER BY $sort $order";
+      $sql = "SELECT * FROM subscriptions ORDER BY $sort $order, inactive ASC";
     }
   }
         
