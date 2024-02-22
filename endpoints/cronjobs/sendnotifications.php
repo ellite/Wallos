@@ -4,7 +4,7 @@
     use PHPMailer\PHPMailer\Exception;
 
     require_once 'conf.php';
-    require_once $webPath . 'includes/connect_endpoint.php';
+    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
 
     $query = "SELECT * FROM notifications WHERE id = 1";
     $result = $db->query($query);
