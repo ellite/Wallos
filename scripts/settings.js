@@ -483,7 +483,7 @@ function addFixerKeyButton() {
     headers: {
         "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `api_key=${encodeURIComponent(apiKey)} & provider=${encodeURIComponent(provider)}`,
+    body: `api_key=${encodeURIComponent(apiKey)}&provider=${encodeURIComponent(provider)}`,
   })
   .then(response => response.json())
   .then(data => {
