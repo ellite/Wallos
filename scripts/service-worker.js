@@ -7,6 +7,7 @@ self.addEventListener('install', function(event) {
                 '/stats.php',
                 '/settings.php',
                 '/about.php',
+                '/endpoints/subscriptions/get.php',
                 '/styles/styles.css',
                 '/styles/dark-theme.css',
                 '/styles/font.css',
@@ -28,6 +29,7 @@ self.addEventListener('install', function(event) {
                 '/scripts/i18n/zh_cn.js',
                 '/scripts/i18n/zh_tw.js',
                 '/scripts/i18n/getlang.js',
+                '/images/*',
             ]);
         })
     );
