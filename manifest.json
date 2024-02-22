@@ -27,6 +27,36 @@
     ],
     "start_url": "/",   
     "id": "com.wallos.app",
+    "shortcuts": [
+        {
+          "name": "Subscriptions",
+          "short_name": "Subscriptions",
+          "description": "View your subscriptions",
+          "url": "index.php",
+          "icons": [{ "src": "images/siteicons/subscription.png", "sizes": "48x48" }]
+        },
+        {
+          "name": "Stats",
+          "short_name": "Stats",
+          "description": "View your statistics",
+          "url": "stats.php",
+          "icons": [{ "src": "images/siteicons/stats.png", "sizes": "48x48" }]
+        },
+        {
+          "name": "Settings",
+          "short_name": "Settings",
+          "description": "Change your settings",
+          "url": "settings.php",
+          "icons": [{ "src": "images/siteicons/settings.png", "sizes": "48x48" }]
+        },
+        {
+          "name": "About",
+          "short_name": "About",
+          "description": "More info about Wallos",
+          "url": "about.php",
+          "icons": [{ "src": "images/siteicons/about.png", "sizes": "48x48" }]
+        }
+      ],
     "background_color": "#FFFFFF",
     "display": "standalone",
     "scope": "/",
