@@ -30,9 +30,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         if (isset($_GET['memberId']) && $_GET['memberId'] != "" && isset($_GET['name']) && $_GET['name'] != "") {
             $memberId = $_GET['memberId'];
             $name = validate($_GET['name']);
-            $sql = "UPDATE household SET name = :name WHERE id = :memberId";
+            $email = $_GET['email'] ? $_GET['email'] : "";
+            $email = validate($email);
+            $sql = "UPDATE household SET name = :name, email = :email WHERE id = :memberId";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
+            $stmt->bindParam(':email', $email, SQLITE3_TEXT);
             $stmt->bindParam(':memberId', $memberId, SQLITE3_INTEGER);
             $result = $stmt->execute();
 

@@ -119,6 +119,13 @@
                     ?>
                     <div class="form-group-inline" data-memberid="<?= $member['id'] ?>">
                         <input type="text" name="member" value="<?= $member['name'] ?>" placeholder="Member">
+                        <?php
+                            if ($member['id'] !== 1) {
+                        ?>
+                            <input type="text" name="email" value="<?= $member['email'] ?? "" ?>" placeholder="<?= translate("email", $i18n) ?>">
+                        <?php
+                            }
+                        ?>
                         <button class="image-button medium"  onClick="editMember(<?= $member['id'] ?>)" name="save">
                             <img src="images/siteicons/save.png" title="<?= translate('save_member', $i18n) ?>">
                         </button>
