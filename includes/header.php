@@ -33,7 +33,7 @@
   <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
   <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
   <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
   <link rel="stylesheet" href="styles/styles.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow:300,400,500,600,700">
