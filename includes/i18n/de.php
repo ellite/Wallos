@@ -96,6 +96,7 @@ $i18n = [
     "delete_member"   => "Mitglied löschen",
     "cant_delete_member" => "Hauptmitglied kann nicht gelöscht werden",
     "cant_delete_member_in_use" => "Mitglied mit Abonnement kann nicht gelöscht werden",
+    'household_info'  => "Über das E-Mail-Feld können die Haushaltsmitglieder über auslaufende Abonnements benachrichtigt werden.",
     "notifications"   => "Benachrichtigungen",
     "enable_email_notifications" => "E-Mail Benachrichtigung aktivieren",
     "notify_me"       => "Benachrichtige mich",

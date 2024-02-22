@@ -96,6 +96,7 @@ $i18n = [
     "delete_member"   => "Apagar Membro",
     "cant_delete_member" => "Não pode apagar o membro principal",
     "cant_delete_member_in_use" => "Não pode apagar membro em uso em subscrição",
+    "household_info" => "O campo E-mail permite que os membros do agregado sejam notificados das subscrições que estão prestes a expirar.",
     "notifications"   => "Notificações",
     "enable_email_notifications" => "Activar notificações por email",
     "notify_me"       => "Notificar-me",

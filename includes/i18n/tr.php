@@ -96,6 +96,7 @@ $i18n = [
     "delete_member" => "Üyeyi Sil",
     "cant_delete_member" => "Ana üyeyi silemezsiniz",
     "cant_delete_member_in_use" => "Abonelikte kullanılan üyeyi silemezsiniz",
+    "household_info" => "E-posta alanı, hane üyelerinin süresi dolmak üzere olan aboneliklerden haberdar edilmesini sağlar.",
     "notifications" => "Bildirimler",
     "enable_email_notifications" => "E-posta bildirimlerini etkinleştir",
     "notify_me" => "Beni bilgilendir",

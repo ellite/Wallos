@@ -149,6 +149,11 @@
                 }
             ?>
             </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('household_info', $i18n) ?></p>
+                <p>
+            </div>
             <div class="buttons">
                 <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"/>
             </div>
