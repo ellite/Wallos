@@ -29,7 +29,7 @@ self.addEventListener('install', function(event) {
                 'scripts/i18n/getlang.js',
                 'images/icon/favicon.ico',
                 'images/wallossolid.png',
-                'images/icon/wallossolidwhite.png',
+                'images/wallossolidwhite.png',
             ]);
         })
     );
