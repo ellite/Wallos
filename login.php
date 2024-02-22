@@ -75,7 +75,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#FFFFFF"/>
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
