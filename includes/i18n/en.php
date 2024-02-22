@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "Average Monthly Subscription Cost",
     'most_expensive'  => "Most Expensive Subscription Cost",
     'amount_due'      => "Amount due this month",
+    'monthly_savings' => "Monthly Savings (on inactive subscriptions)",
     'split_views'     => "Split Views",
     'category_split'  => "Category Split",
     'household_split' => "Household Split",

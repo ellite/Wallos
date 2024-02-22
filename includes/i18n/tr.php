@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "Ortalama Aylık Abonelik Maliyeti",
     'most_expensive' => "En Pahalı Abonelik Maliyeti",
     'amount_due' => "Bu ay ödenecek miktar",
+    'monthly_savings' => "Aylık Tasarruf (aktif olmayan aboneliklerde)",
     'split_views' => "Bölünmüş Görünümler",
     'category_split' => "Kategori Bölümü",
     'household_split' => "Hane Bölümü",

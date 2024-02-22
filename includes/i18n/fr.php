@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "Coût moyen mensuel de l'abonnement",
     'most_expensive' => "Coût d'abonnement le plus élevé",
     'amount_due' => "Montant dû ce mois-ci",
+    'monthly_savings' => "Économies mensuelles (sur les abonnements inactifs)",
     'split_views' => "Vues partagées",
     'category_split' => "Répartition par catégorie",
     'household_split' => "Répartition du ménage",

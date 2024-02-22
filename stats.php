@@ -81,21 +81,15 @@ $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
 
-
-// Calculate active subscriptions
-$query = "SELECT COUNT(*) AS active_subscriptions FROM subscriptions WHERE inactive = 0";
-$stmt = $db->prepare($query);
-$stmt->bindParam(':criteria', $criteria, SQLITE3_INTEGER);
-$result = $stmt->execute();
-$row = $result->fetchArray(SQLITE3_ASSOC);
-$activeSubscriptions = $row['active_subscriptions'];
-
+$activeSubscriptions = 0;
+$inactiveSubscriptions = 0;
 // Calculate total monthly price
 $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
+$totalSavingsPerMonth = 0;
 
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id FROM subscriptions WHERE inactive = 0";
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive FROM subscriptions";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -112,34 +106,42 @@ if ($result) {
       $payerId = $subscription['payer_user_id'];
       $categoryId = $subscription['category_id'];
       $paymentMethodId = $subscription['payment_method_id'];
+      $inactive = $subscription['inactive'];
       $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
-      $totalCostPerMonth += $price;
-      $memberCost[$payerId]['cost'] += $price;
-      $categoryCost[$categoryId]['cost'] += $price;
-      $paymentMethodCount[$paymentMethodId]['count'] += 1;
-      if ($price > $mostExpensiveSubscription) {
-        $mostExpensiveSubscription = $price;
-      }
 
-      // Calculate ammount due this month
-      $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-      $tomorrow = new DateTime('tomorrow');
-      $endOfMonth = new DateTime('last day of this month');
-  
-      if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
-          $timesToPay = 1;
-          $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
-          $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-          if ($cycle == 1) {
-            $timesToPay = $daysRemaining / $frequency;
-          }
-          if ($cycle == 2) {
-            $weeksInMonth = ceil($daysInMonth / 7);
-            $weeksRemaining = ceil($daysRemaining / 7);
-            $timesToPay = $weeksRemaining / $frequency;
-          }
-          $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
+      if ($inactive == 0) {
+        $activeSubscriptions++;
+        $totalCostPerMonth += $price;
+        $memberCost[$payerId]['cost'] += $price;
+        $categoryCost[$categoryId]['cost'] += $price;
+        $paymentMethodCount[$paymentMethodId]['count'] += 1;
+        if ($price > $mostExpensiveSubscription) {
+          $mostExpensiveSubscription = $price;
+        }
+
+        // Calculate ammount due this month
+        $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
+        $tomorrow = new DateTime('tomorrow');
+        $endOfMonth = new DateTime('last day of this month');
+    
+        if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
+            $timesToPay = 1;
+            $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
+            $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
+            if ($cycle == 1) {
+              $timesToPay = $daysRemaining / $frequency;
+            }
+            if ($cycle == 2) {
+              $weeksInMonth = ceil($daysInMonth / 7);
+              $weeksRemaining = ceil($daysRemaining / 7);
+              $timesToPay = $weeksRemaining / $frequency;
+            }
+            $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
+        }
+      } else {
+        $inactiveSubscriptions++;
+        $totalSavingsPerMonth += $price;
       }
 
     }
@@ -185,6 +187,20 @@ $numberOfElements = 6;
       <div class="title"><?= translate('amount_due', $i18n) ?></div>
     </div>
     <?php
+      if ($inactiveSubscriptions > 0) {
+        $numberOfElements = 8;
+        ?>
+          <div class="statistic">
+            <span><?= $inactiveSubscriptions ?></span>
+            <div class="title"><?= translate('inactive_subscriptions', $i18n) ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
+            <div class="title"><?= translate('monthly_savings', $i18n) ?></div>
+          </div>
+        <?php
+      }
+
       if (($numberOfElements + 1) % 3 == 0) {
         ?>
           <div class="statistic empty"></div>

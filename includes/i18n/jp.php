@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "月額平均費用",
     'most_expensive'  => "最も高額な定期購入費用",
     'amount_due'      => "今月の支払額",
+    'monthly_savings' => "月間節約 (非アクティブな定期購入)",
     'split_views'     => "分割表示",
     'category_split'  => "カテゴリ別",
     'household_split' => "世帯別",
