@@ -2,12 +2,6 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('my-cache').then(function(cache) {
             return cache.addAll([
-                '.',
-                'index.php',
-                'stats.php',
-                'settings.php',
-                'about.php',
-                'endpoints/subscriptions/get.php',
                 'styles/styles.css',
                 'styles/dark-theme.css',
                 'styles/login.css',
