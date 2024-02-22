@@ -1,0 +1,21 @@
+{
+    "short_name": "Wallos",
+    "name": "Wallos",
+    "icons": [
+        {
+            "src": "images/icon/android-chrome-192x192",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/images/icon/android-chrome-512x512",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#FFFFFF",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#007bff"
+}
