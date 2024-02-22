@@ -14,6 +14,7 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Baremetal](#baremetal-1)
       - [Updating](#updating)
     - [Docker](#docker-1)
+    - [Zeabur](#deploy-to-zeabur)
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -92,6 +93,12 @@ docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 -e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
 bellamy/wallos:latest
 ```
+
+#### Deploy to Zeabur
+
+Click on the button below to deploy Wallos on Zeabur.
+
+[![Deploy on Zeabur](https://zeabur.com/button.svg)](https://zeabur.com/templates/ELBR4V)
 
 ### Docker Compose
 
