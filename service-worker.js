@@ -2,9 +2,20 @@ self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('my-cache').then(function(cache) {
             return cache.addAll([
+                '.',
+                'index.php',
+                'settings.php',
+                'stats.php',
+                'about.php',
+                'endpoints/subscriptions/get.php',
+                'manifest.json',
                 'styles/styles.css',
                 'styles/dark-theme.css',
                 'styles/login.css',
+                'styles/font-awesome.min.css',
+                'styles/barlow.css',
+                'webfonts/fa-solid-900.woff2',
+                'webfonts/fa-solid-900.ttf',
                 'scripts/common.js',
                 'scripts/dashboard.js',
                 'scripts/stats.js',
@@ -21,18 +32,65 @@ self.addEventListener('install', function(event) {
                 'scripts/i18n/zh_cn.js',
                 'scripts/i18n/zh_tw.js',
                 'scripts/i18n/getlang.js',
+                'scripts/libs/chart.js',
                 'images/icon/favicon.ico',
                 'images/wallossolid.png',
                 'images/wallossolidwhite.png',
+                'images/siteimages/empty.png',
+                'images/avatars/1.svg',
+                'images/avatars/2.svg',
+                'images/avatars/3.svg',
+                'images/avatars/4.svg',
+                'images/avatars/5.svg',
+                'images/avatars/6.svg',
+                'images/avatars/7.svg',
+                'images/avatars/8.svg',
+                'images/avatars/9.svg',
+                'images/siteicons/edit.png',
+                'images/siteicons/websearch.png',
+                'images/siteicons/save.png',
+                'images/siteicons/delete.png',
+                'images/uploads/icons/paypal.png',
+                'images/uploads/icons/creditcard.png',
+                'images/uploads/icons/banktransfer.png',
+                'images/uploads/icons/directdebit.png',
+                'images/uploads/icons/money.png',
+                'images/uploads/icons/googlepay.png',
+                'images/uploads/icons/samsungpay.png',
+                'images/uploads/icons/applepay.png',
+                'images/uploads/icons/crypto.png',
+                'images/uploads/icons/klarna.png',
+                'images/uploads/icons/amazonpay.png',
+                'images/uploads/icons/sepa.png',
+                'images/uploads/icons/skrill.png',
+                'images/uploads/icons/sofort.png',
+                'images/uploads/icons/stripe.png',
+                'images/uploads/icons/affirm.png',
+                'images/uploads/icons/alipay.png',
+                'images/uploads/icons/elo.png',
+                'images/uploads/icons/facebookpay.png',
+                'images/uploads/icons/giropay.png',
+                'images/uploads/icons/ideal.png',
+                'images/uploads/icons/unionpay.png',
+                'images/uploads/icons/interac.png',
+                'images/uploads/icons/wechat.png',
+                'images/uploads/icons/paysafe.png',
+                'images/uploads/icons/poli.png',
+                'images/uploads/icons/qiwi.png',
+                'images/uploads/icons/shoppay.png',
+                'images/uploads/icons/venmo.png',
+                'images/uploads/icons/verifone.png',
+                'images/uploads/icons/webmoney.png',
             ]);
         })
     );
 });
 
+
 self.addEventListener('fetch', function(event) {
     event.respondWith(
-        caches.match(event.request, { redirect: 'follow' }).then(function(response) {
-            return response || fetch(event.request);
+        fetch(event.request, { redirect: 'follow' }).catch(function() {
+            return caches.match(event.request);
         })
     );
 });
