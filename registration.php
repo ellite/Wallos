@@ -99,7 +99,6 @@ if (isset($_POST['username'])) {
         <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow:300,400,500,600,700">
         <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
-        <script type="text/javascript" src="scripts/all.js?<?= $version ?>"></script>
     </head>
     <body>
         <div class="content">

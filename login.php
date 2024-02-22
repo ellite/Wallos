@@ -83,7 +83,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow:300,400,500,600,700">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
-    <script type="text/javascript" src="scripts/all.js?<?= $version ?>"></script>
 </head>
 <body>
     <div class="content">
