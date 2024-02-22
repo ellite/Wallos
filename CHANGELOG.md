@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/ellite/Wallos/compare/v1.4.0...v1.4.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* bug on saving fixer api key ([#142](https://github.com/ellite/Wallos/issues/142)) ([866eb28](https://github.com/ellite/Wallos/commit/866eb28e88495e851336b5e224274a823ff4173d))
+
 ## [1.4.0](https://github.com/ellite/Wallos/compare/v1.3.1...v1.4.0) (2024-02-21)
 
 
