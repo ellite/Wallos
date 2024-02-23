@@ -299,18 +299,6 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM payment_methods";
-        $result = $db->query($sql);
-
-        if ($result) {
-            $payments = array();
-            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-                $payments[] = $row;
-            }
-        }
-    ?>
-
-    <?php
         $sql = "SELECT * FROM currencies";
         $result = $db->query($sql);
 
@@ -471,6 +459,18 @@
             </div>
         </div>
     </section>
+
+    <?php
+        $sql = "SELECT * FROM payment_methods";
+        $result = $db->query($sql);
+
+        if ($result) {
+            $payments = array();
+            while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+                $payments[] = $row;
+            }
+        }
+    ?>
 
     <section class="account-section">
         <header>
