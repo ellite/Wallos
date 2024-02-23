@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/ellite/Wallos/compare/v1.4.1...v1.5.0) (2024-02-23)
+
+
+### Features
+
+* allow to disable subscriptions ([#144](https://github.com/ellite/Wallos/issues/144)) ([50056d9](https://github.com/ellite/Wallos/commit/50056d9f03a46c166650474b3877b55a24873bb9))
+
 ## [1.4.1](https://github.com/ellite/Wallos/compare/v1.4.0...v1.4.1) (2024-02-22)
 
 
