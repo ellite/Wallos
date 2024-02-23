@@ -63,13 +63,6 @@
             });
         }
 
-        usort($subscriptions, function ($a, $b) {
-           if ($a['inactive'] == $b['inactive']) {
-               return 0;
-           }
-           return $a['inactive'] ? 1 : -1;
-        });
-
         $currentCategory = 0;
         $currentPayerUserId = 0;
         $currentPaymentMethodId = 0;

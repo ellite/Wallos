@@ -36,6 +36,7 @@ $i18n = [
     'last_added'      => "建立時間",
     'price'           => "價格",
     'next_payment'    => "下次付款時間",
+    'inactive'        => "停用訂閱",
     'member'          => "成員",
     'category'        => "分類",
     'payment_method'  => "付款方式",
@@ -75,6 +76,7 @@ $i18n = [
     // 統計頁面
     'general_statistics' => "整體統計",
     'active_subscriptions' => "訂閱中",
+    'inactive_subscriptions' => "停用訂閱",
     'monthly_cost'    => "每月費用",
     'yearly_cost'     => "每年費用",
     'average_monthly' => "平均每月訂閱費用",

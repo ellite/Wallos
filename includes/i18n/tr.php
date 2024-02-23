@@ -33,6 +33,7 @@ $i18n = [
     'last_added' => "Son Eklenen",
     'price' => "Fiyat",
     'next_payment' => "Sonraki Ödeme",
+    'inactive' => "Aboneliği Devre Dışı Bırak",
     'member' => "Üye",
     'category' => "Kategori",
     'payment_method' => "Ödeme Yöntemi",
@@ -70,6 +71,7 @@ $i18n = [
     // Statistics page
     'general_statistics' => "Genel İstatistikler",
     'active_subscriptions' => "Aktif Abonelikler",
+    'inactive_subscriptions' => "Aktif Olmayan Abonelikler",
     'monthly_cost' => "Aylık Maliyet",
     'yearly_cost' => "Yıllık Maliyet",
     'average_monthly' => "Ortalama Aylık Abonelik Maliyeti",

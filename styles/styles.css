@@ -202,10 +202,11 @@ main > .contain {
 }
 
 .subscription.inactive {
-  color: #808080;
+  opacity: 0.6;
+}
+
+.subscription.inactive span.price {
   text-decoration: line-through;
-  font-style: italic;
-  background-color: #F8F8FF;
 }
 
 .subscription-main {
@@ -955,6 +956,7 @@ input[type="checkbox"] {
   display: none;
   width: 144px;
   width: max-content;
+  z-index: 2;
 }
 
 @media (max-width: 380px) {
