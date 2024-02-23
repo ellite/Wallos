@@ -64,10 +64,10 @@
         }
 
         usort($subscriptions, function ($a, $b) {
-           if ($a['activated'] == $b['activated']) {
+           if ($a['inactive'] == $b['inactive']) {
                return 0;
            }
-           return $a['activated'] ? -1 : 1;
+           return $a['inactive'] ? 1 : -1;
         });
 
         $currentCategory = 0;
@@ -99,7 +99,7 @@
                 $currentPaymentMethodId = $subscription['payment_method_id'];
             }
         ?>
-            <div class="subscription<?= $subscription['activated'] ? '' : ' inactive' ?>" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
+            <div class="subscription<?= $subscription['inactive'] ? ' inactive' : '' ?>" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                 <div class="subscription-main">
                     <span class="logo"><img src="<?= $subscription['logo'] ?>"></span>
                     <span class="name"><?= $subscription['name'] ?></span>

@@ -72,7 +72,7 @@ $code = $row['code'];
 
 
 // Calculate active subscriptions
-$query = "SELECT COUNT(*) AS active_subscriptions FROM subscriptions WHERE activated = true";
+$query = "SELECT COUNT(*) AS active_subscriptions FROM subscriptions WHERE inactive = 0";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':criteria', $criteria, SQLITE3_INTEGER);
 $result = $stmt->execute();
@@ -80,7 +80,7 @@ $row = $result->fetchArray(SQLITE3_ASSOC);
 $activeSubscriptions = $row['active_subscriptions'];
 
 // Calculate inactive subscriptions
-$query = "SELECT COUNT(*) AS inactive_subscriptions FROM subscriptions WHERE activated = false";
+$query = "SELECT COUNT(*) AS inactive_subscriptions FROM subscriptions WHERE inactive = 1";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
 $result = $stmt->execute();
@@ -92,7 +92,7 @@ $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions WHERE activated = true";
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions WHERE inactive = 0";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
