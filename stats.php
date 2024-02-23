@@ -60,6 +60,17 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categoryCost[$categoryId]['name'] = $row['name'];
 }
 
+// Get payment methods
+$categories = array();
+$query = "SELECT * FROM payment_methods WHERE enabled = 1";
+$result = $db->query($query);
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $paymentMethodId = $row['id'];
+    $paymentMethodCount[$paymentMethodId] = $row;
+    $paymentMethodCount[$paymentMethodId]['count'] = 0;
+    $paymentMethodCount[$paymentMethodId]['name'] = $row['name'];
+}
+
 // Get code of main currency to display on statistics
 $query = "SELECT c.code
           FROM currencies c
@@ -108,11 +119,13 @@ if ($result) {
       $next_payment = $subscription['next_payment'];
       $payerId = $subscription['payer_user_id'];
       $categoryId = $subscription['category_id'];
+      $paymentMethodId = $subscription['payment_method_id'];
       $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
       $totalCostPerMonth += $price;
       $memberCost[$payerId]['cost'] += $price;
       $categoryCost[$categoryId]['cost'] += $price;
+      $paymentMethodCount[$paymentMethodId]['count'] += 1;
       if ($price > $mostExpensiveSubscription) {
         $mostExpensiveSubscription = $price;
       }
@@ -224,6 +237,18 @@ if ($result) {
 
         $showMemberCostGraph = count($memberDataPoints) > 1;
 
+        $paymentMethodDataPoints = [];
+        foreach ($paymentMethodCount as $paymentMethod) {
+          if ($paymentMethod['count'] != 0) {
+            $paymentMethodDataPoints[] = [
+                "label" => $paymentMethod['name'],
+                "y"     => $paymentMethod["count"],
+            ];
+          }
+        }
+
+        $showPaymentMethodCountGraph = count($paymentMethodDataPoints) > 1;
+
         if ($showMemberCostGraph) {
           ?>
           <section class="graph">
@@ -248,6 +273,17 @@ if ($result) {
           <?php
         }
 
+        if ($showPaymentMethodCountGraph) {
+          ?>
+          <section class="graph">
+            <header>
+              <?= translate('payment_method_split', $i18n) ?>
+            </header>
+            <canvas id="paymentMethidSplitChart" style="height: 370px; width: 100%;"></canvas>
+          </section>
+          <?php
+        }
+
       ?>
   </div>
 </section>
@@ -259,6 +295,7 @@ if ($result) {
       window.onload = function() {
         loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
         loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);
+        loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showPaymentMethodCountGraph ?>);
       }
     </script>
     <?php

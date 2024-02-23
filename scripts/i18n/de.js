@@ -7,6 +7,7 @@ let i18n = {
   failed_to_load_subscription: "Fehler beim Laden des Abonnements",
   edit_subscription: "Abonnement bearbeiten",
   add_subscription: "Abonnement hinzufügen",
+  confirm_delete_subscription: "Sind Sie sicher, dass Sie dieses Abonnement löschen möchten?",
   // Settings
   network_response_error: "Netzwerkfehler",
   failed_add_member: "Hinzufügen von Mitglied fehlgeschlagen",

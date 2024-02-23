@@ -147,7 +147,7 @@ function handleFileSelect(event) {
 }
 
 function deleteSubscription(id) {
-  if (confirm("Are you sure you want to delete this subscription?")) {
+  if (confirm(translate('confirm_delete_subscription'))) {
     fetch(`endpoints/subscription/delete.php?id=${id}`, {
       method: 'DELETE',
     })
@@ -268,7 +268,7 @@ function setSortOption(sortOption) {
   const daysToExpire = 30;
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + daysToExpire);
-  const cookieValue = encodeURIComponent(sortOption) + '; expires=' + expirationDate.toUTCString() + '; path=/';
+  const cookieValue = encodeURIComponent(sortOption) + '; expires=' + expirationDate.toUTCString();
   document.cookie = 'sortOrder=' + cookieValue;
   fetchSubscriptions();
   toggleSortOptions();

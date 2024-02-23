@@ -7,6 +7,7 @@ let i18n = {
   failed_to_load_subscription: "Απέτυχε η φόρτωση της συνδρομής",
   edit_subscription: "Επεξεργασία συνδρομής",
   add_subscription: "Προσθήκη συνδρομής",
+  confirm_delete_subscription: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη συνδρομή;",
   // Settings
   network_response_error: "Η ανταπόκριση του δικτύου δεν ήταν εντάξει",
   failed_add_member: "Αποτυχία προσθήκης μέλους",

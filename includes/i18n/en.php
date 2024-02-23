@@ -45,7 +45,7 @@ $i18n = [
     "weeks"           => "weeks",
     "months"          => "months",
     "years"           => "years",
-    "external_url"    => "Visit Externarl URL",
+    "external_url"    => "Visit External URL",
     "empty_page"      => "Empty Page",
     // Subscription form
     "add_subscription" => "Add subscription",
@@ -80,6 +80,7 @@ $i18n = [
     'split_views'     => "Split Views",
     'category_split'  => "Category Split",
     'household_split' => "Household Split",
+    'payment_method_split' => "Payment Method Split",
     // About page
     'about_and_credits' => "About and Credits",
     'license'         => "License",
@@ -119,8 +120,11 @@ $i18n = [
     "currency_performance" => "For improved performance keep only the currencies you use.",
     "fixer_api_key"   => "Fixer API Key",
     "api_key"         => "API Key",
+    "provider"        => "Provider",
     "fixer_info"      => "If you use multiple currencies, and want accurate statistics and sorting on the subscriptions, a FREE API Key from Fixer is necessary.",
     "get_key"         => "Get your key at",
+    "get_free_fixer_api_key" => "Get free Fixer API Key",
+    "get_key_alternative" => "Alternatively, you can get a free fixer api key from",
     "display_settings" => "Display Settings",
     "switch_theme"    => "Switch Light / Dark Theme",
     "calculate_monthly_price" => "Calculate and show monthly price for all subscriptions",
@@ -136,6 +140,8 @@ $i18n = [
     "test"            => "Test",
     "add"             => "Add",
     "save"            => "Save",
+    "export_subscriptions" => "Export Subscriptions",
+    "export_to_json"  => "Export to JSON",
     // Toast
     "success"         => "Success",
     // Endpoint responses

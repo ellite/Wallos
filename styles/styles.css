@@ -197,7 +197,7 @@ main > .contain {
   background-color: #FFFFFF;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 12px 15px;
-  border-radius: 8px;
+  border-radius: 16px;
   cursor: pointer;
 }
 
@@ -221,6 +221,13 @@ main > .contain {
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  padding: 6px 5px;
+  overflow: hidden;
+}
+
+.subscription-notes {
+  display: none;
+  flex-direction: row;
   padding: 6px 5px;
   overflow: hidden;
 }
@@ -301,6 +308,12 @@ main > .contain {
   cursor: pointer;
 }
 
+.subscription-notes > span {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
 @media (max-width: 768px) {
   .subscription-main > .name {
     display: none;
@@ -317,11 +330,19 @@ main > .contain {
   }
 }
 
-.subscription.is-open .subscription-secondary {
+@media (max-width: 375px) {
+  .subscription-main > .cycle {
+    display: none;
+  }
+}
+
+.subscription.is-open .subscription-secondary,
+.subscription.is-open .subscription-notes {
   display: flex;
 }
 
-.subscription-secondary img {
+.subscription-secondary img,
+.subscription-notes img {
   height: 20px;
   margin-right: 10px;
 }
@@ -355,7 +376,7 @@ main > .contain {
   border: 1px solid #eee;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .account-section header h2 {
@@ -829,7 +850,7 @@ input[type="checkbox"] {
   background-color: #FFFFFF;
   padding: 22px;
   border: 1px solid #EEEEEE;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
   position: fixed;
@@ -1115,7 +1136,7 @@ input[type="checkbox"] {
 .statistic {
   background-color: #FFFFFF;
   border: 1px solid #EEEEEE;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   padding: 20px 24px 30px;
   display: flex;
@@ -1162,7 +1183,7 @@ input[type="checkbox"] {
 .graph {
   background-color: #FFFFFF;
   border: 1px solid #EEEEEE;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   flex-basis: 48%;
   align-items: center;

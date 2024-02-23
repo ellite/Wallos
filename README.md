@@ -93,16 +93,6 @@ docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 bellamy/wallos:latest
 ```
 
-For ARM processors you need to use the tag main
-
-```bash
-docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
--v /path/to/config/wallos/logos:/var/www/html/images/uploads/logos \
--e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
-bellamy/wallos:main
-```
-
-
 ### Docker Compose
 
 ```

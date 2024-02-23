@@ -80,6 +80,7 @@ $i18n = [
     'split_views'     => "Vistas Divididas",
     'category_split'  => "Por Categoria",
     'household_split' => "Por Membro",
+    'payment_method_split' => "Por Método de Pagamento",
     // About page
     'about_and_credits' => "Sobre e Créditos",
     'license'         => "Licença",
@@ -119,8 +120,11 @@ $i18n = [
     "currency_performance" => "Por motivos de desempenho mantenha apenas as moedas que usa.",
     "fixer_api_key"   => "Fixer API Key",
     "api_key"         => "API Key",
+    "provider"        => "Fornecedor",
     "fixer_info"      => "Se usa multiplas moedas e deseja estatísticas correctas é necessário uma API Key grátis do Fixer.",
     "get_key"         => "Obtenha a sua API Key em",
+    "get_free_fixer_api_key" => "Obtenha a sua API Key grátis do Fixer",
+    "get_key_alternative" => "Como alternativa obtenha a sua API Key em",
     "display_settings" => "Definições de visualização",
     "switch_theme"    => "Trocar Tema Claro / Escuro",
     "calculate_monthly_price" => "Calcular e mostrar preço mensal para todas as subscrições",
@@ -136,6 +140,8 @@ $i18n = [
     "test"            => "Testar",
     "add"             => "Adicionar",
     "save"            => "Guardar",
+    "export_subscriptions" => "Exportar Subscrições",
+    "export_to_json"  => "Exportar para JSON",
     // Toast
     "success"         => "Sucesso",
     // Endpoint responses

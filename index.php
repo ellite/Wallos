@@ -89,12 +89,13 @@
             $print[$id]['price'] = floatval($subscription['price']);
             $print[$id]['inactive'] = $subscription['inactive'];
             $print[$id]['url'] = $subscription['url'];
+            $print[$id]['notes'] = $subscription['notes'];
 
-            if (isset($_COOKIE['convertCurrency']) && $_COOKIE['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
+            if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
               $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
               $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
             }
-            if (isset($_COOKIE['showMonthlyPrice']) && $_COOKIE['showMonthlyPrice'] === 'true') {
+            if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
               $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
             }
           }

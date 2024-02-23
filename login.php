@@ -16,7 +16,7 @@ if ($userCount == 0) {
 session_start();
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
-    header("Location: /");
+    header("Location: .");
     exit();
 } 
 
@@ -47,7 +47,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $_SESSION['loggedin'] = true;
             $_SESSION['main_currency'] = $main_currency;
             $cookieExpire = time() + (30 * 24 * 60 * 60);
-            setcookie('language', $language, $cookieExpire, '/');
+            setcookie('language', $language, $cookieExpire);
             if ($rememberMe) {
                 $token = bin2hex(random_bytes(32));
                 $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (?, ?)";
@@ -57,10 +57,10 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 $addLoginTokensStmt->execute();
                 $_SESSION['token'] = $token;
                 $cookieValue = $username . "|" . $token . "|" . $main_currency;
-                setcookie('wallos_login', $cookieValue, $cookieExpire, '/');
+                setcookie('wallos_login', $cookieValue, $cookieExpire);
             }
             $db->close();
-            header("Location: /");
+            header("Location: .");
             exit();
         } else {
             $loginFailed = true;

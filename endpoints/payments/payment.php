@@ -17,7 +17,12 @@ if (!isset($_GET['paymentId']) || !isset($_GET['enabled'])) {
 
 $paymentId = $_GET['paymentId'];
 
-$inUse = $db->querySingle('SELECT COUNT(*) as count FROM subscriptions WHERE payment_method_id=' . $paymentId) === 1;
+$stmt = $db->prepare('SELECT COUNT(*) as count FROM subscriptions WHERE payment_method_id=:paymentId');
+$stmt->bindValue(':paymentId', $paymentId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$row = $result->fetchArray();
+$inUse = $row['count'] === 1;
+
 if ($inUse) {
     die(json_encode([
         "success" => false,

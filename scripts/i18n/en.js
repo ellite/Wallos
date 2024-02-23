@@ -7,6 +7,7 @@ let i18n = {
   failed_to_load_subscription: "Failed to load subscription",
   edit_subscription: "Edit subscription",
   add_subscription: "Add subscription",
+  confirm_delete_subscription: "Are you sure you want to delete this subscription?",
   // Settings
   network_response_error: "Network response was not ok",
   failed_add_member: "Failed to add member",

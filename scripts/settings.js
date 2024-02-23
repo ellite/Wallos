@@ -477,18 +477,21 @@ function addFixerKeyButton() {
   document.getElementById("addFixerKey").disabled = true;
   const apiKeyInput = document.querySelector("#fixerKey");
   apiKey = apiKeyInput.value.trim();
+  const provider = document.querySelector("#fixerProvider").value;
   fetch("endpoints/currency/fixer_api_key.php", {
     method: "POST",
     headers: {
         "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `api_key=${encodeURIComponent(apiKey)}`,
+    body: `api_key=${encodeURIComponent(apiKey)}&provider=${encodeURIComponent(provider)}`,
   })
   .then(response => response.json())
   .then(data => {
       if (data.success) {
           showSuccessMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
+          // update currency exchange rates
+          fetch("endpoints/currency/update_exchange.php?force=true");
       } else {
           showErrorMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
@@ -522,7 +525,7 @@ function saveNotificationsButton() {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/save.php', {
+  fetch('endpoints/notifications/save.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -562,7 +565,7 @@ function testNotificationButton()  {
     fromemail: fromEmail
   };
 
-  fetch('/endpoints/notifications/sendtestmail.php', {
+  fetch('endpoints/notifications/sendtestmail.php', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -589,23 +592,70 @@ function switchTheme() {
   darkThemeCss.disabled = !darkThemeCss.disabled;
 
   const themeChoice = darkThemeCss.disabled ? 'light' : 'dark';
-  document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+  document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  const button = document.getElementById("switchTheme");
+  button.disabled = true;
+
+  fetch('endpoints/settings/theme.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({theme: themeChoice === 'dark'})
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+      button.disabled = false;
+  }).catch(error => {
+      button.disabled = false;
+  });
 }
 
-function setShowMonthlyPriceCookie() {
+function storeSettingsOnDB(endpoint, value) {
+  fetch('endpoints/settings/' + endpoint + '.php', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({"value": value})
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+  });
+}
+
+function setShowMonthlyPrice() {
   const showMonthlyPriceCheckbox = document.querySelector("#monthlyprice");
   const value = showMonthlyPriceCheckbox.checked;
-  document.cookie = `showMonthlyPrice=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+
+  storeSettingsOnDB('monthly_price', value);
 }
 
-function setConvertCurrencyCookie() {
+function setConvertCurrency() {
   const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
   const value = convertCurrencyCheckbox.checked;
-  document.cookie = `convertCurrency=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+
+  storeSettingsOnDB('convert_currency', value);
 }
 
-function setRemoveBackgroundCookie() {
+function setRemoveBackground() {
   const removeBackgroundCheckbox = document.querySelector("#removebackground");
   const value = removeBackgroundCheckbox.checked;
-  document.cookie = `removeBackground=${value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+
+  storeSettingsOnDB('remove_background', value);
+}
+
+function exportToJson() {
+  window.location.href = "endpoints/subscriptions/export.php";
 }

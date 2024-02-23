@@ -85,6 +85,7 @@ $i18n = [
     'split_views'     => "拆分视图",
     'category_split'  => "分类视图",
     'household_split' => "家庭视图",
+    'payment_method_split' => "支付方式视图",
     
     // 关于页面
     'about_and_credits' => "关于和鸣谢",
@@ -126,8 +127,11 @@ $i18n = [
     "currency_performance" => "为提高性能，建议您只保留常用货币。",
     "fixer_api_key"   => "Fixer API 密钥",
     "api_key"         => "API 密钥",
+    "provider"        => "提供商",
     "fixer_info"      => "如果您使用多种货币，希望统计信息和订阅排序更精确，则需要 Fixer API 密钥来查询汇率（可免费申请）。",
     "get_key"         => "申请密钥",
+    "get_free_fixer_api_key" => "申请免费 Fixer API 密钥",
+    "get_key_alternative" => "或者，您也可以从以下网站获取免费的修复程序 api 密钥",
     "display_settings" => "显示设置",
     "switch_theme"    => "切换浅色/深色主题",
     "calculate_monthly_price" => "计算并显示所有订阅的月价格",
@@ -143,6 +147,8 @@ $i18n = [
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
+    "export_subscriptions" => "导出订阅",
+    "export_to_json"  => "导出为 JSON",
     
     // Toast
     "success"         => "成功",
@@ -208,3 +214,5 @@ $i18n = [
     "user_details_saved" => "用户详细信息已保存",
 
 ];
+
+?>

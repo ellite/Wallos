@@ -2,6 +2,7 @@
     error_reporting(E_ERROR | E_PARSE);
     require_once '../../includes/connect_endpoint.php';
     require_once '../../includes/inputvalidation.php';
+    require_once '../../includes/getsettings.php';
     
     session_start();
 
@@ -40,7 +41,7 @@
 
     function saveLogo($imageData, $uploadFile, $name) {
         $image = imagecreatefromstring($imageData);
-        $removeBackground = isset($_COOKIE['removeBackground']) && $_COOKIE['removeBackground'] === 'true';
+        $removeBackground = isset($settings['removeBackground']) && $settings['removeBackground'] === 'true';
         if ($image !== false) {
             $tempFile = tempnam(sys_get_temp_dir(), 'logo');
             imagepng($image, $tempFile);

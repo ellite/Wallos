@@ -5,7 +5,7 @@ function setCookie(name, value, days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + value + expires + "; path=/";
+    document.cookie = name + "=" + value + expires;
 }
 
 function storeFormFieldValue(fieldId) {
@@ -25,7 +25,7 @@ function storeFormFields() {
 
 function restoreFormFieldValue(fieldId) {
     var fieldElement = document.getElementById(fieldId);
-    if (fieldElement) {
+    if (localStorage.getItem(fieldId)) {
         fieldElement.value = localStorage.getItem(fieldId) || '';
     }
 }
@@ -52,7 +52,18 @@ function changeLanguage(selectedLanguage) {
     location.reload();
 }
 
+function runDatabaseMigration() {
+    let url = "endpoints/db/migrate.php";
+    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(translate('network_response_error'));
+        }
+    });
+}
+
 window.onload = function () {
     restoreFormFields();
     removeFromStorage();
+    runDatabaseMigration();
 };

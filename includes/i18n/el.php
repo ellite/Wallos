@@ -80,6 +80,7 @@ $i18n = [
     'split_views'     => "Διαχωρισμένες προβολές",
     'category_split'  => "Διαχωρισμός κατηγορίας",
     'household_split' => "Διαχωρισμός νοικοκυριού",
+    'payment_method_split' => "Διαχωρισμός τρόπου πληρωμής",
     // About page
     'about_and_credits' => "Σχετικά και Credits",
     'license'         => "License",
@@ -119,8 +120,11 @@ $i18n = [
     "currency_performance" => "Για βελτιωμένη απόδοση κράτησε μόνο τα νομίσματα που χρησιμοποιείς.",
     "fixer_api_key"   => "Fixer API κλειδί",
     "api_key"         => "API κλειδί",
+    "provider"        => "Πάροχος",
     "fixer_info"      => "Εάν χρησιμοποιείς πολλαπλά νομίσματα και θέλεις ακριβή στατιστικά στοιχεία και ταξινόμηση των συνδρομών, είναι απαραίτητο ένα ΔΩΡΕΑΝ κλειδί API από το Fixer.",
     "get_key"         => "Απόκτησε το κλειδί στο",
+    "get_free_fixer_api_key" => "Απόκτησε ΔΩΡΕΑΝ Fixer API κλειδί",
+    "get_key_alternative" => "Εναλλακτικά, μπορείτε να λάβετε ένα δωρεάν κλειδί api fixer από το",
     "display_settings" => "Ρυθμίσεις εμφάνισης",
     "switch_theme"    => "Διακόπτης Light / Dark Theme",
     "calculate_monthly_price" => "Υπολογισμός και εμφάνιση της μηνιαίας τιμής για όλες τις συνδρομές",
@@ -136,6 +140,8 @@ $i18n = [
     "test"            => "Δοκιμή",
     "add"             => "Προσθήκη",
     "save"            => "Αποθήκευση",
+    "export_subscriptions" => "Εξαγωγή συνδρομών",
+    "export_to_json"  => "Εξαγωγή σε JSON",
     // Toast
     "success"         => "Επιτυχία",
     // Endpoint responses
