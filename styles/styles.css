@@ -201,6 +201,13 @@ main > .contain {
   cursor: pointer;
 }
 
+.subscription.inactive {
+  color: #808080;
+  text-decoration: line-through;
+  font-style: italic;
+  background-color: #F8F8FF;
+}
+
 .subscription-main {
   display: flex;
   flex-direction: row;

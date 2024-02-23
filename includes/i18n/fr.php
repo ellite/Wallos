@@ -33,6 +33,7 @@ $i18n = [
     'last_added' => "Dernier ajouté",
     'price' => "Prix",
     'next_payment' => "Prochain paiement",
+    'inactive'       => "Abonnement désactivé",
     'member' => "Membre",
     'category' => "Catégorie",
     'payment_method' => "Méthode de paiement",
@@ -70,6 +71,7 @@ $i18n = [
     // Page de statistiques
     'general_statistics' => "Statistiques générales",
     'active_subscriptions' => "Abonnements actifs",
+    'inactive_subscriptions' => "Abonnements inactifs",
     'monthly_cost' => "Coût mensuel",
     'yearly_cost' => "Coût annuel",
     'average_monthly' => "Coût moyen mensuel de l'abonnement",

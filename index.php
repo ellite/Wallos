@@ -87,6 +87,7 @@
             $print[$id]['category_id'] = $subscription['category_id'];
             $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
             $print[$id]['price'] = floatval($subscription['price']);
+            $print[$id]['inactive'] = $subscription['inactive'];
             $print[$id]['url'] = $subscription['url'];
             $print[$id]['notes'] = $subscription['notes'];
 
@@ -192,6 +193,11 @@
                 <input type="date" id="next_payment" name="next_payment" required>
               </div>
             </div>
+          </div>
+
+          <div class="form-group-inline">
+            <input type="checkbox" id="inactive" name="inactive">
+            <label for="inactive"><?= translate('inactive', $i18n) ?></label>
           </div>
 
           <div class="form-group">
