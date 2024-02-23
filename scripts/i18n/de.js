@@ -12,6 +12,7 @@ let i18n = {
   network_response_error: "Netzwerkfehler",
   failed_add_member: "Hinzufügen von Mitglied fehlgeschlagen",
   member: "Mitglied",
+  email: "E-Mail",
   save_member: "Mitglied speichern",
   delete_member: "Mitglied löschen",
   failed_remove_member: "Mitglied konnte nicht gelöscht werden",

@@ -12,6 +12,7 @@ let i18n = {
   network_response_error: "Ağ yanıtı kabul edilmedi",
   failed_add_member: "Üye eklenemedi",
   member: "Üye",
+  email: "E-posta",
   save_member: "Üyeyi Kaydet",
   delete_member: "Üyeyi Sil",
   failed_remove_member: "Üye silinmedi",

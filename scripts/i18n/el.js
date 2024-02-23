@@ -12,6 +12,7 @@ let i18n = {
   network_response_error: "Η ανταπόκριση του δικτύου δεν ήταν εντάξει",
   failed_add_member: "Αποτυχία προσθήκης μέλους",
   member: "Μέλος",
+  email: "Email",
   save_member: "Αποθήκευση μέλους",
   delete_member: "Διαγραφή μέλους",
   failed_remove_member: "Αποτυχία διαγραφής μέλους",
