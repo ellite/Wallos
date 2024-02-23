@@ -470,7 +470,45 @@
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()"/>
             </div>
         </div>
-    </section>    
+    </section>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('payment_methods', $i18n) ?></h2>
+        </header>
+        <div class="payments-list">
+            <?php
+                $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
+                $paymentsInUse = [];
+                while ($row = $paymentsInUseQuery->fetchArray(SQLITE3_ASSOC)) {
+                    $paymentsInUse[] = $row['id'];
+                }
+
+                foreach ($payments as $payment) {
+                    $inUse = in_array($payment['id'], $paymentsInUse);
+                    ?>
+                        <div class="payments-payment"
+                             data-enabled="<?= $payment['enabled']; ?>"
+                             data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
+                             data-paymentid="<?= $payment['id'] ?>"
+                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
+                             onClick="togglePayment(<?= $payment['id'] ?>)">
+                            <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
+                            <span class="payment-name">
+                                <?= $payment['name'] ?>
+                            </span>
+                        </div>
+                    <?php
+                } 
+            ?>
+        </div>
+        <div class="settings-notes">
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                <?= translate('payment_methods_info', $i18n) ?>
+            </p>
+        </div>
+    </section>
 
     <section class="account-section">
         <header>
@@ -511,44 +549,6 @@
             <p>
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('experimental_info', $i18n) ?>
-            </p>
-        </div>
-    </section>    
-
-    <section class="account-section">
-        <header>
-            <h2><?= translate('payment_methods', $i18n) ?></h2>
-        </header>
-        <div class="payments-list">
-            <?php
-                $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
-                $paymentsInUse = [];
-                while ($row = $paymentsInUseQuery->fetchArray(SQLITE3_ASSOC)) {
-                    $paymentsInUse[] = $row['id'];
-                }
-
-                foreach ($payments as $payment) {
-                    $inUse = in_array($payment['id'], $paymentsInUse);
-                    ?>
-                        <div class="payments-payment"
-                             data-enabled="<?= $payment['enabled']; ?>"
-                             data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
-                             data-paymentid="<?= $payment['id'] ?>"
-                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
-                             onClick="togglePayment(<?= $payment['id'] ?>)">
-                            <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
-                            <span class="payment-name">
-                                <?= $payment['name'] ?>
-                            </span>
-                        </div>
-                    <?php
-                } 
-            ?>
-        </div>
-        <div class="settings-notes">
-            <p>
-                <i class="fa-solid fa-circle-info"></i>
-                <?= translate('payment_methods_info', $i18n) ?>
             </p>
         </div>
     </section>
