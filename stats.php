@@ -92,7 +92,7 @@ $mostExpensiveSubscription = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id FROM subscriptions WHERE inactive = 0";
+$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id FROM subscriptions WHERE inactive = 0";
 $result = $db->query($query);
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
