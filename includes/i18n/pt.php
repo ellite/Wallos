@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "Custo Mensal Médio das Subscrições",
     'most_expensive'  => "Custo da Subscrição Mais Cara",
     'amount_due'      => "Quantia em dívida este mês",
+    'monthly_savings' => "Poupança Mensal (em subscrições inactivas)",
     'split_views'     => "Vistas Divididas",
     'category_split'  => "Por Categoria",
     'household_split' => "Por Membro",

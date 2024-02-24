@@ -82,6 +82,7 @@ $i18n = [
     'average_monthly' => "平均每月訂閱費用",
     'most_expensive'  => "最高的訂閱費用",
     'amount_due'      => "本月應付金額",
+    'monthly_savings' => "每月節省",
     'split_views'     => "分割表示",
     'category_split'  => "類別表示",
     'household_split' => "家庭表示",

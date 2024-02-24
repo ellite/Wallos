@@ -77,6 +77,7 @@ $i18n = [
     'average_monthly' => "Durchschnittliche monatliche Kosten",
     'most_expensive'  => "Kosten des teuersten Abonnements",
     'amount_due'      => "Diesen Monat fällige Summe",
+    'monthly_savings' => "Monatliche Ersparnisse (bei inaktiven Abonnements)",
     'split_views'     => "Aufgeteilte Ansichten",
     'category_split'  => "Kategorien",
     'household_split' => "Haushalt",
