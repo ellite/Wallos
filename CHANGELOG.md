@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.0](https://github.com/ellite/Wallos/compare/v1.5.0...v1.6.0) (2024-02-24)
+
+
+### Features
+
+* add stats about inactive subscriptions ([#146](https://github.com/ellite/Wallos/issues/146)) ([ccac17a](https://github.com/ellite/Wallos/commit/ccac17a6f222cb1ee022fd30b7a1d34306dd0de2))
+* sort disabled subscription at the bottom ([ccac17a](https://github.com/ellite/Wallos/commit/ccac17a6f222cb1ee022fd30b7a1d34306dd0de2))
+
 ## [1.5.0](https://github.com/ellite/Wallos/compare/v1.4.1...v1.5.0) (2024-02-23)
 
 
