@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/ellite/Wallos/compare/v1.6.0...v1.7.0) (2024-02-25)
+
+
+### Features
+
+* add email for notifications to household members ([26363dd](https://github.com/ellite/Wallos/commit/26363dd5f364b5494c526a9769626b03bba45273))
+
 ## [1.6.0](https://github.com/ellite/Wallos/compare/v1.5.0...v1.6.0) (2024-02-24)
 
 
