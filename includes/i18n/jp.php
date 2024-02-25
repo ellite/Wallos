@@ -96,6 +96,7 @@ $i18n = [
     "delete_member"   => "世帯員を削除",
     "cant_delete_member" => "世帯主は削除出ません",
     "cant_delete_member_in_use" => "定期購入を使用中の世帯員は削除できません",
+    "household_info" => "Eメールフィールドでは、世帯のメンバーに購読期限が近づいたことを通知することができます。",
     "notifications"   => "通知",
     "enable_email_notifications" => "電子メール通知を有効にする",
     "notify_me"       => "通知",

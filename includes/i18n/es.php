@@ -96,6 +96,7 @@ $i18n = [
     "delete_member"   => "Eliminar Miembro",
     "cant_delete_member" => "No se puede eliminar el miembro principal",
     "cant_delete_member_in_use" => "No se puede eliminar el miembro en uso en la suscripción",
+    "household_info"  => "El campo de correo electrónico permite notificar a los miembros del hogar las suscripciones que están a punto de caducar.",
     "notifications"   => "Notificaciones",
     "enable_email_notifications" => "Habilitar notificaciones por correo electrónico",
     "notify_me"       => "Notificarme",

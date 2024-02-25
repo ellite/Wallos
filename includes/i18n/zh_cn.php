@@ -103,6 +103,7 @@ $i18n = [
     "delete_member"   => "删除成员",
     "cant_delete_member" => "不能删除主要成员",
     "cant_delete_member_in_use" => "不能删除拥有订阅的成员",
+    "household_info"  => "电子邮件字段允许通知家庭成员订阅即将过期。",
     "notifications"   => "通知",
     "enable_email_notifications" => "启用电子邮件通知",
     "notify_me"       => "通知提前时间",

@@ -30,8 +30,10 @@
             $currencies[$currencyId] = $row;
         }
 
-        $querySubscriptions = "SELECT * FROM subscriptions WHERE notify = 1 AND inactive = 0";
-        $resultSubscriptions = $db->query($querySubscriptions);
+        $stmt = $db->prepare('SELECT * FROM subscriptions WHERE notify = :notify AND inactive = :inactive ORDER BY payer_user_id ASC');
+        $stmt->bindValue(':notify', 1, SQLITE3_INTEGER);
+        $stmt->bindValue(':inactive', 0, SQLITE3_INTEGER);
+        $resultSubscriptions = $stmt->execute();
     
         $notify = []; $i = 0;
         $currentDate = new DateTime('now');
@@ -39,49 +41,63 @@
             $nextPaymentDate = new DateTime($rowSubscription['next_payment']);
             $difference = $currentDate->diff($nextPaymentDate)->days + 1;
             if ($difference === $days) {
-                $notify[$i]['name'] = $rowSubscription['name'];
-                $notify[$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
+                $notify[$rowSubscription['payer_user_id']][$i]['name'] = $rowSubscription['name'];
+                $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
                 $i++;
             }
         }
 
         if (!empty($notify)) {
+
             require $webPath . 'libs/PHPMailer/PHPMailer.php';
             require $webPath . 'libs/PHPMailer/SMTP.php';
             require $webPath . 'libs/PHPMailer/Exception.php';
 
-            $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
-            $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
-            foreach ($notify as $subscription) {
-                $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-            }
+            $stmt = $db->prepare('SELECT * FROM user WHERE id = :id');
+            $stmt->bindValue(':id', 1, SQLITE3_INTEGER);
+            $result = $stmt->execute();
+            $defaultUser = $result->fetchArray(SQLITE3_ASSOC);
+            $defaultEmail = $defaultUser['email'];
+            $defaultName = $defaultUser['username'];
 
-            $mail = new PHPMailer(true);
-            $mail->CharSet="UTF-8";
-            $mail->isSMTP();
+            foreach ($notify as $userId => $perUser) {
+                $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
+                $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
 
-            $mail->Host = $smtpAddress;
-            $mail->SMTPAuth = true;
-            $mail->Username = $smtpUsername;
-            $mail->Password = $smtpPassword;
-            $mail->SMTPSecure = 'tls';
-            $mail->Port = $smtpPort;
+                foreach ($perUser as $subscription) {
+                    $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                }
+    
+                $mail = new PHPMailer(true);
+                $mail->CharSet="UTF-8";
+                $mail->isSMTP();
+    
+                $mail->Host = $smtpAddress;
+                $mail->SMTPAuth = true;
+                $mail->Username = $smtpUsername;
+                $mail->Password = $smtpPassword;
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = $smtpPort;
+    
+                $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                $result = $stmt->execute();
+                $user = $result->fetchArray(SQLITE3_ASSOC);
 
-            $getUser = "SELECT * FROM user WHERE id = 1";
-            $user = $db->querySingle($getUser, true);
-            $email = $user['email'];
-            $name = $user['username'];
-
-            $mail->setFrom($fromEmail, 'Wallos App');
-            $mail->addAddress($email, $name);
-
-            $mail->Subject = 'Wallos Notification';
-            $mail->Body = $message;
-
-            if ($mail->send()) {
-                echo "Notifications sent";
-            } else {
-                echo "Error sending notifications: " . $mail->ErrorInfo;
+                $email = !empty($user['email']) ? $user['email'] : $defaultEmail;
+                $name = !empty($user['name']) ? $user['name'] : $defaultName;
+    
+                $mail->setFrom($fromEmail, 'Wallos App');
+                $mail->addAddress($email, $name);
+    
+                $mail->Subject = 'Wallos Notification';
+                $mail->Body = $message;
+    
+                if ($mail->send()) {
+                    echo "Notifications sent";
+                } else {
+                    echo "Error sending notifications: " . $mail->ErrorInfo;
+                }
             }
         } else {
             echo "Nothing to notify.";

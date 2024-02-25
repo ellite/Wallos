@@ -96,6 +96,7 @@ $i18n = [
     "delete_member" => "Supprimer le membre",
     "cant_delete_member" => "Impossible de supprimer le membre principal",
     "cant_delete_member_in_use" => "Impossible de supprimer le membre utilisé dans l'abonnement",
+    "household_info" => "Le champ Courriel permet aux membres du ménage d'être informés des abonnements arrivant à expiration.",
     "notifications" => "Notifications",
     "enable_email_notifications" => "Activer les notifications par courriel",
     "notify_me" => "Me prevenir",

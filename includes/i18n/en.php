@@ -96,6 +96,7 @@ $i18n = [
     "delete_member"   => "Delete Member",
     "cant_delete_member" => "Can't delete main member",
     "cant_delete_member_in_use" => "Can't delete member in use in subscription",
+    'household_info'  => "Email field allows for household members to be notified of subscriptions about to expire.",
     "notifications"   => "Notifications",
     "enable_email_notifications" => "Enable email notifications",
     "notify_me"       => "Notify me",

@@ -113,12 +113,14 @@ function removeMember(memberId) {
 
 function editMember(memberId) {
   var saveButton = document.querySelector(`div[data-memberid="${memberId}"] button[name="save"]`);
-  var inputElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="member"]`);
+  var memberNameElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="member"]`);
+  var memberEmailElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="email"]`);
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
-  if (inputElement) {
-    var memberName = encodeURIComponent(inputElement.value);
-    var url = `endpoints/household/household.php?action=edit&memberId=${memberId}&name=${memberName}`;
+  if (memberNameElement) {
+    var memberName = encodeURIComponent(memberNameElement.value);
+    var memberEmail = memberEmailElement ? encodeURIComponent(memberEmailElement.value) : '';
+    var url = `endpoints/household/household.php?action=edit&memberId=${memberId}&name=${memberName}&email=${memberEmail}`;
 
     fetch(url)
       .then(response => {
