@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/ellite/Wallos/compare/v1.7.0...v1.8.0) (2024-02-26)
+
+
+### Features
+
+* convert wallos into a progressive web app ([#151](https://github.com/ellite/Wallos/issues/151)) ([19e2058](https://github.com/ellite/Wallos/commit/19e205897617ee894d8802f7e73fef46be386c30))
+
+
+### Bug Fixes
+
+* improve traditional chinese translations ([19e2058](https://github.com/ellite/Wallos/commit/19e205897617ee894d8802f7e73fef46be386c30))
+
 ## [1.7.0](https://github.com/ellite/Wallos/compare/v1.6.0...v1.7.0) (2024-02-25)
 
 
