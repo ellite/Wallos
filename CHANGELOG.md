@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.3](https://github.com/ellite/Wallos/compare/v1.8.2...v1.8.3) (2024-02-26)
+
+
+### Bug Fixes
+
+* remove service worker ([#157](https://github.com/ellite/Wallos/issues/157)) ([5ccadce](https://github.com/ellite/Wallos/commit/5ccadce2f139e5873889badc51a67bfaef8a9304))
+
 ## [1.8.2](https://github.com/ellite/Wallos/compare/v1.8.1...v1.8.2) (2024-02-26)
 
 
