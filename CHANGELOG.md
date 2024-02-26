@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/ellite/Wallos/compare/v1.8.1...v1.8.2) (2024-02-26)
+
+
+### Bug Fixes
+
+* service worker redirect not set to follow ([3640b54](https://github.com/ellite/Wallos/commit/3640b547ee3ca28e7b872b9e2dbbcd1d31c54953))
+
 ## [1.8.1](https://github.com/ellite/Wallos/compare/v1.8.0...v1.8.1) (2024-02-26)
 
 
