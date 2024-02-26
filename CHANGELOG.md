@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/ellite/Wallos/compare/v1.8.0...v1.8.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* service worker has redirections ([4aca7bc](https://github.com/ellite/Wallos/commit/4aca7bcb3cdbb77958db8783c4f088df131db645))
+
 ## [1.8.0](https://github.com/ellite/Wallos/compare/v1.7.0...v1.8.0) (2024-02-26)
 
 
