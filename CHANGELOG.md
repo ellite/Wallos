@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.0](https://github.com/ellite/Wallos/compare/v1.8.3...v1.9.0) (2024-02-27)
+
+
+### Features
+
+* enable progressive web app ([a2a315e](https://github.com/ellite/Wallos/commit/a2a315e34dca2562bc11793cc5841c2082e811a9))
+
+
+### Bug Fixes
+
+* update packages to fix vulnerabilities ([a2a315e](https://github.com/ellite/Wallos/commit/a2a315e34dca2562bc11793cc5841c2082e811a9))
+
 ## [1.8.3](https://github.com/ellite/Wallos/compare/v1.8.2...v1.8.3) (2024-02-26)
 
 
