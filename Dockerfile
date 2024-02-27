@@ -5,7 +5,7 @@ FROM php:8.0.5-fpm-alpine
 WORKDIR /var/www/html
 
 # Update packages
-RUN apk update && apk upgrade
+RUN apk upgrade --no-cache
 
 # Install SQLite3 and its dependencies
 RUN apk add --no-cache sqlite-dev \
