@@ -4,6 +4,9 @@ FROM php:8.0.5-fpm-alpine
 # Set working directory to /var/www/html
 WORKDIR /var/www/html
 
+# Update packages
+RUN apk update && apk upgrade
+
 # Install SQLite3 and its dependencies
 RUN apk add --no-cache sqlite-dev \
     && docker-php-ext-install pdo pdo_sqlite \

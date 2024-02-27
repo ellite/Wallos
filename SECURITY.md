@@ -18,6 +18,9 @@ This project is currently supported with security updates for the following vers
 
 I take security seriously and am working on ways to implement security measures to protect the project.
 
+What is being done currenty:
+- Periodically scan the docker image for vulnerabilities with trivy.
+
 ## Reporting a Security Concern
 
 If you have any security concerns or questions regarding the security of this project, please contact the developer at [wallos@henrique.pt](mailto:wallos@henrique.pt).

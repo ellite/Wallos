@@ -27,6 +27,49 @@
     ],
     "start_url": "/",   
     "id": "com.wallos.app",
+    "shortcuts": [
+        {
+          "name": "Subscriptions",
+          "short_name": "Subscriptions",
+          "description": "View your subscriptions",
+          "url": "index.php",
+          "icons": [{ "src": "images/siteicons/pwa/subscriptions.png", "sizes": "96x96" }]
+        },
+        {
+          "name": "Stats",
+          "short_name": "Stats",
+          "description": "View your statistics",
+          "url": "stats.php",
+          "icons": [{ "src": "images/siteicons/pwa/stats.png", "sizes": "96x96" }]
+        },
+        {
+          "name": "Settings",
+          "short_name": "Settings",
+          "description": "Change your settings",
+          "url": "settings.php",
+          "icons": [{ "src": "images/siteicons/pwa/settings.png", "sizes": "96x96" }]
+        },
+        {
+          "name": "About",
+          "short_name": "About",
+          "description": "More info about Wallos",
+          "url": "about.php",
+          "icons": [{ "src": "images/siteicons/pwa/about.png", "sizes": "96x96" }]
+        }
+    ],
+    "screenshots": [
+        {
+          "src": "images/screenshots/desktop.png",
+          "sizes": "1000x750",
+          "type": "image/png",
+          "form_factor": "wide"
+        },
+        {
+          "src": "images/screenshots/mobile.png",
+          "sizes": "600x1000",
+          "type": "image/png"
+        }
+    ],
     "background_color": "#FFFFFF",
     "display": "standalone",
     "scope": "/",
