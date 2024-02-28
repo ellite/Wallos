@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.9.1](https://github.com/ellite/Wallos/compare/v1.9.0...v1.9.1) (2024-02-28)
+
+
+### Bug Fixes
+
+* move display settings to the bottom ([ec25d4b](https://github.com/ellite/Wallos/commit/ec25d4bc5a35f68ff15d456ae6a1d3e98d124f5f))
+* reorder subscription form ([ec25d4b](https://github.com/ellite/Wallos/commit/ec25d4bc5a35f68ff15d456ae6a1d3e98d124f5f))
+* show email field on adding household member ([ec25d4b](https://github.com/ellite/Wallos/commit/ec25d4bc5a35f68ff15d456ae6a1d3e98d124f5f))
+
 ## [1.9.0](https://github.com/ellite/Wallos/compare/v1.8.3...v1.9.0) (2024-02-27)
 
 
