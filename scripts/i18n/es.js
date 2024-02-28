@@ -12,6 +12,7 @@ let i18n = {
   network_response_error: "Error en la respuesta de la red",
   failed_add_member: "Error al añadir miembro",
   member: "Miembro",
+  email: "Correo electrónico",
   save_member: "Guardar miembro",
   delete_member: "Eliminar miembro",
   failed_remove_member: "Error al eliminar miembro",

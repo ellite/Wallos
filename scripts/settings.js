@@ -43,6 +43,12 @@ function addMemberButton(memberId) {
       input.name = "member";
       input.value = translate('member');
 
+      let emailInput = document.createElement("input");
+      emailInput.type = "text";
+      emailInput.placeholder = translate('email');
+      emailInput.name = "email";
+      emailInput.value = "";      
+
       let editLink = document.createElement("button");
       editLink.className = "image-button medium"
       editLink.name = "save";
@@ -70,6 +76,7 @@ function addMemberButton(memberId) {
       deleteLink.appendChild(deleteImage);
 
       div.appendChild(input);
+      div.appendChild(emailInput);
       div.appendChild(editLink);
       div.appendChild(deleteLink);
 

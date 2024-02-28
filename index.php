@@ -195,6 +195,17 @@
             </div>
           </div>
 
+          <?php
+            if ($notificationsEnabled) {
+          ?>
+          <div class="form-group-inline">
+            <input type="checkbox" id="notifications" name="notifications">
+            <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+          </div>
+          <?php
+            }
+          ?>
+
           <div class="form-group">
             <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
             <select id="payment_method" name="payment_method_id">
@@ -251,17 +262,6 @@
             <input type="checkbox" id="inactive" name="inactive">
             <label for="inactive"><?= translate('inactive', $i18n) ?></label>
           </div>
-
-          <?php
-            if ($notificationsEnabled) {
-          ?>
-          <div class="form-group-inline">
-            <input type="checkbox" id="notifications" name="notifications">
-            <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
-          </div>
-          <?php
-            }
-          ?>
 
           <div class="buttons">
                 <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left" id="deletesub" style="display: none">

@@ -12,6 +12,7 @@ let i18n = {
     'network_response_error': "網路無回應",
     'failed_add_member': '新增成員失敗',
     'member': '成員',
+    'email': '電子信箱',
     'save_member': '保存成員',
     'delete_member': '刪除成員',
     'failed_remove_member': '移除成員失敗',
