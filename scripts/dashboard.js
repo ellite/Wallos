@@ -213,6 +213,9 @@ function displayImageResults(imageSources) {
       img.onclick = function() {
         selectWebLogo(src);
       };
+      img.onerror = function() {
+        this.parentNode.removeChild(this);
+      };
       logoResults.appendChild(img);
   });
 }
