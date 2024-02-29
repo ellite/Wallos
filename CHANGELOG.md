@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.0](https://github.com/ellite/Wallos/compare/v1.9.1...v1.10.0) (2024-02-29)
+
+
+### Features
+
+* use brave search for the logos if google fails ([#169](https://github.com/ellite/Wallos/issues/169)) ([fff783e](https://github.com/ellite/Wallos/commit/fff783e4e87f04199817c7cb3b4bd28760d2b5f3))
+
 ## [1.9.1](https://github.com/ellite/Wallos/compare/v1.9.0...v1.9.1) (2024-02-28)
 
 
