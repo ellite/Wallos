@@ -65,7 +65,8 @@
         }
     }
 
-    function resizeAndUploadLogo($uploadedFile, $uploadDir, $name) {        $targetWidth = 70;
+    function resizeAndUploadLogo($uploadedFile, $uploadDir, $name) {        
+        $targetWidth = 70;
         $targetHeight = 48;
     
         $timestamp = time();
@@ -154,6 +155,15 @@
                 $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name);
             } else {
                 if (!empty($_FILES['paymenticon']['name'])) {
+                    $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
+                    if (strpos($fileType, 'image') === false) {
+                        $response = [
+                            "success" => false,
+                            "errorMessage" => translate('fill_all_fields', $i18n)
+                        ];
+                        echo json_encode($response);
+                        exit();
+                    }
                     $icon = resizeAndUploadLogo($_FILES['paymenticon'], '../../images/uploads/logos/', $name);
                 }
             }
