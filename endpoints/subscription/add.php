@@ -157,6 +157,11 @@
                 $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name);
             } else {
                 if (!empty($_FILES['logo']['name'])) {
+                    $fileType = mime_content_type($_FILES['logo']['tmp_name']);
+                    if (strpos($fileType, 'image') === false) {
+                        echo translate("fill_all_fields", $i18n);
+                        exit();
+                    }
                     $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name);
                 }
             }
