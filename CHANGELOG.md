@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.1](https://github.com/ellite/Wallos/compare/v1.11.0...v1.11.1) (2024-03-01)
+
+
+### Bug Fixes
+
+* security issue with image upload ([#175](https://github.com/ellite/Wallos/issues/175)) ([7b5e166](https://github.com/ellite/Wallos/commit/7b5e166e289f32b1b3451614b16e1f4c0b9d6f2a))
+
 ## [1.11.0](https://github.com/ellite/Wallos/compare/v1.10.0...v1.11.0) (2024-03-01)
 
 
