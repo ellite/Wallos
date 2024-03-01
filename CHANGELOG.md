@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.0](https://github.com/ellite/Wallos/compare/v1.10.0...v1.11.0) (2024-03-01)
+
+
+### Features
+
+* added custom payment methods ([#173](https://github.com/ellite/Wallos/issues/173)) ([e739622](https://github.com/ellite/Wallos/commit/e73962260678caf0843b6302f7fbb7d49469a1a9))
+
 ## [1.10.0](https://github.com/ellite/Wallos/compare/v1.9.1...v1.10.0) (2024-02-29)
 
 
