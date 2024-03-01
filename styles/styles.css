@@ -168,7 +168,7 @@ main > .contain {
   color: #fff;
   border: 1px solid #007bff;
   background-color: #007bff;
-  padding: 12px 30px;
+  padding: 14px 30px;
   font-size: 1rem;
   border-radius: 8px;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
@@ -178,6 +178,10 @@ main > .contain {
 .button:hover {
   background-color: #0056b3;
   border-color: #0056b3;
+}
+
+.button.thin {
+  padding: 14px 20px;
 }
 
 .subscriptions {
@@ -385,6 +389,10 @@ main > .contain {
   margin-bottom: 34px;
 }
 
+.account-section header h2.second-header {
+  margin-top:34px;
+}
+
 .account-section + .account-section {
   margin-top: 34px;
 }
@@ -585,6 +593,12 @@ main > .contain {
   object-fit: contain;
 }
 
+.payments-list .payments-payment .delete-payment-method {
+  padding: 5px;
+  font-weight: bold;
+  color: #202020;
+}
+
 .credits-list {
   display: flex;
   flex-direction: column;
@@ -780,7 +794,12 @@ input[type="checkbox"] {
   }
 }
 
-.logo-search {
+.form-icon-search {
+  position: relative;
+}
+
+.logo-search,
+.icon-search {
   position: absolute;
   width: 165px;
   height: 298px;
@@ -797,11 +816,20 @@ input[type="checkbox"] {
   display: none;
 }
 
-.logo-search.is-open {
+.icon-search {
+  width: 100px;
+  height: 224px;
+  top: 50px;
+  right: 0px;
+}
+
+.logo-search.is-open,
+.icon-search.is-open {
   display: block;
 }
 
-.logo-search > header {
+.logo-search > header,
+.icon-search > header {
   padding: 0px 5px 5px;
   border-bottom: 1px solid #CCC;
   display: flex;
@@ -810,18 +838,31 @@ input[type="checkbox"] {
   margin-bottom: 10px;
 }
 
-.logo-search .close-logo-search {
+.icon-search > header > span {
+  margin-left: auto;
+}
+
+.logo-search .close-logo-search,
+.icon-search .close-icon-search {
   cursor: pointer;
 }
 
-.logo-search img {
+.logo-search img,
+.icon-search img {
   max-width: 100%;
   cursor: pointer;
   border-bottom: 1px solid #ccc;
   padding: 10px 0px;
 }
 
-.logo-search img:last-of-type {
+.icon-search img {
+  padding: 8px 0px;
+  aspect-ratio: 16 / 5;
+  object-fit: contain;
+}
+
+.logo-search img:last-of-type,
+.icon-search img:last-of-type {
   border-bottom: none;
   padding-bottom: 0px;
 }
@@ -914,9 +955,38 @@ input[type="checkbox"] {
   height: 100%;
   color: #0056b3;
   font-size: 16px;
+  text-align: center;
 }
 
 .logo-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none;
+}
+
+.icon-preview {
+  padding: 2px 0px;
+  height: 49px;
+  box-sizing: border-box;
+  aspect-ratio: 3/2;
+  display: block;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.icon-preview:after {
+  content: "Upload Icon";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: #0056b3;
+  font-size: 16px;
+  text-align: center;
+}
+
+.icon-preview img {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -951,7 +1021,7 @@ input[type="checkbox"] {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  top: 48px;
+  top: 52px;
   right: 0px;
   display: none;
   width: 144px;

@@ -108,3 +108,7 @@ input[type="button"].secondary-button:hover {
 .payment-name {
     color: #FFF;
 }
+
+.payments-list .payments-payment .delete-payment-method {
+    color: #FFF;
+  }

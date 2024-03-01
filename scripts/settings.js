@@ -449,6 +449,171 @@ function togglePayment(paymentId) {
     });
 }
 
+function handleFileSelect(event) {
+  const fileInput = event.target;
+  const iconPreview = document.querySelector('.icon-preview');
+  const iconImg = iconPreview.querySelector('img');
+  const iconUrl = document.querySelector("#icon-url");
+  iconUrl.value = "";
+
+  if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+          iconImg.src = e.target.result;
+          iconImg.style.display = 'block';
+      };
+
+      reader.readAsDataURL(fileInput.files[0]);
+  }
+}
+
+function setSearchButtonStatus() {
+
+  const nameInput = document.querySelector("#paymentname");
+  const hasSearchTerm = nameInput.value.trim().length > 0;
+  const iconSearchButton = document.querySelector("#icon-search-button");
+  if (hasSearchTerm) {
+    iconSearchButton.classList.remove("disabled");
+  } else {
+    iconSearchButton.classList.add("disabled");
+  }
+
+}
+
+function searchPaymentIcon() {
+  const nameInput = document.querySelector("#paymentname");
+  const searchTerm = nameInput.value.trim();
+  if (searchTerm !== "") {
+    const iconSearchPopup = document.querySelector("#icon-search-results");
+    iconSearchPopup.classList.add("is-open");
+    const imageSearchUrl = `endpoints/payments/search.php?search=${searchTerm}`;
+    fetch(imageSearchUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.imageUrls) {
+                    displayImageResults(data.imageUrls);
+                } else if (data.error) {
+                    console.error(data.error);
+                }
+            })
+            .catch(error => {
+                console.error(translate('error_fetching_image_results'), error);
+            });
+  } else {
+    nameInput.focus();
+  }
+}
+
+function displayImageResults(imageSources) {
+  const iconResults = document.querySelector("#icon-search-images");
+  iconResults.innerHTML = "";
+
+  imageSources.forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.onclick = function() {
+        selectWebIcon(src);
+      };
+      img.onerror = function() {
+        this.parentNode.removeChild(this);
+      };
+      iconResults.appendChild(img);
+  });
+}
+
+function selectWebIcon(url) {
+  closeIconSearch();
+  const iconPreview = document.querySelector("#form-icon");
+  const iconUrl = document.querySelector("#icon-url");
+  iconPreview.src = url;
+  iconPreview.style.display = 'block';
+  iconUrl.value = url;
+}
+
+function closeIconSearch() {
+  const iconSearchPopup = document.querySelector("#icon-search-results");
+  iconSearchPopup.classList.remove("is-open");
+  const iconResults = document.querySelector("#icon-search-images");
+  iconResults.innerHTML = "";
+}
+
+function resetFormIcon() {
+  const iconPreview = document.querySelector("#form-icon");
+  iconPreview.src = "";
+  iconPreview.style.display = 'none';
+}
+
+function reloadPaymentMethods() {
+  const paymentsContainer = document.querySelector("#payments-list");
+  const paymentMethodsEndpoint = "endpoints/payments/get.php";
+
+  fetch(paymentMethodsEndpoint)
+  .then(response => response.text())
+  .then(data => {
+    paymentsContainer.innerHTML = data;
+  });
+}
+
+function addPaymentMethod() {
+  closeIconSearch();
+  const addPaymentMethodEndpoint = "endpoints/payments/add.php";
+  const paymentMethodForm = document.querySelector("#payments-form");
+  const submitButton = document.querySelector("#add-payment-button");
+
+  submitButton.disabled = true;
+  const formData = new FormData(paymentMethodForm);
+
+  fetch(addPaymentMethodEndpoint, {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      paymentMethodForm.reset();
+      resetFormIcon();
+      reloadPaymentMethods();
+    } else {
+      showErrorMessage(data.errorMessage);
+    }
+    submitButton.disabled = false;
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+    submitButton.disabled = false;
+  });
+
+}
+
+function deletePaymentMethod(paymentId) {
+    fetch(`endpoints/payments/delete.php?id=${paymentId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: paymentId }),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        var paymentToRemove = document.querySelector('.payments-payment[data-paymentid="' + paymentId + '"]');
+        if (paymentToRemove) {
+          paymentToRemove.remove();
+        }
+      } else {
+        showErrorMessage(data.errorMessage);
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     
     document.getElementById("userForm").addEventListener("submit", function(event) {
@@ -478,7 +643,17 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
           showErrorMessage(translate('unknown_error'));
         });
-      });        
+      });
+
+      var removePaymentButtons = document.querySelectorAll(".delete-payment-method");
+      removePaymentButtons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+          let paymentId = event.target.getAttribute('data-paymentid');
+          deletePaymentMethod(paymentId);
+        });
+      });
 
 });
 

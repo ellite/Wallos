@@ -2,6 +2,11 @@
     require_once 'includes/header.php';
 ?>
 
+<style>
+      .logo-preview:after {
+        content: '<?= translate('upload_logo', $i18n) ?>';
+      }
+</style>
 <section class="contain settings">
     <section class="account-section">
         <header>
@@ -476,7 +481,7 @@
         <header>
             <h2><?= translate('payment_methods', $i18n) ?></h2>
         </header>
-        <div class="payments-list">
+        <div class="payments-list" id="payments-list">
             <?php
                 $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
                 $paymentsInUse = [];
@@ -485,6 +490,7 @@
                 }
 
                 foreach ($payments as $payment) {
+                    $paymentIconFolder = $payment['id'] <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
                     $inUse = in_array($payment['id'], $paymentsInUse);
                     ?>
                         <div class="payments-payment"
@@ -493,10 +499,19 @@
                              data-paymentid="<?= $payment['id'] ?>"
                              title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
                              onClick="togglePayment(<?= $payment['id'] ?>)">
-                            <img src="images/uploads/icons/<?= $payment['icon'] ?>"  alt="Logo" />
+                            <img src="<?= $paymentIconFolder.$payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name">
                                 <?= $payment['name'] ?>
                             </span>
+                            <?php
+                                if ($payment['id'] > 31 && !$inUse) {
+                                    ?>
+                                        <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>">
+                                            x
+                                        </div>
+                                    <?php
+                                } 
+                            ?>
                         </div>
                     <?php
                 } 
@@ -507,6 +522,34 @@
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('payment_methods_info', $i18n) ?>
             </p>
+        </div>
+        <header>
+            <h2 class="second-header"><?= translate("add_custom_payment", $i18n) ?></h2>
+        </header>
+        <div>
+            <form id="payments-form">
+                <div class="form-group-inline">
+                    <input type="text" name="paymentname" id="paymentname" placeholder="<?= translate('payment_method_name', $i18n) ?>"  onchange="setSearchButtonStatus()" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+                    <label for="paymenticon" class="icon-preview">
+                        <img src="" alt="<?= translate('logo_preview', $i18n) ?>" id="form-icon"> 
+                    </label>
+                    <div class="form-icon-search">
+                        <input type="file" id="paymenticon" name="paymenticon" accept="image/jpeg, image/png" onchange="handleFileSelect(event)" class="hidden-input">
+                        <input type="hidden" id="icon-url" name="icon-url">
+                        <div id="icon-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
+                            <img src="images/siteicons/websearch.png">
+                        </div>
+                        <div id="icon-search-results" class="icon-search">
+                            <header>
+                                <span class="fa-solid fa-xmark close-icon-search" onClick="closeIconSearch()"></span>
+                            </header>
+                            <div id="icon-search-images"></div>
+                        </div>
+                    </div>
+                    
+                    <input type="button" class="button thin" id="add-payment-button" value="+" title="<?= translate('add', $i18n) ?>" id="addPayment" onClick="addPaymentMethod()"/>
+                </div>
+            </form>    
         </div>
     </section>
 
