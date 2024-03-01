@@ -81,7 +81,8 @@
             $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
             $currencyId = $subscription['currency_id'];
             $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
-            $print[$id]['payment_method_icon'] = "images/uploads/icons/" . $payment_methods[$paymentMethodId]['icon'];
+            $paymentIconFolder = $paymentMethodId <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+            $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
             $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
             $print[$id]['payment_method_id'] = $paymentMethodId;
             $print[$id]['category_id'] = $subscription['category_id'];
