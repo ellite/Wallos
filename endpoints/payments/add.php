@@ -137,6 +137,17 @@
             $enabled = 1;
             $name = validate($_POST["paymentname"]);
             $iconUrl = validate($_POST['icon-url']);
+
+            if ($name === "" || ($iconUrl === "" && empty($_FILES['paymenticon']['name']))) {
+                $response = [
+                    "success" => false,
+                    "errorMessage" => translate('fill_all_fields', $i18n)
+                ];
+                echo json_encode($response);
+                exit();
+            }
+
+            
             $icon = "";
 
             if($iconUrl !== "") {
