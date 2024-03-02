@@ -99,10 +99,19 @@ self.addEventListener('install', function(event) {
     );
 });
 
-
 self.addEventListener('fetch', function(event) {
     event.respondWith(
-        fetch(event.request, { redirect: 'follow' }).catch(function() {
+        fetch(event.request.clone()).then(function(response) {
+            // Check if the response is a redirect
+            if (response.redirected) {
+                // If the response is a redirect, follow it by making a new fetch request
+                return fetch(response.url);
+            } else {
+                // If the response is not a redirect, return it as-is
+                return response;
+            }
+        }).catch(function(error) {
+            // If fetching fails, try to retrieve the response from cache
             return caches.match(event.request);
         })
     );
