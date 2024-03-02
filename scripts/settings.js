@@ -165,9 +165,12 @@ function addCategoryButton(categoryId) {
     if(responseData.success) {
       const newCategoryId = responseData.categoryId;;
       let container = document.getElementById("categories");
-      let div = document.createElement("div");
-      div.className = "form-group-inline";
-      div.dataset.categoryid = newCategoryId;
+      let row = document.createElement("li");
+      row.className = "form-group-inline";
+      row.dataset.categoryid = newCategoryId;
+
+      let dragIcon = document.createElement("div");
+      dragIcon.className = "drag-icon";
 
       let input = document.createElement("input");
       input.type = "text";
@@ -201,11 +204,12 @@ function addCategoryButton(categoryId) {
 
       deleteLink.appendChild(deleteImage);
 
-      div.appendChild(input);
-      div.appendChild(editLink);
-      div.appendChild(deleteLink);
+      row.appendChild(dragIcon);
+      row.appendChild(input);
+      row.appendChild(editLink);
+      row.appendChild(deleteLink);
 
-      container.appendChild(div);
+      container.appendChild(row);
     } else {
       showErrorMessage(responseData.errorMessage);
     }
@@ -246,6 +250,7 @@ function removeCategory(categoryId) {
 function editCategory(categoryId) {
   var saveButton = document.querySelector(`div[data-categoryid="${categoryId}"] button[name="save"]`);
   var inputElement = document.querySelector(`div[data-categoryid="${categoryId}"] input[name="category"]`);
+  console.log(saveButton);
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
   if (inputElement) {
@@ -843,3 +848,40 @@ function setRemoveBackground() {
 function exportToJson() {
   window.location.href = "endpoints/subscriptions/export.php";
 }
+
+function saveCategorySorting() {
+  const categories = document.getElementById('categories');
+  const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);
+  
+  const formData = new FormData();
+  categoryIds.forEach(categoryId => {
+      formData.append('categoryIds[]', categoryId);
+  });
+  
+  fetch('endpoints/categories/sort.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+  })
+  .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+  });
+}
+
+var el = document.getElementById('categories');
+var sortable = Sortable.create(el, {
+  handle: '.drag-icon',
+  delay: 500,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 5,
+  onEnd: function (evt) {
+    saveCategorySorting();
+  },
+});

@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "Échec de la suppression de la catégorie",
     "category_saved" => "Catégorie enregistrée",
     "category_removed" => "Catégorie supprimée",
+    "sort_order_saved" => "L'ordre de tri a été enregistré",
     // Devise
     "currency_saved" => "a été enregistrée.",
     "error_adding_currency" => "Erreur lors de l'ajout de l'entrée de devise.",

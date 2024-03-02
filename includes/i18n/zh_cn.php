@@ -172,6 +172,7 @@ $i18n = [
     "failed_remove_category" => "移除分类失败",
     "category_saved" => "分类已保存",
     "category_removed" => "分类已移除",
+    "sort_order_saved" => "排序顺序已保存",
     
     // Currency
     "currency_saved" => "货币已保存。",

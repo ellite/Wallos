@@ -1284,3 +1284,24 @@ input[type="checkbox"] {
     max-width: 100%;
   }
 }
+
+.sortable-list {
+  margin: 0px;
+  padding: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.drag-icon {
+  width: 28px;
+  height: 50px;
+  cursor: grab;
+  background-image: url(../images/siteicons/draggable.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px auto;
+}

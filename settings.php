@@ -2,6 +2,7 @@
     require_once 'includes/header.php';
 ?>
 
+<script src="scripts/libs/sortable.min.js"></script>
 <style>
       .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
@@ -238,7 +239,7 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM categories";
+        $sql = "SELECT * FROM categories ORDER BY `order` ASC";
         $result = $db->query($sql);
 
         if ($result) {
@@ -254,7 +255,7 @@
             <h2><?= translate('categories', $i18n) ?></h2>
         </header>
         <div class="account-categories">
-            <div  id="categories">
+            <div  id="categories" class="sortable-list">
             <?php
                 foreach ($categories as $category) {
                     if ($category['id'] != 1) {
@@ -272,6 +273,7 @@
                         }
                     ?>
                     <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
+                        <div class="drag-icon"></div>
                         <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
                         <button class="image-button medium"  onClick="editCategory(<?= $category['id'] ?>)" name="save">
                             <img src="images/siteicons/save.png" title="<?= translate('save_category', $i18n) ?>">

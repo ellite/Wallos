@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "Kategori kaldırılamadı",
     "category_saved" => "Kategori kaydedildi",
     "category_removed" => "Kategori kaldırıldı",
+    "sort_order_saved" => "Sıralama düzeni kaydedildi",
     // Currency
     "currency_saved" => "kaydedildi.",
     "error_adding_currency" => "Para birimi girişi eklenirken hata oluştu.",

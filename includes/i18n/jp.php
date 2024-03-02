@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "カテゴリの削除に失敗",
     "category_saved"  => "カテゴリの保存",
     "category_removed" => "カテゴリの削除",
+    "sort_order_saved" => "並べ替え順が保存されました",
     // Currency
     "currency_saved"  => "通貨を保存",
     "error_adding_currency" => "通貨エントリの追加エラー.",

@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "移除分類失敗",
     "category_saved" => "分類已儲存",
     "category_removed" => "分類已移除",
+    "sort_order_saved" => "排序順序已儲存",
     // Currency
     "currency_saved" => "已儲存。",
     "error_adding_currency" => "新增貨幣時發生錯誤。",

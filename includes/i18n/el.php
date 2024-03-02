@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "Απέτυχε η διαγραφή κατηγορίας",
     "category_saved"  => "Αποθήκευση κατηγορίας",
     "category_removed" => "Διαγραφή κατηγορίας",
+    "sort_order_saved" => "Η ταξινόμηση αποθηκεύτηκε",
     // Currency
     "currency_saved"  => "αποθηκεύτηκε.",
     "error_adding_currency" => "Error adding currency entry.",

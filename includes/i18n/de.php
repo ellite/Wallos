@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "Kategorie konnte nicht gelöscht werden",
     "category_saved"  => "Kategorie gespeichert",
     "category_removed" => "Kategorie gelöscht",
+    "sort_order_saved" => "Sortierung gespeichert",
     // Currency
     "currency_saved"  => "wurde gespeichert.",
     "error_adding_currency" => "Fehler beim hinzufügen der Währung.",

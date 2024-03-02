@@ -162,6 +162,7 @@ $i18n = [
     "failed_remove_category" => "Failed to remove category",
     "category_saved"  => "Category saved",
     "category_removed" => "Category removed",
+    "sort_order_saved" => "Sort order saved",
     // Currency
     "currency_saved"  => "was saved.",
     "error_adding_currency" => "Error adding currency entry.",
