@@ -506,9 +506,7 @@
                             <?php
                                 if ($payment['id'] > 31 && !$inUse) {
                                     ?>
-                                        <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>">
-                                            x
-                                        </div>
+                                        <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>">x</div>
                                     <?php
                                 } 
                             ?>
@@ -534,7 +532,7 @@
                         <img src="" alt="<?= translate('logo_preview', $i18n) ?>" id="form-icon"> 
                     </label>
                     <div class="form-icon-search">
-                        <input type="file" id="paymenticon" name="paymenticon" accept="image/jpeg, image/png" onchange="handleFileSelect(event)" class="hidden-input">
+                        <input type="file" id="paymenticon" name="paymenticon" accept="image/jpeg, image/png, image/gif, image/webp" onchange="handleFileSelect(event)" class="hidden-input">
                         <input type="hidden" id="icon-url" name="icon-url">
                         <div id="icon-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
                             <img src="images/siteicons/websearch.png">
