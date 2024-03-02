@@ -9,7 +9,13 @@
     function sanitizeFilename($filename) {
         $filename = preg_replace("/[^a-zA-Z0-9\s]/", "", $filename);
         $filename = str_replace(" ", "-", $filename);
+        $filename = str_replace(".", "", $filename);
         return $filename;
+    }
+
+    function validateFileExtension($fileExtension) {
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'jtif', 'webp'];
+        return in_array($fileExtension, $allowedExtensions);
     }
 
     function getLogoFromUrl($url, $uploadDir, $name) {
@@ -72,6 +78,7 @@
         $timestamp = time();
         $originalFileName = $uploadedFile['name'];
         $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
+        $fileExtension = validateFileExtension($fileExtension) ? $fileExtension : 'png';
         $fileName = $timestamp . '-payments-' . sanitizeFilename($name) . '.' . $fileExtension;
         $uploadFile = $uploadDir . $fileName;
     
@@ -87,6 +94,10 @@
                     $image = imagecreatefrompng($uploadFile);
                 } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
                     $image = imagecreatefromjpeg($uploadFile);
+                } elseif ($fileExtension === 'gif') {
+                    $image = imagecreatefromgif($uploadFile);
+                } elseif ($fileExtension === 'webp') {
+                    $image = imagecreatefromwebp($uploadFile);
                 } else {
                     // Handle other image formats as needed
                     return "";
@@ -120,6 +131,10 @@
                     imagepng($resizedImage, $uploadFile);
                 } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
                     imagejpeg($resizedImage, $uploadFile);
+                } elseif ($fileExtension === 'gif') {
+                    imagegif($resizedImage, $uploadFile);
+                } elseif ($fileExtension === 'webp') {
+                    imagewebp($resizedImage, $uploadFile);
                 } else {
                     return "";
                 }
