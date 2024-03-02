@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.3](https://github.com/ellite/Wallos/compare/v1.11.2...v1.11.3) (2024-03-02)
+
+
+### Bug Fixes
+
+* redirects with the service worker ([#183](https://github.com/ellite/Wallos/issues/183)) ([940bbbe](https://github.com/ellite/Wallos/commit/940bbbea9071a7c2687a3340bb8e9d6f4f884cc1))
+
 ## [1.11.2](https://github.com/ellite/Wallos/compare/v1.11.1...v1.11.2) (2024-03-02)
 
 
