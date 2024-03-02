@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.11.2](https://github.com/ellite/Wallos/compare/v1.11.1...v1.11.2) (2024-03-02)
+
+
+### Bug Fixes
+
+* file upload bypass vulnerability ([#181](https://github.com/ellite/Wallos/issues/181)) ([0f7853f](https://github.com/ellite/Wallos/commit/0f7853f961ba2f68f8dcd358acaad6c6eb7980e6))
+
 ## [1.11.1](https://github.com/ellite/Wallos/compare/v1.11.0...v1.11.1) (2024-03-01)
 
 
