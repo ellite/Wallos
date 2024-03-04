@@ -39,7 +39,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     <?= $payment['name'] ?>
                 </span>
                 <?php
-                    if ($payment['id'] > 31 && !$inUse) {
+                    if (!$inUse) {
                         ?>
                             <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>" onclick="deletePaymentMethod(<?= $payment['id'] ?>)">
                                 x

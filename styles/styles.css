@@ -617,6 +617,10 @@ main > .contain {
   object-fit: contain;
 }
 
+.payments-list .payments-payment > .payment-name {
+  cursor: text;
+}
+
 .payments-list .payments-payment .delete-payment-method {
   padding: 5px;
   font-weight: bold;
@@ -841,7 +845,7 @@ input[type="checkbox"] {
 }
 
 .icon-search {
-  width: 100px;
+  width: 112px;
   height: 224px;
   top: 50px;
   right: 0px;

@@ -492,21 +492,18 @@
                 }
 
                 foreach ($payments as $payment) {
-                    $paymentIconFolder = $payment['id'] <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+                    $paymentIconFolder = $payment['id'] <=   ? 'images/uploads/icons/' : 'images/uploads/logos/';
                     $inUse = in_array($payment['id'], $paymentsInUse);
                     ?>
                         <div class="payments-payment"
                              data-enabled="<?= $payment['enabled']; ?>"
                              data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
                              data-paymentid="<?= $payment['id'] ?>"
-                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
-                             onClick="togglePayment(<?= $payment['id'] ?>)">
+                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>">
                             <img src="<?= $paymentIconFolder.$payment['icon'] ?>"  alt="Logo" />
-                            <span class="payment-name">
-                                <?= $payment['name'] ?>
-                            </span>
+                            <span class="payment-name" contenteditable="true" title="<?= translate("rename_payment_method", $i18n) ?>"><?= $payment['name'] ?></span>
                             <?php
-                                if ($payment['id'] > 31 && !$inUse) {
+                                if (!$inUse) {
                                     ?>
                                         <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>">x</div>
                                     <?php
@@ -521,6 +518,10 @@
             <p>
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('payment_methods_info', $i18n) ?>
+            </p>
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                <?= translate('rename_payment_methods_info', $i18n) ?>
             </p>
         </div>
         <header>

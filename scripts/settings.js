@@ -429,7 +429,7 @@ function togglePayment(paymentId) {
     const element = document.querySelector(`div[data-paymentid="${paymentId}"]`);
 
     if (element.dataset.inUse === 'yes') {
-      return showErrorMessage(translate(cant_disable_payment_in_use));
+      return showErrorMessage(translate('cant_disable_payment_in_use'));
     }
 
     const newEnabledState = element.dataset.enabled === '1' ? '0' : '1';
@@ -453,6 +453,69 @@ function togglePayment(paymentId) {
         showErrorMessage(error.message || translate('failed_save_payment_method'));
     });
 }
+
+document.body.addEventListener('click', function(e) {
+  let targetElement = e.target;
+  do {
+    if (targetElement.classList && targetElement.classList.contains('payments-payment')) {
+      let targetChild = e.target;
+      do {
+        if (targetChild.classList && targetChild.classList.contains('payment-name')) {
+          return;
+        }
+        targetChild = targetChild.parentNode;
+      } while (targetChild && targetChild !== targetElement);
+
+      const paymentId = targetElement.dataset.paymentid;
+      togglePayment(paymentId);
+      return;
+    }
+    targetElement = targetElement.parentNode;
+  } while (targetElement);
+});
+
+document.body.addEventListener('blur', function(e) {
+  let targetElement = e.target;
+  if (targetElement.classList && targetElement.classList.contains('payment-name')) {
+    const paymentId = targetElement.closest('.payments-payment').dataset.paymentid;
+    const newName = targetElement.textContent;
+    renamePayment(paymentId, newName);
+  }
+}, true);
+
+function renamePayment(paymentId, newName) {
+  const name = newName.trim();
+  const formData = new FormData();
+  formData.append('paymentId', paymentId);
+  formData.append('name', name);
+  fetch('endpoints/payments/rename.php', {
+    method: 'POST',
+    body: formData
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error(translate('network_response_error'));
+    }
+    return response.json();
+  }).then(data => {
+    if (data.success) {
+      showSuccessMessage(`${newName} ${data.message}`);
+    } else {
+      showErrorMessage(data.message);
+    }
+  }).catch(error => {
+    showErrorMessage(translate('unknown_error'));
+  });
+}
+
+document.body.addEventListener('keypress', function(e) {
+    let targetElement = e.target;
+    if (targetElement.classList && targetElement.classList.contains('payment-name')) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            targetElement.blur();
+        }
+    }
+});
 
 function handleFileSelect(event) {
   const fileInput = event.target;
