@@ -492,7 +492,7 @@
                 }
 
                 foreach ($payments as $payment) {
-                    $paymentIconFolder = $payment['id'] <=   ? 'images/uploads/icons/' : 'images/uploads/logos/';
+                    $paymentIconFolder = $payment['id'] <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
                     $inUse = in_array($payment['id'], $paymentsInUse);
                     ?>
                         <div class="payments-payment"
