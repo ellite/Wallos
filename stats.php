@@ -51,7 +51,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Get categories
 $categories = array();
-$query = "SELECT * FROM categories";
+$query = "SELECT * FROM categories ORDER BY 'order' ASC";
 $result = $db->query($query);
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categoryId = $row['id'];
@@ -61,7 +61,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 // Get payment methods
-$categories = array();
+$paymentMethodCount = array();
 $query = "SELECT * FROM payment_methods WHERE enabled = 1";
 $result = $db->query($query);
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -89,8 +89,41 @@ $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 $totalSavingsPerMonth = 0;
 
+$statsSubtitleParts = [];
 $query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive FROM subscriptions";
-$result = $db->query($query);
+$conditions = [];
+$params = [];
+
+if (isset($_GET['member'])) {
+    $conditions[] = "payer_user_id = :member";
+    $params[':member'] = $_GET['member'];
+    $statsSubtitleParts[] = $members[$_GET['member']]['name'];
+}
+
+if (isset($_GET['category'])) {
+    $conditions[] = "category_id = :category";
+    $params[':category'] = $_GET['category'];
+    $statsSubtitleParts[] = $categories[$_GET['category']]['name'];
+}
+
+if (isset($_GET['payment'])) {
+    $conditions[] = "payment_method_id = :payment";
+    $params[':payment'] = $_GET['payment'];
+    $statsSubtitleParts[] = $paymentMethodCount[$_GET['payment']]['name'];
+}
+
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(' AND ', $conditions);
+}
+
+$stmt = $db->prepare($query);
+$statsSubtitle = !empty($statsSubtitleParts) ? '(' . implode(', ', $statsSubtitleParts) . ')' : "";
+
+foreach ($params as $key => $value) {
+    $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+}
+
+$result = $stmt->execute();
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $subscriptions[] = $row;
@@ -160,7 +193,97 @@ if ($result) {
 $numberOfElements = 6;
 ?>
 <section class="contain">
-  <h2><?= translate('general_statistics', $i18n) ?></h2>
+  <div class="split-header">
+    <h2>
+      <?= translate('general_statistics', $i18n) ?> <span class="header-subtitle"><?= $statsSubtitle ?></span>
+    </h2>
+    <div class="filtermenu">
+        <button class="button" id="filtermenu-button">
+          <i class="fa-solid fa-filter"></i>
+          Filter
+        </button>
+        <div class="filtermenu-content">
+          <?php
+            if (count($members) > 1) {
+          ?>
+            <div class="filtermenu-submenu">
+              <div class="filter-title" onClick="toggleSubMenu('member')">Member</div>
+              <div class="filtermenu-submenu-content" id="filter-member">
+                <?php
+                  foreach ($members as $member) {
+                    $selectedClass = '';
+                    if (isset($_GET['member']) && $_GET['member'] == $member['id']) {
+                      $selectedClass = 'selected';
+                    }
+                    ?>
+                      <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?></div>
+                    <?php
+                  }
+                ?>
+              </div>
+            </div>
+          <?php
+            }
+          ?>
+          <?php
+            if (count($categories) > 1) {
+          ?>
+            <div class="filtermenu-submenu">
+              <div class="filter-title" onClick="toggleSubMenu('category')">Category</div>
+              <div class="filtermenu-submenu-content" id="filter-category">
+                <?php
+                  foreach ($categories as $category) {
+                    $selectedClass = '';
+                    if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
+                      $selectedClass = 'selected';
+                    }
+                    ?>
+                      <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>"><?= $category['name'] ?></div>
+                    <?php
+                  }
+                ?>
+              </div>
+            </div>
+          <?php
+            }
+          ?>
+          <?php
+            if (count($paymentMethodCount) > 1) {
+          ?>
+            <div class="filtermenu-submenu">
+              <div class="filter-title" onClick="toggleSubMenu('payment')">Payment Method</div>
+              <div class="filtermenu-submenu-content" id="filter-payment">
+                <?php
+                  foreach ($paymentMethodCount as $payment) {
+                    $selectedClass = '';
+                    if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
+                      $selectedClass = 'selected';
+                    }
+                    ?>
+                      <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>"><?= $payment['name'] ?></div>
+                    <?php
+                  }
+                ?>
+              </div>
+            </div>
+          <?php
+            }
+          ?>
+          <?php
+            if (isset($_GET['member']) || isset($_GET['category']) || isset($_GET['payment'])) {
+              ?>
+                <div class="filtermenu-submenu">
+                  <div class="filter-title filter-clear" onClick="clearFilters()">
+                    <i class="fa-solid fa-times-circle"></i> Clear
+                  </div>
+                </div>
+              <?php
+            }
+          ?>
+      </div>    
+  </div>
+</div>
+  </div>
   <div class="statistics">
     <div class="statistic">
       <span><?= $activeSubscriptions ?></span>
@@ -208,86 +331,92 @@ $numberOfElements = 6;
       }
     ?>  
   </div>
-  <h2><?= translate('split_views', $i18n) ?></h2>
-  <div class="graphs">
-      <?php
-        $categoryDataPoints = [];
-        foreach ($categoryCost as $category) {
-          if ($category['cost'] != 0) {
-            $categoryDataPoints[] = [
-                "label" => $category['name'],
-                "y"     => $category["cost"],
-            ];
-          }
-        }
+  <?php
+    $categoryDataPoints = [];
+    foreach ($categoryCost as $category) {
+      if ($category['cost'] != 0) {
+        $categoryDataPoints[] = [
+            "label" => $category['name'],
+            "y"     => $category["cost"],
+        ];
+      }
+    }
 
-        $showCategoryCostGraph = count($categoryDataPoints) > 1;
+    $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
-        $memberDataPoints = [];
-        foreach ($memberCost as $member) {
-          if ($member['cost'] != 0) {
-            $memberDataPoints[] = [
-                "label" => $member['name'],
-                "y"     => $member["cost"],
-            ];
-            
-          }
-        }
+    $memberDataPoints = [];
+    foreach ($memberCost as $member) {
+      if ($member['cost'] != 0) {
+        $memberDataPoints[] = [
+            "label" => $member['name'],
+            "y"     => $member["cost"],
+        ];
+        
+      }
+    }
 
-        $showMemberCostGraph = count($memberDataPoints) > 1;
+    $showMemberCostGraph = count($memberDataPoints) > 1;
 
-        $paymentMethodDataPoints = [];
-        foreach ($paymentMethodCount as $paymentMethod) {
-          if ($paymentMethod['count'] != 0) {
-            $paymentMethodDataPoints[] = [
-                "label" => $paymentMethod['name'],
-                "y"     => $paymentMethod["count"],
-            ];
-          }
-        }
+    $paymentMethodDataPoints = [];
+    foreach ($paymentMethodCount as $paymentMethod) {
+      if ($paymentMethod['count'] != 0) {
+        $paymentMethodDataPoints[] = [
+            "label" => $paymentMethod['name'],
+            "y"     => $paymentMethod["count"],
+        ];
+      }
+    }
 
-        $showPaymentMethodCountGraph = count($paymentMethodDataPoints) > 1;
-
-        if ($showMemberCostGraph) {
-          ?>
-          <section class="graph">
-            <header>
-              <?= translate('household_split', $i18n) ?>
-              <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
-            </header>
-            <canvas id="memberSplitChart"></canvas>
-        </section>
-          <?php
-        }
-      
-        if ($showCategoryCostGraph) {
-          ?>
-          <section class="graph">
-            <header>
-              <?= translate('category_split', $i18n) ?>
-              <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
-            </header>
-            <canvas id="categorySplitChart" style="height: 370px; width: 100%;"></canvas>
-          </section>
-          <?php
-        }
-
-        if ($showPaymentMethodCountGraph) {
-          ?>
-          <section class="graph">
-            <header>
-              <?= translate('payment_method_split', $i18n) ?>
-            </header>
-            <canvas id="paymentMethidSplitChart" style="height: 370px; width: 100%;"></canvas>
-          </section>
-          <?php
-        }
-
+    $showPaymentMethodCountGraph = count($paymentMethodDataPoints) > 1;
+    if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodCountGraph) {
       ?>
-  </div>
+        <h2><?= translate('split_views', $i18n) ?></h2>
+        <div class="graphs">
+            <?php
+              if ($showMemberCostGraph) {
+                ?>
+                <section class="graph">
+                  <header>
+                    <?= translate('household_split', $i18n) ?>
+                    <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+                  </header>
+                  <canvas id="memberSplitChart"></canvas>
+              </section>
+                <?php
+              }
+            
+              if ($showCategoryCostGraph) {
+                ?>
+                <section class="graph">
+                  <header>
+                    <?= translate('category_split', $i18n) ?>
+                    <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+                  </header>
+                  <canvas id="categorySplitChart" style="height: 370px; width: 100%;"></canvas>
+                </section>
+                <?php
+              }
+
+              if ($showPaymentMethodCountGraph) {
+                ?>
+                <section class="graph">
+                  <header>
+                    <?= translate('payment_method_split', $i18n) ?>
+                  </header>
+                  <canvas id="paymentMethidSplitChart" style="height: 370px; width: 100%;"></canvas>
+                </section>
+                <?php
+              }
+
+            ?>
+        </div>
+      <?php
+    }
+  ?>
+  
 </section>
 <?php 
-  if ($showCategoryCostGraph || $showMemberCostGraph) {
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodCountGraph) {
     ?>
       <script src="scripts/libs/chart.js"></script>
       <script type="text/javascript">
