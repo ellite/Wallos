@@ -1305,3 +1305,9 @@ input[type="checkbox"] {
   background-position: center;
   background-size: 14px auto;
 }
+
+.sortable-list .sortable-ghost {
+  border-radius: 16px;
+  background-color: #c1d9f7;
+  border: 1px solid #8FBFFA;
+}

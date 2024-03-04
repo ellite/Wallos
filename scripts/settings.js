@@ -878,6 +878,7 @@ function saveCategorySorting() {
 var el = document.getElementById('categories');
 var sortable = Sortable.create(el, {
   handle: '.drag-icon',
+  ghostClass: 'sortable-ghost',
   delay: 500,
   delayOnTouchOnly: true,
   touchStartThreshold: 5,
