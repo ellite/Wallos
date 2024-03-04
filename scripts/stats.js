@@ -70,44 +70,41 @@ document.querySelectorAll('.filter-item').forEach(function(item) {
     if (this.hasAttribute('data-categoryid')) {
         const categoryId = this.getAttribute('data-categoryid');
         const urlParams = new URLSearchParams(window.location.search);
-        let newUrl = `stats.php?category=${categoryId}`;
+        let newUrl = 'stats.php?';
 
-        if (urlParams.has('member')) {
-            newUrl += `&member=${urlParams.get('member')}`;
+        if (urlParams.get('category') === categoryId) {
+            urlParams.delete('category');
+        } else {
+            urlParams.set('category', categoryId);
         }
 
-        if (urlParams.has('payment')) {
-            newUrl += `&payment=${urlParams.get('payment')}`;
-        }
-
+        newUrl += urlParams.toString();
         window.location.href = newUrl;
     } else if (this.hasAttribute('data-memberid')) {
         const memberId = this.getAttribute('data-memberid');
         const urlParams = new URLSearchParams(window.location.search);
-        let newUrl = `stats.php?member=${memberId}`;
+        let newUrl = 'stats.php?';
 
-        if (urlParams.has('category')) {
-            newUrl += `&category=${urlParams.get('category')}`;
+        if (urlParams.get('member') === memberId) {
+            urlParams.delete('member');
+        } else {
+            urlParams.set('member', memberId);
         }
 
-        if (urlParams.has('payment')) {
-            newUrl += `&payment=${urlParams.get('payment')}`;
-        }
-
+        newUrl += urlParams.toString();
         window.location.href = newUrl;
     } else if (this.hasAttribute('data-paymentid')) {
         const paymentId = this.getAttribute('data-paymentid');
         const urlParams = new URLSearchParams(window.location.search);
-        let newUrl = `stats.php?payment=${paymentId}`;
+        let newUrl = 'stats.php?';
 
-        if (urlParams.has('member')) {
-            newUrl += `&member=${urlParams.get('member')}`;
+        if (urlParams.get('payment') === paymentId) {
+            urlParams.delete('payment');
+        } else {
+            urlParams.set('payment', paymentId);
         }
 
-        if (urlParams.has('category')) {
-            newUrl += `&category=${urlParams.get('category')}`;
-        }
-
+        newUrl += urlParams.toString();
         window.location.href = newUrl;
     }
   });
