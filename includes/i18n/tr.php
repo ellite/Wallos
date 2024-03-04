@@ -147,6 +147,9 @@ $i18n = [
     "save" => "Kaydet",
     "export_subscriptions" => "Abonelikleri Dışa Aktar",
     "export_to_json" => "JSON'a dışa aktar",
+    // Filters menu
+    "filter" => "Filtre",
+    "clear" => "Temizle",
     // Toast
     "success" => "Başarılı",
     // Endpoint responses

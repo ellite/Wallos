@@ -147,6 +147,9 @@ $i18n = [
     "save"            => "Αποθήκευση",
     "export_subscriptions" => "Εξαγωγή συνδρομών",
     "export_to_json"  => "Εξαγωγή σε JSON",
+    // Filters menu
+    "filter"          => "Φίλτρο",
+    "clear"           => "Καθαρισμός",
     // Toast
     "success"         => "Επιτυχία",
     // Endpoint responses

@@ -147,6 +147,9 @@ $i18n = [
     "save"            => "儲存",
     "export_subscriptions" => "匯出訂閱",
     "export_to_json"  => "匯出為 JSON 檔案",
+    // Filters menu
+    "filter"          => "篩選",
+    "clear"           => "清除",
     // Toast
     "success"         => "成功",
     // Endpoint responses

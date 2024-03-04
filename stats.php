@@ -200,14 +200,14 @@ $numberOfElements = 6;
     <div class="filtermenu">
         <button class="button" id="filtermenu-button">
           <i class="fa-solid fa-filter"></i>
-          Filter
+          <?= translate("filter", $i18n) ?>
         </button>
         <div class="filtermenu-content">
           <?php
             if (count($members) > 1) {
           ?>
             <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('member')">Member</div>
+              <div class="filter-title" onClick="toggleSubMenu('member')"><?= translate("member", $i18n) ?></div>
               <div class="filtermenu-submenu-content" id="filter-member">
                 <?php
                   foreach ($members as $member) {
@@ -229,7 +229,7 @@ $numberOfElements = 6;
             if (count($categories) > 1) {
           ?>
             <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('category')">Category</div>
+              <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
               <div class="filtermenu-submenu-content" id="filter-category">
                 <?php
                   foreach ($categories as $category) {
@@ -251,7 +251,7 @@ $numberOfElements = 6;
             if (count($paymentMethodCount) > 1) {
           ?>
             <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('payment')">Payment Method</div>
+              <div class="filter-title" onClick="toggleSubMenu('payment')"><?= translate("payment_method", $i18n) ?></div>
               <div class="filtermenu-submenu-content" id="filter-payment">
                 <?php
                   foreach ($paymentMethodCount as $payment) {
@@ -274,7 +274,7 @@ $numberOfElements = 6;
               ?>
                 <div class="filtermenu-submenu">
                   <div class="filter-title filter-clear" onClick="clearFilters()">
-                    <i class="fa-solid fa-times-circle"></i> Clear
+                    <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>
                   </div>
                 </div>
               <?php

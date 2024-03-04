@@ -154,6 +154,10 @@ $i18n = [
     "save"            => "保存",
     "export_subscriptions" => "导出订阅",
     "export_to_json"  => "导出为 JSON",
+
+    // Filters menu
+    "filter"          => "筛选",
+    "clear"           => "清除",
     
     // Toast
     "success"         => "成功",

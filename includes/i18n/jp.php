@@ -147,6 +147,9 @@ $i18n = [
     "save"            => "保存",
     "export_subscriptions" => "購読をエクスポート",
     "export_to_json"  => "JSONにエクスポート",
+    // Filters menu
+    "filter"          => "フィルタ",
+    "clear"           => "クリア",
     // Toast
     "success"         => "成功",
     // Endpoint responses

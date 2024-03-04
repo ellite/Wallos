@@ -147,6 +147,9 @@ $i18n = [
     "save"            => "Save",
     "export_subscriptions" => "Export Subscriptions",
     "export_to_json"  => "Export to JSON",
+    // Filters menu
+    "filter"          => "Filter",
+    "clear"           => "Clear",
     // Toast
     "success"         => "Success",
     // Endpoint responses
