@@ -120,7 +120,7 @@ header .logo .logo-image {
 
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 14px 18px;
   text-decoration: none;
   display: block;
 }
@@ -1075,7 +1075,7 @@ input[type="checkbox"] {
 
 .sort-options > ul > li {
   list-style: none;
-  padding: 10px 35px 10px 10px;
+  padding: 14px 35px 14px 18px;
   border-bottom: 1px solid #DDD;
   cursor: pointer;
 }
@@ -1358,11 +1358,11 @@ input[type="checkbox"] {
   width: 220px;
   background-color: #fff;
   border: 1px solid #eee;
-  border-radius: 16px;
+  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 3;
   overflow: hidden;
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .filtermenu-content.is-open {
@@ -1377,7 +1377,6 @@ input[type="checkbox"] {
   font-weight: 500;
   border-bottom: 1px solid #DDD;
   user-select: none;
-  font-size: 18px;
 }
 
 .filtermenu-content .filtermenu-submenu:last-of-type .filter-title {
