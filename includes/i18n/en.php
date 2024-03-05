@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "Experimental settings will probably not work perfectly.",
     "payment_methods" => "Payment Methods",
     "payment_methods_info" => "Click a payment method to disable / enable it.",
+    "rename_payment_methods_info" => "Click the name on a payment method to rename it.",
     "cant_delete_payment_method_in_use" => "Can't disable used payment method",
     "add_custom_payment" => "Add Custom Payment Method",
     "payment_method_name" => "Payment Method Name",
     "payment_method_added_successfuly" => "Payment method added successfully",
     "disable"         => "Disable",
     "enable"          => "Enable",
+    "rename_payment_method" => "Rename Payment Method",
+    "payment_renamed" => "Payment method renamed",
+    "payment_not_renamed" => "Payment method not renamed",
     "test"            => "Test",
     "add"             => "Add",
     "save"            => "Save",
     "export_subscriptions" => "Export Subscriptions",
     "export_to_json"  => "Export to JSON",
+    // Filters menu
+    "filter"          => "Filter",
+    "clear"           => "Clear",
     // Toast
     "success"         => "Success",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "Failed to remove category",
     "category_saved"  => "Category saved",
     "category_removed" => "Category removed",
+    "sort_order_saved" => "Sort order saved",
     // Currency
     "currency_saved"  => "was saved.",
     "error_adding_currency" => "Error adding currency entry.",

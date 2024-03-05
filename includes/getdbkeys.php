@@ -26,7 +26,7 @@
     }
 
     $categories = array();
-    $query = "SELECT * FROM categories";
+    $query = "SELECT * FROM categories ORDER BY `order` ASC";
     $result = $db->query($query);
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $categoryId = $row['id'];

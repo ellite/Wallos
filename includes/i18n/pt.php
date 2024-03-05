@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "Definições experimentais provavelmente não funcionarão correctamente.",
     "payment_methods" => "Métodos de Pagamento",
     "payment_methods_info" => "Clique num método de pagamento para o activar / desactivar.",
+    "rename_payment_methods_info" => "Clique no nome do método de pagamento para o renomear.",
     "cant_delete_payment_method_in_use" => "Não pode desactivar metodo de pagamento em uso",
     "add_custom_payment" => "Adicionar método de pagamento personalizado",
     "payment_method_name" => "Nome do método de pagamento",
     "payment_method_added_successfuly" => "Método de pagamento adicionado com sucesso",
     "disable"         => "Desactivar",
     "enable"          => "Activar",
+    "rename_payment_method" => "Renomear método de pagamento",
+    "payment_renamed" => "Método de pagamento renomeado",
+    "payment_not_renamed" => "Método de pagamento não renomeado",
     "test"            => "Testar",
     "add"             => "Adicionar",
     "save"            => "Guardar",
     "export_subscriptions" => "Exportar Subscrições",
     "export_to_json"  => "Exportar para JSON",
+    // Filters menu
+    "filter"          => "Filtro",
+    "clear"           => "Limpar",
     // Toast
     "success"         => "Sucesso",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "Erro ao remover categoria",
     "category_saved"  => "Categoria guardada",
     "category_removed" => "Categoria removida",
+    "sort_order_saved" => "Ordenação guardada",
     // Currency
     "currency_saved"  => "guardada.",
     "error_adding_currency" => "Erro ao adicionar moeda.",

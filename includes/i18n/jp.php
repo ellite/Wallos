@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "実験的な設定は、おそらく完全には機能しません。",
     "payment_methods" => "支払い方法",
     "payment_methods_info" => "支払い方法をクリックして無効/有効を切り替えます。",
+    "rename_payment_methods_info" => "支払い方法の名前をクリックして、名前を変更します。",
     "cant_delete_payment_method_in_use" => "支払い方法が使用中のため無効にできません。",
     "add_custom_payment" => "カスタム支払い方法を追加",
     "payment_method_name" => "支払い方法名",
     "payment_method_added_successfuly" => "支払い方法が追加されました",
     "disable"         => "無効",
     "enable"          => "有効",
+    "rename_payment_method" => "支払い方法の名前を変更",
+    "payment_renamed" => "支払い方法が変更されました",
+    "payment_not_renamed" => "支払い方法が変更されませんでした",
     "test"            => "テスト",
     "add"             => "追加",
     "save"            => "保存",
     "export_subscriptions" => "購読をエクスポート",
     "export_to_json"  => "JSONにエクスポート",
+    // Filters menu
+    "filter"          => "フィルタ",
+    "clear"           => "クリア",
     // Toast
     "success"         => "成功",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "カテゴリの削除に失敗",
     "category_saved"  => "カテゴリの保存",
     "category_removed" => "カテゴリの削除",
+    "sort_order_saved" => "並べ替え順が保存されました",
     // Currency
     "currency_saved"  => "通貨を保存",
     "error_adding_currency" => "通貨エントリの追加エラー.",

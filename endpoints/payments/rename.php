@@ -1,0 +1,41 @@
+<?php
+
+require_once '../../includes/connect_endpoint.php';
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('session_expired', $i18n)
+    ]));
+}
+
+if (!isset($_POST['paymentId']) || !isset($_POST['name']) || $_POST['paymentId'] === '' || $_POST['name'] === '') {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('fields_missing', $i18n)
+    ]));
+}
+
+$paymentId = $_POST['paymentId'];
+$name = $_POST['name'];
+
+$sql = "UPDATE payment_methods SET name = :name WHERE id = :paymentId";
+$stmt = $db->prepare($sql);
+$stmt->bindParam(':name', $name, SQLITE3_TEXT);
+$stmt->bindParam(':paymentId', $paymentId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
+if ($result) {
+    echo json_encode([
+        "success" => true,
+        "message" => translate('payment_renamed', $i18n)
+    ]);
+} else {
+    echo json_encode([
+        "success" => false,
+        "message" => translate('payment_not_renamed', $i18n)
+    ]);
+}
+
+?>

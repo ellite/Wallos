@@ -2,6 +2,7 @@
     require_once 'includes/header.php';
 ?>
 
+<script src="scripts/libs/sortable.min.js"></script>
 <style>
       .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
@@ -238,7 +239,7 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM categories";
+        $sql = "SELECT * FROM categories ORDER BY `order` ASC";
         $result = $db->query($sql);
 
         if ($result) {
@@ -254,7 +255,7 @@
             <h2><?= translate('categories', $i18n) ?></h2>
         </header>
         <div class="account-categories">
-            <div  id="categories">
+            <div  id="categories" class="sortable-list">
             <?php
                 foreach ($categories as $category) {
                     if ($category['id'] != 1) {
@@ -272,6 +273,7 @@
                         }
                     ?>
                     <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
+                        <div class="drag-icon"></div>
                         <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
                         <button class="image-button medium"  onClick="editCategory(<?= $category['id'] ?>)" name="save">
                             <img src="images/siteicons/save.png" title="<?= translate('save_category', $i18n) ?>">
@@ -497,14 +499,11 @@
                              data-enabled="<?= $payment['enabled']; ?>"
                              data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
                              data-paymentid="<?= $payment['id'] ?>"
-                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>"
-                             onClick="togglePayment(<?= $payment['id'] ?>)">
+                             title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>">
                             <img src="<?= $paymentIconFolder.$payment['icon'] ?>"  alt="Logo" />
-                            <span class="payment-name">
-                                <?= $payment['name'] ?>
-                            </span>
+                            <span class="payment-name" contenteditable="true" title="<?= translate("rename_payment_method", $i18n) ?>"><?= $payment['name'] ?></span>
                             <?php
-                                if ($payment['id'] > 31 && !$inUse) {
+                                if (!$inUse) {
                                     ?>
                                         <div class="delete-payment-method" title="<?= translate('delete', $i18n) ?>" data-paymentid="<?= $payment['id'] ?>">x</div>
                                     <?php
@@ -519,6 +518,10 @@
             <p>
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('payment_methods_info', $i18n) ?>
+            </p>
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                <?= translate('rename_payment_methods_info', $i18n) ?>
             </p>
         </div>
         <header>

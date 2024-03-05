@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "Deneysel ayarlar muhtemelen mükemmel çalışmayacak.",
     "payment_methods" => "Ödeme Yöntemleri",
     "payment_methods_info" => "Bir ödeme yöntemini devre dışı bırakmak / etkinleştirmek için tıklayın.",
+    "rename_payment_methods_info" => "Yeniden adlandırmak için bir ödeme yönteminin adına tıklayın.",
     "cant_delete_payment_method_in_use" => "Kullanımda olan ödeme yöntemini devre dışı bırakamazsınız",
     "add_custom_payment" => "Özel ödeme yöntemi ekle",
     "payment_method_name" => "Ödeme Yöntemi Adı",
     "payment_method_added_successfuly" => "Ödeme yöntemi başarıyla eklendi",
     "disable" => "Devre Dışı Bırak",
     "enable" => "Etkinleştir",
+    "rename_payment_method" => "Ödeme yöntemi adını değiştir",
+    "payment_renamed" => "Ödeme yöntemi adı değiştirildi",
+    "payment_not_renamed" => "Ödeme yöntemi adı değiştirilemedi",
     "test" => "Test Et",
     "add" => "Ekle",
     "save" => "Kaydet",
     "export_subscriptions" => "Abonelikleri Dışa Aktar",
     "export_to_json" => "JSON'a dışa aktar",
+    // Filters menu
+    "filter" => "Filtre",
+    "clear" => "Temizle",
     // Toast
     "success" => "Başarılı",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "Kategori kaldırılamadı",
     "category_saved" => "Kategori kaydedildi",
     "category_removed" => "Kategori kaldırıldı",
+    "sort_order_saved" => "Sıralama düzeni kaydedildi",
     // Currency
     "currency_saved" => "kaydedildi.",
     "error_adding_currency" => "Para birimi girişi eklenirken hata oluştu.",

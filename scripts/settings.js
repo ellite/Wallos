@@ -165,9 +165,12 @@ function addCategoryButton(categoryId) {
     if(responseData.success) {
       const newCategoryId = responseData.categoryId;;
       let container = document.getElementById("categories");
-      let div = document.createElement("div");
-      div.className = "form-group-inline";
-      div.dataset.categoryid = newCategoryId;
+      let row = document.createElement("li");
+      row.className = "form-group-inline";
+      row.dataset.categoryid = newCategoryId;
+
+      let dragIcon = document.createElement("div");
+      dragIcon.className = "drag-icon";
 
       let input = document.createElement("input");
       input.type = "text";
@@ -201,11 +204,12 @@ function addCategoryButton(categoryId) {
 
       deleteLink.appendChild(deleteImage);
 
-      div.appendChild(input);
-      div.appendChild(editLink);
-      div.appendChild(deleteLink);
+      row.appendChild(dragIcon);
+      row.appendChild(input);
+      row.appendChild(editLink);
+      row.appendChild(deleteLink);
 
-      container.appendChild(div);
+      container.appendChild(row);
     } else {
       showErrorMessage(responseData.errorMessage);
     }
@@ -246,6 +250,7 @@ function removeCategory(categoryId) {
 function editCategory(categoryId) {
   var saveButton = document.querySelector(`div[data-categoryid="${categoryId}"] button[name="save"]`);
   var inputElement = document.querySelector(`div[data-categoryid="${categoryId}"] input[name="category"]`);
+  console.log(saveButton);
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
   if (inputElement) {
@@ -424,7 +429,7 @@ function togglePayment(paymentId) {
     const element = document.querySelector(`div[data-paymentid="${paymentId}"]`);
 
     if (element.dataset.inUse === 'yes') {
-      return showErrorMessage(translate(cant_disable_payment_in_use));
+      return showErrorMessage(translate('cant_disable_payment_in_use'));
     }
 
     const newEnabledState = element.dataset.enabled === '1' ? '0' : '1';
@@ -448,6 +453,69 @@ function togglePayment(paymentId) {
         showErrorMessage(error.message || translate('failed_save_payment_method'));
     });
 }
+
+document.body.addEventListener('click', function(e) {
+  let targetElement = e.target;
+  do {
+    if (targetElement.classList && targetElement.classList.contains('payments-payment')) {
+      let targetChild = e.target;
+      do {
+        if (targetChild.classList && targetChild.classList.contains('payment-name')) {
+          return;
+        }
+        targetChild = targetChild.parentNode;
+      } while (targetChild && targetChild !== targetElement);
+
+      const paymentId = targetElement.dataset.paymentid;
+      togglePayment(paymentId);
+      return;
+    }
+    targetElement = targetElement.parentNode;
+  } while (targetElement);
+});
+
+document.body.addEventListener('blur', function(e) {
+  let targetElement = e.target;
+  if (targetElement.classList && targetElement.classList.contains('payment-name')) {
+    const paymentId = targetElement.closest('.payments-payment').dataset.paymentid;
+    const newName = targetElement.textContent;
+    renamePayment(paymentId, newName);
+  }
+}, true);
+
+function renamePayment(paymentId, newName) {
+  const name = newName.trim();
+  const formData = new FormData();
+  formData.append('paymentId', paymentId);
+  formData.append('name', name);
+  fetch('endpoints/payments/rename.php', {
+    method: 'POST',
+    body: formData
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error(translate('network_response_error'));
+    }
+    return response.json();
+  }).then(data => {
+    if (data.success) {
+      showSuccessMessage(`${newName} ${data.message}`);
+    } else {
+      showErrorMessage(data.message);
+    }
+  }).catch(error => {
+    showErrorMessage(translate('unknown_error'));
+  });
+}
+
+document.body.addEventListener('keypress', function(e) {
+    let targetElement = e.target;
+    if (targetElement.classList && targetElement.classList.contains('payment-name')) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            targetElement.blur();
+        }
+    }
+});
 
 function handleFileSelect(event) {
   const fileInput = event.target;
@@ -843,3 +911,41 @@ function setRemoveBackground() {
 function exportToJson() {
   window.location.href = "endpoints/subscriptions/export.php";
 }
+
+function saveCategorySorting() {
+  const categories = document.getElementById('categories');
+  const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);
+  
+  const formData = new FormData();
+  categoryIds.forEach(categoryId => {
+      formData.append('categoryIds[]', categoryId);
+  });
+  
+  fetch('endpoints/categories/sort.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+  })
+  .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+  });
+}
+
+var el = document.getElementById('categories');
+var sortable = Sortable.create(el, {
+  handle: '.drag-icon',
+  ghostClass: 'sortable-ghost',
+  delay: 500,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 5,
+  onEnd: function (evt) {
+    saveCategorySorting();
+  },
+});

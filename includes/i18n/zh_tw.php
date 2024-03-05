@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "實驗性設定，可能存在問題。",
     "payment_methods" => "付款方式",
     "payment_methods_info" => "點選付款方式以停用/啟用。",
+    "rename_payment_methods_info" => "點選付款方式的名稱可對其進行重新命名。",
     "cant_delete_payment_method_in_use" => "無法停用正在使用的付款方式",
     "add_custom_payment" => "新增自訂付款方式",
     "payment_method_name" => "付款方式名稱",
     "payment_method_added_successfuly" => "付款方式已成功新增",
     "disable"         => "停用",
     "enable"          => "啟用",
+    "rename_payment_method" => "更改付款方式名稱",
+    "payment_renamed" => "付款方式名稱已更改",
+    "payment_not_renamed" => "付款方式名稱未更改",
     "test"            => "測試",
     "add"             => "新增",
     "save"            => "儲存",
     "export_subscriptions" => "匯出訂閱",
     "export_to_json"  => "匯出為 JSON 檔案",
+    // Filters menu
+    "filter"          => "篩選",
+    "clear"           => "清除",
     // Toast
     "success"         => "成功",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "移除分類失敗",
     "category_saved" => "分類已儲存",
     "category_removed" => "分類已移除",
+    "sort_order_saved" => "排序順序已儲存",
     // Currency
     "currency_saved" => "已儲存。",
     "error_adding_currency" => "新增貨幣時發生錯誤。",

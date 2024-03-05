@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "Les paramètres expérimentaux ne fonctionneront probablement pas parfaitement.",
     "payment_methods" => "Méthodes de paiement",
     "payment_methods_info" => "Cliquez sur une méthode de paiement pour la désactiver / l'activer.",
+    "rename_payment_methods_info" => "Cliquez sur le nom d'un mode de paiement pour le renommer.",
     "cant_delete_payment_method_in_use" => "Impossible de désactiver la méthode de paiement utilisée",
     "add_custom_payment" => "Ajouter un paiement personnalisé",
     "payment_method_name" => "Nom de la méthode de paiement",
     "payment_method_added_successfuly" => "Méthode de paiement ajoutée avec succès",
     "disable" => "Désactiver",
     "enable" => "Activer",
+    "rename_payment_method" => "Renommer la méthode de paiement",
+    "payment_renamed" => "Méthode de paiement renommée",
+    "payment_not_renamed" => "La méthode de paiement n'a pas été renommée",
     "test" => "Test",
     "add" => "Ajouter",
     "save" => "Enregistrer",
     "export_subscriptions" => "Exporter les abonnements",
     "export_to_json" => "Exporter en JSON",
+    // Menu des filtes
+    "filter" => "Filtre",
+    "clear" => "Effacer",
     // Toast
     "success" => "Succès",
     // Réponses de l'API
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "Échec de la suppression de la catégorie",
     "category_saved" => "Catégorie enregistrée",
     "category_removed" => "Catégorie supprimée",
+    "sort_order_saved" => "L'ordre de tri a été enregistré",
     // Devise
     "currency_saved" => "a été enregistrée.",
     "error_adding_currency" => "Erreur lors de l'ajout de l'entrée de devise.",

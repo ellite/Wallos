@@ -143,17 +143,25 @@ $i18n = [
     "experimental_info" => "实验性设置，可能存在问题。",
     "payment_methods" => "支付方式",
     "payment_methods_info" => "点击支付方式以禁用/启用。",
+    "rename_payment_methods_info" => "点击付款方式名称，重新命名该付款方式。"
     "cant_delete_payment_method_in_use" => "不能禁用正在使用的支付方式",
     "add_custom_payment" => "添加自定义支付方式",
     "payment_method_name" => "支付方式名称",
     "payment_method_added_successfuly" => "支付方式已成功添加",
     "disable"         => "禁用",
     "enable"          => "启用",
+    "rename_payment_method" => "重命名支付方式",
+    "payment_renamed" => "支付方式已重命名",
+    "payment_not_renamed" => "支付方式未重命名",
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
     "export_subscriptions" => "导出订阅",
     "export_to_json"  => "导出为 JSON",
+
+    // Filters menu
+    "filter"          => "筛选",
+    "clear"           => "清除",
     
     // Toast
     "success"         => "成功",
@@ -172,6 +180,7 @@ $i18n = [
     "failed_remove_category" => "移除分类失败",
     "category_saved" => "分类已保存",
     "category_removed" => "分类已移除",
+    "sort_order_saved" => "排序顺序已保存",
     
     // Currency
     "currency_saved" => "货币已保存。",

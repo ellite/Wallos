@@ -136,17 +136,24 @@ $i18n = [
     "experimental_info" => "Experimentelle Einstellungen funktionieren möglicherweise nicht perfekt.",
     "payment_methods" => "Zahlungsmethoden",
     "payment_methods_info" => "Zahlungsmethode zum (de-)aktivieren anklicken.",
+    "rename_payment_methods_info" => "Klicken Sie auf den Namen einer Zahlungsmethode, um sie umzubenennen",
     "cant_delete_payment_method_in_use" => "Genutzte Zahlungsmethoden können nicht deaktiviert werden",
     "add_custom_payment" => "Eigene Zahlungsmethode hinzufügen",
     "payment_method_name" => "Name der Zahlungsmethode",
     "payment_method_added_successfuly" => "Zahlungsmethode erfolgreich hinzugefügt",
     "disable"         => "Deaktivieren",
     "enable"          => "Aktivieren",
+    "rename_payment_method" => "Zahlungsmethode umbenennen",
+    "payment_renamed" => "Zahlungsmethode umbenannt",
+    "payment_not_renamed" => "Zahlungsmethode konnte nicht umbenannt werden",
     "test"            => "Test",
     "add"             => "Hinzufügen",
     "save"            => "Speichern",
     "export_subscriptions" => "Abonnements exportieren",
     "export_to_json"  => "Nach JSON exportieren",
+    // Filters menu
+    "filter"          => "Filter",
+    "clear"           => "Leeren",
     // Toast
     "success"         => "Erfolgreich",
     // Endpoint responses
@@ -162,6 +169,7 @@ $i18n = [
     "failed_remove_category" => "Kategorie konnte nicht gelöscht werden",
     "category_saved"  => "Kategorie gespeichert",
     "category_removed" => "Kategorie gelöscht",
+    "sort_order_saved" => "Sortierung gespeichert",
     // Currency
     "currency_saved"  => "wurde gespeichert.",
     "error_adding_currency" => "Fehler beim hinzufügen der Währung.",

@@ -33,6 +33,7 @@ self.addEventListener('install', function(event) {
                 'scripts/i18n/zh_tw.js',
                 'scripts/i18n/getlang.js',
                 'scripts/libs/chart.js',
+                'scripts/libs/sortable.min.js',
                 'images/icon/favicon.ico',
                 'images/wallossolid.png',
                 'images/wallossolidwhite.png',

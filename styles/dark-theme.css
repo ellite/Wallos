@@ -11,15 +11,21 @@ header .logo .logo-image {
     background-image: url("../images/wallossolidwhite.png");
 }
 
+.split-header > h2 .header-subtitle {
+    color: #A9A9A9;
+  }
+
 .subscription,
 .subscription-form,
 .account-section,
 .avatar-select,
 .logo-search,
+.icon-search,
 .dropdown-content,
 .sort-options,
 .statistic,
-.graph {
+.graph,
+.filtermenu-content {
     background-color: #222;
     border: 1px solid #333;
     box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
@@ -35,6 +41,11 @@ header .logo .logo-image {
 
 .dropdown-content a:hover {
     background-color: #333333;
+}
+
+.filtermenu-content .filter-item:hover,
+.filtermenu-content .filter-title:hover {
+  background-color: #333333;
 }
 
 .subscription-form h3 {
