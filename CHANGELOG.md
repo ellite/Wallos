@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.12.0](https://github.com/ellite/Wallos/compare/v1.11.3...v1.12.0) (2024-03-05)
+
+
+### Features
+
+* add filters to statistics page ([83234ab](https://github.com/ellite/Wallos/commit/83234ab8cd184f4693a148dc55bddef300c49e71))
+* allow deletion of the default payment methods ([83234ab](https://github.com/ellite/Wallos/commit/83234ab8cd184f4693a148dc55bddef300c49e71))
+* allow renaming / translation of payment methods ([83234ab](https://github.com/ellite/Wallos/commit/83234ab8cd184f4693a148dc55bddef300c49e71))
+* allow sorting of categories in settings ([83234ab](https://github.com/ellite/Wallos/commit/83234ab8cd184f4693a148dc55bddef300c49e71))
+
 ## [1.11.3](https://github.com/ellite/Wallos/compare/v1.11.2...v1.11.3) (2024-03-02)
 
 
