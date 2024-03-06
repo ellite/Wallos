@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/ellite/Wallos/compare/v1.12.0...v1.12.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* broken chinese language file ([#192](https://github.com/ellite/Wallos/issues/192)) ([94c1a91](https://github.com/ellite/Wallos/commit/94c1a91387ca05fad3a50e5f318d8439c7608cbe))
+
 ## [1.12.0](https://github.com/ellite/Wallos/compare/v1.11.3...v1.12.0) (2024-03-05)
 
 
