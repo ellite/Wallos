@@ -84,13 +84,14 @@ $code = $row['code'];
 $activeSubscriptions = 0;
 $inactiveSubscriptions = 0;
 // Calculate total monthly price
-$mostExpensiveSubscription = 0;
+$mostExpensiveSubscription = array();
+$mostExpensiveSubscription['price'] = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
 $totalSavingsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive FROM subscriptions";
+$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -132,6 +133,7 @@ if ($result) {
     foreach ($subscriptions as $subscription) {
       $name = $subscription['name'];
       $price = $subscription['price'];
+      $logo = $subscription['logo'];
       $frequency = $subscription['frequency'];
       $cycle = $subscription['cycle'];
       $currency = $subscription['currency_id'];
@@ -149,8 +151,10 @@ if ($result) {
         $memberCost[$payerId]['cost'] += $price;
         $categoryCost[$categoryId]['cost'] += $price;
         $paymentMethodCount[$paymentMethodId]['count'] += 1;
-        if ($price > $mostExpensiveSubscription) {
-          $mostExpensiveSubscription = $price;
+        if ($price > $mostExpensiveSubscription['price']) {
+          $mostExpensiveSubscription['price'] = $price;
+          $mostExpensiveSubscription['name'] = $name;
+          $mostExpensiveSubscription['logo'] = $logo;
         }
 
         // Calculate ammount due this month
@@ -301,9 +305,22 @@ $numberOfElements = 6;
       <span><?= CurrencyFormatter::format($averageSubscriptionCost, $code) ?></span>
       <div class="title"><?= translate('average_monthly', $i18n) ?></div>
     </div>
-    <div class="statistic">
-      <span><?= CurrencyFormatter::format($mostExpensiveSubscription, $code) ?></span>
+    <div class="statistic short">
+      <span><?= CurrencyFormatter::format($mostExpensiveSubscription['price'], $code) ?></span>
       <div class="title"><?= translate('most_expensive', $i18n) ?></div>
+      <?php
+        if ($mostExpensiveSubscription['logo']) {
+          ?>
+            <div class="subtitle">
+              <img src="images/uploads/logos/<?= $mostExpensiveSubscription['logo'] ?>" alt="<?= $mostExpensiveSubscription['name'] ?>" title="<?= $mostExpensiveSubscription['name'] ?>" />
+            </div>
+          <?php
+        } else {
+          ?>
+            <div class="subtitle"><?= $mostExpensiveSubscription['name'] ?></div>
+          <?php
+        }
+      ?>
     </div>
     <div class="statistic">
       <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
