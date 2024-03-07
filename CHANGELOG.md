@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/ellite/Wallos/compare/v1.12.1...v1.13.0) (2024-03-07)
+
+
+### Features
+
+* show name of most expensive subscription on statistics ([#194](https://github.com/ellite/Wallos/issues/194)) ([ede08b1](https://github.com/ellite/Wallos/commit/ede08b1f6ae2d52ac0f8e1aaa77edc1924f529ce))
+
 ## [1.12.1](https://github.com/ellite/Wallos/compare/v1.12.0...v1.12.1) (2024-03-06)
 
 
