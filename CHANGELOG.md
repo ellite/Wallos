@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/ellite/Wallos/compare/v1.13.0...v1.14.0) (2024-03-08)
+
+
+### Features
+
+* add brazilian portuguese to available languages ([#198](https://github.com/ellite/Wallos/issues/198)) ([3ea9d98](https://github.com/ellite/Wallos/commit/3ea9d98da79e9b13ab9d93a56b89062ac19c31d7))
+
 ## [1.13.0](https://github.com/ellite/Wallos/compare/v1.12.1...v1.13.0) (2024-03-07)
 
 
