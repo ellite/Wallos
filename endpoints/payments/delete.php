@@ -8,10 +8,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $deleteQuery = "DELETE FROM payment_methods WHERE id = :paymentMethodId";
         $deleteStmt = $db->prepare($deleteQuery);
         $deleteStmt->bindParam(':paymentMethodId', $paymentMethodId, SQLITE3_INTEGER);
-    
+
         if ($deleteStmt->execute()) {
             $success['success'] = true;
-            $success['message'] = translate('payment_method_added_successfuly', $i18n);
+            $success['message'] = translate('payment_method_removed', $i18n);
             $json = json_encode($success);
             header('Content-Type: application/json');
             echo $json;

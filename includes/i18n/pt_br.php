@@ -139,6 +139,7 @@ $i18n = [
     "add_custom_payment" => "Adicionar um método de pagamento personalizado",
     "payment_method_name" => "Nome do método de pagamento",
     "payment_method_added_successfuly" => "Método de pagamento adicionado com sucesso",
+    "payment_method_removed" => "Método de pagamento excluído",
     "disable"         => "Desativar",
     "enable"          => "Ativar",
     "rename_payment_method" => "Renomear método de pagamento",
@@ -166,7 +167,7 @@ $i18n = [
     "category_in_use" => "Essa categoria está em uso em uma assinatura e não pode ser removida",
     "failed_remove_category" => "Erro ao remover categoria",
     "category_saved"  => "Categoria salva",
-    "category_removed" => "Category excluída",
+    "category_removed" => "Categoria excluída",
     "sort_order_saved" => "Direção de ordenação salva",
     // Currency
     "currency_saved"  => "foi salva.",
