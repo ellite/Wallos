@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.1](https://github.com/ellite/Wallos/compare/v1.14.0...v1.14.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* wrong message when deleting payment methods ([#202](https://github.com/ellite/Wallos/issues/202)) ([93a3d18](https://github.com/ellite/Wallos/commit/93a3d189794985c1d8cfd5558c482f66e79405a8))
+
 ## [1.14.0](https://github.com/ellite/Wallos/compare/v1.13.0...v1.14.0) (2024-03-08)
 
 
