@@ -141,6 +141,7 @@ $i18n = [
     "add_custom_payment" => "Προσθήκη προσαρμοσμένης μεθόδου πληρωμής",
     "payment_method_name" => "Όνομα μεθόδου πληρωμής",
     "payment_method_added_successfuly" => "Η μέθοδος πληρωμής προστέθηκε με επιτυχία",
+    "payment_method_removed" => "Η μέθοδος πληρωμής αφαιρέθηκε",
     "disable"         => "Ανενεργό",
     "enable"          => "Ενεργό",
     "rename_payment_method" => "Μετονομασία μεθόδου πληρωμής",
