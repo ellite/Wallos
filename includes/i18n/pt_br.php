@@ -167,7 +167,7 @@ $i18n = [
     "category_in_use" => "Essa categoria está em uso em uma assinatura e não pode ser removida",
     "failed_remove_category" => "Erro ao remover categoria",
     "category_saved"  => "Categoria salva",
-    "category_removed" => "Category excluída",
+    "category_removed" => "Categoria excluída",
     "sort_order_saved" => "Direção de ordenação salva",
     // Currency
     "currency_saved"  => "foi salva.",
