@@ -141,6 +141,7 @@ $i18n = [
     "add_custom_payment" => "カスタム支払い方法を追加",
     "payment_method_name" => "支払い方法名",
     "payment_method_added_successfuly" => "支払い方法が追加されました",
+    "payment_method_removed" => "支払い方法が削除されました",
     "disable"         => "無効",
     "enable"          => "有効",
     "rename_payment_method" => "支払い方法の名前を変更",

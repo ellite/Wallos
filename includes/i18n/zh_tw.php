@@ -141,6 +141,7 @@ $i18n = [
     "add_custom_payment" => "新增自訂付款方式",
     "payment_method_name" => "付款方式名稱",
     "payment_method_added_successfuly" => "付款方式已成功新增",
+    "payment_method_removed" => "付款方式已移除",
     "disable"         => "停用",
     "enable"          => "啟用",
     "rename_payment_method" => "更改付款方式名稱",

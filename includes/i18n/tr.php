@@ -141,6 +141,7 @@ $i18n = [
     "add_custom_payment" => "Özel ödeme yöntemi ekle",
     "payment_method_name" => "Ödeme Yöntemi Adı",
     "payment_method_added_successfuly" => "Ödeme yöntemi başarıyla eklendi",
+    "payment_method_removed" => "Ödeme yöntemi kaldırıldı",
     "disable" => "Devre Dışı Bırak",
     "enable" => "Etkinleştir",
     "rename_payment_method" => "Ödeme yöntemi adını değiştir",

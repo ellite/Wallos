@@ -141,6 +141,7 @@ $i18n = [
     "add_custom_payment" => "Añadir método de pago personalizado",
     "payment_method_name" => "Nombre del método de pago",
     "payment_method_added_successfuly" => "Método de pago añadido con éxito",
+    "payment_method_removed" => "Método de pago eliminado",
     "disable"         => "Desactivar",
     "enable"          => "Activar",
     "rename_payment_method" => "Renombrar método de pago",
