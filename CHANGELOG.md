@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.1](https://github.com/ellite/Wallos/compare/v1.15.0...v1.15.1) (2024-03-09)
+
+
+### Bug Fixes
+
+* undefined var if sort cookie is not set ([#207](https://github.com/ellite/Wallos/issues/207)) ([288c106](https://github.com/ellite/Wallos/commit/288c10624592aa04cc76cb8ae066331d65964650))
+
 ## [1.15.0](https://github.com/ellite/Wallos/compare/v1.14.1...v1.15.0) (2024-03-09)
 
 
