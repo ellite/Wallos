@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.15.0](https://github.com/ellite/Wallos/compare/v1.14.1...v1.15.0) (2024-03-09)
+
+
+### Features
+
+* filters on the subscriptions page ([a396285](https://github.com/ellite/Wallos/commit/a396285b76cd87e598495f311a81dc68a7f66d36))
+* search subscriptions by name ([a396285](https://github.com/ellite/Wallos/commit/a396285b76cd87e598495f311a81dc68a7f66d36))
+
 ## [1.14.1](https://github.com/ellite/Wallos/compare/v1.14.0...v1.14.1) (2024-03-08)
 
 
