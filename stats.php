@@ -310,13 +310,13 @@ $numberOfElements = 6;
       <span><?= CurrencyFormatter::format($mostExpensiveSubscription['price'], $code) ?></span>
       <div class="title"><?= translate('most_expensive', $i18n) ?></div>
       <?php
-        if ($mostExpensiveSubscription['logo']) {
+        if (isset($mostExpensiveSubscription['logo']) && $mostExpensiveSubscription['logo'] != '') {
           ?>
             <div class="subtitle">
               <img src="images/uploads/logos/<?= $mostExpensiveSubscription['logo'] ?>" alt="<?= $mostExpensiveSubscription['name'] ?>" title="<?= $mostExpensiveSubscription['name'] ?>" />
             </div>
           <?php
-        } else {
+        } else if (isset($mostExpensiveSubscription['name']) && $mostExpensiveSubscription['name'] != ''){
           ?>
             <div class="subtitle"><?= $mostExpensiveSubscription['name'] ?></div>
           <?php
