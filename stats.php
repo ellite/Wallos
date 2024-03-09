@@ -202,89 +202,90 @@ $numberOfElements = 6;
       <?= translate('general_statistics', $i18n) ?> <span class="header-subtitle"><?= $statsSubtitle ?></span>
     </h2>
     <div class="filtermenu">
-        <button class="button" id="filtermenu-button">
-          <i class="fa-solid fa-filter"></i>
-          <?= translate("filter", $i18n) ?>
-        </button>
-        <div class="filtermenu-content">
-          <?php
-            if (count($members) > 1) {
-          ?>
-            <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('member')"><?= translate("member", $i18n) ?></div>
-              <div class="filtermenu-submenu-content" id="filter-member">
-                <?php
-                  foreach ($members as $member) {
-                    $selectedClass = '';
-                    if (isset($_GET['member']) && $_GET['member'] == $member['id']) {
-                      $selectedClass = 'selected';
-                    }
-                    ?>
-                      <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?></div>
-                    <?php
-                  }
-                ?>
-              </div>
-            </div>
-          <?php
-            }
-          ?>
-          <?php
-            if (count($categories) > 1) {
-          ?>
-            <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
-              <div class="filtermenu-submenu-content" id="filter-category">
-                <?php
-                  foreach ($categories as $category) {
-                    $selectedClass = '';
-                    if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
-                      $selectedClass = 'selected';
-                    }
-                    ?>
-                      <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>"><?= $category['name'] ?></div>
-                    <?php
-                  }
-                ?>
-              </div>
-            </div>
-          <?php
-            }
-          ?>
-          <?php
-            if (count($paymentMethodCount) > 1) {
-          ?>
-            <div class="filtermenu-submenu">
-              <div class="filter-title" onClick="toggleSubMenu('payment')"><?= translate("payment_method", $i18n) ?></div>
-              <div class="filtermenu-submenu-content" id="filter-payment">
-                <?php
-                  foreach ($paymentMethodCount as $payment) {
-                    $selectedClass = '';
-                    if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
-                      $selectedClass = 'selected';
-                    }
-                    ?>
-                      <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>"><?= $payment['name'] ?></div>
-                    <?php
-                  }
-                ?>
-              </div>
-            </div>
-          <?php
-            }
-          ?>
-          <?php
-            if (isset($_GET['member']) || isset($_GET['category']) || isset($_GET['payment'])) {
-              ?>
-                <div class="filtermenu-submenu">
-                  <div class="filter-title filter-clear" onClick="clearFilters()">
-                    <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>
-                  </div>
-                </div>
+      <button class="button" id="filtermenu-button">
+        <i class="fa-solid fa-filter"></i>
+        <?= translate("filter", $i18n) ?>
+      </button>
+      <div class="filtermenu-content">
+        <?php
+          if (count($members) > 1) {
+        ?>
+          <div class="filtermenu-submenu">
+            <div class="filter-title" onClick="toggleSubMenu('member')"><?= translate("member", $i18n) ?></div>
+            <div class="filtermenu-submenu-content" id="filter-member">
               <?php
-            }
-          ?>
-      </div>    
+                foreach ($members as $member) {
+                  $selectedClass = '';
+                  if (isset($_GET['member']) && $_GET['member'] == $member['id']) {
+                    $selectedClass = 'selected';
+                  }
+                  ?>
+                    <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?></div>
+                  <?php
+                }
+              ?>
+            </div>
+          </div>
+        <?php
+          }
+        ?>
+        <?php
+          if (count($categories) > 1) {
+        ?>
+          <div class="filtermenu-submenu">
+            <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
+            <div class="filtermenu-submenu-content" id="filter-category">
+              <?php
+                foreach ($categories as $category) {
+                  $selectedClass = '';
+                  if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
+                    $selectedClass = 'selected';
+                  }
+                  ?>
+                    <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>"><?= $category['name'] ?></div>
+                  <?php
+                }
+              ?>
+            </div>
+          </div>
+        <?php
+          }
+        ?>
+        <?php
+          if (count($paymentMethodCount) > 1) {
+        ?>
+          <div class="filtermenu-submenu">
+            <div class="filter-title" onClick="toggleSubMenu('payment')"><?= translate("payment_method", $i18n) ?></div>
+            <div class="filtermenu-submenu-content" id="filter-payment">
+              <?php
+                foreach ($paymentMethodCount as $payment) {
+                  $selectedClass = '';
+                  if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
+                    $selectedClass = 'selected';
+                  }
+                  ?>
+                    <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>"><?= $payment['name'] ?></div>
+                  <?php
+                }
+              ?>
+            </div>
+          </div>
+        <?php
+          }
+        ?>
+        <?php
+          if (isset($_GET['member']) || isset($_GET['category']) || isset($_GET['payment'])) {
+            ?>
+              <div class="filtermenu-submenu">
+                <div class="filter-title filter-clear" onClick="clearFilters()">
+                  <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>
+                </div>
+              </div>
+            <?php
+          }
+        ?>
+      </div>
+    </div>  
   </div>
 </div>
   </div>

@@ -194,7 +194,7 @@ main > .contain {
   color: #fff;
   border: 1px solid #007bff;
   background-color: #007bff;
-  padding: 14px 30px;
+  padding: 15px 30px;
   font-size: 1rem;
   border-radius: 8px;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
@@ -210,7 +210,7 @@ main > .contain {
   padding: 14px 20px;
 }
 
-.actions {
+.top-actions {
   display: flex;
   flex-direction: row;
   gap: 16px;
@@ -218,16 +218,18 @@ main > .contain {
   width: auto;
 }
 
-.actions .search {
+.top-actions .search {
   flex-grow: 1;
 }
 
-.actions > .search > .search-icon {
+.top-actions > .search > .search-icon {
   float: right;
-  margin-right: 10px;
-  margin-top: -32px;
+  right: 15px;
+  margin-top: -35px;
   position: relative;
   z-index: 2;
+  color: #007bff;
+  font-size: 20px;
 }
 
 .subscriptions {
@@ -406,7 +408,8 @@ main > .contain {
   margin-right: 0px;;
 }
 
-.empty-page {
+.empty-page,
+.no-matching-subscriptions {
   display: block;
   max-width: 90%;
   margin: auto;
@@ -414,15 +417,25 @@ main > .contain {
   font-size: 20px;
 }
 
-.empty-page > img {
+.empty-page > img,
+.no-matching-subscriptions > img {
   max-width: 100%;
+}
+
+.no-matching-subscriptions > img {
+  margin-top: 30px;
 }
 
 .empty-page > p {
   margin: 5px 0px 40px 0px;
 }
 
-.empty-page > button {
+.no-matching-subscriptions > p {
+  margin: 30px 0px 40px 0px;
+}
+
+.empty-page > button,
+.no-matching-subscriptions > button {
   margin: 0px auto;
 }
 
@@ -1404,7 +1417,13 @@ input[type="checkbox"] {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 3;
   overflow: hidden;
-  margin-top: 4px;
+  margin-top: 6px;
+}
+
+@media (max-width: 354px) {
+  .on-dashboard .filtermenu-content {
+    right: -94px;
+  }
 }
 
 .filtermenu-content.is-open {
@@ -1419,6 +1438,10 @@ input[type="checkbox"] {
   font-weight: 500;
   border-bottom: 1px solid #DDD;
   user-select: none;
+}
+
+.filtermenu-content .filtermenu-submenu.hide {
+  display: none;
 }
 
 .filtermenu-content .filtermenu-submenu:last-of-type .filter-title {

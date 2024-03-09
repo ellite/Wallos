@@ -48,6 +48,8 @@ $i18n = [
     "years"           => "年毎",
     "external_url"    => "外部URLにアクセス",
     "empty_page"      => "空のページ",
+    "clear_filters"   => "フィルタをクリア",
+    "no_matching_subscriptions" => "一致する定期購入がありません",
     // Subscription form
     "add_subscription" => "定期購入の追加",
     "edit_subscription" => "定期購入の編集",

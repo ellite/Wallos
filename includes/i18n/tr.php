@@ -48,6 +48,8 @@ $i18n = [
     "years" => "yıllar",
     "external_url" => "Harici URL'yi Ziyaret Et",
     "empty_page" => "Boş Sayfa",
+    "clear_filters" => "Filtreleri Temizle",
+    "no_matching_subscriptions" => "Eşleşen abonelik bulunamadı",
     // Subscription form
     "add_subscription" => "Abonelik ekle",
     "edit_subscription" => "Aboneliği düzenle",

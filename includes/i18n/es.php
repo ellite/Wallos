@@ -48,6 +48,8 @@ $i18n = [
     "years"           => "años",
     "external_url"    => "Visitar URL Externa",
     "empty_page"      => "Página Vacía",
+    "clear_filters"   => "Limpiar Filtros",
+    "no_matching_subscriptions" => "No hay suscripciones que coincidan con los filtros",
     // Subscription form
     "add_subscription" => "Añadir suscripción",
     "edit_subscription" => "Editar suscripción",

@@ -51,6 +51,8 @@ $i18n = [
     "years"           => "年",
     "external_url"    => "访问外部链接",
     "empty_page"      => "空白页面",
+    "clear_filters"   => "清除筛选",
+    "no_matching_subscriptions" => "没有匹配的订阅",
     
     // 订阅表单
     "add_subscription" => "添加订阅",

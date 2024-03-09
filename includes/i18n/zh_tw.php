@@ -48,6 +48,8 @@ $i18n = [
     "years"           => "年",
     "external_url"    => "檢視外部連結",
     "empty_page"      => "空白頁面",
+    "clear_filters"   => "清除篩選",
+    "no_matching_subscriptions" => "沒有符合的訂閱",
     // 訂閱表單
     "add_subscription" => "新增訂閱",
     "edit_subscription" => "編輯訂閱",
