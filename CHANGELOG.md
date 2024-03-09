@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.2](https://github.com/ellite/Wallos/compare/v1.15.1...v1.15.2) (2024-03-09)
+
+
+### Bug Fixes
+
+* undefined var on the statistics page ([#211](https://github.com/ellite/Wallos/issues/211)) ([8b7a7b9](https://github.com/ellite/Wallos/commit/8b7a7b94e3ae9177be6d067d8fee0a05aa428f4a))
+
 ## [1.15.1](https://github.com/ellite/Wallos/compare/v1.15.0...v1.15.1) (2024-03-09)
 
 
