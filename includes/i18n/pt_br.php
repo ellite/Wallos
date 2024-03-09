@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "Você ainda não tem nenhuma assinatura",
     "add_first_subscription" => "Adicionar a primeira assinatura",
     'new_subscription' => "Nova assinatura",
+    'search'          => "Pesquisar",
     'sort'            => "Ordenar",
     'name'            => "Nome",
     'last_added'      => "Última adicionada",

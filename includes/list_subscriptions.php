@@ -98,7 +98,7 @@
                 $currentPaymentMethodId = $subscription['payment_method_id'];
             }
         ?>
-            <div class="subscription<?= $subscription['inactive'] ? ' inactive' : '' ?>" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
+            <div class="subscription<?= $subscription['inactive'] ? ' inactive' : '' ?>" onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>" data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
                     <span class="logo"><img src="<?= $subscription['logo'] ?>"></span>
                     <span class="name"><?= $subscription['name'] ?></span>

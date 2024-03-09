@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "Keine Abonnements hinzugefügt",
     "add_first_subscription" => "Erstes Abonnement hinzufügen",
     'new_subscription' => "Neues Abonnement",
+    'search'          => "Suche",
     'sort'            => "Sortieren",
     'name'            => "Bezeichnung",
     'last_added'      => "Zuletzt hinzugefügt",

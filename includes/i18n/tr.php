@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "Henüz herhangi bir aboneliğiniz yok",
     "add_first_subscription" => "İlk aboneliği ekle",
     'new_subscription' => "Yeni Abonelik",
+    'search' => "Ara",
     'sort' => "Sırala",
     'name' => "İsim",
     'last_added' => "Son Eklenen",

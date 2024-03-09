@@ -320,3 +320,18 @@ document.addEventListener('DOMContentLoaded', function() {
         isSortOptionsOpen = true;
     });
 });
+
+function searchSubscriptions() {
+    const searchInput = document.querySelector("#search");
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    const subscriptions = document.querySelectorAll(".subscription");
+    subscriptions.forEach(subscription => {
+        const name = subscription.getAttribute('data-name').toLowerCase();
+        if (!name.includes(searchTerm)) {
+            subscription.classList.add("hide");
+        } else {
+            subscription.classList.remove("hide");
+        }
+    });
+}

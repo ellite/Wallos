@@ -31,6 +31,7 @@ $i18n = [
     "no_subscriptions_yet" => "您还没有任何订阅",
     "add_first_subscription" => "添加首个订阅",
     'new_subscription' => "新订阅",
+    'search'          => "搜索",
     'sort'            => "排序",
     'name'            => "名称",
     'last_added'      => "创建时间",
