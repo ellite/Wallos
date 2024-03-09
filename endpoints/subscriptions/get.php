@@ -16,11 +16,11 @@
 
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $sort = "next_payment";
+        $order = "ASC";
         $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
         if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
           $sort = $_COOKIE['sortOrder'];
           $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
-          $order = "ASC";
           if ($sort == "price" || $sort == "id") {
             $order = "DESC";
           }
