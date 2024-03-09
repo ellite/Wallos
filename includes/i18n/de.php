@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "Keine Abonnements hinzugefügt",
     "add_first_subscription" => "Erstes Abonnement hinzufügen",
     'new_subscription' => "Neues Abonnement",
+    'search'          => "Suche",
     'sort'            => "Sortieren",
     'name'            => "Bezeichnung",
     'last_added'      => "Zuletzt hinzugefügt",
@@ -47,6 +48,8 @@ $i18n = [
     "years"           => "Jahre",
     "external_url"    => "Externe URL besuchen",
     "empty_page"      => "Leere Seite",
+    "clear_filters"   => "Filter zurücksetzen",
+    "no_matching_subscriptions" => "Keine passenden Abonnements gefunden",
     // Subscription form
     "add_subscription" => "Abonnement hinzufügen",
     "edit_subscription" => "Abonnement editieren",

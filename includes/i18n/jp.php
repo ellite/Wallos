@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "まだ定期購入がありません",
     "add_first_subscription" => "最初の定期購入を追加する",
     'new_subscription' => "新しい定期購入",
+    'search'          => "検索",
     'sort'            => "並べ替え",
     'name'            => "名前",
     'last_added'      => "最終追加日",
@@ -47,6 +48,8 @@ $i18n = [
     "years"           => "年毎",
     "external_url"    => "外部URLにアクセス",
     "empty_page"      => "空のページ",
+    "clear_filters"   => "フィルタをクリア",
+    "no_matching_subscriptions" => "一致する定期購入がありません",
     // Subscription form
     "add_subscription" => "定期購入の追加",
     "edit_subscription" => "定期購入の編集",

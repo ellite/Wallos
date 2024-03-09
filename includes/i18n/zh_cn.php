@@ -31,6 +31,7 @@ $i18n = [
     "no_subscriptions_yet" => "您还没有任何订阅",
     "add_first_subscription" => "添加首个订阅",
     'new_subscription' => "新订阅",
+    'search'          => "搜索",
     'sort'            => "排序",
     'name'            => "名称",
     'last_added'      => "创建时间",
@@ -50,6 +51,8 @@ $i18n = [
     "years"           => "年",
     "external_url"    => "访问外部链接",
     "empty_page"      => "空白页面",
+    "clear_filters"   => "清除筛选",
+    "no_matching_subscriptions" => "没有匹配的订阅",
     
     // 订阅表单
     "add_subscription" => "添加订阅",

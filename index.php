@@ -50,20 +50,106 @@
           <img class="button-icon" src="images/siteicons/plusicon.png">
           <?= translate('new_subscription', $i18n) ?>
         </button>
-        <div class="sort-container">
-          <button class="button" value="Sort" onClick="toggleSortOptions()" id="sort-button">
-            <img src="images/siteicons/sort.png" class="button-icon" /> <?= translate('sort', $i18n) ?>
-          </button>
-          <div class="sort-options" id="sort-options">
-            <ul>
-              <li <?= $sort == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name"><?= translate('name', $i18n) ?></li>
-              <li <?= $sort == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id"><?= translate('last_added', $i18n) ?></li>
-              <li <?= $sort == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price"><?= translate('price', $i18n) ?></li>
-              <li <?= $sort == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')" id="sort-next_payment"><?= translate('next_payment', $i18n) ?></li>
-              <li <?= $sort == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')" id="sort-payer_user_id"><?= translate('member', $i18n) ?></li>
-              <li <?= $sort == "category_id" ? 'class="selected"' : "" ?> onClick="setSortOption('category_id')" id="sort-category_id"><?= translate('category', $i18n) ?></li>
-              <li <?= $sort == "payment_method_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payment_method_id')" id="sort-payment_method_id"><?= translate('payment_method', $i18n) ?></li>
-            </ul>
+        <div class="top-actions">
+          <div class="search">
+            <input type="text" autocomplete="off" name="search" id="search" placeholder="<?= translate('search', $i18n) ?>" onkeyup="searchSubscriptions()" />
+            <span class="fa-solid fa-magnifying-glass search-icon"></span>
+          </div>  
+
+          <div class="filtermenu on-dashboard">
+            <button class="button" id="filtermenu-button" title="<?= translate("filter", $i18n) ?>">
+              <i class="fa-solid fa-filter"></i>
+            </button>
+            <div class="filtermenu-content">
+              <?php
+                if (count($members) > 1) {
+              ?>
+                <div class="filtermenu-submenu">
+                  <div class="filter-title" onClick="toggleSubMenu('member')"><?= translate("member", $i18n) ?></div>
+                  <div class="filtermenu-submenu-content" id="filter-member">
+                    <?php
+                      foreach ($members as $member) {
+                        $selectedClass = '';
+                        if (isset($_GET['member']) && $_GET['member'] == $member['id']) {
+                          $selectedClass = 'selected';
+                        }
+                        ?>
+                          <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?></div>
+                        <?php
+                      }
+                    ?>
+                  </div>
+                </div>
+              <?php
+                }
+              ?>
+              <?php
+                if (count($categories) > 1) {
+              ?>
+                <div class="filtermenu-submenu">
+                  <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
+                  <div class="filtermenu-submenu-content" id="filter-category">
+                    <?php
+                      foreach ($categories as $category) {
+                        $selectedClass = '';
+                        if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
+                          $selectedClass = 'selected';
+                        }
+                        ?>
+                          <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>"><?= $category['name'] ?></div>
+                        <?php
+                      }
+                    ?>
+                  </div>
+                </div>
+              <?php
+                }
+              ?>
+              <?php
+                if (count($payment_methods) > 1) {
+              ?>
+                <div class="filtermenu-submenu">
+                  <div class="filter-title" onClick="toggleSubMenu('payment')"><?= translate("payment_method", $i18n) ?></div>
+                  <div class="filtermenu-submenu-content" id="filter-payment">
+                    <?php
+                      foreach ($payment_methods as $payment) {
+                        $selectedClass = '';
+                        if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
+                          $selectedClass = 'selected';
+                        }
+                        ?>
+                          <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>"><?= $payment['name'] ?></div>
+                        <?php
+                      }
+                    ?>
+                  </div>
+                </div>
+              <?php
+                }
+              ?>
+              <div class="filtermenu-submenu hide" id="clear-filters">
+                <div class="filter-title filter-clear" onClick="clearFilters()">
+                  <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sort-container">
+            <button class="button" value="Sort" onClick="toggleSortOptions()" id="sort-button" title="<?= translate('sort', $i18n) ?>">
+              <img src="images/siteicons/sort.png" class="button-icon" />
+            </button>
+            <div class="sort-options" id="sort-options">
+              <ul>
+                <li <?= $sort == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name"><?= translate('name', $i18n) ?></li>
+                <li <?= $sort == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id"><?= translate('last_added', $i18n) ?></li>
+                <li <?= $sort == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price"><?= translate('price', $i18n) ?></li>
+                <li <?= $sort == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')" id="sort-next_payment"><?= translate('next_payment', $i18n) ?></li>
+                <li <?= $sort == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')" id="sort-payer_user_id"><?= translate('member', $i18n) ?></li>
+                <li <?= $sort == "category_id" ? 'class="selected"' : "" ?> onClick="setSortOption('category_id')" id="sort-category_id"><?= translate('category', $i18n) ?></li>
+                <li <?= $sort == "payment_method_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payment_method_id')" id="sort-payment_method_id"><?= translate('payment_method', $i18n) ?></li>
+              </ul>
+            </div>
           </div>
         </div>
       </header>

@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "Δεν υπάρχουν καταχωρημένες συνδρομές",
     "add_first_subscription" => "Προσθήκη πρώτης συνδρομής",
     'new_subscription' => "Νέα συνδρομή",
+    'search'          => "Αναζήτηση",
     'sort'            => "Ταξινόμηση",
     'name'            => "Όνομα",
     'last_added'      => "Τελευταία προσθήκη",
@@ -47,6 +48,8 @@ $i18n = [
     "years"           => "χρόνια",
     "external_url"    => "Επίσκεψη εξωτερικού συνδέσμου",
     "empty_page"      => "Κενή σελίδα",
+    "clear_filters"   => "Καθαρισμός φίλτρων",
+    "no_matching_subscriptions" => "Δεν υπάρχουν συνδρομές που ταιριάζουν με τα φίλτρα σου",
     // Subscription form
     "add_subscription" => "Προσθήκη συνδρομής",
     "edit_subscription" => "Επεξεργασία συνδρομής",

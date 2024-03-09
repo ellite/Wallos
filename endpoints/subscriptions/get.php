@@ -24,10 +24,30 @@
           if ($sort == "price" || $sort == "id") {
             $order = "DESC";
           }
-          if (in_array($sort, $allowedSortCriteria)) {
-            $sql = "SELECT * FROM subscriptions ORDER BY $sort $order, inactive ASC";
+          if (!in_array($sort, $allowedSortCriteria)) {
+            $sort = "next_payment";
           }
         }
+
+        $sql = "SELECT * FROM subscriptions WHERE 1=1";
+
+        if (isset($_GET['category']) && $_GET['category'] != "") {
+          $category = $_GET['category'];
+          $sql .= " AND category_id = $category";
+        }
+
+        if (isset($_GET['payment']) && $_GET['payment'] != "") {
+          $payment = $_GET['payment'];
+          $sql .= " AND payment_method_id = $payment";
+        }
+
+        if (isset($_GET['member']) && $_GET['member'] != "") {
+          $member = $_GET['member'];
+          $sql .= " AND payer_user_id = $member";
+        }
+
+        $sql .= " ORDER BY $sort $order, inactive ASC";
+
         
         $result = $db->query($sql);
         if ($result) {
@@ -76,16 +96,16 @@
         
         if (count($subscriptions) == 0) {
             ?>
-            <div class="empty-page">
-                <img src="images/siteimages/empty.png" alt="<?= translate('empty_page', $i18n) ?>" />
-                <p>
-                  <?= translate('no_subscriptions_yet', $i18n) ?>
-                </p>
-                <button class="button" onClick="addSubscription()">
-                  <img class="button-icon" src="images/siteicons/plusicon.png">
-                  <?= translate('add_first_subscription', $i18n) ?>
-                </button>
-            </div>
+              <div class="no-matching-subscriptions">
+                  <p>
+                    <?= translate('no_matching_subscriptions', $i18n) ?>
+                  </p>
+                  <button class="button" onClick="clearFilters()">
+                    <span clasS="fa-solid fa-minus-circle"></span>
+                    <?= translate('clear_filters', $i18n) ?>
+                  </button>
+                  <img src="images/siteimages/empty.png" alt="<?= translate('empty_page', $i18n) ?>" />
+              </div>
             <?php
         }
     }

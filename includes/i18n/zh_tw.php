@@ -28,6 +28,7 @@ $i18n = [
     "no_subscriptions_yet" => "目前還沒有任何訂閱",
     "add_first_subscription" => "新增第一個訂閱",
     'new_subscription' => "新訂閱",
+    'search'          => "搜尋",
     'sort'            => "排序",
     'name'            => "名稱",
     'last_added'      => "建立時間",
@@ -47,6 +48,8 @@ $i18n = [
     "years"           => "年",
     "external_url"    => "檢視外部連結",
     "empty_page"      => "空白頁面",
+    "clear_filters"   => "清除篩選",
+    "no_matching_subscriptions" => "沒有符合的訂閱",
     // 訂閱表單
     "add_subscription" => "新增訂閱",
     "edit_subscription" => "編輯訂閱",
