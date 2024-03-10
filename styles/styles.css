@@ -650,6 +650,12 @@ main > .contain {
   cursor: not-allowed;
 }
 
+.payments-list .payments-payment .drag-icon {
+  height: 20px;
+  width: 12px;
+  background-size: contain;
+}
+
 .payments-list .payments-payment > img {
   width: 32px;
   height: 32px;
@@ -851,6 +857,16 @@ input[type="checkbox"] {
   border-radius: 8px;
   display: grid;
   place-content: center;
+}
+
+button.disabled {
+  cursor: not-allowed;
+}
+
+input[type="text"]:disabled {
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

@@ -357,7 +357,7 @@
                     <div class="form-group-inline" data-currencyid="<?= $currency['id'] ?>">
                         <input type="text" class="short" name="symbol" value="<?= $currency['symbol'] ?>" placeholder="$">
                         <input type="text" name="currency" value="<?= $currency['name'] ?>" placeholder="Currency Name">
-                        <input type="text" name="code" value="<?= $currency['code'] ?>" placeholder="Currency Code">
+                        <input type="text" name="code" value="<?= $currency['code'] ?>" placeholder="Currency Code" <?= !$canDelete ? 'disabled' : '' ?>>
                         <button class="image-button medium"  onClick="editCurrency(<?= $currency['id'] ?>)" name="save">
                             <img src="images/siteicons/save.png" title="<?= translate('save_currency', $i18n) ?>">
                         </button>
@@ -468,7 +468,7 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM payment_methods";
+        $sql = "SELECT * FROM payment_methods ORDER BY `order` ASC";
         $result = $db->query($sql);
 
         if ($result) {
@@ -500,6 +500,7 @@
                              data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
                              data-paymentid="<?= $payment['id'] ?>"
                              title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>">
+                            <div class="drag-icon" title=""></div>
                             <img src="<?= $paymentIconFolder.$payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name" contenteditable="true" title="<?= translate("rename_payment_method", $i18n) ?>"><?= $payment['name'] ?></span>
                             <?php
