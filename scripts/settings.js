@@ -460,7 +460,7 @@ document.body.addEventListener('click', function(e) {
     if (targetElement.classList && targetElement.classList.contains('payments-payment')) {
       let targetChild = e.target;
       do {
-        if (targetChild.classList && targetChild.classList.contains('payment-name')) {
+        if (targetChild.classList && (targetChild.classList.contains('payment-name') || targetChild.classList.contains('drag-icon') )) {
           return;
         }
         targetChild = targetChild.parentNode;
@@ -680,6 +680,44 @@ function deletePaymentMethod(paymentId) {
     });
 }
 
+function savePaymentMethodsSorting() {
+  console.log("should save");
+  const paymentMethods = document.getElementById('payments-list');
+  const paymentMethodIds = Array.from(paymentMethods.children).map(paymentMethod => paymentMethod.dataset.paymentid);
+
+  const formData = new FormData();
+  paymentMethodIds.forEach(paymentMethodId => {
+      formData.append('paymentMethodIds[]', paymentMethodId);
+  });
+
+  fetch('endpoints/payments/sort.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.errorMessage);
+      }
+  })
+  .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+  });
+}
+
+var el = document.getElementById('payments-list');
+var sortable = Sortable.create(el, {
+  handle: '.drag-icon',
+  ghostClass: 'sortable-ghost',
+  delay: 500,
+  delayOnTouchOnly: true,
+  touchStartThreshold: 5,
+  onEnd: function (evt) {
+    savePaymentMethodsSorting();
+  },
+});
 
 
 document.addEventListener('DOMContentLoaded', function() {
