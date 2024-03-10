@@ -29,27 +29,33 @@
           }
         }
 
+        $params = array();
         $sql = "SELECT * FROM subscriptions WHERE 1=1";
 
         if (isset($_GET['category']) && $_GET['category'] != "") {
-          $category = $_GET['category'];
-          $sql .= " AND category_id = $category";
+            $sql .= " AND category_id = :category";
+            $params[':category'] = $_GET['category'];
         }
 
         if (isset($_GET['payment']) && $_GET['payment'] != "") {
-          $payment = $_GET['payment'];
-          $sql .= " AND payment_method_id = $payment";
+            $sql .= " AND payment_method_id = :payment";
+            $params[':payment'] = $_GET['payment'];
         }
 
         if (isset($_GET['member']) && $_GET['member'] != "") {
-          $member = $_GET['member'];
-          $sql .= " AND payer_user_id = $member";
+            $sql .= " AND payer_user_id = :member";
+            $params[':member'] = $_GET['member'];
         }
 
         $sql .= " ORDER BY $sort $order, inactive ASC";
 
-        
-        $result = $db->query($sql);
+        $stmt = $db->prepare($sql);
+
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $result = $stmt->execute();
         if ($result) {
             $subscriptions = array();
             while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
