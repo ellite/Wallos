@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.0](https://github.com/ellite/Wallos/compare/v1.15.3...v1.16.0) (2024-03-10)
+
+
+### Features
+
+* allow sorting payment methods ([#217](https://github.com/ellite/Wallos/issues/217)) ([aef2d13](https://github.com/ellite/Wallos/commit/aef2d134c22f7dc95821ff711f7bca56228bfed6))
+* don't allow to change currency code if in use ([aef2d13](https://github.com/ellite/Wallos/commit/aef2d134c22f7dc95821ff711f7bca56228bfed6))
+
 ## [1.15.3](https://github.com/ellite/Wallos/compare/v1.15.2...v1.15.3) (2024-03-10)
 
 
