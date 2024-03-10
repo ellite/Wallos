@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.3](https://github.com/ellite/Wallos/compare/v1.15.2...v1.15.3) (2024-03-10)
+
+
+### Bug Fixes
+
+* sql injection vulnerability when using filters ([#214](https://github.com/ellite/Wallos/issues/214)) ([cbdc188](https://github.com/ellite/Wallos/commit/cbdc188e5e7a2c357f5b0bcaeaf2e886cd2555e3))
+
 ## [1.15.2](https://github.com/ellite/Wallos/compare/v1.15.1...v1.15.2) (2024-03-09)
 
 
