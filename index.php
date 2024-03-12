@@ -253,7 +253,7 @@
           <div class="form-group">
             <div class="inline">
               <div class="split66">
-                <label for="cycle"><?= translate('billing_cycle', $i18n) ?></label>
+                <label for="cycle"><?= translate('payment_every', $i18n) ?></label>
                 <div class="inline">
                   <select id="frequency" name="frequency" placeholder="<?= translate('frequency', $i18n) ?>">
                   <?php
@@ -268,7 +268,7 @@
                   <?php
                       foreach ($cycles as $cycle) {
                     ?>
-                      <option value="<?= $cycle['id'] ?>" <?= $cycle['id'] == 3 ? "selected" : "" ?>><?= translate($cycle['name'], $i18n) ?></option>
+                      <option value="<?= $cycle['id'] ?>" <?= $cycle['id'] == 3 ? "selected" : "" ?>><?= translate(strtolower($cycle['name']), $i18n) ?></option>
                     <?php
                       }
                     ?>
