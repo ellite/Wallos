@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/ellite/Wallos/compare/v1.16.0...v1.16.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* confusing wording for billing cycle ([94ad0cb](https://github.com/ellite/Wallos/commit/94ad0cb553d7f05b15e9ab27fbf4c26955fc3ff1))
+
 ## [1.16.0](https://github.com/ellite/Wallos/compare/v1.15.3...v1.16.0) (2024-03-10)
 
 
