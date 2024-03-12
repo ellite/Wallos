@@ -21,6 +21,7 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
 - [Contributing](#contributing)
+  - [Contributors](#contributors)
   - [Translations](#translations)
 - [Screenshots](#screenshots)
 - [License](#license)
@@ -144,6 +145,12 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.  
 Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.  
 I welcome contributions from the community and look forward to working with you to improve this project.
+
+### Contributors
+
+<a href="https://github.com/ellite/wallos/graphs/contributors">
+  <img src="https://contri-graphy.yourselfhosted.com/graph?repo=ellite/wallos&format=svg" />
+</a>
 
 ### Translations
 
