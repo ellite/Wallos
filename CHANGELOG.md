@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.2](https://github.com/ellite/Wallos/compare/v1.16.1...v1.16.2) (2024-03-13)
+
+
+### Bug Fixes
+
+* wrong folder for payment method logos ([#227](https://github.com/ellite/Wallos/issues/227)) ([f6c1ff2](https://github.com/ellite/Wallos/commit/f6c1ff2a6be6545c6c179722235db3cd724127fd))
+
 ## [1.16.1](https://github.com/ellite/Wallos/compare/v1.16.0...v1.16.1) (2024-03-12)
 
 
