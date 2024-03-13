@@ -183,14 +183,24 @@
                 }
             }
 
-            $sql = "INSERT INTO payment_methods (name, icon, enabled) VALUES (:name, :icon, :enabled)";
+            // Get the maximum existing ID
+            $stmt = $db->prepare("SELECT MAX(id) as maxID FROM payment_methods");
+            $result = $stmt->execute();
+            $row = $result->fetchArray(SQLITE3_ASSOC);
+            $maxID = $row['maxID'];
 
+            // Ensure the new ID is greater than 31
+            $newID = max($maxID + 1, 32);
+
+            // Insert the new record with the new ID
+            $sql = "INSERT INTO payment_methods (id, name, icon, enabled) VALUES (:id, :name, :icon, :enabled)";
             $stmt = $db->prepare($sql);
 
+            $stmt->bindParam(':id', $newID, SQLITE3_INTEGER);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
             $stmt->bindParam(':icon', $icon, SQLITE3_TEXT); 
             $stmt->bindParam(':enabled', $enabled, SQLITE3_INTEGER);
-            
+
             if ($stmt->execute()) {
                 $success['success'] = true;
                 $success['message'] = translate('payment_method_added_successfuly', $i18n);

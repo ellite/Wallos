@@ -136,9 +136,7 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 
 ![Screenshot](screenshots/wallos-form.png)
 
-![Screenshot](screenshots/wallos-dashboard-mobile-light.png)
-
-![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
 
 ## Contributing
 
