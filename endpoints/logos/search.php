@@ -8,6 +8,7 @@
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
         // Convert all environment variable keys to lowercase
         $envVars = array_change_key_case($_SERVER, CASE_LOWER);
