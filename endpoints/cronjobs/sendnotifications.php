@@ -14,6 +14,7 @@
         $days = $row['days'];
         $smtpAddress = $row["smtp_address"];
         $smtpPort = $row["smtp_port"];
+        $encryption = $row["encryption"];
         $smtpUsername = $row["smtp_username"];
         $smtpPassword = $row["smtp_password"];
         $fromEmail = $row["from_email"] ? $row["from_email"] : "wallos@wallosapp.com";
@@ -76,7 +77,7 @@
                 $mail->SMTPAuth = true;
                 $mail->Username = $smtpUsername;
                 $mail->Password = $smtpPassword;
-                $mail->SMTPSecure = 'tls';
+                $mail->SMTPSecure = $encryption;
                 $mail->Port = $smtpPort;
     
                 $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
