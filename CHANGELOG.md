@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/ellite/Wallos/compare/v1.16.3...v1.17.0) (2024-03-17)
+
+
+### Features
+
+* allow selecting tls or ssl for email notifications ([#237](https://github.com/ellite/Wallos/issues/237)) ([2462435](https://github.com/ellite/Wallos/commit/246243574328ead6d95d45b81b055761b01040a7))
+
 ## [1.16.3](https://github.com/ellite/Wallos/compare/v1.16.2...v1.16.3) (2024-03-17)
 
 
