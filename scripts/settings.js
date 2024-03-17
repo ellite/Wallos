@@ -165,7 +165,7 @@ function addCategoryButton(categoryId) {
     if(responseData.success) {
       const newCategoryId = responseData.categoryId;;
       let container = document.getElementById("categories");
-      let row = document.createElement("li");
+      let row = document.createElement("div");
       row.className = "form-group-inline";
       row.dataset.categoryid = newCategoryId;
 
@@ -250,7 +250,7 @@ function removeCategory(categoryId) {
 function editCategory(categoryId) {
   var saveButton = document.querySelector(`div[data-categoryid="${categoryId}"] button[name="save"]`);
   var inputElement = document.querySelector(`div[data-categoryid="${categoryId}"] input[name="category"]`);
-  console.log(saveButton);
+  
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
   if (inputElement) {

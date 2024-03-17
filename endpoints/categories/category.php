@@ -6,10 +6,22 @@ session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
+        $stmt = $db->prepare('SELECT MAX("order") as maxOrder FROM categories');
+        $result = $stmt->execute();
+        $row = $result->fetchArray(SQLITE3_ASSOC);
+        $maxOrder = $row['maxOrder'];
+
+        if ($maxOrder === NULL) {
+            $maxOrder = 0;
+        }
+
+        $order = $maxOrder + 1;
+
         $categoryName = "Category";
-        $sqlInsert = "INSERT INTO categories (name) VALUES (:name)";
+        $sqlInsert = 'INSERT INTO categories ("name", "order") VALUES (:name, :order)';
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $categoryName, SQLITE3_TEXT);
+        $stmtInsert->bindParam(':order', $order, SQLITE3_INTEGER);
         $resultInsert = $stmtInsert->execute();
     
         if ($resultInsert) {
