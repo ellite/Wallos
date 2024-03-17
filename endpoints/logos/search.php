@@ -30,6 +30,7 @@
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $backupUrl);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             $envVars = array_change_key_case($_SERVER, CASE_LOWER);
             $httpProxy = isset($envVars['http_proxy']) ? $envVars['http_proxy'] : null;
             $httpsProxy = isset($envVars['https_proxy']) ? $envVars['https_proxy'] : null;
