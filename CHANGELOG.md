@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.16.3](https://github.com/ellite/Wallos/compare/v1.16.2...v1.16.3) (2024-03-17)
+
+
+### Bug Fixes
+
+* allow redirects on logo search ([ae73db7](https://github.com/ellite/Wallos/commit/ae73db77907786993f52f7273145dafa660c4d36))
+* rename category after adding and sort order of categories ([ae73db7](https://github.com/ellite/Wallos/commit/ae73db77907786993f52f7273145dafa660c4d36))
+
 ## [1.16.2](https://github.com/ellite/Wallos/compare/v1.16.1...v1.16.2) (2024-03-13)
 
 
