@@ -23,6 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
         echo json_encode($response);
     } else {
+        $enxryption = "tls";
+        if (isset($data["encryption"])) {
+            $encryption = $data["encryption"];
+        }
+
+
         require '../../libs/PHPMailer/PHPMailer.php';
         require '../../libs/PHPMailer/SMTP.php';
         require '../../libs/PHPMailer/Exception.php';
@@ -41,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->SMTPAuth = true;
         $mail->Username = $smtpUsername;
         $mail->Password = $smtpPassword;
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = $encryption;
         $mail->Port = $smtpPort;
 
         $getUser = "SELECT * FROM user WHERE id = 1";

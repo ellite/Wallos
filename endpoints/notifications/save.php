@@ -23,6 +23,10 @@
             $days = $data["days"];
             $smtpAddress = $data["smtpaddress"];
             $smtpPort = $data["smtpport"];
+            $encryption = "tls";
+            if (isset($data["encryption"])) {
+                $encryption = $data["encryption"];
+            }
             $smtpUsername = $data["smtpusername"];
             $smtpPassword = $data["smtppassword"];
             $fromEmail = $data["fromemail"];
@@ -38,12 +42,12 @@
                 echo json_encode($response);
             } else {
                 if ($result == 0) {
-                    $query = "INSERT INTO notifications (enabled, days, smtp_address, smtp_port, smtp_username, smtp_password, from_email)
-                              VALUES (:enabled, :days, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail)";
+                    $query = "INSERT INTO notifications (enabled, days, smtp_address, smtp_port, smtp_username, smtp_password, from_email, encryption)
+                              VALUES (:enabled, :days, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail, :encryption)";
                 } else {
                     $query = "UPDATE notifications
                               SET enabled = :enabled, days = :days, smtp_address = :smtpAddress, smtp_port = :smtpPort,
-                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail";
+                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail, encryption = :encryption";
                 }
     
                 $stmt = $db->prepare($query);
@@ -54,6 +58,7 @@
                 $stmt->bindValue(':smtpUsername', $smtpUsername, SQLITE3_TEXT);
                 $stmt->bindValue(':smtpPassword', $smtpPassword, SQLITE3_TEXT);
                 $stmt->bindValue(':fromEmail', $fromEmail, SQLITE3_TEXT);
+                $stmt->bindValue(':encryption', $encryption, SQLITE3_TEXT);
     
                 if ($stmt->execute()) {
                     $response = [
