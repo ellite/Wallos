@@ -801,6 +801,7 @@ function saveNotificationsButton() {
   const days = document.getElementById("days").value;
   const smtpAddress = document.getElementById("smtpaddress").value;
   const smtpPort = document.getElementById("smtpport").value;
+  const encryption = document.querySelector('input[name="encryption"]:checked').value;
   const smtpUsername = document.getElementById("smtpusername").value;
   const smtpPassword = document.getElementById("smtppassword").value;
   const fromEmail = document.getElementById("fromemail").value;
@@ -810,6 +811,7 @@ function saveNotificationsButton() {
     days: days,
     smtpaddress: smtpAddress,
     smtpport: smtpPort,
+    encryption: encryption,
     smtpusername: smtpUsername,
     smtppassword: smtpPassword,
     fromemail: fromEmail
@@ -843,6 +845,7 @@ function testNotificationButton()  {
 
   const smtpAddress = document.getElementById("smtpaddress").value;
   const smtpPort = document.getElementById("smtpport").value;
+  const encryption = document.querySelector('input[name="encryption"]:checked').value;
   const smtpUsername = document.getElementById("smtpusername").value;
   const smtpPassword = document.getElementById("smtppassword").value;
   const fromEmail = document.getElementById("fromemail").value;
@@ -850,6 +853,7 @@ function testNotificationButton()  {
   const data = {
     smtpaddress: smtpAddress,
     smtpport: smtpPort,
+    encryption: encryption,
     smtpusername: smtpUsername,
     smtppassword: smtpPassword,
     fromemail: fromEmail

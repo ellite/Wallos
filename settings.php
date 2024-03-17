@@ -184,6 +184,7 @@
             $notifications['smtp_username'] = "";
             $notifications['smtp_password'] = "";
             $notifications['from_email'] = "";
+            $notifications['encryption'] = "tls";
         }
 
     ?>
@@ -216,6 +217,12 @@
             <div class="form-group-inline">
                 <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notifications['smtp_address'] ?>" />
                 <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= $notifications['encryption'] == "tls" ? "checked" : "" ?> />
+                <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
+                <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $notifications['encryption'] == "ssl" ? "checked" : "" ?> />
+                <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
             </div>
             <div class="form-group-inline">
                 <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notifications['smtp_username'] ?>" />
