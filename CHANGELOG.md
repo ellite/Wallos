@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/ellite/Wallos/compare/v1.17.1...v1.17.2) (2024-03-18)
+
+
+### Bug Fixes
+
+* pwa not loading static files when offline ([#241](https://github.com/ellite/Wallos/issues/241)) ([4e3376d](https://github.com/ellite/Wallos/commit/4e3376df93ea7c2b3e184b2670ebe77fe9b15d6a))
+
 ## [1.17.1](https://github.com/ellite/Wallos/compare/v1.17.0...v1.17.1) (2024-03-18)
 
 
