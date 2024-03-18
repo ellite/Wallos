@@ -36,6 +36,8 @@ self.addEventListener('install', function(event) {
                 'scripts/libs/chart.js',
                 'scripts/libs/sortable.min.js',
                 'images/icon/favicon.ico',
+                'images/icon/android-chrome-192x192.png',
+                'images/screenshots/desktop.png',
                 'images/wallossolid.png',
                 'images/wallossolidwhite.png',
                 'images/siteimages/empty.png',
@@ -122,7 +124,7 @@ self.addEventListener('fetch', function(event) {
             }
         }).catch(function(error) {
             // If fetching fails, try to retrieve the response from cache
-            return caches.match(event.request);
+            return caches.match(event.request, { ignoreSearch: true });
         })
     );
 });
