@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/ellite/Wallos/compare/v1.17.0...v1.17.1) (2024-03-18)
+
+
+### Bug Fixes
+
+* cronjobs running twice ([#239](https://github.com/ellite/Wallos/issues/239)) ([00cbf8d](https://github.com/ellite/Wallos/commit/00cbf8d9e3feac87292630f8db4571a99b542db4))
+
 ## [1.17.0](https://github.com/ellite/Wallos/compare/v1.16.3...v1.17.0) (2024-03-17)
 
 
