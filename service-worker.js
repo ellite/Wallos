@@ -1,7 +1,7 @@
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('my-cache').then(function(cache) {
-            return cache.addAll([
+            const urlsToCache = [
                 '.',
                 'index.php',
                 'settings.php',
@@ -96,7 +96,15 @@ self.addEventListener('install', function(event) {
                 'images/uploads/icons/venmo.png',
                 'images/uploads/icons/verifone.png',
                 'images/uploads/icons/webmoney.png',
-            ]);
+            ];
+
+            urlsToCache.forEach(function(url) {
+                fetch(url).then(function(response) {
+                    if (response.ok) {
+                        cache.put(url, response);
+                    }
+                });
+            });
         })
     );
 });
