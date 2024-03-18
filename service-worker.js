@@ -1,7 +1,7 @@
 self.addEventListener('install', function(event) {
     event.waitUntil(
         caches.open('my-cache').then(function(cache) {
-            return cache.addAll([
+            const urlsToCache = [
                 '.',
                 'index.php',
                 'settings.php',
@@ -36,6 +36,8 @@ self.addEventListener('install', function(event) {
                 'scripts/libs/chart.js',
                 'scripts/libs/sortable.min.js',
                 'images/icon/favicon.ico',
+                'images/icon/android-chrome-192x192.png',
+                'images/screenshots/desktop.png',
                 'images/wallossolid.png',
                 'images/wallossolidwhite.png',
                 'images/siteimages/empty.png',
@@ -96,7 +98,15 @@ self.addEventListener('install', function(event) {
                 'images/uploads/icons/venmo.png',
                 'images/uploads/icons/verifone.png',
                 'images/uploads/icons/webmoney.png',
-            ]);
+            ];
+
+            urlsToCache.forEach(function(url) {
+                fetch(url).then(function(response) {
+                    if (response.ok) {
+                        cache.put(url, response);
+                    }
+                });
+            });
         })
     );
 });
@@ -114,7 +124,7 @@ self.addEventListener('fetch', function(event) {
             }
         }).catch(function(error) {
             // If fetching fails, try to retrieve the response from cache
-            return caches.match(event.request);
+            return caches.match(event.request, { ignoreSearch: true });
         })
     );
 });
