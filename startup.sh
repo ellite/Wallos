@@ -25,6 +25,9 @@ chown -R www-data:www-data /var/www/html/db/
 chmod -R 755 /var/www/html/images/uploads/logos
 chown -R www-data:www-data /var/www/html/images/uploads/logos
 
+# Remove crontab for the user
+crontab -d -u root
+
 # Run updatenextpayment.php and wait for it to finish
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php
 
