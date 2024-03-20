@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.3](https://github.com/ellite/Wallos/compare/v1.17.2...v1.17.3) (2024-03-20)
+
+
+### Bug Fixes
+
+* next payment date not updating for disabled subscriptions ([#243](https://github.com/ellite/Wallos/issues/243)) ([75a5672](https://github.com/ellite/Wallos/commit/75a5672de32a59cc53c3c76a08793e6a33cce828))
+
 ## [1.17.2](https://github.com/ellite/Wallos/compare/v1.17.1...v1.17.2) (2024-03-18)
 
 
