@@ -13,7 +13,7 @@
         $cycles[$cycleId] = $row;
     }
 
-    $query = "SELECT id, next_payment, frequency, cycle FROM subscriptions WHERE inactive = 0 AND next_payment < :currentDate";
+    $query = "SELECT id, next_payment, frequency, cycle FROM subscriptions WHERE next_payment < :currentDate";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':currentDate', $currentDate->format('Y-m-d'));
     $result = $stmt->execute();
