@@ -104,6 +104,7 @@ $i18n = [
     'payment_icons'   => "支付图标",
     
     // 设置页面
+    'upload_avatar'   => "上传头像",
     'user_details'    => "用户详情",
     "household"       => "家庭",
     "save_member"     => "保存成员",

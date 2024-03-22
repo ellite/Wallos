@@ -97,6 +97,7 @@ $i18n = [
     'icons'           => "アイコン",
     'payment_icons'   => "支払いアイコン",
     // Settings page
+    'upload_avatar'   => "アバターをアップロードする",
     'user_details'    => "ユーザー詳細",
     "household"        => "世帯",
     "save_member"     => "世帯員を保存",

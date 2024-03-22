@@ -97,6 +97,7 @@ $i18n = [
     'icons'           => "Iconos",
     'payment_icons'   => "Iconos de Pago",
     // Settings page
+    'upload_avatar'   => "Subir avatar",
     'user_details'    => "Detalles del Usuario",
     "household"        => "Hogar",
     "save_member"     => "Guardar Miembro",
