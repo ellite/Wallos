@@ -28,7 +28,7 @@ function successfulUpload(field) {
     var reader = new FileReader();
 
     reader.onload = function() {
-        document.getElementById('avatarImg').src = reader.result;
+        changeAvatar(reader.result);
     };
 
     reader.readAsDataURL(field.files[0]);
