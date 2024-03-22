@@ -96,6 +96,16 @@
         if (! empty($_FILES['profile_pic']["name"])) {
             $file = $_FILES['profile_pic'];
             $avatar = $file['name'];
+
+            if (! in_array(mime_content_type($file['tmp_name']), ['image/png', 'image/jpeg'])) {
+                $response = [
+                    "success" => false,
+                    "errorMessage" => translate('file_type_error', $i18n)
+                ];
+                echo json_encode($response);
+                exit();
+            }
+
             move_uploaded_file($file['tmp_name'], '../../images/avatars/' . $avatar);
         }
 

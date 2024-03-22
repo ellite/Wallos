@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="profile-pic-container">
                                     <label for="profile_pic"><?= translate('upload_avatar', $i18n) ?></label>
-                                    <input type="file" id="profile_pic" name="profile_pic" onChange="successfulUpload(this)" />
+                                    <input type="file" id="profile_pic" name="profile_pic" onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
                                 </div>
                             </div>
                         </div>

@@ -24,8 +24,14 @@ function changeAvatar(src) {
     document.getElementById("avatarImg").src = src;
 }
 
-function successfulUpload(field) {
+function successfulUpload(field, msg) {
     var reader = new FileReader();
+
+    if (! ['image/png', 'image/jpeg'].includes(field.files[0]['type'])) {
+        alert(msg);
+
+        return;
+    }
 
     reader.onload = function() {
         changeAvatar(reader.result);
