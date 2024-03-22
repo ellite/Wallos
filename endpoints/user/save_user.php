@@ -93,6 +93,12 @@
         $main_currency = $_POST['main_currency'];
         $language = $_POST['language'];
 
+        if (! empty($_FILES['profile_pic']["name"])) {
+            $file = $_FILES['profile_pic'];
+            $avatar = $file['name'];
+            move_uploaded_file($file['tmp_name'], '../../images/avatars/' . $avatar);
+        }
+
         if (isset($_POST['password']) && $_POST['password'] != "") {
             $password = $_POST['password'];
             if (isset($_POST['confirm_password'])) {

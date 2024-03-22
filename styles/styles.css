@@ -493,12 +493,18 @@ main > .contain {
   }
 }
 
+header #avatar {
+    border-radius: 50%;
+}
+
 .user-form .user-avatar {
   position: relative;
 }
 
 .user-form .user-avatar > img {
   cursor: pointer;
+  max-width: 80px;
+  border-radius: 50%;
 }
 
 .user-form .user-avatar .edit-avatar {
@@ -542,6 +548,38 @@ main > .contain {
   z-index: 3;
 }
 
+.avatar-select label{
+    margin-top: 10%;
+}
+
+.avatar-option {
+    border-radius: 50%;
+}
+
+#profile_pic {
+    display: none;
+}
+
+label[for="profile_pic"] {
+    padding: 6px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 8px;
+    border: 2px solid #007bff;
+}
+
+label[for="profile_pic"]:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+ }
+
+.profile-pic-container {
+    display: flex;
+    justify-content: center;
+}
+
 @media (max-width: 768px) {
   .avatar-select {
     left: 50%;
@@ -557,7 +595,6 @@ main > .contain {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 
 .avatar-select .avatar-list > img {

@@ -2,6 +2,7 @@
 !/db/wallos.empty.db
 /images/uploads/logos/*
 !/images/uploads/logos/wallos.png
+images/avatars
 .DS_Store
 .idea/
 .vscode/

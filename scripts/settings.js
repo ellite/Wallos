@@ -12,10 +12,30 @@ function closeAvatarSelect() {
   avatarSelect.classList.remove("is-open");
 }
 
-function changeAvatar(number) {
-  document.getElementById("avatarImg").src = "images/avatars/" + number + ".svg";
-  document.getElementById("avatarUser").value = number;
-  closeAvatarSelect();
+document.querySelectorAll('.avatar-option').forEach((avatar) => {
+    avatar.addEventListener("click", () => {
+        changeAvatar(avatar.src);
+        document.getElementById('avatarUser').value = avatar.alt.replace('.svg', '');
+        closeAvatarSelect();
+    })
+});
+
+function changeAvatar(src) {
+    document.getElementById("avatarImg").src = src;
+}
+
+function successfulUpload(field) {
+    var reader = new FileReader();
+
+    reader.onload = function() {
+        document.getElementById('avatarImg').src = reader.result;
+    };
+
+    reader.readAsDataURL(field.files[0]);
+
+    label = document.querySelector('label[for="' + field.name + '"]');
+    label.style.borderColor = '#90EE90';
+    closeAvatarSelect();
 }
 
 function addMemberButton(memberId) {
@@ -733,8 +753,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            var newAvatar = document.getElementById("avatarUser").value;
-            document.getElementById("avatar").src = "images/avatars/" + newAvatar + ".svg";
+            document.getElementById("avatar").src = document.getElementById("avatarImg").src;
             var newUsername = document.getElementById("username").value;
             document.getElementById("user").textContent = newUsername;
             showSuccessMessage(data.message);

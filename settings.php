@@ -13,30 +13,29 @@
         <header>
             <h2><?= translate('user_details', $i18n) ?></h2>
         </header>
-            <form action="endpoints/user/saveuser.php" method="post" id="userForm">
+            <form action="endpoints/user/saveuser.php" method="post" id="userForm" enctype="multipart/form-data">
                 <div class="user-form">
                     <div class="fields">
                         <div>
                             <div class="user-avatar">
-                                <img src="images/avatars/<?= $userData['avatar'] ?>.svg" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
+                                <img src="images/avatars/<?= is_numeric($userData['avatar']) ? $userData['avatar'].'.svg' : $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
                                 <span class="edit-avatar" onClick="toggleAvatarSelect()">
                                     <img src="images/siteicons/editavatar.png" title="Change avatar" />
                                 </span>
                             </div>
-                            
+
                             <input type="hidden" name="avatar" value="<?= $userData['avatar'] ?>" id="avatarUser"/>
                             <div class="avatar-select" id="avatarSelect">
                                 <div class="avatar-list">
-                                    <img src="images/avatars/0.svg" onClick="changeAvatar(0)" />
-                                    <img src="images/avatars/1.svg" onClick="changeAvatar(1)" />
-                                    <img src="images/avatars/2.svg" onClick="changeAvatar(2)" />
-                                    <img src="images/avatars/3.svg" onClick="changeAvatar(3)" />
-                                    <img src="images/avatars/4.svg" onClick="changeAvatar(4)" />
-                                    <img src="images/avatars/5.svg" onClick="changeAvatar(5)" />
-                                    <img src="images/avatars/6.svg" onClick="changeAvatar(6)" />
-                                    <img src="images/avatars/7.svg" onClick="changeAvatar(7)" />
-                                    <img src="images/avatars/8.svg" onClick="changeAvatar(8)" />
-                                    <img src="images/avatars/9.svg" onClick="changeAvatar(9)" />
+                                    <?php foreach (scandir('images/avatars') as $index => $image) :?>
+                                        <?php if (! str_starts_with($image, '.')) :?>
+                                            <img src="images/avatars/<?=$image?>" alt="<?=$image?>" class="avatar-option"/>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                </div>
+                                <div class="profile-pic-container">
+                                    <label for="profile_pic"><?= translate('upload_avatar', $i18n) ?></label>
+                                    <input type="file" id="profile_pic" name="profile_pic" onChange="successfulUpload(this)" />
                                 </div>
                             </div>
                         </div>
