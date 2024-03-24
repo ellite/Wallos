@@ -12,10 +12,61 @@ function closeAvatarSelect() {
   avatarSelect.classList.remove("is-open");
 }
 
-function changeAvatar(number) {
-  document.getElementById("avatarImg").src = "images/avatars/" + number + ".svg";
-  document.getElementById("avatarUser").value = number;
-  closeAvatarSelect();
+document.querySelectorAll('.avatar-option').forEach((avatar) => {
+    avatar.addEventListener("click", () => {
+        changeAvatar(avatar.src);
+        document.getElementById('avatarUser').value = avatar.getAttribute('data-src');
+        closeAvatarSelect();
+    })
+});
+
+function changeAvatar(src) {
+    document.getElementById("avatarImg").src = src;
+}
+
+function successfulUpload(field, msg) {
+    var reader = new FileReader();
+
+    if (field.files.length === 0) {
+      return;
+    }
+  
+    if (! ['image/jpeg', 'image/png', 'image/gif', 'image/jtif', 'image/webp'].includes(field.files[0]['type'])) {
+      showErrorMessage(msg);
+      return;
+    }
+
+    reader.onload = function() {
+        changeAvatar(reader.result);
+    };
+
+    reader.readAsDataURL(field.files[0]);
+    closeAvatarSelect();
+}
+
+function deleteAvatar(path) {
+  fetch('/endpoints/user/delete_avatar.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ avatar: path }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      var avatarContainer = document.querySelector(`.avatar-container[data-src="${path}"]`);
+      if (avatarContainer) {
+        avatarContainer.remove();
+      }
+      showSuccessMessage();
+    } else {
+      showErrorMessage();
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 }
 
 function addMemberButton(memberId) {
@@ -681,7 +732,6 @@ function deletePaymentMethod(paymentId) {
 }
 
 function savePaymentMethodsSorting() {
-  console.log("should save");
   const paymentMethods = document.getElementById('payments-list');
   const paymentMethodIds = Array.from(paymentMethods.children).map(paymentMethod => paymentMethod.dataset.paymentid);
 
@@ -733,8 +783,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
           if (data.success) {
-            var newAvatar = document.getElementById("avatarUser").value;
-            document.getElementById("avatar").src = "images/avatars/" + newAvatar + ".svg";
+            document.getElementById("avatar").src = document.getElementById("avatarImg").src;
             var newUsername = document.getElementById("username").value;
             document.getElementById("user").textContent = newUsername;
             showSuccessMessage(data.message);

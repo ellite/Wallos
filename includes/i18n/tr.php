@@ -97,6 +97,8 @@ $i18n = [
     'icons' => "İkonlar",
     'payment_icons' => "Ödeme İkonları",
     // Settings page
+    'upload_avatar'   => "Avatarı yükle",
+    'file_type_error' => "Dosya türü izin verilmiyor",
     'user_details' => "Kullanıcı Detayları",
     "household" => "Hane",
     "save_member" => "Üyeyi Kaydet",

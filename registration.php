@@ -43,7 +43,7 @@ if (isset($_POST['username'])) {
     $confirm_password = $_POST['confirm_password'];
     $main_currency = $_POST['main_currency'];
     $language = $_POST['language'];
-    $avatar = "0";
+    $avatar = "images/avatars/0.svg";
 
     if ($password != $confirm_password) {
         $passwordMismatch = true;

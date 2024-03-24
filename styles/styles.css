@@ -103,7 +103,8 @@ header .logo .logo-image {
 
 .dropbtn > img {
   width: 30px;
-  height: 30  px;
+  height: 30px;
+  object-fit: contain;
 }
 
 .dropdown-content {
@@ -493,12 +494,23 @@ main > .contain {
   }
 }
 
+header #avatar {
+    border-radius: 50%;
+}
+
 .user-form .user-avatar {
   position: relative;
 }
 
 .user-form .user-avatar > img {
   cursor: pointer;
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  max-width: 80px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .user-form .user-avatar .edit-avatar {
@@ -536,10 +548,14 @@ main > .contain {
   position: absolute;
   padding: 20px;
   box-sizing: border-box;
-  width: 300px;
+  width: 336px;
   max-width: 100%;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 3;
+}
+
+.avatar-option {
+    border-radius: 50%;
 }
 
 @media (max-width: 768px) {
@@ -555,14 +571,70 @@ main > .contain {
 
 .avatar-select .avatar-list {
   display: flex;
-  gap: 14px;
+  gap: 18px;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 
-.avatar-select .avatar-list > img {
-  width: 40px;
+.avatar-select .avatar-list > img,
+.avatar-select .avatar-list .avatar-container > img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
   cursor: pointer;
+  border: 1px solid #ccc;
+  box-sizing: border-box
+}
+
+.avatar-select .avatar-list > img:hover,
+.avatar-select .avatar-list .avatar-container > img:hover {
+  border: 1px solid #222;
+}
+
+.avatar-select .avatar-list .avatar-container {
+  position: relative;
+  height: 60px;
+}
+
+.avatar-select label.add-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  margin: 0px;
+  box-sizing: border-box;
+  color: #007bff;
+}
+
+.avatar-select label.add-avatar:hover {
+  border-color: #8FBFFA;
+  color: #8FBFFA;
+}
+
+.avatar-select .avatar-list .remove-avatar {
+  position: absolute;
+  top: -4px;
+  right: -11px;
+  background-color: #FFF;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  width: 25px;
+  height: 25px;
+  box-sizing: border-box;
+  font-size: 8px;
+}
+
+.avatar-select .avatar-list .remove-avatar:hover {
+  background-color: #eee;
 }
 
 .user-form .fields .grow {
@@ -797,7 +869,8 @@ input[type="text"].short {
 }
 
 input[type="submit"],
-input[type="button"] {
+input[type="button"],
+button.button {
   padding: 12px 30px;
   font-size: 16px;
   background-color: #007bff;
@@ -809,12 +882,14 @@ input[type="button"] {
   border: 2px solid #007bff;
 }
 
-input[type="button"].secondary-button {
+input[type="button"].secondary-button,
+button.button.secondary-button {
   background-color: #FFFFFF;
   color: #007bff;
 }
 
-input[type="button"].secondary-button:hover {
+input[type="button"].secondary-button:hover,
+button.button.secondary-button:hover {
   background-color: #EEEEEE;
   color: #0056b3;
   border-color: #0056b3;
@@ -836,12 +911,14 @@ input[type="submit"]:hover {
 }
 
 input[type="submit"]:disabled,
-input[type="button"]:disabled {
+input[type="button"]:disabled,
+button.button:disabled {
   background-color: #ccc;
   border-color: #ccc;
 }
 
-input[type="button"].left {
+input[type="button"].left
+button.button.left {
   margin-right: auto;
 }
 

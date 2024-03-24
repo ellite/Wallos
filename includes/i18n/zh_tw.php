@@ -97,6 +97,8 @@ $i18n = [
     'icons'           => "圖示",
     'payment_icons'   => "付款圖示",
     // 設定頁面
+    'upload_avatar'   => "上传头像",
+    'file_type_error' => "文件类型不允许",
     'user_details'    => "使用者詳細資訊",
     "household"       => "家庭",
     "save_member"     => "儲存成員",
