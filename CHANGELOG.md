@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.0](https://github.com/ellite/Wallos/compare/v1.17.3...v1.18.0) (2024-03-24)
+
+
+### Features
+
+* add custom avatar functionality ([#248](https://github.com/ellite/Wallos/issues/248)) ([1dbebd3](https://github.com/ellite/Wallos/commit/1dbebd3918ef6f27961f4e70b6ad007133f8ff93))
+
 ## [1.17.3](https://github.com/ellite/Wallos/compare/v1.17.2...v1.17.3) (2024-03-20)
 
 
