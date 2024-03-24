@@ -98,6 +98,7 @@ $i18n = [
     'payment_icons'   => "Εικονίδια Payment",
     // Settings page
     'upload_avatar'   => "μεταφόρτωση άβαταρ",
+    'file_type_error' => "Το αρχείο πρέπει να είναι τύπου jpg, jpeg, png, webp ή gif",
     'user_details'    => "Λεπτομέρειες χρήστη",
     "household"        => "Νοικοκυριό",
     "save_member"     => "Αποθήκευση μέλους",

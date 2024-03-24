@@ -85,6 +85,24 @@ input[type="button"].secondary-button:hover {
     background-color: #111;
 }
 
+.avatar-select .avatar-list .remove-avatar {
+    background-color: #222;
+}
+
+.avatar-select .avatar-list > img,
+.avatar-select .avatar-list .avatar-container > img {
+  border: 1px solid #999;
+}
+
+.avatar-select .avatar-list > img:hover,
+.avatar-select .avatar-list .avatar-container > img:hover {
+  border: 1px solid #EEE;
+}
+
+.avatar-select .avatar-list .remove-avatar:hover {
+    background-color: #666;
+}
+
 .toast {
     border: 1px solid #333;
     background: #222;

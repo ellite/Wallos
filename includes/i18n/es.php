@@ -98,6 +98,7 @@ $i18n = [
     'payment_icons'   => "Iconos de Pago",
     // Settings page
     'upload_avatar'   => "Subir avatar",
+    'file_type_error' => "El archivo debe ser una imagen en formato PNG, JPG, WEBP o SVG",
     'user_details'    => "Detalles del Usuario",
     "household"        => "Hogar",
     "save_member"     => "Guardar Miembro",

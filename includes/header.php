@@ -58,7 +58,7 @@
       <nav>
         <div class="dropdown">
           <button class="dropbtn" onClick="toggleDropdown()">
-            <img src="images/avatars/<?= is_numeric($userData['avatar']) ? $userData['avatar'].'.svg' : $userData['avatar'] ?>" alt="me" id="avatar">
+            <img src="<?= $userData['avatar'] ?>" alt="me" id="avatar">
             <span id="user"><?= $username ?></span>
           </button>
           <div class="dropdown-content">

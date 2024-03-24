@@ -85,6 +85,95 @@
     $row = $result->fetchArray(SQLITE3_ASSOC);
     $mainCurrencyId = $row['main_currency'];
 
+    function sanitizeFilename($filename) {
+        $filename = preg_replace("/[^a-zA-Z0-9\s]/", "", $filename);
+        $filename = str_replace(" ", "-", $filename);
+        $filename = str_replace(".", "", $filename);
+        return $filename;
+    }
+
+    function validateFileExtension($fileExtension) {
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'jtif', 'webp'];
+        return in_array($fileExtension, $allowedExtensions);
+    }
+
+    function resizeAndUploadAvatar($uploadedFile, $uploadDir, $name) {        
+        $targetWidth = 80;
+        $targetHeight = 80;
+    
+        $timestamp = time();
+        $originalFileName = $uploadedFile['name'];
+        $fileExtension = strtolower(pathinfo($originalFileName, PATHINFO_EXTENSION));
+        $fileExtension = validateFileExtension($fileExtension) ? $fileExtension : 'png';
+        $fileName = $timestamp . '-avatars-' . sanitizeFilename($name) . '.' . $fileExtension;
+        $uploadFile = $uploadDir . $fileName;
+    
+        if (move_uploaded_file($uploadedFile['tmp_name'], $uploadFile)) {
+            $fileInfo = getimagesize($uploadFile);
+    
+            if ($fileInfo !== false) {
+                $width = $fileInfo[0];
+                $height = $fileInfo[1];
+    
+                // Load the image based on its format
+                if ($fileExtension === 'png') {
+                    $image = imagecreatefrompng($uploadFile);
+                } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
+                    $image = imagecreatefromjpeg($uploadFile);
+                } elseif ($fileExtension === 'gif') {
+                    $image = imagecreatefromgif($uploadFile);
+                } elseif ($fileExtension === 'webp') {
+                    $image = imagecreatefromwebp($uploadFile);
+                } else {
+                    // Handle other image formats as needed
+                    return "";
+                }
+    
+                // Enable alpha channel (transparency) for PNG images
+                if ($fileExtension === 'png') {
+                    imagesavealpha($image, true);
+                }
+    
+                $newWidth = $width;
+                $newHeight = $height;
+    
+                if ($width > $targetWidth) {
+                    $newWidth = $targetWidth;
+                    $newHeight = ($targetWidth / $width) * $height;
+                }
+    
+                if ($newHeight > $targetHeight) {
+                    $newWidth = ($targetHeight / $newHeight) * $newWidth;
+                    $newHeight = $targetHeight;
+                }
+    
+                $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+                imagesavealpha($resizedImage, true);
+                $transparency = imagecolorallocatealpha($resizedImage, 0, 0, 0, 127);
+                imagefill($resizedImage, 0, 0, $transparency);
+                imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+    
+                if ($fileExtension === 'png') {
+                    imagepng($resizedImage, $uploadFile);
+                } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
+                    imagejpeg($resizedImage, $uploadFile);
+                } elseif ($fileExtension === 'gif') {
+                    imagegif($resizedImage, $uploadFile);
+                } elseif ($fileExtension === 'webp') {
+                    imagewebp($resizedImage, $uploadFile);
+                } else {
+                    return "";
+                }
+    
+                imagedestroy($image);
+                imagedestroy($resizedImage);
+                return "images/uploads/logos/avatars/".$fileName;
+            }
+        }
+    
+        return "";
+    }
+
     if (isset($_SESSION['username']) && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['avatar'])) {
         $oldUsername = $_SESSION['username'];
         $username = validate($_POST['username']);
@@ -95,18 +184,18 @@
 
         if (! empty($_FILES['profile_pic']["name"])) {
             $file = $_FILES['profile_pic'];
-            $avatar = $file['name'];
 
-            if (! in_array(mime_content_type($file['tmp_name']), ['image/png', 'image/jpeg'])) {
+            $fileType = mime_content_type($_FILES['profile_pic']['tmp_name']);
+            if (strpos($fileType, 'image') === false) {
                 $response = [
                     "success" => false,
-                    "errorMessage" => translate('file_type_error', $i18n)
+                    "errorMessage" => translate('fill_all_fields', $i18n)
                 ];
                 echo json_encode($response);
                 exit();
             }
-
-            move_uploaded_file($file['tmp_name'], '../../images/avatars/' . $avatar);
+            $name = $file['name'];
+            $avatar = resizeAndUploadAvatar($_FILES['profile_pic'], '../../images/uploads/logos/avatars/', $name);
         }
 
         if (isset($_POST['password']) && $_POST['password'] != "") {

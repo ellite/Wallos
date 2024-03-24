@@ -18,7 +18,7 @@
                     <div class="fields">
                         <div>
                             <div class="user-avatar">
-                                <img src="images/avatars/<?= is_numeric($userData['avatar']) ? $userData['avatar'].'.svg' : $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
+                                <img src="<?= $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
                                 <span class="edit-avatar" onClick="toggleAvatarSelect()">
                                     <img src="images/siteicons/editavatar.png" title="Change avatar" />
                                 </span>
@@ -29,14 +29,24 @@
                                 <div class="avatar-list">
                                     <?php foreach (scandir('images/avatars') as $index => $image) :?>
                                         <?php if (! str_starts_with($image, '.')) :?>
-                                            <img src="images/avatars/<?=$image?>" alt="<?=$image?>" class="avatar-option"/>
+                                            <img src="images/avatars/<?=$image?>" alt="<?=$image?>" class="avatar-option" data-src="images/avatars/<?=$image?>"/>
                                         <?php endif ?>
                                     <?php endforeach ?>
+                                    <?php foreach (scandir('images/uploads/logos/avatars') as $index => $image) :?>
+                                        <?php if (! str_starts_with($image, '.')) :?>
+                                            <div class="avatar-container" data-src="<?=$image?>">
+                                                <img src="images/uploads/logos/avatars/<?=$image?>" alt="<?=$image?>" class="avatar-option" data-src="images/uploads/logos/avatars/<?=$image?>"/>
+                                                <div class="remove-avatar" onclick="deleteAvatar('<?=$image?>')" title="Delete avatar">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </div>
+                                            </div>
+                                        <?php endif ?>
+                                    <?php endforeach ?>
+                                    <label for="profile_pic" class="add-avatar" title="<?= translate('upload_avatar', $i18n) ?>">
+                                        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    </label>
                                 </div>
-                                <div class="profile-pic-container">
-                                    <label for="profile_pic"><?= translate('upload_avatar', $i18n) ?></label>
-                                    <input type="file" id="profile_pic" name="profile_pic" onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
-                                </div>
+                                <input type="file" id="profile_pic"class="hidden-input" name="profile_pic" accept="image/jpeg, image/png, image/gif, image/webp" onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
                             </div>
                         </div>
                         <div class="grow">

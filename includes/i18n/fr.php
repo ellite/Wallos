@@ -98,6 +98,7 @@ $i18n = [
     'payment_icons' => "Icônes de paiement",
     // Page de paramètres
     'upload_avatar'   => "Télécharger un Avatar",
+    'file_type_error' => "Le type de fichier n'est pas pris en charge",
     'user_details' => "Détails de l'utilisateur",
     "household" => "Ménage",
     "save_member" => "Enregistrer le membre",

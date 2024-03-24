@@ -21,6 +21,8 @@ sleep 1
 chmod -R 755 /var/www/html/db/
 chown -R www-data:www-data /var/www/html/db/
 
+mkdir -p /var/www/html/images/uploads/logos/avatars
+
 # Change permissions on the logos directory
 chmod -R 755 /var/www/html/images/uploads/logos
 chown -R www-data:www-data /var/www/html/images/uploads/logos

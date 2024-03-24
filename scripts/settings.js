@@ -14,8 +14,9 @@ function closeAvatarSelect() {
 
 document.querySelectorAll('.avatar-option').forEach((avatar) => {
     avatar.addEventListener("click", () => {
+        console.log(avatar);
         changeAvatar(avatar.src);
-        document.getElementById('avatarUser').value = avatar.alt.replace('.svg', '');
+        document.getElementById('avatarUser').value = avatar.getAttribute('data-src');
         closeAvatarSelect();
     })
 });
@@ -27,10 +28,13 @@ function changeAvatar(src) {
 function successfulUpload(field, msg) {
     var reader = new FileReader();
 
-    if (! ['image/png', 'image/jpeg'].includes(field.files[0]['type'])) {
-        alert(msg);
-
-        return;
+    if (field.files.length === 0) {
+      return;
+    }
+  
+    if (! ['image/jpeg', 'image/png', 'image/gif', 'image/jtif', 'image/webp'].includes(field.files[0]['type'])) {
+      showErrorMessage(msg);
+      return;
     }
 
     reader.onload = function() {
@@ -38,10 +42,34 @@ function successfulUpload(field, msg) {
     };
 
     reader.readAsDataURL(field.files[0]);
-
-    label = document.querySelector('label[for="' + field.name + '"]');
-    label.style.borderColor = '#90EE90';
     closeAvatarSelect();
+}
+
+function deleteAvatar(path) {
+  fetch('/endpoints/user/delete_avatar.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ avatar: path }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      console.log(path);
+      var avatarContainer = document.querySelector(`.avatar-container[data-src="${path}"]`);
+      console.log(avatarContainer);
+      if (avatarContainer) {
+        avatarContainer.remove();
+      }
+      showSuccessMessage();
+    } else {
+      showErrorMessage();
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 }
 
 function addMemberButton(memberId) {
