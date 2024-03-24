@@ -14,7 +14,6 @@ function closeAvatarSelect() {
 
 document.querySelectorAll('.avatar-option').forEach((avatar) => {
     avatar.addEventListener("click", () => {
-        console.log(avatar);
         changeAvatar(avatar.src);
         document.getElementById('avatarUser').value = avatar.getAttribute('data-src');
         closeAvatarSelect();
@@ -56,9 +55,7 @@ function deleteAvatar(path) {
   .then(response => response.json())
   .then(data => {
     if (data.success) {
-      console.log(path);
       var avatarContainer = document.querySelector(`.avatar-container[data-src="${path}"]`);
-      console.log(avatarContainer);
       if (avatarContainer) {
         avatarContainer.remove();
       }
@@ -735,7 +732,6 @@ function deletePaymentMethod(paymentId) {
 }
 
 function savePaymentMethodsSorting() {
-  console.log("should save");
   const paymentMethods = document.getElementById('payments-list');
   const paymentMethodIds = Array.from(paymentMethods.children).map(paymentMethod => paymentMethod.dataset.paymentid);
 
