@@ -54,10 +54,6 @@
             imagedestroy($image);
 
             $imagick = new Imagick($tempFile);
-            if ($removeBackground) {
-                $fuzz = Imagick::getQuantum() * 0.1; // 10%
-                $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
-            }
             $imagick->setImageFormat('png');
             $imagick->writeImage($uploadFile);
 
