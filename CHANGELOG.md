@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.1](https://github.com/ellite/Wallos/compare/v1.18.0...v1.18.1) (2024-03-25)
+
+
+### Bug Fixes
+
+* disabled inputs on dark theme ([#250](https://github.com/ellite/Wallos/issues/250)) ([11f0e7c](https://github.com/ellite/Wallos/commit/11f0e7ce63f37adb922e530a54f3e5cc9f640eee))
+
 ## [1.18.0](https://github.com/ellite/Wallos/compare/v1.17.3...v1.18.0) (2024-03-24)
 
 
