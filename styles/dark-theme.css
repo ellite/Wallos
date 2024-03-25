@@ -77,6 +77,17 @@ select::placeholder {
     color: #BBB;
 }
 
+input[type="text"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+input[type="date"]:disabled,
+input[type="number"]:disabled,
+select:disabled {
+    background-color: #999;
+    border-color: #666;
+    cursor: not-allowed;
+}
+
 input[type="button"].secondary-button {
     background-color: #222;
 }
