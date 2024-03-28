@@ -333,8 +333,9 @@ main > .contain {
 }
 
 .subscription .price img {
-  width: 35px;
-  height: 24px;
+  width: 45px;
+  height: 30px;
+  aspect-ratio: 3 / 2;
   object-fit: contain;
   margin-right: 12px;
 }
@@ -976,7 +977,7 @@ input[type="text"]:disabled {
 }
 
 .icon-search {
-  width: 112px;
+  width: 156px;
   height: 224px;
   top: 50px;
   right: 0px;
