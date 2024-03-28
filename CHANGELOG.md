@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.2](https://github.com/ellite/Wallos/compare/v1.18.1...v1.18.2) (2024-03-28)
+
+
+### Bug Fixes
+
+* small icon size for payment icons ([#253](https://github.com/ellite/Wallos/issues/253)) ([8998e23](https://github.com/ellite/Wallos/commit/8998e23d370165ca158600550dbf0eb8c07d4bac))
+
 ## [1.18.1](https://github.com/ellite/Wallos/compare/v1.18.0...v1.18.1) (2024-03-25)
 
 
