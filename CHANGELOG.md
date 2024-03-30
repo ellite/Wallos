@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.3](https://github.com/ellite/Wallos/compare/v1.18.2...v1.18.3) (2024-03-30)
+
+
+### Bug Fixes
+
+* on initial registration page, logo can be cut off ([#258](https://github.com/ellite/Wallos/issues/258)) ([dde8695](https://github.com/ellite/Wallos/commit/dde8695fb555f483ef8bc8f24db2a610301bab16))
+
 ## [1.18.2](https://github.com/ellite/Wallos/compare/v1.18.1...v1.18.2) (2024-03-28)
 
 
