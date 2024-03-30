@@ -35,6 +35,12 @@ body, html {
     }
 }
 
+@media (max-height: 768px) {
+    .content {
+        height: auto;
+    }
+}
+
 .container > header {
     text-align: center;
 }
