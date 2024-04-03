@@ -10,6 +10,7 @@
         "es" => "Español",
         "fr" => "Français",
         "jp" => "日本語",
+		"pl" => "Polski",
         "pt" => "Português",
         "pt_br" => "Português Brasileiro",
         "tr" => "Türkçe",
