@@ -27,6 +27,7 @@ self.addEventListener('install', function(event) {
                 'scripts/i18n/es.js',
                 'scripts/i18n/fr.js',
                 'scripts/i18n/jp.js',
+                'scripts/i18n/pl.js',
                 'scripts/i18n/pt.js',
                 'scripts/i18n/pt_br.js',
                 'scripts/i18n/tr.js',
@@ -98,6 +99,7 @@ self.addEventListener('install', function(event) {
                 'images/uploads/icons/venmo.png',
                 'images/uploads/icons/verifone.png',
                 'images/uploads/icons/webmoney.png',
+                'images/uploads/logos/*',
             ];
 
             urlsToCache.forEach(function(url) {
