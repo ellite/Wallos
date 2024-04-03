@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/ellite/Wallos/compare/v1.18.3...v1.19.0) (2024-04-03)
+
+
+### Features
+
+* add polish translation ([#263](https://github.com/ellite/Wallos/issues/263)) ([c752761](https://github.com/ellite/Wallos/commit/c7527610fafa49b18076971befa246b2730b79c4))
+
 ## [1.18.3](https://github.com/ellite/Wallos/compare/v1.18.2...v1.18.3) (2024-03-30)
 
 
