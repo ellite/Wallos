@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Upload Avatar",
     'file_type_error' => "The file type supplied is not supported.",
+    'no_file' => "No file was uploaded.",
+    'invalid_json' => "The JSON was invalid.",
+    'subscriptions_imported' => "Subscriptions sucessfully imported!",
     'user_details'    => "User Details",
     "household"        => "Household",
     "save_member"     => "Save Member",

@@ -14,17 +14,16 @@ if (! isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 if (empty($_FILES['import']['name'])) {
     die(json_encode([
         "success" => false,
-        "message" => 'No file to import'
+        "message" => translate('no_file', $i18n)
     ]));
 }
 
-$file = $_FILES['import']['name'];
 $fileType = mime_content_type($_FILES['import']['tmp_name']);
 
 if (strpos($fileType, 'json') === false) {
     die(json_encode([
         "success" => false,
-        "message" => 'file_type_error'
+        "message" => translate('file_type_error', $i18n)
     ]));
 }
 
@@ -40,7 +39,7 @@ if (! $json
 ) {
     die(json_encode([
         "success" => false,
-        "message" => 'Invalid JSON'
+        "message" => translate('invalid_json', $i18n)
     ]));
 }
 
@@ -88,7 +87,7 @@ foreach ($json as $subscription) {
 
 die(json_encode([
     "success" => true,
-    "message" => 'subscriptions imported!'
+    "message" => translate('subscriptions_imported', $i18n)
 ]));
 
 ?>
