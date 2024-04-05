@@ -99,8 +99,8 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "μεταφόρτωση άβαταρ",
     'file_type_error' => "Το αρχείο πρέπει να είναι τύπου jpg, jpeg, png, webp ή gif",
-    'no_file' => "Δεν ανέβηκε κανένα αρχείο.",
-    'invalid_json' => "Το JSON ήταν μη έγκυρο.",
+    'no_file'         => "Δεν ανέβηκε κανένα αρχείο.",
+    'invalid_json'    => "Το JSON ήταν μη έγκυρο.",
     'subscriptions_imported' => "Οι συνδρομές εισήχθησαν με επιτυχία!",
     'user_details'    => "Λεπτομέρειες χρήστη",
     "household"        => "Νοικοκυριό",
@@ -164,8 +164,8 @@ $i18n = [
     "test"            => "Δοκιμή",
     "add"             => "Προσθήκη",
     "save"            => "Αποθήκευση",
-    "export_subscriptions" => "Εξαγωγή συνδρομών",
     "export_to_json"  => "Εξαγωγή σε JSON",
+    "import_json"     => "Εισαγωγή JSON",
     // Filters menu
     "filter"          => "Φίλτρο",
     "clear"           => "Καθαρισμός",

@@ -106,8 +106,8 @@ $i18n = [
     // 设置页面
     'upload_avatar'   => "上传头像",
     'file_type_error' => "文件类型不允许",
-    'no_file' => "未上传任何文件。",
-    'invalid_json' => "JSON格式无效。",
+    'no_file'         => "未上传任何文件。",
+    'invalid_json'    => "JSON格式无效。",
     'subscriptions_imported' => "订阅成功导入！",
     'user_details'    => "用户详情",
     "household"       => "家庭",
@@ -171,8 +171,8 @@ $i18n = [
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
-    "export_subscriptions" => "导出订阅",
     "export_to_json"  => "导出为 JSON",
+    "import_json"     => "导入JSON",
 
     // Filters menu
     "filter"          => "筛选",

@@ -99,8 +99,8 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Avatar hochladen",
     'file_type_error' => "Dateityp nicht unterstützt",
-    'no_file' => "Es wurde keine Datei hochgeladen.",
-    'invalid_json' => "Das JSON war ungültig.",
+    'no_file'         => "Es wurde keine Datei hochgeladen.",
+    'invalid_json'    => "Das JSON war ungültig.",
     'subscriptions_imported' => "Abonnements erfolgreich importiert!",
     'user_details'    => "Benutzerdetails",
     "household"        => "Haushalt",
@@ -164,8 +164,8 @@ $i18n = [
     "test"            => "Test",
     "add"             => "Hinzufügen",
     "save"            => "Speichern",
-    "export_subscriptions" => "Abonnements exportieren",
     "export_to_json"  => "Nach JSON exportieren",
+    "import_json"     => "JSON importieren",
     // Filters menu
     "filter"          => "Filter",
     "clear"           => "Leeren",

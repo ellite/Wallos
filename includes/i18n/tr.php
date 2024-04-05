@@ -164,8 +164,8 @@ $i18n = [
     "test" => "Test Et",
     "add" => "Ekle",
     "save" => "Kaydet",
-    "export_subscriptions" => "Abonelikleri Dışa Aktar",
     "export_to_json" => "JSON'a dışa aktar",
+    "import_json" => "JSON İçe Aktar",
     // Filters menu
     "filter" => "Filtre",
     "clear" => "Temizle",
