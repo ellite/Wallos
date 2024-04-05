@@ -616,15 +616,15 @@
 
     <section class="account-section">
         <header>
-            <h2>Subscriptions</h2>
+            <h2><?= translate('subscriptions', $i18n) ?></h2>
         </header>
         <div>
             <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
         <div>
         <div class="import-container">
             <form action="endpoints/subscriptions/import.php" method="post" enctype="multipart/form-data" id="importForm">
-                <label for="import" class="button" title="import">
-                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Import JSON
+                <label for="import" class="button" title="<?= translate('import_json', $i18n) ?>">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> <?= translate('import_json', $i18n) ?>
                 </label>
                 <input type="file" id="import" class="hidden-input" name="import" accept="application/json" onChange="document.getElementById('submitImport').click();" />
                 <input type="submit" class="hidden-input" id="submitImport" />

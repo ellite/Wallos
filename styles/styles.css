@@ -699,13 +699,7 @@ header #avatar {
 
 .import-container {
     margin-top: 2%;
-}
-
-.import-container form {
-    display: flex;
-    flex-direction: row;
-    gap: 2%;
-    align-items: center;
+    display: inline-block;
 }
 
 .payments-list {

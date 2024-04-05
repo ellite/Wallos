@@ -166,6 +166,7 @@ $i18n = [
     "save"            => "Save",
     "export_subscriptions" => "Export Subscriptions",
     "export_to_json"  => "Export to JSON",
+    "import_json"  => "Import JSON",
     // Filters menu
     "filter"          => "Filter",
     "clear"           => "Clear",
