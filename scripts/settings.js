@@ -810,7 +810,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       });
 
+      document.getElementById("importForm").addEventListener("submit", function(event) {
+        importJson(event);
+    });
 });
+
+
+function importJson(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+
+    fetch("endpoints/subscriptions/import.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showSuccessMessage(data.message);
+        } else {
+            showErrorMessage(data.message);
+        }
+    })
+    .catch(error => {
+        showErrorMessage(translate('unknown_error'));
+    });
+}
+
 
 function addFixerKeyButton() {
   document.getElementById("addFixerKey").disabled = true;

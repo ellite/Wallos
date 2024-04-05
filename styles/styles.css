@@ -697,6 +697,17 @@ header #avatar {
   object-fit: contain;
 }
 
+.import-container {
+    margin-top: 2%;
+}
+
+.import-container form {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+    align-items: center;
+}
+
 .payments-list {
   display: flex;
   flex-wrap: wrap;

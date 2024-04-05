@@ -46,7 +46,7 @@
                                         <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                     </label>
                                 </div>
-                                <input type="file" id="profile_pic"class="hidden-input" name="profile_pic" accept="image/jpeg, image/png, image/gif, image/webp" onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
+                                <input type="file" id="profile_pic" class="hidden-input" name="profile_pic" accept="image/jpeg, image/png, image/gif, image/webp" onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
                             </div>
                         </div>
                         <div class="grow">
@@ -616,11 +616,20 @@
 
     <section class="account-section">
         <header>
-            <h2><?= translate('export_subscriptions', $i18n) ?></h2>
+            <h2>Subscriptions</h2>
         </header>
         <div>
             <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
-        <div>        
+        <div>
+        <div class="import-container">
+            <form action="endpoints/subscriptions/import.php" method="post" enctype="multipart/form-data" id="importForm">
+                <label for="import" class="button" title="import">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i> Import JSON
+                </label>
+                <input type="file" id="import" class="hidden-input" name="import" accept="application/json" onChange="document.getElementById('submitImport').click();" />
+                <input type="submit" class="hidden-input" id="submitImport" />
+            </form>
+        <div>
     </section>
 
 </section>
