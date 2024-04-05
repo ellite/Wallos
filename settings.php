@@ -620,7 +620,7 @@
         </header>
         <div>
             <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
-        <div>
+        </div>
         <div class="import-container">
             <form action="endpoints/subscriptions/import.php" method="post" enctype="multipart/form-data" id="importForm">
                 <label for="import" class="button" title="<?= translate('import_json', $i18n) ?>">
@@ -629,7 +629,7 @@
                 <input type="file" id="import" class="hidden-input" name="import" accept="application/json" onChange="document.getElementById('submitImport').click();" />
                 <input type="submit" class="hidden-input" id="submitImport" />
             </form>
-        <div>
+        </div>
     </section>
 
 </section>
