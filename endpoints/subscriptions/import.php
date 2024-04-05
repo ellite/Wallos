@@ -32,6 +32,18 @@ $fileContents = file_get_contents($_FILES['import']['tmp_name']);
 
 $json = json_decode($fileContents);
 
+if (! $json
+    || ! is_array($json)
+    || ! $json[0] ?? false
+    || ! $json[0]->name ?? false
+    || ! $json[0]->id ?? false
+) {
+    die(json_encode([
+        "success" => false,
+        "message" => 'Invalid JSON'
+    ]));
+}
+
 require_once '../../includes/getdbkeys.php';
 
 $query = "SELECT name FROM subscriptions";
