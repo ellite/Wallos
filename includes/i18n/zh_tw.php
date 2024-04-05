@@ -99,6 +99,9 @@ $i18n = [
     // 設定頁面
     'upload_avatar'   => "上传头像",
     'file_type_error' => "文件类型不允许",
+    'no_file' => "未上传任何文件。",
+    'invalid_json' => "JSON格式无效。",
+    'subscriptions_imported' => "订阅成功导入！",
     'user_details'    => "使用者詳細資訊",
     "household"       => "家庭",
     "save_member"     => "儲存成員",

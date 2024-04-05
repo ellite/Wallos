@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Avatar hochladen",
     'file_type_error' => "Dateityp nicht unterstützt",
+    'no_file' => "Es wurde keine Datei hochgeladen.",
+    'invalid_json' => "Das JSON war ungültig.",
+    'subscriptions_imported' => "Abonnements erfolgreich importiert!",
     'user_details'    => "Benutzerdetails",
     "household"        => "Haushalt",
     "save_member"     => "Mitglied speichern",

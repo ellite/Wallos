@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "μεταφόρτωση άβαταρ",
     'file_type_error' => "Το αρχείο πρέπει να είναι τύπου jpg, jpeg, png, webp ή gif",
+    'no_file' => "Δεν ανέβηκε κανένα αρχείο.",
+    'invalid_json' => "Το JSON ήταν μη έγκυρο.",
+    'subscriptions_imported' => "Οι συνδρομές εισήχθησαν με επιτυχία!",
     'user_details'    => "Λεπτομέρειες χρήστη",
     "household"        => "Νοικοκυριό",
     "save_member"     => "Αποθήκευση μέλους",

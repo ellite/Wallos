@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "アバターをアップロードする",
     'file_type_error' => "ファイルタイプが許可されていません",
+    'no_file' => "ファイルがアップロードされませんでした。",
+    'invalid_json' => "JSONが無効でした。",
+    'subscriptions_imported' => "登録が正常にインポートされました！",
     'user_details'    => "ユーザー詳細",
     "household"        => "世帯",
     "save_member"     => "世帯員を保存",

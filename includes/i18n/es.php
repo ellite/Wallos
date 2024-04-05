@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Subir avatar",
     'file_type_error' => "El archivo debe ser una imagen en formato PNG, JPG, WEBP o SVG",
+    'no_file' => "No se ha subido ningún archivo.",
+    'invalid_json' => "El JSON era inválido.",
+    'subscriptions_imported' => "¡Las suscripciones se importaron correctamente!",
     'user_details'    => "Detalles del Usuario",
     "household"        => "Hogar",
     "save_member"     => "Guardar Miembro",

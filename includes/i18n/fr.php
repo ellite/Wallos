@@ -99,6 +99,9 @@ $i18n = [
     // Page de paramètres
     'upload_avatar'   => "Télécharger un Avatar",
     'file_type_error' => "Le type de fichier n'est pas pris en charge",
+    'no_file' => "Aucun fichier n'a été téléchargé.",
+    'invalid_json' => "Le JSON était invalide.",
+    'subscriptions_imported' => "Abonnements importés avec succès !",
     'user_details' => "Détails de l'utilisateur",
     "household" => "Ménage",
     "save_member" => "Enregistrer le membre",

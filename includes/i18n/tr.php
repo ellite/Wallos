@@ -99,6 +99,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Avatarı yükle",
     'file_type_error' => "Dosya türü izin verilmiyor",
+    'no_file' => "Hiç dosya yüklenmedi.",
+    'invalid_json' => "JSON geçersizdi.",
+    'subscriptions_imported' => "Abonelikler başarıyla içe aktarıldı!",
     'user_details' => "Kullanıcı Detayları",
     "household" => "Hane",
     "save_member" => "Üyeyi Kaydet",

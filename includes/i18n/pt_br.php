@@ -97,6 +97,9 @@ $i18n = [
     // Settings page
     'upload_avatar'   => "Carregar avatar",
     'file_type_error' => "Tipo de arquivo não permitido",
+    'no_file' => "Nenhum arquivo foi carregado.",
+    'invalid_json' => "O JSON era inválido.",
+    'subscriptions_imported' => "Inscrições importadas com sucesso!",
     'user_details'    => "Informações do Usuário",
     "household"        => "Membros",
     "save_member"     => "Salvar membro",
