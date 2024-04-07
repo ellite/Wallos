@@ -13,6 +13,8 @@
 	"pl" => "Polski",
         "pt" => "Português",
         "pt_br" => "Português Brasileiro",
+	"sr" => "Српски",
+	"sr_lat" => "Srpski",
         "tr" => "Türkçe",
         "zh_cn" => "简体中文",
         "zh_tw" => "繁體中文",
