@@ -39,7 +39,7 @@ RUN dos2unix /etc/cron.d/cronjobs && \
 # Expose port 80 for Nginx
 EXPOSE 80
 
-ARG SOFTWARE_VERSION=1.0.1
+ARG SOFTWARE_VERSION=1.20.0
 
 # Start both PHP-FPM, Nginx
 CMD ["sh", "-c", "/var/www/html/startup.sh"]
