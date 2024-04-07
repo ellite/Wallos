@@ -4,32 +4,17 @@ FROM php:8.0.5-fpm-alpine
 # Set working directory to /var/www/html
 WORKDIR /var/www/html
 
-# Update packages
-RUN apk upgrade --no-cache
-
-# Install SQLite3 and its dependencies
-RUN apk add --no-cache sqlite-dev \
-    && docker-php-ext-install pdo pdo_sqlite \
-    && docker-php-ext-enable pdo pdo_sqlite
-
-# Install additional PHP extensions and dependencies
-RUN apk add --no-cache libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install intl
-
-# Install Imagick extension
-RUN apk add --no-cache imagemagick imagemagick-dev \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
-    && apk del .build-deps
-
-# Install Nginx and Cron
-RUN apk add --no-cache nginx \
-    && apk add --no-cache dcron
-
-RUN apk add --no-cache tzdata    
+# Update packages and install dependencies
+RUN apk upgrade --no-cache && \
+    apk add --no-cache sqlite-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev nginx dcron tzdata imagemagick imagemagick-dev && \
+    docker-php-ext-install pdo pdo_sqlite && \
+    docker-php-ext-enable pdo pdo_sqlite && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) gd intl && \
+    apk add --no-cache --virtual .build-deps $PHPIZE_DEPS && \
+    pecl install imagick && \
+    docker-php-ext-enable imagick && \
+    apk del .build-deps
 
 # Copy your PHP application files into the container
 COPY . .
@@ -41,29 +26,20 @@ COPY nginx.default.conf /etc/nginx/http.d/default.conf
 # Copy the custom crontab file
 COPY cronjobs /etc/cron.d/cronjobs
 
-# Convert the line endings
-RUN dos2unix /etc/cron.d/cronjobs
-
-# Allow read access to the cron file
-RUN chmod 0644 /etc/cron.d/cronjobs
-RUN /usr/bin/crontab /etc/cron.d/cronjobs
-
-# Create cron log folder
-RUN mkdir /var/log/cron
-
-# Change ownership and permissions for SQLite database
-RUN chown -R www-data:www-data /var/www/html
-
-RUN chmod +x /var/www/html/startup.sh
-
-# SETUP PHP-FPM CONFIG SETTINGS (max_children / max_requests)
-RUN echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+# Convert the line endings, allow read access to the cron file, and create cron log folder
+RUN dos2unix /etc/cron.d/cronjobs && \
+    chmod 0644 /etc/cron.d/cronjobs && \
+    /usr/bin/crontab /etc/cron.d/cronjobs && \
+    mkdir /var/log/cron && \
+    chown -R www-data:www-data /var/www/html && \
+    chmod +x /var/www/html/startup.sh && \
+    echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # Expose port 80 for Nginx
 EXPOSE 80
 
-ARG SOFTWARE_VERSION=1.0.0
+ARG SOFTWARE_VERSION=1.20.0
 
 # Start both PHP-FPM, Nginx
 CMD ["sh", "-c", "/var/www/html/startup.sh"]
