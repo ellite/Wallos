@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.0](https://github.com/ellite/Wallos/compare/v1.19.0...v1.20.0) (2024-04-07)
+
+
+### Features
+
+* add serbian translation ([#268](https://github.com/ellite/Wallos/issues/268)) ([55089c0](https://github.com/ellite/Wallos/commit/55089c0715ca315feb6a8795b07d9c36167494de))
+
 ## [1.19.0](https://github.com/ellite/Wallos/compare/v1.18.3...v1.19.0) (2024-04-03)
 
 
