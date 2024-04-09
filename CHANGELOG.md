@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.1](https://github.com/ellite/Wallos/compare/v1.20.0...v1.20.1) (2024-04-09)
+
+
+### Bug Fixes
+
+* special chars in subscriptions ([#271](https://github.com/ellite/Wallos/issues/271)) ([2683a7c](https://github.com/ellite/Wallos/commit/2683a7c4ba3c3575347d48f2c97b92b2ff0cc9f9))
+
 ## [1.20.0](https://github.com/ellite/Wallos/compare/v1.19.0...v1.20.0) (2024-04-07)
 
 
