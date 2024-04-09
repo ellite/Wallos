@@ -68,7 +68,7 @@
           $id = $subscription['id'];
           $print[$id]['id'] = $id;
           $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/".$subscription['logo'] : $defaultLogo;
-          $print[$id]['name']= $subscription['name'];
+          $print[$id]['name'] = htmlspecialchars_decode($subscription['name']);
           $cycle = $subscription['cycle'];
           $frequency = $subscription['frequency'];
           $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);

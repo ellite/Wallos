@@ -13,7 +13,7 @@
 
             if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 $subscriptionData['id'] = $subscriptionId;
-                $subscriptionData['name'] = $row['name'];
+                $subscriptionData['name'] = htmlspecialchars_decode($row['name']);
                 $subscriptionData['logo'] = $row['logo'];
                 $subscriptionData['price'] = $row['price'];
                 $subscriptionData['currency_id'] = $row['currency_id'];
