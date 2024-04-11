@@ -888,6 +888,22 @@ function saveNotificationsButton() {
   });
 }
 
+function openNotificationsSettings(type) {
+  // Get all .account-notification-section-settings elements
+  var sections = document.querySelectorAll('.account-notification-section-settings');
+
+  // Remove the is-open class from all elements
+  sections.forEach(function(section) {
+    section.classList.remove('is-open');
+  });
+
+  // Add the is-open class to the element with data-type=type
+  var targetSection = document.querySelector(`.account-notification-section-settings[data-type="${type}"]`);
+  if (targetSection) {
+    targetSection.classList.add('is-open');
+  }
+}
+
 function testNotificationButton()  {
   const button = document.getElementById("testNotifications");
   button.disabled = true;

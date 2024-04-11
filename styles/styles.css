@@ -229,7 +229,7 @@ main > .contain {
   margin-top: -35px;
   position: relative;
   z-index: 2;
-  color: #007bff;
+  color: #999;
   font-size: 20px;
 }
 
@@ -652,6 +652,38 @@ header #avatar {
   justify-content: flex-end;
   align-items: center;
   gap: 30px;
+}
+
+.account-notifications-section {
+  border-top: 1px solid #ccc;
+  padding: 15px 0px;
+}
+
+.account-notification-section:last-of-type {
+  border-bottom: 1px solid #ccc;
+}
+
+.account-notification-section-header h3 {
+  margin: 0px;
+  cursor: pointer;
+}
+
+.account-notification-section-settings {
+  max-height: 0px;
+  overflow: hidden; /* Hide content that goes beyond the height */
+  transition: max-height 0.3s ease-in-out; /* Animate max-height changes */
+}
+
+.account-notification-section-settings.is-open {
+  max-height: 1000px; /* Set to a value larger than the content's natural height */
+}
+
+.account-notification-section-settings > div:first-of-type {
+  margin-top: 20px;
+}
+
+.account-notification-section-settings > div:last-of-type {
+  margin-bottom: 20px;
 }
 
 .account-notifications .buttons {

@@ -203,54 +203,87 @@
             <h2><?= translate('notifications', $i18n) ?></h2>
         </header>
         <div class="account-notifications">
-            <div class="form-group-inline">
-                <input type="checkbox" id="notifications" name="notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
-                <label for="notifications"><?= translate('enable_email_notifications', $i18n) ?></label>
-            </div>
-            <div class="form-group">
-                <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
-                <select name="days" id="days">
-                <?php
-                    for ($i = 1; $i <= 7; $i++) {
-                        $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
-                        $selected = $i == $notifications['days'] ? "selected" : "";
-                        ?>
-                            <option value="<?= $i ?>" <?= $selected ?>>
-                                <?= $i ?> <?= $dayText ?>
-                            </option>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('email')">
+                    <h3><?= translate('email', $i18n) ?></h3>
+                </header>
+                <div class="account-notification-section-settings is-open" data-type="email">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="notifications" name="notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
+                        <label for="notifications"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group">
+                        <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
+                        <select name="days" id="days">
                         <?php
-                    }
-                ?>
-                </select>
-            </div>
-            <div class="form-group-inline">
-                <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notifications['smtp_address'] ?>" />
-                <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
-            </div>
-            <div class="form-group-inline">
-                <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= $notifications['encryption'] == "tls" ? "checked" : "" ?> />
-                <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
-                <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $notifications['encryption'] == "ssl" ? "checked" : "" ?> />
-                <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
-            </div>
-            <div class="form-group-inline">
-                <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notifications['smtp_username'] ?>" />
-            </div>
-            <div class="form-group-inline">
-                <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notifications['smtp_password'] ?>" />
-            </div>
-            <div class="form-group-inline">
-                <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $notifications['from_email'] ?>" />
-            </div>
-            <div class="settings-notes">
-                <p>
-                    <i class="fa-solid fa-circle-info"></i> <?= translate('smtp_info', $i18n) ?></p>
-                <p>
-            </div>
-            <div class="buttons">
-                <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()"/>
-            </div>
+                            for ($i = 1; $i <= 7; $i++) {
+                                $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
+                                $selected = $i == $notifications['days'] ? "selected" : "";
+                                ?>
+                                    <option value="<?= $i ?>" <?= $selected ?>>
+                                        <?= $i ?> <?= $dayText ?>
+                                    </option>
+                                <?php
+                            }
+                        ?>
+                        </select>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notifications['smtp_address'] ?>" />
+                        <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= $notifications['encryption'] == "tls" ? "checked" : "" ?> />
+                        <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
+                        <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $notifications['encryption'] == "ssl" ? "checked" : "" ?> />
+                        <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notifications['smtp_username'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notifications['smtp_password'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $notifications['from_email'] ?>" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i> <?= translate('smtp_info', $i18n) ?></p>
+                        <p>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
+                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()"/>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('telegram');">
+                    <h3><?= translate('telegram', $i18n) ?></h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="telegram">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="telegram_notifications" name="telegram_notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
+                        <label for="notifications"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="bottoken" id="bottoken" placeholder="<?= translate('telegram_bot_token', $i18n) ?>"  value="<?= $notificationsTelegram['bot_token'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="chatid" id="chatid" placeholder="<?= translate('telegram_chat_id', $i18n) ?>"  value="<?= $notificationsTelegram['chat_id'] ?>" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i> <?= translate('telegram_info', $i18n) ?></p>
+                        <p>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationTelegramButton()"/>
+                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsTelegramButton()"/>
+                    </div>
+                </div>
+            </section>
         </div>
     </section>
 
