@@ -9,6 +9,7 @@
         "el" => "Ελληνικά",
         "es" => "Español",
         "fr" => "Français",
+        "it" => "Italiano",
         "jp" => "日本語",
         "pl" => "Polski",
         "pt_br" => "Português Brasileiro",
