@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Obtenez une clé API Fixer gratuite",
     "get_key_alternative" => "Vous pouvez également obtenir une clé api de fixation gratuite auprès de",
     "display_settings" => "Paramètres d'affichage",
+    "theme_settings" => "Paramètres de thème",
+    "custom_colors" => "Couleurs personnalisées",
+    "dark_theme" => "Thème sombre",
     "switch_theme" => "Basculer entre le thème clair et sombre",
     "calculate_monthly_price" => "Calculer et afficher le prix mensuel pour tous les abonnements",
     "convert_prices" => "Convertir toujours et afficher les prix dans ma devise principale (plus lent)",
@@ -161,6 +164,7 @@ $i18n = [
     "test" => "Test",
     "add" => "Ajouter",
     "save" => "Enregistrer",
+    "reset" => "Réinitialiser",
     "export_subscriptions" => "Exporter les abonnements",
     "export_to_json" => "Exporter en JSON",
     // Menu des filtes

@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Get free Fixer API Key",
     "get_key_alternative" => "Alternatively, you can get a free fixer api key from",
     "display_settings" => "Display Settings",
+    "theme_settings"  => "Theme Settings",
+    "custom_colors"   => "Custom Colors",
+    "dark_theme"      => "Dark Theme",
     "switch_theme"    => "Switch Light / Dark Theme",
     "calculate_monthly_price" => "Calculate and show monthly price for all subscriptions",
     "convert_prices"  => "Always convert and show prices on my main currency (slower)",
@@ -161,6 +164,7 @@ $i18n = [
     "test"            => "Test",
     "add"             => "Add",
     "save"            => "Save",
+    "reset"           => "Reset",
     "export_subscriptions" => "Export Subscriptions",
     "export_to_json"  => "Export to JSON",
     // Filters menu

@@ -23,6 +23,10 @@
     $theme = $settings['theme'];
   }
 
+  $colorTheme = "blue";
+  if (isset($settings['color_theme'])) {
+    $colorTheme = $settings['color_theme'];
+  }
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,8 +38,12 @@
   <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
   <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+  <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/styles.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/red.css" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/green.css" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/yellow.css" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="styles/barlow.css">
   <link rel="stylesheet" href="styles/font-awesome.min.css">
   <script type="text/javascript" src="scripts/all.js?<?= $version ?>"></script>
@@ -43,11 +51,31 @@
   <script type="text/javascript">
     window.theme = "<?= $theme ?>";
     window.lang = "<?=$lang ?>";
+    window.colorTheme = "<?= $colorTheme ?>";
   </script>
+  <?php
+    if (isset($settings['customColors'])) {
+      ?>
+        <style id="custom_theme_colors">
+          :root {
+            <?php if (isset($settings['customColors']['main_color']) && !empty($settings['customColors']['main_color'])): ?>
+              --main-color: <?= $settings['customColors']['main_color'] ?>;
+            <?php endif; ?>
+            <?php if (isset($settings['customColors']['accent_color']) && !empty($settings['customColors']['accent_color'])): ?>
+              --accent-color: <?= $settings['customColors']['accent_color'] ?>;
+            <?php endif; ?>
+            <?php if (isset($settings['customColors']['hover_color']) && !empty($settings['customColors']['hover_color'])): ?>
+              --hover-color: <?= $settings['customColors']['hover_color'] ?>;
+            <?php endif; ?>
+          }
+        </style>
+      <?php
+    }
+  ?>
   <script type="text/javascript" src="scripts/i18n/<?= $lang ?>.js?<?= $version ?>"></script>
   <script type="text/javascript" src="scripts/i18n/getlang.js?<?= $version ?>"></script>
 </head>
-<body>
+<body class="<?= $theme ?>">
   <header>
     <div class="contain">
       <div class="logo">

@@ -146,6 +146,9 @@ $i18n = [
     "get_free_fixer_api_key" => "申请免费 Fixer API 密钥",
     "get_key_alternative" => "或者，您也可以从以下网站获取免费的修复程序 api 密钥",
     "display_settings" => "显示设置",
+    "theme_settings"  => "主题设置",
+    "custom_colors"   => "自定义颜色",
+    "dark_theme"      => "深色主题",
     "switch_theme"    => "切换浅色/深色主题",
     "calculate_monthly_price" => "计算并显示所有订阅的月价格",
     "convert_prices"  => "始终按我的主要货币转换和显示价格（较慢）",
@@ -168,6 +171,7 @@ $i18n = [
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
+    "reset"           => "重置",
     "export_subscriptions" => "导出订阅",
     "export_to_json"  => "导出为 JSON",
 

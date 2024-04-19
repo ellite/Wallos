@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "無料のFixer APIキーを取得",
     "get_key_alternative" => "または、以下のサイトから無料のフィクサーapiキーを入手することもできます。",
     "display_settings" => "表示設定",
+    "theme_settings"  => "テーマ設定",
+    "custom_colors"   => "カスタムカラー",
+    "dark_theme"      => "ダークテーマ",
     "switch_theme"    => "ライト/ダーク テーマの切り替え",
     "calculate_monthly_price" => "すべての定期購入の月額料金を計算して表示する",
     "convert_prices"  => "常にメイン通貨で価格を換算して表示する (遅い)",
@@ -161,6 +164,7 @@ $i18n = [
     "test"            => "テスト",
     "add"             => "追加",
     "save"            => "保存",
+    "reset"           => "リセット",
     "export_subscriptions" => "購読をエクスポート",
     "export_to_json"  => "JSONにエクスポート",
     // Filters menu

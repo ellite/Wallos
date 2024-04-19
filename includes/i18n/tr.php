@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Ücretsiz Fixer API Anahtarı alın",
     "get_key_alternative" => "Alternatif olarak, şu adresten ücretsiz bir fixer api anahtarı edinebilirsiniz",
     "display_settings" => "Görüntüleme Ayarları",
+    "theme_settings"  => "Tema Ayarları",
+    "custom_colors" => "Özel Renkler",
+    "dark_theme" => "Koyu Temayı",
     "switch_theme" => "Açık / Koyu Temayı Değiştir",
     "calculate_monthly_price" => "Tüm aboneliklerin aylık fiyatını hesaplayın ve gösterin",
     "convert_prices" => "Fiyatları her zaman ana para birimimde dönüştürün ve gösterin (daha yavaş)",
@@ -161,6 +164,7 @@ $i18n = [
     "test" => "Test Et",
     "add" => "Ekle",
     "save" => "Kaydet",
+    "reset" => "Sıfırla",
     "export_subscriptions" => "Abonelikleri Dışa Aktar",
     "export_to_json" => "JSON'a dışa aktar",
     // Filters menu

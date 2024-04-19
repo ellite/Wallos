@@ -95,6 +95,7 @@ if (isset($_POST['username'])) {
         <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
         <link rel="manifest" href="manifes.json">
+        <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
         <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
         <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
         <link rel="stylesheet" href="styles/barlow.css">
@@ -106,9 +107,9 @@ if (isset($_POST['username'])) {
                 <header>
                 <?php 
                     if ($theme == "light") {
-                        ?> <img src="images/wallossolid.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
+                        ?> <img src="images/siteicons/blue/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
                     } else {
-                        ?> <img src="images/wallossolidwhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
+                        ?> <img src="images/siteicons/blue/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
                     }
                 ?>
                     <p>
