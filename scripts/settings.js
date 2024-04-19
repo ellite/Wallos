@@ -1102,6 +1102,9 @@ function setTheme(themeColor) {
 }
 
 function resetCustomColors() {
+  const button = document.getElementById("reset-colors");
+  button.disabled = true;
+
   fetch('endpoints/settings/resettheme.php', {
       method: 'DELETE',
   })
@@ -1110,7 +1113,9 @@ function resetCustomColors() {
     if (data.success) {
       showSuccessMessage(data.message);
       const custom_theme_colors = document.getElementById('custom_theme_colors');
-      custom_theme_colors.remove();
+      if (custom_theme_colors) {
+        custom_theme_colors.remove();
+      }
       document.documentElement.style.removeProperty('--main-color');
       document.documentElement.style.removeProperty('--accent-color');
       document.documentElement.style.removeProperty('--hover-color');
@@ -1120,13 +1125,18 @@ function resetCustomColors() {
     } else {
       showErrorMessage(data.message);
     }
+    button.disabled = false;
   })
   .catch(error => {
     showErrorMessage(translate('unknown_error'));
+    button.disabled = false;
   });
 }
 
 function saveCustomColors() {
+  const button = document.getElementById("save-colors");
+  button.disabled = true;
+
   const mainColor = document.getElementById("mainColor").value;
   const accentColor = document.getElementById("accentColor").value;
   const hoverColor = document.getElementById("hoverColor").value;
@@ -1148,9 +1158,11 @@ function saveCustomColors() {
     } else {
       showErrorMessage(data.message);
     }
+    button.disabled = false;
   })
   .catch(error => {
     showErrorMessage(translate('unknown_error'));
+    button.disabled = false;
   });
 
 }

@@ -885,7 +885,7 @@ input[type="text"].short {
 input[type="submit"],
 input[type="button"],
 button.button {
-  padding: 12px 30px;
+  padding: 15px 30px;
   font-size: 16px;
   background-color: var(--main-color);
   color: #fff;
@@ -894,6 +894,12 @@ button.button {
   cursor: pointer;
   box-sizing: border-box;
   border: 2px solid var(--main-color);
+}
+
+input[type="submit"].thin,
+input[type="button"].thin,
+button.button.thin {
+  padding: 13px 30px;
 }
 
 input[type="button"].secondary-button,
@@ -1146,6 +1152,7 @@ input[type="text"]:disabled {
   display: block;
   cursor: pointer;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .icon-preview:after {

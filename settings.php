@@ -104,7 +104,7 @@
                         </div>  
                     </div>
                     <div class="buttons">
-                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit"/>
+                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit" class="thin"/>
                     </div>
                 </div>
             </form>
@@ -170,7 +170,7 @@
                 <p>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -248,8 +248,8 @@
                 <p>
             </div>
             <div class="buttons">
-                <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()"/>
+                <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -316,7 +316,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory" onClick="addCategoryButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory" onClick="addCategoryButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -400,7 +400,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency" onClick="addCurrencyButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency" onClick="addCurrencyButton()" class="thin"/>
             </div>
             <div class="settings-notes">
                 <p>
@@ -478,7 +478,7 @@
                 </p>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()"/>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -621,14 +621,14 @@
                         <input type="color" id="hoverColor" name="hoverColor" value="<?= isset($settings['customColors']['hover_color']) ? $settings['customColors']['hover_color'] : '#FFFFFF' ?>" class="color-picker fa-solid fa-eye-dropper">
                     </div>
                     <div class="color-picker-wrapper wrap">
-                        <input type="button" value="<?= translate('reset', $i18n) ?>" onClick="resetCustomColors()" class="secondary-button">
-                        <input type="button" value="<?= translate('save', $i18n) ?>" onClick="saveCustomColors()" class="buton">
+                        <input type="button" value="<?= translate('reset', $i18n) ?>" onClick="resetCustomColors()" class="secondary-button thin" id="reset-colors">
+                        <input type="button" value="<?= translate('save', $i18n) ?>" onClick="saveCustomColors()" class="buton thin" id="save-colors">
                     </div>    
                 </div>
             </div>
             <h2><?= translate('dark_theme', $i18n) ?></h2>
             <div>
-                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()" class="button">
+                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()" class="button thin">
             </div>
         </div>
     </section>
@@ -678,7 +678,7 @@
             <h2><?= translate('export_subscriptions', $i18n) ?></h2>
         </header>
         <div>
-            <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
+            <input type="button" class="button thin" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
         <div>        
     </section>
 
