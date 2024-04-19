@@ -15,8 +15,8 @@
     }
 
     $colorTheme = "blue";
-    if (isset($settings['colorTheme'])) {
-      $colorTheme = $settings['colorTheme'];
+    if (isset($settings['color_theme'])) {
+      $colorTheme = $settings['color_theme'];
     }
 
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
@@ -68,7 +68,7 @@
             }
         }
 
-        $defaultLogo = $theme == "light" ? "images/siteicons/" . $settings['colorTheme'] . "/wallos.png" : "images/siteicons/" . $settings['colorTheme'] . "/walloswhite.png";
+        $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
         foreach ($subscriptions as $subscription) {
           $id = $subscription['id'];
           $print[$id]['id'] = $id;
