@@ -87,9 +87,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
     <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
-    <link rel="stylesheet" href="styles/themes/red.css<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
-     <link rel="stylesheet" href="styles/themes/green.css<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
-    <link rel="stylesheet" href="styles/themes/yellow.css<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
+    <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
+     <link rel="stylesheet" href="styles/themes/green.css?<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
+    <link rel="stylesheet" href="styles/themes/yellow.css?<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>

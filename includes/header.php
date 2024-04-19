@@ -41,9 +41,9 @@
   <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/styles.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
-  <link rel="stylesheet" href="styles/themes/red.css<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
-  <link rel="stylesheet" href="styles/themes/green.css<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
-  <link rel="stylesheet" href="styles/themes/yellow.css<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/green.css?<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/themes/yellow.css?<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="styles/barlow.css">
   <link rel="stylesheet" href="styles/font-awesome.min.css">
   <script type="text/javascript" src="scripts/all.js?<?= $version ?>"></script>
