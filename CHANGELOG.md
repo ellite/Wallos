@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.21.0](https://github.com/ellite/Wallos/compare/v1.20.2...v1.21.0) (2024-04-19)
+
+
+### Features
+
+* add italian translation ([70e4234](https://github.com/ellite/Wallos/commit/70e42349caee5d6647b6b704643fe2b5e26dff4e))
+* add themes and custom color options ([70e4234](https://github.com/ellite/Wallos/commit/70e42349caee5d6647b6b704643fe2b5e26dff4e))
+
 ## [1.20.2](https://github.com/ellite/Wallos/compare/v1.20.1...v1.20.2) (2024-04-11)
 
 
