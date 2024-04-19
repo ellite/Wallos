@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Pronađite besplatni Fixer API ključ",
     "get_key_alternative" => "Alternativno, možete dobiti besplatni Fixer API ključ na",
     "display_settings" => "Podešavanja prikaza",
+    "theme_settings"  => "Podešavanja teme",
+    "custom_colors"   => "Prilagođene boje",
+    "dark_theme"      => "Tamna tema",
     "switch_theme"    => "Promeni svetli / tamni temu",
     "calculate_monthly_price" => "Izračunaj i prikaži mesečnu cenu za sve pretplate",
     "convert_prices"  => "Uvek konvertuj i prikaži cene u mojoj glavnoj valuti (sporije)",
@@ -161,6 +164,7 @@ $i18n = [
     "test"            => "Test",
     "add"             => "Dodaj",
     "save"            => "Sačuvaj",
+    "reset"           => "Resetuj",
     "export_subscriptions" => "Izvezi pretplate",
     "export_to_json"  => "Izvezi u JSON format",
     // Meni sa filterima

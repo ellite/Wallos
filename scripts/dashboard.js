@@ -37,7 +37,7 @@ function fillEditFormFields(subscription) {
   const formTitle = document.querySelector("#form-title");
   formTitle.textContent = translate('edit_subscription');
   const logo = document.querySelector("#form-logo");
-  const defaultLogo = window.theme && window.theme == "light" ? "images/wallos.png" : "images/walloswhite.png";
+  const defaultLogo = window.theme && window.theme == "light" ? "images/siteicons/" + colorTheme + "/wallos.png" : "images/siteicons/" + colorTheme + "/walloswhite.png";
   const logoFile = subscription.logo !== null ? "images/uploads/logos/" + subscription.logo : defaultLogo;
   logo.src = logoFile;
   logo.style = 'display: block';

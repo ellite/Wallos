@@ -8,7 +8,7 @@ body > header {
 }
 
 header .logo .logo-image {
-    background-image: url("../images/wallossolidwhite.png");
+    background-image: url("../images/siteicons/blue/walloswhite.png");
 }
 
 .split-header > h2 .header-subtitle {
@@ -96,6 +96,10 @@ input[type="button"].secondary-button:hover {
     background-color: #111;
 }
 
+input[type="color"] {
+    background-color: #F2F2F2;
+}
+
 .avatar-select .avatar-list .remove-avatar {
     background-color: #222;
 }
@@ -133,7 +137,7 @@ input[type="button"].secondary-button:hover {
 }
 
 .logo-preview:after {
-    color: #007bff;
+    color: var(--main-color);
 }
 
 .sort-options > ul > li {

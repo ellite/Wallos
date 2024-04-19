@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./images/wallossolidwhite.png">
-  <source media="(prefers-color-scheme: light)" srcset="./images/wallossolid.png">
-  <img alt="Wallos" src="./images/wallossolid.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./images/siteicons/blue/walloswhite.png">
+  <source media="(prefers-color-scheme: light)" srcset="./images/siteicons/blue/wallos.png">
+  <img alt="Wallos" src="./images/siteicons/blue/wallos.png">
 </picture>
 
 Wallos: Open-Source Personal Subscription Tracker

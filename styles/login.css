@@ -94,7 +94,7 @@ input[type="submit"] {
     width: 100%;
     padding: 15px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: var(--main-color);
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -102,7 +102,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: var(--hover-color);
 }
 
 input[type="checkbox"] {
@@ -120,6 +120,6 @@ input[type="checkbox"] {
 
 .error {
     display: block;
-    color: red;
+    color: var(--error-color);
     margin-bottom: 20px;
 }

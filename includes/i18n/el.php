@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Απόκτησε ΔΩΡΕΑΝ Fixer API κλειδί",
     "get_key_alternative" => "Εναλλακτικά, μπορείτε να λάβετε ένα δωρεάν κλειδί api fixer από το",
     "display_settings" => "Ρυθμίσεις εμφάνισης",
+    "theme_settings"  => "Ρυθμίσεις θέματος",
+    "custom_colors"   => "Προσαρμοσμένα χρώματα",
+    "dark_theme"     => "Dark Theme",
     "switch_theme"    => "Διακόπτης Light / Dark Theme",
     "calculate_monthly_price" => "Υπολογισμός και εμφάνιση της μηνιαίας τιμής για όλες τις συνδρομές",
     "convert_prices"  => "Πάντα να μετατρέπει και να εμφανίζει τις τιμές στο κύριο νόμισμά μου (πιο αργό)",
@@ -161,6 +164,7 @@ $i18n = [
     "test"            => "Δοκιμή",
     "add"             => "Προσθήκη",
     "save"            => "Αποθήκευση",
+    "reset"           => "Επαναφορά",
     "export_subscriptions" => "Εξαγωγή συνδρομών",
     "export_to_json"  => "Εξαγωγή σε JSON",
     // Filters menu

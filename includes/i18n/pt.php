@@ -139,6 +139,9 @@ $i18n = [
     "get_free_fixer_api_key" => "Obtenha a sua API Key grátis do Fixer",
     "get_key_alternative" => "Como alternativa obtenha a sua API Key em",
     "display_settings" => "Definições de visualização",
+    "theme_settings"  => "Definições de Tema",
+    "custom_colors"   => "Cores Personalizadas",
+    "dark_theme"      => "Tema Escuro",
     "switch_theme"    => "Trocar Tema Claro / Escuro",
     "calculate_monthly_price" => "Calcular e mostrar preço mensal para todas as subscrições",
     "convert_prices"  => "Converter e mostrar todas as subscrições na moeda principal (mais lento)",
@@ -161,6 +164,7 @@ $i18n = [
     "test"            => "Testar",
     "add"             => "Adicionar",
     "save"            => "Guardar",
+    "reset"           => "Repor",
     "export_subscriptions" => "Exportar Subscrições",
     "export_to_json"  => "Exportar para JSON",
     // Filters menu
