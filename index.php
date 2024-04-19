@@ -351,9 +351,9 @@
           </div>
 
           <div class="buttons">
-                <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left" id="deletesub" style="display: none">
-                <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button" onClick="closeAddSubscription()">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="save-button">
+                <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left thin" id="deletesub" style="display: none">
+                <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button thin" onClick="closeAddSubscription()">
+                <input type="submit" value="<?= translate('save', $i18n) ?>" class="thin" id="save-button">
           </div>
         </form>
       </section>
