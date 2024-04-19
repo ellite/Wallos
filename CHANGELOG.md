@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.1](https://github.com/ellite/Wallos/compare/v1.21.0...v1.21.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* small layout issues ([769f8a0](https://github.com/ellite/Wallos/commit/769f8a0587941bffd0d7463b7e7ffeb38a70e301))
+
 ## [1.21.0](https://github.com/ellite/Wallos/compare/v1.20.2...v1.21.0) (2024-04-19)
 
 
