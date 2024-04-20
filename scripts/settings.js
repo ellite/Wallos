@@ -1001,6 +1001,13 @@ function setRemoveBackground() {
   storeSettingsOnDB('remove_background', value);
 }
 
+function setHideDisabled() {
+  const hideDisabledCheckbox = document.querySelector("#hidedisabled");
+  const value = hideDisabledCheckbox.checked;
+
+  storeSettingsOnDB('hide_disabled', value);
+}
+
 function exportToJson() {
   window.location.href = "endpoints/subscriptions/export.php";
 }

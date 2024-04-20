@@ -145,6 +145,7 @@ $i18n = [
     "switch_theme" => "Açık / Koyu Temayı Değiştir",
     "calculate_monthly_price" => "Tüm aboneliklerin aylık fiyatını hesaplayın ve gösterin",
     "convert_prices" => "Fiyatları her zaman ana para birimimde dönüştürün ve gösterin (daha yavaş)",
+    "hide_disabled_subscriptions" => "Devre dışı bırakılan abonelikleri gizle",
     "experimental_settings" => "Deneysel Ayarlar",
     "remove_background" => "Görsel aramadan logoların arka planını kaldırmayı deneyin (deneysel)",
     "experimental_info" => "Deneysel ayarlar muhtemelen mükemmel çalışmayacak.",

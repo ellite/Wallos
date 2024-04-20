@@ -145,6 +145,7 @@ $i18n = [
     "switch_theme"    => "ライト/ダーク テーマの切り替え",
     "calculate_monthly_price" => "すべての定期購入の月額料金を計算して表示する",
     "convert_prices"  => "常にメイン通貨で価格を換算して表示する (遅い)",
+    "hide_disabled_subscriptions" => "無効な定期購入を非表示にする",
     "experimental_settings" => "実験的な設定",
     "remove_background" => "画像検索からロゴの背景を削除する (実験)",
     "experimental_info" => "実験的な設定は、おそらく完全には機能しません。",

@@ -11,6 +11,7 @@ if ($settings) {
     $settings['showMonthlyPrice'] = $settings['monthly_price'] ? 'true': 'false';
     $settings['convertCurrency'] = $settings['convert_currency'] ? 'true': 'false';
     $settings['removeBackground'] = $settings['remove_background'] ? 'true': 'false';
+    $settings['hideDisabledSubscriptions'] = $settings['hide_disabled'] ? 'true': 'false';
 }
 
 $query = "SELECT * FROM custom_colors";

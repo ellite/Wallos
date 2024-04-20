@@ -152,6 +152,7 @@ $i18n = [
     "switch_theme"    => "切换浅色/深色主题",
     "calculate_monthly_price" => "计算并显示所有订阅的月价格",
     "convert_prices"  => "始终按我的主要货币转换和显示价格（较慢）",
+    "hide_disabled_subscriptions" => "隐藏已停用的订阅",
     "experimental_settings" => "实验性设置",
     "remove_background" => "尝试从图片搜索中移除标志的背景（实验性）",
     "experimental_info" => "实验性设置，可能存在问题。",
