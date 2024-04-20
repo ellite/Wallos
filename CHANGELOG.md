@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.22.0](https://github.com/ellite/Wallos/compare/v1.21.1...v1.22.0) (2024-04-20)
+
+
+### Features
+
+* option to hide disabled subscriptions ([#286](https://github.com/ellite/Wallos/issues/286)) ([b80ab4b](https://github.com/ellite/Wallos/commit/b80ab4bdc662c3e80a2fd42b8b286b69beac441c))
+
 ## [1.21.1](https://github.com/ellite/Wallos/compare/v1.21.0...v1.21.1) (2024-04-19)
 
 
