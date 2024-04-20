@@ -145,6 +145,7 @@ $i18n = [
     "switch_theme" => "Basculer entre le thème clair et sombre",
     "calculate_monthly_price" => "Calculer et afficher le prix mensuel pour tous les abonnements",
     "convert_prices" => "Convertir toujours et afficher les prix dans ma devise principale (plus lent)",
+    "hide_disabled_subscriptions" => "Masquer les abonnements désactivés",
     "experimental_settings" => "Paramètres expérimentaux",
     "remove_background" => "Tenter de supprimer l'arrière-plan des logos de la recherche d'images (expérimental)",
     "experimental_info" => "Les paramètres expérimentaux ne fonctionneront probablement pas parfaitement.",

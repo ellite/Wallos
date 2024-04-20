@@ -650,6 +650,12 @@
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
                 </div>
             </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="hidedisabled" name="hidedisabled" onChange="setHideDisabled()" <?php if ($settings['hide_disabled']) echo 'checked'; ?>>
+                    <label for="hidedisabled"><?= translate('hide_disabled_subscriptions', $i18n) ?></label>
+                </div>
+            </div>
         </div>
     </section>    
 
