@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Les mots de passe ne correspondent pas",
     "registration_failed" => "L'inscription a échoué, veuillez réessayer.",
     "register" => "S'inscrire",
+    "restore_database" => "Restaurer la base de données",
     // Page de connexion
     'please_login' => "Veuillez vous connecter",
     'stay_logged_in' => "Rester connecté (30 jours)",
@@ -166,8 +167,10 @@ $i18n = [
     "add" => "Ajouter",
     "save" => "Enregistrer",
     "reset" => "Réinitialiser",
-    "export_subscriptions" => "Exporter les abonnements",
-    "export_to_json" => "Exporter en JSON",
+    "backup_and_restore" => "Sauvegarde et restauration",
+    "backup" => "Sauvegarde",
+    "restore" => "Restauration",
+    "restore_info" => "La restauration de la base de données annulera toutes les données actuelles. Vous serez déconnecté après la restauration.",
     // Menu des filtes
     "filter" => "Filtre",
     "clear" => "Effacer",

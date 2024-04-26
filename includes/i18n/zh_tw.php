@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "密碼不一致",
     "registration_failed" => "註冊失敗，請再試一次。",
     "register"        => "註冊",
+    "restore_database" => "還原資料庫",
     // 登入頁面
     'please_login'    => "請先登入",
     'stay_logged_in'  => "保持登入 30 天",
@@ -166,8 +167,10 @@ $i18n = [
     "add"             => "新增",
     "save"            => "儲存",
     "reset"           => "重設",
-    "export_subscriptions" => "匯出訂閱",
-    "export_to_json"  => "匯出為 JSON 檔案",
+    "backup_and_restore" => "備份與還原",
+    "backup"          => "備份",
+    "restore"         => "還原",
+    "restore_info"    => "復原資料庫將覆蓋所有目前資料。 恢復後您將被註銷。",
     // Filters menu
     "filter"          => "篩選",
     "clear"           => "清除",

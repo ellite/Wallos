@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "パスワードが違います",
     "registration_failed" => "登録に失敗しました。もう一度お試しください。",
     "register"        => "登録する",
+    "restore_database" => "データベースをリストア",
     // Login Page
     'please_login'    => "ログインしてください",
     'stay_logged_in'  => "ログインしたままにする (30日)",
@@ -166,8 +167,10 @@ $i18n = [
     "add"             => "追加",
     "save"            => "保存",
     "reset"           => "リセット",
-    "export_subscriptions" => "購読をエクスポート",
-    "export_to_json"  => "JSONにエクスポート",
+    "backup_and_restore" => "バックアップとリストア",
+    "backup"          => "バックアップ",
+    "restore"         => "リストア",
+    "restore_info"    => "データベースをリストアすると、現在のデータがすべて上書きされます。リストア後はサインアウトされます。",
     // Filters menu
     "filter"          => "フィルタ",
     "clear"           => "クリア",

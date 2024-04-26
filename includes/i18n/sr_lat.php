@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Lozinke se ne poklapaju",
     "registration_failed" => "Registracija nije uspela, pokušajte ponovo.",
     "register"        => "Registruj se",
+    "restore_database" => "Vrati bazu podataka",
     // Stranica za prijavu
     'please_login'    => "Molimo vas da se prijavite",
     'stay_logged_in'  => "Ostani prijavljen (30 dana)",
@@ -166,8 +167,10 @@ $i18n = [
     "add"             => "Dodaj",
     "save"            => "Sačuvaj",
     "reset"           => "Resetuj",
-    "export_subscriptions" => "Izvezi pretplate",
-    "export_to_json"  => "Izvezi u JSON format",
+    "backup_and_restore" => "Backup i restore",
+    "backup"          => "Backup",
+    "restore"         => "Restore",
+    "restore_info"    => "Vraćanje baze podataka će zameniti sve trenutne podatke. Bićete odjavljeni nakon vraćanja.",
     // Meni sa filterima
     "filter"          => "Filter",
     "clear"           => "Očisti",

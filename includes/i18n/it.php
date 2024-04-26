@@ -12,6 +12,7 @@ $i18n = [
     'passwords_dont_match' => 'Le password non corrispondono',
     'registration_failed' => 'Registrazione fallita, riprova.',
     'register' => 'Registrati',
+    "restore_database" => 'Ripristina database',
 
     // Login
     'please_login' => 'Per favore, accedi',
@@ -171,9 +172,10 @@ $i18n = [
     'add' => 'Aggiungi',
     'save' => 'Salva',
     "reset" => 'Ripristina',
-    'export_subscriptions' => 'Esporta abbonamenti',
-    'export_to_json' => 'Esporta in JSON',
-
+    "backup_and_restore" => 'Backup e ripristino',
+    "backup" => 'Backup',
+    "restore" => 'Ripristina',
+    "restore_info" => "Il ripristino del database annullerà tutti i dati correnti. Al termine del ripristino, l'utente verrà disconnesso.",
     // Filters
     'filter' => 'Filtra',
     'clear' => 'Pulisci',

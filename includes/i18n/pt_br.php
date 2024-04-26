@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "As senhas não são iguais",
     "registration_failed" => "O registro falhou. Por favor, tente novamente",
     "register"        => "Registrar",
+    "restore_database" => "Restaurar banco de dados",
     // Login Page
     'please_login'    => "Por favor, faça o login",
     'stay_logged_in'  => "Me manter logado (30 dias)",
@@ -164,8 +165,10 @@ $i18n = [
     "add"             => "Adicionar",
     "save"            => "Salvar",
     "reset"           => "Redefinir",
-    "export_subscriptions" => "Exportar assinaturas",
-    "export_to_json"  => "Exportar para JSON",
+    "backup_and_restore" => "Backup e Restauração",
+    "backup"          => "Backup",
+    "restore"         => "Restaurar",
+    "restore_info"    => "A restauração do banco de dados substituirá todos os dados atuais. Você será desconectado após a restauração.",
     // Filters menu
     "filter"          => "Filtrar",
     "clear"           => "Limpar",

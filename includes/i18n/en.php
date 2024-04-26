@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Passwords do not match",
     "registration_failed" => "Registration failed, please try again.",
     "register"        => "Register",
+    "restore_database" => "Restore Database",
     // Login Page
     'please_login'    => "Please login",
     'stay_logged_in'  => "Stay logged in (30 days)",
@@ -166,8 +167,10 @@ $i18n = [
     "add"             => "Add",
     "save"            => "Save",
     "reset"           => "Reset",
-    "export_subscriptions" => "Export Subscriptions",
-    "export_to_json"  => "Export to JSON",
+    "backup_and_restore" => "Backup and Restore",
+    "backup"          => "Backup",
+    "restore"         => "Restore",
+    "restore_info"    => "Restoring the database will override all current data. You will be signed out after the restore.",
     // Filters menu
     "filter"          => "Filter",
     "clear"           => "Clear",

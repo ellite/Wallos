@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Şifreler eşleşmiyor",
     "registration_failed" => "Kayıt başarısız, lütfen tekrar deneyin.",
     "register" => "Kayıt Ol",
+    "restore_database" => "Veritabanını geri yükle",
     // Login Page
     'please_login' => "Lütfen giriş yapın",
     'stay_logged_in' => "Oturumu açık tut (30 gün)",
@@ -166,8 +167,10 @@ $i18n = [
     "add" => "Ekle",
     "save" => "Kaydet",
     "reset" => "Sıfırla",
-    "export_subscriptions" => "Abonelikleri Dışa Aktar",
-    "export_to_json" => "JSON'a dışa aktar",
+    "backup_and_restore" => "Yedekle ve Geri Yükle",
+    "backup" => "Yedekle",
+    "restore" => "Geri Yükle",
+    "restore_info" => "Veritabanının geri yüklenmesi tüm mevcut verileri geçersiz kılacaktır. Geri yüklemeden sonra oturumunuz kapatılacaktır.",
     // Filters menu
     "filter" => "Filtre",
     "clear" => "Temizle",

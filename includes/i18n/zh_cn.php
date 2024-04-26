@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "密码不匹配",
     "registration_failed" => "注册失败，请重试。",
     "register"        => "注册",
+    "restore_database" => "恢复数据库",
 
     // 登录页面
     'please_login'    => "请登录",
@@ -173,9 +174,10 @@ $i18n = [
     "add"             => "添加",
     "save"            => "保存",
     "reset"           => "重置",
-    "export_subscriptions" => "导出订阅",
-    "export_to_json"  => "导出为 JSON",
-
+    "backup_and_restore" => "备份和恢复",
+    "backup"          => "备份",
+    "restore"         => "恢复",
+    "restore_info"    => "还原数据库将覆盖所有当前数据。还原后，您将退出登录。",
     // Filters menu
     "filter"          => "筛选",
     "clear"           => "清除",
