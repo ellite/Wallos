@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "Adicionar",
     "save"            => "Guardar",
     "reset"           => "Repor",
-    "export_subscriptions" => "Exportar Subscrições",
-    "export_to_json"  => "Exportar para JSON",
+    "backup_and_restore" => "Backup e Restauro",
+    "backup"          => "Backup",
+    "restore"         => "Restauro",
+    "restore_info"    => "O restauro da base de dados apagará todos os dados actuais. A sua sessão irá terminar após o restauro.",
     // Filters menu
     "filter"          => "Filtro",
     "clear"           => "Limpar",

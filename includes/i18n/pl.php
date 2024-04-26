@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "Dodaj",
     "save"            => "Zapisz",
     "reset"           => "Resetuj",
-    "export_subscriptions" => "Eksportuj subskrypcje",
-    "export_to_json"  => "Eksportuj do JSON",
+    "backup_and_restore" => "Kopia zapasowa i przywracanie",
+    "backup"          => "Kopia zapasowa",
+    "restore"         => "Przywróć",
+    "restore_info"    => "Przywrócenie bazy danych zastąpi wszystkie bieżące dane. Po przywróceniu zostaniesz wylogowany.",
     // Filters menu
     "filter"          => "Filtr",
     "clear"           => "Wyczyść",

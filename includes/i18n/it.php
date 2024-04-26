@@ -171,9 +171,10 @@ $i18n = [
     'add' => 'Aggiungi',
     'save' => 'Salva',
     "reset" => 'Ripristina',
-    'export_subscriptions' => 'Esporta abbonamenti',
-    'export_to_json' => 'Esporta in JSON',
-
+    "backup_and_restore" => 'Backup e ripristino',
+    "backup" => 'Backup',
+    "restore" => 'Ripristina',
+    "restore_info" => "Il ripristino del database annullerà tutti i dati correnti. Al termine del ripristino, l'utente verrà disconnesso.",
     // Filters
     'filter' => 'Filtra',
     'clear' => 'Pulisci',

@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "新增",
     "save"            => "儲存",
     "reset"           => "重設",
-    "export_subscriptions" => "匯出訂閱",
-    "export_to_json"  => "匯出為 JSON 檔案",
+    "backup_and_restore" => "備份與還原",
+    "backup"          => "備份",
+    "restore"         => "還原",
+    "restore_info"    => "復原資料庫將覆蓋所有目前資料。 恢復後您將被註銷。",
     // Filters menu
     "filter"          => "篩選",
     "clear"           => "清除",

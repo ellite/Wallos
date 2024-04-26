@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "追加",
     "save"            => "保存",
     "reset"           => "リセット",
-    "export_subscriptions" => "購読をエクスポート",
-    "export_to_json"  => "JSONにエクスポート",
+    "backup_and_restore" => "バックアップとリストア",
+    "backup"          => "バックアップ",
+    "restore"         => "リストア",
+    "restore_info"    => "データベースをリストアすると、現在のデータがすべて上書きされます。リストア後はサインアウトされます。",
     // Filters menu
     "filter"          => "フィルタ",
     "clear"           => "クリア",

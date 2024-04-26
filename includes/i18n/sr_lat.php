@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "Dodaj",
     "save"            => "Sačuvaj",
     "reset"           => "Resetuj",
-    "export_subscriptions" => "Izvezi pretplate",
-    "export_to_json"  => "Izvezi u JSON format",
+    "backup_and_restore" => "Backup i restore",
+    "backup"          => "Backup",
+    "restore"         => "Restore",
+    "restore_info"    => "Vraćanje baze podataka će zameniti sve trenutne podatke. Bićete odjavljeni nakon vraćanja.",
     // Meni sa filterima
     "filter"          => "Filter",
     "clear"           => "Očisti",

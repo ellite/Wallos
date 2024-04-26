@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "Hinzufügen",
     "save"            => "Speichern",
     "reset"           => "Zurücksetzen",
-    "export_subscriptions" => "Abonnements exportieren",
-    "export_to_json"  => "Nach JSON exportieren",
+    "backup_and_restore" => "Backup und Wiederherstellung",
+    "backup"          => "Backup",
+    "restore"         => "Wiederherstellen",
+    "restore_info"    => "Durch die Wiederherstellung der Datenbank werden alle aktuellen Daten überschrieben. Nach der Wiederherstellung werden Sie abgemeldet.",
     // Filters menu
     "filter"          => "Filter",
     "clear"           => "Leeren",

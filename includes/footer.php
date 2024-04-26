@@ -24,5 +24,11 @@
     <div class="progress success"></div>
   </div>
 
+  <?php
+    if (isset($db)) {
+        $db->close();
+    }
+  ?>
+
 </body>
 </html>

@@ -61,6 +61,7 @@ See instructions to run Wallos below.
     - intl
     - openssl
     - sqlite3
+    - zip
 
 #### Docker
 

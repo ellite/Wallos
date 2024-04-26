@@ -164,8 +164,10 @@ $i18n = [
     "add"             => "Adicionar",
     "save"            => "Salvar",
     "reset"           => "Redefinir",
-    "export_subscriptions" => "Exportar assinaturas",
-    "export_to_json"  => "Exportar para JSON",
+    "backup_and_restore" => "Backup e Restauração",
+    "backup"          => "Backup",
+    "restore"         => "Restaurar",
+    "restore_info"    => "A restauração do banco de dados substituirá todos os dados atuais. Você será desconectado após a restauração.",
     // Filters menu
     "filter"          => "Filtrar",
     "clear"           => "Limpar",

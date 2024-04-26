@@ -166,8 +166,10 @@ $i18n = [
     "add"             => "Add",
     "save"            => "Save",
     "reset"           => "Reset",
-    "export_subscriptions" => "Export Subscriptions",
-    "export_to_json"  => "Export to JSON",
+    "backup_and_restore" => "Backup and Restore",
+    "backup"          => "Backup",
+    "restore"         => "Restore",
+    "restore_info"    => "Restoring the database will override all current data. You will be signed out after the restore.",
     // Filters menu
     "filter"          => "Filter",
     "clear"           => "Clear",
