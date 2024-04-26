@@ -37,7 +37,7 @@
   }
 
   $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
-  $defaultLogo = $theme == "light" ? "images/wallos.png" : "images/walloswhite.png";
+  $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
 ?>
     <style>
       .logo-preview:after {
@@ -156,6 +156,9 @@
       <div class="subscriptions" id="subscriptions">
         <?php
           foreach ($subscriptions as $subscription) {
+            if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
+              continue;
+            }
             $id = $subscription['id'];
             $print[$id]['id'] = $id;
             $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/".$subscription['logo'] : $defaultLogo;
@@ -188,7 +191,7 @@
           }
 
           if (isset($print)) {
-            printSubscriptions($print, $sort, $categories, $members, $i18n);
+            printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme);
           }
           $db->close();
 
@@ -224,7 +227,7 @@
             <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/gif, image/webp" onchange="handleFileSelect(event)" class="hidden-input">
             <input type="hidden" id="logo-url" name="logo-url">
             <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>" onClick="searchLogo()">
-              <img src="images/siteicons/websearch.png">
+              <img src="images/siteicons/<?= $colorTheme ?>/websearch.png">
             </div>
             <input type="hidden" id="id" name="id">
             <div id="logo-search-results" class="logo-search">
@@ -351,9 +354,9 @@
           </div>
 
           <div class="buttons">
-                <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left" id="deletesub" style="display: none">
-                <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button" onClick="closeAddSubscription()">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="save-button">
+            <input type="button" value="<?= translate('delete', $i18n) ?>" class="warning-button left thin" id="deletesub" style="display: none">
+            <input type="button" value="<?= translate('cancel', $i18n) ?>" class="secondary-button thin" onClick="closeAddSubscription()">
+            <input type="submit" value="<?= translate('save', $i18n) ?>" class="thin" id="save-button">
           </div>
         </form>
       </section>

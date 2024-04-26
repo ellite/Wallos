@@ -62,6 +62,101 @@ function runDatabaseMigration() {
     });
 }
 
+function showErrorMessage(message) {
+    const toast = document.querySelector(".toast#errorToast");
+    (closeIcon = document.querySelector(".close-error")),
+    (errorMessage = document.querySelector(".errorMessage")),
+    (progress = document.querySelector(".progress.error"));
+    let timer1, timer2;
+    errorMessage.textContent = message;
+    toast.classList.add("active");
+    progress.classList.add("active");
+    timer1 = setTimeout(() => {
+      toast.classList.remove("active");
+      closeIcon.removeEventListener("click", () => {});
+    }, 5000);
+  
+    timer2 = setTimeout(() => {
+      progress.classList.remove("active");
+    }, 5300);
+  
+    closeIcon.addEventListener("click", () => {
+      toast.classList.remove("active");
+    
+      setTimeout(() => {
+        progress.classList.remove("active");
+      }, 300);
+    
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      closeIcon.removeEventListener("click", () => {});
+    });
+}
+
+function showSuccessMessage(message) {
+    const toast = document.querySelector(".toast#successToast");
+    (closeIcon = document.querySelector(".close-success")),
+    (successMessage = document.querySelector(".successMessage")),
+    (progress = document.querySelector(".progress.success"));
+    let timer1, timer2;
+    successMessage.textContent = message;
+    toast.classList.add("active");
+    progress.classList.add("active");
+    timer1 = setTimeout(() => {
+      toast.classList.remove("active");
+      closeIcon.removeEventListener("click", () => {});
+    }, 5000);
+  
+    timer2 = setTimeout(() => {
+      progress.classList.remove("active");
+    }, 5300);
+  
+    closeIcon.addEventListener("click", () => {
+      toast.classList.remove("active");
+    
+      setTimeout(() => {
+        progress.classList.remove("active");
+      }, 300);
+    
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      closeIcon.removeEventListener("click", () => {});
+    });
+}
+
+
+function openRestoreDBFileSelect() {
+    document.getElementById('restoreDBFile').click();
+};
+  
+function restoreDB() {
+    const input = document.getElementById('restoreDBFile');
+    const file = input.files[0];
+  
+    if (!file) {
+      console.error('No file selected');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    fetch('endpoints/db/import.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message)
+        window.location.href = 'logout.php';
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(error => showErrorMessage('Error:', error));
+}
+
 window.onload = function () {
     restoreFormFields();
     removeFromStorage();

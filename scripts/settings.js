@@ -108,7 +108,7 @@ function addMemberButton(memberId) {
       };
 
       let editImage = document.createElement("img");
-      editImage.src = "images/siteicons/save.png";
+      editImage.src = "images/siteicons/" + colorTheme + "/save.png";
       editImage.title = translate('save_member');
 
       editLink.appendChild(editImage);
@@ -121,7 +121,7 @@ function addMemberButton(memberId) {
       };
 
       let deleteImage = document.createElement("img");
-      deleteImage.src = "images/siteicons/delete.png";
+      deleteImage.src = "images/siteicons/" + colorTheme + "/delete.png";
       deleteImage.title = translate('delete_member');
 
       deleteLink.appendChild(deleteImage);
@@ -237,7 +237,7 @@ function addCategoryButton(categoryId) {
       };
 
       let editImage = document.createElement("img");
-      editImage.src = "images/siteicons/save.png";
+      editImage.src = "images/siteicons/" + colorTheme + "/save.png";
       editImage.title = translate('save_category');
 
       editLink.appendChild(editImage);
@@ -250,7 +250,7 @@ function addCategoryButton(categoryId) {
       };
 
       let deleteImage = document.createElement("img");
-      deleteImage.src = "images/siteicons/delete.png";
+      deleteImage.src = "images/siteicons/"  + colorTheme + "/delete.png";
       deleteImage.title = translate('delete_category');
 
       deleteLink.appendChild(deleteImage);
@@ -375,7 +375,7 @@ function addCurrencyButton(currencyId) {
       };
 
       let editImage = document.createElement("img");
-      editImage.src = "images/siteicons/save.png";
+      editImage.src = "images/siteicons/" + colorTheme + "/save.png";
       editImage.title = translate('save_currency');
 
       editLink.appendChild(editImage);
@@ -388,7 +388,7 @@ function addCurrencyButton(currencyId) {
       };
 
       let deleteImage = document.createElement("img");
-      deleteImage.src = "images/siteicons/delete.png";
+      deleteImage.src = "images/siteicons/" + colorTheme + "/delete.png";
       deleteImage.title = translate('delete_currency');
 
       deleteLink.appendChild(deleteImage);
@@ -953,6 +953,8 @@ function switchTheme() {
   const themeChoice = darkThemeCss.disabled ? 'light' : 'dark';
   document.cookie = `theme=${themeChoice}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 
+  document.body.className = themeChoice;
+
   const button = document.getElementById("switchTheme");
   button.disabled = true;
 
@@ -1015,8 +1017,71 @@ function setRemoveBackground() {
   storeSettingsOnDB('remove_background', value);
 }
 
-function exportToJson() {
-  window.location.href = "endpoints/subscriptions/export.php";
+function setHideDisabled() {
+  const hideDisabledCheckbox = document.querySelector("#hidedisabled");
+  const value = hideDisabledCheckbox.checked;
+
+  storeSettingsOnDB('hide_disabled', value);
+}
+
+function backupDB() {
+  const button = document.getElementById("backupDB");
+  button.disabled = true;
+
+  fetch('endpoints/db/backup.php')
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        const link = document.createElement('a');
+        const filename = data.file;
+        link.href = '.tmp/' + filename;
+        link.download = 'backup.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        button.disabled = false;
+      } else {
+        showErrorMessage(data.errorMessage);
+        button.disabled = false;
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
+function openRestoreDBFileSelect() {
+  document.getElementById('restoreDBFile').click();
+};
+
+function restoreDB() {
+  const input = document.getElementById('restoreDBFile');
+  const file = input.files[0];
+
+  if (!file) {
+    console.error('No file selected');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  fetch('endpoints/db/restore.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message)
+      window.location.href = 'logout.php';
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => showErrorMessage('Error:', error));
 }
 
 function saveCategorySorting() {
@@ -1056,3 +1121,127 @@ var sortable = Sortable.create(el, {
     saveCategorySorting();
   },
 });
+
+
+function setTheme(themeColor) {
+  var currentTheme = 'blue';
+  var themeIds = ['red-theme', 'green-theme', 'yellow-theme'];
+
+  themeIds.forEach(function(id) {
+    var themeStylesheet = document.getElementById(id);
+    if (themeStylesheet && !themeStylesheet.disabled) {
+        currentTheme = id.replace('-theme', '');
+        themeStylesheet.disabled = true;
+    }
+  });
+
+  if (themeColor !== "blue") {
+    var enableTheme = document.getElementById(themeColor + '-theme');
+    enableTheme.disabled = false;
+  }
+
+  var images = document.querySelectorAll('img');
+  images.forEach(function(img) {
+    if (img.src.includes('siteicons/' + currentTheme)) {
+        img.src = img.src.replace(currentTheme, themeColor);
+    }
+  });
+
+  var labels = document.querySelectorAll('.theme-preview');
+  labels.forEach(function(label) {
+    label.classList.remove('is-selected');
+  });
+
+  var targetLabel = document.querySelector(`.theme-preview.${themeColor}`);
+  if (targetLabel) {
+    targetLabel.classList.add('is-selected');
+  }
+
+  document.cookie = `colorTheme=${themeColor}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+
+  fetch('endpoints/settings/colortheme.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ color: themeColor })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+  });
+
+}
+
+function resetCustomColors() {
+  const button = document.getElementById("reset-colors");
+  button.disabled = true;
+
+  fetch('endpoints/settings/resettheme.php', {
+      method: 'DELETE',
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      const custom_theme_colors = document.getElementById('custom_theme_colors');
+      if (custom_theme_colors) {
+        custom_theme_colors.remove();
+      }
+      document.documentElement.style.removeProperty('--main-color');
+      document.documentElement.style.removeProperty('--accent-color');
+      document.documentElement.style.removeProperty('--hover-color');
+      document.getElementById("mainColor").value = "#FFFFFF";
+      document.getElementById("accentColor").value = "#FFFFFF";
+      document.getElementById("hoverColor").value = "#FFFFFF";
+    } else {
+      showErrorMessage(data.message);
+    }
+    button.disabled = false;
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+    button.disabled = false;
+  });
+}
+
+function saveCustomColors() {
+  const button = document.getElementById("save-colors");
+  button.disabled = true;
+
+  const mainColor = document.getElementById("mainColor").value;
+  const accentColor = document.getElementById("accentColor").value;
+  const hoverColor = document.getElementById("hoverColor").value;
+
+  fetch('endpoints/settings/customtheme.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ mainColor: mainColor, accentColor: accentColor, hoverColor: hoverColor })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      document.documentElement.style.setProperty('--main-color', mainColor);
+      document.documentElement.style.setProperty('--accent-color', accentColor);
+      document.documentElement.style.setProperty('--hover-color', hoverColor);
+    } else {
+      showErrorMessage(data.message);
+    }
+    button.disabled = false;
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+    button.disabled = false;
+  });
+
+}

@@ -8,6 +8,12 @@
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
         $result = $stmt->execute();
         $userData = $result->fetchArray(SQLITE3_ASSOC);
+
+        if ($userData === false) {
+            header('Location: logout.php');
+            exit();
+        }
+
         if ($userData['avatar'] == "") {
             $userData['avatar'] = "0";
         }

@@ -1,5 +1,48 @@
 # Changelog
 
+## [1.23.0](https://github.com/ellite/Wallos/compare/v1.22.0...v1.23.0) (2024-04-26)
+
+
+### Features
+
+* backup and restore ([#288](https://github.com/ellite/Wallos/issues/288)) ([7b509d2](https://github.com/ellite/Wallos/commit/7b509d2b3d769e14a9cb4fd183395dcecc9d993b))
+
+## [1.22.0](https://github.com/ellite/Wallos/compare/v1.21.1...v1.22.0) (2024-04-20)
+
+
+### Features
+
+* option to hide disabled subscriptions ([#286](https://github.com/ellite/Wallos/issues/286)) ([b80ab4b](https://github.com/ellite/Wallos/commit/b80ab4bdc662c3e80a2fd42b8b286b69beac441c))
+
+## [1.21.1](https://github.com/ellite/Wallos/compare/v1.21.0...v1.21.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* small layout issues ([769f8a0](https://github.com/ellite/Wallos/commit/769f8a0587941bffd0d7463b7e7ffeb38a70e301))
+
+## [1.21.0](https://github.com/ellite/Wallos/compare/v1.20.2...v1.21.0) (2024-04-19)
+
+
+### Features
+
+* add italian translation ([70e4234](https://github.com/ellite/Wallos/commit/70e42349caee5d6647b6b704643fe2b5e26dff4e))
+* add themes and custom color options ([70e4234](https://github.com/ellite/Wallos/commit/70e42349caee5d6647b6b704643fe2b5e26dff4e))
+
+## [1.20.2](https://github.com/ellite/Wallos/compare/v1.20.1...v1.20.2) (2024-04-11)
+
+
+### Bug Fixes
+
+* encoding for url and notes ([#273](https://github.com/ellite/Wallos/issues/273)) ([ad86eb5](https://github.com/ellite/Wallos/commit/ad86eb5b9c6e60004de2795170032d62b33ddcfb))
+
+## [1.20.1](https://github.com/ellite/Wallos/compare/v1.20.0...v1.20.1) (2024-04-09)
+
+
+### Bug Fixes
+
+* special chars in subscriptions ([#271](https://github.com/ellite/Wallos/issues/271)) ([2683a7c](https://github.com/ellite/Wallos/commit/2683a7c4ba3c3575347d48f2c97b92b2ff0cc9f9))
+
 ## [1.20.0](https://github.com/ellite/Wallos/compare/v1.19.0...v1.20.0) (2024-04-07)
 
 

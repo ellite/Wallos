@@ -26,6 +26,11 @@ if (isset($_COOKIE['theme'])) {
     $theme = $_COOKIE['theme'];
 }
 
+$colorTheme = "blue";
+if (isset($_COOKIE['colorTheme'])) {
+    $colorTheme = $_COOKIE['colorTheme'];
+}
+
 $currencies = array();
 $query = "SELECT * FROM currencies";
 $result = $db->query($query);
@@ -94,8 +99,12 @@ if (isset($_POST['username'])) {
         <title>Wallos - Subscription Tracker</title>
         <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
-        <link rel="manifest" href="manifes.json">
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
         <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
+        <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
+        <link rel="stylesheet" href="styles/themes/green.css?<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
+        <link rel="stylesheet" href="styles/themes/yellow.css?<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
         <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
         <link rel="stylesheet" href="styles/barlow.css">
         <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
@@ -106,9 +115,9 @@ if (isset($_POST['username'])) {
                 <header>
                 <?php 
                     if ($theme == "light") {
-                        ?> <img src="images/wallossolid.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
+                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
                     } else {
-                        ?> <img src="images/wallossolidwhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" /> <?php
+                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
                     }
                 ?>
                     <p>
@@ -179,8 +188,14 @@ if (isset($_POST['username'])) {
                         <input type="submit" value="<?= translate('register', $i18n) ?>">
                     </div>
                 </form>
+                <div class="separator">
+                    <input type="button" class="secondary-button" value="<?= translate('restore_database', $i18n) ?>" id="restoreDB" onClick="openRestoreDBFileSelect()" />    
+                    <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()" accept=".zip">
+                </div>
             </section>
         </div>
-        
+        <?php
+            require_once 'includes/footer.php';
+        ?>
     </body>
 </html>

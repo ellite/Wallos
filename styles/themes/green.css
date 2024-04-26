@@ -1,0 +1,21 @@
+:root {
+    --main-color: #6B8E23; /* Dark Olive Green */
+    --main-color-rgb: 107, 142, 35;
+    --accent-color: #9ACD32; /* Yellow-Green */
+    --accent-color-rgb: 154, 205, 50;
+    --hover-color: #556B2F; /* Olive Drab */
+    --hover-color-rgb: 85, 107, 47;
+}
+
+header .logo .logo-image {
+    background-image: url("../../images/siteicons/green/wallos.png");
+}
+
+.dark header .logo .logo-image {
+    background-image: url("../../images/siteicons/green/walloswhite.png");
+}
+
+.sort-options > ul > li.selected,
+.filtermenu-content .filter-item.selected {
+    background-image: url("../../images/siteicons/green/check.png");
+}

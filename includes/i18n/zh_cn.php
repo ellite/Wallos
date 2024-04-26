@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "密码不匹配",
     "registration_failed" => "注册失败，请重试。",
     "register"        => "注册",
+    "restore_database" => "恢复数据库",
 
     // 登录页面
     'please_login'    => "请登录",
@@ -149,9 +150,13 @@ $i18n = [
     "get_free_fixer_api_key" => "申请免费 Fixer API 密钥",
     "get_key_alternative" => "或者，您也可以从以下网站获取免费的修复程序 api 密钥",
     "display_settings" => "显示设置",
+    "theme_settings"  => "主题设置",
+    "custom_colors"   => "自定义颜色",
+    "dark_theme"      => "深色主题",
     "switch_theme"    => "切换浅色/深色主题",
     "calculate_monthly_price" => "计算并显示所有订阅的月价格",
     "convert_prices"  => "始终按我的主要货币转换和显示价格（较慢）",
+    "hide_disabled_subscriptions" => "隐藏已停用的订阅",
     "experimental_settings" => "实验性设置",
     "remove_background" => "尝试从图片搜索中移除标志的背景（实验性）",
     "experimental_info" => "实验性设置，可能存在问题。",
@@ -171,9 +176,11 @@ $i18n = [
     "test"            => "测试",
     "add"             => "添加",
     "save"            => "保存",
-    "export_subscriptions" => "导出订阅",
-    "export_to_json"  => "导出为 JSON",
-
+    "reset"           => "重置",
+    "backup_and_restore" => "备份和恢复",
+    "backup"          => "备份",
+    "restore"         => "恢复",
+    "restore_info"    => "还原数据库将覆盖所有当前数据。还原后，您将退出登录。",
     // Filters menu
     "filter"          => "筛选",
     "clear"           => "清除",

@@ -14,6 +14,11 @@
       $theme = $settings['theme'];
     }
 
+    $colorTheme = "blue";
+    if (isset($settings['color_theme'])) {
+      $colorTheme = $settings['color_theme'];
+    }
+
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $sort = "next_payment";
         $order = "ASC";
@@ -63,12 +68,15 @@
             }
         }
 
-        $defaultLogo = $theme == "light" ? "images/wallos.png" : "images/walloswhite.png";
+        $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
         foreach ($subscriptions as $subscription) {
+          if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
+            continue;
+          }
           $id = $subscription['id'];
           $print[$id]['id'] = $id;
           $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/".$subscription['logo'] : $defaultLogo;
-          $print[$id]['name']= $subscription['name'];
+          $print[$id]['name'] = htmlspecialchars_decode($subscription['name']);
           $cycle = $subscription['cycle'];
           $frequency = $subscription['frequency'];
           $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
@@ -84,8 +92,8 @@
           $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
           $print[$id]['price'] = floatval($subscription['price']);
           $print[$id]['inactive'] = $subscription['inactive'];
-          $print[$id]['url'] = $subscription['url'];
-          $print[$id]['notes'] = $subscription['notes'];
+          $print[$id]['url'] = htmlspecialchars_decode($subscription['url']);
+          $print[$id]['notes'] = htmlspecialchars_decode($subscription['notes']);
 
           if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
             $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
@@ -97,7 +105,7 @@
         }
 
         if (isset($print)) {
-          printSubscriptions($print, $sort, $categories, $members, $i18n);
+          printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme);
         }
         
         if (count($subscriptions) == 0) {

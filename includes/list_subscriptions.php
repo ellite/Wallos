@@ -56,7 +56,7 @@
         }
     }
 
-    function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n) {
+    function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme) {
         if ($sort === "price") {
             usort($subscriptions, function($a, $b) {
                 return $a['price'] < $b['price'] ? 1 : -1;
@@ -110,14 +110,14 @@
                     </span>
                     <span class="actions">
                     <button class="image-button medium" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)" name="edit">
-                        <img src="images/siteicons/edit.png" title="<?= translate('edit_subscription', $i18n) ?>">
+                        <img src="images/siteicons/<?= $colorTheme ?>/edit.png" title="<?= translate('edit_subscription', $i18n) ?>">
                     </button>
                     </span>
                 </div>
                 <div class="subscription-secondary">
-                    <span class="name"><img src="images/siteicons/subscription.png" alt="<?= translate('subscription', $i18n) ?>" /><?= $subscription['name'] ?></span>
-                    <span class="payer_user" title="<?= translate('paid_by', $i18n) ?>"><img src="images/siteicons/payment.png" alt="<?= translate('paid_by', $i18n) ?>" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
-                    <span class="category" title="<?= translate('category', $i18n) ?>" ><img src="images/siteicons/category.png" alt="<?= translate('category', $i18n) ?>" /><?= $categories[$subscription['category_id']]['name'] ?></span>
+                    <span class="name"><img src="images/siteicons/<?= $colorTheme ?>/subscription.png" alt="<?= translate('subscription', $i18n) ?>" /><?= $subscription['name'] ?></span>
+                    <span class="payer_user" title="<?= translate('paid_by', $i18n) ?>"><img src="images/siteicons/<?= $colorTheme ?>/payment.png" alt="<?= translate('paid_by', $i18n) ?>" /><?= $members[$subscription['payer_user_id']]['name'] ?></span>
+                    <span class="category" title="<?= translate('category', $i18n) ?>" ><img src="images/siteicons/<?= $colorTheme ?>/category.png" alt="<?= translate('category', $i18n) ?>" /><?= $categories[$subscription['category_id']]['name'] ?></span>
                     <?php
                         if ($subscription['url'] != "") {
                             $url = $subscription['url'];
@@ -125,7 +125,7 @@
                                 $url = "https://" . $url;
                             }
                             ?>
-                                <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"><img src="images/siteicons/web.png" alt="<?= translate('url', $i18n) ?>" /></a></span>
+                                <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"><img src="images/siteicons/<?= $colorTheme ?>/web.png" alt="<?= translate('url', $i18n) ?>" /></a></span>
                             <?php
                         }
                     ?>
@@ -135,7 +135,7 @@
                         ?>
                             <div class="subscription-notes">
                                 <span class="notes">
-                                    <img src="images/siteicons/notes.png" alt="<?= translate('notes', $i18n) ?>" />
+                                    <img src="images/siteicons/<?= $colorTheme ?>/notes.png" alt="<?= translate('notes', $i18n) ?>" />
                                     <?= $subscription['notes'] ?>
                                 </span>
                             </div>

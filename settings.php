@@ -104,7 +104,7 @@
                         </div>  
                     </div>
                     <div class="buttons">
-                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit"/>
+                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit" class="thin"/>
                     </div>
                 </div>
             </form>
@@ -142,19 +142,19 @@
                             }
                         ?>
                         <button class="image-button medium"  onClick="editMember(<?= $member['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="<?= translate('save_member', $i18n) ?>">
+                            <img src="images/siteicons/<?= $colorTheme ?>/save.png" title="<?= translate('save_member', $i18n) ?>">
                         </button>
                         <?php
                             if ($member['id'] != 1) {
                                 ?>
                                     <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)">
-                                        <img src="images/siteicons/delete.png" title="<?= translate('delete_member', $i18n) ?>">
+                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_member', $i18n) ?>">
                                     </button>
                                 <?php
                             } else {
                                 ?>
                                     <button class="image-button medium disabled">
-                                        <img src="images/siteicons/delete.png" title="<?= translate('cant_delete_member', $i18n) ?>">
+                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('cant_delete_member', $i18n) ?>">
                                     </button>
                                 <?php
                             }
@@ -170,7 +170,7 @@
                 <p>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -325,19 +325,19 @@
                         <div class="drag-icon"></div>
                         <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
                         <button class="image-button medium"  onClick="editCategory(<?= $category['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="<?= translate('save_category', $i18n) ?>">
+                            <img src="images/siteicons/<?= $colorTheme ?>/save.png" title="<?= translate('save_category', $i18n) ?>">
                         </button>
                         <?php
                             if ($canDelete) {
                             ?>
                                 <button class="image-button medium" onClick="removeCategory(<?= $category['id'] ?>)">
-                                    <img src="images/siteicons/delete.png" title="<?= translate('delete_category', $i18n) ?>">
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_category', $i18n) ?>">
                                 </button>
                             <?php
                             } else {
                             ?>
                                 <button class="image-button medium disabled">
-                                    <img src="images/siteicons/delete.png" title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
                                 </button>
                             <?php
                             }
@@ -349,7 +349,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory" onClick="addCategoryButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory" onClick="addCategoryButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -408,20 +408,20 @@
                         <input type="text" name="currency" value="<?= $currency['name'] ?>" placeholder="Currency Name">
                         <input type="text" name="code" value="<?= $currency['code'] ?>" placeholder="Currency Code" <?= !$canDelete ? 'disabled' : '' ?>>
                         <button class="image-button medium"  onClick="editCurrency(<?= $currency['id'] ?>)" name="save">
-                            <img src="images/siteicons/save.png" title="<?= translate('save_currency', $i18n) ?>">
+                            <img src="images/siteicons/<?= $colorTheme ?>/save.png" title="<?= translate('save_currency', $i18n) ?>">
                         </button>
                         <?php
                             if ($canDelete) {
                             ?>
                                 <button class="image-button medium" onClick="removeCurrency(<?= $currency['id'] ?>)">
-                                    <img src="images/siteicons/delete.png" title="<?= translate('delete_currency', $i18n) ?>">
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_currency', $i18n) ?>">
                                 </button>
                             <?php
                             } else {
                                 $cantDeleteMessage = $isMainCurrency ? translate('cant_delete_main_currency', $i18n) : translate('cant_delete_currency_in_use', $i18n);
                             ?>
                                 <button class="image-button medium disabled">
-                                    <img src="images/siteicons/delete.png" title="<?= $cantDeleteMessage ?>">
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= $cantDeleteMessage ?>">
                                 </button>
                             <?php
                             }
@@ -433,7 +433,7 @@
             ?>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency" onClick="addCurrencyButton()"/>
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency" onClick="addCurrencyButton()" class="thin"/>
             </div>
             <div class="settings-notes">
                 <p>
@@ -511,7 +511,7 @@
                 </p>
             </div>
             <div class="buttons">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()"/>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey" onClick="addFixerKeyButton()" class="thin"/>
             </div>
         </div>
     </section>
@@ -588,7 +588,7 @@
                         <input type="file" id="paymenticon" name="paymenticon" accept="image/jpeg, image/png, image/gif, image/webp" onchange="handleFileSelect(event)" class="hidden-input">
                         <input type="hidden" id="icon-url" name="icon-url">
                         <div id="icon-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
-                            <img src="images/siteicons/websearch.png">
+                            <img src="images/siteicons/<?= $colorTheme ?>/websearch.png">
                         </div>
                         <div id="icon-search-results" class="icon-search">
                             <header>
@@ -606,12 +606,71 @@
 
     <section class="account-section">
         <header>
+            <h2><?= translate('theme_settings', $i18n) ?></h2>
+        </header>
+        <div class="account-settings-theme">
+        <div>
+                <div class="theme-selector">
+                    <div class="theme">
+                        <label for="theme-blue" class="theme-preview blue <?= $settings['color_theme'] == 'blue' ? 'is-selected' : '' ?>">
+                            <input type="radio" name="theme" id="theme-blue" value="blue" onClick="setTheme('blue')" <?= $settings['color_theme'] == 'blue' ? 'checked' : '' ?>>
+                            <span class="main-color"></span>
+                            <span class="accent-color"></span>
+                            <span class="hover-color"></span>
+                        </label>
+                    </div>
+                    <div class="theme">
+                        <label for="theme-green" class="theme-preview green <?= $settings['color_theme'] == 'green' ? 'is-selected' : '' ?>">
+                            <input type="radio" name="theme" id="theme-green" value="green" onClick="setTheme('green')" <?= $settings['color_theme'] == 'green' ? 'checked' : '' ?>>
+                            <span class="main-color"></span>
+                            <span class="accent-color"></span>
+                            <span class="hover-color"></span>
+                        </label>
+                    </div>
+                    <div class="theme">
+                        <label for="theme-red" class="theme-preview red <?= $settings['color_theme'] == 'red' ? 'is-selected' : '' ?>">
+                            <input type="radio" name="theme" id="theme-red" value="red" onClick="setTheme('red')" <?= $settings['color_theme'] == 'red' ? 'checked' : '' ?>>
+                            <span class="main-color"></span>
+                            <span class="accent-color"></span>
+                            <span class="hover-color"></span>
+                        </label>
+                    </div>
+                    <div class="theme">
+                        <label for="theme-yellow" class="theme-preview yellow <?= $settings['color_theme'] == 'yellow' ? 'is-selected' : '' ?>">
+                            <input type="radio" name="theme" id="theme-yellow" value="yellow" onClick="setTheme('yellow')" <?= $settings['color_theme'] == 'yellow' ? 'checked' : '' ?>>
+                            <span class="main-color"></span>
+                            <span class="accent-color"></span>
+                            <span class="hover-color"></span>
+                        </label>            
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h2><?= translate('custom_colors', $i18n) ?></h2>
+                <div class="form-group-inline wrap">
+                    <div class="color-picker-wrapper wrap">
+                        <input type="color" id="mainColor" name="mainColor" value="<?= isset($settings['customColors']['main_color']) ? $settings['customColors']['main_color'] : '#FFFFFF' ?>" class="color-picker fa-solid fa-eye-dropper">
+                        <input type="color" id="accentColor" name="accentColor" value="<?= isset($settings['customColors']['accent_color']) ? $settings['customColors']['accent_color'] : '#FFFFFF' ?>" class="color-picker fa-solid fa-eye-dropper">
+                        <input type="color" id="hoverColor" name="hoverColor" value="<?= isset($settings['customColors']['hover_color']) ? $settings['customColors']['hover_color'] : '#FFFFFF' ?>" class="color-picker fa-solid fa-eye-dropper">
+                    </div>
+                    <div class="color-picker-wrapper wrap">
+                        <input type="button" value="<?= translate('reset', $i18n) ?>" onClick="resetCustomColors()" class="secondary-button thin" id="reset-colors">
+                        <input type="button" value="<?= translate('save', $i18n) ?>" onClick="saveCustomColors()" class="buton thin" id="save-colors">
+                    </div>    
+                </div>
+            </div>
+            <h2><?= translate('dark_theme', $i18n) ?></h2>
+            <div>
+                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()" class="button thin">
+            </div>
+        </div>
+    </section>
+
+    <section class="account-section">
+        <header>
             <h2><?= translate('display_settings', $i18n) ?></h2>
         </header>
         <div class="account-settings-list">
-            <div>
-                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()">
-            </div>
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPrice()" <?php if ($settings['monthly_price']) echo 'checked'; ?>>
@@ -622,6 +681,12 @@
                 <div class="form-group-inline">
                     <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrency()" <?php if ($settings['convert_currency']) echo 'checked'; ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="hidedisabled" name="hidedisabled" onChange="setHideDisabled()" <?php if ($settings['hide_disabled']) echo 'checked'; ?>>
+                    <label for="hidedisabled"><?= translate('hide_disabled_subscriptions', $i18n) ?></label>
                 </div>
             </div>
         </div>
@@ -649,11 +714,23 @@
 
     <section class="account-section">
         <header>
-            <h2><?= translate('export_subscriptions', $i18n) ?></h2>
+            <h2><?= translate('backup_and_restore', $i18n) ?></h2>
         </header>
-        <div>
-            <input type="button" class="button" value="<?= translate('export_to_json', $i18n) ?>" id="exportToJson" onClick="exportToJson()"/>
-        <div>        
+        <div class="form-group-inline">
+            <div>
+                <input type="button" class="button thin" value="<?= translate('backup', $i18n) ?>" id="backupDB" onClick="backupDB()"/>
+            </div>     
+            <div>
+                <input type="button" class="secondary-button thin" value="<?= translate('restore', $i18n) ?>" id="restoreDB" onClick="openRestoreDBFileSelect()" />    
+                <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()" accept=".zip">
+            </div>
+        </div>
+        <div class="settings-notes">
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                <?= translate('restore_info', $i18n) ?>
+            </p>
+        </div>       
     </section>
 
 </section>
