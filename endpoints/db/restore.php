@@ -15,51 +15,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileError = $file['error'];
 
         if ($fileError === 0) {
-            // Handle the uploaded file here
-            // The uploaded file will be stored as restore.zip
             $fileDestination = '../../.tmp/restore.zip';
             move_uploaded_file($fileTmpName, $fileDestination);
 
-            // Unzip the uploaded file
             $zip = new ZipArchive();
             if ($zip->open($fileDestination) === true) {
                 $zip->extractTo('../../.tmp/restore/');
                 $zip->close();
+            } else {
+                die(json_encode([
+                    "success" => false,
+                    "message" => "Failed to extract the uploaded file"
+                ]));
             }
 
-            // Check if wallos.db file exists in the restore folder
             if (file_exists('../../.tmp/restore/wallos.db')) {
-                // Replace the wallos.db file in the db directory with the wallos.db file in the restore directory
                 if (file_exists('../../db/wallos.db')) {
                     unlink('../../db/wallos.db');
                 }
                 rename('../../.tmp/restore/wallos.db', '../../db/wallos.db');
 
-                // Check if restore/logos/ directory exists
                 if (file_exists('../../.tmp/restore/logos/')) {
-                    // Delete the files and folders in the uploaded logos directory
                     $dir = '../../images/uploads/logos/';
-
-                    // Create recursive directory iterator
                     $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
-
-                    // Create recursive iterator iterator in Child First Order
                     $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
 
-                    // For each item in the recursive iterator
                     foreach ( $ri as $file ) {
-                        // If the item is a directory
                         if ( $file->isDir() ) {
-                            // Remove the directory
                             rmdir($file->getPathname());
                         } else {
-                            // If the item is a file
-                            // Remove the file
                             unlink($file->getPathname());
                         }
                     }
 
-                    // Copy the contents of restore/logos/ directory to the ../../images/uploads/logos/ directory
                     $dir = new RecursiveDirectoryIterator('../../.tmp/restore/logos/');
                     $ite = new RecursiveIteratorIterator($dir);
                     $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
@@ -80,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 echo json_encode([
                     "success" => true,
-                    "message" => "File uploaded and wallos.db exists"
+                    "message" => translate("success", $i18n)
                 ]);
             } else {
                 die(json_encode([

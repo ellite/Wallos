@@ -1049,12 +1049,13 @@ function restoreDB() {
   .then(response => response.json())
   .then(data => {
     if (data.success) {
-      console.log('Database restored successfully');
+      showSuccessMessage(data.message)
+      window.location.href = 'logout.php';
     } else {
-      console.error('Failed to restore database:', data.message);
+      showErrorMessage(data.message);
     }
   })
-  .catch(error => console.error('Error:', error));
+  .catch(error => showErrorMessage('Error:', error));
 }
 
 function saveCategorySorting() {
