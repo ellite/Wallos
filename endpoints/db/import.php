@@ -3,8 +3,8 @@ require_once '../../includes/connect_endpoint.php';
 session_start();
 
 $result = $db->query("SELECT COUNT(*) as count FROM user");
-$row = $result->fetch_assoc();
-if ($row['count'] == 0) {
+$row = $result->fetchArray(SQLITE3_NUM);
+if ($row[0] == 0) {
     die(json_encode([
         "success" => false,
         "message" => translate('session_expired', $i18n)
