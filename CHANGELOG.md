@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.23.0](https://github.com/ellite/Wallos/compare/v1.22.0...v1.23.0) (2024-04-26)
+
+
+### Features
+
+* backup and restore ([#288](https://github.com/ellite/Wallos/issues/288)) ([7b509d2](https://github.com/ellite/Wallos/commit/7b509d2b3d769e14a9cb4fd183395dcecc9d993b))
+
 ## [1.22.0](https://github.com/ellite/Wallos/compare/v1.21.1...v1.22.0) (2024-04-20)
 
 
