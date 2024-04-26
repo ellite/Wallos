@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "As senhas não são iguais",
     "registration_failed" => "O registro falhou. Por favor, tente novamente",
     "register"        => "Registrar",
+    "restore_database" => "Restaurar banco de dados",
     // Login Page
     'please_login'    => "Por favor, faça o login",
     'stay_logged_in'  => "Me manter logado (30 dias)",

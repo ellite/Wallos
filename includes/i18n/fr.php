@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Les mots de passe ne correspondent pas",
     "registration_failed" => "L'inscription a échoué, veuillez réessayer.",
     "register" => "S'inscrire",
+    "restore_database" => "Restaurer la base de données",
     // Page de connexion
     'please_login' => "Veuillez vous connecter",
     'stay_logged_in' => "Rester connecté (30 jours)",

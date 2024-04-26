@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "パスワードが違います",
     "registration_failed" => "登録に失敗しました。もう一度お試しください。",
     "register"        => "登録する",
+    "restore_database" => "データベースをリストア",
     // Login Page
     'please_login'    => "ログインしてください",
     'stay_logged_in'  => "ログインしたままにする (30日)",

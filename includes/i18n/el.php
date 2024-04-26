@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
     "registration_failed" => "Η εγγραφή απέτυχε, παρακαλώ προσπάθησε ξανά.",
     "register"        => "Εγγραφή",
+    "restore_database" => "Επαναφορά βάσης δεδομένων",
     // Login Page
     'please_login'    => "Παρακαλώ συνδέσου",
     'stay_logged_in'  => "Μείνε συνδεδεμένος (30 ημέρες)",

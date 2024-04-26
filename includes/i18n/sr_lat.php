@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Lozinke se ne poklapaju",
     "registration_failed" => "Registracija nije uspela, pokušajte ponovo.",
     "register"        => "Registruj se",
+    "restore_database" => "Vrati bazu podataka",
     // Stranica za prijavu
     'please_login'    => "Molimo vas da se prijavite",
     'stay_logged_in'  => "Ostani prijavljen (30 dana)",

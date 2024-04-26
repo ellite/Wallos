@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "Şifreler eşleşmiyor",
     "registration_failed" => "Kayıt başarısız, lütfen tekrar deneyin.",
     "register" => "Kayıt Ol",
+    "restore_database" => "Veritabanını geri yükle",
     // Login Page
     'please_login' => "Lütfen giriş yapın",
     'stay_logged_in' => "Oturumu açık tut (30 gün)",

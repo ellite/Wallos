@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "密码不匹配",
     "registration_failed" => "注册失败，请重试。",
     "register"        => "注册",
+    "restore_database" => "恢复数据库",
 
     // 登录页面
     'please_login'    => "请登录",

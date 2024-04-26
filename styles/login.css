@@ -90,7 +90,8 @@ select {
     outline: none;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
     width: 100%;
     padding: 15px;
     font-size: 16px;
@@ -103,6 +104,20 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: var(--hover-color);
+}
+
+input[type="button"].secondary-button,
+button.button.secondary-button {
+  background-color: #FFFFFF;
+  color: var(--main-color);
+  border: 2px solid var(--main-color);
+}
+
+input[type="button"].secondary-button:hover,
+button.button.secondary-button:hover {
+  background-color: #EEEEEE;
+  color: var(--hover-color);
+  border-color: var(--hover-color);
 }
 
 input[type="checkbox"] {
@@ -122,4 +137,9 @@ input[type="checkbox"] {
     display: block;
     color: var(--error-color);
     margin-bottom: 20px;
+}
+
+.separator {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
 }

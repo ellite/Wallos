@@ -12,6 +12,7 @@ $i18n = [
     "passwords_dont_match" => "密碼不一致",
     "registration_failed" => "註冊失敗，請再試一次。",
     "register"        => "註冊",
+    "restore_database" => "還原資料庫",
     // 登入頁面
     'please_login'    => "請先登入",
     'stay_logged_in'  => "保持登入 30 天",
