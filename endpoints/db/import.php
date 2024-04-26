@@ -69,6 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
                 
+                $files = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator('../../.tmp', RecursiveDirectoryIterator::SKIP_DOTS),
+                    RecursiveIteratorIterator::CHILD_FIRST
+                );
+                
+                foreach ($files as $fileinfo) {
+                    $removeFunction = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+                    $removeFunction($fileinfo->getRealPath());
+                }
+
                 echo json_encode([
                     "success" => true,
                     "message" => translate("success", $i18n)
