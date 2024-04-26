@@ -37,7 +37,8 @@ function addFolderToZip($dir, $zipArchive, $zipdir = ''){
 }
 
 $zip = new ZipArchive();
-$zipname = "../../.tmp/backup.zip";
+$filename = "backup_" . uniqid() . ".zip";
+$zipname = "../../.tmp/" . $filename;
 
 if ($zip->open($zipname, ZipArchive::CREATE)!==TRUE) {
     die(json_encode([
@@ -60,7 +61,8 @@ if ($zip->close() === false) {
     die(json_encode([
         "success" => true,
         "message" => "Zip file created successfully",
-        "numFiles" => $numberOfFilesAdded
+        "numFiles" => $numberOfFilesAdded,
+        "file" => $filename
     ]));
 }
 

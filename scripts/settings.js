@@ -1014,7 +1014,8 @@ function backupDB() {
     .then(data => {
       if (data.success) {
         const link = document.createElement('a');
-        link.href = '.tmp/backup.zip';
+        const filename = data.file;
+        link.href = '.tmp/' + filename;
         link.download = 'backup.zip';
         document.body.appendChild(link);
         link.click();
