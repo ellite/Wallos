@@ -58,6 +58,7 @@ if ($zip->close() === false) {
         "message" => "Failed to finalize the zip file"
     ]));
 } else {
+    flush();
     die(json_encode([
         "success" => true,
         "message" => "Zip file created successfully",

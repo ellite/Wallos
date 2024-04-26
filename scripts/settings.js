@@ -1009,6 +1009,9 @@ function setHideDisabled() {
 }
 
 function backupDB() {
+  const button = document.getElementById("backupDB");
+  button.disabled = true;
+
   fetch('endpoints/db/backup.php')
     .then(response => response.json())
     .then(data => {
@@ -1020,11 +1023,17 @@ function backupDB() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        button.disabled = false;
       } else {
         showErrorMessage(data.errorMessage);
+        button.disabled = false;
       }
     })
-    .catch(error => showErrorMessage(error));
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
 }
 
 function openRestoreDBFileSelect() {
