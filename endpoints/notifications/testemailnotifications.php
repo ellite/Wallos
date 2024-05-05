@@ -7,6 +7,13 @@ use PHPMailer\PHPMailer\Exception;
 require_once '../../includes/connect_endpoint.php';
 session_start();
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('session_expired', $i18n)
+    ]));
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $postData = file_get_contents("php://input");
     $data = json_decode($postData, true);
@@ -21,13 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "success" => false,
             "errorMessage" => translate('fill_all_fields', $i18n)
         ];
-        echo json_encode($response);
+        die(json_encode($response));
     } else {
         $enxryption = "tls";
         if (isset($data["encryption"])) {
             $encryption = $data["encryption"];
         }
-
 
         require '../../libs/PHPMailer/PHPMailer.php';
         require '../../libs/PHPMailer/SMTP.php';
@@ -66,13 +72,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 "success" => true,
                 "message" => translate('notification_sent_successfuly', $i18n)
             ];
-            echo json_encode($response);
+            die(json_encode($response));
         } else {
             $response = [
                 "success" => false,
                 "errorMessage" => translate('email_error', $i18n) . $mail->ErrorInfo
             ];
-            echo json_encode($response);
+            die(json_encode($response));
         }
 
     }

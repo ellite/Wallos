@@ -100,6 +100,12 @@ input[type="color"] {
     background-color: #F2F2F2;
 }
 
+textarea {
+    background-color: #555;
+    border: 1px solid #666;
+    color: #E0E0E0;
+}
+
 .avatar-select .avatar-list .remove-avatar {
     background-color: #222;
 }
@@ -116,6 +122,10 @@ input[type="color"] {
 
 .avatar-select .avatar-list .remove-avatar:hover {
     background-color: #666;
+}
+
+.account-notification-section-header:hover {
+    background-color: #444;
 }
 
 .toast {

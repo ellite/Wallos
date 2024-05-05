@@ -654,6 +654,49 @@ header #avatar {
   gap: 30px;
 }
 
+.account-notifications-section {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.account-notification-section-header {
+  padding: 16px;
+  cursor: pointer;
+}
+
+.account-notification-section-header:hover {
+  background-color: #EEE;
+}
+
+.account-notification-section-header h3 {
+  margin: 0px;
+}
+
+.account-notification-section-header h3 i {
+  margin-right: 10px;
+}
+
+.account-notification-section-settings {
+  max-height: 0px;
+  overflow: hidden; /* Hide content that goes beyond the height */
+  transition: max-height 0.3s ease-in-out; /* Animate max-height changes */
+  padding: 0px 16px;
+}
+
+.account-notification-section-settings.is-open {
+  max-height: 1000px; /* Set to a value larger than the content's natural height */
+}
+
+.account-notification-section-settings > div:first-of-type {
+  margin-top: 20px;
+}
+
+.account-notification-section-settings > div:last-of-type {
+  margin-bottom: 20px;
+}
+
 .account-notifications .buttons {
   gap: 15px;
 }
@@ -965,6 +1008,21 @@ input[type="text"]:disabled {
   cursor: not-allowed;
 }
 
+textarea {
+  font-size: 16px;
+  background-color: #FFFFFF;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 5px 14px;
+  color: #202020;
+  width: 100%;
+  height: 245px;
+}
+
+textarea.thin {
+  height: 80px;
+}
+
 @media (max-width: 768px) {
   input[type="checkbox"] {
       width: 20px;
@@ -1046,6 +1104,9 @@ input[type="text"]:disabled {
   padding-bottom: 0px;
 }
 
+.capitalize {
+  text-transform: capitalize;
+}
 
 .error {
   display: block;
