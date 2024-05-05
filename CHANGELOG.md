@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.24.0](https://github.com/ellite/Wallos/compare/v1.23.0...v1.24.0) (2024-05-05)
+
+
+### Features
+
+* add new notification methods (telegram, webhooks, gotify) ([#295](https://github.com/ellite/Wallos/issues/295)) ([a408031](https://github.com/ellite/Wallos/commit/a408031ef8711bf87e9f8db35f52c498f250b235))
+
 ## [1.23.0](https://github.com/ellite/Wallos/compare/v1.22.0...v1.23.0) (2024-04-26)
 
 
