@@ -125,6 +125,18 @@ $i18n = [
     'smtp_password' => 'Password SMTP',
     'from_email' => 'Da quale e-mail (Opzionale)',
     'smtp_info' => 'La password SMTP viene memorizzata e trasmessa in chiaro. Per motivi di sicurezza, si prega di creare un account da utilizzare solo per questo.',
+    "telegram" => "Telegram",
+    "telegram_bot_token" => "Telegram Bot Token",
+    "telegram_chat_id" => "Telegram Chat ID",
+    "webhook" => "Webhook",
+    "webhook_url" => "Webhook URL",
+    "request_method" => "Metodo di richiesta",
+    "custom_headers" => "Intestazioni personalizzate",
+    "webhook_payload" => "Webhook Payload",
+    "webhook_iterator_key" => "Sostituisci {{subscriptions}} con il nome della chiave",
+    "variables_available" => "Variabili disponibili",
+    "gotify" => "Gotify",
+    "token" => "Token",
     'categories' => 'Categorie',
     'save_category' => 'Salva categoria',
     'delete_category' => 'Elimina categoria',
@@ -193,6 +205,57 @@ $i18n = [
     // Category
     'failed_add_category' => 'Impossibile aggiungere la categoria',
     'failed_edit_category' => 'Impossibile modificare la categoria',
+    "category_in_use" => "La categoria è attualmente in uso da almeno un abbonamento",
+    "failed_remove_category" => "Impossibile rimuovere la categoria",
+    "category_saved"  => "Categoria salvata",
+    "category_removed" => "Categoria rimossa",
+    "sort_order_saved" => "Ordine di visualizzazione salvato",
+
+    // Currency
+    "currency_saved"  => "Valuta salvata con successo",
+    "error_adding_currency" => "Errore nell'aggiunta della valuta",
+    "failed_to_store_currency" => "Impossibile salvare la valuta nel Database",
+    "currency_in_use" => "La valuta è attualmente in uso da almeno un abbonamento",
+    "currency_is_main" => "Impossibile rimuovere la valuta principale",
+    "failed_to_remove_currency" => "Impossibile rimuovere la valuta",
+    "failed_to_store_api_key" => "Impossibile salvare la chiave API",
+    "invalid_api_key"  => "Chiave API non valida",
+    "api_key_saved"   => "Chiave API salvata",
+    "currency_removed" => "Valuta rimossa",
+
+    // Household
+    "failed_add_household" => "Impossibile aggiungere un membro del nucleo familiare",
+    "failed_edit_household" => "Impossibile modificare un membro del nucleo familiare",
+    "failed_remove_household" => "Impossibile rimuovere un membro del nucleo familiare",
+    "household_in_use" => "Il membro del nucleo familiare è attualmente in uso da almeno un abbonamento",
+    "member_saved"     => "Membro salvato",
+    "member_removed"   => "Membro rimosso",
+
+    // Notifications
+    "error_saving_notifications" => "Errore nel salvataggio delle notifiche",
+    "wallos_notification" => "Notifica Wallos",
+    "test_notification" => "Questa è una notifica di prova",
+    "email_error"      => "Errore nell'invio dell'e-mail",
+    "notification_sent_successfuly" => "Notifica inviata con successo",
+    "notifications_settings_saved" => "Impostazioni delle notifiche salvate",
+    "notification_failed" => "Invio della notifica fallito",
+
+    // Payments
+    "payment_in_use" => "Questo metodo di pagamento è attualmente in uso da almeno un abbonamento",
+    "failed_update_payment" => "Aggiornamento del metodo di pagamento fallito",
+    "enabled" => "abilitato",
+    "disabled" => "disabilitato",
+
+    // Subscription
+    "error_fetching_image" => "Errore nel recupero dell'immagine",
+    "subscription_updated_successfuly" => "Abbonamento aggiornato con successo",
+    "subscription_added_successfuly" => "Abbonamento aggiunto con successo",
+    "error_deleting_subscription" => "Errore nell'eliminazione dell'abbonamento",
+    "invalid_request_method" => "Metodo di richiesta non valido",
+
+    // User
+    "error_updating_user_data" => "Errore nell'aggiornamento dei dati utente",
+    "user_details_saved" => "Dettagli utente salvati",
 ];
 
 ?>

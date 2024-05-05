@@ -26,16 +26,6 @@
     }
   }
 
-  $notificationsEnabled = false;
-  $query = "SELECT enabled FROM notifications WHERE id = 1";
-  $result = $db->query($query);
-  if ($result) {
-      $row = $result->fetchArray(SQLITE3_ASSOC);
-      if ($row) {
-          $notificationsEnabled = $row['enabled'];
-      }
-  }
-
   $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
   $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
 ?>
@@ -285,16 +275,10 @@
             </div>
           </div>
 
-          <?php
-            if ($notificationsEnabled) {
-          ?>
           <div class="form-group-inline">
             <input type="checkbox" id="notifications" name="notifications">
             <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
           </div>
-          <?php
-            }
-          ?>
 
           <div class="form-group">
             <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>

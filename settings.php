@@ -176,7 +176,8 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM notifications LIMIT 1";
+        // Notification settings
+        $sql = "SELECT * FROM notification_settings LIMIT 1";
         $result = $db->query($sql);
 
         $rowCount = 0;
@@ -186,14 +187,107 @@
         }
         
         if ($rowCount == 0) {
-            $notifications['enabled'] = false;
             $notifications['days'] = 1;
-            $notifications['smtp_address'] = "";
-            $notifications['smtp_port'] = "";
-            $notifications['smtp_username'] = "";
-            $notifications['smtp_password'] = "";
-            $notifications['from_email'] = "";
-            $notifications['encryption'] = "tls";
+        }
+
+        // Email notifications
+        $sql = "SELECT * FROM email_notifications LIMIT 1";
+        $result = $db->query($sql);
+
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsEmail['enabled'] = $row['enabled'];
+            $notificationsEmail['smtp_address'] = $row['smtp_address'];
+            $notificationsEmail['smtp_port'] = $row['smtp_port'];
+            $notificationsEmail['encryption'] = $row['encryption'];
+            $notificationsEmail['smtp_username'] = $row['smtp_username'];
+            $notificationsEmail['smtp_password'] = $row['smtp_password'];
+            $notificationsEmail['from_email'] = $row['from_email'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsEmail['enabled'] = 0;
+            $notificationsEmail['smtp_address'] = "";
+            $notificationsEmail['smtp_port'] = 587;
+            $notificationsEmail['encryption'] = "tls";
+            $notificationsEmail['smtp_username'] = "";
+            $notificationsEmail['smtp_password'] = "";
+            $notificationsEmail['from_email'] = "";
+        }
+
+        // Telegram notifications
+        $sql = "SELECT * FROM telegram_notifications LIMIT 1";
+        $result = $db->query($sql);
+        
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsTelegram['enabled'] = $row['enabled'];
+            $notificationsTelegram['bot_token'] = $row['bot_token'];
+            $notificationsTelegram['chat_id'] = $row['chat_id'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsTelegram['enabled'] = 0;
+            $notificationsTelegram['bot_token'] = "";
+            $notificationsTelegram['chat_id'] = "";
+        }
+
+        // Webhook notifications
+        $sql = "SELECT * FROM webhook_notifications LIMIT 1";
+        $result = $db->query($sql);
+
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsWebhook['enabled'] = $row['enabled'];
+            $notificationsWebhook['url'] = $row['url'];
+            $notificationsWebhook['request_method'] = $row['request_method'];
+            $notificationsWebhook['headers'] = $row['headers'];
+            $notificationsWebhook['payload'] = $row['payload'];
+            $notificationsWebhook['iterator'] = $row['iterator'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsWebhook['enabled'] = 0;
+            $notificationsWebhook['url'] = "";
+            $notificationsWebhook['request_method'] = "POST";
+            $notificationsWebhook['headers'] = "";
+            $notificationsWebhook['iterator'] = "";
+            $notificationsWebhook['payload'] = '
+{
+    "days_until": "{{days_until}}",
+    "{{subscriptions}}": [
+        {
+            "name": "{{subscription_name}}",
+            "price": "{{subscription_price}}",
+            "currency": "{{subscription_currency}}",
+            "category": "{{subscription_category}}",
+            "date": "{{subscription_date}}",
+            "payer": "{{subscription_payer}}"
+        }
+    ]
+
+}';
+        }
+
+        // Gotify notifications
+        $sql = "SELECT * FROM gotify_notifications LIMIT 1";
+        $result = $db->query($sql);
+
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsGotify['enabled'] = $row['enabled'];
+            $notificationsGotify['url'] = $row['url'];
+            $notificationsGotify['token'] = $row['token'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsGotify['enabled'] = 0;
+            $notificationsGotify['url'] = "";
+            $notificationsGotify['token'] = "";
         }
 
     ?>
@@ -203,49 +297,55 @@
             <h2><?= translate('notifications', $i18n) ?></h2>
         </header>
         <div class="account-notifications">
+            <section>
+                <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
+                <div class="form-group-inline">
+                    <select name="days" id="days">
+                    <?php
+                        for ($i = 1; $i <= 7; $i++) {
+                            $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
+                            $selected = $i == $notifications['days'] ? "selected" : "";
+                            ?>
+                                <option value="<?= $i ?>" <?= $selected ?>>
+                                    <?= $i ?> <?= $dayText ?>
+                                </option>
+                            <?php
+                        }
+                    ?>
+                    </select>
+                    <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotifications()"/>
+                </div>
+            </section>
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('email')">
-                    <h3><?= translate('email', $i18n) ?></h3>
+                    <h3>
+                        <i class="fa-solid fa-envelope"></i>
+                        <?= translate('email', $i18n) ?>
+                    </h3>
                 </header>
-                <div class="account-notification-section-settings is-open" data-type="email">
+                <div class="account-notification-section-settings" data-type="email">
                     <div class="form-group-inline">
-                        <input type="checkbox" id="notifications" name="notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
-                        <label for="notifications"><?= translate('enabled', $i18n) ?></label>
-                    </div>
-                    <div class="form-group">
-                        <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
-                        <select name="days" id="days">
-                        <?php
-                            for ($i = 1; $i <= 7; $i++) {
-                                $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
-                                $selected = $i == $notifications['days'] ? "selected" : "";
-                                ?>
-                                    <option value="<?= $i ?>" <?= $selected ?>>
-                                        <?= $i ?> <?= $dayText ?>
-                                    </option>
-                                <?php
-                            }
-                        ?>
-                        </select>
+                        <input type="checkbox" id="emailenabled" name="emailenabled" <?= $notificationsEmail['enabled'] ? "checked" : "" ?>>
+                        <label for="emailenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notifications['smtp_address'] ?>" />
-                        <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notifications['smtp_port'] ?>" />
+                        <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $notificationsEmail['smtp_address'] ?>" />
+                        <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $notificationsEmail['smtp_port'] ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= $notifications['encryption'] == "tls" ? "checked" : "" ?> />
+                        <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= $notificationsEmail['encryption'] == "tls" ? "checked" : "" ?> />
                         <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
-                        <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $notifications['encryption'] == "ssl" ? "checked" : "" ?> />
+                        <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $notificationsEmail['encryption'] == "ssl" ? "checked" : "" ?> />
                         <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notifications['smtp_username'] ?>" />
+                        <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $notificationsEmail['smtp_username'] ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notifications['smtp_password'] ?>" />
+                        <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $notificationsEmail['smtp_password'] ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $notifications['from_email'] ?>" />
+                        <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
                     <div class="settings-notes">
                         <p>
@@ -253,34 +353,101 @@
                         <p>
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationButton()"/>
-                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsButton()"/>
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsEmail" onClick="testNotificationEmailButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsEmail" onClick="saveNotificationsEmailButton()"/>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('gotify');">
+                    <h3>
+                        <i class="fa-solid fa-envelopes-bulk"></i>
+                        <?= translate('gotify', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="gotify">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="gotifyenabled" name="gotifyenabled" <?= $notificationsGotify['enabled'] ? "checked" : "" ?>>
+                        <label for="gotifyenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="gotifyurl" id="gotifyurl" placeholder="<?= translate('url', $i18n) ?>"  value="<?= $notificationsGotify['url'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="gotifytoken" id="gotifytoken" placeholder="<?= translate('token', $i18n) ?>"  value="<?= $notificationsGotify['token'] ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsGotify" onClick="testNotificationsGotifyButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsGotify" onClick="saveNotificationsGotifyButton()"/>
                     </div>
                 </div>
             </section>
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('telegram');">
-                    <h3><?= translate('telegram', $i18n) ?></h3>
+                    <h3>
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <?= translate('telegram', $i18n) ?>
+                    </h3>
                 </header>
                 <div class="account-notification-section-settings" data-type="telegram">
                     <div class="form-group-inline">
-                        <input type="checkbox" id="telegram_notifications" name="telegram_notifications" <?= $notifications['enabled'] ? "checked" : "" ?>>
-                        <label for="notifications"><?= translate('enabled', $i18n) ?></label>
+                        <input type="checkbox" id="telegramenabled" name="telegramenabled" <?= $notificationsTelegram['enabled'] ? "checked" : "" ?>>
+                        <label for="telegramenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="bottoken" id="bottoken" placeholder="<?= translate('telegram_bot_token', $i18n) ?>"  value="<?= $notificationsTelegram['bot_token'] ?>" />
+                        <input type="text" name="telegrambottoken" id="telegrambottoken" placeholder="<?= translate('telegram_bot_token', $i18n) ?>"  value="<?= $notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token']  : "" ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="chatid" id="chatid" placeholder="<?= translate('telegram_chat_id', $i18n) ?>"  value="<?= $notificationsTelegram['chat_id'] ?>" />
+                        <input type="text" name="telegramchatid" id="telegramchatid" placeholder="<?= translate('telegram_chat_id', $i18n) ?>"  value="<?= $notificationsTelegram['chat_id'] ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsTelegram" onClick="testNotificationsTelegramButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsTelegram" onClick="saveNotificationsTelegramButton()"/>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('webhook');">
+                    <h3>
+                        <i class="fa-solid fa-bolt"></i>
+                        <?= translate('webhook', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="webhook">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="webhookenabled" name="webhookenabled" <?= $notificationsWebhook['enabled'] ? "checked" : "" ?>>
+                        <label for="webhookenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div>
+                        <label for="webhookrequestmethod" class="capitalize"><?= translate('request_method', $i18n) ?>:</label>
+                        <div class="form-group-inline">
+                            <select name="webhookrequestmethod" id="webhookrequestmethod">
+                                <option value="GET" <?= $notificationsWebhook['request_method'] == 'GET' ? 'selected' : '' ?>>GET</option>
+                                <option value="POST" <?= $notificationsWebhook['request_method'] == 'POST' ? 'selected' : '' ?>>POST</option>
+                                <option value="PUT" <?= $notificationsWebhook['request_method'] == 'PUT' ? 'selected' : '' ?>>PUT</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="webhookurl" id="webhookurl" placeholder="<?= translate('webhook_url', $i18n) ?>"  value="<?= $notificationsWebhook['url'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <textarea class="thin" name="webhookcustomheaders" id="webhookcustomheaders" placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsWebhook['headers'] ?></textarea>
+                    </div>
+                    <div class="form-group-inline">
+                        <textarea name="webhookpayload" id="webhookpayload" placeholder="<?= translate('webhook_payload', $i18n) ?>"><?= $notificationsWebhook['payload'] ?></textarea>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="webhookiteratorkey" id="webhookiteratorkey" placeholder="<?= translate('webhook_iterator_key', $i18n) ?>"  value="<?= $notificationsWebhook['iterator'] ?>" />
                     </div>
                     <div class="settings-notes">
                         <p>
-                            <i class="fa-solid fa-circle-info"></i> <?= translate('telegram_info', $i18n) ?></p>
+                            <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n)  ?>: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}</p>
                         <p>
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button" value="<?= translate('test', $i18n) ?>" id="testNotifications" onClick="testNotificationTelegramButton()"/>
-                        <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveNotifications" onClick="saveNotificationsTelegramButton()"/>
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsWebhook" onClick="testNotificationsWebhookButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsWebhook" onClick="saveNotificationsWebhookButton()"/>
                     </div>
                 </div>
             </section>
@@ -735,6 +902,7 @@
 
 </section>
 <script src="scripts/settings.js?<?= $version ?>"></script>
+<script src="scripts/notifications.js?<?= $version ?>"></script>
 
 <?php
     require_once 'includes/footer.php';
