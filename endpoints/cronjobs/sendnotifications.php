@@ -4,8 +4,7 @@
     use PHPMailer\PHPMailer\Exception;
 
     require_once 'conf.php';
-    //require_once $webPath . 'includes/connect_endpoint_crontabs.php';
-    require_once '../../includes/connect_endpoint.php';
+    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
 
     $days = 1;
     $emailNotificationsEnabled = false;
