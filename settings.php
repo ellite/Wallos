@@ -216,6 +216,44 @@
             $notificationsEmail['from_email'] = "";
         }
 
+        // Discord notifications
+        $sql = "SELECT * FROM discord_notifications LIMIT 1";
+        $result = $db->query($sql);
+        
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsDiscord['enabled'] = $row['enabled'];
+            $notificationsDiscord['webhook_url'] = $row['webhook_url'];
+            $notificationsDiscord['bot_username'] = $row['bot_username'];
+            $notificationsDiscord['bot_avatar'] = $row['bot_avatar_url'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+        $notificationsDiscord['enabled'] = 0;
+        $notificationsDiscord['url'] = "";
+        $notificationsDiscord['bot_username'] = "";
+        $notificationsDiscord['bot_avatar'] = "";
+        }
+
+        // Pushover notifications
+        $sql = "SELECT * FROM pushover_notifications LIMIT 1";
+        $result = $db->query($sql);
+        
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsPushover['enabled'] = $row['enabled'];
+            $notificationsPushover['token'] = $row['token'];
+            $notificationsPushover['user_key'] = $row['user_key'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsPushover['enabled'] = 0;
+            $notificationsPushover['token'] = "";
+            $notificationsPushover['user_key'] = "";
+        }
+
         // Telegram notifications
         $sql = "SELECT * FROM telegram_notifications LIMIT 1";
         $result = $db->query($sql);
@@ -359,6 +397,33 @@
                 </div>
             </section>
             <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('discord');">
+                    <h3>
+                        <i class="fa-brands fa-discord"></i>
+                        <?= translate('discord', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="discord">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="discordenabled" name="discordenabled" <?= $notificationsDiscord['enabled'] ? "checked" : "" ?>>
+                        <label for="discordenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="discordurl" id="discordurl" placeholder="<?= translate('webhook_url', $i18n) ?>"  value="<?= $notificationsDiscord['webhook_url'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="discordbotusername" id="discordbotusername" placeholder="<?= translate('discord_bot_username', $i18n) ?>"  value="<?= $notificationsDiscord['bot_username'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="discordbotavatar" id="discordbotavatar" placeholder="<?= translate('discord_bot_avatar_url', $i18n) ?>"  value="<?= $notificationsDiscord['bot_avatar'] ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsDiscord" onClick="testNotificationsDiscordButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsDiscord" onClick="saveNotificationsDiscordButton()"/>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('gotify');">
                     <h3>
                         <i class="fa-solid fa-envelopes-bulk"></i>
@@ -379,6 +444,31 @@
                     <div class="buttons">
                         <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsGotify" onClick="testNotificationsGotifyButton()"/>
                         <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsGotify" onClick="saveNotificationsGotifyButton()"/>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('pushover');">
+                    <h3>
+                        <i class="fa-brands fa-pinterest-p"></i>
+                        <?= translate('pushover', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="pushover">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="pushoverenabled" name="pushoverenabled" <?= $notificationsPushover['enabled'] ? "checked" : "" ?>>
+                        <label for="pushoverenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="pushoveruserkey" id="pushoveruserkey" placeholder="<?= translate('pushover_user_key', $i18n) ?>"  value="<?= $notificationsPushover['user_key'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="pushovertoken" id="pushovertoken" placeholder="<?= translate('token', $i18n) ?>"  value="<?= $notificationsPushover['token'] ?>" />
+                    </div>
+
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsPushover" onClick="testNotificationsPushoverButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsPushover" onClick="saveNotificationsPushoverButton()"/>
                     </div>
                 </div>
             </section>

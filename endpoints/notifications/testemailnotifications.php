@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ) {
         $response = [
             "success" => false,
-            "errorMessage" => translate('fill_all_fields', $i18n)
+            "message" => translate('fill_all_fields', $i18n)
         ];
         die(json_encode($response));
     } else {
@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('email_error', $i18n) . $mail->ErrorInfo
+                "message" => translate('email_error', $i18n) . $mail->ErrorInfo
             ];
             die(json_encode($response));
         }

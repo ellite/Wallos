@@ -210,3 +210,74 @@ function testNotificationsGotifyButton() {
     makeFetchCall('endpoints/notifications/testgotifynotifications.php', data, button);
 }
 
+function saveNotificationsPushoverButton() {
+  const button = document.getElementById("saveNotificationsPushover");
+  button.disabled = true;
+
+  const enabled = document.getElementById("pushoverenabled").checked ? 1 : 0;
+  const user_key = document.getElementById("pushoveruserkey").value;
+  const token = document.getElementById("pushovertoken").value;
+
+  const data = {
+    enabled: enabled,
+    user_key: user_key,
+    token: token
+  };
+
+  makeFetchCall('endpoints/notifications/savepushovernotifications.php', data, button);
+}
+
+function testNotificationsPushoverButton() {
+  const button = document.getElementById("testNotificationsPushover");
+  button.disabled = true;
+
+  const enabled = document.getElementById("pushoverenabled").checked ? 1 : 0;
+  const user_key = document.getElementById("pushoveruserkey").value;
+  const token = document.getElementById("pushovertoken").value;
+
+  const data = {
+    enabled: enabled,
+    user_key: user_key,
+    token: token
+  };
+
+  makeFetchCall('endpoints/notifications/testpushovernotifications.php', data, button);
+}
+
+function saveNotificationsDiscordButton() {
+  const button = document.getElementById("saveNotificationsDiscord");
+  button.disabled = true;
+
+  const enabled = document.getElementById("discordenabled").checked ? 1 : 0;
+  const url = document.getElementById("discordurl").value;
+  const bot_username = document.getElementById("discordbotusername").value;
+  const bot_avatar = document.getElementById("discordbotavatar").value;
+
+  const data = {
+    enabled: enabled,
+    url: url,
+    bot_username: bot_username,
+    bot_avatar: bot_avatar
+  };
+
+  makeFetchCall('endpoints/notifications/savediscordnotifications.php', data, button);
+}
+
+function testNotificationsDiscordButton() {
+  const button = document.getElementById("testNotificationsDiscord");
+  button.disabled = true;
+
+  const enabled = document.getElementById("discordenabled").checked ? 1 : 0;
+  const url = document.getElementById("discordurl").value;
+  const bot_username = document.getElementById("discordbotusername").value;
+  const bot_avatar = document.getElementById("discordbotavatar").value;
+
+  const data = {
+    enabled: enabled,
+    url: url,
+    bot_username: bot_username,
+    bot_avatar: bot_avatar
+  };
+
+  makeFetchCall('endpoints/notifications/testdiscordnotifications.php', data, button);
+}

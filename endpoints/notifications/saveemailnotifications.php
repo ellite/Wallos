@@ -21,7 +21,7 @@
         ) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('fill_mandatory_fields', $i18n)
+                "message" => translate('fill_mandatory_fields', $i18n)
             ];
             echo json_encode($response);
         } else {
@@ -42,7 +42,7 @@
             if ($result === false) {
                 $response = [
                     "success" => false,
-                    "errorMessage" => translate('error_saving_notifications', $i18n)
+                    "message" => translate('error_saving_notifications', $i18n)
                 ];
                 echo json_encode($response);
             } else {
@@ -73,7 +73,7 @@
                 } else {
                     $response = [
                         "success" => false,
-                        "errorMessage" => translate('error_saving_notifications', $i18n)
+                        "message" => translate('error_saving_notifications', $i18n)
                     ];
                     echo json_encode($response);
                 }

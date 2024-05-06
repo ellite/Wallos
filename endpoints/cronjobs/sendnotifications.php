@@ -4,13 +4,16 @@
     use PHPMailer\PHPMailer\Exception;
 
     require_once 'conf.php';
-    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
+    //require_once $webPath . 'includes/connect_endpoint_crontabs.php';
+    require_once '../../includes/connect_endpoint.php';
 
     $days = 1;
     $emailNotificationsEnabled = false;
     $gotifyNotificationsEnabled = false;
     $telegramNotificationsEnabled = false;
     $webhookNotificationsEnabled = false;
+    $pushoverNotificationsEnabled = false;
+    $discordNotificationsEnabled = false;
 
     // Get notification settings (how many days before the subscription ends should the notification be sent)
     $query = "SELECT days FROM notification_settings";
@@ -35,6 +38,17 @@
         $email['fromEmail'] = $row["from_email"] ? $row["from_email"] : "wallos@wallosapp.com";
     }
 
+    // Check if Discord notifications are enabled and get the settings
+    $query = "SELECT * FROM discord_notifications";
+    $result = $db->query($query);
+
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $discordNotificationsEnabled = $row['enabled'];
+        $discord['webhook_url'] = $row["webhook_url"];
+        $discord['bot_username'] = $row["bot_username"];
+        $discord['bot_avatar_url'] = $row["bot_avatar_url"];
+    }
+
     // Check if Gotify notifications are enabled and get the settings
     $query = "SELECT * FROM gotify_notifications";
     $result = $db->query($query);
@@ -55,6 +69,16 @@
         $telegram['chatId'] = $row["chat_id"];
     }
 
+    // Check if Pushover notifications are enabled and get the settings
+    $query = "SELECT * FROM pushover_notifications";
+    $result = $db->query($query);
+
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $pushoverNotificationsEnabled = $row['enabled'];
+        $pushover['user_key'] = $row["user_key"];
+        $pushover['token'] = $row["token"];
+    }
+
     // Check if Webhook notifications are enabled and get the settings
     $query = "SELECT * FROM webhook_notifications";
     $result = $db->query($query);
@@ -71,7 +95,7 @@
         }
     }
 
-    $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled || $webhookNotificationsEnabled;
+    $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled || $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled;
 
     // If no notifications are enabled, no need to run
     if (!$notificationsEnabled) {
@@ -181,6 +205,68 @@
                 }
             }
 
+            // Discord notifications if enabled
+            if ($discordNotificationsEnabled) {
+                foreach ($notify as $userId => $perUser) {
+                    // Get name of user from household table
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                    $title = translate('wallos_notification', $i18n);
+
+                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
+                    if ($user['name']) {
+                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                    } else {
+                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                    }
+
+                    foreach ($perUser as $subscription) {
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                    }
+
+                    $postfields = [
+                        'content' => $message,
+                        'embeds' => [
+                            [
+                                'title' => $title,
+                                'description' => $message,
+                                'color' => hexdec("FF0000")
+                            ]
+                        ]
+                    ];
+                    
+                    if (!empty($discord['bot_username'])) {
+                        $postfields['username'] = $discord['bot_username'];
+                    }
+                    
+                    if (!empty($discord['bot_avatar_url'])) {
+                        $postfields['avatar_url'] = $discord['bot_avatar_url'];
+                    }
+
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, $discord['webhook_url']);
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                        'Content-Type: application/json'
+                    ]);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
+
+                    if ($result === false) {
+                        echo "Error sending notifications: " . curl_error($ch);
+                    } else {
+                        echo "Discord Notifications sent<br />";
+                    }
+                }
+            }
+
             // Gotify notifications if enabled
             if ($gotifyNotificationsEnabled) {
                 foreach ($notify as $userId => $perUser) {
@@ -267,6 +353,48 @@
                         echo "Error sending notifications: " . curl_error($ch);
                     } else {
                         echo "Telegram Notifications sent<br />";
+                    }
+                }
+            }
+
+            // Pushover notifications if enabled
+            if ($pushoverNotificationsEnabled) {
+                foreach ($notify as $userId => $perUser) {
+                    // Get name of user from household table
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
+                    if ($user['name']) {
+                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                    } else {
+                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                    }
+
+                    foreach ($perUser as $subscription) {
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                    }
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, "https://api.pushover.net/1/messages.json");
+                    curl_setopt($ch, CURLOPT_POST, 1);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+                        'token' => $pushover['token'],
+                        'user' => $pushover['user_key'],
+                        'message' => $message,
+                    ]));
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $result = curl_exec($ch);
+
+                    curl_close($ch);
+
+                    if ($result === false) {
+                        echo "Error sending notifications: " . curl_error($ch);
+                    } else {
+                        echo "Pushover Notifications sent<br />";
                     }
                 }
             }
