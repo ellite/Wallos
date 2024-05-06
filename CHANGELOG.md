@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.25.0](https://github.com/ellite/Wallos/compare/v1.24.0...v1.25.0) (2024-05-06)
+
+
+### Features
+
+* add discord and pushover as notification agents ([#300](https://github.com/ellite/Wallos/issues/300)) ([8994829](https://github.com/ellite/Wallos/commit/899482982e7e200f5a7081ed6285475e5cb2a37d))
+
+
+### Bug Fixes
+
+* most error messages of the notifications endpoints would not reach the frontend ([8994829](https://github.com/ellite/Wallos/commit/899482982e7e200f5a7081ed6285475e5cb2a37d))
+
 ## [1.24.0](https://github.com/ellite/Wallos/compare/v1.23.0...v1.24.0) (2024-05-05)
 
 
