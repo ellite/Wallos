@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     ) {
         $response = [
             "success" => false,
-            "errorMessage" => translate('fill_mandatory_fields', $i18n)
+            "message" => translate('fill_mandatory_fields', $i18n)
         ];
         die(json_encode($response));
     } else {

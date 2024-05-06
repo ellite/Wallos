@@ -1,5 +1,6 @@
 <?php
-    require_once '../../includes/connect_endpoint.php';
+
+require_once '../../includes/connect_endpoint.php';
     session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -14,8 +15,7 @@
         $data = json_decode($postData, true);
 
         if (
-            !isset($data["bot_token"]) || $data["bot_token"] == "" ||
-            !isset($data["chat_id"]) || $data["chat_id"] == ""
+            !isset($data["url"]) || $data["url"] == ""
         ) {
             $response = [
                 "success" => false,
@@ -24,10 +24,11 @@
             echo json_encode($response);
         } else {
             $enabled = $data["enabled"];
-            $bot_token = $data["bot_token"];
-            $chat_id = $data["chat_id"];
+            $webhook_url = $data["url"];
+            $bot_username = $data["bot_username"];
+            $bot_avatar_url = $data["bot_avatar"];
 
-            $query = "SELECT COUNT(*) FROM telegram_notifications";
+            $query = "SELECT COUNT(*) FROM discord_notifications";
             $result = $db->querySingle($query);
     
             if ($result === false) {
@@ -38,17 +39,18 @@
                 echo json_encode($response);
             } else {
                 if ($result == 0) {
-                    $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id)
-                              VALUES (:enabled, :bot_token, :chat_id)";
+                    $query = "INSERT INTO discord_notifications (enabled, webhook_url, bot_username, bot_avatar_url)
+                              VALUES (:enabled, :webhook_url, :bot_username, :bot_avatar_url)";
                 } else {
-                    $query = "UPDATE telegram_notifications
-                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id";
+                    $query = "UPDATE pushover_notifications
+                              SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url";
                 }
     
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
-                $stmt->bindValue(':bot_token', $bot_token, SQLITE3_TEXT);
-                $stmt->bindValue(':chat_id', $chat_id, SQLITE3_TEXT);
+                $stmt->bindValue(':webhook_url', $webhook_url, SQLITE3_TEXT);
+                $stmt->bindValue(':bot_username', $bot_username, SQLITE3_TEXT);
+                $stmt->bindValue(':bot_avatar_url', $bot_avatar_url, SQLITE3_TEXT);
     
                 if ($stmt->execute()) {
                     $response = [
@@ -66,4 +68,5 @@
             }
         }
     }
+
 ?>

@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../includes/connect_endpoint.php';
 session_start();
 
@@ -14,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode($postData, true);
 
     if (
-        !isset($data["bottoken"]) || $data["bottoken"] == "" ||
-        !isset($data["chatid"]) || $data["chatid"] == ""
+        !isset($data["user_key"]) || $data["user_key"] == "" ||
+        !isset($data["token"]) || $data["token"] == ""
     ) {
         $response = [
             "success" => false,
@@ -24,20 +25,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode($response);
     } else {
         // Set the message parameters
-        $title = translate('wallos_notification', $i18n);
         $message = translate('test_notification', $i18n);
 
-        $botToken = $data["bottoken"];
-        $chatId = $data["chatid"];
+        $user_key = $data["user_key"];
+        $token = $data["token"];
 
         $ch = curl_init();
 
         // Set the URL and other options
-        curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $botToken . "/sendMessage");
+        curl_setopt($ch, CURLOPT_URL, "https://api.pushover.net/1/messages.json");
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-            'chat_id' => $chatId,
-            'text' => $message,
+            'token' => $token,
+            'user' => $user_key,
+            'message' => $message,
         ]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -66,4 +67,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "message" => translate("invalid_request_method", $i18n)
     ]));
 }
+
 ?>

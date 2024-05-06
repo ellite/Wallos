@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../includes/connect_endpoint.php';
 session_start();
 
@@ -14,8 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode($postData, true);
 
     if (
-        !isset($data["bottoken"]) || $data["bottoken"] == "" ||
-        !isset($data["chatid"]) || $data["chatid"] == ""
+        !isset($data["url"]) || $data["url"] == ""
     ) {
         $response = [
             "success" => false,
@@ -27,18 +27,38 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $title = translate('wallos_notification', $i18n);
         $message = translate('test_notification', $i18n);
 
-        $botToken = $data["bottoken"];
-        $chatId = $data["chatid"];
+        $webhook_url = $data["url"];
+        $bot_username = $data["bot_username"];
+        $bot_avatar_url = $data["bot_avatar"];
+
+        $postfields = [
+            'content' => $message,
+            'embeds' => [
+                [
+                    'title' => $title,
+                    'description' => $message,
+                    'color' => hexdec("FF0000")
+                ]
+            ]
+        ];
+        
+        if (!empty($bot_username)) {
+            $postfields['username'] = $bot_username;
+        }
+        
+        if (!empty($bot_avatar_url)) {
+            $postfields['avatar_url'] = $bot_avatar_url;
+        }
 
         $ch = curl_init();
-
+        
         // Set the URL and other options
-        curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $botToken . "/sendMessage");
+        curl_setopt($ch, CURLOPT_URL, $webhook_url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-            'chat_id' => $chatId,
-            'text' => $message,
-        ]));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json'
+        ]);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // Execute the request
@@ -66,4 +86,5 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         "message" => translate("invalid_request_method", $i18n)
     ]));
 }
+
 ?>

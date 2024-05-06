@@ -1,5 +1,6 @@
 <?php
-    require_once '../../includes/connect_endpoint.php';
+
+require_once '../../includes/connect_endpoint.php';
     session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -14,8 +15,8 @@
         $data = json_decode($postData, true);
 
         if (
-            !isset($data["bot_token"]) || $data["bot_token"] == "" ||
-            !isset($data["chat_id"]) || $data["chat_id"] == ""
+            !isset($data["user_key"]) || $data["user_key"] == "" ||
+            !isset($data["token"]) || $data["token"] == ""
         ) {
             $response = [
                 "success" => false,
@@ -24,10 +25,10 @@
             echo json_encode($response);
         } else {
             $enabled = $data["enabled"];
-            $bot_token = $data["bot_token"];
-            $chat_id = $data["chat_id"];
+            $user_key = $data["user_key"];
+            $token = $data["token"];
 
-            $query = "SELECT COUNT(*) FROM telegram_notifications";
+            $query = "SELECT COUNT(*) FROM pushover_notifications";
             $result = $db->querySingle($query);
     
             if ($result === false) {
@@ -38,17 +39,17 @@
                 echo json_encode($response);
             } else {
                 if ($result == 0) {
-                    $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id)
-                              VALUES (:enabled, :bot_token, :chat_id)";
+                    $query = "INSERT INTO pushover_notifications (enabled, user_key, token)
+                              VALUES (:enabled, :user_key, :token)";
                 } else {
-                    $query = "UPDATE telegram_notifications
-                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id";
+                    $query = "UPDATE pushover_notifications
+                              SET enabled = :enabled, user_key = :user_key, token = :token";
                 }
     
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
-                $stmt->bindValue(':bot_token', $bot_token, SQLITE3_TEXT);
-                $stmt->bindValue(':chat_id', $chat_id, SQLITE3_TEXT);
+                $stmt->bindValue(':user_key', $user_key, SQLITE3_TEXT);
+                $stmt->bindValue(':token', $token, SQLITE3_TEXT);
     
                 if ($stmt->execute()) {
                     $response = [
@@ -66,4 +67,5 @@
             }
         }
     }
+
 ?>
