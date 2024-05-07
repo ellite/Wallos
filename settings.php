@@ -231,7 +231,7 @@
 
         if ($rowCount == 0) {
         $notificationsDiscord['enabled'] = 0;
-        $notificationsDiscord['url'] = "";
+        $notificationsDiscord['webhook_url'] = "";
         $notificationsDiscord['bot_username'] = "";
         $notificationsDiscord['bot_avatar'] = "";
         }
