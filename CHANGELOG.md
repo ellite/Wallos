@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.25.1](https://github.com/ellite/Wallos/compare/v1.25.0...v1.25.1) (2024-05-07)
+
+
+### Bug Fixes
+
+* broken discord form ([#302](https://github.com/ellite/Wallos/issues/302)) ([b435d6a](https://github.com/ellite/Wallos/commit/b435d6a5cf6f80404c487b519334b2854aab9713))
+
 ## [1.25.0](https://github.com/ellite/Wallos/compare/v1.24.0...v1.25.0) (2024-05-06)
 
 
