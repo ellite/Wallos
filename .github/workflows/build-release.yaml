@@ -76,3 +76,10 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      - name: Send notification to Discord
+        if: github.event_name != 'pull_request'
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "A new release has been created: ${{ steps.meta.outputs.tags }}"
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
