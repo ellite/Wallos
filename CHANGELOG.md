@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.0](https://github.com/ellite/Wallos/compare/v1.25.1...v1.26.0) (2024-05-08)
+
+
+### Features
+
+* add russian translation ([#305](https://github.com/ellite/Wallos/issues/305)) ([ae04d50](https://github.com/ellite/Wallos/commit/ae04d50329c1fb0117e186f89fef38b495cbbe9c))
+
 ## [1.25.1](https://github.com/ellite/Wallos/compare/v1.25.0...v1.25.1) (2024-05-07)
 
 
