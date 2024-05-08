@@ -78,7 +78,7 @@ jobs:
           cache-to: type=gha,mode=max
       - name: Send notification to Discord
         if: github.event_name != 'pull_request'
-        uses: Ilshidur/action-discord@2.4.0
+        uses: Ilshidur/action-discord@master
         with:
           args: "A new release has been created: ${{ steps.meta.outputs.tags }}"
         env:
