@@ -14,6 +14,7 @@
         "pl" => "Polski",
         "pt" => "Português",
         "pt_br" => "Português Brasileiro",
+        "ru" => "Русский",
         "sr_lat" => "Srpski",
         "sr" => "Српски",
         "tr" => "Türkçe",
