@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.1](https://github.com/ellite/Wallos/compare/v1.26.0...v1.26.1) (2024-05-09)
+
+
+### Bug Fixes
+
+* background removal experimental setting ([#307](https://github.com/ellite/Wallos/issues/307)) ([bb5ee2e](https://github.com/ellite/Wallos/commit/bb5ee2e64c11b1415da3aa50119dfaa3783be37f))
+
 ## [1.26.0](https://github.com/ellite/Wallos/compare/v1.25.1...v1.26.0) (2024-05-08)
 
 
