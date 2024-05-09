@@ -18,7 +18,7 @@
         return in_array($fileExtension, $allowedExtensions);
     }
 
-    function getLogoFromUrl($url, $uploadDir, $name) {
+    function getLogoFromUrl($url, $uploadDir, $name, $settings) {
         
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -31,7 +31,7 @@
             $uploadDir = '../../images/uploads/logos/';
             $uploadFile = $uploadDir . $fileName;
             
-            if (saveLogo($imageData, $uploadFile, $name)) {
+            if (saveLogo($imageData, $uploadFile, $name, $settings)) {
                 return $fileName;
             } else {
                 echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
@@ -45,7 +45,7 @@
         }
     }
 
-    function saveLogo($imageData, $uploadFile, $name) {
+    function saveLogo($imageData, $uploadFile, $name, $settings) {
         $image = imagecreatefromstring($imageData);
         $removeBackground = isset($settings['removeBackground']) && $settings['removeBackground'] === 'true';
         if ($image !== false) {
@@ -71,7 +71,7 @@
         }
     }
 
-    function resizeAndUploadLogo($uploadedFile, $uploadDir, $name) {
+    function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings) {
         $targetWidth = 135;
         $targetHeight = 42;
     
@@ -169,7 +169,7 @@
             $inactive = isset($_POST['inactive']) ? true : false;
 
             if($logoUrl !== "") {
-                $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name);
+                $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings);
             } else {
                 if (!empty($_FILES['logo']['name'])) {
                     $fileType = mime_content_type($_FILES['logo']['tmp_name']);
@@ -177,7 +177,7 @@
                         echo translate("fill_all_fields", $i18n);
                         exit();
                     }
-                    $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name);
+                    $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
                 }
             }
 
