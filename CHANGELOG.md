@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.26.2](https://github.com/ellite/Wallos/compare/v1.26.1...v1.26.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* russian translations ([#309](https://github.com/ellite/Wallos/issues/309)) ([8f890fc](https://github.com/ellite/Wallos/commit/8f890fc5d3a62a91feec50564179b3241ed538bf))
+
 ## [1.26.1](https://github.com/ellite/Wallos/compare/v1.26.0...v1.26.1) (2024-05-09)
 
 
