@@ -25,6 +25,7 @@ Wallos: Open-Source Personal Subscription Tracker
   - [Translations](#translations)
 - [Screenshots](#screenshots)
 - [License](#license)
+- [Links](#links)
 
 ## Introduction
 
@@ -42,7 +43,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Logo Search: Wallos can search the web for the logo of your subscriptions if you don't have them available for upload.
 - Mobile view: Wallos on the go.
 - Statistics: Another perspective into your spendings.
-- Notifications:  Get notified by email of an upcoming payment.
+- Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
 
 ## Getting Started
@@ -169,3 +170,9 @@ This project is licensed under the [GNU General Public License, Version 3](LICEN
 I chose the GNU General Public License version 3 (GPLv3) for this project because it ensures that the software remains open source and freely available to the community. GPLv3 mandates that any derivative works or modifications must also be released under the same license, promoting the principles of software freedom.
 
 I strongly believe in the importance of open source software and the collaborative nature of development, and I invite contributors to help improve this project.
+
+## Links
+
+The author: [henrique.pt](https://henrique.pt)
+Wallos Landinpage: [wallosapp.com](https://wallosapp.com)
+Join the conversation: [Discord Server](https://discord.gg/anex9GUrPW)
