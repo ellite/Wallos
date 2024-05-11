@@ -11,6 +11,7 @@
         "fr" => "Français",
         "it" => "Italiano",
         "jp" => "日本語",
+        "ko" => "한국어",
         "pl" => "Polski",
         "pt" => "Português",
         "pt_br" => "Português Brasileiro",
