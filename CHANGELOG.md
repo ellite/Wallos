@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.0](https://github.com/ellite/Wallos/compare/v1.26.2...v1.27.0) (2024-05-11)
+
+
+### Features
+
+* add korean translation ([#314](https://github.com/ellite/Wallos/issues/314)) ([bc40320](https://github.com/ellite/Wallos/commit/bc403206905b39c3aa88f3eb51e59b41e2a5e24e))
+
 ## [1.26.2](https://github.com/ellite/Wallos/compare/v1.26.1...v1.26.2) (2024-05-09)
 
 
