@@ -35,6 +35,7 @@ self.addEventListener('install', function(event) {
                 'scripts/i18n/fr.js',
                 'scripts/i18n/it.js',
                 'scripts/i18n/jp.js',
+                'scripts/i18n/ko.js',
                 'scripts/i18n/pl.js',
                 'scripts/i18n/pt.js',
                 'scripts/i18n/pt_br.js',
