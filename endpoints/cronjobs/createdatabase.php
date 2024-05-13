@@ -1,8 +1,6 @@
 <?php 
 
-require_once 'conf.php';
-
-$databaseFile = $webPath . 'db/wallos.db';
+$databaseFile = __DIR__ . '/../../db/wallos.db';
 
 if (!file_exists($databaseFile)) {
     echo "Database does not exist. Creating it...\n";
@@ -234,7 +232,6 @@ if (!file_exists($databaseFile)) {
 } else {
     echo "Database already exist. Checking for upgrades...\n";
 
-    $databaseFile = $webPath . 'db/wallos.db';
     $db = new SQLite3($databaseFile);
     $db->busyTimeout(5000);
 

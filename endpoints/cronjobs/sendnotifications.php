@@ -3,8 +3,7 @@
     use PHPMailer\PHPMailer\SMTP;
     use PHPMailer\PHPMailer\Exception;
 
-    require_once 'conf.php';
-    require_once $webPath . 'includes/connect_endpoint_crontabs.php';
+    require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
     $days = 1;
     $emailNotificationsEnabled = false;
@@ -152,9 +151,9 @@
 
             // Email notifications if enabled
             if ($emailNotificationsEnabled) {
-                require $webPath . 'libs/PHPMailer/PHPMailer.php';
-                require $webPath . 'libs/PHPMailer/SMTP.php';
-                require $webPath . 'libs/PHPMailer/Exception.php';
+                require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
+                require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
+                require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
                 $stmt = $db->prepare('SELECT * FROM user WHERE id = :id');
                 $stmt->bindValue(':id', 1, SQLITE3_INTEGER);
