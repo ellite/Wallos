@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.27.1](https://github.com/ellite/Wallos/compare/v1.27.0...v1.27.1) (2024-05-13)
+
+
+### Bug Fixes
+
+* import of translations for cronjobs was missing ([#321](https://github.com/ellite/Wallos/issues/321)) ([a524419](https://github.com/ellite/Wallos/commit/a524419e0a468147a2094dba81689dd643a0108b))
+
 ## [1.27.0](https://github.com/ellite/Wallos/compare/v1.26.2...v1.27.0) (2024-05-11)
 
 
