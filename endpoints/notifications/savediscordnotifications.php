@@ -42,7 +42,7 @@ require_once '../../includes/connect_endpoint.php';
                     $query = "INSERT INTO discord_notifications (enabled, webhook_url, bot_username, bot_avatar_url)
                               VALUES (:enabled, :webhook_url, :bot_username, :bot_avatar_url)";
                 } else {
-                    $query = "UPDATE pushover_notifications
+                    $query = "UPDATE discord_notifications
                               SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url";
                 }
     

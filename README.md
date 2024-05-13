@@ -83,7 +83,7 @@ See instructions to run Wallos below.
 0 9 * * * php /var/www/html/endpoints/cronjobs/sendnotifications.php >> /var/log/cron/sendnotifications.log 2>&1
 ```
 
-5. If your web root is not `/var/www/html/` adjust both the cronjobs above and `/endpoints/cronjobs/conf.php` accordingly.
+5. If your web root is not `/var/www/html/` adjust the cronjobs above accordingly.
 
 #### Updating
 
