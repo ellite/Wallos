@@ -2,8 +2,6 @@
 
 $databaseFile = __DIR__ . '/../../db/wallos.db';
 
-echo $databaseFile;
-
 if (!file_exists($databaseFile)) {
     echo "Database does not exist. Creating it...\n";
     $db = new SQLite3($databaseFile, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
