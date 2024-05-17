@@ -69,6 +69,35 @@ function deleteAvatar(path) {
   });
 }
 
+function saveBudget() {
+  const button = document.getElementById("saveBudget");
+  button.disabled = true;
+
+  const budget = document.getElementById("budget").value;
+
+  fetch('endpoints/user/budget.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ budget: budget })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+    } else {
+      showErrorMessage(data.message);
+    }
+    button.disabled = false;
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+    button.disabled = false;
+  });
+
+}
+
 function addMemberButton(memberId) {
   document.getElementById("addMember").disabled = true;
   const url = 'endpoints/household/household.php?action=add';

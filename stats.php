@@ -199,6 +199,17 @@ if ($result) {
   }
 }
  
+if (isset($userData['budget']) && $userData['budget'] > 0) {
+  $budget = $userData['budget'];
+  $budgetLeft = $budget - $totalCostPerMonth;
+  $budgetLeft = $budgetLeft < 0 ? 0 : $budgetLeft;
+  $budgetUsed = ($totalCostPerMonth / $budget) * 100;
+  $budgetUsed = $budgetUsed > 100 ? 100 : $budgetUsed;
+  if ($totalCostPerMonth > $budget) {
+    $overBudgetAmount = $totalCostPerMonth - $budget;
+  }
+} 
+
 $numberOfElements = 6;
 ?>
 <section class="contain">
@@ -333,8 +344,35 @@ $numberOfElements = 6;
       <div class="title"><?= translate('amount_due', $i18n) ?></div>
     </div>
     <?php
+      if (isset($budgetUsed)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= number_format($budgetUsed, 2) ?>%</span>
+            <div class="title"><?= translate('percentage_budget_used', $i18n) ?></div>
+          </div>
+        <?php
+      }
+      if (isset($budgetLeft)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
+            <div class="title"><?= translate('budget_remaining', $i18n) ?></div>
+          </div>
+        <?php
+      }
+      if (isset($overBudgetAmount)) {
+        $numberOfElements += 1;
+        ?>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
+            <div class="title"><?= translate('amount_over_budget', $i18n) ?></div>
+          </div>
+        <?php
+      }
       if ($inactiveSubscriptions > 0) {
-        $numberOfElements = 8;
+        $numberOfElements += 3;
         ?>
           <div class="statistic">
             <span><?= $inactiveSubscriptions ?></span>
@@ -343,6 +381,10 @@ $numberOfElements = 6;
           <div class="statistic">
             <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
             <div class="title"><?= translate('monthly_savings', $i18n) ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($totalSavingsPerMonth * 12, $code) ?></span>
+            <div class="title"><?= translate('yearly_savings', $i18n) ?></div>
           </div>
         <?php
       }

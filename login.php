@@ -51,6 +51,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $_SESSION['username'] = $username;
             $_SESSION['loggedin'] = true;
             $_SESSION['main_currency'] = $main_currency;
+            $_SESSION['userId'] = $userId;
             $cookieExpire = time() + (30 * 24 * 60 * 60);
             setcookie('language', $language, $cookieExpire);
             if ($rememberMe) {
