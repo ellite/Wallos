@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.27.2](https://github.com/ellite/Wallos/compare/v1.27.1...v1.27.2) (2024-05-17)
+
+
+### Bug Fixes
+
+* duplicated messages on discord notifications ([d44b40b](https://github.com/ellite/Wallos/commit/d44b40b0ce80e91821fe7441c85e0d8794680618))
+* possible division by 0 on statistics page ([d44b40b](https://github.com/ellite/Wallos/commit/d44b40b0ce80e91821fe7441c85e0d8794680618))
+
 ## [1.27.1](https://github.com/ellite/Wallos/compare/v1.27.0...v1.27.1) (2024-05-13)
 
 
