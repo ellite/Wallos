@@ -187,7 +187,12 @@ if ($result) {
     $totalCostPerYear = $totalCostPerMonth * 12;
   
     // Calculate average subscription monthly cost
-    $averageSubscriptionCost = $totalCostPerMonth / $activeSubscriptions;
+    if ($activeSubscriptions > 0) {
+      $averageSubscriptionCost = $totalCostPerMonth / $activeSubscriptions;
+    } else {
+      $totalCostPerYear = 0;
+      $averageSubscriptionCost = 0;
+    }
   } else {
     $totalCostPerYear = 0;
     $averageSubscriptionCost = 0;
