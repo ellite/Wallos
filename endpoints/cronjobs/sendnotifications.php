@@ -226,14 +226,7 @@
                     }
 
                     $postfields = [
-                        'content' => $message,
-                        'embeds' => [
-                            [
-                                'title' => $title,
-                                'description' => $message,
-                                'color' => hexdec("FF0000")
-                            ]
-                        ]
+                        'content' => $message
                     ];
                     
                     if (!empty($discord['bot_username'])) {
