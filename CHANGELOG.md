@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.28.0](https://github.com/ellite/Wallos/compare/v1.27.2...v1.28.0) (2024-05-17)
+
+
+### Features
+
+* add monthly budget field and statistics ([#329](https://github.com/ellite/Wallos/issues/329)) ([b622434](https://github.com/ellite/Wallos/commit/b622434ca0791d5c8026d641e1b32f8a2f0f42b8))
+
 ## [1.27.2](https://github.com/ellite/Wallos/compare/v1.27.1...v1.27.2) (2024-05-17)
 
 
