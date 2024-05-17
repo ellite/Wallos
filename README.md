@@ -55,7 +55,7 @@ See instructions to run Wallos below.
 #### Baremetal
 
 - NGINX or APACHE websever running
-- PHP 7.4 or 8.0 with the following modules enabled:
+- PHP 8.2 with the following modules enabled:
     - curl
     - gd
     - imagick
@@ -149,7 +149,7 @@ I welcome contributions from the community and look forward to working with you 
 ### Contributors
 
 <a href="https://github.com/ellite/wallos/graphs/contributors">
-  <img src="https://contri-graphy.yourselfhosted.com/graph?repo=ellite/wallos&format=svg" />
+  <img src="https://contrib.rocks/image?repo=ellite/wallos" />
 </a>
 
 ### Translations
