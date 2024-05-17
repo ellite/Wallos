@@ -12,6 +12,8 @@
         if ($userData === false) {
             header('Location: logout.php');
             exit();
+        } else {
+            $_SESSION['userId'] = $userData['id'];
         }
 
         if ($userData['avatar'] == "") {
@@ -55,6 +57,7 @@
                     $_SESSION['token'] = $token;
                     $_SESSION['loggedin'] = true;
                     $_SESSION['main_currency'] = $main_currency;
+                    $_SESSION['userId'] = $userId;
                 } else {
                     $db->close();
                     header("Location: logout.php");

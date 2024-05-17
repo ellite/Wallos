@@ -74,13 +74,18 @@
                                     $currencyId = $row['id'];
                                     $currencies[$currencyId] = $row;
                                 }
+                                $userData['currency_symbol'] = "€";
                             ?>
                             <div class="form-group">
                                 <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
                                 <select id="currency" name="main_currency" placeholder="Currency">
                                 <?php
                                     foreach ($currencies as $currency) {
-                                        $selected = ($currency['id'] == $userData['main_currency']) ? 'selected' : '';    
+                                        $selected = "";
+                                        if ($currency['id'] == $userData['main_currency']) {
+                                            $selected = "selected";
+                                            $userData['currency_symbol'] = $currency['symbol'];
+                                        }  
                                 ?>
                                         <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
                                 <?php
@@ -109,6 +114,24 @@
                 </div>
             </form>
 
+    </section>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('monthly_budget', $i18n) ?></h2>
+        </header>
+        <div class="account-budget">
+            <div class="form-group-inline">
+                <label for="budget"><?= $userData['currency_symbol'] ?></label>
+                <input type="number" id="budget" name="budget" value="<?= $userData['budget'] ?>" placeholder="Budget">
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveBudget" onClick="saveBudget()"/>
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('budget_info', $i18n) ?></p>
+                <p>
+            </div>
+        </div>
     </section>
 
     <?php
