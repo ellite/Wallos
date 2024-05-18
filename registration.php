@@ -109,7 +109,7 @@ if (isset($_POST['username'])) {
         <link rel="stylesheet" href="styles/barlow.css">
         <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
     </head>
-    <body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
+    <body class="<?= $languages[$lang]['dir'] ?>">
         <div class="content">
             <section class="container">
                 <header>

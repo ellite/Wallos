@@ -4,7 +4,7 @@
   <img alt="Wallos" src="./images/siteicons/blue/wallos.png">
 </picture>
 
-Wallos: Open-Source Personal Subscription Trackers
+Wallos: Open-Source Personal Subscription Tracker
 
 ## Table of Contents
 

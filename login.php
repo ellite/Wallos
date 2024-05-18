@@ -94,7 +94,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>
-<body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
+<body class="<?= $languages[$lang]['dir'] ?>">
     <div class="content">
         <section class="container">
             <header>
