@@ -77,7 +77,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html dir="<?= $languages[$lang]['dir'] ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -94,7 +94,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>
-<body>
+<body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
     <div class="content">
         <section class="container">
             <header>

@@ -22,6 +22,7 @@ $i18n = [
     'subscriptions'   => "Suscripciones",
     'stats'           => "Estadísticas",
     'settings'        => "Configuración",
+    'admin'           => "Admin",
     'about'           => "Acerca de",
     'logout'          => "Cerrar Sesión",
     // Subscriptions page

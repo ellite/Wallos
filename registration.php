@@ -91,7 +91,7 @@ if (isset($_POST['username'])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html dir="<?= $languages[$lang]['dir'] ?>">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -109,7 +109,7 @@ if (isset($_POST['username'])) {
         <link rel="stylesheet" href="styles/barlow.css">
         <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
     </head>
-    <body>
+    <body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
         <div class="content">
             <section class="container">
                 <header>
@@ -157,10 +157,10 @@ if (isset($_POST['username'])) {
                         <label for="language"><?= translate('language', $i18n) ?>:</label>
                         <select id="language" name="language" placeholder="Language" onchange="changeLanguage(this.value)">
                         <?php 
-                            foreach ($languages as $code => $name) {
+                            foreach ($languages as $code => $language) {
                                 $selected = ($code === $lang) ? 'selected' : '';
                         ?>
-                                <option value="<?= $code ?>" <?= $selected ?>><?= $name ?></option>
+                            <option value="<?= $code ?>" <?= $selected ?>><?= $language['name'] ?></option>
                         <?php
                             }
                         ?>

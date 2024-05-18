@@ -123,11 +123,9 @@ header .logo .logo-image {
   color: black;
   padding: 14px 18px;
   text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a > i {
-  margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
 }
 
 .dropdown-content a:hover {
@@ -231,6 +229,11 @@ main > .contain {
   z-index: 2;
   color: var(--main-color);
   font-size: 20px;
+}
+
+.rtl .top-actions > .search > .search-icon {
+  float: left;
+  right: -15px;
 }
 
 .subscriptions {
@@ -340,6 +343,12 @@ main > .contain {
   margin-right: 12px;
 }
 
+.rtl .subscription .price img {
+  margin-right: 0px;
+  margin-left: 12px;
+
+}
+
 .subscription .actions {
   flex-basis: auto;
 }
@@ -359,6 +368,7 @@ main > .contain {
 .subscription-secondary > span {
   justify-content: flex-start;
   flex-basis: 33%;
+  gap: 10px;
 }
 
 .subscription-secondary > .url {
@@ -367,10 +377,16 @@ main > .contain {
   cursor: pointer;
 }
 
+.rtl .subscription-secondary > .url {
+  margin-left: 0px;
+  margin-right: auto;
+}
+
 .subscription-notes > span {
   display: flex;
   align-items: center;
   font-size: 14px;
+  gap: 10px;
 }
 
 @media (max-width: 768px) {
@@ -403,7 +419,6 @@ main > .contain {
 .subscription-secondary img,
 .subscription-notes img {
   height: 20px;
-  margin-right: 10px;
 }
 
 .subscription-secondary .url img {
@@ -812,6 +827,12 @@ header #avatar {
   color: var(--accent-color);
 }
 
+.rtl .credits-list > p > span > a,
+.rtl .settings-notes > p > span > a {
+  margin-left: 0px;
+  margin-right: 5px;
+}
+
 .credits-list > p > span > a:visited,
 .settings-notes > p > span > a:visited {
   color: var(--accent-color);
@@ -821,6 +842,12 @@ header #avatar {
 .account-section .notes > p > i {
   color: var(--main-color);
   margin-right: 5px;
+} 
+
+.rtl .settings-notes > p > i,
+.rtl .account-section .notes > p > i {
+  margin-right: 0px;
+  margin-left: 5px;
 } 
 
 .form-group {
@@ -1249,6 +1276,11 @@ textarea.thin {
   color: gray;
 }
 
+.rtl .close-form {
+  right: auto;
+  left: 15px;
+}
+
 .sort-container {
   position: relative;
 }
@@ -1268,6 +1300,11 @@ textarea.thin {
   width: 144px;
   width: max-content;
   z-index: 2;
+}
+
+.rtl .sort-options {
+  left: 0px;
+  right: auto;
 }
 
 @media (max-width: 380px) {
@@ -1293,6 +1330,10 @@ textarea.thin {
   cursor: pointer;
 }
 
+.rtl .sort-options > ul > li {
+  padding: 14px 18px 14px 35px;
+}
+
 .sort-options > ul > li:last-of-type {
   border-bottom: none;
 }
@@ -1306,6 +1347,10 @@ textarea.thin {
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: center right 10px;
+}
+
+.rtl .sort-options > ul > li.selected {
+  background-position: center left 10px;
 }
 
 .subscription-list-title {
@@ -1594,6 +1639,12 @@ textarea.thin {
   margin-top: 6px;
 }
 
+.rtl .filtermenu-content {
+  left: 0;
+  right: auto;
+
+}
+
 @media (max-width: 354px) {
   .on-dashboard .filtermenu-content {
     right: -94px;
@@ -1647,6 +1698,10 @@ textarea.thin {
   background-position: center right 10px;
 }
 
+.rtl .filtermenu-content .filter-item.selected {
+  background-position: center left 10px;
+}
+
 .filtermenu-content .filter-title.filter-clear {
   color: var(--hover-color);
   font-weight: normal;
@@ -1655,6 +1710,11 @@ textarea.thin {
 
 .filtermenu-content .filter-title.filter-clear > i {
   margin-right: 8px;
+}
+
+.rtl .filtermenu-content .filter-title.filter-clear > i {
+  margin-left: 8px;
+  margin-right: 0px;
 }
 
 .filtermenu-content .filter-item:hover,

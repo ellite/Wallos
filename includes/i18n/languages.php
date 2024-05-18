@@ -1,26 +1,25 @@
 <?php
-
-    // File Name => Language Name
+     // File Name => Language Name
     $languages = [
         // English first
-        "en" => "English",
+        "en" => ["name" => "English", "dir" => "ltr"],
         // Remaining sorted alphabetically by language code
-        "de" => "Deutsch",
-        "el" => "Ελληνικά",
-        "es" => "Español",
-        "fr" => "Français",
-        "it" => "Italiano",
-        "jp" => "日本語",
-        "ko" => "한국어",
-        "pl" => "Polski",
-        "pt" => "Português",
-        "pt_br" => "Português Brasileiro",
-        "ru" => "Русский",
-        "sr_lat" => "Srpski",
-        "sr" => "Српски",
-        "tr" => "Türkçe",
-        "zh_cn" => "简体中文",
-        "zh_tw" => "繁體中文",
+        "de" => ["name" => "Deutsch", "dir" => "ltr"],
+        "el" => ["name" => "Ελληνικά", "dir" => "ltr"],
+        "es" => ["name" => "Español", "dir" => "ltr"],
+        "fr" => ["name" => "Français", "dir" => "ltr"],
+        "it" => ["name" => "Italiano", "dir" => "ltr"],
+        "jp" => ["name" => "日本語", "dir" => "ltr"],
+        "ko" => ["name" => "한국어", "dir" => "ltr"],
+        "pl" => ["name" => "Polski", "dir" => "ltr"],
+        "pt" => ["name" => "Português", "dir" => "ltr"],
+        "pt_br" => ["name" => "Português Brasileiro", "dir" => "ltr"],
+        "ru" => ["name" => "Русский", "dir" => "ltr"],
+        "sr_lat" => ["name" => "Srpski", "dir" => "ltr"],
+        "sr" => ["name" => "Српски", "dir" => "ltr"],
+        "tr" => ["name" => "Türkçe", "dir" => "ltr"],
+        "zh_cn" => ["name" => "简体中文", "dir" => "ltr"],
+        "zh_tw" => ["name" => "繁體中文", "dir" => "ltr"],
     ]
-
+    
 ?>
