@@ -22,6 +22,7 @@ $i18n = [
     'subscriptions'   => "구독",
     'stats'           => "통계",
     'settings'        => "설정",
+    'admin'           => "관리자",
     'about'           => "정보",
     'logout'          => "로그아웃",
     // Subscriptions page

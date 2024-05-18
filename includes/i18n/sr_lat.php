@@ -22,6 +22,7 @@ $i18n = [
     'subscriptions'   => "Pretplate",
     'stats'           => "Statistike",
     'settings'        => "Podešavanja",
+    'admin'           => "Admin",
     'about'           => "O aplikaciji",
     'logout'          => "Odjava",
     // Stranica sa pretplatama

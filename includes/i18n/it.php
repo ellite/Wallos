@@ -24,6 +24,7 @@ $i18n = [
     'subscriptions' => 'Abbonamenti',
     'stats' => 'Statistiche',
     'settings' => 'Impostazioni',
+    'admin' => 'Amministrazione',
     'about' => 'Informazioni',
     'logout' => 'Esci',
 

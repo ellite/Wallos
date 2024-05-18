@@ -27,9 +27,12 @@
   if (isset($settings['color_theme'])) {
     $colorTheme = $settings['color_theme'];
   }
+
+  $isAdmin = $_SESSION['userId'] == 1;
+
 ?>
 <!DOCTYPE html>
-<html>
+<html dir="<?= $languages[$lang]['dir'] ?>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -76,7 +79,7 @@
   <script type="text/javascript" src="scripts/i18n/<?= $lang ?>.js?<?= $version ?>"></script>
   <script type="text/javascript" src="scripts/i18n/getlang.js?<?= $version ?>"></script>
 </head>
-<body class="<?= $theme ?>">
+<body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
   <header>
     <div class="contain">
       <div class="logo">
@@ -94,6 +97,9 @@
             <a href="."><i class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
             <a href="stats.php"><i class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
+            <?php if ($isAdmin): ?>
+              <a href="admin.php"><i class="fa-solid fa-user-tie"></i><?= translate('admin', $i18n) ?></a>
+            <?php endif; ?>
             <a href="about.php"><i class="fa-solid fa-info-circle"></i><?= translate('about', $i18n) ?></a>
             <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i><?= translate('logout', $i18n) ?></a>
           </div>

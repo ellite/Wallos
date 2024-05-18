@@ -24,6 +24,7 @@ $i18n = [
     'subscriptions'   => "订阅",
     'stats'           => "统计",
     'settings'        => "设置",
+    'admin'           => "管理员",
     'about'           => "关于",
     'logout'          => "登出",
 

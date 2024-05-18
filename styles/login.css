@@ -74,6 +74,11 @@ label {
     cursor: pointer;
 }
 
+.rtl .form-group-inline label {
+    margin-right: 8px;
+    margin-left: 0px;
+}
+
 input {
     box-sizing: border-box;
 }

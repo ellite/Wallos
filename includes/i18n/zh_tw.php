@@ -22,6 +22,7 @@ $i18n = [
     'subscriptions'   => "訂閱",
     'stats'           => "統計",
     'settings'        => "設定",
+    'admin'           => "管理員",
     'about'           => "關於",
     'logout'          => "登出",
     // 訂閱頁面

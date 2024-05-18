@@ -22,6 +22,7 @@ $i18n = [
     'subscriptions'   => "Συνδρομές",
     'stats'           => "Στατιστικές",
     'settings'        => "Ρυθμίσεις",
+    'admin'           => "Διαχείριση",
     'about'           => "Για εμάς",
     'logout'          => "Αποσύνδεση",
     // Subscriptions page
