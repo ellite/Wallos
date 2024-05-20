@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "메모",
     "enable_notifications" => "이 구독에 대한 알림을 활성화합니다.",
+    "default_value_from_settings" => "설정에서 기본값 사용",
     "delete"          => "삭제",
     "cancel"          => "취소",
     "upload_logo"     => "로고 업로드",

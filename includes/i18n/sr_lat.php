@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "Beleške",
     "enable_notifications" => "Omogući obaveštenja za ovu pretplatu",
+    "default_value_from_settings" => "Podrazumevana vrednost iz podešavanja",
     "delete"          => "Izbriši",
     "cancel"          => "Otkaži",
     "upload_logo"     => "Učitaj logo",

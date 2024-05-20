@@ -166,6 +166,7 @@
             $logoUrl = validate($_POST['logo-url']);
             $logo = "";
             $notify = isset($_POST['notifications']) ? true : false;
+            $notifyDaysBefore = $_POST['notify_days_before'];
             $inactive = isset($_POST['inactive']) ? true : false;
 
             if($logoUrl !== "") {
@@ -183,15 +184,20 @@
 
             if (!$isEdit) {
                 $sql = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url) 
+                        payment_method_id, payer_user_id, category_id, notify, inactive, url, notify_days_before) 
                         VALUES (:name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url)";
+                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, :notifyDaysBefore)";
             } else {
                 $id = $_POST['id'];
                 if ($logo != "") {
-                    $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url WHERE id = :id";
+                    $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId,
+                     next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
+                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
+                     url = :url, notify_days_before = :notifyDaysBefore WHERE id = :id";
                 } else {
-                    $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url WHERE id = :id";
+                    $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment,
+                    cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId,
+                    category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url,notify_days_before = :notifyDaysBefore WHERE id = :id";
                 }
             }
 
@@ -215,6 +221,7 @@
             $stmt->bindParam(':notify', $notify, SQLITE3_INTEGER);
             $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
             $stmt->bindParam(':url', $url, SQLITE3_TEXT);
+            $stmt->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
             
             if ($stmt->execute()) {
                 $success['status'] = "Success";

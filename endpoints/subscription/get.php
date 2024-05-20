@@ -27,6 +27,7 @@
                 $subscriptionData['notify'] = $row['notify'];
                 $subscriptionData['inactive'] = $row['inactive'];
                 $subscriptionData['url'] = htmlspecialchars_decode($row['url']);
+                $subscriptionData['notify_days_before'] = $row['notify_days_before'];
 
                 $subscriptionJson = json_encode($subscriptionData);
                 header('Content-Type: application/json');

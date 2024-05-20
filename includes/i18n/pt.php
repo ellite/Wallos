@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "Notas",
     "enable_notifications" => "Activar notificações para esta subscrição",
+    "default_value_from_settings" => "Valor por defeito das definições",
     "delete"          => "Remover",
     "cancel"          => "Cancelar",
     "upload_logo"     => "Enviar Logo",

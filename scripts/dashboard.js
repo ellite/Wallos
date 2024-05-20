@@ -11,6 +11,12 @@ function toggleSortOptions() {
   isSortOptionsOpen = !isSortOptionsOpen;
 }
 
+function toggleNotificationDays() {
+  const notifyCheckbox = document.querySelector("#notifications");
+  const notifyDaysBefore = document.querySelector("#notify_days_before");
+  notifyDaysBefore.disabled = !notifyCheckbox.checked;
+}
+
 function resetForm() {
     const id = document.querySelector("#id");
     id.value = "";
@@ -25,6 +31,8 @@ function resetForm() {
     logoSearchButton.classList.add("disabled");
     const submitButton = document.querySelector("#save-button");
     submitButton.disabled = false;
+    const notifyDaysBefore = document.querySelector("#notify_days_before");
+    notifyDaysBefore.disabled = true;
     const form = document.querySelector("#subs-form");
     form.reset();
     closeLogoSearch();
@@ -75,6 +83,12 @@ function fillEditFormFields(subscription) {
   const notifications = document.querySelector("#notifications");
   if (notifications) {
     notifications.checked = subscription.notify;
+  }
+
+  const notifyDaysBefore = document.querySelector("#notify_days_before");
+  notifyDaysBefore.value = subscription.notify_days_before;
+  if (subscription.notify === 1) {
+    notifyDaysBefore.disabled = false;
   }
 
   const deleteButton = document.querySelector("#deletesub");

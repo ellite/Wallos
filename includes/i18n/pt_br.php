@@ -72,6 +72,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "Anotações",
     "enable_notifications" => "Ativar notificações para essa assinatura",
+    "default_value_from_settings" => "Valor padrão das configurações",
     "delete"          => "Excluir",
     "cancel"          => "Cancelar",
     "upload_logo"     => "Enviar Logo",

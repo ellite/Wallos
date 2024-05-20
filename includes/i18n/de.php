@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "Notizen",
     "enable_notifications" => "Benachrichtigungen für dieses Abonnement aktivieren",
+    "default_value_from_settings" => "Standardwert aus den Einstellungen",
     "delete"          => "Löschen",
     "cancel"          => "Abbrechen",
     "upload_logo"     => "Logo hochladen",

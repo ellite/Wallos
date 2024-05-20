@@ -1375,6 +1375,7 @@ textarea.thin {
   transform: translateX(calc(100% + 30px));
   transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
   box-sizing: border-box;
+  z-index: 5;
 }
 
 @media (max-width: 768px) {
