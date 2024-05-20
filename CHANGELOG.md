@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.29.0](https://github.com/ellite/Wallos/compare/v1.28.0...v1.29.0) (2024-05-20)
+
+
+### Features
+
+* subscriptions have personalized notification times ([#334](https://github.com/ellite/Wallos/issues/334)) ([c7146df](https://github.com/ellite/Wallos/commit/c7146dfd08c2a60d4ff6f7ac1f7cf5830fe28d9c))
+
 ## [1.28.0](https://github.com/ellite/Wallos/compare/v1.27.2...v1.28.0) (2024-05-17)
 
 
