@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "注釈",
     "enable_notifications" => "この定期購入の通知を有効にする",
+    "default_value_from_settings" => "設定からデフォルト値を使用",
     "delete"          => "削除",
     "cancel"          => "キャンセル",
     "upload_logo"     => "ロゴのアップロード",

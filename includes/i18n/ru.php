@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "URL",
     "notes"           => "Примечания",
     "enable_notifications" => "Включить уведомления для этой подписки",
+    "default_value_from_settings" => "Значение по умолчанию из настроек",
     "delete"          => "Удалить",
     "cancel"          => "Отмена",
     "upload_logo"     => "Загрузить логотип",

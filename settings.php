@@ -327,6 +327,7 @@
             "category": "{{subscription_category}}",
             "date": "{{subscription_date}}",
             "payer": "{{subscription_payer}}"
+            "dyas": "{{subscription_days_until_payment}}"
         }
     ]
 
@@ -555,7 +556,7 @@
                     </div>
                     <div class="settings-notes">
                         <p>
-                            <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n)  ?>: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}</p>
+                            <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n)  ?>: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}, {{subscription_days_until_payment}}</p>
                         <p>
                     </div>
                     <div class="buttons">

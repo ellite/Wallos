@@ -74,6 +74,7 @@ $i18n = [
     "url"             => "連結",
     "notes"           => "備註",
     "enable_notifications" => "為該訂閱開啟通知",
+    "default_value_from_settings" => "從設定中取得預設值",
     "delete"          => "刪除",
     "cancel"          => "取消",
     "upload_logo"     => "上傳圖示",

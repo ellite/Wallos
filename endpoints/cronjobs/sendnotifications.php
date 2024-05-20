@@ -134,15 +134,21 @@
         $notify = []; $i = 0;
         $currentDate = new DateTime('now');
         while ($rowSubscription = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
+            if ($rowSubscription['notify_days_before'] !== 0) {
+                $daysToCompare = $rowSubscription['notify_days_before'];
+            } else {
+                $daysToCompare = $days;
+            }
             $nextPaymentDate = new DateTime($rowSubscription['next_payment']);
             $difference = $currentDate->diff($nextPaymentDate)->days + 1;
-            if ($difference === $days) {
+            if ($difference === $daysToCompare) {
                 $notify[$rowSubscription['payer_user_id']][$i]['name'] = $rowSubscription['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
                 $notify[$rowSubscription['payer_user_id']][$i]['currency'] = $currencies[$rowSubscription['currency_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['category'] = $categories[$rowSubscription['category_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
+                $notify[$rowSubscription['payer_user_id']][$i]['days'] = $daysToCompare;
                 $i++;
             }
         }
@@ -163,11 +169,11 @@
                 $defaultName = $defaultUser['username'];
 
                 foreach ($notify as $userId => $perUser) {
-                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
-                    $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                    $message = "The following subscriptions are up for renewal:\n";
 
                     foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
         
                     $mail = new PHPMailer(true);
@@ -214,15 +220,15 @@
 
                     $title = translate('wallos_notification', $i18n);
 
-                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
                     if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
                     } else {
-                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = "The following subscriptions are up for renewal:\n";
                     }
 
                     foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
                     $postfields = [
@@ -267,15 +273,15 @@
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
                     if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
                     } else {
-                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = "The following subscriptions are up for renewal:\n";
                     }
 
                     foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
                     $data = array(
@@ -312,15 +318,15 @@
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
                     if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
                     } else {
-                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = "The following subscriptions are up for renewal:\n";
                     }
 
                     foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
                     $data = array(
@@ -357,15 +363,15 @@
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $dayText = $days == 1 ? "tomorrow" : "in " . $days . " days";
                     if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
                     } else {
-                        $message = "The following subscriptions are up for renewal " . $dayText . ":\n";
+                        $message = "The following subscriptions are up for renewal:\n";
                     }
 
                     foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
+                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
                     $ch = curl_init();
@@ -394,7 +400,7 @@
             if ($webhookNotificationsEnabled) {
                 // Get webhook payload and turn it into a json object
 
-                $payload = str_replace("{{days_until}}", $days, $webhook['payload']);
+                $payload = str_replace("{{days_until}}", $days, $webhook['payload']); // The default value for all subscriptions
                 $payload_json = json_decode($payload, true);
 
                 $subscription_template = $payload_json["{{subscriptions}}"];
@@ -422,6 +428,7 @@
                                 $temp_subscription[$key] = str_replace("{{subscription_category}}", $subscription['category'], $temp_subscription[$key]);
                                 $temp_subscription[$key] = str_replace("{{subscription_payer}}", $subscription['payer'], $temp_subscription[$key]);
                                 $temp_subscription[$key] = str_replace("{{subscription_date}}", $subscription['date'], $temp_subscription[$key]);
+                                $temp_subscription[$key] = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $temp_subscription[$key]); // The de facto value for this subscription
                             }
                         }
                         $subscriptions[] = $temp_subscription;
