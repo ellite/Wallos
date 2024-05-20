@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.29.1](https://github.com/ellite/Wallos/compare/v1.29.0...v1.29.1) (2024-05-20)
+
+
+### Bug Fixes
+
+* calling htmlspecialchars_decode on null objects ([#338](https://github.com/ellite/Wallos/issues/338)) ([5050a28](https://github.com/ellite/Wallos/commit/5050a28f0e64e8c1eefb4f7cca8f6f6e473177e3))
+
 ## [1.29.0](https://github.com/ellite/Wallos/compare/v1.28.0...v1.29.0) (2024-05-20)
 
 
