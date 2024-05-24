@@ -3,9 +3,6 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 
-session_start();
-
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -27,8 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo json_encode($response);
     } else {
         $budget = $data["budget"];
-
-        $userId = $_SESSION['userId'];
 
         $sql = "UPDATE user SET budget = :budget WHERE id = :userId";
         $stmt = $db->prepare($sql);

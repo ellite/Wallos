@@ -1,12 +1,13 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
+   
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         if (isset($_GET['id']) && $_GET['id'] != "") {
             $subscriptionId = intval($_GET['id']);
-            $query = "SELECT * FROM subscriptions WHERE id = :subscriptionId";
+            $query = "SELECT * FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId";
             $stmt = $db->prepare($query);
             $stmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
+            $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
             $result = $stmt->execute();
 
             $subscriptionData = array();

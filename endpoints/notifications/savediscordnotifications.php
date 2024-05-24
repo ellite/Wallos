@@ -1,7 +1,6 @@
 <?php
 
-require_once '../../includes/connect_endpoint.php';
-    session_start();
+    require_once '../../includes/connect_endpoint.php';
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -28,8 +27,10 @@ require_once '../../includes/connect_endpoint.php';
             $bot_username = $data["bot_username"];
             $bot_avatar_url = $data["bot_avatar"];
 
-            $query = "SELECT COUNT(*) FROM discord_notifications";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM discord_notifications WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -38,12 +39,15 @@ require_once '../../includes/connect_endpoint.php';
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO discord_notifications (enabled, webhook_url, bot_username, bot_avatar_url)
-                              VALUES (:enabled, :webhook_url, :bot_username, :bot_avatar_url)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO discord_notifications (enabled, webhook_url, bot_username, bot_avatar_url, user_id)
+                              VALUES (:enabled, :webhook_url, :bot_username, :bot_avatar_url, :userId)";
                 } else {
                     $query = "UPDATE discord_notifications
-                              SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url";
+                              SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url 
+                              WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
@@ -51,6 +55,7 @@ require_once '../../includes/connect_endpoint.php';
                 $stmt->bindValue(':webhook_url', $webhook_url, SQLITE3_TEXT);
                 $stmt->bindValue(':bot_username', $bot_username, SQLITE3_TEXT);
                 $stmt->bindValue(':bot_avatar_url', $bot_avatar_url, SQLITE3_TEXT);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

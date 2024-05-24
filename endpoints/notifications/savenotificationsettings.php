@@ -1,7 +1,6 @@
 <?php
 
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -22,8 +21,10 @@
             echo json_encode($response);
         } else {
             $days = $data["days"];
-            $query = "SELECT COUNT(*) FROM notification_settings";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM notification_settings WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -32,15 +33,18 @@
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO notification_settings (days)
-                              VALUES (:days)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO notification_settings (days, user_id)
+                              VALUES (:days, :userId)";
                 } else {
-                    $query = "UPDATE notification_settings SET days = :days";
+                    $query = "UPDATE notification_settings SET days = :days WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':days', $days, SQLITE3_INTEGER);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

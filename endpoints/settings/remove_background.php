@@ -1,6 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-session_start();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -14,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $remove_background = $data['value'];
 
-    $stmt = $db->prepare('UPDATE settings SET remove_background = :remove_background');
+    $stmt = $db->prepare('UPDATE settings SET remove_background = :remove_background WHERE user_id = :userId');
     $stmt->bindParam(':remove_background', $remove_background, SQLITE3_INTEGER);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
     if ($stmt->execute()) {
         die(json_encode([

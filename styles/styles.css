@@ -662,7 +662,8 @@ header #avatar {
 .account-currencies .buttons, 
 .account-fixer .buttons,
 .account-categories .buttons,
-.account-notifications .buttons {
+.account-notifications .buttons,
+.admin-form .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -812,6 +813,14 @@ header #avatar {
 
 .credits-list > p {
   margin: 0px;
+}
+
+.settings-notes {
+  margin-bottom: 1.5em;
+}
+
+.settings-notes > p {
+  margin-bottom: 0px;
 }
 
 .credits-list > p > span,
@@ -1545,6 +1554,8 @@ textarea.thin {
 
 .statistic > .subtitle > img {
   width: 100px;
+  max-height: 40px;
+  object-fit: contain;
 }
 
 .graphs {
@@ -1841,4 +1852,34 @@ textarea.thin {
 
 .wrap {
   flex-wrap: wrap;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.user-list > div {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.user-list .user-list-row {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.user-list .user-list-row:last-of-type {
+  flex-grow: 0;
+}
+
+.user-list .user-list-row > div {
+  display: flex;
+  flex-basis: 50%;
+  gap: 12px;
+  align-items: baseline;
 }

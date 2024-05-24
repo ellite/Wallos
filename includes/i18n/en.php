@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Main Currency",
     "language"        => "Language",
     "passwords_dont_match" => "Passwords do not match",
+    "username_exists" => "Username already exists",
+    "email_exists"    => "Email already exists",
     "registration_failed" => "Registration failed, please try again.",
     "register"        => "Register",
     "restore_database" => "Restore Database",
@@ -18,6 +20,8 @@ $i18n = [
     'stay_logged_in'  => "Stay logged in (30 days)",
     'login'           => "Login",
     'login_failed'    => "Login details are incorrect",
+    'registration_successful' => "Registration successful",
+    'user_email_waiting_verification' => "Your email needs to be verified. Please check your email.",
     // Header
     'subscriptions'   => "Subscriptions",
     'stats'           => "Statistics",
@@ -255,6 +259,25 @@ $i18n = [
     // User
     "error_updating_user_data" => "Error updating user data.",
     "user_details_saved" => "User details saved",
+    // Admin Page
+    "registrations"    => "Registrations",
+    "enable_user_registrations" => "Enable user registrations",
+    "maximum_number_users" => "Maximum number of users",
+    "require_email_verification" => "Require email verification",
+    "configure_smtp_settings_to_enable" => "Configure SMTP settings to enable",
+    "server_url"       => "Server URL",
+    "server_url_info"  => "Used for email verification and password recovery. Must be a valid public URL.",
+    "server_url_password_reset" => "If set will also enable password reset functionality.",
+    "max_users_info"   => "0 means unlimited",
+    "user_management"  => "User Management",
+    "delete_user"      => "Delete User",
+    "delete_user_info" => "Deleting a user will also delete all their subscriptions and settings.",
+    "smtp_settings"    => "SMTP Settings",
+    "smtp_usage_info"  => "Will be used for password recovery and other system emails.",
+    // Email Verification
+    "email_verified" => "Email verified successfully",
+    "email_verification_failed" => "Email verification failed",
+
 
 ];
 

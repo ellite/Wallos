@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Glavna valuta",
     "language"        => "Jezik",
     "passwords_dont_match" => "Lozinke se ne poklapaju",
+    "username_exists" => "Korisničko ime već postoji",
+    "email_exists"    => "E-pošta već postoji",
     "registration_failed" => "Registracija nije uspela, pokušajte ponovo.",
     "register"        => "Registruj se",
     "restore_database" => "Vrati bazu podataka",
@@ -18,6 +20,8 @@ $i18n = [
     'stay_logged_in'  => "Ostani prijavljen (30 dana)",
     'login'           => "Prijavi se",
     'login_failed'    => "Podaci za prijavu nisu ispravni",
+    'registration_successful' => "Registracija uspešna",
+    'user_email_waiting_verification' => "Vaša e-pošta treba da bude verifikovana. Molimo pregledajte E-poštu",
     // Header
     'subscriptions'   => "Pretplate",
     'stats'           => "Statistike",
@@ -255,6 +259,24 @@ $i18n = [
     // Korisnik
     "error_updating_user_data" => "Greška pri ažuriranju korisničkih podataka.",
     "user_details_saved" => "Korisnički podaci sačuvani",
+    // Admin Page
+    "registrations" => "Registracije",
+    "enable_user_registrations" => "Omogući registracije korisnika",
+    "maximum_number_users" => "Maksimalan broj korisnika",
+    "require_email_verification" => "Zahtevaj verifikaciju e-pošte",
+    "configure_smtp_settings_to_enable" => "Konfigurišite SMTP podešavanja da biste omogućili ovu opciju",
+    "server_url" => "URL servera",
+    "server_url_info" => "Koristi se za verifikaciju e-pošte i oporavak lozinke. Mora da bude važeći javni URL.",
+    "server_url_password_reset" => "Ako je podešeno, takođe će se omogućiti funkcija resetovanja lozinke.",
+    "max_users_info" => "0 za neograničen broj korisnika",
+    "user_management" => "Upravljanje korisnicima",
+    "delete_user" => "Izbriši korisnika",
+    "delete_user_info" => "Brisanjem korisnika izbrisaće se i sve njegove pretplate i podešavanja.",
+    "smtp_settings" => "SMTP podešavanja",
+    "smtp_usage_info" => "Koristiće se za oporavak lozinke i druge sistemske e-poruke.",
+    // Email Verification
+    "email_verified" => "E-pošta je uspešno verifikovana",
+    "email_verification_failed" => "Verifikacija e-pošte nije uspela",
 
 ];
 

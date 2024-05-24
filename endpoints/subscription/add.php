@@ -3,8 +3,6 @@
     require_once '../../includes/connect_endpoint.php';
     require_once '../../includes/inputvalidation.php';
     require_once '../../includes/getsettings.php';
-    
-    session_start();
 
     function sanitizeFilename($filename) {
         $filename = preg_replace("/[^a-zA-Z0-9\s]/", "", $filename);
@@ -184,20 +182,21 @@
 
             if (!$isEdit) {
                 $sql = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url, notify_days_before) 
+                        payment_method_id, payer_user_id, category_id, notify, inactive, url, notify_days_before, user_id) 
                         VALUES (:name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, :notifyDaysBefore)";
+                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, :notifyDaysBefore, :userId)";
             } else {
                 $id = $_POST['id'];
                 if ($logo != "") {
                     $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId,
                      next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
                      payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
-                     url = :url, notify_days_before = :notifyDaysBefore WHERE id = :id";
+                     url = :url, notify_days_before = :notifyDaysBefore WHERE id = :id AND user_id = :userId";
                 } else {
                     $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment,
                     cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId,
-                    category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url,notify_days_before = :notifyDaysBefore WHERE id = :id";
+                    category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url,notify_days_before = :notifyDaysBefore
+                     WHERE id = :id AND user_id = :userId";
                 }
             }
 
@@ -222,6 +221,7 @@
             $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
             $stmt->bindParam(':url', $url, SQLITE3_TEXT);
             $stmt->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
+            $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
             
             if ($stmt->execute()) {
                 $success['status'] = "Success";

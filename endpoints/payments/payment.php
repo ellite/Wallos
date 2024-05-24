@@ -1,6 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-session_start();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -17,8 +17,9 @@ if (!isset($_GET['paymentId']) || !isset($_GET['enabled'])) {
 
 $paymentId = $_GET['paymentId'];
 
-$stmt = $db->prepare('SELECT COUNT(*) as count FROM subscriptions WHERE payment_method_id=:paymentId');
+$stmt = $db->prepare('SELECT COUNT(*) as count FROM subscriptions WHERE payment_method_id=:paymentId and user_id=:userId');
 $stmt->bindValue(':paymentId', $paymentId, SQLITE3_INTEGER);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray();
 $inUse = $row['count'] === 1;
@@ -32,10 +33,11 @@ if ($inUse) {
 
 $enabled = $_GET['enabled'];
 
-$sqlUpdate = 'UPDATE payment_methods SET enabled=:enabled WHERE id=:id';
+$sqlUpdate = 'UPDATE payment_methods SET enabled=:enabled WHERE id=:id and user_id=:userId';
 $stmtUpdate = $db->prepare($sqlUpdate);
 $stmtUpdate->bindParam(':enabled', $enabled);
 $stmtUpdate->bindParam(':id', $paymentId);
+$stmtUpdate->bindParam(':userId', $userId);
 $resultUpdate = $stmtUpdate->execute();
 
 $text = $enabled ? "enabled" : "disabled";

@@ -1,6 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-session_start();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -14,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $theme = $data['theme'];
 
-    $stmt = $db->prepare('UPDATE settings SET dark_theme = :theme');
+    $stmt = $db->prepare('UPDATE settings SET dark_theme = :theme WHERE user_id = :userId');
     $stmt->bindParam(':theme', $theme, SQLITE3_INTEGER);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
     if ($stmt->execute()) {
         die(json_encode([

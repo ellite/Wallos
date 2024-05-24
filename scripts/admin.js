@@ -1,59 +1,218 @@
-function backupDB() {
-    const button = document.getElementById("backupDB");
-    button.disabled = true;
-  
-    fetch('endpoints/db/backup.php')
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          const link = document.createElement('a');
-          const filename = data.file;
-          link.href = '.tmp/' + filename;
-          link.download = 'backup.zip';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-  
-          button.disabled = false;
-        } else {
-          showErrorMessage(data.errorMessage);
-          button.disabled = false;
-        }
-      })
-      .catch(error => {
-        showErrorMessage(error);
-        button.disabled = false;
-      });
-  }
-  
-  function openRestoreDBFileSelect() {
-    document.getElementById('restoreDBFile').click();
-  };
-  
-  function restoreDB() {
-    const input = document.getElementById('restoreDBFile');
-    const file = input.files[0];
-  
-    if (!file) {
-      console.error('No file selected');
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('file', file);
-  
-    fetch('endpoints/db/restore.php', {
+function makeFetchCall(url, data, button) {
+  return fetch(url, {
       method: 'POST',
-      body: formData
-    })
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.message);
+      }
+      button.disabled = false;
+  })
+  .catch((error) => {
+      showErrorMessage(error);
+      button.disabled = false;
+  });
+
+}
+
+function testSmtpSettingsButton()  {
+  const button = document.getElementById("testSmtpSettingsButton");
+  button.disabled = true;
+
+  const smtpAddress = document.getElementById("smtpaddress").value;
+  const smtpPort = document.getElementById("smtpport").value;
+  const encryption = document.querySelector('input[name="encryption"]:checked').value;
+  const smtpUsername = document.getElementById("smtpusername").value;
+  const smtpPassword = document.getElementById("smtppassword").value;
+  const fromEmail = document.getElementById("fromemail").value;
+
+  const data = {
+    smtpaddress: smtpAddress,
+    smtpport: smtpPort,
+    encryption: encryption,
+    smtpusername: smtpUsername,
+    smtppassword: smtpPassword,
+    fromemail: fromEmail
+  };
+
+  makeFetchCall('endpoints/notifications/testemailnotifications.php', data, button);
+}
+
+function saveSmtpSettingsButton() {
+  const button = document.getElementById("saveSmtpSettingsButton");
+  button.disabled = true;
+
+  const smtpAddress = document.getElementById("smtpaddress").value;
+  const smtpPort = document.getElementById("smtpport").value;
+  const encryption = document.querySelector('input[name="encryption"]:checked').value;
+  const smtpUsername = document.getElementById("smtpusername").value;
+  const smtpPassword = document.getElementById("smtppassword").value;
+  const fromEmail = document.getElementById("fromemail").value;
+
+  const data = {
+    smtpaddress: smtpAddress,
+    smtpport: smtpPort,
+    encryption: encryption,
+    smtpusername: smtpUsername,
+    smtppassword: smtpPassword,
+    fromemail: fromEmail
+  };
+
+  fetch('endpoints/admin/savesmtpsettings.php', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.success) {
+          const emailVerificationCheckbox = document.getElementById('requireEmail');
+          emailVerificationCheckbox.disabled = false;
+          showSuccessMessage(data.message);
+      } else {
+          showErrorMessage(data.message);
+      }
+      button.disabled = false;
+  })
+  .catch((error) => {
+      showErrorMessage(error);
+      button.disabled = false;
+  });
+
+}
+
+function backupDB() {
+  const button = document.getElementById("backupDB");
+  button.disabled = true;
+
+  fetch('endpoints/db/backup.php')
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        showSuccessMessage(data.message)
-        window.location.href = 'logout.php';
+        const link = document.createElement('a');
+        const filename = data.file;
+        link.href = '.tmp/' + filename;
+        link.download = 'backup.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        button.disabled = false;
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.errorMessage);
+        button.disabled = false;
       }
     })
-    .catch(error => showErrorMessage('Error:', error));
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+  
+function openRestoreDBFileSelect() {
+  document.getElementById('restoreDBFile').click();
+};
+
+function restoreDB() {
+  const input = document.getElementById('restoreDBFile');
+  const file = input.files[0];
+
+  if (!file) {
+    console.error('No file selected');
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  fetch('endpoints/db/restore.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message)
+      window.location.href = 'logout.php';
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => showErrorMessage('Error:', error));
+}
+
+function saveAccountRegistrationsButton () {
+  const button = document.getElementById('saveAccountRegistrations');
+  button.disabled = true;
+
+  const open_registrations = document.getElementById('registrations').checked ? 1 : 0;
+  const max_users = document.getElementById('maxUsers').value;
+  const require_email_validation = document.getElementById('requireEmail').checked ? 1 : 0;
+  const server_url = document.getElementById('serverUrl').value;
+
+  const data = {
+    open_registrations: open_registrations,
+    max_users: max_users,
+    require_email_validation: require_email_validation,
+    server_url: server_url
+  };
+
+  fetch('endpoints/admin/saveopenregistrations.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      button.disabled = false;
+    } else {
+      showErrorMessage(data.message);
+      button.disabled = false;
+    }
+  })
+  .catch(error => {
+    showErrorMessage(error);
+    button.disabled = false;
+  });
+}
+
+function removeUser(userId) {
+  const data = {
+    userId: userId
+  };
+
+  fetch('endpoints/admin/deleteuser.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      const userContainer = document.querySelector(`.form-group-inline[data-userid="${userId}"]`);
+      if (userContainer) {
+        userContainer.remove();
+      }
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => showErrorMessage('Error:', error));
+
+}

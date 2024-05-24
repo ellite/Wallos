@@ -10,6 +10,8 @@ $i18n = [
     "main_currency" => "Devise principale",
     "language" => "Langue",
     "passwords_dont_match" => "Les mots de passe ne correspondent pas",
+    "username_exists" => "Le nom d'utilisateur existe déjà",
+    "email_exists" => "L'adresse courriel existe déjà",
     "registration_failed" => "L'inscription a échoué, veuillez réessayer.",
     "register" => "S'inscrire",
     "restore_database" => "Restaurer la base de données",
@@ -18,6 +20,8 @@ $i18n = [
     'stay_logged_in' => "Rester connecté (30 jours)",
     'login' => "Se connecter",
     'login_failed' => "Les détails de connexion sont incorrects",
+    'registration_successful' => "Inscription réussie",
+    'user_email_waiting_verification' => "Votre email doit être vérifié. Veuillez vérifier votre email",
     // En-tête
     'subscriptions' => "Abonnements",
     'stats' => "Statistiques",
@@ -255,6 +259,24 @@ $i18n = [
     // Utilisateur
     "error_updating_user_data" => "Erreur lors de la mise à jour des données utilisateur.",
     "user_details_saved" => "Détails de l'utilisateur enregistrés",
+    // Admin Page
+    "registrations" => "Inscriptions",
+    "enable_user_registrations" => "Activer les inscriptions d'utilisateurs",
+    "maximum_number_users" => "Nombre maximum d'utilisateurs",
+    "require_email_verification" => "Exiger la vérification de l'adresse courriel",
+    "configure_smtp_settings_to_enable" => "Configurer les paramètres SMTP pour activer",
+    "server_url" => "URL du serveur",
+    "server_url_info" => "Utilisé pour la vérification du courrier électronique et la récupération du mot de passe. Il doit s'agir d'une URL publique valide.",
+    "server_url_password_reset" => "Si cette option est activée, la fonction de réinitialisation du mot de passe sera également activée.",
+    "max_users_info" => "0 signifie un nombre illimité d'utilisateurs",
+    "user_management" => "Gestion des utilisateurs",
+    "delete_user" => "Supprimer l'utilisateur",
+    "delete_user_info" => "La suppression d'un utilisateur supprimera également tous ses abonnements et paramètres.",
+    "smtp_settings" => "Paramètres SMTP",
+    "smtp_usage_info" => "Sera utilisé pour la récupération du mot de passe et d'autres e-mails système.",
+    // Email Verification
+    "email_verified" => "Votre adresse courriel a été vérifiée avec succès",
+    "email_verification_failed" => "La vérification de l'adresse courriel a échoué",
 
 ];
 

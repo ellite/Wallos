@@ -1,8 +1,6 @@
 <?php
 
     require_once '../../includes/connect_endpoint.php';
-    
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -14,8 +12,9 @@
     $input = json_decode(file_get_contents('php://input'), true);
     if (isset($input['avatar'])) {
         $avatar = "images/uploads/logos/avatars/".$input['avatar'];
-        $sql = "SELECT avatar FROM user";
+        $sql = "SELECT avatar FROM user WHERE id = :userId";
         $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
         $userAvatar = $result->fetchArray(SQLITE3_ASSOC)['avatar'];
 

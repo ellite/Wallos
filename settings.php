@@ -52,7 +52,7 @@
                         <div class="grow">
                             <div class="form-group">
                                 <label for="username"><?= translate('username', $i18n) ?>:</label>
-                                <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" required>
+                                <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="email"><?= translate('email', $i18n) ?>:</label>
@@ -68,8 +68,10 @@
                             </div>
                             <?php
                                 $currencies = array();
-                                $query = "SELECT * FROM currencies";
-                                $result = $db->query($query);
+                                $query = "SELECT * FROM currencies WHERE user_id = :userId";
+                                $query = $db->prepare($query);
+                                $query->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                                $result = $query->execute();
                                 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                     $currencyId = $row['id'];
                                     $currencies[$currencyId] = $row;
@@ -135,8 +137,10 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM household";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM household WHERE user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         if ($result) {
             $household = array();
@@ -153,12 +157,12 @@
         <div class="account-members">
             <div  id="householdMembers">
             <?php
-                foreach ($household as $member) {
+                foreach ($household as $index => $member) {
                     ?>
                     <div class="form-group-inline" data-memberid="<?= $member['id'] ?>">
                         <input type="text" name="member" value="<?= $member['name'] ?>" placeholder="Member">
                         <?php
-                            if ($member['id'] !== 1) {
+                            if ($index !== 0) {
                         ?>
                             <input type="text" name="email" value="<?= $member['email'] ?? "" ?>" placeholder="<?= translate("email", $i18n) ?>">
                         <?php
@@ -168,7 +172,7 @@
                             <img src="images/siteicons/<?= $colorTheme ?>/save.png" title="<?= translate('save_member', $i18n) ?>">
                         </button>
                         <?php
-                            if ($member['id'] != 1) {
+                            if ($index !== 0) {
                                 ?>
                                     <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)">
                                         <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_member', $i18n) ?>">
@@ -200,8 +204,10 @@
 
     <?php
         // Notification settings
-        $sql = "SELECT * FROM notification_settings LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM notification_settings WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -214,8 +220,10 @@
         }
 
         // Email notifications
-        $sql = "SELECT * FROM email_notifications LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM email_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -240,8 +248,10 @@
         }
 
         // Discord notifications
-        $sql = "SELECT * FROM discord_notifications LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM discord_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -260,8 +270,10 @@
         }
 
         // Pushover notifications
-        $sql = "SELECT * FROM pushover_notifications LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM pushover_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -278,8 +290,10 @@
         }
 
         // Telegram notifications
-        $sql = "SELECT * FROM telegram_notifications LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM telegram_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -296,9 +310,10 @@
         }
 
         // Webhook notifications
-        $sql = "SELECT * FROM webhook_notifications LIMIT 1";
-        $result = $db->query($sql);
-
+        $sql = "SELECT * FROM webhook_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $notificationsWebhook['enabled'] = $row['enabled'];
@@ -335,8 +350,10 @@
         }
 
         // Gotify notifications
-        $sql = "SELECT * FROM gotify_notifications LIMIT 1";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM gotify_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         $rowCount = 0;
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -569,8 +586,10 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM categories ORDER BY `order` ASC";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM categories WHERE user_id = :userId ORDER BY `order` ASC";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         if ($result) {
             $categories = array();
@@ -591,9 +610,10 @@
                     if ($category['id'] != 1) {
                         $canDelete = true;
 
-                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE category_id = :categoryId";
+                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE category_id = :categoryId AND user_id = :userId";
                         $stmt = $db->prepare($query);
                         $stmt->bindParam(':categoryId', $category['id'], SQLITE3_INTEGER);
+                        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $row = $result->fetchArray(SQLITE3_ASSOC);
                         $isUsed = $row['count'];
@@ -636,8 +656,10 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM currencies";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM currencies WHERE user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         if ($result) {
             $currencies = array();
@@ -646,8 +668,9 @@
             }
         }
 
-        $query = "SELECT main_currency FROM user WHERE id = 1";
+        $query = "SELECT main_currency FROM user WHERE id = :userId";
         $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
         $row = $result->fetchArray(SQLITE3_ASSOC);
         $mainCurrencyId = $row['main_currency'];
@@ -743,8 +766,10 @@
 
     <?php
         $apiKey = "";
-        $sql = "SELECT api_key, provider FROM fixer";
-        $result = $db->query($sql);
+        $sql = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         if ($result) {
             $row = $result->fetchArray(SQLITE3_ASSOC);
             if ($row) {
@@ -798,8 +823,10 @@
     </section>
 
     <?php
-        $sql = "SELECT * FROM payment_methods ORDER BY `order` ASC";
-        $result = $db->query($sql);
+        $sql = "SELECT * FROM payment_methods WHERE user_id = :userId ORDER BY `order` ASC";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         if ($result) {
             $payments = array();
@@ -815,14 +842,18 @@
         </header>
         <div class="payments-list" id="payments-list">
             <?php
-                $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
+                $paymentsInUseQuery = $db->prepare('SELECT id FROM payment_methods WHERE user_id = :userId AND id IN (SELECT DISTINCT payment_method_id FROM subscriptions WHERE user_id = :userId)');
+                $paymentsInUseQuery->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                $result = $paymentsInUseQuery->execute();
+
                 $paymentsInUse = [];
-                while ($row = $paymentsInUseQuery->fetchArray(SQLITE3_ASSOC)) {
+                while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     $paymentsInUse[] = $row['id'];
                 }
 
                 foreach ($payments as $payment) {
-                    $paymentIconFolder = $payment['id'] <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+                    $paymentIconFolder = (strpos($payment['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
+
                     $inUse = in_array($payment['id'], $paymentsInUse);
                     ?>
                         <div class="payments-payment"

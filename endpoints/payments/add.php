@@ -4,8 +4,6 @@
     require_once '../../includes/inputvalidation.php';
     require_once '../../includes/getsettings.php';
 
-    session_start();
-
     function sanitizeFilename($filename) {
         $filename = preg_replace("/[^a-zA-Z0-9\s]/", "", $filename);
         $filename = str_replace(" ", "-", $filename);
@@ -193,13 +191,14 @@
             $newID = max($maxID + 1, 32);
 
             // Insert the new record with the new ID
-            $sql = "INSERT INTO payment_methods (id, name, icon, enabled) VALUES (:id, :name, :icon, :enabled)";
+            $sql = "INSERT INTO payment_methods (id, name, icon, enabled, user_id) VALUES (:id, :name, :icon, :enabled, :userId)";
             $stmt = $db->prepare($sql);
 
             $stmt->bindParam(':id', $newID, SQLITE3_INTEGER);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
             $stmt->bindParam(':icon', $icon, SQLITE3_TEXT); 
             $stmt->bindParam(':enabled', $enabled, SQLITE3_INTEGER);
+            $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
             if ($stmt->execute()) {
                 $success['success'] = true;

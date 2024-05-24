@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Главна валута",
     "language"        => "Језик",
     "passwords_dont_match" => "Лозинке се не поклапају",
+    "username_exists" => "Корисничко име већ постоји",
+    "email_exists"    => "Е-пошта већ постоји",
     "registration_failed" => "Регистрација није успела, покушајте поново.",
     "register"        => "Региструј се",
     "restore_database" => "Врати базу података",
@@ -18,6 +20,8 @@ $i18n = [
     'stay_logged_in'  => "Остани пријављен (30 дана)",
     'login'           => "Пријави се",
     'login_failed'    => "Подаци за пријаву нису исправни",
+    'registration_successful' => "Пријава успешна",
+    'user_email_waiting_verification' => "Ваша е-пошта треба да буде верификована. Молимо прегледајте Е-пошту",
     // Header
     'subscriptions'   => "Претплате",
     'stats'           => "Статистике",
@@ -254,6 +258,24 @@ $i18n = [
     // Корисник
     "error_updating_user_data" => "Грешка при ажурирању корисничких података.",
     "user_details_saved" => "Кориснички подаци сачувани",
+    // Admin Page
+    "registrations"    => "Регистрације",
+    "enable_user_registrations" => "Омогући регистрације корисника",
+    "maximum_number_users" => "Максималан број корисника",
+    "require_email_verification" => "Захтевај верификацију е-поште",
+    "configure_smtp_settings_to_enable" => "Конфигуришите SMTP подешавања да бисте омогућили ову опцију",
+    "server_url"       => "URL сервера",
+    "server_url_info"  => "Користи се за верификацију е-поште и опоравак лозинке. Мора да буде важећи јавни УРЛ.",
+    "server_url_password_reset" => "Ако је подешено, такође ће се омогућити функција ресетовања лозинке.",
+    "max_users_info"   => "Максималан број корисника који могу бити регистровани. 0 за неограничено.",
+    "user_management"  => "Управљање корисницима",
+    "delete_user"      => "Обриши корисника",
+    "delete_user_info" => "Брисање корисника ће такође обрисати све његове претплате и податке.",
+    "smtp_settings"    => "SMTP подешавања",
+    "smtp_usage_info"  => "SMTP се користи за слање е-поште за обавештења.",
+    // Email Verification
+    "email_verified" => "Е-пошта је верификована",
+    "email_verification_failed" => "Верификација е-поште није успела",
 
 ];
 

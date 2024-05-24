@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "主要货币",
     "language"        => "语言",
     "passwords_dont_match" => "密码不匹配",
+    "username_exists" => "用户名已存在",
+    "email_exists"    => "电子邮箱已存在",
     "registration_failed" => "注册失败，请重试。",
     "register"        => "注册",
     "restore_database" => "恢复数据库",
@@ -19,6 +21,8 @@ $i18n = [
     'stay_logged_in'  => "30 天内免登录",
     'login'           => "登录",
     'login_failed'    => "登录信息错误",
+    'registration_successful' => "注册成功",
+    'user_email_waiting_verification' => "您的电子邮件需要验证。请检查您的电子邮件",
 
     // 页眉
     'subscriptions'   => "订阅",
@@ -271,6 +275,26 @@ $i18n = [
     // User
     "error_updating_user_data" => "更新用户数据时出错。",
     "user_details_saved" => "用户详细信息已保存",
+
+    // Admin Page
+    "registrations" => "注册",
+    "enable_user_registrations" => "启用用户注册",
+    "maximum_number_users" => "最大用户数",
+    "require_email_verification" => "需要电子邮件验证",
+    "configure_smtp_settings_to_enable" => "要启用此功能，请配置 SMTP 设置。",
+    "server_url"       => "服务器 URL",
+    "server_url_info" => "用于电子邮件验证和密码恢复。必须是有效的公共 URL。",
+    "server_url_password_reset" => "如果设置，还将启用密码重置功能。",
+    "max_users_info"  => "设置为 0 以无限制用户数",
+    "user_management" => "用户管理",
+    "delete_user" => "删除用户",
+    "delete_user_info" => "删除用户也会删除其所有订阅和设置。",
+    "smtp_settings" => "SMTP 设置",
+    "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
+
+    // Email Verification
+    "email_verified" => "电子邮件已验证",
+    "email_verification_failed" => "电子邮件验证失败",
 
 ];
 
