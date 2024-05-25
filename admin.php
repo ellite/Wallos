@@ -12,7 +12,7 @@
     $settings = $result->fetchArray(SQLITE3_ASSOC);
 
     // get user accounts where id is not 1
-    $stmt = $db->prepare('SELECT id, username, email FROM user WHERE id != 1 ORDER BY id ASC');
+    $stmt = $db->prepare('SELECT id, username, email FROM user ORDER BY id ASC');
     $result = $stmt->execute();
 
     $users = [];
@@ -93,16 +93,32 @@
         <div class="user-list">
             <?php
                 foreach ($users as $user) {
+                    $userIcon = $user['id'] == 1 ? 'fa-user-tie' : 'fa-id-badge';
                     ?>
                     <div class="form-group-inline" data-userid="<?= $user['id'] ?>">
                         <div class="user-list-row">
-                            <div title="<?= translate('username', $i18n) ?>"><i class="fa-solid fa-id-badge"></i><?= $user['username'] ?></div>
-                            <div title="<?= translate('email', $i18n) ?>"><i class="fa-solid fa-envelope"></i><?= $user['email']?></div>
+                            <div title="<?= translate('username', $i18n) ?>"><i class="fa-solid <?= $userIcon ?>"></i><?= $user['username'] ?></div>
+                            <div title="<?= translate('email', $i18n) ?>"><i class="fa-solid fa-envelope"></i>
+                                <a href="mailto:<?= $user['email']?>"><?= $user['email']?></a>
+                            </div>
                         </div>
                         <div>
-                            <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)">
-                                <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_user', $i18n) ?>">
-                            </button>
+                            <?php
+                                if ($user['id'] != 1) {
+                                    ?>
+                                    <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)">
+                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_user', $i18n) ?>">
+                                    </button>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <button class="image-button medium disabled" disabled>
+                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_user', $i18n) ?>">
+                                    </button>
+                                    <?php
+                                }
+                                ?>
+                            
                         </div>    
                     </div>
                     <?php

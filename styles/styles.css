@@ -1883,3 +1883,8 @@ textarea.thin {
   gap: 12px;
   align-items: baseline;
 }
+
+.user-list a {
+  color: var(--main-color);
+  text-decoration: none;
+}
