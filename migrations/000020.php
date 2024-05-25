@@ -43,4 +43,12 @@ $db->exec('CREATE TABLE IF NOT EXISTS email_verification (
     token TEXT,
     email_sent BOOLEAN DEFAULT 0)');
 
+$db->exec('CREATE TABLE IF NOT EXISTS password_resets (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    email TEXT,
+    token TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    email_sent BOOLEAN DEFAULT 0)');
+
 ?>
