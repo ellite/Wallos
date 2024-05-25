@@ -218,7 +218,7 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
 
                     if ($resetPasswordEnabled) {
                         ?>
-                        <div class="forgot-password">
+                        <div class="login-form-link">
                             <a href="passwordreset.php"><?= translate('forgot_password', $i18n) ?></a>
                         </div>
                         <?php
