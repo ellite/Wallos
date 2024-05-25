@@ -138,7 +138,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
             <form action="passwordreset.php?submit=true" method="post">
                 <?php
                     if ($requestMode) {
-                        if (!hideForm) {
+                        if (!$hideForm) {
                         ?>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
