@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Login details are incorrect",
     'registration_successful' => "Registration successful",
     'user_email_waiting_verification' => "Your email needs to be verified. Please check your email.",
+    // Password Reset Page
+    'forgot_password' => "Forgot Password",
+    'reset_password'  => "Reset Password",
+    'reset_sent_check_email' => "Reset email sent. Please check your email.",
     // Header
     'subscriptions'   => "Subscriptions",
     'stats'           => "Statistics",

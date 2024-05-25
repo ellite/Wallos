@@ -22,6 +22,10 @@ $i18n = [
     'login_failed' => "Giriş bilgileri hatalı",
     'registration_successful' => "Kayıt başarılı",
     'user_email_waiting_verification' => "E-postanızın doğrulanması gerekiyor. Lütfen e-postanızı kontrol edin",
+    // Password Reset Page
+    'forgot_password' => "Şifremi Unuttum",
+    'reset_password'  => "Şifreyi Sıfırla",
+    'reset_sent_check_email' => "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.",
     // Header
     'subscriptions' => "Abonelikler",
     'stats' => "İstatistikler",

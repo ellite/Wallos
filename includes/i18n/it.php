@@ -23,6 +23,11 @@ $i18n = [
     'login_failed' => 'Le credenziali non sono corrette',
     'registration_successful' => "L'account è stato creato con successo",
     'user_email_waiting_verification' => "L'e-mail deve essere verificata. Controlla la tua email",
+    
+    // Password Reset Page
+    'forgot_password' => "Hai dimenticato la password?",
+    'reset_password'  => "Reimposta password",
+    'reset_sent_check_email' => "Un'email è stata inviata. Controlla la tua casella di posta",
 
     // Header
     'subscriptions' => 'Abbonamenti',

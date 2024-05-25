@@ -10,11 +10,7 @@
     $result = $stmt->execute();
     $admin = $result->fetchArray(SQLITE3_ASSOC);
 
-    if ($admin['require_email_verification'] == 0) {
-        die("Email verification is not required.");
-    }
-
-    $query = "SELECT * FROM email_verification WHERE email_sent = 0";
+    $query = "SELECT * FROM password_resets WHERE email_sent = 0";
     $stmt = $db->prepare($query);
     $result = $stmt->execute();
 
@@ -52,16 +48,16 @@
                 foreach ($rows as $user) {
                     $mail->addAddress($user['email']);
                     $mail->isHTML(true);
-                    $mail->Subject = 'Wallos - Email Verification';
+                    $mail->Subject = 'Wallos - Reset Password';
                     $mail->Body = '<img src="' . $server_url . '/images/siteicons/blue/wallos.png" alt="Logo" />
                     <br>
-                    Registration on Wallos was successful.
+                    A password reset was requested for your account.
                     <br>
-                    Please click the following link to verify your email: <a href="' . $server_url . '/verifyemail.php?email=' . $user['email'] . '&token=' . $user['token'] . '">Verify Email</a>';
+                    Please click the following link to reset your password: <a href="' . $server_url . '/passwordreset.php?email=' . $user['email'] . '&token=' . $user['token'] . '">Reset Password</a>';
                     
                     $mail->send();
 
-                    $query = "UPDATE email_verification SET email_sent = 1 WHERE id = :id";
+                    $query = "UPDATE password_resets SET email_sent = 1 WHERE id = :id";
                     $stmt = $db->prepare($query);
                     $stmt->bindParam(':id', $user['id'], SQLITE3_INTEGER);
                     $stmt->execute();
@@ -75,7 +71,7 @@
             }
         } else {
             // There are no SMTP settings
-            die("There are verification emails to be sent but no SMTP settings found.");
+            die("There are password reset emails to be sent but no SMTP settings found.");
         }
     } else {
         // There are no verification emails to be sent

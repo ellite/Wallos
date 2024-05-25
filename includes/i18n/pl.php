@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Dane logowania są nieprawidłowe",
     'registration_successful' => "Pomyślnie zarejestrowano",
     'user_email_waiting_verification' => "Twój adres e-mail musi zostać zweryfikowany. Sprawdź swój adres e-mail",
+    // Password Reset Page
+    'forgot_password' => "Zapomniałeś hasła? Kliknij tutaj",
+    'reset_password'  => "Zresetuj hasło",
+    'reset_sent_check_email' => "Link do zresetowania hasła został wysłany na Twój adres e-mail",
     // Header
     'subscriptions'   => "Subskrypcje",
     'stats'           => "Statystyki",

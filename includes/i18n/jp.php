@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "ログイン情報が間違っています",
     'registration_successful' => "登録に成功",
     'user_email_waiting_verification' => "Eメールの確認が必要です。メールを確認してください。",
+    // Password Reset Page
+    'forgot_password' => "パスワードを忘れた場合",
+    'reset_password'  => "パスワードをリセット",
+    'reset_sent_check_email' => "パスワードリセットリンクが送信されました。メールを確認してください。",
     // Header
     'subscriptions'   => "定期購入",
     'stats'           => "統計",

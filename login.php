@@ -101,7 +101,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 //Check if registration is open
 $registrations = false;
-$adminQuery = "SELECT registrations_open, max_users FROM admin";
+$adminQuery = "SELECT registrations_open, max_users, server_url, smtp_address FROM admin";
 $adminResult = $db->query($adminQuery);
 $adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
 $registrationsOpen = $adminRow['registrations_open'];
@@ -117,6 +117,11 @@ if ($registrationsOpen == 1 && $maxUsers == 0) {
     if ($userCount < $maxUsers) {
         $registrations = true;
     }
+}
+
+$resetPasswordEnabled = false;
+if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
+    $resetPasswordEnabled = true;
 }
 
 ?>
@@ -210,8 +215,15 @@ if ($registrationsOpen == 1 && $maxUsers == 0) {
                         </ul>
                         <?php
                     }
+
+                    if ($resetPasswordEnabled) {
+                        ?>
+                        <div class="forgot-password">
+                            <a href="passwordreset.php"><?= translate('forgot_password', $i18n) ?></a>
+                        </div>
+                        <?php
+                    }
                 ?>
-                
                 <?php
                     if ($registrations) {
                         ?>

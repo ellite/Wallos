@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "登入資訊錯誤",
     'registration_successful' => "註冊成功",
     'user_email_waiting_verification' => "您的電子郵件需要驗證。 請查看你的信箱",
+    // Password Reset Page
+    'forgot_password' => "忘記密碼",
+    'reset_password'  => "重設密碼",
+    'reset_sent_check_email' => "重設密碼的電子郵件已發送，請檢查您的電子郵件",
     // 頁首
     'subscriptions'   => "訂閱",
     'stats'           => "統計",

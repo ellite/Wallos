@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Данные для входа неверны",
     'registration_successful' => "Регистрация прошла успешно",
     'user_email_waiting_verification' => "Ваша электронная почта нуждается в проверке. Пожалуйста, проверьте свою электронную почту",
+    // Password Reset Page
+    'forgot_password' => "Забыли пароль?",
+    'reset_password'  => "Сбросить пароль",
+    'reset_sent_check_email' => "Ссылка для сброса пароля отправлена на вашу электронную почту",
     // Header
     'subscriptions'   => "Подписки",
     'stats'           => "Статистика",

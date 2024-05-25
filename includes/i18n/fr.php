@@ -22,6 +22,10 @@ $i18n = [
     'login_failed' => "Les détails de connexion sont incorrects",
     'registration_successful' => "Inscription réussie",
     'user_email_waiting_verification' => "Votre email doit être vérifié. Veuillez vérifier votre email",
+    // Password Reset Page
+    'forgot_password' => "Mot de passe oublié",
+    'reset_password'  => "Réinitialiser le mot de passe",
+    'reset_sent_check_email' => "Un courriel a été envoyé à l'adresse fournie. Vérifiez votre boîte de réception.",
     // En-tête
     'subscriptions' => "Abonnements",
     'stats' => "Statistiques",

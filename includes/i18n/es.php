@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Los detalles de inicio de sesión son incorrectos",
     'registration_successful' => "Registro efectuado con éxito",
     'user_email_waiting_verification' => "Tu correo electrónico necesita ser verificado. Por favor, compruebe su correo electrónico",
+    // Password Reset Page
+    'forgot_password' => "¿Olvidaste tu contraseña?",
+    'reset_password'  => "Restablecer Contraseña",
+    'reset_sent_check_email' => "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña. Por favor, compruebe su correo electrónico.",
     // Header
     'subscriptions'   => "Suscripciones",
     'stats'           => "Estadísticas",

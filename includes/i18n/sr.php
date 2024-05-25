@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Подаци за пријаву нису исправни",
     'registration_successful' => "Пријава успешна",
     'user_email_waiting_verification' => "Ваша е-пошта треба да буде верификована. Молимо прегледајте Е-пошту",
+    // Password Reset Page
+    'forgot_password' => "Заборављена лозинка",
+    'reset_password'  => "Ресетуј лозинку",
+    'reset_sent_check_email' => "Ресетовање лозинке је послато на вашу е-пошту",
     // Header
     'subscriptions'   => "Претплате",
     'stats'           => "Статистике",

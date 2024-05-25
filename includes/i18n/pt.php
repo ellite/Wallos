@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Dados de autenticação incorrectos",
     'registration_successful' => "Registo efectuado com sucesso.",
     'user_email_waiting_verification' => "O seu e-mail precisa de ser validado. Verifique o seu correio eletrónico",
+    // Password Reset Page
+    'forgot_password' => "Esqueceu-se da password?",
+    'reset_password'  => "Repor Password",
+    'reset_sent_check_email' => "Pedido de reposição de password enviado. Verifique o seu email.",
     // Header
     'subscriptions'   => "Subscrições",
     'stats'           => "Estatísticas",

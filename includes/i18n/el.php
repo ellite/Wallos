@@ -22,6 +22,10 @@ $i18n = [
     'login_failed'    => "Τα στοιχεία σύνδεσης είναι λανθασμένα",
     'registration_successful' => "Επιτυχής Εγγραφή",
     'user_email_waiting_verification' => "Το email σας πρέπει να επαληθευτεί. Παρακαλούμε ελέγξτε το email σας",
+    // Password Reset Page
+    'forgot_password' => "Ξέχασες τον κωδικό σου; Κάνε κλικ",
+    'reset_password'  => "Επαναφορά κωδικού πρόσβασης",
+    'reset_sent_check_email' => "Ένα email με οδηγίες για την επαναφορά του κωδικού πρόσβασης σας έχει σταλεί. Παρακαλώ ελέγξτε το email σας.",
     // Header
     'subscriptions'   => "Συνδρομές",
     'stats'           => "Στατιστικές",
