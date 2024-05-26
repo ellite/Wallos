@@ -58,10 +58,11 @@ if (isset($_GET['token']) && $_GET['token'] != "" && isset($_GET['email']) && $_
     $requestMode = false;
     $resetMode = true;
     $token = $_GET['token'];
+    $email = $_GET['email'];
     $matchCount = "SELECT COUNT(*) FROM password_resets WHERE token = :token and email = :email";
     $stmt = $db->prepare($matchCount);
     $stmt->bindValue(':token', $token, SQLITE3_TEXT);
-    $stmt->bindValue(':email', $_GET['email'], SQLITE3_TEXT);
+    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
     $count = $stmt->execute()->fetchArray(SQLITE3_NUM);
     if ($count[0] == 0) {
         $hasErrorMessage = true;
@@ -168,8 +169,8 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                         if (!$hideForm) {
                         ?>
                         <div class="form-group">
-                            <input type="hidden" name="token" value="<?= $_GET['token'] ?>">
-                            <input type="hidden" name="email" value="<?= $_GET['email'] ?>">
+                            <input type="hidden" name="token" value="<?= $token ?>">
+                            <input type="hidden" name="email" value="<?= $email ?>">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
                             <input type="password" id="password" name="password" required>
                         </div>

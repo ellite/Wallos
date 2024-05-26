@@ -64,7 +64,8 @@
 
                     $mail->clearAddresses();
 
-                    echo "Verification email sent to " . $user['email'] . "<br>";
+                    echo "Password reset email sent to " . $user['email'] . "<br>";
+
                 }
             } catch (Exception $e) {
                 echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} <br>";
