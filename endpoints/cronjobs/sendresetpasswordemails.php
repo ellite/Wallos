@@ -67,15 +67,15 @@
                     echo "Verification email sent to " . $user['email'] . "<br>";
                 }
             } catch (Exception $e) {
-                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo} <br>";
             }
         } else {
             // There are no SMTP settings
-            die("There are password reset emails to be sent but no SMTP settings found.");
+            die("There are password reset emails to be sent but no SMTP settings found.<br>");
         }
     } else {
-        // There are no verification emails to be sent
-        die("No verification emails to be sent.");
+        // There are no password reset emails to be sent
+        die("No password reset emails to be sent.<br>");
     }
 
 ?>
