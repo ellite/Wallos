@@ -4,9 +4,10 @@
     // get token from cookie to remove from DB
     if (isset($_SESSION['token'])) {
         $token = $_SESSION['token'];
-        $sql = "DELETE FROM login_tokens WHERE token = ?";
+        $sql = "DELETE FROM login_tokens WHERE token = :token AND user_id = :userId";
         $stmt = $db->prepare($sql);
-        $stmt->bindValue(1, $token, SQLITE3_TEXT);
+        $stmt->bindParam(':token', $token, SQLITE3_TEXT);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $stmt->execute();
     }
     $_SESSION = array();

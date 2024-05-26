@@ -6,8 +6,10 @@ $shouldUpdate = true;
 if (isset($_GET['force']) && $_GET['force'] === "true") {
     $shouldUpdate = true;
 } else {
-    $query = "SELECT date FROM last_exchange_update";
-    $result = $db->querySingle($query);
+    $query = "SELECT date FROM last_exchange_update WHERE user_id = :userId";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
 
     if ($result) {
         $lastUpdateDate = new DateTime($result);
@@ -34,14 +36,17 @@ if ($result) {
         $provider = $row['provider'];
 
         $codes = "";
-        $query = "SELECT id, name, symbol, code FROM currencies";
-        $result = $db->query($query);
+        $query = "SELECT id, name, symbol, code FROM currencies WHERE user_id = :userId";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $codes .= $row['code'].",";
         }
         $codes = rtrim($codes, ',');
-        $query = "SELECT u.main_currency, c.code FROM user u LEFT JOIN currencies c ON u.main_currency = c.id WHERE u.id = 1";
+        $query = "SELECT u.main_currency, c.code FROM user u LEFT JOIN currencies c ON u.main_currency = c.id WHERE u.id = :userId";
         $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
         $row = $result->fetchArray(SQLITE3_ASSOC);
         $mainCurrencyCode = $row['code'];
@@ -72,10 +77,11 @@ if ($result) {
                 } else {
                     $exchangeRate = $rate / $mainCurrencyToEUR;
                 }
-                $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code";
+                $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code AND user_id = :userId";
                 $updateStmt = $db->prepare($updateQuery);
                 $updateStmt->bindParam(':rate', $exchangeRate, SQLITE3_TEXT);
                 $updateStmt->bindParam(':code', $currencyCode, SQLITE3_TEXT);
+                $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                 $updateResult = $updateStmt->execute();
 
                 if (!$updateResult) {
@@ -85,14 +91,11 @@ if ($result) {
             $currentDate = new DateTime();
             $formattedDate = $currentDate->format('Y-m-d');
 
-            $deleteQuery = "DELETE FROM last_exchange_update";
-            $deleteStmt = $db->prepare($deleteQuery);
-            $deleteResult = $deleteStmt->execute();
-
-            $query = "INSERT INTO last_exchange_update (date) VALUES (:formattedDate)";
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(':formattedDate', $formattedDate, SQLITE3_TEXT);
-            $result = $stmt->execute();
+            $updateQuery = "UPDATE last_exchange_update SET date = :formattedDate WHERE user_id = :userId";
+            $updateStmt = $db->prepare($updateQuery);
+            $updateStmt->bindParam(':formattedDate', $formattedDate, SQLITE3_TEXT);
+            $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+            $updateResult = $updateStmt->execute();
 
             $db->close();
             echo "Rates updated successfully!";

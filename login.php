@@ -31,6 +31,8 @@ if (isset($_COOKIE['colorTheme'])) {
 }
 
 $loginFailed = false;
+$hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
+$userEmailWaitingVerification = false;
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -48,26 +50,47 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $main_currency = $row['main_currency'];
         $language = $row['language'];
         if (password_verify($password, $hashedPasswordFromDb)) {
-            $_SESSION['username'] = $username;
-            $_SESSION['loggedin'] = true;
-            $_SESSION['main_currency'] = $main_currency;
-            $_SESSION['userId'] = $userId;
-            $cookieExpire = time() + (30 * 24 * 60 * 60);
-            setcookie('language', $language, $cookieExpire);
-            if ($rememberMe) {
-                $token = bin2hex(random_bytes(32));
-                $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (?, ?)";
-                $addLoginTokensStmt = $db->prepare($addLoginTokens);
-                $addLoginTokensStmt->bindValue(1, $userId, SQLITE3_INTEGER);
-                $addLoginTokensStmt->bindValue(2, $token, SQLITE3_TEXT);
-                $addLoginTokensStmt->execute();
-                $_SESSION['token'] = $token;
-                $cookieValue = $username . "|" . $token . "|" . $main_currency;
-                setcookie('wallos_login', $cookieValue, $cookieExpire);
+
+            // Check if the user is in the email_verification table
+            $query = "SELECT 1 FROM email_verification WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
+            $verificationRow = $result->fetchArray(SQLITE3_ASSOC);
+
+            if ($verificationRow) {
+                $userEmailWaitingVerification = true;
+                $loginFailed = true;
+            } else {
+                $_SESSION['username'] = $username;
+                $_SESSION['loggedin'] = true;
+                $_SESSION['main_currency'] = $main_currency;
+                $_SESSION['userId'] = $userId;
+                $cookieExpire = time() + (30 * 24 * 60 * 60);
+                setcookie('language', $language, $cookieExpire);
+
+                if ($rememberMe) {
+                    $query = "SELECT color_theme FROM settings";
+                    $stmt = $db->prepare($query);
+                    $result = $stmt->execute();
+                    $settings = $result->fetchArray(SQLITE3_ASSOC);
+                    setcookie('colorTheme', $settings['color_theme'], $cookieExpire);
+                    
+                    $token = bin2hex(random_bytes(32));
+                    $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
+                    $addLoginTokensStmt = $db->prepare($addLoginTokens);
+                    $addLoginTokensStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+                    $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
+                    $addLoginTokensStmt->execute();
+                    $_SESSION['token'] = $token;
+                    $cookieValue = $username . "|" . $token . "|" . $main_currency;
+                    setcookie('wallos_login', $cookieValue, $cookieExpire);
+                }
+                $db->close();
+                header("Location: .");
+                exit();
             }
-            $db->close();
-            header("Location: .");
-            exit();
+            
         } else {
             $loginFailed = true;
         }
@@ -75,6 +98,32 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $loginFailed = true;
     }
 }
+
+//Check if registration is open
+$registrations = false;
+$adminQuery = "SELECT registrations_open, max_users, server_url, smtp_address FROM admin";
+$adminResult = $db->query($adminQuery);
+$adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
+$registrationsOpen = $adminRow['registrations_open'];
+$maxUsers = $adminRow['max_users'];
+
+if ($registrationsOpen == 1 && $maxUsers == 0) {
+    $registrations = true;
+} else if ($registrationsOpen == 1 && $maxUsers > 0) {
+    $userCountQuery = "SELECT COUNT(id) as userCount FROM user";
+    $userCountResult = $db->query($userCountQuery);
+    $userCountRow = $userCountResult->fetchArray(SQLITE3_ASSOC);
+    $userCount = $userCountRow['userCount'];
+    if ($userCount < $maxUsers) {
+        $registrations = true;
+    }
+}
+
+$resetPasswordEnabled = false;
+if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
+    $resetPasswordEnabled = true;
+}
+
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
@@ -91,6 +140,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
     <link rel="stylesheet" href="styles/themes/green.css?<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
     <link rel="stylesheet" href="styles/themes/yellow.css?<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
+    <link rel="stylesheet" href="styles/font-awesome.min.css">
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>
@@ -122,20 +172,74 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     <input type="checkbox" id="remember" name="remember">
                     <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
                 </div>
-                <?php
-                    if ($loginFailed) {
-                        ?>
-                        <sup class="error">
-                            <?= translate('login_failed', $i18n) ?>.
-                        </sup>
-                        <?php
-                    }
-                ?>
                 <div class="form-group">
                     <input type="submit" value="<?= translate('login', $i18n) ?>">
                 </div>
+                <?php
+                    if ($loginFailed) {
+                        ?>
+                        <ul class="error-box">
+                        <?php
+                            if ($userEmailWaitingVerification) {
+                                ?>
+                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('user_email_waiting_verification', $i18n) ?></li>
+                                <?php
+                            } else {
+                                ?>
+                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('login_failed', $i18n) ?></li>
+                                <?php
+                            }
+                        ?>
+                        </ul>
+                        <?php
+                    }
+                    if ($hasSuccessMessage) {
+                        ?>
+                        <ul class="success-box">
+                        <?php
+                            if (isset($_GET['validated']) && $_GET['validated'] == "true") {
+                                ?>
+                                <li><i class="fa-solid fa-check"></i><?= translate('email_verified', $i18n) ?></li>
+                                <?php
+                            } else if (isset($_GET['registered']) && $_GET['registered']) {
+                                ?>
+                                <li><i class="fa-solid fa-check"></i><?= translate('registration_successful', $i18n) ?></li>
+                                <?php
+                                if (isset($_GET['requireValidation']) && $_GET['requireValidation'] == true) {
+                                    ?>
+                                    <li><?= translate('user_email_waiting_verification', $i18n) ?></li>
+                                    <?php
+                                }
+                            }
+                        ?>
+                        </ul>
+                        <?php
+                    }
+
+                    if ($resetPasswordEnabled) {
+                        ?>
+                        <div class="login-form-link">
+                            <a href="passwordreset.php"><?= translate('forgot_password', $i18n) ?></a>
+                        </div>
+                        <?php
+                    }
+                ?>
+                <?php
+                    if ($registrations) {
+                        ?>
+                        <div class="separator">
+                            <input type="button" class="secondary-button" onclick="openRegitrationPage()" value="<?= translate('register', $i18n) ?>"></input>
+                        </div>
+                        <?php
+                    }
+                ?>
             </form>
         </section>
     </div>
+    <script type="text/javascript">
+        function openRegitrationPage() {
+            window.location.href = "registration.php";
+        }
+    </script>
 </body>
 </html>

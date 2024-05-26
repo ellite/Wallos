@@ -1,6 +1,5 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-session_start();
 
 $result = $db->query("SELECT COUNT(*) as count FROM user");
 $row = $result->fetchArray(SQLITE3_NUM);

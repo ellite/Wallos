@@ -2,3 +2,5 @@
 0 1 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php >> /var/log/cron/updatenextpayment.log 2>&1
 0 2 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/updateexchange.php >> /var/log/cron/updateexchange.log 2>&1
 0 9 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendnotifications.php >> /var/log/cron/sendnotifications.log 2>&1
+*/2 * * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendverificationemails.php >> /var/log/cron/sendverificationemails.log 2>&1
+*/2 * * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendresetpasswordemails.php >> /var/log/cron/sendresetpasswordemails.log 2>&1

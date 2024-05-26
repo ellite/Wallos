@@ -1,7 +1,7 @@
 <?php
 
     require_once '../../includes/connect_endpoint.php';
-    session_start();
+    
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
             "success" => false,
@@ -15,8 +15,9 @@
         
         $color = $data['color'];
 
-        $stmt = $db->prepare('UPDATE settings SET color_theme = :color');
+        $stmt = $db->prepare('UPDATE settings SET color_theme = :color WHERE user_id = :userId');
         $stmt->bindParam(':color', $color, SQLITE3_TEXT);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {
             die(json_encode([

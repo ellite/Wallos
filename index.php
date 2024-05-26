@@ -5,7 +5,7 @@
   include_once 'includes/list_subscriptions.php';
 
   $sort = "next_payment";
-  $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
+  $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
     $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
@@ -14,11 +14,13 @@
       $order = "DESC";
     }
     if (in_array($sort, $allowedSortCriteria)) {
-      $sql = "SELECT * FROM subscriptions ORDER BY $sort $order, inactive ASC";
+      $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY $sort $order, inactive ASC";
     }
   }
         
-  $result = $db->query($sql);
+  $stmt = $db->prepare($sql);
+  $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+  $result = $stmt->execute();
   if ($result) {
     $subscriptions = array();
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -160,7 +162,7 @@
             $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
             $currencyId = $subscription['currency_id'];
             $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
-            $paymentIconFolder = $paymentMethodId <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+            $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
             $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
             $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
             $print[$id]['payment_method_id'] = $paymentMethodId;

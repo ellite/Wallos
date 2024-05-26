@@ -1,6 +1,5 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -36,8 +35,10 @@
             $smtpPassword = $data["smtppassword"];
             $fromEmail = $data["fromemail"];
 
-            $query = "SELECT COUNT(*) FROM email_notifications";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM email_notifications WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -46,13 +47,15 @@
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO email_notifications (enabled, smtp_address, smtp_port, smtp_username, smtp_password, from_email, encryption)
-                              VALUES (:enabled, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail, :encryption)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO email_notifications (enabled, smtp_address, smtp_port, smtp_username, smtp_password, from_email, encryption, user_id)
+                              VALUES (:enabled, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail, :encryption, :userId)";
                 } else {
                     $query = "UPDATE email_notifications
                               SET enabled = :enabled, smtp_address = :smtpAddress, smtp_port = :smtpPort,
-                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail, encryption = :encryption";
+                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail, encryption = :encryption WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
@@ -63,6 +66,7 @@
                 $stmt->bindValue(':smtpPassword', $smtpPassword, SQLITE3_TEXT);
                 $stmt->bindValue(':fromEmail', $fromEmail, SQLITE3_TEXT);
                 $stmt->bindValue(':encryption', $encryption, SQLITE3_TEXT);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

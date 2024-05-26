@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Κύριο νόμισμα",
     "language"        => "Γλώσσα",
     "passwords_dont_match" => "Οι κωδικοί πρόσβασης δεν ταιριάζουν",
+    "username_exists" => "Το όνομα χρήστη υπάρχει ήδη",
+    "email_exists"    => "Το email υπάρχει ήδη",
     "registration_failed" => "Η εγγραφή απέτυχε, παρακαλώ προσπάθησε ξανά.",
     "register"        => "Εγγραφή",
     "restore_database" => "Επαναφορά βάσης δεδομένων",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Μείνε συνδεδεμένος (30 ημέρες)",
     'login'           => "Σύνδεση",
     'login_failed'    => "Τα στοιχεία σύνδεσης είναι λανθασμένα",
+    'registration_successful' => "Επιτυχής Εγγραφή",
+    'user_email_waiting_verification' => "Το email σας πρέπει να επαληθευτεί. Παρακαλούμε ελέγξτε το email σας",
+    // Password Reset Page
+    'forgot_password' => "Ξέχασες τον κωδικό σου; Κάνε κλικ",
+    'reset_password'  => "Επαναφορά κωδικού πρόσβασης",
+    'reset_sent_check_email' => "Ένα email με οδηγίες για την επαναφορά του κωδικού πρόσβασης σας έχει σταλεί. Παρακαλώ ελέγξτε το email σας.",
+    'password_reset_successful' => "Επιτυχής επαναφορά κωδικού πρόσβασης",
     // Header
     'subscriptions'   => "Συνδρομές",
     'stats'           => "Στατιστικές",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Σφάλμα ενημέρωσης δεδομένων χρήστη.",
     "user_details_saved" => "Αποθήκευση στοιχείων χρήστη",
+    // Admin Page
+    "registrations"    => "Εγγραφές",
+    "enable_user_registrations" => "Ενεργοποίηση εγγραφών χρηστών",
+    "maximum_number_users" => "Μέγιστος αριθμός χρηστών",
+    "require_email_verification" => "Απαιτείται επιβεβαίωση email",
+    "configure_smtp_settings_to_enable" => "Διαμόρφωσε τις ρυθμίσεις SMTP για να ενεργοποιήσεις αυτή την επιλογή",
+    "server_url"       => "Διεύθυνση URL διακομιστή",
+    "server_url_info"  => "Χρησιμοποιείται για επαλήθευση email και ανάκτηση κωδικού πρόσβασης. Πρέπει να είναι ένα έγκυρο δημόσιο URL.",
+    "server_url_password_reset" => "Εάν οριστεί, θα ενεργοποιήσει επίσης τη λειτουργία επαναφοράς κωδικού πρόσβασης.",
+    "max_users_info"   => "Ο μέγιστος αριθμός χρηστών που μπορούν να εγγραφούν. Αν η τιμή είναι 0, δεν υπάρχει όριο.",
+    "user_management"  => "Διαχείριση χρηστών",
+    "delete_user"      => "Διαγραφή χρήστη",
+    "delete_user_info" => "Η διαγραφή ενός χρήστη θα διαγράψει επίσης όλες τις συνδρομές και τις ρυθμίσεις του.",
+    "smtp_settings"    => "SMTP ρυθμίσεις",
+    "smtp_usage_info"  => "Θα χρησιμοποιηθεί για ανάκτηση κωδικού πρόσβασης και άλλα μηνύματα ηλεκτρονικού ταχυδρομείου συστήματος.",
+    // Email Verification
+    "email_verified" => "Το email επιβεβαιώθηκε",
+    "email_verification_failed" => "Η επαλήθευση email απέτυχε",
 
 ];
 

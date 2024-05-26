@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Hauptwährung",
     "language"        => "Sprache",
     "passwords_dont_match" => "Die Passwörter stimmen nicht überein",
+    "username_exists" => "Benutzername existiert bereits",
+    "email_exists"    => "E-Mail existiert bereits",
     "registration_failed" => "Registrierung fehlgeschlagen, bitte erneut versuchen.",
     "register"        => "Registrieren",
     "restore_database" => "Datenbank wiederherstellen",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Angemeldet bleiben (30 Tage)",
     'login'           => "Login",
     'login_failed'    => "Loginangaben sind nicht korrekt",
+    'registration_successful' => "Registrierung erfolgreich",
+    'user_email_waiting_verification' => "Ihre E-Mail muss noch verifiziert werden. Bitte überprüfen Sie Ihre E-Mail.",
+    // Password Reset Page
+    'forgot_password' => "Passwort vergessen?",
+    'reset_password'  => "Passwort zurücksetzen",
+    'reset_sent_check_email' => "Passwort zurücksetzen E-Mail wurde gesendet. Bitte überprüfen Sie Ihr Postfach.",
+    'password_reset_successful' => "Passwort erfolgreich zurückgesetzt",
     // Header
     'subscriptions'   => "Abonnements",
     'stats'           => "Statistiken",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Benutzerangaben konnten nicht aktualisiert werden.",
     "user_details_saved" => "Benutzerangaben gespeichert",
+    // Admin Page
+    "registrations"    => "Registrierungen",
+    "enable_user_registrations" => "Benutzerregistrierungen aktivieren",
+    "maximum_number_users" => "Maximale Anzahl an Benutzern",
+    "require_email_verification" => "E-Mail Verifizierung erforderlich",
+    "configure_smtp_settings_to_enable" => "Konfiguriere SMTP Einstellungen um dies zu aktivieren",
+    "server_url"       => "Server URL",
+    "server_url_info"  => "Wird für die E-Mail-Überprüfung und die Passwortwiederherstellung verwendet. Muss eine gültige öffentliche URL sein.",
+    "server_url_password_reset" => "Wenn diese Option gesetzt ist, wird auch die Funktion zum Zurücksetzen des Passworts aktiviert.",
+    "max_users_info"   => "0 für unbegrenzte Anzahl an Benutzern",
+    "user_management"  => "Benutzerverwaltung",
+    "delete_user"      => "Benutzer löschen",
+    "delete_user_info" => "Durch das Löschen eines Benutzers werden auch alle seine Abonnements und Einstellungen gelöscht.",
+    "smtp_settings"    => "SMTP Einstellungen",
+    "smtp_usage_info"  => "Wird für die Passwortwiederherstellung und andere System-E-Mails verwendet",
+    // Email Verification
+    "email_verified" => "E-Mail verifiziert",
+    "email_verification_failed" => "E-Mail konnte nicht verifiziert werden",
 
 ];
 

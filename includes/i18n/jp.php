@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "主要通貨",
     "language"        => "言語",
     "passwords_dont_match" => "パスワードが違います",
+    "username_exists" => "ユーザー名が既に存在します",
+    "email_exists"    => "メールアドレスが既に存在します",
     "registration_failed" => "登録に失敗しました。もう一度お試しください。",
     "register"        => "登録する",
     "restore_database" => "データベースをリストア",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "ログインしたままにする (30日)",
     'login'           => "ログイン",
     'login_failed'    => "ログイン情報が間違っています",
+    'registration_successful' => "登録に成功",
+    'user_email_waiting_verification' => "Eメールの確認が必要です。メールを確認してください。",
+    // Password Reset Page
+    'forgot_password' => "パスワードを忘れた場合",
+    'reset_password'  => "パスワードをリセット",
+    'reset_sent_check_email' => "パスワードリセットリンクが送信されました。メールを確認してください。",
+    'password_reset_successful' => "パスワードリセットに成功",
     // Header
     'subscriptions'   => "定期購入",
     'stats'           => "統計",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "ユーザデータの更新エラー",
     "user_details_saved" => "ユーザー詳細の保存",
+    // Admin Page
+    "registrations"    => "登録",
+    "enable_user_registrations" => "ユーザー登録を有効にする",
+    "maximum_number_users" => "最大ユーザ数",
+    "require_email_verification" => "メール確認を必要とする",
+    "configure_smtp_settings_to_enable" => "SMTP設定を構成して有効にする",
+    "server_url"       => "サーバーURL",
+    "server_url_info"  => "電子メール認証とパスワード回復に使用される。有効な公開URLでなければなりません。",
+    "server_url_password_reset" => "設定すると、パスワードリセット機能も有効になる。",
+    "max_users_info"   => "0に設定すると無制限になります",
+    "user_management"  => "ユーザー管理",
+    "delete_user"      => "ユーザーを削除",
+    "delete_user_info" => "ユーザーを削除すると、そのユーザーのサブスクリプションと設定もすべて削除されます。",
+    "smtp_settings"    => "SMTP設定",
+    "smtp_usage_info"  => "パスワードの回復やその他のシステム電子メールに使用されます。",
+    // Email Verification
+    "email_verified" => "メールアドレスが確認されました",
+    "email_verification_failed" => "メールアドレスの確認に失敗しました",
 
 ];
 

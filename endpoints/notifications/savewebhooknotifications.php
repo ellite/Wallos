@@ -1,6 +1,5 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -28,8 +27,10 @@
             $headers = $data["headers"];
             $payload = $data["payload"];
 
-            $query = "SELECT COUNT(*) FROM webhook_notifications";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM webhook_notifications WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -38,12 +39,14 @@
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO webhook_notifications (enabled, url, headers, payload)
-                              VALUES (:enabled, :url, :headers, :payload)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO webhook_notifications (enabled, url, headers, payload, user_id)
+                              VALUES (:enabled, :url, :headers, :payload, :userId)";
                 } else {
                     $query = "UPDATE webhook_notifications
-                              SET enabled = :enabled, url = :url, headers = :headers, payload = :payload";
+                              SET enabled = :enabled, url = :url, headers = :headers, payload = :payload WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
@@ -51,6 +54,7 @@
                 $stmt->bindValue(':url', $url, SQLITE3_TEXT);
                 $stmt->bindValue(':headers', $headers, SQLITE3_TEXT);
                 $stmt->bindValue(':payload', $payload, SQLITE3_TEXT);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

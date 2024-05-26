@@ -10,6 +10,8 @@ $i18n = [
     'main_currency' => 'Valuta principale',
     'language' => 'Lingua',
     'passwords_dont_match' => 'Le password non corrispondono',
+    'username_exists' => 'Il nome utente esiste già',
+    'email_exists' => 'L\'indirizzo email esiste già',
     'registration_failed' => 'Registrazione fallita, riprova.',
     'register' => 'Registrati',
     "restore_database" => 'Ripristina database',
@@ -19,6 +21,14 @@ $i18n = [
     'stay_logged_in' => 'Rimani connesso (30 giorni)',
     'login' => 'Accedi',
     'login_failed' => 'Le credenziali non sono corrette',
+    'registration_successful' => "L'account è stato creato con successo",
+    'user_email_waiting_verification' => "L'e-mail deve essere verificata. Controlla la tua email",
+    
+    // Password Reset Page
+    'forgot_password' => "Hai dimenticato la password?",
+    'reset_password'  => "Reimposta password",
+    'reset_sent_check_email' => "Un'email è stata inviata. Controlla la tua casella di posta",
+    'password_reset_successful' => "La password è stata reimpostata con successo",
 
     // Header
     'subscriptions' => 'Abbonamenti',
@@ -269,6 +279,26 @@ $i18n = [
     // User
     "error_updating_user_data" => "Errore nell'aggiornamento dei dati utente",
     "user_details_saved" => "Dettagli utente salvati",
+
+    // Admin Page
+    "registrations"    => "Registrazioni",
+    "enable_user_registrations" => "Abilita le registrazioni utente",
+    "maximum_number_users" => "Numero massimo di utenti",
+    "require_email_verification" => "Richiedi la verifica dell'e-mail",
+    "configure_smtp_settings_to_enable" => "Configura le impostazioni SMTP per abilitare",
+    "server_url" => "URL del server",
+    "server_url_info" => "Utilizzato per la verifica dell'e-mail e il recupero della password. Deve essere un URL pubblico valido.",
+    "server_url_password_reset" => "Se impostato, abilita anche la funzionalità di reimpostazione della password.",
+    "max_users_info" => "Impostare a 0 per un numero illimitato di utenti",
+    "user_management" => "Gestione utenti",
+    "delete_user" => "Elimina utente",
+    "delete_user_info" => "L'eliminazione di un utente eliminerà anche tutte le sue iscrizioni e impostazioni.",
+    "smtp_settings" => "Impostazioni SMTP",
+    "smtp_usage_info" => "Verrà utilizzato per il recupero della password e altre e-mail di sistema.",
+
+    // Email Verification
+    "email_verified" => "L'indirizzo email è stato verificato con successo",
+    "email_verification_failed" => "La verifica dell'email è fallita",
 ];
 
 ?>

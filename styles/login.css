@@ -45,6 +45,16 @@ body, html {
     text-align: center;
 }
 
+.container > .message {
+  text-align: center;
+  font-size: 18px;
+}
+
+.container > .message a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -144,9 +154,51 @@ input[type="checkbox"] {
     margin-bottom: 20px;
 }
 
+.error-box,
+.success-box {
+    display: block;
+    color: #FFFFFF;
+    margin-bottom: 20px;
+    padding: 14px 14px 16px 14px;
+    border: 1px solid var(--error-color);
+    background-color: rgba(var(--error-color-rgb), 0.8);
+    border-radius: 8px;
+}
+
+.success-box {
+    border: 1px solid var(--success-color);
+    background-color: rgba(var(--success-color-rgb), 0.5);
+}
+
+.error-box li,
+.success-box li {
+  list-style: none;
+  font-size: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+
+.error-box li:last-of-type,
+.success-box li:last-of-type {
+  margin-bottom: 0px;
+}
+
 .separator {
     border-top: 1px solid #ccc;
     padding-top: 20px;
+}
+
+.login-form-link {
+    text-align: center;
+    margin: 20px 0px;
+}
+
+.login-form-link a {
+    color: var(--main-color);
+    text-decoration: none;
+    font-size: 16px;
 }
 
 /* TOAST MESSAGE */

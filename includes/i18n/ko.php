@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "기본 통화",
     "language"        => "언어",
     "passwords_dont_match" => "비밀번호가 일치하지 않습니다.",
+    "username_exists" => "이미 존재하는 유저명입니다.",
+    "email_exists"    => "이미 존재하는 이메일입니다.",
     "registration_failed" => "회원가입 실패. 다시 시도해 주세요.",
     "register"        => "회원가입",
     "restore_database" => "데이터베이스 복구",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "로그인 유지 (30일)",
     'login'           => "로그인",
     'login_failed'    => "로그인 정보가 부정확합니다.",
+    'registration_successful' => "등록 성공",
+    'user_email_waiting_verification' => "이메일을 인증해야 합니다. 이메일을 확인해 주세요.",
+    // Password Reset Page
+    'forgot_password' => "비밀번호를 잊으셨나요?",
+    'reset_password'  => "비밀번호 재설정",
+    'reset_sent_check_email' => "비밀번호 재설정 이메일이 전송되었습니다. 이메일을 확인해 주세요.",
+    'password_reset_successful' => "비밀번호 재설정 성공",
     // Header
     'subscriptions'   => "구독",
     'stats'           => "통계",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "유저 데이터 갱신 실패.",
     "user_details_saved" => "유저 세부정보 저장 성공",
+    // Admin Page
+    "registrations"    => "회원가입",
+    "enable_user_registrations" => "유저 회원가입 활성화",
+    "maximum_number_users" => "최대 유저 수",
+    "require_email_verification" => "이메일 인증 필요",
+    "configure_smtp_settings_to_enable" => "SMTP 설정을 구성하여 이메일 인증을 활성화합니다.",
+    "server_url"       => "서버 URL",
+    "server_url_info"  => "이메일 인증 및 비밀번호 복구에 사용됩니다. 유효한 공개 URL이어야 합니다.",
+    "server_url_password_reset" => "설정하면 비밀번호 재설정 기능도 활성화됩니다.",
+    "max_users_info"   => "0으로 설정하면 무제한으로 설정됩니다.",
+    "user_management"  => "유저 관리",
+    "delete_user"      => "유저 삭제",
+    "delete_user_info" => "사용자를 삭제하면 모든 구독 및 설정도 삭제됩니다.",
+    "smtp_settings"    => "SMTP 설정",
+    "smtp_usage_info"  => "비밀번호 복구 및 기타 시스템 이메일에 사용됩니다.",
+    // Email Verification
+    "email_verified" => "이메일 인증 완료",
+    "email_verification_failed" => "이메일 인증 실패",
 
 ];
 

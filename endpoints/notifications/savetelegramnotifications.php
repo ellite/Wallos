@@ -1,6 +1,5 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -27,8 +26,10 @@
             $bot_token = $data["bot_token"];
             $chat_id = $data["chat_id"];
 
-            $query = "SELECT COUNT(*) FROM telegram_notifications";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM telegram_notifications WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -37,18 +38,21 @@
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id)
-                              VALUES (:enabled, :bot_token, :chat_id)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id, user_id)
+                              VALUES (:enabled, :bot_token, :chat_id, :userId)";
                 } else {
                     $query = "UPDATE telegram_notifications
-                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id";
+                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
                 $stmt->bindValue(':bot_token', $bot_token, SQLITE3_TEXT);
                 $stmt->bindValue(':chat_id', $chat_id, SQLITE3_TEXT);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

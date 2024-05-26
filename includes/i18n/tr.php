@@ -10,6 +10,8 @@ $i18n = [
     "main_currency" => "Ana Para Birimi",
     "language" => "Dil",
     "passwords_dont_match" => "Şifreler eşleşmiyor",
+    "username_exists" => "Bu kullanıcı adı zaten mevcut",
+    "email_exists" => "Bu e-posta zaten mevcut",
     "registration_failed" => "Kayıt başarısız, lütfen tekrar deneyin.",
     "register" => "Kayıt Ol",
     "restore_database" => "Veritabanını geri yükle",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in' => "Oturumu açık tut (30 gün)",
     'login' => "Giriş Yap",
     'login_failed' => "Giriş bilgileri hatalı",
+    'registration_successful' => "Kayıt başarılı",
+    'user_email_waiting_verification' => "E-postanızın doğrulanması gerekiyor. Lütfen e-postanızı kontrol edin",
+    // Password Reset Page
+    'forgot_password' => "Şifremi Unuttum",
+    'reset_password'  => "Şifreyi Sıfırla",
+    'reset_sent_check_email' => "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.",
+    'password_reset_successful' => "Şifre sıfırlama başarılı",
     // Header
     'subscriptions' => "Abonelikler",
     'stats' => "İstatistikler",
@@ -255,6 +264,25 @@ $i18n = [
     // User
     "error_updating_user_data" => "Kullanıcı verileri güncellenirken hata oluştu.",
     "user_details_saved" => "Kullanıcı detayları kaydedildi",
+    // Admin Page
+    "registrations" => "Kayıtlar",
+    "enable_user_registrations" => "Kullanıcı kayıtlarını etkinleştir",
+    "maximum_number_users" => "Maksimum kullanıcı sayısı",
+    "require_email_verification" => "E-posta doğrulaması gerektir",
+    "configure_smtp_settings_to_enable" => "E-posta doğrulamasını etkinleştirmek için SMTP ayarlarını yapılandırın",
+    "server_url" => "Sunucu URL'si",
+    "server_url_info" => "E-posta doğrulama ve şifre kurtarma için kullanılır. Geçerli bir genel URL olmalıdır.",
+    "server_url_password_reset" => "Ayarlanırsa şifre sıfırlama işlevini de etkinleştirir.",
+    "max_users_info"  => "0 veya boş bırakıldığında sınırsız kullanıcı sayısı",
+    "user_management" => "Kullanıcı Yönetimi",
+    "delete_user" => "Kullanıcıyı Sil",
+    "delete_user_info" => "Bir kullanıcının silinmesi aynı zamanda tüm aboneliklerinin ve ayarlarının da silinmesine neden olur.",
+    "smtp_settings" => "SMTP Ayarları",
+    "smtp_usage_info" => "Şifre kurtarma ve diğer sistem e-postaları için kullanılacaktır.",
+    // Email Verification
+    "email_verified" => "E-posta doğrulandı",
+    "email_verification_failed" => "E-posta doğrulaması başarısız oldu",
+
 ];
 
 

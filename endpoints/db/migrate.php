@@ -33,6 +33,15 @@ $allMigrations = glob('migrations/*.php');
 if (count($allMigrations) == 0) {
     $allMigrations = glob('../../migrations/*.php');
 }
+
+$allMigrations = array_map(function($migration) {
+    return str_replace('../../', '', $migration);
+}, $allMigrations);
+
+$completedMigrations = array_map(function($migration) {
+    return str_replace('../../', '', $migration);
+}, $completedMigrations);
+
 $requiredMigrations = array_diff($allMigrations, $completedMigrations);
 
 if (count($requiredMigrations) === 0) {

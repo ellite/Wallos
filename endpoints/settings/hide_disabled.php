@@ -1,6 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-session_start();
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -14,8 +14,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
     $hide_disabled = $data['value'];
 
-    $stmt = $db->prepare('UPDATE settings SET hide_disabled = :hide_disabled');
+    $stmt = $db->prepare('UPDATE settings SET hide_disabled = :hide_disabled WHERE user_id = :userId');
     $stmt->bindParam(':hide_disabled', $hide_disabled, SQLITE3_INTEGER);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
     if ($stmt->execute()) {
         die(json_encode([

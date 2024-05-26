@@ -1,12 +1,12 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
     require_once '../../includes/inputvalidation.php';
-    
-    session_start();
 
     function update_exchange_rate($db) {
-        $query = "SELECT api_key, provider FROM fixer";
-        $result = $db->query($query);
+        $query = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
         if ($result) {
             $row = $result->fetchArray(SQLITE3_ASSOC);
@@ -23,8 +23,9 @@
                 }
                 $codes = rtrim($codes, ',');
 
-                $query = "SELECT u.main_currency, c.code FROM user u LEFT JOIN currencies c ON u.main_currency = c.id WHERE u.id = 1";
+                $query = "SELECT u.main_currency, c.code FROM user u LEFT JOIN currencies c ON u.main_currency = c.id WHERE u.id = :userId";
                 $stmt = $db->prepare($query);
+                $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                 $result = $stmt->execute();
                 $row = $result->fetchArray(SQLITE3_ASSOC);
                 $mainCurrencyCode = $row['code'];
@@ -55,23 +56,32 @@
                         } else {
                             $exchangeRate = $rate / $mainCurrencyToEUR;
                         }
-                        $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code";
+                        $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code AND user_id = :userId";
                         $updateStmt = $db->prepare($updateQuery);
                         $updateStmt->bindParam(':rate', $exchangeRate, SQLITE3_TEXT);
                         $updateStmt->bindParam(':code', $currencyCode, SQLITE3_TEXT);
+                        $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                         $updateResult = $updateStmt->execute();
                     }
                     $currentDate = new DateTime();
                     $formattedDate = $currentDate->format('Y-m-d');
 
-                    $deleteQuery = "DELETE FROM last_exchange_update";
-                    $deleteStmt = $db->prepare($deleteQuery);
-                    $deleteResult = $deleteStmt->execute();
+                    $query = "SELECT * FROM last_exchange_update WHERE user_id = :userId";
+                    $stmt = $db->prepare($query);
+                    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $row = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $query = "INSERT INTO last_exchange_update (date) VALUES (:formattedDate)";
+                    if ($row) {
+                        $query = "UPDATE last_exchange_update SET date = :formattedDate WHERE user_id = :userId";
+                    } else {
+                        $query = "INSERT INTO last_exchange_update (date, user_id) VALUES (:formattedDate, :userId)";
+                    }
+
                     $stmt = $db->prepare($query);
                     $stmt->bindParam(':formattedDate', $formattedDate, SQLITE3_TEXT);
-                    $result = $stmt->execute();
+                    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+                    $resutl = $stmt->execute();
 
                     $db->close();
                 }
@@ -79,8 +89,9 @@
         }
     }
 
-    $query = "SELECT main_currency FROM user WHERE id = 1";
+    $query = "SELECT main_currency FROM user WHERE id = :userId";
     $stmt = $db->prepare($query);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $result = $stmt->execute();
     $row = $result->fetchArray(SQLITE3_ASSOC);
     $mainCurrencyId = $row['main_currency'];
@@ -174,10 +185,39 @@
         return "";
     }
 
-    if (isset($_SESSION['username']) && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['avatar'])) {
-        $oldUsername = $_SESSION['username'];
-        $username = validate($_POST['username']);
+    if (isset($_SESSION['username']) && isset($_POST['email']) && $_POST['email'] !== "" 
+        && isset($_POST['avatar']) && $_POST['avatar'] !== ""
+        && isset($_POST['main_currency']) && $_POST['main_currency'] !== ""
+        && isset($_POST['language']) && $_POST['language'] !== "") {
+        
         $email = validate($_POST['email']);
+        
+        $query = "SELECT email FROM user WHERE id = :user_id";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':user_id', $userId, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $user = $result->fetchArray(SQLITE3_ASSOC);
+        
+        $oldEmail = $user['email'];
+
+        if ($oldEmail != $email) {
+            $query = "SELECT email FROM user WHERE email = :email AND id != :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
+            $otherUser = $result->fetchArray(SQLITE3_ASSOC);
+            
+            if ($otherUser) {
+                $response = [
+                    "success" => false,
+                    "errorMessage" => translate('email_exists', $i18n)
+                ];
+                echo json_encode($response);
+                exit();
+            }
+        }
+
         $avatar = $_POST['avatar'];
         $main_currency = $_POST['main_currency'];
         $language = $_POST['language'];
@@ -221,17 +261,17 @@
         }
 
         if (isset($_POST['password']) && $_POST['password'] != "") {
-            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = 1";
+            $sql = "UPDATE user SET avatar = :avatar, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = :userId";
         } else {
-            $sql = "UPDATE user SET avatar = :avatar, username = :username, email = :email, main_currency = :main_currency, language = :language WHERE id = 1";
+            $sql = "UPDATE user SET avatar = :avatar, email = :email, main_currency = :main_currency, language = :language WHERE id = :userId";
         }
         
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':avatar', $avatar, SQLITE3_TEXT);
-        $stmt->bindParam(':username', $username, SQLITE3_TEXT);
         $stmt->bindParam(':email', $email, SQLITE3_TEXT);
         $stmt->bindParam(':main_currency', $main_currency, SQLITE3_INTEGER);
         $stmt->bindParam(':language', $language, SQLITE3_TEXT);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
         if (isset($_POST['password']) && $_POST['password'] != "") {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -246,14 +286,6 @@
             $root = str_replace('/endpoints/user', '', dirname($_SERVER['PHP_SELF']));
             $root = $root == '' ? '/' : $root;
             setcookie('language', $language, $cookieExpire, $root);
-            if ($username != $oldUsername) {
-                $_SESSION['username'] = $username;
-                if (isset($_COOKIE['wallos_login'])) {
-                    $cookie = explode('|', $_COOKIE['wallos_login'], 2) ;
-                    $token = $cookie[1];
-                    $cookieValue = $username . "|" . $token . "|" . $main_currency;
-                }
-            }
             $_SESSION['avatar'] = $avatar;
             $_SESSION['main_currency'] = $main_currency;
 

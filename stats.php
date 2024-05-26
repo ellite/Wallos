@@ -24,9 +24,10 @@
 
 
   function getPriceConverted($price, $currency, $database) {
-      $query = "SELECT rate FROM currencies WHERE id = :currency";
+      $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
       $stmt = $database->prepare($query);
       $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
+      $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
       $result = $stmt->execute();
       
       $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
@@ -40,8 +41,10 @@
 
 //Get household members
 $members = array();
-$query = "SELECT * FROM household";
-$result = $db->query($query);
+$query = "SELECT * FROM household WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $memberId = $row['id'];
     $members[$memberId] = $row;
@@ -51,8 +54,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Get categories
 $categories = array();
-$query = "SELECT * FROM categories ORDER BY 'order' ASC";
-$result = $db->query($query);
+$query = "SELECT * FROM categories WHERE user_id = :userId ORDER BY 'order' ASC";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $categoryId = $row['id'];
     $categories[$categoryId] = $row;
@@ -62,8 +67,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 // Get payment methods
 $paymentMethodCount = array();
-$query = "SELECT * FROM payment_methods WHERE enabled = 1";
-$result = $db->query($query);
+$query = "SELECT * FROM payment_methods WHERE user_id = :userId AND enabled = 1";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $paymentMethodId = $row['id'];
     $paymentMethodCount[$paymentMethodId] = $row;
@@ -75,8 +82,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 $query = "SELECT c.code
           FROM currencies c
           INNER JOIN user u ON c.id = u.main_currency
-          WHERE u.id = 1";
+          WHERE u.id = :userId";
 $stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
@@ -112,6 +120,9 @@ if (isset($_GET['payment'])) {
     $params[':payment'] = $_GET['payment'];
     $statsSubtitleParts[] = $paymentMethodCount[$_GET['payment']]['name'];
 }
+
+$conditions[] = "user_id = :userId";
+$params[':userId'] = $userId;
 
 if (!empty($conditions)) {
     $query .= " WHERE " . implode(' AND ', $conditions);
@@ -398,28 +409,32 @@ $numberOfElements = 6;
   </div>
   <?php
     $categoryDataPoints = [];
-    foreach ($categoryCost as $category) {
-      if ($category['cost'] != 0) {
-        $categoryDataPoints[] = [
-            "label" => $category['name'],
-            "y"     => $category["cost"],
-        ];
+    if (isset($categoryCost)) {
+      foreach ($categoryCost as $category) {
+        if ($category['cost'] != 0) {
+          $categoryDataPoints[] = [
+              "label" => $category['name'],
+              "y"     => $category["cost"],
+          ];
+        }
       }
     }
-
+    
     $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
     $memberDataPoints = [];
-    foreach ($memberCost as $member) {
-      if ($member['cost'] != 0) {
-        $memberDataPoints[] = [
-            "label" => $member['name'],
-            "y"     => $member["cost"],
-        ];
-        
+    if (isset($memberCost)) {
+      foreach ($memberCost as $member) {
+        if ($member['cost'] != 0) {
+          $memberDataPoints[] = [
+              "label" => $member['name'],
+              "y"     => $member["cost"],
+          ];
+          
+        }
       }
     }
-
+   
     $showMemberCostGraph = count($memberDataPoints) > 1;
 
     $paymentMethodDataPoints = [];

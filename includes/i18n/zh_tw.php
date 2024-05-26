@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "主要貨幣單位",
     "language"        => "語言",
     "passwords_dont_match" => "密碼不一致",
+    "username_exists" => "使用者名稱已存在",
+    "email_exists"    => "電子信箱已存在",
     "registration_failed" => "註冊失敗，請再試一次。",
     "register"        => "註冊",
     "restore_database" => "還原資料庫",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "保持登入 30 天",
     'login'           => "登入",
     'login_failed'    => "登入資訊錯誤",
+    'registration_successful' => "註冊成功",
+    'user_email_waiting_verification' => "您的電子郵件需要驗證。 請查看你的信箱",
+    // Password Reset Page
+    'forgot_password' => "忘記密碼",
+    'reset_password'  => "重設密碼",
+    'reset_sent_check_email' => "重設密碼的電子郵件已發送，請檢查您的電子郵件",
+    'password_reset_successful' => "密碼重設成功",
     // 頁首
     'subscriptions'   => "訂閱",
     'stats'           => "統計",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "更新使用者資訊時發生錯誤。",
     "user_details_saved" => "使用者資訊已儲存",
+    // Admin Page
+    "registrations" => "註冊",
+    "enable_user_registrations" => "啟用使用者註冊",
+    "maximum_number_users" => "最大使用者數",
+    "require_email_verification" => "需要電子郵件驗證",
+    "configure_smtp_settings_to_enable" => "要啟用使用者註冊，請先設定 SMTP 設定。",
+    "server_url" => "伺服器 URL",
+    "server_url_info" => "用於電子郵件驗證和密碼恢復。 必須是有效的公共 URL。",
+    "server_url_password_reset" => "如果設置，還將啟用密碼重置功能。",
+    "max_users_info"  => "設定為 0 以無限制使用者數",
+    "user_management" => "使用者管理",
+    "delete_user" => "刪除使用者",
+    "delete_user_info" => "刪除用戶也會刪除其所有訂閱和設定。",
+    "smtp_settings" => "SMTP 設定",
+    "smtp_usage_info" => "將用於密碼恢復和其他系統電子郵件。",
+    // Email Verification
+    "email_verified" => "電子郵件已驗證",
+    "email_verification_failed" => "電子郵件驗證失敗",
 
 ];
 

@@ -1,6 +1,5 @@
 <?php
     require_once '../../includes/connect_endpoint.php';
-    session_start();
 
     if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
         die(json_encode([
@@ -27,8 +26,10 @@
             $url = $data["gotify_url"];
             $token = $data["token"];
 
-            $query = "SELECT COUNT(*) FROM gotify_notifications";
-            $result = $db->querySingle($query);
+            $query = "SELECT COUNT(*) FROM gotify_notifications WHERE user_id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
     
             if ($result === false) {
                 $response = [
@@ -37,18 +38,21 @@
                 ];
                 echo json_encode($response);
             } else {
-                if ($result == 0) {
-                    $query = "INSERT INTO gotify_notifications (enabled, url, token)
-                              VALUES (:enabled, :url, :token)";
+                $row = $result->fetchArray();
+                $count = $row[0];
+                if ($count == 0) {
+                    $query = "INSERT INTO gotify_notifications (enabled, url, token, user_id)
+                              VALUES (:enabled, :url, :token, :userId)";
                 } else {
                     $query = "UPDATE gotify_notifications
-                              SET enabled = :enabled, url = :url, token = :token";
+                              SET enabled = :enabled, url = :url, token = :token WHERE user_id = :userId";
                 }
     
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
                 $stmt->bindValue(':url', $url, SQLITE3_TEXT);
                 $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     
                 if ($stmt->execute()) {
                     $response = [

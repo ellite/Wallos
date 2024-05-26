@@ -1,7 +1,10 @@
 <?php
 
-$query = "SELECT * FROM settings";
-$result = $db->query($query);
+$query = "SELECT * FROM settings WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 if ($settings) {
     $cookieExpire = time() + (30 * 24 * 60 * 60);
@@ -14,8 +17,10 @@ if ($settings) {
     $settings['hideDisabledSubscriptions'] = $settings['hide_disabled'] ? 'true': 'false';
 }
 
-$query = "SELECT * FROM custom_colors";
-$result = $db->query($query);
+$query = "SELECT * FROM custom_colors WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 $customColors = $result->fetchArray(SQLITE3_ASSOC);
 
 if ($customColors) {

@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Moeda principal",
     "language"        => "Idioma",
     "passwords_dont_match" => "As senhas não são iguais",
+    "username_exists" => "O nome de usuário já existe",
+    "email_exists"    => "O email já está em uso",
     "registration_failed" => "O registro falhou. Por favor, tente novamente",
     "register"        => "Registrar",
     "restore_database" => "Restaurar banco de dados",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Me manter logado (30 dias)",
     'login'           => "Login",
     'login_failed'    => "As informações de login estão incorretas",
+    'registration_successful' => "Registro bem-sucedido",
+    'user_email_waiting_verification' => "Seu e-mail precisa ser validado. Por favor, verifique seu e-mail",
+    // Password Reset Page
+    'forgot_password' => "Esqueceu a senha?",
+    'reset_password'  => "Redefinir senha",
+    'reset_sent_check_email' => "Redefinição de senha enviada. Por favor, verifique seu email",
+    'password_reset_successful' => "Senha redefinida com sucesso",
     // Header
     'subscriptions'   => "Assinaturas",
     'stats'           => "Estatísticas",
@@ -253,6 +262,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Erro ao atualizar os dados do usuário",
     "user_details_saved" => "Dados do usuário salvos",
+    // Admin Page
+    "registrations"    => "Registros",
+    "enable_user_registrations" => "Ativar registros de usuários",
+    "maximum_number_users" => "Número máximo de usuários",
+    "require_email_verification" => "Requerer verificação de email",
+    "configure_smtp_settings_to_enable" => "Configure as configurações SMTP para ativar o envio de email",
+    "server_url"       => "URL do servidor",
+    "server_url_info"  => "Será usado para gerar links de verificação de email, deve ser um endereço público e válido.",
+    "server_url_password_reset" => "Se definido, também ativará a funcionalidade de redefinição de senha.",
+    "max_users_info"   => "0 para ilimitado",
+    "user_management"  => "Gerenciamento de usuários",
+    "delete_user"      => "Excluir usuário",
+    "delete_user_info" => "Excluir um usuário também excluirá todas as assinaturas e dados associados",
+    "smtp_settings"    => "Configurações SMTP",
+    "smtp_usage_info"  => "Será usado para recuperação de senha e outros e-mails do sistema.",
+    // Email Verification
+    "email_verified" => "Email verificado",
+    "email_verification_failed" => "Falha na verificação do email",
 
 ];
 

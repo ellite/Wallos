@@ -1,18 +1,22 @@
 <?php
 
 require_once '../../includes/connect_endpoint.php';
-session_start();
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    $paymentsInUseQuery = $db->query('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions)');
+    $paymentsInUseQuery = $db->prepare('SELECT id FROM payment_methods WHERE id IN (SELECT DISTINCT payment_method_id FROM subscriptions) AND user_id = :userId');
+    $paymentsInUseQuery->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $result = $paymentsInUseQuery->execute();
+    
     $paymentsInUse = [];
-    while ($row = $paymentsInUseQuery->fetchArray(SQLITE3_ASSOC)) {
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $paymentsInUse[] = $row['id'];
     }
     
-    $sql = "SELECT * FROM payment_methods";
-    
-    $result = $db->query($sql);
+    $sql = "SELECT * FROM payment_methods WHERE user_id = :userId";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
     if ($result) {
         $payments = array();
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -25,7 +29,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
 
     foreach ($payments as $payment) {
-        $paymentIconFolder = $payment['id'] <= 31 ? 'images/uploads/icons/' : 'images/uploads/logos/';
+        $paymentIconFolder = (strpos($payment['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
         $inUse = in_array($payment['id'], $paymentsInUse);
         ?>
             <div class="payments-payment"

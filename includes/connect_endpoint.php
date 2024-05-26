@@ -12,4 +12,12 @@ require_once 'i18n/languages.php';
 require_once 'i18n/getlang.php';
 require_once 'i18n/' . $lang . '.php';
 
+session_start();
+
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    $userId = $_SESSION['userId'];
+} else {
+    $userId = 0;
+}
+
 ?>

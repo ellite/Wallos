@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Moeda Principal",
     "language"        => "Linguagem",
     "passwords_dont_match" => "As passwords não coincidem",
+    "username_exists" => "Nome de utilizador já existe",
+    "email_exists"    => "Email já existe",
     "registration_failed" => "O registo falhou. Tente novamente",
     "register"        => "Registar",
     "restore_database" => "Restaurar base de dados",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Manter sessão (30 dias)",
     'login'           => "Iniciar Sessão",
     'login_failed'    => "Dados de autenticação incorrectos",
+    'registration_successful' => "Registo efectuado com sucesso.",
+    'user_email_waiting_verification' => "O seu e-mail precisa de ser validado. Verifique o seu correio eletrónico",
+    // Password Reset Page
+    'forgot_password' => "Esqueceu-se da password?",
+    'reset_password'  => "Repor Password",
+    'reset_sent_check_email' => "Pedido de reposição de password enviado. Verifique o seu email.",
+    'password_reset_successful' => "Password reposta com sucesso",
     // Header
     'subscriptions'   => "Subscrições",
     'stats'           => "Estatísticas",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Erro ao actualizar dados do utilizador.",
     "user_details_saved" => "Dados do utiliador actualizados.",
+    // Admin Page
+    "registrations"    => "Registos",
+    "enable_user_registrations" => "Activar Registos de Utilizadores",
+    "maximum_number_users" => "Número Máximo de Utilizadores",
+    "require_email_verification" => "Requerer verificação de email",
+    "configure_smtp_settings_to_enable" => "Configure as definições SMTP para activar esta funcionalidade.",
+    "server_url"       => "URL do Servidor",
+    "server_url_info"  => "Usado para gerar links de verificação de email. Deve ser um URL público e válido.",
+    "server_url_password_reset" => "Se definido, também activará a funcionalidade de reposição da palavra-passe.",
+    "max_users_info"   => "0 para ilimitado",
+    "user_management"  => "Gestão de Utilizadores",
+    "delete_user"      => "Apagar Utilizador",
+    "delete_user_info" => "Apagar utilizador irá remover todas as suas subscrições e dados associados.",
+    "smtp_settings"    => "Definições SMTP",
+    "smtp_usage_info"  => "Será usado para recuperações de password e outros emails do sistema.",
+    // Email Verification
+    "email_verified" => "Email verificado",
+    "email_verification_failed" => "Verificação de email falhou",
 
 ];
 

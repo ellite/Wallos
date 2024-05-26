@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Moneda Principal",
     "language"        => "Idioma",
     "passwords_dont_match" => "Las contraseñas no coinciden",
+    "username_exists" => "El nombre de usuario ya existe",
+    "email_exists"    => "El correo electrónico ya está registrado",
     "registration_failed" => "Error en el registro, por favor inténtalo de nuevo.",
     "register"        => "Registrar",
     "restore_database" => "Restaurar Base de Datos",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Mantener sesión iniciada (30 días)",
     'login'           => "Iniciar Sesión",
     'login_failed'    => "Los detalles de inicio de sesión son incorrectos",
+    'registration_successful' => "Registro efectuado con éxito",
+    'user_email_waiting_verification' => "Tu correo electrónico necesita ser verificado. Por favor, compruebe su correo electrónico",
+    // Password Reset Page
+    'forgot_password' => "¿Olvidaste tu contraseña?",
+    'reset_password'  => "Restablecer Contraseña",
+    'reset_sent_check_email' => "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña. Por favor, compruebe su correo electrónico.",
+    'password_reset_successful' => "Contraseña restablecida con éxito",
     // Header
     'subscriptions'   => "Suscripciones",
     'stats'           => "Estadísticas",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Error al actualizar los datos del usuario.",
     "user_details_saved" => "Detalles del usuario guardados",
+    // Admin Page
+    "registrations"    => "Registro de Usuarios",
+    "enable_user_registrations" => "Habilitar registro de usuarios",
+    "maximum_number_users" => "Número máximo de usuarios",
+    "require_email_verification" => "Requerir verificación de correo electrónico",
+    "configure_smtp_settings_to_enable" => "Configura la configuración SMTP para habilitar",
+    "server_url"       => "URL del Servidor",
+    "server_url_info"  => "Se utiliza para verificar el correo electrónico y recuperar la contraseña. Debe ser una URL pública válida.",
+    "server_url_password_reset" => "Si se configura, también se habilitará la función de restablecimiento de contraseña.",
+    "max_users_info"   => "0 para ilimitado",
+    "user_management"  => "Gestión de Usuarios",
+    "delete_user"      => "Eliminar Usuario",
+    "delete_user_info" => "Al eliminar un usuario, también se eliminarán todas sus suscripciones y configuraciones.",
+    "smtp_settings"    => "Configuración SMTP",
+    "smtp_usage_info"  => "Se utilizará para recuperar contraseñas y otros correos electrónicos del sistema.",
+    // Email Verification
+    "email_verified" => "Correo electrónico verificado",
+    "email_verification_failed" => "Error al verificar el correo electrónico",
 
 ];
 

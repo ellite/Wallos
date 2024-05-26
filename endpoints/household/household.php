@@ -2,14 +2,13 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 
-session_start();
-
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($_GET['action']) && $_GET['action'] == "add") {
         $householdName = "Member";
-        $sqlInsert = "INSERT INTO household (name) VALUES (:name)";
+        $sqlInsert = "INSERT INTO household (name, user_id) VALUES (:name, :userId)";
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $householdName, SQLITE3_TEXT);
+        $stmtInsert->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $resultInsert = $stmtInsert->execute();
     
         if ($resultInsert) {
@@ -32,11 +31,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $name = validate($_GET['name']);
             $email = $_GET['email'] ? $_GET['email'] : "";
             $email = validate($email);
-            $sql = "UPDATE household SET name = :name, email = :email WHERE id = :memberId";
+            $sql = "UPDATE household SET name = :name, email = :email WHERE id = :memberId AND user_id = :userId";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':name', $name, SQLITE3_TEXT);
             $stmt->bindParam(':email', $email, SQLITE3_TEXT);
             $stmt->bindParam(':memberId', $memberId, SQLITE3_INTEGER);
+            $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
             $result = $stmt->execute();
 
             if ($result) {
@@ -62,9 +62,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else if (isset($_GET['action']) && $_GET['action'] == "delete") {
         if (isset($_GET['memberId']) && $_GET['memberId'] != "" && $_GET['memberId'] != 1) {
             $memberId = $_GET['memberId'];
-            $checkMember = "SELECT COUNT(*) FROM subscriptions WHERE payer_user_id = :memberId";
+            $checkMember = "SELECT COUNT(*) FROM subscriptions WHERE payer_user_id = :memberId AND user_id = :userId";
             $checkStmt = $db->prepare($checkMember);
             $checkStmt->bindParam(':memberId', $memberId, SQLITE3_INTEGER);
+            $checkStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
             $checkResult = $checkStmt->execute();
             $row = $checkResult->fetchArray();
             $count = $row[0];
@@ -76,9 +77,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 ];
                 echo json_encode($response);
             } else {
-                $sql = "DELETE FROM household WHERE id = :memberId";
+                $sql = "DELETE FROM household WHERE id = :memberId and user_id = :userId";
                 $stmt = $db->prepare($sql);
                 $stmt->bindParam(':memberId', $memberId, SQLITE3_INTEGER);
+                $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                 $result = $stmt->execute();
                 if ($result) {
                     $response = [

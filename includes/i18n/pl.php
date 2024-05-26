@@ -10,6 +10,8 @@ $i18n = [
     "main_currency"   => "Główna waluta",
     "language"        => "Język",
     "passwords_dont_match" => "Hasła nie pasują",
+    "username_exists" => "Nazwa użytkownika już istnieje",
+    "email_exists"    => "E-mail już istnieje",
     "registration_failed" => "Rejestracja nie powiodła się, spróbuj ponownie.",
     "register"        => "Rejestracja",
     "restore_database" => "Przywróć bazę danych",
@@ -18,6 +20,13 @@ $i18n = [
     'stay_logged_in'  => "Pozostań zalogowany (30 dni)",
     'login'           => "Zaloguj się",
     'login_failed'    => "Dane logowania są nieprawidłowe",
+    'registration_successful' => "Pomyślnie zarejestrowano",
+    'user_email_waiting_verification' => "Twój adres e-mail musi zostać zweryfikowany. Sprawdź swój adres e-mail",
+    // Password Reset Page
+    'forgot_password' => "Zapomniałeś hasła? Kliknij tutaj",
+    'reset_password'  => "Zresetuj hasło",
+    'reset_sent_check_email' => "Link do zresetowania hasła został wysłany na Twój adres e-mail",
+    'password_reset_successful' => "Hasło zostało zresetowane pomyślnie",
     // Header
     'subscriptions'   => "Subskrypcje",
     'stats'           => "Statystyki",
@@ -255,6 +264,24 @@ $i18n = [
     // User
     "error_updating_user_data" => "Błąd podczas aktualizacji danych użytkownika.",
     "user_details_saved" => "Dane użytkownika zostały zapisane",
+    // Admin Page
+    "registrations" => "Rejestracje",
+    "enable_user_registrations" => "Włącz rejestracje użytkowników",
+    "maximum_number_users" => "Maksymalna liczba użytkowników",
+    "require_email_verification" => "Wymagaj weryfikacji e-maila",
+    "configure_smtp_settings_to_enable" => "Skonfiguruj ustawienia SMTP, aby włączyć",
+    "server_url" => "Adres URL serwera",
+    "server_url_info" => "Służy do weryfikacji adresu e-mail i odzyskiwania hasła. Musi to być prawidłowy publiczny adres URL.",
+    "server_url_password_reset" => "Jeśli zostanie ustawiona, włączy również funkcję resetowania hasła.",
+    "max_users_info" => "Jeśli ustawisz 0, nie będzie limitu użytkowników.",
+    "user_management" => "Zarządzanie użytkownikami",
+    "delete_user" => "Usuń użytkownika",
+    "delete_user_info" => "Usunięcie użytkownika spowoduje również usunięcie wszystkich jego subskrypcji i ustawień.",
+    "smtp_settings" => "Ustawienia SMTP",
+    "smtp_usage_info" => "Będzie używany do odzyskiwania hasła i innych e-maili systemowych.",
+    // Email Verification
+    "email_verified" => "E-mail został zweryfikowany",
+    "email_verification_failed" => "Weryfikacja e-maila nie powiodła się",
 
 ];
 
