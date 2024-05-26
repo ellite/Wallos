@@ -41,7 +41,7 @@ $hasErrorMessage = false;
 $passwordsMismatch = false;
 $hideForm = false;
 
-if (isset($_POST['email']) && $_POST['email'] != "" && isset($_GET['submit']) && $_GET['submit'] && !(isset($_GET['token']))) {
+if (isset($_POST['email']) && $_POST['email'] != "" && isset($_GET['submit']) && $_GET['submit'] && !(isset($_GET['token'])) && !(isset($_POST['token']))) {
     $requestMode = true;
     $resetMode = false;
     $email = $_POST['email'];
