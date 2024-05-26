@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Esqueceu a senha?",
     'reset_password'  => "Redefinir senha",
     'reset_sent_check_email' => "Redefinição de senha enviada. Por favor, verifique seu email",
+    'password_reset_successful' => "Senha redefinida com sucesso",
     // Header
     'subscriptions'   => "Assinaturas",
     'stats'           => "Estatísticas",

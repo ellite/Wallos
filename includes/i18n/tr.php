@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Şifremi Unuttum",
     'reset_password'  => "Şifreyi Sıfırla",
     'reset_sent_check_email' => "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.",
+    'password_reset_successful' => "Şifre sıfırlama başarılı",
     // Header
     'subscriptions' => "Abonelikler",
     'stats' => "İstatistikler",

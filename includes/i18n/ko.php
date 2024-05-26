@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "비밀번호를 잊으셨나요?",
     'reset_password'  => "비밀번호 재설정",
     'reset_sent_check_email' => "비밀번호 재설정 이메일이 전송되었습니다. 이메일을 확인해 주세요.",
+    'password_reset_successful' => "비밀번호 재설정 성공",
     // Header
     'subscriptions'   => "구독",
     'stats'           => "통계",

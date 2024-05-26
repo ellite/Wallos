@@ -75,11 +75,11 @@
             }
         } else {
             // There are no SMTP settings
-            die("There are verification emails to be sent but no SMTP settings found.");
+            exit();
         }
     } else {
         // There are no verification emails to be sent
-        die("No verification emails to be sent.");
+        exit();
     }
 
 ?>

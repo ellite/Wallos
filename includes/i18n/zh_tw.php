@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "忘記密碼",
     'reset_password'  => "重設密碼",
     'reset_sent_check_email' => "重設密碼的電子郵件已發送，請檢查您的電子郵件",
+    'password_reset_successful' => "密碼重設成功",
     // 頁首
     'subscriptions'   => "訂閱",
     'stats'           => "統計",

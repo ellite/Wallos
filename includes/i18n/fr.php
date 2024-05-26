@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Mot de passe oublié",
     'reset_password'  => "Réinitialiser le mot de passe",
     'reset_sent_check_email' => "Un courriel a été envoyé à l'adresse fournie. Vérifiez votre boîte de réception.",
+    'password_reset_successful' => "Réinitialisation du mot de passe réussie",
     // En-tête
     'subscriptions' => "Abonnements",
     'stats' => "Statistiques",

@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Forgot Password",
     'reset_password'  => "Reset Password",
     'reset_sent_check_email' => "Reset email sent. Please check your email.",
+    'password_reset_successful' => "Password reset successful",
     // Header
     'subscriptions'   => "Subscriptions",
     'stats'           => "Statistics",

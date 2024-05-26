@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Zaboravili ste lozinku?",
     'reset_password'  => "Resetuj lozinku",
     'reset_sent_check_email' => "Poslali smo vam e-poštu sa uputstvima za resetovanje lozinke",
+    'password_reset_successful' => "Lozinka uspešno resetovana",
     // Header
     'subscriptions'   => "Pretplate",
     'stats'           => "Statistike",

@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Passwort vergessen?",
     'reset_password'  => "Passwort zurücksetzen",
     'reset_sent_check_email' => "Passwort zurücksetzen E-Mail wurde gesendet. Bitte überprüfen Sie Ihr Postfach.",
+    'password_reset_successful' => "Passwort erfolgreich zurückgesetzt",
     // Header
     'subscriptions'   => "Abonnements",
     'stats'           => "Statistiken",

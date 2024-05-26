@@ -23,10 +23,12 @@ $i18n = [
     'login_failed'    => "登录信息错误",
     'registration_successful' => "注册成功",
     'user_email_waiting_verification' => "您的电子邮件需要验证。请检查您的电子邮件",
+    
     // Password Reset Page
     'forgot_password' => "忘记密码",
     'reset_password'  => "重置密码",
     'reset_sent_check_email' => "重置密码链接已发送到您的电子邮箱",
+    'password_reset_successful' => "密码重置成功",
 
     // 页眉
     'subscriptions'   => "订阅",

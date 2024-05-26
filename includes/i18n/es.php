@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "¿Olvidaste tu contraseña?",
     'reset_password'  => "Restablecer Contraseña",
     'reset_sent_check_email' => "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña. Por favor, compruebe su correo electrónico.",
+    'password_reset_successful' => "Contraseña restablecida con éxito",
     // Header
     'subscriptions'   => "Suscripciones",
     'stats'           => "Estadísticas",

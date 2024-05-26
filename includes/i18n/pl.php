@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Zapomniałeś hasła? Kliknij tutaj",
     'reset_password'  => "Zresetuj hasło",
     'reset_sent_check_email' => "Link do zresetowania hasła został wysłany na Twój adres e-mail",
+    'password_reset_successful' => "Hasło zostało zresetowane pomyślnie",
     // Header
     'subscriptions'   => "Subskrypcje",
     'stats'           => "Statystyki",

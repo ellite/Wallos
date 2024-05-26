@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "Забыли пароль?",
     'reset_password'  => "Сбросить пароль",
     'reset_sent_check_email' => "Ссылка для сброса пароля отправлена на вашу электронную почту",
+    'password_reset_successful' => "Пароль успешно сброшен",
     // Header
     'subscriptions'   => "Подписки",
     'stats'           => "Статистика",

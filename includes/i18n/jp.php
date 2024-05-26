@@ -26,6 +26,7 @@ $i18n = [
     'forgot_password' => "パスワードを忘れた場合",
     'reset_password'  => "パスワードをリセット",
     'reset_sent_check_email' => "パスワードリセットリンクが送信されました。メールを確認してください。",
+    'password_reset_successful' => "パスワードリセットに成功",
     // Header
     'subscriptions'   => "定期購入",
     'stats'           => "統計",

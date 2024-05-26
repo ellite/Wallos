@@ -72,11 +72,11 @@
             }
         } else {
             // There are no SMTP settings
-            die("There are password reset emails to be sent but no SMTP settings found.<br>");
+            exit();
         }
     } else {
         // There are no password reset emails to be sent
-        die("No password reset emails to be sent.<br>");
+        exit();
     }
 
 ?>

@@ -28,6 +28,7 @@ $i18n = [
     'forgot_password' => "Hai dimenticato la password?",
     'reset_password'  => "Reimposta password",
     'reset_sent_check_email' => "Un'email è stata inviata. Controlla la tua casella di posta",
+    'password_reset_successful' => "La password è stata reimpostata con successo",
 
     // Header
     'subscriptions' => 'Abbonamenti',

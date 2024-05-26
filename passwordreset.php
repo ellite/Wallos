@@ -198,6 +198,13 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                                 <?php
                             }
                         }
+                        if ($hasSuccessMessage) {
+                            ?>
+                            <ul class="success-box">
+                                <li><i class="fa-solid fa-check"></i><?= translate('password_reset_successful', $i18n) ?></li>
+                            </ul>
+                            <?php
+                        }
                     }
                 ?>
                 <div class="login-form-link">
