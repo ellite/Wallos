@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/ellite/Wallos/compare/v1.29.1...v2.0.0) (2024-05-26)
+
+
+### ⚠ BREAKING CHANGES
+
+* allow registration of multiple users ([#340](https://github.com/ellite/Wallos/issues/340))
+
+### Features
+
+* add reset password functionality ([e1006e5](https://github.com/ellite/Wallos/commit/e1006e582388a7fab204f25c100347607b863e4e))
+* administration area ([e1006e5](https://github.com/ellite/Wallos/commit/e1006e582388a7fab204f25c100347607b863e4e))
+* allow registration of multiple users ([#340](https://github.com/ellite/Wallos/issues/340)) ([e1006e5](https://github.com/ellite/Wallos/commit/e1006e582388a7fab204f25c100347607b863e4e))
+
 ## [1.29.1](https://github.com/ellite/Wallos/compare/v1.29.0...v1.29.1) (2024-05-20)
 
 
