@@ -39,7 +39,7 @@
     <section class="contain">
       <header class="<?= $headerClass ?>" id="main-actions">
         <button class="button" onClick="addSubscription()">
-          <img class="button-icon" src="images/siteicons/plusicon.png">
+          <i class="fa-solid fa-circle-plus"></i>
           <?= translate('new_subscription', $i18n) ?>
         </button>
         <div class="top-actions">
@@ -49,7 +49,7 @@
           </div>  
 
           <div class="filtermenu on-dashboard">
-            <button class="button" id="filtermenu-button" title="<?= translate("filter", $i18n) ?>">
+            <button class="button secondary-button" id="filtermenu-button" title="<?= translate("filter", $i18n) ?>">
               <i class="fa-solid fa-filter"></i>
             </button>
             <div class="filtermenu-content">
@@ -128,8 +128,8 @@
           </div>
 
           <div class="sort-container">
-            <button class="button" value="Sort" onClick="toggleSortOptions()" id="sort-button" title="<?= translate('sort', $i18n) ?>">
-              <img src="images/siteicons/sort.png" class="button-icon" />
+            <button class="button secondary-button" value="Sort" onClick="toggleSortOptions()" id="sort-button" title="<?= translate('sort', $i18n) ?>">
+              <i class="fa-solid fa-arrow-down-wide-short"></i>
             </button>
             <div class="sort-options" id="sort-options">
               <ul>
@@ -195,7 +195,7 @@
                   <?= translate('no_subscriptions_yet', $i18n) ?>
                 </p>
                 <button class="button" onClick="addSubscription()">
-                  <img class="button-icon" src="images/siteicons/plusicon.png">
+                  <i class="fa-solid fa-circle-plus"></i>
                   <?= translate('add_first_subscription', $i18n) ?>
                 </button>
               </div>

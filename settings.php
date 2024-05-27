@@ -19,8 +19,8 @@
                         <div>
                             <div class="user-avatar">
                                 <img src="<?= $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg" onClick="toggleAvatarSelect()"/>
-                                <span class="edit-avatar" onClick="toggleAvatarSelect()">
-                                    <img src="images/siteicons/editavatar.png" title="Change avatar" />
+                                <span class="edit-avatar" onClick="toggleAvatarSelect()" title="Change Avatar">
+                                    <i class="fa-solid fa-pencil"></i>
                                 </span>
                             </div>
 
@@ -623,7 +623,7 @@
                         }
                     ?>
                     <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
-                        <div class="drag-icon"></div>
+                        <div class=" drag-icon"><i class="fa-solid fa-grip-vertical"></i></div>
                         <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
                         <button class="image-button medium"  onClick="editCategory(<?= $category['id'] ?>)" name="save">
                             <img src="images/siteicons/<?= $colorTheme ?>/save.png" title="<?= translate('save_category', $i18n) ?>">
@@ -861,7 +861,9 @@
                              data-in-use="<?= $inUse ? 'yes' : 'no' ?>"
                              data-paymentid="<?= $payment['id'] ?>"
                              title="<?= $inUse ? translate('cant_delete_payment_method_in_use', $i18n) : ($payment['enabled'] ? translate('disable', $i18n) : translate('enable', $i18n)) ?>">
-                            <div class="drag-icon" title=""></div>
+                            <div class="drag-icon" title="">
+                                <i class="fa-solid fa-grip-vertical"></i>
+                            </div>
                             <img src="<?= $paymentIconFolder.$payment['icon'] ?>"  alt="Logo" />
                             <span class="payment-name" contenteditable="true" title="<?= translate("rename_payment_method", $i18n) ?>"><?= $payment['name'] ?></span>
                             <?php

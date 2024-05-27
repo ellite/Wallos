@@ -23,7 +23,7 @@
   }
 
 
-  function getPriceConverted($price, $currency, $database) {
+  function getPriceConverted($price, $currency, $database, $userId) {
       $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
       $stmt = $database->prepare($query);
       $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
@@ -153,7 +153,7 @@ if ($result) {
       $categoryId = $subscription['category_id'];
       $paymentMethodId = $subscription['payment_method_id'];
       $inactive = $subscription['inactive'];
-      $originalSubscriptionPrice = getPriceConverted($price, $currency, $db);
+      $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
       $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
 
       if ($inactive == 0) {
@@ -229,7 +229,7 @@ $numberOfElements = 6;
       <?= translate('general_statistics', $i18n) ?> <span class="header-subtitle"><?= $statsSubtitle ?></span>
     </h2>
     <div class="filtermenu">
-      <button class="button" id="filtermenu-button">
+      <button class="button secondary-button" id="filtermenu-button">
         <i class="fa-solid fa-filter"></i>
         <?= translate("filter", $i18n) ?>
       </button>
