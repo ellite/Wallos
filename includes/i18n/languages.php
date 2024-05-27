@@ -15,6 +15,7 @@
         "pt" => ["name" => "Português", "dir" => "ltr"],
         "pt_br" => ["name" => "Português Brasileiro", "dir" => "ltr"],
         "ru" => ["name" => "Русский", "dir" => "ltr"],
+        "sl" => ["name" => "Slovenščina", "dir" => "ltr"],
         "sr_lat" => ["name" => "Srpski", "dir" => "ltr"],
         "sr" => ["name" => "Српски", "dir" => "ltr"],
         "tr" => ["name" => "Türkçe", "dir" => "ltr"],
