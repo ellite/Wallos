@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/ellite/Wallos/compare/v2.0.0...v2.1.0) (2024-05-27)
+
+
+### Features
+
+* add slovenian translation ([03ceb8a](https://github.com/ellite/Wallos/commit/03ceb8a6e64c8cd4deb4019668fbf98acb57c5fe))
+
+
+### Bug Fixes
+
+* currency conversion failing on the statistics page ([03ceb8a](https://github.com/ellite/Wallos/commit/03ceb8a6e64c8cd4deb4019668fbf98acb57c5fe))
+
 ## [2.0.0](https://github.com/ellite/Wallos/compare/v1.29.1...v2.0.0) (2024-05-26)
 
 
