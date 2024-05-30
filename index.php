@@ -83,6 +83,9 @@
                   <div class="filtermenu-submenu-content" id="filter-category">
                     <?php
                       foreach ($categories as $category) {
+                        if ($category['name'] == "No category") {
+                          $category['name'] = translate("no_category", $i18n);
+                        }
                         $selectedClass = '';
                         if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
                           $selectedClass = 'selected';
