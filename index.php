@@ -255,12 +255,12 @@
                 <div class="inline">
                   <select id="frequency" name="frequency" placeholder="<?= translate('frequency', $i18n) ?>">
                   <?php
-                      foreach ($frequencies as $frequency) {
-                    ?>
-                      <option value="<?= $frequency['id'] ?>"><?= $frequency['name'] ?></option>
-                    <?php
-                      }
-                    ?>
+                  for ($i = 1; $i <= 366; $i++) {
+                  ?>
+                    <option value="<?= $i ?>"><?= $i ?></option>
+                  <?php
+                  }
+                  ?>
                   </select>
                   <select id="cycle" name="cycle" placeholder="Cycle">
                   <?php

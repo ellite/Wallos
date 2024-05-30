@@ -49,11 +49,8 @@
     }
 
     $frequencies = array();
-    $query = "SELECT * FROM frequencies";
-    $result = $db->query($query);
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $frequencyId = $row['id'];
-        $frequencies[$frequencyId] = $row;
+    for ($i = 1; $i <= 366; $i++) {
+        $frequencies[$i] = array('id' => $i, 'name' => $i);
     }
 
 ?>
