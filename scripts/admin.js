@@ -101,7 +101,14 @@ function backupDB() {
         const link = document.createElement('a');
         const filename = data.file;
         link.href = '.tmp/' + filename;
-        link.download = 'backup.zip';
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const timestamp = `${year}${month}${day}-${hours}${minutes}`;
+        link.download = `Wallos-Backup-${timestamp}.zip`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
