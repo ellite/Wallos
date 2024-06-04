@@ -3,7 +3,7 @@
     
     if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $newApiKey = isset($_POST["api_key"]) ? $_POST["api_key"] : "";
+            $newApiKey = isset($_POST["api_key"]) ? trim($_POST["api_key"]) : "";
             $provider = isset($_POST["provider"]) ? $_POST["provider"] : 0;
 
             $removeOldKey = "DELETE FROM fixer WHERE user_id = :userId";

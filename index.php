@@ -83,6 +83,9 @@
                   <div class="filtermenu-submenu-content" id="filter-category">
                     <?php
                       foreach ($categories as $category) {
+                        if ($category['name'] == "No category") {
+                          $category['name'] = translate("no_category", $i18n);
+                        }
                         $selectedClass = '';
                         if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
                           $selectedClass = 'selected';
@@ -252,12 +255,12 @@
                 <div class="inline">
                   <select id="frequency" name="frequency" placeholder="<?= translate('frequency', $i18n) ?>">
                   <?php
-                      foreach ($frequencies as $frequency) {
-                    ?>
-                      <option value="<?= $frequency['id'] ?>"><?= $frequency['name'] ?></option>
-                    <?php
-                      }
-                    ?>
+                  for ($i = 1; $i <= 366; $i++) {
+                  ?>
+                    <option value="<?= $i ?>"><?= $i ?></option>
+                  <?php
+                  }
+                  ?>
                   </select>
                   <select id="cycle" name="cycle" placeholder="Cycle">
                   <?php

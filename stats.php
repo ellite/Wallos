@@ -112,7 +112,7 @@ if (isset($_GET['member'])) {
 if (isset($_GET['category'])) {
     $conditions[] = "category_id = :category";
     $params[':category'] = $_GET['category'];
-    $statsSubtitleParts[] = $categories[$_GET['category']]['name'];
+    $statsSubtitleParts[] = $categories[$_GET['category']]['name'] == "No category" ? translate("no_category", $i18n) : $categories[$_GET['category']]['name'];
 }
 
 if (isset($_GET['payment'])) {
@@ -264,6 +264,9 @@ $numberOfElements = 6;
             <div class="filtermenu-submenu-content" id="filter-category">
               <?php
                 foreach ($categories as $category) {
+                  if ($category['name'] == "No category") {
+                    $category['name'] = translate("no_category", $i18n);
+                  }
                   $selectedClass = '';
                   if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
                     $selectedClass = 'selected';
