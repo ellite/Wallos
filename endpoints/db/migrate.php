@@ -49,6 +49,9 @@ if (count($requiredMigrations) === 0) {
 }
 
 foreach ($requiredMigrations as $migration) {
+    if (!file_exists($migration)) {
+        $migration = '../../' . $migration;
+    }
     require_once $migration;
 
     $stmtInsert = $db->prepare('INSERT INTO migrations (migration) VALUES (:migration)');

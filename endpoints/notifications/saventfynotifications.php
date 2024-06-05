@@ -14,8 +14,8 @@
         $data = json_decode($postData, true);
 
         if (
-            !isset($data["user_key"]) || $data["user_key"] == "" ||
-            !isset($data["token"]) || $data["token"] == ""
+            !isset($data["topic"]) || $data["topic"] == "" ||
+            !isset($data["host"]) || $data["host"] == ""
         ) {
             $response = [
                 "success" => false,
@@ -24,14 +24,15 @@
             echo json_encode($response);
         } else {
             $enabled = $data["enabled"];
-            $user_key = $data["user_key"];
-            $token = $data["token"];
+            $host = $data["host"];
+            $topic = $data["topic"];
+            $headers = $data["headers"];
 
-            $query = "SELECT COUNT(*) FROM pushover_notifications WHERE user_id = :userId";
+            $query = "SELECT COUNT(*) FROM ntfy_notifications WHERE user_id = :userId";
             $stmt = $db->prepare($query);
             $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
             $result = $stmt->execute();
-    
+
             if ($result === false) {
                 $response = [
                     "success" => false,
@@ -42,19 +43,20 @@
                 $row = $result->fetchArray();
                 $count = $row[0];
                 if ($count == 0) {
-                    $query = "INSERT INTO pushover_notifications (enabled, user_key, token, user_id)
-                              VALUES (:enabled, :user_key, :token, :userId)";
+                    $query = "INSERT INTO ntfy_notifications (enabled, host, topic, headers, user_id)
+                              VALUES (:enabled, :host, :topic, :headers, :userId)";
                 } else {
-                    $query = "UPDATE pushover_notifications
-                              SET enabled = :enabled, user_key = :user_key, token = :token, user_id = :userId";
+                    $query = "UPDATE ntfy_notifications
+                              SET enabled = :enabled, host = :host, topic = :topic, headers = :headers WHERE user_id = :userId";
                 }
-    
+
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
-                $stmt->bindValue(':user_key', $user_key, SQLITE3_TEXT);
-                $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+                $stmt->bindValue(':host', $host, SQLITE3_TEXT);
+                $stmt->bindValue(':topic', $topic, SQLITE3_TEXT);
+                $stmt->bindValue(':headers', $headers, SQLITE3_TEXT);
                 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    
+
                 if ($stmt->execute()) {
                     $response = [
                         "success" => true,
@@ -68,8 +70,9 @@
                     ];
                     echo json_encode($response);
                 }
-            }
+            }    
         }
+
     } else {
         $response = [
             "success" => false,
@@ -78,4 +81,4 @@
         echo json_encode($response);
     }
 
-?>
+?>    

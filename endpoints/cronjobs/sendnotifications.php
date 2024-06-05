@@ -25,6 +25,7 @@
         $webhookNotificationsEnabled = false;
         $pushoverNotificationsEnabled = false;
         $discordNotificationsEnabled = false;
+        $ntfyNotificationsEnabled = false;
 
         // Get notification settings (how many days before the subscription ends should the notification be sent)
         $query = "SELECT days FROM notification_settings WHERE user_id = :userId";
@@ -102,6 +103,19 @@
             $pushover['token'] = $row["token"];
         }
 
+        // Check if Nrfy notifications are enabled and get the settings
+        $query = "SELECT * FROM ntfy_notifications WHERE user_id = :userId";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $ntfyNotificationsEnabled = $row['enabled'];
+            $ntfy['host'] = $row["host"];
+            $ntfy['topic'] = $row["topic"];
+            $ntfy['headers'] = $row["headers"];
+        }
+
         // Check if Webhook notifications are enabled and get the settings
         $query = "SELECT * FROM webhook_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
@@ -120,7 +134,9 @@
             }
         }
 
-        $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled || $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled;
+        $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled || 
+                                $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled || 
+                                $ntfyNotificationsEnabled;
 
         // If no notifications are enabled, no need to run
         if (!$notificationsEnabled) {
@@ -425,6 +441,50 @@
                             echo "Error sending notifications: " . curl_error($ch) . "<br />";
                         } else {
                             echo "Pushover Notifications sent<br />";
+                        }
+                    }
+                }
+
+                // Ntfy notifications if enabled
+                if ($ntfyNotificationsEnabled) {
+                    foreach ($notify as $userId => $perUser) {
+                        // Get name of user from household table
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $result = $stmt->execute();
+                        $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        if ($user['name']) {
+                            $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
+                        } else {
+                            $message = "The following subscriptions are up for renewal:\n";
+                        }
+
+                        foreach ($perUser as $subscription) {
+                            $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                            $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        }
+
+                        $headers = json_decode($ntfy["headers"], true);
+                        $customheaders = array_map(function($key, $value) {
+                            return "$key: $value";
+                        }, array_keys($headers), $headers);   
+
+                        $ch = curl_init();
+
+                        curl_setopt($ch, CURLOPT_URL, $ntfy['host'] . '/' . $ntfy['topic']);
+                        curl_setopt($ch, CURLOPT_POST, 1);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                        $response = curl_exec($ch);
+                        curl_close($ch);
+
+                        if ($response === false) {
+                            echo "Error sending notifications: " . curl_error($ch) . "<br />";
+                        } else {
+                            echo "Ntfy Notifications sent<br />";
                         }
                     }
                 }

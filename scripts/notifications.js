@@ -281,3 +281,40 @@ function testNotificationsDiscordButton() {
 
   makeFetchCall('endpoints/notifications/testdiscordnotifications.php', data, button);
 }
+
+function testNotificationsNtfyButton() {
+  const button = document.getElementById("testNotificationsNtfy");
+  button.disabled = true;
+
+  const host = document.getElementById("ntfyhost").value;
+  const topic = document.getElementById("ntfytopic").value;
+  const headers = document.getElementById("ntfyheaders").value;
+  
+
+  const data = {
+    host: host,
+    topic: topic,
+    headers: headers
+  };
+
+  makeFetchCall('endpoints/notifications/testntfynotifications.php', data, button);
+}
+
+function saveNotificationsNtfyButton() {
+  const button = document.getElementById("saveNotificationsNtfy");
+  button.disabled = true;
+
+  const enabled = document.getElementById("ntfyenabled").checked ? 1 : 0;
+  const host = document.getElementById("ntfyhost").value;
+  const topic = document.getElementById("ntfytopic").value;
+  const headers = document.getElementById("ntfyheaders").value;
+
+  const data = {
+    enabled: enabled,
+    host: host,
+    topic: topic,
+    headers: headers
+  };
+
+  makeFetchCall('endpoints/notifications/saventfynotifications.php', data, button);
+}
