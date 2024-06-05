@@ -477,8 +477,9 @@
                     curl_setopt($ch, CURLOPT_URL, $webhook['url']);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload_json));
-                    if (!empty($customheaders)) {
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $webhook['headers']);
+                    if (!empty($webhook['headers'])) {
+                        $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                     }
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
