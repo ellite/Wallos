@@ -309,6 +309,28 @@
             $notificationsTelegram['chat_id'] = "";
         }
 
+        // Ntfy notifications
+        $sql = "SELECT * FROM ntfy_notifications WHERE user_id = :userId LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        $rowCount = 0;
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $notificationsNtfy['enabled'] = $row['enabled'];
+            $notificationsNtfy['host'] = $row['host'];
+            $notificationsNtfy['topic'] = $row['topic'];
+            $notificationsNtfy['headers'] = $row['headers'];
+            $rowCount++;
+        }
+
+        if ($rowCount == 0) {
+            $notificationsNtfy['enabled'] = 0;
+            $notificationsNtfy['host'] = "";
+            $notificationsNtfy['topic'] = "";
+            $notificationsNtfy['headers'] = "";
+        }
+
         // Webhook notifications
         $sql = "SELECT * FROM webhook_notifications WHERE user_id = :userId LIMIT 1";
         $stmt = $db->prepare($sql);
@@ -536,6 +558,31 @@
                         <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsTelegram" onClick="saveNotificationsTelegramButton()"/>
                     </div>
                 </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('ntfy');">
+                    <h3>
+                        <i class="fa-solid fa-terminal"></i> Ntfy
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="ntfy">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="ntfyenabled" name="ntfyenabled" <?= $notificationsNtfy['enabled'] ? "checked" : "" ?>>
+                        <label for="ntfyenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="ntfyhost" id="ntfyhost" placeholder="<?= translate('host', $i18n) ?>"  value="<?= $notificationsNtfy['host'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="ntfytopic" id="ntfytopic" placeholder="<?= translate('topic', $i18n) ?>"  value="<?= $notificationsNtfy['topic'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <textarea class="thin" name="ntfyheaders" id="ntfyheaders" placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsNtfy['headers'] ?></textarea>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testNotificationsNtfy" onClick="testNotificationsNtfyButton()"/>
+                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotificationsNtfy" onClick="saveNotificationsNtfyButton()"/>
+                    </div>
             </section>
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('webhook');">

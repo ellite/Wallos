@@ -88,10 +88,14 @@ select:disabled {
     cursor: not-allowed;
 }
 
+button.secondary-button,
+button.button.secondary-button,
 input[type="button"].secondary-button {
     background-color: #222;
 }
 
+button.button.secondary-button:hover,
+button.secondary-button:hover,
 input[type="button"].secondary-button:hover {
     background-color: #111;
 }
