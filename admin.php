@@ -11,7 +11,7 @@
     $result = $stmt->execute();
     $settings = $result->fetchArray(SQLITE3_ASSOC);
 
-    // get user accounts where id is not 1
+    // get user accounts
     $stmt = $db->prepare('SELECT id, username, email FROM user ORDER BY id ASC');
     $result = $stmt->execute();
 
@@ -20,7 +20,8 @@
         $users[] = $row;
     }
     $userCount = is_array($users) ? count($users) : 0;
-    
+
+    $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;    
 ?>
 
 <section class="contain settings">
@@ -42,6 +43,9 @@
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
                     <?= translate('max_users_info', $i18n) ?>
+                </p><p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    By enabling user registrations, the setting to disable login will be unavailable.
                 </p>
             </div>
             <div class="form-group-inline">
@@ -74,6 +78,21 @@
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
                     <?= translate('server_url_password_reset', $i18n) ?>
+                </p>
+            </div>
+            <hr>
+            <div class="form-group-inline">
+                <input type="checkbox" id="disableLogin" <?= $settings['login_disabled'] ? 'checked' : '' ?> <?= $loginDisabledAllowed ? '' : 'disabled' ?> />
+                <label for="disableLogin"><?= translate('disable_login', $i18n) ?></label>
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <?= translate('disable_login_info', $i18n) ?>
+                </p>
+                <p>
+                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <?= translate('disable_login_info2', $i18n) ?>
                 </p>
             </div>
             <div class="buttons">

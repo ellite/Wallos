@@ -101,7 +101,13 @@
               <a href="admin.php"><i class="fa-solid fa-user-tie"></i><?= translate('admin', $i18n) ?></a>
             <?php endif; ?>
             <a href="about.php"><i class="fa-solid fa-info-circle"></i><?= translate('about', $i18n) ?></a>
-            <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i><?= translate('logout', $i18n) ?></a>
+            <?php
+              if ($settings['disableLogin'] == 0) {
+                ?>
+                  <a href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i><?= translate('logout', $i18n) ?></a>
+                <?php
+              }
+            ?>
           </div>
         </div>
       </nav>

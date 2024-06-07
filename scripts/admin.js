@@ -165,12 +165,14 @@ function saveAccountRegistrationsButton () {
   const max_users = document.getElementById('maxUsers').value;
   const require_email_validation = document.getElementById('requireEmail').checked ? 1 : 0;
   const server_url = document.getElementById('serverUrl').value;
+  const disable_login = document.getElementById('disableLogin').checked ? 1 : 0;
 
   const data = {
     open_registrations: open_registrations,
     max_users: max_users,
     require_email_validation: require_email_validation,
-    server_url: server_url
+    server_url: server_url,
+    disable_login: disable_login
   };
 
   fetch('endpoints/admin/saveopenregistrations.php', {

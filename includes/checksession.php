@@ -46,10 +46,20 @@
                 }
                 $userId = $userData['id'];
                 $main_currency = $userData['main_currency'];
-                $sql = "SELECT * FROM login_tokens WHERE user_id = :userId AND token = :token";
-                $stmt = $db->prepare($sql);
-                $stmt->bindParam(':userId', $userId, SQLITE3_TEXT);
-                $stmt->bindParam(':token', $token, SQLITE3_TEXT);
+
+                $adminQuery = "SELECT login_disabled FROM admin";
+                $adminResult = $db->query($adminQuery);
+                $adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
+                if ($adminRow['login_disabled'] == 1) {
+                    $sql = "SELECT * FROM login_tokens WHERE user_id = :userId";
+                    $stmt = $db->prepare($sql);
+                    $stmt->bindParam(':userId', $userId, SQLITE3_TEXT);
+                } else {
+                    $sql = "SELECT * FROM login_tokens WHERE user_id = :userId AND token = :token";
+                    $stmt = $db->prepare($sql);
+                    $stmt->bindParam(':userId', $userId, SQLITE3_TEXT);
+                    $stmt->bindParam(':token', $token, SQLITE3_TEXT);
+                }
                 $result = $stmt->execute();
                 $row = $result->fetchArray(SQLITE3_ASSOC);
 

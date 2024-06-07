@@ -27,4 +27,12 @@ if ($customColors) {
     $settings['customColors'] = $customColors;
 }
 
+$query = "SELECT * FROM admin";
+$result = $db->query($query);
+$adminSettings = $result->fetchArray(SQLITE3_ASSOC);
+
+if ($adminSettings) {
+    $settings['disableLogin'] = $adminSettings['login_disabled'];
+}
+
 ?>
