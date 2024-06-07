@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/ellite/Wallos/compare/v2.3.0...v2.4.0) (2024-06-07)
+
+
+### Features
+
+* add hability to disable login ([#378](https://github.com/ellite/Wallos/issues/378)) ([092be22](https://github.com/ellite/Wallos/commit/092be22183359f714fc9638d9013b742da828ed6))
+
 ## [2.3.0](https://github.com/ellite/Wallos/compare/v2.2.0...v2.3.0) (2024-06-05)
 
 
