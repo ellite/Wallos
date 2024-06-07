@@ -670,7 +670,7 @@ header #avatar {
 
 .admin-form hr {
   margin: 20px 0px;
-  color: var(--main-color)
+  color: var(--main-color);
 }
 
 .account-notifications-section {
