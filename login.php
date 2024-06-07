@@ -20,6 +20,54 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit();
 } 
 
+// Check if login is disabled
+$adminQuery = "SELECT login_disabled FROM admin";
+$adminResult = $db->query($adminQuery);
+$adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
+if ($adminRow['login_disabled'] == 1) {
+    
+    $query = "SELECT id, username, main_currency, language FROM user WHERE id = :id";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':id', 1, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+
+    if ($row === false) {
+        // Something is wrong with admin user. Reenable login
+        $updateQuery = "UPDATE admin SET login_disabled = 0";
+        $updateStmt = $db->prepare($updateQuery);
+        $updateStmt->execute();
+
+        $db->close();
+        header("Location: login.php");
+    } else {
+        $userId = $row['id'];
+        $main_currency = $row['main_currency'];
+        $username = $row['username'];
+        $language = $row['language'];
+
+        $_SESSION['username'] = $username;
+        $_SESSION['loggedin'] = true;
+        $_SESSION['main_currency'] = $main_currency;
+        $_SESSION['userId'] = $userId;
+        $cookieExpire = time() + (30 * 24 * 60 * 60);
+        setcookie('language', $language, $cookieExpire);
+
+        $query = "SELECT color_theme FROM settings";
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+        $settings = $result->fetchArray(SQLITE3_ASSOC);
+        setcookie('colorTheme', $settings['color_theme'], $cookieExpire);    
+
+        $cookieValue = $username . "|" . "abc123ABC" . "|" . $main_currency;
+        setcookie('wallos_login', $cookieValue, $cookieExpire);
+
+        $db->close();
+        header("Location: .");
+    }
+}
+
+
 $theme = "light";
 if (isset($_COOKIE['theme'])) {
     $theme = $_COOKIE['theme'];

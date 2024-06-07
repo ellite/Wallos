@@ -668,6 +668,11 @@ header #avatar {
   gap: 30px;
 }
 
+.admin-form hr {
+  margin: 20px 0px;
+  color: var(--main-color)
+}
+
 .account-notifications-section {
   border: 1px solid #aaa;
   border-radius: 8px;
