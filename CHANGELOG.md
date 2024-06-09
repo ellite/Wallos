@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/ellite/Wallos/compare/v2.4.0...v2.4.1) (2024-06-09)
+
+
+### Bug Fixes
+
+* cronjob exchange update would not work with apilayer ([#381](https://github.com/ellite/Wallos/issues/381)) ([b0b4b7a](https://github.com/ellite/Wallos/commit/b0b4b7a65cd479e7532e72e826d3c01aead403c3))
+
 ## [2.4.0](https://github.com/ellite/Wallos/compare/v2.3.0...v2.4.0) (2024-06-07)
 
 
