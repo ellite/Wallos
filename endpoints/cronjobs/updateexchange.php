@@ -88,7 +88,6 @@
                     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
 
-                    $db->close();
                     echo "Rates updated successfully!<br />";
                 }
             } else {
@@ -99,7 +98,7 @@
             echo "Exchange rates update skipped. No fixer.io api key provided<br />";
             $apiKey = null;
         }
-
     }
+    $db->close();
 
 ?>
