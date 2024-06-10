@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/ellite/Wallos/compare/v2.4.1...v2.4.2) (2024-06-10)
+
+
+### Bug Fixes
+
+* update exchange cron only working for one user ([#384](https://github.com/ellite/Wallos/issues/384)) ([815eea7](https://github.com/ellite/Wallos/commit/815eea7e7be37e068e6173c229eb285ed8b7c30d))
+
 ## [2.4.1](https://github.com/ellite/Wallos/compare/v2.4.0...v2.4.1) (2024-06-09)
 
 
