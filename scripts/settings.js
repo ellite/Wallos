@@ -360,7 +360,7 @@ function editCategory(categoryId) {
 
 function addCurrencyButton(currencyId) {
   document.getElementById("addCurrency").disabled = true;
-  const url = 'endpoints/currency/currency.php?action=add';
+  const url = 'endpoints/currency/add.php';
   fetch(url)
   .then(response => {
     if (!response.ok) {
@@ -442,7 +442,7 @@ function addCurrencyButton(currencyId) {
 }
 
 function removeCurrency(currencyId) {
-  let url = `endpoints/currency/currency.php?action=delete&currencyId=${currencyId}`;
+  let url = `endpoints/currency/remove.php?currencyId=${currencyId}`;
   fetch(url)
   .then(response => {
     if (!response.ok) {
@@ -477,7 +477,7 @@ function editCurrency(currencyId) {
     var currencyName = encodeURIComponent(inputNameElement.value);
     var currencySymbol = encodeURIComponent(inputSymbolElement.value);
     var currencyCode = encodeURIComponent(inputCodeElement.value);
-    var url = `endpoints/currency/currency.php?action=edit&currencyId=${currencyId}&name=${currencyName}&symbol=${currencySymbol}&code=${currencyCode}`;
+    var url = `endpoints/currency/edit.php?currencyId=${currencyId}&name=${currencyName}&symbol=${currencySymbol}&code=${currencyCode}`;
 
     fetch(url)
       .then(response => {
