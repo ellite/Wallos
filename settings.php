@@ -364,7 +364,7 @@
             "category": "{{subscription_category}}",
             "date": "{{subscription_date}}",
             "payer": "{{subscription_payer}}"
-            "dyas": "{{subscription_days_until_payment}}"
+            "days": "{{subscription_days_until_payment}}"
         }
     ]
 
