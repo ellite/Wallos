@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "Prazna stranica",
     "clear_filters"   => "Očisti filtere",
     "no_matching_subscriptions" => "Nema podudarajućih pretplata",
+    "clone"           => "Kloniraj",
     // Forma za pretplatu
     "add_subscription" => "Dodaj pretplatu",
     "edit_subscription" => "Uredi pretplatu",

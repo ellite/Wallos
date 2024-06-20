@@ -108,11 +108,23 @@
                     <img src="<?= $subscription['payment_method_icon'] ?>" title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>"/>
                     <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
                     </span>
-                    <span class="actions">
-                    <button class="image-button medium" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)" name="edit">
-                        <img src="images/siteicons/<?= $colorTheme ?>/edit.png" title="<?= translate('edit_subscription', $i18n) ?>">
+                    <button type="button" class="actions-expand" onClick="expandActions(event, <?= $subscription['id'] ?>)">
+                        <i class="fas fa-ellipsis-v"></i>
                     </button>
-                    </span>
+                    <ul class="actions">
+                        <li class="edit" title="<?= translate('edit_subscription', $i18n) ?>" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
+                            <img src="images/siteicons/<?= $colorTheme ?>/edit.png" title="<?= translate('edit_subscription', $i18n) ?>">
+                            <?= translate('edit_subscription', $i18n) ?>
+                        </li>
+                        <li class="delete" title="<?= translate('delete', $i18n) ?>" onClick="deleteSubscription(event, <?= $subscription['id'] ?>)">
+                            <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('edit_subscription', $i18n) ?>">
+                            <?= translate('delete', $i18n) ?>
+                        </li>
+                        <li class="clone" title="<?= translate('clone', $i18n) ?>" onClick="cloneSubscription(event, <?= $subscription['id'] ?>)">
+                            <img src="images/siteicons/<?= $colorTheme ?>/clone.png" title="<?= translate('edit_subscription', $i18n) ?>">
+                            <?= translate('clone', $i18n) ?>
+                        </li>
+                    </ul>
                 </div>
                 <div class="subscription-secondary">
                     <span class="name"><img src="images/siteicons/<?= $colorTheme ?>/subscription.png" alt="<?= translate('subscription', $i18n) ?>" /><?= $subscription['name'] ?></span>

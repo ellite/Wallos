@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "空のページ",
     "clear_filters"   => "フィルタをクリア",
     "no_matching_subscriptions" => "一致する定期購入がありません",
+    "clone"           => "複製",
     // Subscription form
     "add_subscription" => "定期購入の追加",
     "edit_subscription" => "定期購入の編集",

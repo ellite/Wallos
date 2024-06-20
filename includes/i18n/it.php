@@ -69,6 +69,7 @@ $i18n = [
     'empty_page' => 'Pagina vuota',
     'clear_filters' => 'Pulisci filtri',
     'no_matching_subscriptions' => 'Nessun abbonamento corrispondente',
+    "clone" => "Clona",
 
     // Add/Edit Subscription
     'add_subscription' => 'Aggiungi abbonamento',

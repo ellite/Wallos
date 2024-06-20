@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "Prazna stran",
     "clear_filters"   => "Počisti filter",
     "no_matching_subscriptions" => "Ni ustreznih naročnin",
+    "clone"           => "Klon",
     // Subscription form
     "add_subscription" => "Dodaj naročnino",
     "edit_subscription" => "Uredi naročnino",

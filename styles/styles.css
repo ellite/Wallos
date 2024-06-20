@@ -262,7 +262,9 @@ main > .contain {
 }
 
 .subscription.inactive {
-  opacity: 0.6;
+  background-color: rgba(255,255,255,0.6);
+  color: rgba(100,100,100,0.6);
+  box-shadow: 0 2px 5px rgba(100, 100, 100, 0.1);
 }
 
 .subscription.inactive span.price {
@@ -274,8 +276,63 @@ main > .contain {
   flex-direction: row;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
+.subscription-main .actions-expand {
+  font-size: 21px;
+  padding: 8px 16px;
+  color: var(--main-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.subscription-main .actions-expand:hover {
+  color: var(--hover-color);
+}
+
+.subscription-main .actions {
+  display: none;
+  position: absolute;
+  right: -16px;
+  top: 60px;
+  z-index: 2;
+  flex-direction: column;
+  color: #202020;
+  background-color: #FFFFFF;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.subscription-main .actions.is-open {
+  display: flex;
+}
+
+.subscription-main .actions > li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 14px 35px 14px 18px;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.subscription-main .actions > li:hover {
+  background-color: #f9f9f9;
+}
+
+.subscription-main .actions > li > i {
+  color: var(--main-color);
+}
+
+.subscription-main .actions > li:hover > i {
+  color: var(--hover-color);
+}
 
 .subscription-secondary {
   display: none;

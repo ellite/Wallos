@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "Pusta strona",
     "clear_filters"   => "Wyczyść filtry",
     "no_matching_subscriptions" => "Brak pasujących subskrypcji",
+    "clone"           => "Klonuj",
     // Subscription form
     "add_subscription" => "Dodaj subskrypcję",
     "edit_subscription" => "Edytuj subskrypcję",

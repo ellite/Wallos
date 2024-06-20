@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "빈 페이지",
     "clear_filters"   => "필터 제거",
     "no_matching_subscriptions" => "해당하는 구독이 없습니다.",
+    "clone"           => "복제",
     // Subscription form
     "add_subscription" => "구독 추가",
     "edit_subscription" => "구독 편집",

@@ -65,6 +65,7 @@ $i18n = [
     "empty_page" => "Boş Sayfa",
     "clear_filters" => "Filtreleri Temizle",
     "no_matching_subscriptions" => "Eşleşen abonelik bulunamadı",
+    "clone" => "Kopyala",
     // Subscription form
     "add_subscription" => "Abonelik ekle",
     "edit_subscription" => "Aboneliği düzenle",
