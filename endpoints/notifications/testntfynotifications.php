@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
         echo json_encode($response);
     } else {
-        $host = $data["host"];
+        $host = rtrim($data["host"], '/');
         $topic = $data["topic"];
         $headers = json_decode($data["headers"], true);
         $customheaders = array_map(function($key, $value) {
@@ -42,6 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         // Execute the request
         $response = curl_exec($ch);
@@ -55,8 +56,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 "success" => false,
                 "message" => translate('notification_failed', $i18n)
             ]));
-        } else {
-            print_r($response);
         }
 
         die(json_encode([

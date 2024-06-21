@@ -472,7 +472,10 @@
 
                         $ch = curl_init();
 
-                        curl_setopt($ch, CURLOPT_URL, $ntfy['host'] . '/' . $ntfy['topic']);
+                        $ntfyHost = rtrim($ntfy["host"], '/');
+                        $ntfyTopic = $ntfy['topic'];
+
+                        curl_setopt($ch, CURLOPT_URL, $ntfyHost . '/' . $ntfyTopic);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
                         curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
