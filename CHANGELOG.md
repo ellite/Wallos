@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.5.0](https://github.com/ellite/Wallos/compare/v2.4.2...v2.5.0) (2024-06-21)
+
+
+### Features
+
+* add option to clone subscription ([8304ed7](https://github.com/ellite/Wallos/commit/8304ed7b54f50ed7fa5ab520ff4d8d54f3ef34df))
+* edit and delete options now available directly on the subscription list ([8304ed7](https://github.com/ellite/Wallos/commit/8304ed7b54f50ed7fa5ab520ff4d8d54f3ef34df))
+
+
+### Bug Fixes
+
+* typo on webhook payload ([8304ed7](https://github.com/ellite/Wallos/commit/8304ed7b54f50ed7fa5ab520ff4d8d54f3ef34df))
+
 ## [2.4.2](https://github.com/ellite/Wallos/compare/v2.4.1...v2.4.2) (2024-06-10)
 
 
