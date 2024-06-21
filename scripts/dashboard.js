@@ -160,7 +160,9 @@ function handleFileSelect(event) {
     }
 }
 
-function deleteSubscription(id) {
+function deleteSubscription(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
   if (confirm(translate('confirm_delete_subscription'))) {
     fetch(`endpoints/subscription/delete.php?id=${id}`, {
       method: 'DELETE',
@@ -171,7 +173,7 @@ function deleteSubscription(id) {
           fetchSubscriptions();
           closeAddSubscription();
         } else {
-          alert(translate('error_deleting_subscription'));
+          showErrorMessage(translate('error_deleting_subscription'));
         }
     })
     .catch(error => {
@@ -179,6 +181,32 @@ function deleteSubscription(id) {
     });
   }
 }
+
+function cloneSubscription(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  const url = `endpoints/subscription/clone.php?id=${id}`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        fetchSubscriptions();
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate('error'));
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error.message || translate('error'));
+    });
+  }
 
 function setSearchButtonStatus() {
 
@@ -468,4 +496,40 @@ function clearFilters() {
   });
   document.querySelector('#clear-filters').classList.add('hide');
   fetchSubscriptions();
+}
+
+let currentActions = null;
+
+document.addEventListener('click', function(event) {
+  // Check if click was outside currentActions
+  if (currentActions && !currentActions.contains(event.target)) {
+    // Click was outside currentActions, close currentActions
+    currentActions.classList.remove('is-open');
+    currentActions = null;
+  }
+});
+
+function expandActions(event, subscriptionId) {
+  event.stopPropagation();
+  event.preventDefault();
+  const subscriptionDiv = document.querySelector(`.subscription[data-id="${subscriptionId}"]`);
+  const actions = subscriptionDiv.querySelector('.actions');
+
+  // Close all other open actions
+  const allActions = document.querySelectorAll('.actions.is-open');
+  allActions.forEach((openAction) => {
+    if (openAction !== actions) {
+      openAction.classList.remove('is-open');
+    }
+  });
+
+  // Toggle the clicked actions
+  actions.classList.toggle('is-open');
+
+  // Update currentActions
+  if (actions.classList.contains('is-open')) {
+    currentActions = actions;
+  } else {
+    currentActions = null;
+  }
 }

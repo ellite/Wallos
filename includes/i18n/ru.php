@@ -65,6 +65,7 @@ $i18n = [
     "empty_page"      => "Пустая страница",
     "clear_filters"   => "Очистить фильтры",
     "no_matching_subscriptions" => "Нет подходящих подписок",
+    "clone"           => "Клонировать",
     // Subscription form
     "add_subscription" => "Добавить подписку",
     "edit_subscription" => "Изменить подписку",
