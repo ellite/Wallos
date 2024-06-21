@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/ellite/Wallos/compare/v2.5.0...v2.5.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* ntfy notifications ([#394](https://github.com/ellite/Wallos/issues/394)) ([17722c3](https://github.com/ellite/Wallos/commit/17722c31e31eec035d8896566e9eb5596951d022))
+
 ## [2.5.0](https://github.com/ellite/Wallos/compare/v2.4.2...v2.5.0) (2024-06-21)
 
 
