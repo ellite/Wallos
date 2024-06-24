@@ -2,6 +2,13 @@
 
 echo "Startup script is running..." > /var/log/startup.log
 
+# If the PUID or PGID environment variables are set, create a new user and group
+if [ ! -z "$PUID" ] && [ ! -z "$PGID" ]; then
+    addgroup -g $PGID appgroup
+    adduser -D -u $PUID -G appgroup appuser
+    chown -R appuser:appgroup /var/www/html
+fi
+
 # Start both PHP-FPM and Nginx
 php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt
 
