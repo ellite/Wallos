@@ -24,7 +24,7 @@ $i18n = [
     'user_email_waiting_verification' => "E-postanızın doğrulanması gerekiyor. Lütfen e-postanızı kontrol edin",
     // Password Reset Page
     'forgot_password' => "Şifremi Unuttum",
-    'reset_password'  => "Şifreyi Sıfırla",
+    'reset_password' => "Şifreyi Sıfırla",
     'reset_sent_check_email' => "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.",
     'password_reset_successful' => "Şifre sıfırlama başarılı",
     // Header
@@ -101,7 +101,7 @@ $i18n = [
     'budget_remaining' => "Kalan Bütçe",
     'amount_over_budget' => "Bütçe Aşımı",
     'monthly_savings' => "Aylık Tasarruf (aktif olmayan aboneliklerde)",
-    'yearly_savings'  => "Yıllık Tasarruf (aktif olmayan aboneliklerde)",
+    'yearly_savings' => "Yıllık Tasarruf (aktif olmayan aboneliklerde)",
     'split_views' => "Bölünmüş Görünümler",
     'category_split' => "Kategori Bölümü",
     'household_split' => "Hane Bölümü",
@@ -114,7 +114,7 @@ $i18n = [
     'icons' => "İkonlar",
     'payment_icons' => "Ödeme İkonları",
     // Settings page
-    'upload_avatar'   => "Avatarı yükle",
+    'upload_avatar' => "Avatarı yükle",
     'file_type_error' => "Dosya türü izin verilmiyor",
     'user_details' => "Kullanıcı Detayları",
     "monthly_budget" => "Aylık Bütçe",
@@ -177,7 +177,7 @@ $i18n = [
     "get_free_fixer_api_key" => "Ücretsiz Fixer API Anahtarı alın",
     "get_key_alternative" => "Alternatif olarak, şu adresten ücretsiz bir fixer api anahtarı edinebilirsiniz",
     "display_settings" => "Görüntüleme Ayarları",
-    "theme_settings"  => "Tema Ayarları",
+    "theme_settings" => "Tema Ayarları",
     "custom_colors" => "Özel Renkler",
     "dark_theme" => "Koyu Temayı",
     "switch_theme" => "Açık / Koyu Temayı Değiştir",
@@ -288,6 +288,27 @@ $i18n = [
     // Email Verification
     "email_verified" => "E-posta doğrulandı",
     "email_verification_failed" => "E-posta doğrulaması başarısız oldu",
+    // Calendar
+    "calendar" => "Takvim",
+    "sun" => "Paz",
+    "mon" => "Pzt",
+    "tue" => "Sal",
+    "wed" => "Çar",
+    "thu" => "Per",
+    "fri" => "Cum",
+    "sat" => "Cmt",
+    "month-01" => "Ocak",
+    "month-02" => "Şubat",
+    "month-03" => "Mart",
+    "month-04" => "Nisan",
+    "month-05" => "Mayıs",
+    "month-06" => "Haziran",
+    "month-07" => "Temmuz",
+    "month-08" => "Ağustos",
+    "month-09" => "Eylül",
+    "month-10" => "Ekim",
+    "month-11" => "Kasım",
+    "month-12" => "Aralık",
 
 ];
 

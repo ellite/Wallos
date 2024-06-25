@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "Άγνωστο σφάλμα, προσπάθησε ξανά.",
   error_saving_notification_data: "Σφάλμα αποθήκευσης δεδομένων ειδοποίησης",
   error_sending_notification: "Σφάλμα αποστολής ειδοποίησης",
+  // Calendar
+  price: "Τιμή",
+  category: "Κατηγορία",
+  paid_by: "Πληρώθηκε από",
+  payment_method: "Μέθοδος πληρωμής",
+  notes: "Σημειώσεις",
+  export: "Εξαγωγή",
 }

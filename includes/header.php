@@ -95,6 +95,7 @@
           </button>
           <div class="dropdown-content">
             <a href="."><i class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
+            <a href="calendar.php"><i class="fa-solid fa-calendar"></i><?= translate('calendar', $i18n) ?></a>
             <a href="stats.php"><i class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
             <a href="settings.php"><i class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
             <?php if ($isAdmin): ?>

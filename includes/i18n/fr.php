@@ -24,7 +24,7 @@ $i18n = [
     'user_email_waiting_verification' => "Votre email doit être vérifié. Veuillez vérifier votre email",
     // Password Reset Page
     'forgot_password' => "Mot de passe oublié",
-    'reset_password'  => "Réinitialiser le mot de passe",
+    'reset_password' => "Réinitialiser le mot de passe",
     'reset_sent_check_email' => "Un courriel a été envoyé à l'adresse fournie. Vérifiez votre boîte de réception.",
     'password_reset_successful' => "Réinitialisation du mot de passe réussie",
     // En-tête
@@ -63,7 +63,7 @@ $i18n = [
     "years" => "années",
     "external_url" => "Visiter l'URL externe",
     "empty_page" => "Page vide",
-    "clear_filters"   => "Effacer les filtres",
+    "clear_filters" => "Effacer les filtres",
     "no_matching_subscriptions" => "Aucun abonnement ne correspond à vos critères de recherche",
     "clone" => "Cloner",
     // Formulaire d'abonnement
@@ -101,7 +101,7 @@ $i18n = [
     'budget_remaining' => "Budget restant",
     'amount_over_budget' => "Montant dépassant le budget",
     'monthly_savings' => "Économies mensuelles (sur les abonnements inactifs)",
-    'yearly_savings'  => "Économies annuelles (sur les abonnements inactifs)",
+    'yearly_savings' => "Économies annuelles (sur les abonnements inactifs)",
     'split_views' => "Vues partagées",
     'category_split' => "Répartition par catégorie",
     'household_split' => "Répartition du ménage",
@@ -114,7 +114,7 @@ $i18n = [
     'icons' => "Icônes",
     'payment_icons' => "Icônes de paiement",
     // Page de paramètres
-    'upload_avatar'   => "Télécharger un Avatar",
+    'upload_avatar' => "Télécharger un Avatar",
     'file_type_error' => "Le type de fichier n'est pas pris en charge",
     'user_details' => "Détails de l'utilisateur",
     "monthly_budget" => "Budget mensuel",
@@ -168,7 +168,7 @@ $i18n = [
     "cant_delete_currency_in_use" => "Impossible de supprimer la devise utilisée dans l'abonnement",
     "exchange_update" => "Les taux de change ont été mis à jour pour la dernière fois le",
     "currency_info" => "Trouvez les devises prises en charge et les codes de devise corrects sur",
-    "currency_performance" => "Pour des performances améliorées, ne conservez que les devises que vous utilisez.", 
+    "currency_performance" => "Pour des performances améliorées, ne conservez que les devises que vous utilisez.",
     "fixer_api_key" => "Clé API de Fixer",
     "api_key" => "Clé API",
     "provider" => "Fournisseur",
@@ -288,6 +288,27 @@ $i18n = [
     // Email Verification
     "email_verified" => "Votre adresse courriel a été vérifiée avec succès",
     "email_verification_failed" => "La vérification de l'adresse courriel a échoué",
+    // Calendar
+    "calendar" => "Calendrier",
+    "sun" => "Dim",
+    "mon" => "Lun",
+    "tue" => "Mar",
+    "wed" => "Mer",
+    "thu" => "Jeu",
+    "fri" => "Ven",
+    "sat" => "Sam",
+    "month-01" => "Janvier",
+    "month-02" => "Février",
+    "month-03" => "Mars",
+    "month-04" => "Avril",
+    "month-05" => "Mai",
+    "month-06" => "Juin",
+    "month-07" => "Juillet",
+    "month-08" => "Août",
+    "month-09" => "Septembre",
+    "month-10" => "Octobre",
+    "month-11" => "Novembre",
+    "month-12" => "Décembre",
 
 ];
 

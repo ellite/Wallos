@@ -34,4 +34,11 @@ let i18n = {
   unknown_error: "Errore sconosciuto, si prega di riprovare.",
   error_saving_notification_data: "Errore nel salvataggio delle impostazioni di notifica",
   error_sending_notification: "Errore nell'invio della notifica",
+  // Calendar
+  price: "Prezzo",
+  category: "Categoria",
+  paid_by: "Pagato da",
+  payment_method: "Metodo di pagamento",
+  notes: "Note",
+  export: "Esporta",
 }
