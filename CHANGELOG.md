@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.0](https://github.com/ellite/Wallos/compare/v2.6.1...v2.7.0) (2024-06-25)
+
+
+### Features
+
+* export subscription as ics from the calendar view ([#404](https://github.com/ellite/Wallos/issues/404)) ([f1360f7](https://github.com/ellite/Wallos/commit/f1360f7d468ef5ae7e974ec1f9bb77831ea322bb))
+
 ## [2.6.1](https://github.com/ellite/Wallos/compare/v2.6.0...v2.6.1) (2024-06-25)
 
 
