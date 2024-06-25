@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "Erro desconhecido. Por favor, tente novamente",
   error_saving_notification_data: "Erro ao salvar dados da notificação",
   error_sending_notification: "Erro ao enviar notificação",
+  // Calendar
+  price: "Preço",
+  category: "Categoria",
+  paid_by: "Pago por",
+  payment_method: "Método de pagamento",
+  notes: "Notas",
+  export: "Exportar",
 }

@@ -17,6 +17,7 @@ header .logo .logo-image {
 
 .subscription,
 .subscription-form,
+.subscription-modal,
 .account-section,
 .avatar-select,
 .logo-search,
@@ -26,7 +27,8 @@ header .logo .logo-image {
 .statistic,
 .graph,
 .filtermenu-content,
-.subscription-main .actions {
+.subscription-main .actions,
+.calendar {
     background-color: #222;
     border: 1px solid #333;
     box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
@@ -49,9 +51,9 @@ header .logo .logo-image {
   background-color: #333333;
 }
 
-.subscription-form h3 {
+.subscription-form h3,
+.subscription-modal h3 {
     color: #FFF;
-    border-bottom: 1px solid #EEE;
 }
 
 .subscription.inactive {
@@ -193,4 +195,12 @@ textarea {
 
 .payments-list .payments-payment .delete-payment-method {
     color: #FFF;
-  }
+}
+
+.calendar .calendar-body .calendar-cell .calendar-cell-header {
+    background-color: #111;
+}
+
+.calendar .calendar-body .calendar-cell {
+    border-right: 1px solid #111;
+}

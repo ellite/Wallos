@@ -35,4 +35,11 @@ let i18n = {
   error_saving_notification_data:
     "Fehler beim Speichern der Benachrichtigungsangaben",
   error_sending_notification: "Fehler beim Senden der Benachrichtigung",
+  // Calendar
+  price: "Preis",
+  category: "Kategorie",
+  paid_by: "Bezahlt von",
+  payment_method: "Zahlungsmethode",
+  notes: "Notizen",
+  export: "Exportieren",
 }

@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "Неизвестная ошибка. Повторите попытку.",
   error_saving_notification_data: "Ошибка сохранения данных уведомления.",
   error_sending_notification: "Ошибка отправки уведомления",
+  // Calendar
+  price: "Цена",
+  category: "Категория",
+  paid_by: "Оплачено",
+  payment_method: "Способ оплаты",
+  notes: "Примечания",
+  export: "Экспорт",
 }

@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "알 수 없는 에러입니다. 다시 시도해 주세요.",
   error_saving_notification_data: "알림 데이터 저장 에러",
   error_sending_notification: "알림 전송 에러",
+  // Calendar
+  price: "가격",
+  category: "카테고리",
+  paid_by: "지불자",
+  payment_method: "결제 수단",
+  notes: "메모",
+  export: "내보내기",
 };

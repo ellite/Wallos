@@ -236,8 +236,8 @@ function addCategoryButton(categoryId) {
   fetch(url)
   .then(response => {
     if (!response.ok) {
-      throw new Error(translate('network_response_error'));
       showErrorMessage(translate('failed_add_category'));
+      throw new Error(translate('network_response_error'));
     }
     return response.json();
   })

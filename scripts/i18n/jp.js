@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "不明なエラー。もう一度試してください。",
   error_saving_notification_data: "通知データの保存エラー",
   error_sending_notification: "通知の送信エラー",
+  // Calendar
+  price: "価格",
+  category: "カテゴリ",
+  paid_by: "支払い者",
+  payment_method: "支払い方法",
+  notes: "メモ",
+  export: "エクスポート",
 }

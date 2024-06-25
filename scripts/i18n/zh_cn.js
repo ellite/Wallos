@@ -33,4 +33,11 @@ let i18n = {
     'unknown_error': '未知错误，请重试。',
     'error_saving_notification_data': '保存通知数据时出错',
     'error_sending_notification': '发送通知时出错',
+    // Calendar
+    price: "价格",
+    category: "类别",
+    paid_by: "支付者",
+    payment_method: "支付方式",
+    notes: "备注",
+    export: "导出",
 };

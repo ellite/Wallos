@@ -33,4 +33,11 @@ let i18n = {
   unknown_error: "Neznana napaka, poskusite znova.",
   error_saving_notification_data: "Napaka pri shranjevanju obvestilnih podatkov",
   error_sending_notification: "Napaka pri pošiljanju obvestila",
+  // Calendar
+  price: "Cena",
+  category: "Kategorija",
+  paid_by: "Plačal/a",
+  payment_method: "Način plačila",
+  notes: "Opombe",
+  export: "Izvozi",
 }
