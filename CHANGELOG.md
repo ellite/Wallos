@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/ellite/Wallos/compare/v2.6.0...v2.6.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* load php calendar extension ([#402](https://github.com/ellite/Wallos/issues/402)) ([c02ac77](https://github.com/ellite/Wallos/commit/c02ac770d7ac9fad1baec526b5d7dd71deaba59b))
+
 ## [2.6.0](https://github.com/ellite/Wallos/compare/v2.5.2...v2.6.0) (2024-06-25)
 
 
