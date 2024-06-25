@@ -60,6 +60,9 @@ function openSubscriptionModal(subscriptionId) {
                 ${subscription.payment_method ? `<p><strong>${translate('payment_method')}:</strong> ${subscription.payment_method}</p>` : ''}
                 ${subscription.notes ? `<p><strong>${translate('notes')}:</strong> ${subscription.notes}</p>` : ''}
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="button tiny" onclick="exportCalendar(${subscription.id})">${translate('export')}</button>
             </div>`;
           modalContent.innerHTML = html;
           modal.classList.add('is-open');
@@ -68,4 +71,31 @@ function openSubscriptionModal(subscriptionId) {
         }
       })
       .catch(error => console.error('Error:', error));
+}
+
+function exportCalendar(subscriptionId) {
+  fetch('endpoints/subscription/exportcalendar.php', {
+    method: 'POST',
+    body: JSON.stringify({id: subscriptionId}),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success && data.ics) {
+      const blob = new Blob([data.ics], {type: 'text/calendar'});
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      // Use the subscription name for the file name, replacing any characters that are invalid in file names
+      a.download = `${data.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } else {
+      console.error('Failed to download the calendar file.');
+    }
+  })
+  .catch(error => console.error('Error:', error));
 }
