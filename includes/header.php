@@ -18,9 +18,14 @@
     exit();
   }
 
-  $theme = "light";
+  $theme = "automatic";
   if (isset($settings['theme'])) {
     $theme = $settings['theme'];
+  }
+
+  $updateThemeSettings = false;
+  if (isset($settings['update_theme_setttings'])) {
+    $updateThemeSettings = $settings['update_theme_setttings'];
   }
 
   $colorTheme = "blue";
@@ -37,13 +42,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Wallos - Subscription Tracker</title>
-  <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
+  <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color"/>
   <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
   <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
   <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/styles.css?<?= $version ?>">
-  <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
+  <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme != "dark" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="styles/themes/green.css?<?= $version ?>" id="green-theme" <?= $colorTheme != "green" ? "disabled" : "" ?>>
   <link rel="stylesheet" href="styles/themes/yellow.css?<?= $version ?>" id="yellow-theme" <?= $colorTheme != "yellow" ? "disabled" : "" ?>>
@@ -54,6 +59,7 @@
   <script type="text/javascript" src="scripts/common.js?<?= $version ?>"></script>
   <script type="text/javascript">
     window.theme = "<?= $theme ?>";
+    window.update_theme_settings = "<?= $updateThemeSettings ?>";
     window.lang = "<?=$lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
   </script>

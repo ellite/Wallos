@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $priority = 5;
 
         $url = $data["gotify_url"];
-        $token = $data["token"]; 
+        $token = $data["token"];
 
         $ch = curl_init();
 

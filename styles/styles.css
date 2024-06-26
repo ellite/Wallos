@@ -2095,3 +2095,7 @@ textarea.thin {
 .subscription-modal img {
   max-width: 135px;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}

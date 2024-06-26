@@ -23,7 +23,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmtInsert->bindParam(':order', $order, SQLITE3_INTEGER);
         $stmtInsert->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $resultInsert = $stmtInsert->execute();
-    
+
         if ($resultInsert) {
             $categoryId = $db->lastInsertRowID();
             $response = [

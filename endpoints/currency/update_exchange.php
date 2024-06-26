@@ -18,7 +18,7 @@ if (isset($_GET['force']) && $_GET['force'] === "true") {
         $currentDateString = $currentDate->format('Y-m-d');
         $shouldUpdate = $lastUpdateDateString < $currentDateString;
     }
-    
+
     if (!$shouldUpdate) {
         echo "Rates are current, no need to update.";
         exit;
@@ -30,7 +30,7 @@ $result = $db->query($query);
 
 if ($result) {
     $row = $result->fetchArray(SQLITE3_ASSOC);
-    
+
     if ($row) {
         $apiKey = $row['api_key'];
         $provider = $row['provider'];
@@ -41,7 +41,7 @@ if ($result) {
         $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $codes .= $row['code'].",";
+            $codes .= $row['code'] . ",";
         }
         $codes = rtrim($codes, ',');
         $query = "SELECT u.main_currency, c.code FROM user u LEFT JOIN currencies c ON u.main_currency = c.id WHERE u.id = :userId";
@@ -62,7 +62,7 @@ if ($result) {
             ]);
             $response = file_get_contents($api_url, false, $context);
         } else {
-            $api_url = "http://data.fixer.io/api/latest?access_key=". $apiKey . "&base=EUR&symbols=" . $codes;
+            $api_url = "http://data.fixer.io/api/latest?access_key=" . $apiKey . "&base=EUR&symbols=" . $codes;
             $response = file_get_contents($api_url);
         }
 

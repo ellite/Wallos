@@ -1,27 +1,27 @@
 <?php
-    require_once 'includes/header.php';
+require_once 'includes/header.php';
 
-    if ($isAdmin != 1) {
-        header('Location: index.php');
-        exit;
-    }
+if ($isAdmin != 1) {
+    header('Location: index.php');
+    exit;
+}
 
-    // get admin settings from admin table
-    $stmt = $db->prepare('SELECT * FROM admin');
-    $result = $stmt->execute();
-    $settings = $result->fetchArray(SQLITE3_ASSOC);
+// get admin settings from admin table
+$stmt = $db->prepare('SELECT * FROM admin');
+$result = $stmt->execute();
+$settings = $result->fetchArray(SQLITE3_ASSOC);
 
-    // get user accounts
-    $stmt = $db->prepare('SELECT id, username, email FROM user ORDER BY id ASC');
-    $result = $stmt->execute();
+// get user accounts
+$stmt = $db->prepare('SELECT id, username, email FROM user ORDER BY id ASC');
+$result = $stmt->execute();
 
-    $users = [];
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $users[] = $row;
-    }
-    $userCount = is_array($users) ? count($users) : 0;
+$users = [];
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $users[] = $row;
+}
+$userCount = is_array($users) ? count($users) : 0;
 
-    $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;    
+$loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
 ?>
 
 <section class="contain settings">
@@ -43,28 +43,30 @@
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
                     <?= translate('max_users_info', $i18n) ?>
-                </p><p>
+                </p>
+                <p>
                     <i class="fa-solid fa-circle-info"></i>
                     By enabling user registrations, the setting to disable login will be unavailable.
                 </p>
             </div>
             <div class="form-group-inline">
-                <input type="checkbox" id="requireEmail" <?= $settings['require_email_verification'] ? 'checked' : '' ?> <?= empty($settings['smtp_address']) ? 'disabled' : '' ?>/>
+                <input type="checkbox" id="requireEmail" <?= $settings['require_email_verification'] ? 'checked' : '' ?>
+                    <?= empty($settings['smtp_address']) ? 'disabled' : '' ?> />
                 <label for="requireEmail">
                     <?= translate('require_email_verification', $i18n) ?>
                 </label>
             </div>
             <?php
-                if (empty($settings['smtp_address'])) {
-                    ?>
-                    <div class="settings-notes">
-                        <p>
-                            <i class="fa-solid fa-circle-info"></i>
-                            <?= translate('configure_smtp_settings_to_enable', $i18n) ?>
-                        </p>
-                    </div>    
-                    <?php
-                }
+            if (empty($settings['smtp_address'])) {
+                ?>
+                <div class="settings-notes">
+                    <p>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <?= translate('configure_smtp_settings_to_enable', $i18n) ?>
+                    </p>
+                </div>
+                <?php
+            }
             ?>
             <div class="form-group">
                 <label for="serverUrl"><?= translate('server_url', $i18n) ?></label>
@@ -82,7 +84,8 @@
             </div>
             <hr>
             <div class="form-group-inline">
-                <input type="checkbox" id="disableLogin" <?= $settings['login_disabled'] ? 'checked' : '' ?> <?= $loginDisabledAllowed ? '' : 'disabled' ?> />
+                <input type="checkbox" id="disableLogin" <?= $settings['login_disabled'] ? 'checked' : '' ?>
+                    <?= $loginDisabledAllowed ? '' : 'disabled' ?> />
                 <label for="disableLogin"><?= translate('disable_login', $i18n) ?></label>
             </div>
             <div class="settings-notes">
@@ -96,64 +99,68 @@
                 </p>
             </div>
             <div class="buttons">
-                <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveAccountRegistrations" onClick="saveAccountRegistrationsButton()"/>
+                <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveAccountRegistrations"
+                    onClick="saveAccountRegistrationsButton()" />
             </div>
         </div>
     </section>
 
     <?php
-        if ($userCount >= 0) {
-    ?>
+    if ($userCount >= 0) {
+        ?>
 
-    <section class="account-section">
-        <header>
-            <h2><?= translate('user_management', $i18n) ?></h2>
-        </header>
-        <div class="user-list">
-            <?php
+        <section class="account-section">
+            <header>
+                <h2><?= translate('user_management', $i18n) ?></h2>
+            </header>
+            <div class="user-list">
+                <?php
                 foreach ($users as $user) {
                     $userIcon = $user['id'] == 1 ? 'fa-user-tie' : 'fa-id-badge';
                     ?>
                     <div class="form-group-inline" data-userid="<?= $user['id'] ?>">
                         <div class="user-list-row">
-                            <div title="<?= translate('username', $i18n) ?>"><i class="fa-solid <?= $userIcon ?>"></i><?= $user['username'] ?></div>
+                            <div title="<?= translate('username', $i18n) ?>"><i
+                                    class="fa-solid <?= $userIcon ?>"></i><?= $user['username'] ?></div>
                             <div title="<?= translate('email', $i18n) ?>"><i class="fa-solid fa-envelope"></i>
-                                <a href="mailto:<?= $user['email']?>"><?= $user['email']?></a>
+                                <a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a>
                             </div>
                         </div>
                         <div>
                             <?php
-                                if ($user['id'] != 1) {
-                                    ?>
-                                    <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)">
-                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_user', $i18n) ?>">
-                                    </button>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <button class="image-button medium disabled" disabled>
-                                        <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= translate('delete_user', $i18n) ?>">
-                                    </button>
-                                    <?php
-                                }
+                            if ($user['id'] != 1) {
                                 ?>
-                            
-                        </div>    
+                                <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)">
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
+                                        title="<?= translate('delete_user', $i18n) ?>">
+                                </button>
+                                <?php
+                            } else {
+                                ?>
+                                <button class="image-button medium disabled" disabled>
+                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
+                                        title="<?= translate('delete_user', $i18n) ?>">
+                                </button>
+                                <?php
+                            }
+                            ?>
+
+                        </div>
                     </div>
                     <?php
                 }
-            ?>
-        </div>
-        <div class="settings-notes">
-            <p>
-                <i class="fa-solid fa-circle-info"></i>
-                <?= translate('delete_user_info', $i18n) ?>
-            </p>
-        </div>
-    </section>
+                ?>
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('delete_user_info', $i18n) ?>
+                </p>
+            </div>
+        </section>
 
-    <?php
-        }
+        <?php
+    }
     ?>
 
     <section class="account-section">
@@ -162,8 +169,10 @@
         </header>
         <div class="admin-form">
             <div class="form-group-inline">
-                <input type="text" name="smtpaddress" id="smtpaddress" placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $settings['smtp_address'] ?>" />
-                <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>" class="one-third"  value="<?= $settings['smtp_port'] ?>" />
+                <input type="text" name="smtpaddress" id="smtpaddress"
+                    placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $settings['smtp_address'] ?>" />
+                <input type="text" name="smtpport" id="smtpport" placeholder="<?= translate('port', $i18n) ?>"
+                    class="one-third" value="<?= $settings['smtp_port'] ?>" />
             </div>
             <div class="form-group-inline">
                 <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= empty($settings['encryption']) || $settings['encryption'] == "tls" ? "checked" : "" ?> />
@@ -172,13 +181,16 @@
                 <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
             </div>
             <div class="form-group-inline">
-                <input type="text" name="smtpusername" id="smtpusername" placeholder="<?= translate('smtp_username', $i18n) ?>"  value="<?= $settings['smtp_username'] ?>" />
+                <input type="text" name="smtpusername" id="smtpusername"
+                    placeholder="<?= translate('smtp_username', $i18n) ?>" value="<?= $settings['smtp_username'] ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="password" name="smtppassword" id="smtppassword" placeholder="<?= translate('smtp_password', $i18n) ?>"  value="<?= $settings['smtp_password'] ?>" />
+                <input type="password" name="smtppassword" id="smtppassword"
+                    placeholder="<?= translate('smtp_password', $i18n) ?>" value="<?= $settings['smtp_password'] ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"  value="<?= $settings['from_email'] ?>" />
+                <input type="text" name="fromemail" id="fromemail" placeholder="<?= translate('from_email', $i18n) ?>"
+                    value="<?= $settings['from_email'] ?>" />
             </div>
             <div class="settings-notes">
                 <p>
@@ -190,8 +202,10 @@
                 </p>
             </div>
             <div class="buttons">
-                <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>" id="testSmtpSettingsButton" onClick="testSmtpSettingsButton()"/>
-                <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveSmtpSettingsButton" onClick="saveSmtpSettingsButton()"/>
+                <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
+                    id="testSmtpSettingsButton" onClick="testSmtpSettingsButton()" />
+                <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveSmtpSettingsButton"
+                    onClick="saveSmtpSettingsButton()" />
             </div>
         </div>
     </section>
@@ -203,11 +217,14 @@
         </header>
         <div class="form-group-inline">
             <div>
-                <input type="button" class="button thin" value="<?= translate('backup', $i18n) ?>" id="backupDB" onClick="backupDB()"/>
-            </div>     
+                <input type="button" class="button thin" value="<?= translate('backup', $i18n) ?>" id="backupDB"
+                    onClick="backupDB()" />
+            </div>
             <div>
-                <input type="button" class="secondary-button thin" value="<?= translate('restore', $i18n) ?>" id="restoreDB" onClick="openRestoreDBFileSelect()" />    
-                <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()" accept=".zip">
+                <input type="button" class="secondary-button thin" value="<?= translate('restore', $i18n) ?>"
+                    id="restoreDB" onClick="openRestoreDBFileSelect()" />
+                <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()"
+                    accept=".zip">
             </div>
         </div>
         <div class="settings-notes">
@@ -215,12 +232,12 @@
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('restore_info', $i18n) ?>
             </p>
-        </div>       
+        </div>
     </section>
 
 </section>
 <script src="scripts/admin.js?<?= $version ?>"></script>
 
 <?php
-    require_once 'includes/footer.php';
+require_once 'includes/footer.php';
 ?>

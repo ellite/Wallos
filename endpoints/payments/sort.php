@@ -20,7 +20,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         "success" => true,
         "message" => translate("sort_order_saved", $i18n)
     ];
-    echo json_encode($response);    
+    echo json_encode($response);
 } else {
     $response = [
         "success" => false,

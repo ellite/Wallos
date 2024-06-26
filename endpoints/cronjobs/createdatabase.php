@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $databaseFile = __DIR__ . '/../../db/wallos.db';
 

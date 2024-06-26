@@ -19,7 +19,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
     header("Location: .");
     exit();
-} 
+}
 
 $theme = "light";
 if (isset($_COOKIE['theme'])) {
@@ -72,10 +72,11 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" />
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
@@ -89,32 +90,39 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>
+
 <body class="<?= $languages[$lang]['dir'] ?>">
     <div class="content">
         <section class="container">
             <header>
-                <?php 
-                    if ($theme == "light") {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
-                    } else {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
-                    }
+                <?php
+                if ($theme == "light") {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" /> <?php
+                } else {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" /> <?php
+                }
                 ?>
             </header>
             <div class="message">
                 <?php
-                    if ($validated == false) {
-                        ?>
-                        <ul class="error-box">
-                            <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('email_verification_failed', $i18n) ?></li>
-                        </ul>
-                        <?php
-                    }
+                if ($validated == false) {
+                    ?>
+                    <ul class="error-box">
+                        <li><i
+                                class="fa-solid fa-triangle-exclamation"></i><?= translate('email_verification_failed', $i18n) ?>
+                        </li>
+                    </ul>
+                    <?php
+                }
                 ?>
             </div>
             <div class="separator"></div>
-            <input type="button" class="button" onclick="window.location.href='login.php'" value="<?= translate('login', $i18n) ?>"></input>
+            <input type="button" class="button" onclick="window.location.href='login.php'"
+                value="<?= translate('login', $i18n) ?>"></input>
         </section>
     </div>
 </body>
+
 </html>

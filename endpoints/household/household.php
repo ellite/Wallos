@@ -10,7 +10,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmtInsert->bindParam(':name', $householdName, SQLITE3_TEXT);
         $stmtInsert->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $resultInsert = $stmtInsert->execute();
-    
+
         if ($resultInsert) {
             $householdId = $db->lastInsertRowID();
             $response = [

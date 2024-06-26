@@ -16,7 +16,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmtInsert->bindParam(':rate', $currencyRate, SQLITE3_TEXT);
         $stmtInsert->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $resultInsert = $stmtInsert->execute();
-    
+
         if ($resultInsert) {
             $currencyId = $db->lastInsertRowID();
             echo $currencyId;

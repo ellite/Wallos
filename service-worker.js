@@ -31,6 +31,7 @@ self.addEventListener('install', function(event) {
                 'scripts/settings.js',
                 'scripts/notifications.js',
                 'scripts/registration.js',
+                'scripts/login.js',
                 'scripts/admin.js',
                 'scripts/calendar.js',
                 'scripts/i18n/en.js',

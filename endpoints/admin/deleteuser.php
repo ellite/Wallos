@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Delete payment methods
         $stmt = $db->prepare('DELETE FROM payment_methods WHERE user_id = :id');
         $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
-        $result = $stmt->execute();        
+        $result = $stmt->execute();
 
         // Delete email notifications
         $stmt = $db->prepare('DELETE FROM email_notifications WHERE user_id = :id');
@@ -114,7 +114,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt = $db->prepare('DELETE FROM email_verification WHERE user_id = :id');
         $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
-        
+
         die(json_encode([
             "success" => true,
             "message" => translate('success', $i18n)

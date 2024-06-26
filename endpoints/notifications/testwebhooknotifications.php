@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Execute the request
         $response = curl_exec($ch);
-        
+
         // Close the cURL session
         curl_close($ch);
 

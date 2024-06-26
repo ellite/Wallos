@@ -14,7 +14,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
     header("Location: .");
     exit();
-} 
+}
 
 $requestMode = true;
 $resetMode = false;
@@ -104,10 +104,11 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" />
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
@@ -121,16 +122,19 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     <link rel="stylesheet" href="styles/barlow.css">
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
 </head>
+
 <body class="<?= $languages[$lang]['dir'] ?>">
     <div class="content">
         <section class="container">
             <header>
-                <?php 
-                    if ($theme == "light") {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
-                    } else {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
-                    }
+                <?php
+                if ($theme == "light") {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" /> <?php
+                } else {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" /> <?php
+                }
                 ?>
                 <p>
                     <?= translate('reset_password', $i18n) ?>
@@ -138,8 +142,8 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
             </header>
             <form action="passwordreset.php?submit=true" method="post">
                 <?php
-                    if ($requestMode) {
-                        if (!$hideForm) {
+                if ($requestMode) {
+                    if (!$hideForm) {
                         ?>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
@@ -149,24 +153,24 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                             <input type="submit" value="<?= translate('reset_password', $i18n) ?>">
                         </div>
                         <?php
-                        }
-                        if ($hasSuccessMessage) {
-                            ?>
-                            <ul class="success-box">
-                                <li><i class="fa-solid fa-check"></i><?= translate('reset_sent_check_email', $i18n) ?></li>
-                            </ul>
-                            <?php
-                        }
-                        if ($hasErrorMessage) {
-                            ?>
-                            <ul class="error-box">
-                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('error', $i18n) ?></li>
-                            </ul>
-                            <?php
-                        }
                     }
-                    if ($resetMode) {
-                        if (!$hideForm) {
+                    if ($hasSuccessMessage) {
+                        ?>
+                        <ul class="success-box">
+                            <li><i class="fa-solid fa-check"></i><?= translate('reset_sent_check_email', $i18n) ?></li>
+                        </ul>
+                        <?php
+                    }
+                    if ($hasErrorMessage) {
+                        ?>
+                        <ul class="error-box">
+                            <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('error', $i18n) ?></li>
+                        </ul>
+                        <?php
+                    }
+                }
+                if ($resetMode) {
+                    if (!$hideForm) {
                         ?>
                         <div class="form-group">
                             <input type="hidden" name="token" value="<?= $token ?>">
@@ -182,30 +186,31 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                             <input type="submit" value="<?= translate('reset_password', $i18n) ?>">
                         </div>
                         <?php
-                        }
-                        if ($hasErrorMessage) {
-                            if ($passwordsMismatch) {
-                                ?>
-                                <ul class="error-box">
-                                    <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('passwords_dont_match', $i18n) ?></li>
-                                </ul>
-                                <?php
-                            } else {
-                                ?>
-                                <ul class="error-box">
-                                    <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('error', $i18n) ?></li>
-                                </ul>
-                                <?php
-                            }
-                        }
-                        if ($hasSuccessMessage) {
+                    }
+                    if ($hasErrorMessage) {
+                        if ($passwordsMismatch) {
                             ?>
-                            <ul class="success-box">
-                                <li><i class="fa-solid fa-check"></i><?= translate('password_reset_successful', $i18n) ?></li>
+                            <ul class="error-box">
+                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('passwords_dont_match', $i18n) ?>
+                                </li>
+                            </ul>
+                            <?php
+                        } else {
+                            ?>
+                            <ul class="error-box">
+                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('error', $i18n) ?></li>
                             </ul>
                             <?php
                         }
                     }
+                    if ($hasSuccessMessage) {
+                        ?>
+                        <ul class="success-box">
+                            <li><i class="fa-solid fa-check"></i><?= translate('password_reset_successful', $i18n) ?></li>
+                        </ul>
+                        <?php
+                    }
+                }
                 ?>
                 <div class="login-form-link">
                     <a href="login.php"><?= translate('login', $i18n) ?></a>
@@ -219,6 +224,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
         }
     </script>
 </body>
+
 </html>
 
 ?>
