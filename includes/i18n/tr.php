@@ -181,6 +181,7 @@ $i18n = [
     "custom_colors" => "Özel Renkler",
     "dark_theme" => "Koyu Temayı",
     "switch_theme" => "Açık / Koyu Temayı Değiştir",
+    "automatic"=> "Otomatik",
     "calculate_monthly_price" => "Tüm aboneliklerin aylık fiyatını hesaplayın ve gösterin",
     "convert_prices" => "Fiyatları her zaman ana para birimimde dönüştürün ve gösterin (daha yavaş)",
     "hide_disabled_subscriptions" => "Devre dışı bırakılan abonelikleri gizle",

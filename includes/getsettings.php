@@ -8,8 +8,20 @@ $result = $stmt->execute();
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 if ($settings) {
     $cookieExpire = time() + (30 * 24 * 60 * 60);
-    setcookie('theme', $settings['dark_theme'] ? 'dark': 'light', $cookieExpire);
-    $settings['theme'] = $settings['dark_theme'] ? 'dark': 'light';
+    $themeMapping = array(0 => 'light', 1 => 'dark', 2 => 'automatic');
+    $themeKey = isset($settings['dark_theme']) ? $settings['dark_theme'] : 2;
+    $themeValue = $themeMapping[$themeKey];
+    setcookie('theme', $themeValue, $cookieExpire);
+    $settings['update_theme_setttings'] = false;
+    if (isset($_COOKIE['inUseTheme']) && $settings['dark_theme'] == 2) {
+        $inUseTheme = $_COOKIE['inUseTheme'];
+        $settings['theme'] = $inUseTheme;
+    } else {
+        $settings['theme'] = $themeValue;
+    }
+    if ($themeValue == "automatic") {
+        $settings['update_theme_setttings'] = true;
+    }
     $settings['color_theme'] = $settings['color_theme'] ? $settings['color_theme'] : "blue";
     $settings['showMonthlyPrice'] = $settings['monthly_price'] ? 'true': 'false';
     $settings['convertCurrency'] = $settings['convert_currency'] ? 'true': 'false';

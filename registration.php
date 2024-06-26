@@ -43,8 +43,11 @@ if ($userCount > 0) {
 
 
 $theme = "light";
+$updateThemeSettings = false;
 if (isset($_COOKIE['theme'])) {
     $theme = $_COOKIE['theme'];
+} else {
+    $updateThemeSettings = true;
 }
 
 $colorTheme = "blue";
@@ -297,7 +300,7 @@ if (isset($_POST['username'])) {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>"/>
+        <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color"/>
         <title>Wallos - Subscription Tracker</title>
         <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
@@ -310,6 +313,10 @@ if (isset($_POST['username'])) {
         <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
         <link rel="stylesheet" href="styles/font-awesome.min.css">
         <link rel="stylesheet" href="styles/barlow.css">
+        <script type="text/javascript">
+            window.update_theme_settings = "<?= $updateThemeSettings ?>";
+            window.colorTheme = "<?= $colorTheme ?>";
+        </script>
         <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
     </head>
     <body class="<?= $languages[$lang]['dir'] ?>">
@@ -318,9 +325,9 @@ if (isset($_POST['username'])) {
                 <header>
                 <?php 
                     if ($theme == "light") {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
+                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" id="wallos-logo"/> <?php
                     } else {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" /> <?php
+                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" id="wallos-logo"/> <?php
                     }
                 ?>
                     <p>

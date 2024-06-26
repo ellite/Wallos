@@ -1021,9 +1021,20 @@
                 </div>
             </div>
             <h2><?= translate('dark_theme', $i18n) ?></h2>
-            <div>
-                <input id="switchTheme" type="button" value="<?= translate('switch_theme', $i18n) ?>" onClick="switchTheme()" class="button thin">
-            </div>
+            <div class="form-group-inline">
+                <label for="theme-light" class="capitalize">
+                    <input type="radio" name="theme" id="theme-light" value="light" onClick="setDarkTheme('0')" <?= $settings['dark_theme'] == '0' ? 'checked' : '' ?>>
+                    <?= translate('disabled', $i18n) ?>
+                </label>
+                <label for="theme-dark" class="capitalize">
+                    <input type="radio" name="theme" id="theme-dark" value="dark" onClick="setDarkTheme('1')" <?= $settings['dark_theme'] == '1' ? 'checked' : '' ?>>
+                    <?= translate('enabled', $i18n) ?>
+                </label>
+                <label for="theme-automatic" class="capitalize">
+                    <input type="radio" name="theme" id="theme-automatic" value="automatic" onClick="setDarkTheme('2')" <?= $settings['dark_theme'] == '2' ? 'checked' : '' ?>>
+                    <?= translate('automatic', $i18n) ?>
+                </label>
+            </div>  
         </div>
     </section>
 
