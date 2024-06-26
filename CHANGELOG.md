@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.8.0](https://github.com/ellite/Wallos/compare/v2.7.0...v2.8.0) (2024-06-26)
+
+
+### Features
+
+* also show previous payments on the calendar for the current month ([c2e85d6](https://github.com/ellite/Wallos/commit/c2e85d6e109d9d07cc2fdbcb09b51564d1f73341))
+* support automatic dark mode ([c2e85d6](https://github.com/ellite/Wallos/commit/c2e85d6e109d9d07cc2fdbcb09b51564d1f73341))
+
+
+### Bug Fixes
+
+* not every payment cycle was shown on the calendar ([c2e85d6](https://github.com/ellite/Wallos/commit/c2e85d6e109d9d07cc2fdbcb09b51564d1f73341))
+
 ## [2.7.0](https://github.com/ellite/Wallos/compare/v2.6.1...v2.7.0) (2024-06-25)
 
 
