@@ -281,6 +281,7 @@ $i18n = [
     "user_management" => "Benutzerverwaltung",
     "delete_user" => "Benutzer löschen",
     "delete_user_info" => "Durch das Löschen eines Benutzers werden auch alle seine Abonnements und Einstellungen gelöscht.",
+    "create_user" => "Benutzer erstellen",
     "smtp_settings" => "SMTP Einstellungen",
     "smtp_usage_info" => "Wird für die Passwortwiederherstellung und andere System-E-Mails verwendet",
     // Email Verification

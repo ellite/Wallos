@@ -281,6 +281,7 @@ $i18n = [
     "user_management" => "使用者管理",
     "delete_user" => "刪除使用者",
     "delete_user_info" => "刪除用戶也會刪除其所有訂閱和設定。",
+    "create_user" => "建立使用者",
     "smtp_settings" => "SMTP 設定",
     "smtp_usage_info" => "將用於密碼恢復和其他系統電子郵件。",
     // Email Verification

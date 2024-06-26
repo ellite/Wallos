@@ -225,3 +225,41 @@ function removeUser(userId) {
   .catch(error => showErrorMessage('Error:', error));
 
 }
+
+function addUserButton() {
+  const button = document.getElementById('addUserButton');
+  button.disabled = true;
+
+  const username = document.getElementById('newUsername').value;
+  const email = document.getElementById('newEmail').value;
+  const password = document.getElementById('newPassword').value;
+
+  const data = {
+    username: username,
+    email: email,
+    password: password
+  };
+
+  fetch('endpoints/admin/adduser.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      button.disabled = false;
+      window.location.reload();
+    } else {
+      showErrorMessage(data.message);
+      button.disabled = false;
+    }
+  })
+  .catch(error => {
+    showErrorMessage(error);
+    button.disabled = false;
+  });
+}

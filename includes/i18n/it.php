@@ -299,6 +299,7 @@ $i18n = [
     "user_management" => "Gestione utenti",
     "delete_user" => "Elimina utente",
     "delete_user_info" => "L'eliminazione di un utente eliminerà anche tutte le sue iscrizioni e impostazioni.",
+    "create_user" => "Crea utente",
     "smtp_settings" => "Impostazioni SMTP",
     "smtp_usage_info" => "Verrà utilizzato per il recupero della password e altre e-mail di sistema.",
 

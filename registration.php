@@ -151,7 +151,7 @@ $emailExists = false;
 $registrationFailed = false;
 $hasErrors = false;
 if (isset($_POST['username'])) {
-    $username = validate($_POST['username']);
+    $username = validate(strtolower($_POST['username']));
     $email = validate($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -263,7 +263,7 @@ if (isset($_POST['username'])) {
 
                 // Add settings for that user
                 $query = "INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id) 
-                          VALUES (0, 0, 0, 0, 'blue', 0, :user_id)";
+                          VALUES (2, 0, 0, 0, 'blue', 0, :user_id)";
                 $stmt = $db->prepare($query);
                 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
                 $stmt->execute();

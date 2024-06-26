@@ -157,6 +157,18 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <?= translate('delete_user_info', $i18n) ?>
                 </p>
             </div>
+            <h2><?= translate('create_user', $i18n) ?></h2>
+            <div class="form-group">
+                <input type="text" id="newUsername" placeholder="<?= translate('username', $i18n) ?>" />
+            </div>
+            <div class="form-group">    
+                <input type="email" id="newEmail" placeholder="<?= translate('email', $i18n) ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="password" id="newPassword" placeholder="<?= translate('password', $i18n) ?>" />
+                <input type="submit" class="thin" value="<?= translate('add', $i18n) ?>" id="addUserButton"
+                    onClick="addUserButton()" />
+            </div>
         </section>
 
         <?php

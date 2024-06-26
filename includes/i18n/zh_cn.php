@@ -299,6 +299,7 @@ $i18n = [
     "user_management" => "用户管理",
     "delete_user" => "删除用户",
     "delete_user_info" => "删除用户也会删除其所有订阅和设置。",
+    "create_user" => "创建用户",
     "smtp_settings" => "SMTP 设置",
     "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
 

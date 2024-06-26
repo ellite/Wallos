@@ -280,6 +280,7 @@ $i18n = [
     "user_management" => "Управљање корисницима",
     "delete_user" => "Обриши корисника",
     "delete_user_info" => "Брисање корисника ће такође обрисати све његове претплате и податке.",
+    "create_user" => "Креирај корисника",
     "smtp_settings" => "SMTP подешавања",
     "smtp_usage_info" => "SMTP се користи за слање е-поште за обавештења.",
     // Email Verification
