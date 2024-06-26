@@ -135,8 +135,17 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                       default:
                         $incrementString = "+{$frequency} months"; // Default case, if needed
                     }
+
+                    // Calculate the start of the month
+                    $startOfMonth = strtotime($calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) . '-01');
+
+                    // Find the first payment date of the month by moving backwards
+                    $startDate = $nextPaymentDate;
+                    while ($startDate > $startOfMonth) {
+                        $startDate = strtotime("-" . $incrementString, $startDate);
+                    }
   
-                    for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
+                    for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                       if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                         if (date('d', $date) == $day) {
                           ?>
@@ -195,7 +204,16 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                       $incrementString = "+{$frequency} months"; // Default case, if needed
                   }
 
-                  for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
+                  // Calculate the start of the month
+                  $startOfMonth = strtotime($calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) . '-01');
+
+                  // Find the first payment date of the month by moving backwards
+                  $startDate = $nextPaymentDate;
+                  while ($startDate > $startOfMonth) {
+                      $startDate = strtotime("-" . $incrementString, $startDate);
+                  }
+
+                  for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                     if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                       if (date('d', $date) == $day) {
                         ?>
