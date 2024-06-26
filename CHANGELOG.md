@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.0](https://github.com/ellite/Wallos/compare/v2.8.0...v2.9.0) (2024-06-26)
+
+
+### Features
+
+* create users from the admin page ([#409](https://github.com/ellite/Wallos/issues/409)) ([6d2ffa6](https://github.com/ellite/Wallos/commit/6d2ffa6312b05f308117f2686681e2fcfaf734ec))
+
 ## [2.8.0](https://github.com/ellite/Wallos/compare/v2.7.0...v2.8.0) (2024-06-26)
 
 
