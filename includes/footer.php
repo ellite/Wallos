@@ -25,10 +25,11 @@
   </div>
 
   <?php
-    if (isset($db)) {
-        $db->close();
-    }
+  if (isset($db)) {
+    $db->close();
+  }
   ?>
 
-</body>
+  </body>
+
 </html>

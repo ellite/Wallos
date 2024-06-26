@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $postData = file_get_contents("php://input");
     $data = json_decode($postData, true);
-    
+
     $remove_background = $data['value'];
 
     $stmt = $db->prepare('UPDATE settings SET remove_background = :remove_background WHERE user_id = :userId');

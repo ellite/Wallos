@@ -40,17 +40,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 ]
             ]
         ];
-        
+
         if (!empty($bot_username)) {
             $postfields['username'] = $bot_username;
         }
-        
+
         if (!empty($bot_avatar_url)) {
             $postfields['avatar_url'] = $bot_avatar_url;
         }
 
         $ch = curl_init();
-        
+
         // Set the URL and other options
         curl_setopt($ch, CURLOPT_URL, $webhook_url);
         curl_setopt($ch, CURLOPT_POST, 1);

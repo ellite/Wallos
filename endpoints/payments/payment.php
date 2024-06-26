@@ -51,5 +51,5 @@ if ($resultUpdate) {
 
 die(json_encode([
     "success" => false,
-    "message" => tranlate('failed_update_payment', $i18n)
+    "message" => translate('failed_update_payment', $i18n)
 ]));

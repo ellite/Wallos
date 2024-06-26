@@ -9,7 +9,8 @@ if (isset($_COOKIE['language'])) {
     }
 }
 
-function translate($text, $translations) {
+function translate($text, $translations)
+{
     if (array_key_exists($text, $translations)) {
         return $translations[$text];
     } else {

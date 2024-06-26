@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($subscription) {
         // get payer name from household object
-        $subscription['payer_user'] = $members[$subscription['payer_user_id']]['name']; 
+        $subscription['payer_user'] = $members[$subscription['payer_user_id']]['name'];
         $subscription['category'] = $categories[$subscription['category_id']]['name'];
         $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
         $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];

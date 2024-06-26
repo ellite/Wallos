@@ -8,21 +8,23 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     ]));
 }
 
-function addFolderToZip($dir, $zipArchive, $zipdir = ''){
+function addFolderToZip($dir, $zipArchive, $zipdir = '')
+{
     if (is_dir($dir)) {
         if ($dh = opendir($dir)) {
             //Add the directory
-            if(!empty($zipdir)) $zipArchive->addEmptyDir($zipdir);
+            if (!empty($zipdir))
+                $zipArchive->addEmptyDir($zipdir);
             while (($file = readdir($dh)) !== false) {
                 // Skip '.' and '..'
                 if ($file == "." || $file == "..") {
                     continue;
                 }
                 //If it's a folder, run the function again!
-                if(is_dir($dir . $file)){
+                if (is_dir($dir . $file)) {
                     $newdir = $dir . $file . '/';
                     addFolderToZip($newdir, $zipArchive, $zipdir . $file . '/');
-                }else{
+                } else {
                     //Add the files
                     $zipArchive->addFile($dir . $file, $zipdir . $file);
                 }
@@ -40,7 +42,7 @@ $zip = new ZipArchive();
 $filename = "backup_" . uniqid() . ".zip";
 $zipname = "../../.tmp/" . $filename;
 
-if ($zip->open($zipname, ZipArchive::CREATE)!==TRUE) {
+if ($zip->open($zipname, ZipArchive::CREATE) !== TRUE) {
     die(json_encode([
         "success" => false,
         "message" => translate('cannot_open_zip', $i18n)

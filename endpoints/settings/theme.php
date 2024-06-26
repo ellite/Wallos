@@ -11,7 +11,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $postData = file_get_contents("php://input");
     $data = json_decode($postData, true);
-    
+
     $theme = $data['theme'];
 
     $stmt = $db->prepare('UPDATE settings SET dark_theme = :theme WHERE user_id = :userId');

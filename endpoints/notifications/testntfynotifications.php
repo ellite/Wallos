@@ -26,9 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $host = rtrim($data["host"], '/');
         $topic = $data["topic"];
         $headers = json_decode($data["headers"], true);
-        $customheaders = array_map(function($key, $value) {
+        $customheaders = array_map(function ($key, $value) {
             return "$key: $value";
-        }, array_keys($headers), $headers);   
+        }, array_keys($headers), $headers);
 
         $url = "$host/$topic";
 

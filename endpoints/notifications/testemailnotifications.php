@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $fromEmail = $data["fromemail"] ? $data['fromemail'] : "wallos@wallosapp.com";
 
         $mail = new PHPMailer(true);
-        $mail->CharSet="UTF-8";
+        $mail->CharSet = "UTF-8";
         $mail->isSMTP();
 
         $mail->Host = $smtpAddress;

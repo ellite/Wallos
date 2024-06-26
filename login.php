@@ -18,14 +18,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
     header("Location: .");
     exit();
-} 
+}
 
 // Check if login is disabled
 $adminQuery = "SELECT login_disabled FROM admin";
 $adminResult = $db->query($adminQuery);
 $adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
 if ($adminRow['login_disabled'] == 1) {
-    
+
     $query = "SELECT id, username, main_currency, language FROM user WHERE id = :id";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':id', 1, SQLITE3_INTEGER);
@@ -57,7 +57,7 @@ if ($adminRow['login_disabled'] == 1) {
         $stmt = $db->prepare($query);
         $result = $stmt->execute();
         $settings = $result->fetchArray(SQLITE3_ASSOC);
-        setcookie('colorTheme', $settings['color_theme'], $cookieExpire);    
+        setcookie('colorTheme', $settings['color_theme'], $cookieExpire);
 
         $cookieValue = $username . "|" . "abc123ABC" . "|" . $main_currency;
         setcookie('wallos_login', $cookieValue, $cookieExpire);
@@ -126,7 +126,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     $result = $stmt->execute();
                     $settings = $result->fetchArray(SQLITE3_ASSOC);
                     setcookie('colorTheme', $settings['color_theme'], $cookieExpire);
-                    
+
                     $token = bin2hex(random_bytes(32));
                     $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
                     $addLoginTokensStmt = $db->prepare($addLoginTokens);
@@ -141,7 +141,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 header("Location: .");
                 exit();
             }
-            
+
         } else {
             $loginFailed = true;
         }
@@ -178,10 +178,11 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color"/>
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color" />
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon.png">
@@ -200,16 +201,19 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
     </script>
     <script type="text/javascript" src="scripts/login.js?<?= $version ?>"></script>
 </head>
+
 <body class="<?= $languages[$lang]['dir'] ?>">
     <div class="content">
         <section class="container">
             <header>
-                <?php 
-                    if ($theme == "light") {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" id="wallos-logo"/> <?php
-                    } else {
-                        ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo" title="Wallos - Subscription Tracker" width="215" id="wallos-logo"/> <?php
-                    }
+                <?php
+                if ($theme == "light") {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
+                } else {
+                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
+                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
+                }
                 ?>
                 <p>
                     <?= translate('please_login', $i18n) ?>
@@ -232,62 +236,65 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
                     <input type="submit" value="<?= translate('login', $i18n) ?>">
                 </div>
                 <?php
-                    if ($loginFailed) {
-                        ?>
-                        <ul class="error-box">
+                if ($loginFailed) {
+                    ?>
+                    <ul class="error-box">
                         <?php
-                            if ($userEmailWaitingVerification) {
-                                ?>
-                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('user_email_waiting_verification', $i18n) ?></li>
-                                <?php
-                            } else {
-                                ?>
-                                <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('login_failed', $i18n) ?></li>
-                                <?php
-                            }
+                        if ($userEmailWaitingVerification) {
+                            ?>
+                            <li><i
+                                    class="fa-solid fa-triangle-exclamation"></i><?= translate('user_email_waiting_verification', $i18n) ?>
+                            </li>
+                            <?php
+                        } else {
+                            ?>
+                            <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('login_failed', $i18n) ?></li>
+                            <?php
+                        }
                         ?>
-                        </ul>
+                    </ul>
+                    <?php
+                }
+                if ($hasSuccessMessage) {
+                    ?>
+                    <ul class="success-box">
                         <?php
-                    }
-                    if ($hasSuccessMessage) {
-                        ?>
-                        <ul class="success-box">
-                        <?php
-                            if (isset($_GET['validated']) && $_GET['validated'] == "true") {
-                                ?>
-                                <li><i class="fa-solid fa-check"></i><?= translate('email_verified', $i18n) ?></li>
-                                <?php
-                            } else if (isset($_GET['registered']) && $_GET['registered']) {
-                                ?>
+                        if (isset($_GET['validated']) && $_GET['validated'] == "true") {
+                            ?>
+                            <li><i class="fa-solid fa-check"></i><?= translate('email_verified', $i18n) ?></li>
+                            <?php
+                        } else if (isset($_GET['registered']) && $_GET['registered']) {
+                            ?>
                                 <li><i class="fa-solid fa-check"></i><?= translate('registration_successful', $i18n) ?></li>
                                 <?php
                                 if (isset($_GET['requireValidation']) && $_GET['requireValidation'] == true) {
                                     ?>
                                     <li><?= translate('user_email_waiting_verification', $i18n) ?></li>
-                                    <?php
+                                <?php
                                 }
-                            }
+                        }
                         ?>
-                        </ul>
-                        <?php
-                    }
+                    </ul>
+                    <?php
+                }
 
-                    if ($resetPasswordEnabled) {
-                        ?>
-                        <div class="login-form-link">
-                            <a href="passwordreset.php"><?= translate('forgot_password', $i18n) ?></a>
-                        </div>
-                        <?php
-                    }
+                if ($resetPasswordEnabled) {
+                    ?>
+                    <div class="login-form-link">
+                        <a href="passwordreset.php"><?= translate('forgot_password', $i18n) ?></a>
+                    </div>
+                    <?php
+                }
                 ?>
                 <?php
-                    if ($registrations) {
-                        ?>
-                        <div class="separator">
-                            <input type="button" class="secondary-button" onclick="openRegitrationPage()" value="<?= translate('register', $i18n) ?>"></input>
-                        </div>
-                        <?php
-                    }
+                if ($registrations) {
+                    ?>
+                    <div class="separator">
+                        <input type="button" class="secondary-button" onclick="openRegitrationPage()"
+                            value="<?= translate('register', $i18n) ?>"></input>
+                    </div>
+                    <?php
+                }
                 ?>
             </form>
         </section>
@@ -298,4 +305,5 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
         }
     </script>
 </body>
+
 </html>
