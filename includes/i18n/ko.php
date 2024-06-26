@@ -282,6 +282,7 @@ $i18n = [
     "user_management" => "유저 관리",
     "delete_user" => "유저 삭제",
     "delete_user_info" => "사용자를 삭제하면 모든 구독 및 설정도 삭제됩니다.",
+    "create_user" => "유저 생성",
     "smtp_settings" => "SMTP 설정",
     "smtp_usage_info" => "비밀번호 복구 및 기타 시스템 이메일에 사용됩니다.",
     // Email Verification

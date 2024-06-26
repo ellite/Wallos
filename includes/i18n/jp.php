@@ -281,6 +281,7 @@ $i18n = [
     "user_management" => "ユーザー管理",
     "delete_user" => "ユーザーを削除",
     "delete_user_info" => "ユーザーを削除すると、そのユーザーのサブスクリプションと設定もすべて削除されます。",
+    "create_user" => "ユーザーを作成",
     "smtp_settings" => "SMTP設定",
     "smtp_usage_info" => "パスワードの回復やその他のシステム電子メールに使用されます。",
     // Email Verification

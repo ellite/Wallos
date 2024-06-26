@@ -282,6 +282,7 @@ $i18n = [
     "user_management" => "Kullanıcı Yönetimi",
     "delete_user" => "Kullanıcıyı Sil",
     "delete_user_info" => "Bir kullanıcının silinmesi aynı zamanda tüm aboneliklerinin ve ayarlarının da silinmesine neden olur.",
+    "create_user" => "Kullanıcı Oluştur",
     "smtp_settings" => "SMTP Ayarları",
     "smtp_usage_info" => "Şifre kurtarma ve diğer sistem e-postaları için kullanılacaktır.",
     // Email Verification

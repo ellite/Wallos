@@ -281,6 +281,7 @@ $i18n = [
     "user_management" => "Gestão de Utilizadores",
     "delete_user" => "Apagar Utilizador",
     "delete_user_info" => "Apagar utilizador irá remover todas as suas subscrições e dados associados.",
+    "create_user" => "Criar Utilizador",
     "smtp_settings" => "Definições SMTP",
     "smtp_usage_info" => "Será usado para recuperações de password e outros emails do sistema.",
     // Email Verification
