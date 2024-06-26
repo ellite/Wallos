@@ -1,22 +1,6 @@
 <?php
 require_once 'includes/header.php';
 
-function getCycleDays($cycleId)
-{
-  switch ($cycleId) {
-    case 1:
-      return 1; // Daily
-    case 2:
-      return 7; // Weekly
-    case 3:
-      return 30; // Monthly
-    case 4:
-      return 365; // Yearly
-    default:
-      return 0;
-  }
-}
-
 $currentMonth = date('m');
 $currentYear = date('Y');
 $sameAsCurrent = false;
@@ -129,18 +113,35 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                   <?php
                   foreach ($subscriptions as $subscription) {
                     $nextPaymentDate = strtotime($subscription['next_payment']);
-                    $cycleDays = getCycleDays($subscription['cycle']);
+                    $cycle = $subscription['cycle']; // Integer from 1 to 4
                     $frequency = $subscription['frequency'];
-
-                    // Calculate the end date for displaying this subscription, for simplicity, we'll assume a 2-year range
+  
                     $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
-
-                    for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime("+{$frequency} month", $date)) {
+  
+                    // Determine the strtotime increment string based on cycle
+                    switch ($cycle) {
+                      case 1: // Days
+                        $incrementString = "+{$frequency} days";
+                        break;
+                      case 2: // Weeks
+                        $incrementString = "+{$frequency} weeks";
+                        break;
+                      case 3: // Months
+                        $incrementString = "+{$frequency} months";
+                        break;
+                      case 4: // Years
+                        $incrementString = "+{$frequency} years";
+                        break;
+                      default:
+                        $incrementString = "+{$frequency} months"; // Default case, if needed
+                    }
+  
+                    for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                       if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                         if (date('d', $date) == $day) {
                           ?>
                           <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                            <?= $subscription['name'] ?>
+                            <?= htmlspecialchars($subscription['name']) ?>
                           </div>
                           <?php
                         }
@@ -171,17 +172,35 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                 <?php
                 foreach ($subscriptions as $subscription) {
                   $nextPaymentDate = strtotime($subscription['next_payment']);
-                  $cycleDays = getCycleDays($subscription['cycle']); // Function to get the number of days based on the cycle id
+                  $cycle = $subscription['cycle']; // Integer from 1 to 4
                   $frequency = $subscription['frequency'];
 
                   $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
 
-                  for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime("+{$frequency} month", $date)) {
+                  // Determine the strtotime increment string based on cycle
+                  switch ($cycle) {
+                    case 1: // Days
+                      $incrementString = "+{$frequency} days";
+                      break;
+                    case 2: // Weeks
+                      $incrementString = "+{$frequency} weeks";
+                      break;
+                    case 3: // Months
+                      $incrementString = "+{$frequency} months";
+                      break;
+                    case 4: // Years
+                      $incrementString = "+{$frequency} years";
+                      break;
+                    default:
+                      $incrementString = "+{$frequency} months"; // Default case, if needed
+                  }
+
+                  for ($date = $nextPaymentDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                     if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                       if (date('d', $date) == $day) {
                         ?>
                         <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                          <?= $subscription['name'] ?>
+                          <?= htmlspecialchars($subscription['name']) ?>
                         </div>
                         <?php
                       }
