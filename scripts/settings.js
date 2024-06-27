@@ -1049,7 +1049,7 @@ var sortable = Sortable.create(el, {
 
 function setTheme(themeColor) {
   var currentTheme = 'blue';
-  var themeIds = ['red-theme', 'green-theme', 'yellow-theme'];
+  var themeIds = ['red-theme', 'green-theme', 'yellow-theme', 'purple-theme'];
 
   themeIds.forEach(function(id) {
     var themeStylesheet = document.getElementById(id);
