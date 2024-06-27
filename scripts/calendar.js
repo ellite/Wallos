@@ -89,7 +89,7 @@ function exportCalendar(subscriptionId) {
       const a = document.createElement('a');
       a.href = url;
       // Use the subscription name for the file name, replacing any characters that are invalid in file names
-      a.download = `${data.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+      a.download = `${data.name.replace(/[\/\\:*?"<>|]/g, '_').toLowerCase()}.ics`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

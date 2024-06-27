@@ -1899,6 +1899,18 @@ textarea.thin {
   background-color: #cd930c;
 }
 
+.theme-preview.purple > .main-color {
+  background-color: #6d4aff;
+}
+
+.theme-preview.purple > .accent-color {
+  background-color: #b086ff;
+}
+
+.theme-preview.purple > .hover-color {
+  background-color: #5e42cd;
+}
+
 .color-picker-wrapper {
   display: flex;
   flex-direction: row;

@@ -1067,7 +1067,7 @@ require_once 'includes/header.php';
         </header>
         <div class="account-settings-theme">
             <div>
-                <div class="theme-selector">
+                <form class="theme-selector">
                     <div class="theme">
                         <label for="theme-blue"
                             class="theme-preview blue <?= $settings['color_theme'] == 'blue' ? 'is-selected' : '' ?>">
@@ -1108,7 +1108,17 @@ require_once 'includes/header.php';
                             <span class="hover-color"></span>
                         </label>
                     </div>
-                </div>
+                    <div class="theme">
+                        <label for="theme-purple"
+                            class="theme-preview purple <?= $settings['color_theme'] == 'purple' ? 'is-selected' : '' ?>">
+                            <input type="radio" name="theme" id="theme-purple" value="purple"
+                                onClick="setTheme('purple')" <?= $settings['color_theme'] == 'purple' ? 'checked' : '' ?>>
+                            <span class="main-color"></span>
+                            <span class="accent-color"></span>
+                            <span class="hover-color"></span>
+                        </label>
+                    </div>
+                </form>
             </div>
             <div>
                 <h2><?= translate('custom_colors', $i18n) ?></h2>
