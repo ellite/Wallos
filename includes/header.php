@@ -91,7 +91,9 @@
     <div class="contain">
       <div class="logo">
           <a href=".">
-              <div class="logo-image"></div>
+              <div class="logo-image" title="Wallos - Subscription Tracker">
+              <?php include "images/siteicons/svg/logo.php"; ?>
+              </div>
           </a>
       </div>
       <nav>

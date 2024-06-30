@@ -29,7 +29,6 @@ if ($result) {
 }
 
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
-$defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
 ?>
 <style>
   .logo-preview:after {
@@ -168,7 +167,7 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
       }
       $id = $subscription['id'];
       $print[$id]['id'] = $id;
-      $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : $defaultLogo;
+      $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
       $print[$id]['name'] = $subscription['name'];
       $cycle = $subscription['cycle'];
       $frequency = $subscription['frequency'];
@@ -198,7 +197,7 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme);
+      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "");
     }
     $db->close();
 
@@ -238,7 +237,7 @@ $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.
         <input type="hidden" id="logo-url" name="logo-url">
         <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>"
           onClick="searchLogo()">
-          <img src="images/siteicons/<?= $colorTheme ?>/websearch.png">
+          <?php include "images/siteicons/svg/websearch.php"; ?>
         </div>
         <input type="hidden" id="id" name="id">
         <div id="logo-search-results" class="logo-search">

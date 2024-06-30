@@ -10,3 +10,15 @@
     --success-color: #188823;
     --success-color-rgb: 24, 136, 35;
 }
+
+svg .main-color {
+    fill: var(--main-color);
+}
+
+svg .accent-color {
+    fill: var(--accent-color);
+}
+
+svg .text-color {
+    fill: #202020;
+}

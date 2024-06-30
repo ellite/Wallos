@@ -327,15 +327,9 @@ if (isset($_POST['username'])) {
     <div class="content">
         <section class="container">
             <header>
-                <?php
-                if ($theme == "light") {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
-                } else {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
-                }
-                ?>
+                <div class="logo-image" title="Wallos - Subscription Tracker">
+                    <?php include "images/siteicons/svg/logo.php"; ?>
+                </div>
                 <p>
                     <?= translate('create_account', $i18n) ?>
                 </p>
@@ -364,7 +358,7 @@ if (isset($_POST['username'])) {
                         foreach ($currencies as $currency) {
                             ?>
                             <option value="<?= $currency['code'] ?>"><?= $currency['name'] ?></option>
-                        <?php
+                            <?php
                         }
                         ?>
                     </select>

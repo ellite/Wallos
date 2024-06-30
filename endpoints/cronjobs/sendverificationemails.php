@@ -53,7 +53,7 @@ if ($rows) {
                 $mail->addAddress($user['email']);
                 $mail->isHTML(true);
                 $mail->Subject = 'Wallos - Email Verification';
-                $mail->Body = '<img src="' . $server_url . '/images/siteicons/blue/wallos.png" alt="Logo" />
+                $mail->Body = '<img src="' . $server_url . '/images/siteicons/wallos.png" alt="Logo" />
                     <br>
                     Registration on Wallos was successful.
                     <br>

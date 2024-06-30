@@ -207,15 +207,9 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
     <div class="content">
         <section class="container">
             <header>
-                <?php
-                if ($theme == "light") {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
-                } else {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" id="wallos-logo" /> <?php
-                }
-                ?>
+                <div class="logo-image" title="Wallos - Subscription Tracker">
+                    <?php include "images/siteicons/svg/logo.php"; ?>
+                </div>
                 <p>
                     <?= translate('please_login', $i18n) ?>
                 </p>

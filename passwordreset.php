@@ -128,15 +128,9 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     <div class="content">
         <section class="container">
             <header>
-                <?php
-                if ($theme == "light") {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/wallos.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" /> <?php
-                } else {
-                    ?> <img src="images/siteicons/<?= $colorTheme ?>/walloswhite.png" alt="Wallos Logo"
-                        title="Wallos - Subscription Tracker" width="215" /> <?php
-                }
-                ?>
+                <div class="logo-image" title="Wallos - Subscription Tracker">
+                    <?php include "images/siteicons/svg/logo.php"; ?>
+                </div>
                 <p>
                     <?= translate('reset_password', $i18n) ?>
                 </p>

@@ -7,8 +7,8 @@ body > header {
     background-color: #222;
 }
 
-header .logo .logo-image {
-    background-image: url("../images/siteicons/blue/walloswhite.png");
+svg .text-color {
+    fill: #E0E0E0;
 }
 
 .split-header > h2 .header-subtitle {
