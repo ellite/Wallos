@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.1](https://github.com/ellite/Wallos/compare/v2.11.0...v2.11.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* syntax error on svg logo ([#417](https://github.com/ellite/Wallos/issues/417)) ([b82f750](https://github.com/ellite/Wallos/commit/b82f750c8e844012a8a12e33f01719f42199e7ce))
+
 ## [2.11.0](https://github.com/ellite/Wallos/compare/v2.10.0...v2.11.0) (2024-06-30)
 
 
