@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.0](https://github.com/ellite/Wallos/compare/v2.10.0...v2.11.0) (2024-06-30)
+
+
+### Features
+
+* theming engine custom colors now affect icons as well ([83e2066](https://github.com/ellite/Wallos/commit/83e2066e7bee99a152cc3c22f5b1dd9c9866c9fd))
+
 ## [2.10.0](https://github.com/ellite/Wallos/compare/v2.9.0...v2.10.0) (2024-06-27)
 
 
