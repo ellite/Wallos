@@ -67,8 +67,11 @@ header .logo .logo-image {
   height: 50px;
   width: 134px;
   margin-right: 10px;
-  background-image: url("../images/siteicons/blue/wallos.png");
-  background-size: 100%;
+}
+
+header .logo .logo-image svg {
+  height: 50px;
+  width: 134px;
 }
 
 .button-icon {
@@ -356,6 +359,17 @@ main > .contain {
   overflow: hidden;
 }
 
+.subscription-main .actions svg {
+  width: 32px;
+  height: 32px;
+}
+
+.subscription-secondary svg,
+.subscription-notes svg {
+  width: 20px;
+  height: 20px;
+}
+
 .subscription-main > span,
 .subscription-secondary > span {
   display: flex;
@@ -376,6 +390,11 @@ main > .contain {
   max-height: 42px;
   object-fit: contain;
   min-width: 32px;
+}
+
+.subscription .logo svg {
+  max-width: 100%;
+  height: 42px;
 }
 
 .subscription .name {
@@ -797,7 +816,13 @@ header #avatar {
   padding: 2px;
 }
 
-.image-button.disabled > img {
+.image-button > svg {
+  width: 32px;
+  height: 32px;
+}
+
+.image-button.disabled > img,
+.image-button.disabled > svg {
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
 }
@@ -1421,11 +1446,18 @@ textarea.thin {
   background-color: #EEE;
 }
 
-.sort-options > ul > li.selected {
-  background-image: url("../images/siteicons/check.png");
-  background-size: 16px;
-  background-repeat: no-repeat;
-  background-position: center right 10px;
+.sort-options > ul > li.selected::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  background-color: var(--main-color);
+  -webkit-mask: url("../images/siteicons/svg/check.php") no-repeat center;
+  mask: url("../images/siteicons/svg/check.php") no-repeat center;
+  background-size: 100% 100%;
 }
 
 .rtl .sort-options > ul > li.selected {
@@ -1775,10 +1807,21 @@ textarea.thin {
 }
 
 .filtermenu-content .filter-item.selected {
-  background-image: url(../images/siteicons/check.png);
-  background-size: 16px;
-  background-repeat: no-repeat;
-  background-position: center right 10px;
+  position: relative;
+}
+
+.filtermenu-content .filter-item.selected::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px; /* Explicitly set the size */
+  height: 16px; /* Explicitly set the size */
+  background-color: var(--main-color); /* Set your desired color here */
+  -webkit-mask: url("../images/siteicons/svg/check.php") no-repeat center;
+  mask: url("../images/siteicons/svg/check.php") no-repeat center;
+  background-size: 100% 100%; /* Ensure the icon scales correctly */
 }
 
 .rtl .filtermenu-content .filter-item.selected {

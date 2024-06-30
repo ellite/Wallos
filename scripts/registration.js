@@ -166,10 +166,6 @@ function checkThemeNeedsUpdate() {
     document.body.className = themePreference;
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#222222' : '#FFFFFF');
-    const logoImage = document.querySelector('#wallos-logo');
-    const imageName = themePreference === 'dark' ? 'walloswhite' : 'wallos';
-    const colorTheme = window.color_theme ?? 'blue';
-    logoImage.src = `images/siteicons/${colorTheme}/${imageName}.png`;
   }
 }
 

@@ -68,14 +68,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
-  $defaultLogo = $theme == "light" ? "images/siteicons/" . $colorTheme . "/wallos.png" : "images/siteicons/" . $colorTheme . "/walloswhite.png";
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
       continue;
     }
     $id = $subscription['id'];
     $print[$id]['id'] = $id;
-    $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : $defaultLogo;
+    $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
     $print[$id]['name'] = htmlspecialchars_decode($subscription['name'] ?? "");
     $cycle = $subscription['cycle'];
     $frequency = $subscription['frequency'];
@@ -105,7 +104,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme);
+    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../");
   }
 
   if (count($subscriptions) == 0) {

@@ -3,6 +3,10 @@ body {
     color: #E0E0E0;
 }
 
+svg .text-color {
+    fill: #E0E0E0;
+}
+
 .container {
     background-color: #222;
     border: 1px solid #333;

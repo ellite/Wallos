@@ -45,6 +45,17 @@ body, html {
     text-align: center;
 }
 
+header .logo-image {
+  height: 50px;
+  width: 134px;
+  margin: 0px auto;
+}
+
+header .logo-image svg {
+  height: 50px;
+  width: 134px;
+}
+
 .container > .message {
   text-align: center;
   font-size: 18px;

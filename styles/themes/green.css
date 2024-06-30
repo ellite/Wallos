@@ -6,16 +6,3 @@
     --hover-color: #556B2F; /* Olive Drab */
     --hover-color-rgb: 85, 107, 47;
 }
-
-header .logo .logo-image {
-    background-image: url("../../images/siteicons/green/wallos.png");
-}
-
-.dark header .logo .logo-image {
-    background-image: url("../../images/siteicons/green/walloswhite.png");
-}
-
-.sort-options > ul > li.selected,
-.filtermenu-content .filter-item.selected {
-    background-image: url("../../images/siteicons/green/check.png");
-}

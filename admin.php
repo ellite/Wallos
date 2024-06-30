@@ -130,16 +130,14 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                             <?php
                             if ($user['id'] != 1) {
                                 ?>
-                                <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)">
-                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                        title="<?= translate('delete_user', $i18n) ?>">
+                                <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)" title="<?= translate('delete_user', $i18n) ?>">
+                                    <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
                             } else {
                                 ?>
-                                <button class="image-button medium disabled" disabled>
-                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                        title="<?= translate('delete_user', $i18n) ?>">
+                                <button class="image-button medium disabled" disabled  title="<?= translate('delete_user', $i18n) ?>">
+                                    <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
                             }

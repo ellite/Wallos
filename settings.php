@@ -178,23 +178,20 @@ require_once 'includes/header.php';
                             <?php
                         }
                         ?>
-                        <button class="image-button medium" onClick="editMember(<?= $member['id'] ?>)" name="save">
-                            <img src="images/siteicons/<?= $colorTheme ?>/save.png"
-                                title="<?= translate('save_member', $i18n) ?>">
+                        <button class="image-button medium" onClick="editMember(<?= $member['id'] ?>)" name="save" title="<?= translate('save_member', $i18n) ?>">
+                            <?php include "images/siteicons/svg/save.php"; ?>
                         </button>
                         <?php
                         if ($index !== 0) {
                             ?>
-                            <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)">
-                                <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                    title="<?= translate('delete_member', $i18n) ?>">
+                            <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)" title="<?= translate('delete_member', $i18n) ?>">
+                                <?php include "images/siteicons/svg/delete.php"; ?>
                             </button>
                             <?php
                         } else {
                             ?>
-                            <button class="image-button medium disabled">
-                                <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                    title="<?= translate('cant_delete_member', $i18n) ?>">
+                            <button class="image-button medium disabled" title="<?= translate('cant_delete_member', $i18n) ?>">
+                                <?php include "images/siteicons/svg/delete.php"; ?>
                             </button>
                             <?php
                         }
@@ -750,23 +747,20 @@ require_once 'includes/header.php';
                         <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
                             <div class=" drag-icon"><i class="fa-solid fa-grip-vertical"></i></div>
                             <input type="text" name="category" value="<?= $category['name'] ?>" placeholder="Category">
-                            <button class="image-button medium" onClick="editCategory(<?= $category['id'] ?>)" name="save">
-                                <img src="images/siteicons/<?= $colorTheme ?>/save.png"
-                                    title="<?= translate('save_category', $i18n) ?>">
+                            <button class="image-button medium" onClick="editCategory(<?= $category['id'] ?>)" name="save" title="<?= translate('save_category', $i18n) ?>">
+                                <?php include "images/siteicons/svg/save.php"; ?>
                             </button>
                             <?php
                             if ($canDelete) {
                                 ?>
-                                <button class="image-button medium" onClick="removeCategory(<?= $category['id'] ?>)">
-                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                        title="<?= translate('delete_category', $i18n) ?>">
+                                <button class="image-button medium" onClick="removeCategory(<?= $category['id'] ?>)" title="<?= translate('delete_category', $i18n) ?>">
+                                    <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
                             } else {
                                 ?>
-                                <button class="image-button medium disabled">
-                                    <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                        title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
+                                <button class="image-button medium disabled" title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
+                                    <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
                             }
@@ -841,23 +835,21 @@ require_once 'includes/header.php';
                         <input type="text" name="currency" value="<?= $currency['name'] ?>" placeholder="Currency Name">
                         <input type="text" name="code" value="<?= $currency['code'] ?>" placeholder="Currency Code"
                             <?= !$canDelete ? 'disabled' : '' ?>>
-                        <button class="image-button medium" onClick="editCurrency(<?= $currency['id'] ?>)" name="save">
-                            <img src="images/siteicons/<?= $colorTheme ?>/save.png"
-                                title="<?= translate('save_currency', $i18n) ?>">
+                        <button class="image-button medium" onClick="editCurrency(<?= $currency['id'] ?>)" name="save" title="<?= translate('save_currency', $i18n) ?>">
+                            <?php include "images/siteicons/svg/save.php"; ?>
                         </button>
                         <?php
                         if ($canDelete) {
                             ?>
-                            <button class="image-button medium" onClick="removeCurrency(<?= $currency['id'] ?>)">
-                                <img src="images/siteicons/<?= $colorTheme ?>/delete.png"
-                                    title="<?= translate('delete_currency', $i18n) ?>">
+                            <button class="image-button medium" onClick="removeCurrency(<?= $currency['id'] ?>)" title="<?= translate('delete_currency', $i18n) ?>">
+                                <?php include "images/siteicons/svg/delete.php"; ?>
                             </button>
                             <?php
                         } else {
                             $cantDeleteMessage = $isMainCurrency ? translate('cant_delete_main_currency', $i18n) : translate('cant_delete_currency_in_use', $i18n);
                             ?>
-                            <button class="image-button medium disabled">
-                                <img src="images/siteicons/<?= $colorTheme ?>/delete.png" title="<?= $cantDeleteMessage ?>">
+                            <button class="image-button medium disabled" title="<?= $cantDeleteMessage ?>">
+                                <?php include "images/siteicons/svg/delete.php"; ?>
                             </button>
                             <?php
                         }
@@ -1044,7 +1036,7 @@ require_once 'includes/header.php';
                         <input type="hidden" id="icon-url" name="icon-url">
                         <div id="icon-search-button" class="image-button medium disabled"
                             title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
-                            <img src="images/siteicons/<?= $colorTheme ?>/websearch.png">
+                            <?php include "images/siteicons/svg/websearch.php"; ?>
                         </div>
                         <div id="icon-search-results" class="icon-search">
                             <header>

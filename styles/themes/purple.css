@@ -6,16 +6,3 @@
     --hover-color: #5e42cd;
     --hover-color-rgb: 50, 48, 108;
 }
-
-header .logo .logo-image {
-    background-image: url("../../images/siteicons/purple/wallos.png");
-}
-
-.dark header .logo .logo-image {
-    background-image: url("../../images/siteicons/purple/walloswhite.png");
-}
-
-.sort-options > ul > li.selected,
-.filtermenu-content .filter-item.selected {
-    background-image: url("../../images/siteicons/purple/check.png");
-}
