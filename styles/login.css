@@ -46,14 +46,14 @@ body, html {
 }
 
 header .logo-image {
-  height: 50px;
-  width: 134px;
+  height: 80px;
+  width: 215px;
   margin: 0px auto;
 }
 
 header .logo-image svg {
-  height: 50px;
-  width: 134px;
+  height: 80px;
+  width: 215px;
 }
 
 .container > .message {
