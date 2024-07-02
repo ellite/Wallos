@@ -1428,6 +1428,7 @@ textarea.thin {
 }
 
 .sort-options > ul > li {
+  position: relative;
   list-style: none;
   padding: 14px 35px 14px 18px;
   border-bottom: 1px solid #DDD;
@@ -1797,6 +1798,7 @@ textarea.thin {
 }
 
 .filtermenu-content .filter-item {
+  position: relative;
   padding: 14px 24px;
   text-decoration: none;
   display: block;
@@ -1804,10 +1806,6 @@ textarea.thin {
   border-bottom: 1px solid #DDD;
   user-select: none;
   font-size: 16px;
-}
-
-.filtermenu-content .filter-item.selected {
-  position: relative;
 }
 
 .filtermenu-content .filter-item.selected::after {
