@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.11.2](https://github.com/ellite/Wallos/compare/v2.11.1...v2.11.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* menus checkmark position ([#419](https://github.com/ellite/Wallos/issues/419)) ([4da5d47](https://github.com/ellite/Wallos/commit/4da5d47e3ce8b8564921c07e7b785a367d378d6b))
+
 ## [2.11.1](https://github.com/ellite/Wallos/compare/v2.11.0...v2.11.1) (2024-06-30)
 
 
