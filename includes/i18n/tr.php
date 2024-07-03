@@ -203,6 +203,7 @@ $i18n = [
     "add" => "Ekle",
     "save" => "Kaydet",
     "reset" => "Sıfırla",
+    "main_accent_color_error" => "Ana ve vurgu rengi aynı olamaz",
     "backup_and_restore" => "Yedekle ve Geri Yükle",
     "backup" => "Yedekle",
     "restore" => "Geri Yükle",

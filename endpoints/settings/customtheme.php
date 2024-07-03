@@ -17,7 +17,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $accent_color = $data['accentColor'];
     $hover_color = $data['hoverColor'];
 
-    $stmt = $db->prepare('DELETE FROM custom_colors');
+    if ($main_color == $accent_color) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("main_accent_color_error", $i18n)
+        ]));
+    }
+
+    $stmt = $db->prepare('DELETE FROM custom_colors WHERE user_id = :userId');
+    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $stmt->execute();
 
     $stmt = $db->prepare('INSERT INTO custom_colors (main_color, accent_color, hover_color, user_id) VALUES (:main_color, :accent_color, :hover_color, :userId)');

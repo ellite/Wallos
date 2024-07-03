@@ -202,6 +202,7 @@ $i18n = [
     "add" => "Dodaj",
     "save" => "Shrani",
     "reset" => "Ponastavi",
+    "main_accent_color_error" => "Glavna in poudarna barva se ne sme ujemati",
     "backup_and_restore" => "Varnostno kopiranje in obnovitev",
     "backup" => "Varnostna kopija",
     "restore" => "Obnovitev",

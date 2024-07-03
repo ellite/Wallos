@@ -210,6 +210,7 @@ $i18n = [
     "add" => "添加",
     "save" => "保存",
     "reset" => "重置",
+    "main_accent_color_error" => "主色和强调色不能相同",
     "backup_and_restore" => "备份和恢复",
     "backup" => "备份",
     "restore" => "恢复",

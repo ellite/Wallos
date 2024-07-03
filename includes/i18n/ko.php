@@ -203,6 +203,7 @@ $i18n = [
     "add" => "추가",
     "save" => "저장",
     "reset" => "리셋",
+    "main_accent_color_error" => "메인 색상과 강조 색상은 같을 수 없습니다.",
     "backup_and_restore" => "백업 및 복구",
     "backup" => "백업",
     "restore" => "복구",

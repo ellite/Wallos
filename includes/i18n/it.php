@@ -210,6 +210,7 @@ $i18n = [
     'add' => 'Aggiungi',
     'save' => 'Salva',
     "reset" => 'Ripristina',
+    "main_accent_color_error" => 'Il colore principale e il colore di accento non possono essere uguali',
     "backup_and_restore" => 'Backup e ripristino',
     "backup" => 'Backup',
     "restore" => 'Ripristina',

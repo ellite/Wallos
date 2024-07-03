@@ -202,6 +202,7 @@ $i18n = [
     "add" => "Agregar",
     "save" => "Guardar",
     "reset" => "Restablecer",
+    "main_accent_color_error" => "El color principal y el color de acento no pueden ser iguales",
     "backup_and_restore" => "Copia de Seguridad y Restauración",
     "backup" => "Copia de Seguridad",
     "restore" => "Restaurar",
