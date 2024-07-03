@@ -33,7 +33,26 @@
     $colorTheme = $settings['color_theme'];
   }
 
+  $customCss = "";
+  if (isset($settings['customCss'])) {
+    $customCss = $settings['customCss'];
+  }
+
   $isAdmin = $_SESSION['userId'] == 1;
+
+  function hex2rgb($hex) {
+    $hex = str_replace("#", "", $hex);
+    if(strlen($hex) == 3) {
+      $r = hexdec(substr($hex,0,1).substr($hex,0,1));
+      $g = hexdec(substr($hex,1,1).substr($hex,1,1));
+      $b = hexdec(substr($hex,2,1).substr($hex,2,1));
+    } else {
+      $r = hexdec(substr($hex,0,2));
+      $g = hexdec(substr($hex,2,2));
+      $b = hexdec(substr($hex,4,2));
+    }
+    return "$r, $g, $b";
+  }
 
 ?>
 <!DOCTYPE html>
@@ -64,6 +83,9 @@
     window.lang = "<?=$lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
   </script>
+  <style>
+    <?= htmlspecialchars($customCss, ENT_QUOTES, 'UTF-8') ?>
+  </style>
   <?php
     if (isset($settings['customColors'])) {
       ?>
@@ -71,12 +93,15 @@
           :root {
             <?php if (isset($settings['customColors']['main_color']) && !empty($settings['customColors']['main_color'])): ?>
               --main-color: <?= $settings['customColors']['main_color'] ?>;
+              --main-color-rgb: <?= hex2rgb($settings['customColors']['main_color']) ?>;
             <?php endif; ?>
             <?php if (isset($settings['customColors']['accent_color']) && !empty($settings['customColors']['accent_color'])): ?>
               --accent-color: <?= $settings['customColors']['accent_color'] ?>;
+              --accent-color-rgb: <?= hex2rgb($settings['customColors']['accent_color']) ?>;
             <?php endif; ?>
             <?php if (isset($settings['customColors']['hover_color']) && !empty($settings['customColors']['hover_color'])): ?>
               --hover-color: <?= $settings['customColors']['hover_color'] ?>;
+              --hover-color-rgb: <?= hex2rgb($settings['customColors']['hover_color']) ?>;
             <?php endif; ?>
           }
         </style>

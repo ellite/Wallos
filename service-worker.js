@@ -1,6 +1,6 @@
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open('my-cache').then(function(cache) {
+        caches.open('my-cache').then(function (cache) {
             const urlsToCache = [
                 '.',
                 'index.php',
@@ -10,6 +10,7 @@ self.addEventListener('install', function(event) {
                 'about.php',
                 'logout.php',
                 'login.php',
+                'admin.php',
                 'endpoints/subscriptions/get.php',
                 'manifest.json',
                 'styles/styles.css',
@@ -30,6 +31,7 @@ self.addEventListener('install', function(event) {
                 'scripts/dashboard.js',
                 'scripts/stats.js',
                 'scripts/settings.js',
+                'scripts/theme.js',
                 'scripts/notifications.js',
                 'scripts/registration.js',
                 'scripts/login.js',
@@ -118,11 +120,10 @@ self.addEventListener('install', function(event) {
                 'images/uploads/icons/venmo.png',
                 'images/uploads/icons/verifone.png',
                 'images/uploads/icons/webmoney.png',
-                'images/uploads/logos/*',
             ];
 
-            urlsToCache.forEach(function(url) {
-                fetch(url).then(function(response) {
+            urlsToCache.forEach(function (url) {
+                fetch(url).then(function (response) {
                     if (response.ok) {
                         cache.put(url, response);
                     }
@@ -132,9 +133,9 @@ self.addEventListener('install', function(event) {
     );
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
     event.respondWith(
-        fetch(event.request.clone()).then(function(response) {
+        fetch(event.request.clone()).then(function (response) {
             // Check if the response is a redirect
             if (response.redirected) {
                 // If the response is a redirect, follow it by making a new fetch request
@@ -143,9 +144,27 @@ self.addEventListener('fetch', function(event) {
                 // If the response is not a redirect, return it as-is
                 return response;
             }
-        }).catch(function(error) {
+        }).catch(function (error) {
             // If fetching fails, try to retrieve the response from cache
             return caches.match(event.request, { ignoreSearch: true });
         })
     );
+});
+
+self.addEventListener('fetch', event => {
+    const url = new URL(event.request.url);
+    // Check if the request is for an image in the logos directory
+    if (url.pathname.startsWith('/images/uploads/logos/')) {
+        event.respondWith(
+            caches.match(event.request).then(response => {
+                return response || fetch(event.request).then(response => {
+                    // Open a specific cache and cache the response for future requests
+                    return caches.open('logos-cache').then(cache => {
+                        cache.put(event.request, response.clone());
+                        return response;
+                    });
+                });
+            })
+        );
+    }
 });

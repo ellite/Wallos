@@ -569,6 +569,10 @@ main > .contain {
   margin-bottom: 0px;
 }
 
+.account-section .account-settings-theme h3 {
+  margin-bottom: 24px;
+}
+
 .user-form {
   display: flex;
   flex-direction: column;
@@ -1090,12 +1094,15 @@ input[type="button"].warning-button {
   border-color: #f45a40;
 }
 
-input[type="button"].warning-button:hover {
+input[type="button"].warning-button:hover,
+button.button.warning-button:hover {
   background-color: #ef8674;
   border-color: #ef8674;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button.button:hover {
   background-color: var(--hover-color);
   border-color: var(--hover-color);
 }
@@ -1233,6 +1240,33 @@ textarea.thin {
 
 .capitalize {
   text-transform: capitalize;
+}
+
+button.dark-theme-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px !important;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px 20px 14px;
+  background-color: transparent;
+  color: #202020;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+button.dark-theme-button:hover {
+  background-color: rgba(var(--accent-color-rgb), 0.6)
+}
+
+button.dark-theme-button.selected {
+  border: 1px solid var(--main-color);
+}
+
+button.dark-theme-button i {
+  margin-right: 12px;
 }
 
 .error {
@@ -1640,7 +1674,7 @@ textarea.thin {
 
 .statistic > span {
   font-size: 42px;
-  color: var(--hover-color); 
+  color: var(--main-color); 
 }
 
 .statistic > .title {
@@ -1856,12 +1890,8 @@ textarea.thin {
 
 /* Theme Selector */
 
-.theme-selector {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
+.theme {
+  flex-grow: 1;
 }
 
 .theme-preview {
@@ -1952,11 +1982,10 @@ textarea.thin {
   background-color: #5e42cd;
 }
 
-.color-picker-wrapper {
+.custom-colors {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-
+  gap: 12px;
 }
 
 .color-picker {
@@ -2149,6 +2178,12 @@ textarea.thin {
   max-width: 135px;
 }
 
-.capitalize {
-  text-transform: capitalize;
+.grow {
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .mobile-grow {
+    flex-grow: 1;
+  }
 }

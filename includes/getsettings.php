@@ -39,6 +39,15 @@ if ($customColors) {
     $settings['customColors'] = $customColors;
 }
 
+$query = "SELECT * FROM custom_css_style WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$customCss = $result->fetchArray(SQLITE3_ASSOC);
+if ($customCss) {
+    $settings['customCss'] = $customCss['css'];
+}
+
 $query = "SELECT * FROM admin";
 $result = $db->query($query);
 $adminSettings = $result->fetchArray(SQLITE3_ASSOC);

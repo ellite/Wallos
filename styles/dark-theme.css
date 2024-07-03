@@ -204,3 +204,7 @@ textarea {
 .calendar .calendar-body .calendar-cell {
     border-right: 1px solid #111;
 }
+
+button.dark-theme-button {
+    color: #E0E0E0;
+}
