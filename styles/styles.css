@@ -1235,6 +1235,33 @@ textarea.thin {
   text-transform: capitalize;
 }
 
+button.dark-theme-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px !important;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px 20px 14px;
+  background-color: transparent;
+  color: #202020;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+button.dark-theme-button:hover {
+  background-color: rgba(var(--accent-color-rgb), 0.6)
+}
+
+button.dark-theme-button.selected {
+  border: 1px solid var(--main-color);
+}
+
+button.dark-theme-button i {
+  margin-right: 12px;
+}
+
 .error {
   display: block;
   color: #f45a40;
@@ -1856,12 +1883,8 @@ textarea.thin {
 
 /* Theme Selector */
 
-.theme-selector {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
+.theme {
+  flex-grow: 1;
 }
 
 .theme-preview {
@@ -2147,8 +2170,4 @@ textarea.thin {
 
 .subscription-modal img {
   max-width: 135px;
-}
-
-.capitalize {
-  text-transform: capitalize;
 }

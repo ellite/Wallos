@@ -906,17 +906,17 @@ function switchTheme() {
 }
 
 function setDarkTheme(theme) {
-  const darkThemeRadio = document.querySelector("#theme-dark");
-  const lightThemeRadio = document.querySelector("#theme-light");
-  const automaticThemeRadio = document.querySelector("#theme-automatic");
+  const darkThemeButton = document.querySelector("#theme-dark");
+  const lightThemeButton = document.querySelector("#theme-light");
+  const automaticThemeButton = document.querySelector("#theme-automatic");
   const darkThemeCss = document.querySelector("#dark-theme");
   const themes = {0: 'light', 1: 'dark', 2: 'automatic'};
   const themeValue = themes[theme];
   const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
   
-  darkThemeRadio.disabled = true;
-  lightThemeRadio.disabled = true;
-  automaticThemeRadio.disabled = true;
+  darkThemeButton.disabled = true;
+  lightThemeButton.disabled = true;
+  automaticThemeButton.disabled = true;
   
   fetch('endpoints/settings/theme.php', {
     method: 'POST',
@@ -928,39 +928,45 @@ function setDarkTheme(theme) {
   .then(response => response.json())
   .then(data => {
       if (data.success) {
-          darkThemeRadio.disabled = false;
-          lightThemeRadio.disabled = false;
-          automaticThemeRadio.disabled = false;
+          darkThemeButton.disabled = false;
+          lightThemeButton.disabled = false;
+          automaticThemeButton.disabled = false;
+          darkThemeButton.classList.remove('selected');
+          lightThemeButton.classList.remove('selected');
+          automaticThemeButton.classList.remove('selected');
 
           document.cookie = `theme=${themeValue}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
 
           if (theme == 0) {
             darkThemeCss.disabled = true;
             document.body.className = 'light';
+            lightThemeButton.classList.add('selected');
           }
 
           if (theme == 1)  {
             darkThemeCss.disabled = false;
             document.body.className = 'dark';
+            darkThemeButton.classList.add('selected');
           }
 
           if (theme == 2) {
             darkThemeCss.disabled = !prefersDarkMode;
             document.body.className = prefersDarkMode ? 'dark' : 'light';
+            automaticThemeButton.classList.add('selected');
             document.cookie = `inUseTheme=${prefersDarkMode ? 'dark' : 'light'}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
           }
 
           showSuccessMessage(data.message);
       } else {
           showErrorMessage(data.errorMessage);
-          darkThemeRadio.disabled = false;
-          lightThemeRadio.disabled = false;
-          automaticThemeRadio.disabled = false;
+          darkThemeButton.disabled = false;
+          lightThemeButton.disabled = false;
+          automaticThemeButton.disabled = false;
       }
   }).catch(error => {
-      darkThemeRadio.disabled = false;
-      lightThemeRadio.disabled = false;
-      automaticThemeRadio.disabled = false;
+      darkThemeButton.disabled = false;
+      lightThemeButton.disabled = false;
+      automaticThemeButton.disabled = false;
   });
 }
 
