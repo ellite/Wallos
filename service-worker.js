@@ -31,6 +31,7 @@ self.addEventListener('install', function (event) {
                 'scripts/dashboard.js',
                 'scripts/stats.js',
                 'scripts/settings.js',
+                'scripts/theme.js',
                 'scripts/notifications.js',
                 'scripts/registration.js',
                 'scripts/login.js',

@@ -1172,6 +1172,19 @@ require_once 'includes/header.php';
                         onClick="saveCustomColors()" class="buton thin mobile-grow" id="save-colors">
                 </div>
             </div>
+            <div>
+                <h3><?= translate('custom_css', $i18n) ?></h3>
+                <div class="form-group">
+                    <div class="form-group-inline">
+                        <textarea name="customCss" id="customCss" placeholder="<?= translate('custom_css', $i18n) ?>"
+                            class="thin"><?= $settings['customCss'] ?? "" ?></textarea>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="button" value="<?= translate('save_custom_css', $i18n) ?>"
+                            onClick="saveCustomCss()" class="buton thin mobile-grow" id="save-css">
+                    </div>
+                </div>
+            </div>
     </section>
 
     <section class="account-section">
@@ -1228,6 +1241,7 @@ require_once 'includes/header.php';
 
 </section>
 <script src="scripts/settings.js?<?= $version ?>"></script>
+<script src="scripts/theme.js?<?= $version ?>"></script>
 <script src="scripts/notifications.js?<?= $version ?>"></script>
 
 <?php

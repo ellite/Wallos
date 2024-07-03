@@ -33,6 +33,11 @@
     $colorTheme = $settings['color_theme'];
   }
 
+  $customCss = "";
+  if (isset($settings['customCss'])) {
+    $customCss = $settings['customCss'];
+  }
+
   $isAdmin = $_SESSION['userId'] == 1;
 
   function hex2rgb($hex) {
@@ -78,6 +83,9 @@
     window.lang = "<?=$lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
   </script>
+  <style>
+    <?= htmlspecialchars($customCss, ENT_QUOTES, 'UTF-8') ?>
+  </style>
   <?php
     if (isset($settings['customColors'])) {
       ?>
