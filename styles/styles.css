@@ -569,6 +569,10 @@ main > .contain {
   margin-bottom: 0px;
 }
 
+.account-section .account-settings-theme h3 {
+  margin-bottom: 24px;
+}
+
 .user-form {
   display: flex;
   flex-direction: column;
@@ -1090,12 +1094,15 @@ input[type="button"].warning-button {
   border-color: #f45a40;
 }
 
-input[type="button"].warning-button:hover {
+input[type="button"].warning-button:hover,
+button.button.warning-button:hover {
   background-color: #ef8674;
   border-color: #ef8674;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button.button:hover {
   background-color: var(--hover-color);
   border-color: var(--hover-color);
 }
@@ -1667,7 +1674,7 @@ button.dark-theme-button i {
 
 .statistic > span {
   font-size: 42px;
-  color: var(--hover-color); 
+  color: var(--main-color); 
 }
 
 .statistic > .title {
@@ -1975,11 +1982,10 @@ button.dark-theme-button i {
   background-color: #5e42cd;
 }
 
-.color-picker-wrapper {
+.custom-colors {
   display: flex;
   flex-direction: row;
-  gap: 16px;
-
+  gap: 12px;
 }
 
 .color-picker {
@@ -2170,4 +2176,14 @@ button.dark-theme-button i {
 
 .subscription-modal img {
   max-width: 135px;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
+@media (max-width: 768px) {
+  .mobile-grow {
+    flex-grow: 1;
+  }
 }

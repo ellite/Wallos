@@ -119,7 +119,8 @@ require_once 'includes/header.php';
                     </div>
                 </div>
                 <div class="buttons">
-                    <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit" class="thin" />
+                    <input type="submit" value="<?= translate('save', $i18n) ?>" id="userSubmit"
+                        class="thin mobile-grow" />
                 </div>
             </div>
         </form>
@@ -203,15 +204,15 @@ require_once 'includes/header.php';
                 }
                 ?>
             </div>
+            <div class="buttons">
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"
+                    class="thin mobile-grow" />
+            </div>
             <div class="settings-notes">
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('household_info', $i18n) ?>
                 </p>
                 <p>
-            </div>
-            <div class="buttons">
-                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addMember" onClick="addMemberButton()"
-                    class="thin" />
             </div>
         </div>
     </section>
@@ -778,7 +779,7 @@ require_once 'includes/header.php';
             </div>
             <div class="buttons">
                 <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory"
-                    onClick="addCategoryButton()" class="thin" />
+                    onClick="addCategoryButton()" class="thin mobile-grow" />
             </div>
         </div>
     </section>
@@ -869,7 +870,7 @@ require_once 'includes/header.php';
             </div>
             <div class="buttons">
                 <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCurrency"
-                    onClick="addCurrencyButton()" class="thin" />
+                    onClick="addCurrencyButton()" class="thin mobile-grow" />
             </div>
             <div class="settings-notes">
                 <p>
@@ -953,7 +954,7 @@ require_once 'includes/header.php';
             </div>
             <div class="buttons">
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey"
-                    onClick="addFixerKeyButton()" class="thin" />
+                    onClick="addFixerKeyButton()" class="thin mobile-grow" />
             </div>
         </div>
     </section>
@@ -1066,26 +1067,26 @@ require_once 'includes/header.php';
         </header>
         <div class="account-settings-theme">
             <div>
-                <div>
-                    <h3><?= translate('theme', $i18n) ?></h3>
-                    <div class="form-group-inline wrap">
-                        <button type="button"
-                            class="dark-theme-button capitalize <?= $settings['dark_theme'] == '0' ? 'selected' : '' ?>"
-                            onClick="setDarkTheme('0')" id="theme-light">
-                            <i class="fa-solid fa-sun"></i> <?= translate('light_theme', $i18n) ?>
-                        </button>
-                        <button type="button"
-                            class="dark-theme-button capitalize <?= $settings['dark_theme'] == '1' ? 'selected' : '' ?>"
-                            onClick="setDarkTheme('1')" id="theme-dark">
-                            <i class="fa-solid fa-moon"></i> <?= translate('dark_theme', $i18n) ?>
-                        </button>
-                        <button type="button"
-                            class="dark-theme-button capitalize <?= $settings['dark_theme'] == '2' ? 'selected' : '' ?>"
-                            onClick="setDarkTheme('2')" id="theme-automatic">
-                            <i class="fa-solid fa-circle-half-stroke"></i> <?= translate('automatic', $i18n) ?>
-                        </button>
-                    </div>
+                <h3><?= translate('theme', $i18n) ?></h3>
+                <div class="form-group-inline wrap">
+                    <button type="button"
+                        class="dark-theme-button capitalize <?= $settings['dark_theme'] == '0' ? 'selected' : '' ?>"
+                        onClick="setDarkTheme('0')" id="theme-light">
+                        <i class="fa-solid fa-sun"></i> <?= translate('light_theme', $i18n) ?>
+                    </button>
+                    <button type="button"
+                        class="dark-theme-button capitalize <?= $settings['dark_theme'] == '1' ? 'selected' : '' ?>"
+                        onClick="setDarkTheme('1')" id="theme-dark">
+                        <i class="fa-solid fa-moon"></i> <?= translate('dark_theme', $i18n) ?>
+                    </button>
+                    <button type="button"
+                        class="dark-theme-button capitalize <?= $settings['dark_theme'] == '2' ? 'selected' : '' ?>"
+                        onClick="setDarkTheme('2')" id="theme-automatic">
+                        <i class="fa-solid fa-circle-half-stroke"></i> <?= translate('automatic', $i18n) ?>
+                    </button>
                 </div>
+            </div>
+            <div>
                 <form class="theme-selector">
                     <h3><?= translate('colors', $i18n) ?></h3>
                     <div class="form-group-inline wrap">
@@ -1144,24 +1145,31 @@ require_once 'includes/header.php';
             </div>
             <div>
                 <h3><?= translate('custom_colors', $i18n) ?></h3>
-                <div class="form-group-inline wrap">
-                    <div class="color-picker-wrapper wrap">
+                <div class="custom-colors wrap">
+                    <div class="form-group-inline mobile-grow">
                         <input type="color" id="mainColor" name="mainColor"
                             value="<?= isset($settings['customColors']['main_color']) ? $settings['customColors']['main_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">
+                        <label for="mainColor"><?= translate('main_color', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline mobile-grow">
                         <input type="color" id="accentColor" name="accentColor"
                             value="<?= isset($settings['customColors']['accent_color']) ? $settings['customColors']['accent_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">
+                        <label for="accentColor"><?= translate('accent_color', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline mobile-grow">
                         <input type="color" id="hoverColor" name="hoverColor"
                             value="<?= isset($settings['customColors']['hover_color']) ? $settings['customColors']['hover_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">
+                        <label for="hoverColor"><?= translate('hover_color', $i18n) ?></label>
                     </div>
-                    <div class="color-picker-wrapper wrap">
-                        <input type="button" value="<?= translate('reset', $i18n) ?>" onClick="resetCustomColors()"
-                            class="secondary-button thin" id="reset-colors">
-                        <input type="button" value="<?= translate('save', $i18n) ?>" onClick="saveCustomColors()"
-                            class="buton thin" id="save-colors">
-                    </div>
+                </div>
+                <div class="custom-colors wrap">
+                    <input type="button" value="<?= translate('reset_custom_colors', $i18n) ?>"
+                        onClick="resetCustomColors()" class="secondary-button thin mobile-grow" id="reset-colors">
+                    <input type="button" value="<?= translate('save_custom_colors', $i18n) ?>"
+                        onClick="saveCustomColors()" class="buton thin mobile-grow" id="save-colors">
                 </div>
             </div>
     </section>
