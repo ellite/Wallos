@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "División por Método de Pago",
     // About page
     'about_and_credits' => "Acerca de y Créditos",
+    "credits" => "Créditos",
     'license' => "Licencia",
     'issues_and_requests' => "Problemas y Solicitudes",
     'the_author' => "El autor",

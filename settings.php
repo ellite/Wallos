@@ -453,12 +453,18 @@ require_once 'includes/header.php';
                             class="one-third" value="<?= $notificationsEmail['smtp_port'] ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="radio" name="encryption" id="encryptiontls" value="tls"
-                            <?= $notificationsEmail['encryption'] == "tls" ? "checked" : "" ?> />
-                        <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
-                        <input type="radio" name="encryption" id="encryptionssl" value="ssl"
-                            <?= $notificationsEmail['encryption'] == "ssl" ? "checked" : "" ?> />
-                        <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
+                        <div>
+                            <input type="radio" name="encryption" id="encryptiontls" value="tls"
+                                <?= $notificationsEmail['encryption'] == "tls" ? "checked" : "" ?> />
+                            <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
+                        </div>
+                        <div>
+                            <input type="radio" name="encryption" id="encryptionssl" value="ssl"
+                                <?= $notificationsEmail['encryption'] == "ssl" ? "checked" : "" ?> />
+                            <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
+                        </div>
+
+
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="smtpusername" id="smtpusername"
@@ -475,17 +481,18 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsEmail"
+                            onClick="testNotificationEmailButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsEmail" onClick="saveNotificationsEmailButton()" />
+                    </div>
                     <div class="settings-notes">
                         <p>
                             <i class="fa-solid fa-circle-info"></i> <?= translate('smtp_info', $i18n) ?>
                         </p>
                         <p>
-                    </div>
-                    <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsEmail" onClick="testNotificationEmailButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
-                            id="saveNotificationsEmail" onClick="saveNotificationsEmailButton()" />
                     </div>
                 </div>
             </section>
@@ -518,9 +525,10 @@ require_once 'includes/header.php';
                             value="<?= $notificationsDiscord['bot_avatar'] ?>" />
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsDiscord" onClick="testNotificationsDiscordButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsDiscord"
+                            onClick="testNotificationsDiscordButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsDiscord" onClick="saveNotificationsDiscordButton()" />
                     </div>
                 </div>
@@ -548,9 +556,10 @@ require_once 'includes/header.php';
                             value="<?= $notificationsGotify['token'] ?>" />
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsGotify" onClick="testNotificationsGotifyButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsGotify"
+                            onClick="testNotificationsGotifyButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsGotify" onClick="saveNotificationsGotifyButton()" />
                     </div>
                 </div>
@@ -580,9 +589,10 @@ require_once 'includes/header.php';
                     </div>
 
                     <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsPushover" onClick="testNotificationsPushoverButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsPushover"
+                            onClick="testNotificationsPushoverButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsPushover" onClick="saveNotificationsPushoverButton()" />
                     </div>
                 </div>
@@ -611,9 +621,10 @@ require_once 'includes/header.php';
                             value="<?= $notificationsTelegram['chat_id'] ?>" />
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsTelegram" onClick="testNotificationsTelegramButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsTelegram"
+                            onClick="testNotificationsTelegramButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsTelegram" onClick="saveNotificationsTelegramButton()" />
                     </div>
                 </div>
@@ -642,9 +653,10 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsNtfy['headers'] ?></textarea>
                     </div>
                     <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsNtfy" onClick="testNotificationsNtfyButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsNtfy"
+                            onClick="testNotificationsNtfyButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsNtfy" onClick="saveNotificationsNtfyButton()" />
                     </div>
             </section>
@@ -690,6 +702,13 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('webhook_iterator_key', $i18n) ?>"
                             value="<?= $notificationsWebhook['iterator'] ?>" />
                     </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsWebhook"
+                            onClick="testNotificationsWebhookButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsWebhook" onClick="saveNotificationsWebhookButton()" />
+                    </div>
                     <div class="settings-notes">
                         <p>
                             <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n) ?>:
@@ -698,12 +717,6 @@ require_once 'includes/header.php';
                             {{subscription_days_until_payment}}
                         </p>
                         <p>
-                    </div>
-                    <div class="buttons">
-                        <input type="button" class="secondary-button thin" value="<?= translate('test', $i18n) ?>"
-                            id="testNotificationsWebhook" onClick="testNotificationsWebhookButton()" />
-                        <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>"
-                            id="saveNotificationsWebhook" onClick="saveNotificationsWebhookButton()" />
                     </div>
                 </div>
             </section>
@@ -930,6 +943,10 @@ require_once 'includes/header.php';
                     <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
                 </select>
             </div>
+            <div class="buttons">
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey"
+                    onClick="addFixerKeyButton()" class="thin mobile-grow" />
+            </div>
             <div class="settings-notes">
                 <p><i class="fa-solid fa-circle-info"></i><?= translate('fixer_info', $i18n) ?></p>
                 <p><?= translate('get_key', $i18n) ?>:
@@ -951,10 +968,6 @@ require_once 'includes/header.php';
                         </a>
                     </span>
                 </p>
-            </div>
-            <div class="buttons">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey"
-                    onClick="addFixerKeyButton()" class="thin mobile-grow" />
             </div>
         </div>
     </section>
@@ -1091,50 +1104,50 @@ require_once 'includes/header.php';
                     <h3><?= translate('colors', $i18n) ?></h3>
                     <div class="form-group-inline wrap">
                         <div class="theme">
+                            <input type="radio" name="theme" id="theme-blue" value="blue"
+                            onClick="setTheme('blue')" <?= $settings['color_theme'] == 'blue' ? 'checked' : '' ?>>
                             <label for="theme-blue"
                                 class="theme-preview blue <?= $settings['color_theme'] == 'blue' ? 'is-selected' : '' ?>">
-                                <input type="radio" name="theme" id="theme-blue" value="blue" onClick="setTheme('blue')"
-                                    <?= $settings['color_theme'] == 'blue' ? 'checked' : '' ?>>
                                 <span class="main-color"></span>
                                 <span class="accent-color"></span>
                                 <span class="hover-color"></span>
                             </label>
                         </div>
                         <div class="theme">
+                            <input type="radio" name="theme" id="theme-green" value="green"
+                            onClick="setTheme('green')" <?= $settings['color_theme'] == 'green' ? 'checked' : '' ?>>
                             <label for="theme-green"
                                 class="theme-preview green <?= $settings['color_theme'] == 'green' ? 'is-selected' : '' ?>">
-                                <input type="radio" name="theme" id="theme-green" value="green"
-                                    onClick="setTheme('green')" <?= $settings['color_theme'] == 'green' ? 'checked' : '' ?>>
                                 <span class="main-color"></span>
                                 <span class="accent-color"></span>
                                 <span class="hover-color"></span>
                             </label>
                         </div>
                         <div class="theme">
+                            <input type="radio" name="theme" id="theme-red" value="red"
+                            onClick="setTheme('red')" <?= $settings['color_theme'] == 'red' ? 'checked' : '' ?>>
                             <label for="theme-red"
                                 class="theme-preview red <?= $settings['color_theme'] == 'red' ? 'is-selected' : '' ?>">
-                                <input type="radio" name="theme" id="theme-red" value="red" onClick="setTheme('red')"
-                                    <?= $settings['color_theme'] == 'red' ? 'checked' : '' ?>>
                                 <span class="main-color"></span>
                                 <span class="accent-color"></span>
                                 <span class="hover-color"></span>
                             </label>
                         </div>
                         <div class="theme">
+                            <input type="radio" name="theme" id="theme-yellow" value="yellow"
+                            onClick="setTheme('yellow')" <?= $settings['color_theme'] == 'yellow' ? 'checked' : '' ?>>
                             <label for="theme-yellow"
                                 class="theme-preview yellow <?= $settings['color_theme'] == 'yellow' ? 'is-selected' : '' ?>">
-                                <input type="radio" name="theme" id="theme-yellow" value="yellow"
-                                    onClick="setTheme('yellow')" <?= $settings['color_theme'] == 'yellow' ? 'checked' : '' ?>>
                                 <span class="main-color"></span>
                                 <span class="accent-color"></span>
                                 <span class="hover-color"></span>
                             </label>
                         </div>
                         <div class="theme">
+                            <input type="radio" name="theme" id="theme-purple" value="purple"
+                            onClick="setTheme('purple')" <?= $settings['color_theme'] == 'purple' ? 'checked' : '' ?>>
                             <label for="theme-purple"
                                 class="theme-preview purple <?= $settings['color_theme'] == 'purple' ? 'is-selected' : '' ?>">
-                                <input type="radio" name="theme" id="theme-purple" value="purple"
-                                    onClick="setTheme('purple')" <?= $settings['color_theme'] == 'purple' ? 'checked' : '' ?>>
                                 <span class="main-color"></span>
                                 <span class="accent-color"></span>
                                 <span class="hover-color"></span>
@@ -1146,19 +1159,19 @@ require_once 'includes/header.php';
             <div>
                 <h3><?= translate('custom_colors', $i18n) ?></h3>
                 <div class="custom-colors wrap">
-                    <div class="form-group-inline mobile-grow">
+                    <div class="form-group-inline mobile-grow color-picker-button">
                         <input type="color" id="mainColor" name="mainColor"
                             value="<?= isset($settings['customColors']['main_color']) ? $settings['customColors']['main_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">
                         <label for="mainColor"><?= translate('main_color', $i18n) ?></label>
                     </div>
-                    <div class="form-group-inline mobile-grow">
+                    <div class="form-group-inline mobile-grow color-picker-button">
                         <input type="color" id="accentColor" name="accentColor"
                             value="<?= isset($settings['customColors']['accent_color']) ? $settings['customColors']['accent_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">
                         <label for="accentColor"><?= translate('accent_color', $i18n) ?></label>
                     </div>
-                    <div class="form-group-inline mobile-grow">
+                    <div class="form-group-inline mobile-grow color-picker-button">
                         <input type="color" id="hoverColor" name="hoverColor"
                             value="<?= isset($settings['customColors']['hover_color']) ? $settings['customColors']['hover_color'] : '#FFFFFF' ?>"
                             class="color-picker fa-solid fa-eye-dropper">

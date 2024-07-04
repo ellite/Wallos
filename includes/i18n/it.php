@@ -113,6 +113,7 @@ $i18n = [
 
     // About
     'about_and_credits' => 'Informazioni e crediti',
+    "credits" => "Crediti",
     'license' => 'Licenza',
     'issues_and_requests' => 'Problemi e richieste',
     'the_author' => "L'autore",

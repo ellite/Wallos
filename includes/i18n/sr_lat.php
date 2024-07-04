@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "Podela po načinu plaćanja",
     // Stranica O aplikaciji
     'about_and_credits' => "O aplikaciji i zasluge",
+    "credits" => "Zasluge",
     'license' => "Licenca",
     'issues_and_requests' => "Problemi i zahtevi",
     'the_author' => "Autor",

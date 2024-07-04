@@ -3,7 +3,7 @@ body {
     color: #E0E0E0;
 }
 
-body > header {
+body>header {
     background-color: #222;
 }
 
@@ -11,9 +11,9 @@ svg .text-color {
     fill: #E0E0E0;
 }
 
-.split-header > h2 .header-subtitle {
+.split-header>h2 .header-subtitle {
     color: #A9A9A9;
-  }
+}
 
 .subscription,
 .subscription-form,
@@ -48,7 +48,7 @@ svg .text-color {
 
 .filtermenu-content .filter-item:hover,
 .filtermenu-content .filter-title:hover {
-  background-color: #333333;
+    background-color: #333333;
 }
 
 .subscription-form h3,
@@ -57,8 +57,8 @@ svg .text-color {
 }
 
 .subscription.inactive {
-    background-color: rgba(24,24,24,0.3);
-    color: rgba(200,200,200,0.6);
+    background-color: rgba(24, 24, 24, 0.3);
+    color: rgba(200, 200, 200, 0.6);
     box-shadow: 0 2px 5px rgba(50, 50, 50, 0.1);
 }
 
@@ -66,16 +66,16 @@ svg .text-color {
     color: #E0E0E0
 }
 
-.subscription-main .actions > li {
+.subscription-main .actions>li {
     border-bottom: 1px solid #555;
     border-color: #666;
 }
 
-.subscription-main .actions > li:hover {
+.subscription-main .actions>li:hover {
     background-color: #333;
 }
 
-.subscription-main .actions > li:last-of-type {
+.subscription-main .actions>li:last-of-type {
     border: none;
 }
 
@@ -140,14 +140,14 @@ textarea {
     background-color: #222;
 }
 
-.avatar-select .avatar-list > img,
-.avatar-select .avatar-list .avatar-container > img {
-  border: 1px solid #999;
+.avatar-select .avatar-list>img,
+.avatar-select .avatar-list .avatar-container>img {
+    border: 1px solid #999;
 }
 
-.avatar-select .avatar-list > img:hover,
-.avatar-select .avatar-list .avatar-container > img:hover {
-  border: 1px solid #EEE;
+.avatar-select .avatar-list>img:hover,
+.avatar-select .avatar-list .avatar-container>img:hover {
+    border: 1px solid #EEE;
 }
 
 .avatar-select .avatar-list .remove-avatar:hover {
@@ -180,12 +180,12 @@ textarea {
     color: var(--main-color);
 }
 
-.sort-options > ul > li {
+.sort-options>ul>li {
     border-bottom: 1px solid #555;
     color: #DDD;
 }
 
-.sort-options > ul > li:hover {
+.sort-options>ul>li:hover {
     background-color: #444;
 }
 
@@ -207,4 +207,25 @@ textarea {
 
 button.dark-theme-button {
     color: #E0E0E0;
+}
+
+button.dark-theme-button:hover {
+    background-color: #111;
+}
+
+.account-notifications-section {
+    border: 1px solid #666;
+}
+
+input[type="checkbox"] + label::before,
+input[type="radio"] + label::before {
+    background: #555;
+    border: 1px solid #666;
+}
+
+input[type="checkbox"]:disabled + label::before,
+input[type="radio"]:disabled + label::before {
+    background-color: #333;
+    border-color: #222;
+    cursor: not-allowed;
 }
