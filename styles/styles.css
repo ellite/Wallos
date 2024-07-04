@@ -1931,6 +1931,10 @@ button.dark-theme-button i {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 20px 15px 20px 10px;
+  display: flex;
+  gap: 15px;
+  flex-direction: row;
+  align-items: center;
 }
 
 .theme-preview.is-selected {
@@ -2285,7 +2289,6 @@ input[type="radio"] + label {
   padding-left: 35px;
   cursor: pointer;
   display: flex;
-  gap: 5px;
   line-height: 22px;
 }
 
@@ -2334,7 +2337,7 @@ input[type="radio"]:checked + label::after {
   top: 20px;
 }
 
-input[type="radio"]:checked + label::after {
+.theme input[type="radio"]:checked + label::after {
   left: 16px;
   top: 25px;
 }
