@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "Podział metod płatności",
     // About page
     'about_and_credits' => "Informacje i podziękowania",
+    "credits" => "Podziękowania",
     'license' => "Licencja",
     'issues_and_requests' => "Problemy i prośby",
     'the_author' => "Autor",
@@ -181,7 +182,7 @@ $i18n = [
     "theme" => "Motyw",
     "dark_theme" => "Przełącz na jasny/ciemny motyw",
     "light_theme" => "Przełącz na ciemny/jasny motyw",
-    "automatic"=> "Automatycznie",
+    "automatic" => "Automatycznie",
     "main_color" => "Główny kolor",
     "accent_color" => "Kolor akcentowy",
     "hover_color" => "Kolor najechania",

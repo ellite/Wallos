@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "Διαχωρισμός τρόπου πληρωμής",
     // About page
     'about_and_credits' => "Σχετικά και Credits",
+    "credits" => "Credits",
     'license' => "License",
     'issues_and_requests' => "Προβλήματα και αιτήσεις",
     'the_author' => "Προγραμματιστής",

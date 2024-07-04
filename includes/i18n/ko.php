@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "지불방법별",
     // About page
     'about_and_credits' => "개요 및 크레딧",
+    "credits" => "크레딧",
     'license' => "라이선스",
     'issues_and_requests' => "이슈 및 요청",
     'the_author' => "제작자",

@@ -113,6 +113,7 @@ $i18n = [
 
     // 关于页面
     'about_and_credits' => "关于和鸣谢",
+    "credits" => "鸣谢",
     'license' => "许可证",
     'issues_and_requests' => "问题反馈与功能请求",
     'the_author' => "作者",

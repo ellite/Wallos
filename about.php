@@ -9,6 +9,7 @@ require_once 'includes/header.php';
             <h2><?= translate('about_and_credits', $i18n) ?></h2>
         </header>
         <div class="credits-list">
+            <h3><?= translate('about', $i18n) ?></h3>
             <p>Wallos <?= $version ?></p>
             <p><?= translate('license', $i18n) ?>:
                 <span>
@@ -38,6 +39,7 @@ require_once 'includes/header.php';
                     </a>
                 </span>
             </p>
+            <h3><?= translate('credits', $i18n) ?></h3>
             <p>
                 <?= translate('icons', $i18n) ?>:
                 <span>

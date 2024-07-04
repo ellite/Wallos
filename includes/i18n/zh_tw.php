@@ -106,6 +106,7 @@ $i18n = [
     'payment_method_split' => "付款方式分割",
     // 關於頁面
     'about_and_credits' => "關於和致謝",
+    "credits" => "致謝",
     'license' => "授權許可",
     'issues_and_requests' => "問題回饋與功能請求",
     'the_author' => "作者",
