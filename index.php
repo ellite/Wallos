@@ -93,7 +93,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
                   }
                   ?>
                   <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                    <?= $category['name'] ?></div>
+                    <?= $category['name'] ?>
+                  </div>
                   <?php
                 }
                 ?>
@@ -116,7 +117,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
                   }
                   ?>
                   <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-                    <?= $payment['name'] ?></div>
+                    <?= $payment['name'] ?>
+                  </div>
                   <?php
                 }
                 ?>
@@ -141,11 +143,14 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <div class="sort-options" id="sort-options">
           <ul>
             <li <?= $sort == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name">
-              <?= translate('name', $i18n) ?></li>
+              <?= translate('name', $i18n) ?>
+            </li>
             <li <?= $sort == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id">
-              <?= translate('last_added', $i18n) ?></li>
+              <?= translate('last_added', $i18n) ?>
+            </li>
             <li <?= $sort == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price">
-              <?= translate('price', $i18n) ?></li>
+              <?= translate('price', $i18n) ?>
+            </li>
             <li <?= $sort == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')"
               id="sort-next_payment"><?= translate('next_payment', $i18n) ?></li>
             <li <?= $sort == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')"
@@ -283,7 +288,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
                 foreach ($cycles as $cycle) {
                   ?>
                   <option value="<?= $cycle['id'] ?>" <?= $cycle['id'] == 3 ? "selected" : "" ?>>
-                    <?= translate(strtolower($cycle['name']), $i18n) ?></option>
+                    <?= translate(strtolower($cycle['name']), $i18n) ?>
+                  </option>
                   <?php
                 }
                 ?>
@@ -297,39 +303,35 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         </div>
       </div>
 
-      <div class="form-group-inline">
-        <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
-        <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
-      </div>
-
       <div class="form-group">
-        <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
-        <select id="notify_days_before" name="notify_days_before" disabled>
-          <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
-          <option value="1">1 <?= translate('day_before', $i18n) ?></option>
-          <?php
-          for ($i = 2; $i <= 90; $i++) {
-            ?>
-            <option value="<?= $i ?>"><?= $i ?>   <?= translate('days_before', $i18n) ?></option>
-            <?php
-          }
-          ?>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
-        <select id="payment_method" name="payment_method_id">
-          <?php
-          foreach ($payment_methods as $payment) {
-            ?>
-            <option value="<?= $payment['id'] ?>">
-              <?= $payment['name'] ?>
-            </option>
-            <?php
-          }
-          ?>
-        </select>
+        <div class="inline">
+          <div class="split50">
+            <label for="payment_method"><?= translate('payment_method', $i18n) ?></label>
+            <select id="payment_method" name="payment_method_id">
+              <?php
+              foreach ($payment_methods as $payment) {
+                ?>
+                <option value="<?= $payment['id'] ?>">
+                  <?= $payment['name'] ?>
+                </option>
+                <?php
+              }
+              ?>
+            </select>
+          </div>
+          <div class="split50">
+            <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
+            <select id="payer_user" name="payer_user_id">
+              <?php
+              foreach ($members as $member) {
+                ?>
+                <option value="<?= $member['id'] ?>"><?= $member['name'] ?></option>
+                <?php
+              }
+              ?>
+            </select>
+          </div>
+        </div>
       </div>
 
       <div class="form-group">
@@ -347,18 +349,32 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         </select>
       </div>
 
+      <div class="form-group-inline">
+        <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
+        <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+      </div>
 
       <div class="form-group">
-        <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
-        <select id="payer_user" name="payer_user_id">
-          <?php
-          foreach ($members as $member) {
-            ?>
-            <option value="<?= $member['id'] ?>"><?= $member['name'] ?></option>
-            <?php
-          }
-          ?>
-        </select>
+        <div class="inline">
+          <div class="split66 mobile-split-50">
+            <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
+            <select id="notify_days_before" name="notify_days_before" disabled>
+              <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
+              <option value="1">1 <?= translate('day_before', $i18n) ?></option>
+              <?php
+              for ($i = 2; $i <= 90; $i++) {
+                ?>
+                <option value="<?= $i ?>"><?= $i ?>   <?= translate('days_before', $i18n) ?></option>
+                <?php
+              }
+              ?>
+            </select>
+          </div>
+          <div class="split33 mobile-split-50">
+            <label for="cancellation_date"><?= translate('cancellation_notification', $i18n) ?></label>
+            <input type="date" id="cancellation_date" name="cancellation_date">
+          </div>
+        </div>
       </div>
 
       <div class="form-group">

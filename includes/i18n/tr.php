@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Notlar",
     "enable_notifications" => "Bu abonelik için bildirimleri etkinleştir",
     "default_value_from_settings" => "Ayarlar'dan varsayılan değeri al",
+    "cancellation_notification" => "İptal Bildirimi",
     "delete" => "Sil",
     "cancel" => "İptal",
     "upload_logo" => "Logo Yükle",

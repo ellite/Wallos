@@ -1006,6 +1006,20 @@ header #avatar {
   flex-basis: 66.66%;
 }
 
+.form-group .inline .split50 {
+  flex-basis: 50%;
+}
+
+@media (max-width: 768px) {
+  .form-group .inline .mobile-split-50 {
+    flex-basis: 50%;
+  }
+
+  select#frequency {
+    width: 100px;
+    padding: 0px 10px;
+  }
+}
 
 label {
   display: block;

@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Notas",
     "enable_notifications" => "Activar notificações para esta subscrição",
     "default_value_from_settings" => "Valor por defeito das definições",
+    "cancellation_notification" => "Notificação de cancelamento",
     "delete" => "Remover",
     "cancel" => "Cancelar",
     "upload_logo" => "Enviar Logo",

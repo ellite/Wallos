@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Примечания",
     "enable_notifications" => "Включить уведомления для этой подписки",
     "default_value_from_settings" => "Значение по умолчанию из настроек",
+    "cancellation_notification" => "Уведомление об отмене",
     "delete" => "Удалить",
     "cancel" => "Отмена",
     "upload_logo" => "Загрузить логотип",

@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Beleške",
     "enable_notifications" => "Omogući obaveštenja za ovu pretplatu",
     "default_value_from_settings" => "Podrazumevana vrednost iz podešavanja",
+    "cancellation_notification" => "Obaveštenje o otkazivanju",
     "delete" => "Izbriši",
     "cancel" => "Otkaži",
     "upload_logo" => "Učitaj logo",
