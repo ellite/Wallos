@@ -10,6 +10,12 @@ body.no-scroll {
   overflow-y: hidden; 
 }
 
+@media (max-width: 768px) {
+  body.no-scroll section.contain {
+    display: none;
+  }
+}
+
 a:hover > i {
   color: var(--hover-color);
 }
