@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Opombe",
     "enable_notifications" => "Omogoči obvestila za to naročnino",
     "default_value_from_settings" => "Privzeta vrednost iz nastavitev",
+    "cancellation_notification" => "Obvestilo o preklicu",
     "delete" => "Izbriši",
     "cancel" => "Prekliči",
     "upload_logo" => "Naloži logotip",

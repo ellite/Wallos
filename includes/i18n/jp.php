@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "注釈",
     "enable_notifications" => "この定期購入の通知を有効にする",
     "default_value_from_settings" => "設定からデフォルト値を使用",
+    "cancellation_notification" => "キャンセル通知",
     "delete" => "削除",
     "cancel" => "キャンセル",
     "upload_logo" => "ロゴのアップロード",

@@ -88,6 +88,7 @@ $i18n = [
     "notes" => "备注",
     "enable_notifications" => "为此订阅启用通知",
     "default_value_from_settings" => "默认值从设置中获取",
+    "cancellation_notification" => "取消通知",
     "delete" => "删除",
     "cancel" => "取消",
     "upload_logo" => "上传 Logo",

@@ -29,6 +29,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['inactive'] = $row['inactive'];
             $subscriptionData['url'] = htmlspecialchars_decode($row['url'] ?? "");
             $subscriptionData['notify_days_before'] = $row['notify_days_before'];
+            $subscriptionData['cancellation_date'] = $row['cancellation_date'];
 
             $subscriptionJson = json_encode($subscriptionData);
             header('Content-Type: application/json');

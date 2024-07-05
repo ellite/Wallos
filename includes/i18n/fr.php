@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Notes",
     "enable_notifications" => "Activer les notifications pour cet abonnement",
     "default_value_from_settings" => "Valeur par défaut des paramètres",
+    "cancellation_notification" => "Notification d'annulation",
     "delete" => "Supprimer",
     "cancel" => "Annuler",
     "upload_logo" => "Télécharger le logo",

@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Anotações",
     "enable_notifications" => "Ativar notificações para essa assinatura",
     "default_value_from_settings" => "Valor padrão das configurações",
+    "cancellation_notification" => "Notificação de cancelamento",
     "delete" => "Excluir",
     "cancel" => "Cancelar",
     "upload_logo" => "Enviar Logo",

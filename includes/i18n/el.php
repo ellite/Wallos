@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Σημειώσεις",
     "enable_notifications" => "Ενεργοποίηση ειδοποιήσεων για αυτή τη συνδρομή",
     "default_value_from_settings" => "Προεπιλεγμένη τιμή από τις ρυθμίσεις",
+    "cancellation_notification" => "Ειδοποίηση ακύρωσης",
     "delete" => "Διαγραφή",
     "cancel" => "Ακύρωση",
     "upload_logo" => "Φόρτωση λογότυπου",

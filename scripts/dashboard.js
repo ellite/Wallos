@@ -74,6 +74,9 @@ function fillEditFormFields(subscription) {
 
   const nextPament = document.querySelector("#next_payment");
   nextPament.value = subscription.next_payment;
+  const cancellationDate = document.querySelector("#cancellation_date");
+  cancellationDate.value = subscription.cancellation_date;
+
   const notes = document.querySelector("#notes");
   notes.value = subscription.notes;
   const inactive = document.querySelector("#inactive");

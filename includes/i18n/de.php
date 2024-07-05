@@ -83,6 +83,7 @@ $i18n = [
     "notes" => "Notizen",
     "enable_notifications" => "Benachrichtigungen für dieses Abonnement aktivieren",
     "default_value_from_settings" => "Standardwert aus den Einstellungen",
+    "cancellation_notification" => "Benachrichtigung bei Kündigung",
     "delete" => "Löschen",
     "cancel" => "Abbrechen",
     "upload_logo" => "Logo hochladen",
