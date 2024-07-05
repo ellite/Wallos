@@ -1,4 +1,6 @@
 let isSortOptionsOpen = false;
+let scrollTopBeforeOpening = 0;
+const shouldScroll = window.innerWidth <= 768;
 
 function toggleOpenSubscription(subId) {
   const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
@@ -105,6 +107,7 @@ function fillEditFormFields(subscription) {
 
 function openEditSubscription(event, id) {
     event.stopPropagation();
+    scrollTopBeforeOpening = window.scrollY;
     const body = document.querySelector('body');
     body.classList.add('no-scroll');
     const url = `endpoints/subscription/get.php?id=${id}`;
@@ -142,6 +145,9 @@ function closeAddSubscription() {
     modal.classList.remove("is-open"); 
     const body = document.querySelector('body');
     body.classList.remove('no-scroll');
+    if (shouldScroll) {
+      window.scrollTo(0, scrollTopBeforeOpening);
+    }
     resetForm();
 }
 
