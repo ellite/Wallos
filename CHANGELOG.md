@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.14.0](https://github.com/ellite/Wallos/compare/v2.13.0...v2.14.0) (2024-07-05)
+
+
+### Features
+
+* add cancelation reminders ([#425](https://github.com/ellite/Wallos/issues/425)) ([c393146](https://github.com/ellite/Wallos/commit/c393146d9e3d494943de32ecd86983335358cf88))
+
 ## [2.13.0](https://github.com/ellite/Wallos/compare/v2.12.0...v2.13.0) (2024-07-04)
 
 
