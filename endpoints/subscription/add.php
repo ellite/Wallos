@@ -198,19 +198,16 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                 $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId,
                      next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
                      payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
-                     url = :url, notify_days_before = :notifyDaysBefore, camcelation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
+                     url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
             } else {
-                $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId, next_payment = :nextPayment,
-                    cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId, payer_user_id = :payerUserId,
-                    category_id = :categoryId, notify = :notify, inactive = :inactive, url = :url, notify_days_before = :notifyDaysBefore, 
-                    cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
+                $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId,
+                     next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
+                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
+                     url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
             }
         }
 
         $stmt = $db->prepare($sql);
-        if ($isEdit) {
-            $stmt->bindParam(':id', $id, SQLITE3_INTEGER);
-        }
         $stmt->bindParam(':name', $name, SQLITE3_TEXT);
         if ($logo != "") {
             $stmt->bindParam(':logo', $logo, SQLITE3_TEXT);
@@ -228,8 +225,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
         $stmt->bindParam(':url', $url, SQLITE3_TEXT);
         $stmt->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
-        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
         $stmt->bindParam(':cancellationDate', $cancellationDate, SQLITE3_TEXT);
+        if ($isEdit) {
+            $stmt->bindParam(':id', $id, SQLITE3_INTEGER);
+        }
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {
             $success['status'] = "Success";
