@@ -14,7 +14,7 @@ function sanitizeFilename($filename)
 
 function validateFileExtension($fileExtension)
 {
-    $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+    $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'];
     return in_array($fileExtension, $allowedExtensions);
 }
 
@@ -83,7 +83,27 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
     $originalFileName = $uploadedFile['name'];
     $fileExtension = pathinfo($originalFileName, PATHINFO_EXTENSION);
     $fileExtension = validateFileExtension($fileExtension) ? $fileExtension : 'png';
-    $fileName = $timestamp . '-' . sanitizeFilename($name) . '.' . $fileExtension;
+
+    $sanitizedFileName = $timestamp . '-' . sanitizeFilename($name);
+
+    if ($fileExtension === 'svg') {
+        $fileName = $sanitizedFileName . '.' . 'png';
+        $svgFileContents = file_get_contents($uploadedFile['tmp_name']);
+        $imagick = new Imagick();
+        $imagick->readImageBlob($svgFileContents);
+        $imagick->setImageFormat("png");
+        $imagick->setImageCompressionQuality(90);
+        $imageBlob = $imagick->getImageBlob();
+        $imagick->clear();
+        $imagick->destroy();
+        $tempPngPath = tempnam(sys_get_temp_dir(), 'conv') . '.png';
+        file_put_contents($tempPngPath, $imageBlob);
+        $image = imagecreatefrompng($tempPngPath);
+        unlink($tempPngPath);
+    } else {
+        $fileName = $sanitizedFileName . '.' . $fileExtension;
+    }
+
     $uploadFile = $uploadDir . $fileName;
 
     if (move_uploaded_file($uploadedFile['tmp_name'], $uploadFile)) {
