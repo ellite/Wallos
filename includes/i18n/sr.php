@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "Креирај корисника",
     "smtp_settings" => "SMTP подешавања",
     "smtp_usage_info" => "SMTP се користи за слање е-поште за обавештења.",
+    "maintenance_tasks" => "Одржавање",
+    "orphaned_logos" => "Породични логотипови",
     // Email Verification
     "email_verified" => "Е-пошта је верификована",
     "email_verification_failed" => "Верификација е-поште није успела",

@@ -237,7 +237,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <label for="logo" class="logo-preview">
         <img src="" alt="<?= translate('logo_preview', $i18n) ?>" id="form-logo">
       </label>
-      <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/gif, image/webp"
+      <input type="file" id="logo" name="logo" accept="image/jpeg, image/png, image/gif, image/webp, image/svg+xml"
         onchange="handleFileSelect(event)" class="hidden-input">
       <input type="hidden" id="logo-url" name="logo-url">
       <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>"

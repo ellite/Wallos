@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "ユーザーを作成",
     "smtp_settings" => "SMTP設定",
     "smtp_usage_info" => "パスワードの回復やその他のシステム電子メールに使用されます。",
+    "maintenance_tasks" => "メンテナンスタスク",
+    "orphaned_logos" => "孤立したロゴ",
     // Email Verification
     "email_verified" => "メールアドレスが確認されました",
     "email_verification_failed" => "メールアドレスの確認に失敗しました",

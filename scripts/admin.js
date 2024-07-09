@@ -263,3 +263,25 @@ function addUserButton() {
     button.disabled = false;
   });
 }
+
+function deleteUnusedLogos() {
+  const button = document.getElementById('deleteUnusedLogos');
+  button.disabled = true;
+
+  fetch('endpoints/admin/deleteunusedlogos.php')
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+      const numberOfLogos = document.querySelector('.number-of-logos');
+      numberOfLogos.innerText = '0';
+    } else {
+      showErrorMessage(data.message);
+      button.disabled = false;
+    }
+  })
+  .catch(error => {
+    showErrorMessage(error);
+    button.disabled = false;
+  });
+}
