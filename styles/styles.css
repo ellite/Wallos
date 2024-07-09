@@ -117,7 +117,7 @@ header .logo .logo-image svg {
 .dropbtn > img {
   width: 35px;
   height: 35px;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .dropdown-content {
@@ -630,7 +630,7 @@ header #avatar {
   cursor: pointer;
   width: 80px;
   height: 80px;
-  object-fit: contain;
+  object-fit: cover;
   max-width: 80px;
   border-radius: 50%;
   border: 1px solid #ccc;
@@ -701,7 +701,7 @@ header #avatar {
 .avatar-select .avatar-list .avatar-container > img {
   width: 60px;
   height: 60px;
-  object-fit: contain;
+  object-fit: cover;
   cursor: pointer;
   border: 1px solid #ccc;
   box-sizing: border-box
