@@ -264,8 +264,8 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         $unusedLogos = [];
         foreach ($logosOnDisk as $disk) {
             $found = false;
-            foreach ($logosOnDB as $db) {
-                if ($disk['logo'] == $db) {
+            foreach ($logosOnDB as $dbLogo) {
+                if ($disk['logo'] == $dbLogo) {
                     $found = true;
                     break;
                 }
