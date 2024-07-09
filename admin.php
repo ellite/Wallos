@@ -227,7 +227,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     <?php
         // find unused upload logos
 
-        // Get all logos in the database
+        // Get all logos in the subscriptions table
         $query = 'SELECT logo FROM subscriptions';
         $stmt = $db->prepare($query);
         $result = $stmt->execute();
@@ -235,6 +235,17 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         $logosOnDB = [];
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $logosOnDB[] = $row['logo'];
+        }
+
+        // Get all logos in the payment_methods table
+        $query = 'SELECT icon FROM payment_methods';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            if (!strstr($row['icon'], "images/uploads/icons/")) {
+                $logosOnDB[] = $row['icon'];
+            }
         }
 
         $logosOnDB = array_unique($logosOnDB);
