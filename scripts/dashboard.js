@@ -20,27 +20,27 @@ function toggleNotificationDays() {
 }
 
 function resetForm() {
-    const id = document.querySelector("#id");
-    id.value = "";
-    const formTitle = document.querySelector("#form-title");
-    formTitle.textContent = translate('add_subscription');
-    const logo = document.querySelector("#form-logo");
-    logo.src = "";
-    logo.style = 'display: none';
-    const logoUrl = document.querySelector("#logo-url");
-    logoUrl.value = "";
-    const logoSearchButton = document.querySelector("#logo-search-button");
-    logoSearchButton.classList.add("disabled");
-    const submitButton = document.querySelector("#save-button");
-    submitButton.disabled = false;
-    const notifyDaysBefore = document.querySelector("#notify_days_before");
-    notifyDaysBefore.disabled = true;
-    const form = document.querySelector("#subs-form");
-    form.reset();
-    closeLogoSearch();
-    const deleteButton = document.querySelector("#deletesub");
-    deleteButton.style = 'display: none';
-    deleteButton.removeAttribute("onClick");
+  const id = document.querySelector("#id");
+  id.value = "";
+  const formTitle = document.querySelector("#form-title");
+  formTitle.textContent = translate('add_subscription');
+  const logo = document.querySelector("#form-logo");
+  logo.src = "";
+  logo.style = 'display: none';
+  const logoUrl = document.querySelector("#logo-url");
+  logoUrl.value = "";
+  const logoSearchButton = document.querySelector("#logo-search-button");
+  logoSearchButton.classList.add("disabled");
+  const submitButton = document.querySelector("#save-button");
+  submitButton.disabled = false;
+  const notifyDaysBefore = document.querySelector("#notify_days_before");
+  notifyDaysBefore.disabled = true;
+  const form = document.querySelector("#subs-form");
+  form.reset();
+  closeLogoSearch();
+  const deleteButton = document.querySelector("#deletesub");
+  deleteButton.style = 'display: none';
+  deleteButton.removeAttribute("onClick");
 }
 
 function fillEditFormFields(subscription) {
@@ -106,12 +106,12 @@ function fillEditFormFields(subscription) {
 }
 
 function openEditSubscription(event, id) {
-    event.stopPropagation();
-    scrollTopBeforeOpening = window.scrollY;
-    const body = document.querySelector('body');
-    body.classList.add('no-scroll');
-    const url = `endpoints/subscription/get.php?id=${id}`;
-    fetch(url)
+  event.stopPropagation();
+  scrollTopBeforeOpening = window.scrollY;
+  const body = document.querySelector('body');
+  body.classList.add('no-scroll');
+  const url = `endpoints/subscription/get.php?id=${id}`;
+  fetch(url)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -133,41 +133,41 @@ function openEditSubscription(event, id) {
 }
 
 function addSubscription() {
-    resetForm();
-    const modal = document.getElementById('subscription-form');
-    modal.classList.add("is-open"); 
-    const body = document.querySelector('body');
-    body.classList.add('no-scroll');
+  resetForm();
+  const modal = document.getElementById('subscription-form');
+  modal.classList.add("is-open");
+  const body = document.querySelector('body');
+  body.classList.add('no-scroll');
 }
 
 function closeAddSubscription() {
-    const modal = document.getElementById('subscription-form');
-    modal.classList.remove("is-open"); 
-    const body = document.querySelector('body');
-    body.classList.remove('no-scroll');
-    if (shouldScroll) {
-      window.scrollTo(0, scrollTopBeforeOpening);
-    }
-    resetForm();
+  const modal = document.getElementById('subscription-form');
+  modal.classList.remove("is-open");
+  const body = document.querySelector('body');
+  body.classList.remove('no-scroll');
+  if (shouldScroll) {
+    window.scrollTo(0, scrollTopBeforeOpening);
+  }
+  resetForm();
 }
 
 function handleFileSelect(event) {
-    const fileInput = event.target;
-    const logoPreview = document.querySelector('.logo-preview');
-    const logoImg = logoPreview.querySelector('img');
-    const logoUrl = document.querySelector("#logo-url");
-    logoUrl.value = "";
+  const fileInput = event.target;
+  const logoPreview = document.querySelector('.logo-preview');
+  const logoImg = logoPreview.querySelector('img');
+  const logoUrl = document.querySelector("#logo-url");
+  logoUrl.value = "";
 
-    if (fileInput.files && fileInput.files[0]) {
-        const reader = new FileReader();
+  if (fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
 
-        reader.onload = function (e) {
-            logoImg.src = e.target.result;
-            logoImg.style.display = 'block';
-        };
+    reader.onload = function (e) {
+      logoImg.src = e.target.result;
+      logoImg.style.display = 'block';
+    };
 
-        reader.readAsDataURL(fileInput.files[0]);
-    }
+    reader.readAsDataURL(fileInput.files[0]);
+  }
 }
 
 function deleteSubscription(event, id) {
@@ -177,7 +177,7 @@ function deleteSubscription(event, id) {
     fetch(`endpoints/subscription/delete.php?id=${id}`, {
       method: 'DELETE',
     })
-    .then(response => {
+      .then(response => {
         if (response.ok) {
           showSuccessMessage(translate('subscription_deleted'));
           fetchSubscriptions();
@@ -185,10 +185,10 @@ function deleteSubscription(event, id) {
         } else {
           showErrorMessage(translate('error_deleting_subscription'));
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('Error:', error);
-    });
+      });
   }
 }
 
@@ -216,7 +216,7 @@ function cloneSubscription(event, id) {
     .catch(error => {
       showErrorMessage(error.message || translate('error'));
     });
-  }
+}
 
 function setSearchButtonStatus() {
 
@@ -239,17 +239,17 @@ function searchLogo() {
     logoSearchPopup.classList.add("is-open");
     const imageSearchUrl = `endpoints/logos/search.php?search=${searchTerm}`;
     fetch(imageSearchUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data.imageUrls) {
-                    displayImageResults(data.imageUrls);
-                } else if (data.error) {
-                    console.error(data.error);
-                }
-            })
-            .catch(error => {
-                console.error(translate('error_fetching_image_results'), error);
-            });
+      .then(response => response.json())
+      .then(data => {
+        if (data.imageUrls) {
+          displayImageResults(data.imageUrls);
+        } else if (data.error) {
+          console.error(data.error);
+        }
+      })
+      .catch(error => {
+        console.error(translate('error_fetching_image_results'), error);
+      });
   } else {
     nameInput.focus();
   }
@@ -260,15 +260,15 @@ function displayImageResults(imageSources) {
   logoResults.innerHTML = "";
 
   imageSources.forEach(src => {
-      const img = document.createElement("img");
-      img.src = src;
-      img.onclick = function() {
-        selectWebLogo(src);
-      };
-      img.onerror = function() {
-        this.parentNode.removeChild(this);
-      };
-      logoResults.appendChild(img);
+    const img = document.createElement("img");
+    img.src = src;
+    img.onclick = function () {
+      selectWebLogo(src);
+    };
+    img.onerror = function () {
+      this.parentNode.removeChild(this);
+    };
+    logoResults.appendChild(img);
   });
 }
 
@@ -323,7 +323,7 @@ function fetchSubscriptions() {
 function setSortOption(sortOption) {
   const sortOptionsContainer = document.querySelector("#sort-options");
   const sortOptionsList = sortOptionsContainer.querySelectorAll("li");
-  sortOptionsList.forEach((option) => { 
+  sortOptionsList.forEach((option) => {
     if (option.getAttribute("id") === "sort-" + sortOption) {
       option.classList.add("selected");
     } else {
@@ -339,21 +339,46 @@ function setSortOption(sortOption) {
   toggleSortOptions();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const subscriptionForm = document.querySelector("#subs-form");
-    const submitButton = document.querySelector("#save-button");
-    const endpoint = "endpoints/subscription/add.php";
+function convertSvgToPng(file, callback) {
+  const reader = new FileReader();
 
-    subscriptionForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    submitButton.disabled = true;
-    const formData = new FormData(subscriptionForm);
+  reader.onload = function (e) {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = function() {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const pngDataUrl = canvas.toDataURL('image/png');
+          const pngFile = dataURLtoFile(pngDataUrl, file.name.replace(".svg", ".png"));
+          callback(pngFile);
+      };
+  };
 
-    fetch(endpoint, {
-        method: "POST",
-        body: formData,
-    })
+  reader.readAsDataURL(file);
+}
+
+function dataURLtoFile(dataurl, filename) {
+  let arr = dataurl.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+      
+  while(n--){
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, {type:mime});
+}
+
+function submitFormData(formData, submitButton, endpoint) {
+  fetch(endpoint, {
+    method: "POST",
+    body: formData,
+  })
     .then((response) => response.json())
     .then((data) => {
       if (data.status === "Success") {
@@ -363,45 +388,69 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     })
     .catch((error) => {
-        showErrorMessage(error);
-        submitButton.disabled = false;
-      });
+      showErrorMessage(error);
+      submitButton.disabled = false;
     });
+}
 
-    document.addEventListener('mousedown', function(event) {
-      const sortOptions = document.querySelector('#sort-options');
-      const sortButton = document.querySelector("#sort-button");
+document.addEventListener('DOMContentLoaded', function () {
+  const subscriptionForm = document.querySelector("#subs-form");
+  const submitButton = document.querySelector("#save-button");
+  const endpoint = "endpoints/subscription/add.php";
 
-      if (!sortOptions.contains(event.target) && !sortButton.contains(event.target) && isSortOptionsOpen) {
-        sortOptions.classList.remove('is-open');
-        isSortOptionsOpen = false;
-      }
-    });
+  subscriptionForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    
+    submitButton.disabled = true;
+    const formData = new FormData(subscriptionForm);
 
-    document.querySelector('#sort-options').addEventListener('focus', function() {
-        isSortOptionsOpen = true;
-    });
+    const fileInput = document.querySelector("#logo");
+    const file = fileInput.files[0];
+
+    if (file && file.type === "image/svg+xml") {
+        convertSvgToPng(file, function(pngFile) {
+            formData.set("logo", pngFile);
+            submitFormData(formData, submitButton, endpoint);
+        });
+    } else {
+        submitFormData(formData, submitButton, endpoint);
+    }
+  });
+
+  document.addEventListener('mousedown', function (event) {
+    const sortOptions = document.querySelector('#sort-options');
+    const sortButton = document.querySelector("#sort-button");
+
+    if (!sortOptions.contains(event.target) && !sortButton.contains(event.target) && isSortOptionsOpen) {
+      sortOptions.classList.remove('is-open');
+      isSortOptionsOpen = false;
+    }
+  });
+
+  document.querySelector('#sort-options').addEventListener('focus', function () {
+    isSortOptionsOpen = true;
+  });
 });
 
 function searchSubscriptions() {
-    const searchInput = document.querySelector("#search");
-    const searchTerm = searchInput.value.trim().toLowerCase();
+  const searchInput = document.querySelector("#search");
+  const searchTerm = searchInput.value.trim().toLowerCase();
 
-    const subscriptions = document.querySelectorAll(".subscription");
-    subscriptions.forEach(subscription => {
-        const name = subscription.getAttribute('data-name').toLowerCase();
-        if (!name.includes(searchTerm)) {
-            subscription.classList.add("hide");
-        } else {
-            subscription.classList.remove("hide");
-        }
-    });
+  const subscriptions = document.querySelectorAll(".subscription");
+  subscriptions.forEach(subscription => {
+    const name = subscription.getAttribute('data-name').toLowerCase();
+    if (!name.includes(searchTerm)) {
+      subscription.classList.add("hide");
+    } else {
+      subscription.classList.remove("hide");
+    }
+  });
 }
 
 function closeSubMenus() {
   var subMenus = document.querySelectorAll('.filtermenu-submenu-content');
   subMenus.forEach(subMenu => {
-      subMenu.classList.remove('is-open');
+    subMenu.classList.remove('is-open');
   });
 
 }
@@ -411,84 +460,84 @@ activeFilters['category'] = "";
 activeFilters['member'] = "";
 activeFilters['payment'] = "";
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
-  filtermenu.addEventListener('click', function() {
-      this.parentElement.querySelector('.filtermenu-content').classList.toggle('is-open');
-      closeSubMenus();
+  filtermenu.addEventListener('click', function () {
+    this.parentElement.querySelector('.filtermenu-content').classList.toggle('is-open');
+    closeSubMenus();
   });
 
-  document.addEventListener('click', function(e) {
-      var filtermenuContent = document.querySelector('.filtermenu-content');
-      if (filtermenuContent.classList.contains('is-open')) {
-          var subMenus = document.querySelectorAll('.filtermenu-submenu');
-          var clickedInsideSubmenu = Array.from(subMenus).some(subMenu => subMenu.contains(e.target) || subMenu === e.target);
+  document.addEventListener('click', function (e) {
+    var filtermenuContent = document.querySelector('.filtermenu-content');
+    if (filtermenuContent.classList.contains('is-open')) {
+      var subMenus = document.querySelectorAll('.filtermenu-submenu');
+      var clickedInsideSubmenu = Array.from(subMenus).some(subMenu => subMenu.contains(e.target) || subMenu === e.target);
 
-          if (!filtermenu.contains(e.target) && !clickedInsideSubmenu) {
-              closeSubMenus();
-              filtermenuContent.classList.remove('is-open');
-          }
+      if (!filtermenu.contains(e.target) && !clickedInsideSubmenu) {
+        closeSubMenus();
+        filtermenuContent.classList.remove('is-open');
       }
+    }
   });
 });
 
 function toggleSubMenu(subMenu) {
   var subMenu = document.getElementById("filter-" + subMenu);
   if (subMenu.classList.contains("is-open")) {
-      closeSubMenus();
+    closeSubMenus();
   } else {
-      closeSubMenus();
-      subMenu.classList.add("is-open");
+    closeSubMenus();
+    subMenu.classList.add("is-open");
   }
 }
 
-document.querySelectorAll('.filter-item').forEach(function(item) {
-  item.addEventListener('click', function(e) {
+document.querySelectorAll('.filter-item').forEach(function (item) {
+  item.addEventListener('click', function (e) {
     const searchInput = document.querySelector("#search");
     searchInput.value = "";
 
     if (this.hasAttribute('data-categoryid')) {
-        const categoryId = this.getAttribute('data-categoryid');
-        if (activeFilters['category'] === categoryId) {
-            activeFilters['category'] = "";
-            this.classList.remove('selected');
-        } else {
-            activeFilters['category'] = categoryId;
-            Array.from(this.parentNode.children).forEach(sibling => {
-              sibling.classList.remove('selected');
-            });
-            this.classList.add('selected');
-        }
+      const categoryId = this.getAttribute('data-categoryid');
+      if (activeFilters['category'] === categoryId) {
+        activeFilters['category'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['category'] = categoryId;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-memberid')) {
-        const memberId = this.getAttribute('data-memberid');
-        if (activeFilters['member'] === memberId) {
-            activeFilters['member'] = "";
-            this.classList.remove('selected');
-        } else {
-            activeFilters['member'] = memberId;
-            Array.from(this.parentNode.children).forEach(sibling => {
-              sibling.classList.remove('selected');
-            });
-            this.classList.add('selected');
-        }
+      const memberId = this.getAttribute('data-memberid');
+      if (activeFilters['member'] === memberId) {
+        activeFilters['member'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['member'] = memberId;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-paymentid')) {
-        const paymentId = this.getAttribute('data-paymentid');
-        if (activeFilters['payment'] === paymentId) {
-            activeFilters['payment'] = "";
-            this.classList.remove('selected');
-        } else {
-            activeFilters['payment'] = paymentId;
-            Array.from(this.parentNode.children).forEach(sibling => {
-              sibling.classList.remove('selected');
-            }); 
-            this.classList.add('selected');
-        }
+      const paymentId = this.getAttribute('data-paymentid');
+      if (activeFilters['payment'] === paymentId) {
+        activeFilters['payment'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['payment'] = paymentId;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     }
 
     if (activeFilters['category'] !== "" || activeFilters['member'] !== "" || activeFilters['payment'] !== "") {
-        document.querySelector('#clear-filters').classList.remove('hide');
+      document.querySelector('#clear-filters').classList.remove('hide');
     } else {
-        document.querySelector('#clear-filters').classList.add('hide');
+      document.querySelector('#clear-filters').classList.add('hide');
     }
 
     fetchSubscriptions();
@@ -501,7 +550,7 @@ function clearFilters() {
   activeFilters['category'] = "";
   activeFilters['member'] = "";
   activeFilters['payment'] = "";
-  document.querySelectorAll('.filter-item').forEach(function(item) {
+  document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');
@@ -510,7 +559,7 @@ function clearFilters() {
 
 let currentActions = null;
 
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
   // Check if click was outside currentActions
   if (currentActions && !currentActions.contains(event.target)) {
     // Click was outside currentActions, close currentActions
