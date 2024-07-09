@@ -224,6 +224,65 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         </div>
     </section>
 
+    <?php
+        // find unused upload logos
+
+        // Get all logos in the database
+        $query = 'SELECT logo FROM subscriptions';
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+
+        $logosOnDB = [];
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $logosOnDB[] = $row['logo'];
+        }
+
+        $logosOnDB = array_unique($logosOnDB);
+
+        // Get all logos in the uploads folder
+        $uploadDir = 'images/uploads/logos/';
+        $uploadFiles = scandir($uploadDir);
+        
+        foreach ($uploadFiles as $file) {
+            if ($file != '.'&& $file != '..' && $file != 'avatars') {
+                $logosOnDisk[] = ['logo' => $file];
+            }
+        }
+
+        // Find unused logos
+        $unusedLogos = [];
+        foreach ($logosOnDisk as $disk) {
+            $found = false;
+            foreach ($logosOnDB as $db) {
+                if ($disk['logo'] == $db) {
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) {
+                $unusedLogos[] = $disk;
+            }
+        }
+
+        $logosToDelete = count($unusedLogos);
+        
+    ?>
+
+    <section class="account-section">
+        <header>
+            <h2>
+                <?= translate('maintenance_tasks', $i18n) ?>
+            </h2>
+        </header>
+        <div class="maintenance-tasks">
+            <h3><?= translate('orphaned_logos', $i18n) ?></h3>
+            <div class="form-group-inline">
+                <input type="button" class="button thin mobile-grow" value="<?= translate('delete', $i18n) ?>" id="deleteUnusedLogos"
+                    onClick="deleteUnusedLogos()" <?= $logosToDelete == 0 ? 'disabled' : '' ?> />
+                    <span class="number-of-logos bold"><?= $logosToDelete ?></span> <?= translate('orphaned_logos', $i18n) ?>
+            </div>
+        </div>
+    </section>
 
     <section class="account-section">
         <header>

@@ -2249,6 +2249,11 @@ button.dark-theme-button i {
   }
 }
 
+.bold {
+  font-weight: 700;
+
+}
+
 /* Checkbox */
 input[type="checkbox"] {
   opacity: 0;

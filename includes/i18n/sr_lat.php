@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "Kreiraj korisnika",
     "smtp_settings" => "SMTP podešavanja",
     "smtp_usage_info" => "Koristiće se za oporavak lozinke i druge sistemske e-poruke.",
+    "maintenance_tasks" => "Održavanje",
+    "orphaned_logos" => "Nepovezani logotipi",
     // Email Verification
     "email_verified" => "E-pošta je uspešno verifikovana",
     "email_verification_failed" => "Verifikacija e-pošte nije uspela",

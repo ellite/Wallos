@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "Kullanıcı Oluştur",
     "smtp_settings" => "SMTP Ayarları",
     "smtp_usage_info" => "Şifre kurtarma ve diğer sistem e-postaları için kullanılacaktır.",
+    "maintenance_tasks" => "Bakım Görevleri",
+    "orphaned_logos" => "Yetim Logolar",
     // Email Verification
     "email_verified" => "E-posta doğrulandı",
     "email_verification_failed" => "E-posta doğrulaması başarısız oldu",

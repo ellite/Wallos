@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "Δημιουργία χρήστη",
     "smtp_settings" => "SMTP ρυθμίσεις",
     "smtp_usage_info" => "Θα χρησιμοποιηθεί για ανάκτηση κωδικού πρόσβασης και άλλα μηνύματα ηλεκτρονικού ταχυδρομείου συστήματος.",
+    "maintenance_tasks" => "Εργασίες συντήρησης",
+    "orphaned_logos" => "Ορφανά λογότυπα",
     // Email Verification
     "email_verified" => "Το email επιβεβαιώθηκε",
     "email_verification_failed" => "Η επαλήθευση email απέτυχε",

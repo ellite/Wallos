@@ -298,6 +298,8 @@ $i18n = [
     "create_user" => "유저 생성",
     "smtp_settings" => "SMTP 설정",
     "smtp_usage_info" => "비밀번호 복구 및 기타 시스템 이메일에 사용됩니다.",
+    "maintenance_tasks" => "유지보수 작업",
+    "orphaned_logos" => "고아 로고",
     // Email Verification
     "email_verified" => "이메일 인증 완료",
     "email_verification_failed" => "이메일 인증 실패",

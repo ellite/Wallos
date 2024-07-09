@@ -297,6 +297,8 @@ $i18n = [
     "create_user" => "建立使用者",
     "smtp_settings" => "SMTP 設定",
     "smtp_usage_info" => "將用於密碼恢復和其他系統電子郵件。",
+    "maintenance_tasks" => "維護任務",
+    "orphaned_logos" => "孤立的圖示",
     // Email Verification
     "email_verified" => "電子郵件已驗證",
     "email_verification_failed" => "電子郵件驗證失敗",

@@ -315,6 +315,8 @@ $i18n = [
     "create_user" => "创建用户",
     "smtp_settings" => "SMTP 设置",
     "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
+    "maintenance_tasks" => "维护任务",
+    "orphaned_logos" => "孤立的 Logo",
 
     // Email Verification
     "email_verified" => "电子邮件已验证",

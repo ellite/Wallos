@@ -315,6 +315,8 @@ $i18n = [
     "create_user" => "Crea utente",
     "smtp_settings" => "Impostazioni SMTP",
     "smtp_usage_info" => "Verrà utilizzato per il recupero della password e altre e-mail di sistema.",
+    "maintenance_tasks" => "Compiti di manutenzione",
+    "orphaned_logos" => "Loghi orfani",
 
     // Email Verification
     "email_verified" => "L'indirizzo email è stato verificato con successo",
