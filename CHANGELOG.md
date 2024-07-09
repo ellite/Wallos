@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.15.0](https://github.com/ellite/Wallos/compare/v2.14.2...v2.15.0) (2024-07-09)
+
+
+### Features
+
+* add maintenance tasks to admin page ([9f7f47b](https://github.com/ellite/Wallos/commit/9f7f47b5d1be2697c2c612bfddb6119c63a3d517))
+* add support to upload svg logos ([9f7f47b](https://github.com/ellite/Wallos/commit/9f7f47b5d1be2697c2c612bfddb6119c63a3d517))
+
 ## [2.14.2](https://github.com/ellite/Wallos/compare/v2.14.1...v2.14.2) (2024-07-08)
 
 
