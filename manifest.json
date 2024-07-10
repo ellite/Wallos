@@ -36,6 +36,13 @@
           "icons": [{ "src": "images/siteicons/pwa/subscriptions.png", "sizes": "96x96" }]
         },
         {
+          "name": "Calendar",
+          "short_name": "Calendar",
+          "description": "View your calendar",
+          "url": "calendar.php",
+          "icons": [{ "src": "images/siteicons/pwa/calendar.png", "sizes": "96x96" }]
+        },
+        {
           "name": "Stats",
           "short_name": "Stats",
           "description": "View your statistics",
