@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.16.1](https://github.com/ellite/Wallos/compare/v2.16.0...v2.16.1) (2024-07-10)
+
+
+### Bug Fixes
+
+* error when logos folder is empty ([#439](https://github.com/ellite/Wallos/issues/439)) ([e2e5061](https://github.com/ellite/Wallos/commit/e2e5061d1506652384ceed018aa4330b8548b792))
+
 ## [2.16.0](https://github.com/ellite/Wallos/compare/v2.15.0...v2.16.0) (2024-07-10)
 
 
