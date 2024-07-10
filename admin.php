@@ -232,6 +232,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         $stmt = $db->prepare($query);
         $result = $stmt->execute();
 
+        $logosOnDisk = [];
         $logosOnDB = [];
         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             $logosOnDB[] = $row['logo'];
