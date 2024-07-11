@@ -91,6 +91,7 @@ self.addEventListener('install', function (event) {
                 'images/siteicons/pwa/stats.png',
                 'images/siteicons/pwa/settings.png',
                 'images/siteicons/pwa/about.png',
+                'images/siteicons/pwa/calendar.png',
                 'images/siteicons/pwa/subscriptions.png',
                 'images/uploads/icons/paypal.png',
                 'images/uploads/icons/creditcard.png',
