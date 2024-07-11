@@ -134,6 +134,8 @@ header .logo .logo-image svg {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 5;
   width: max-content;
+  border-top: none;
+  border-radius: 8px;
 }
 
 .dropdown-content a {
