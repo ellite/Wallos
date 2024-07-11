@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Добавить первую подписку",
     'new_subscription' => "Новая подписка",
     'search' => "Поиск",
+    'state' => "Состояние",
     'sort' => "Сортировка",
     'name' => "Имя",
     'last_added' => "Дата создания",

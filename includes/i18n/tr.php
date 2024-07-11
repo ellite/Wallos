@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "İlk aboneliği ekle",
     'new_subscription' => "Yeni Abonelik",
     'search' => "Ara",
+    'state' => "Durum",
     'sort' => "Sırala",
     'name' => "İsim",
     'last_added' => "Son Eklenen",

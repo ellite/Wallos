@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Adicionar a primeira assinatura",
     'new_subscription' => "Nova assinatura",
     'search' => "Pesquisar",
+    'state' => "Estado",
     'sort' => "Ordenar",
     'name' => "Nome",
     'last_added' => "Última adicionada",

@@ -301,6 +301,9 @@ function fetchSubscriptions() {
   if (activeFilters['payment'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&payment=${activeFilters['payment']}` : `?payment=${activeFilters['payment']}`;
   }
+  if (activeFilters['state'] !== "") {
+    getSubscriptions += getSubscriptions.includes("?") ? `&state=${activeFilters['state']}` : `?state=${activeFilters['state']}`;
+  }
 
   fetch(getSubscriptions)
     .then(response => response.text())
@@ -459,6 +462,7 @@ const activeFilters = [];
 activeFilters['category'] = "";
 activeFilters['member'] = "";
 activeFilters['payment'] = "";
+activeFilters['state'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -527,6 +531,18 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         this.classList.remove('selected');
       } else {
         activeFilters['payment'] = paymentId;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
+    } else if (this.hasAttribute('data-state')) {
+      const state = this.getAttribute('data-state');
+      if (activeFilters['state'] === state) {
+        activeFilters['state'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['state'] = state;
         Array.from(this.parentNode.children).forEach(sibling => {
           sibling.classList.remove('selected');
         });

@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "最初の定期購入を追加する",
     'new_subscription' => "新しい定期購入",
     'search' => "検索",
+    'state' => "状態",
     'sort' => "並べ替え",
     'name' => "名前",
     'last_added' => "最終追加日",

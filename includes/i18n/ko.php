@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "첫번째 구독을 추가하세요.",
     'new_subscription' => "새 구독",
     'search' => "검색",
+    'state' => "상태",
     'sort' => "정렬",
     'name' => "이름",
     'last_added' => "최근 등록",

@@ -8,13 +8,22 @@ $sort = "next_payment";
 $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'];
-  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
+  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive'];
   $order = "ASC";
   if ($sort == "price" || $sort == "id") {
     $order = "DESC";
   }
-  if (in_array($sort, $allowedSortCriteria)) {
-    $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY $sort $order, inactive ASC";
+  if (!in_array($sort, $allowedSortCriteria)) {
+    $sort = "next_payment";
+  }
+
+  $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
+  $sql .= " ORDER BY $sort $order";
+  if ($sort != "next_payment") {
+    $sql .= ", next_payment ASC";
+  }
+  if ($sort != "inactive") {
+    $sql .= ", inactive ASC";
   }
 }
 
@@ -127,6 +136,13 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
             <?php
           }
           ?>
+          <div class="filtermenu-submenu">
+            <div class="filter-title" onClick="toggleSubMenu('state')"><?= translate("state", $i18n) ?></div>
+            <div class="filtermenu-submenu-content" id="filter-state">
+              <div class="filter-item capitalize" data-state="0"><?= translate("enabled", $i18n) ?></div>
+              <div class="filter-item capitalize" data-state="1"><?= translate("disabled", $i18n) ?></div>
+            </div>
+          </div>
           <div class="filtermenu-submenu hide" id="clear-filters">
             <div class="filter-title filter-clear" onClick="clearFilters()">
               <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>
@@ -159,6 +175,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
               id="sort-category_id"><?= translate('category', $i18n) ?></li>
             <li <?= $sort == "payment_method_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payment_method_id')"
               id="sort-payment_method_id"><?= translate('payment_method', $i18n) ?></li>
+            <li <?= $sort == "inactive" ? 'class="selected"' : "" ?> onClick="setSortOption('inactive')" 
+              id="sort-inactive"><?= translate('state', $i18n) ?></li>  
           </ul>
         </div>
       </div>

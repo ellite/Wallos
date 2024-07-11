@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "新增第一個訂閱",
     'new_subscription' => "新訂閱",
     'search' => "搜尋",
+    'state' => "狀態",
     'sort' => "排序",
     'name' => "名稱",
     'last_added' => "建立時間",

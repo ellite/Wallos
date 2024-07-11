@@ -24,7 +24,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
-    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id'];
+    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive'];
     if ($sort == "price" || $sort == "id") {
       $order = "DESC";
     }
@@ -51,7 +51,18 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $params[':member'] = $_GET['member'];
   }
 
-  $sql .= " ORDER BY $sort $order, inactive ASC";
+  if (isset($_GET['state']) && $_GET['state'] != "") {
+    $sql .= " AND inactive = :inactive";
+    $params[':inactive'] = $_GET['state'];
+  }
+
+  $sql .= " ORDER BY $sort $order";
+  if ($sort != "next_payment") {
+    $sql .= ", next_payment ASC";
+  }
+  if ($sort != "state") {
+    $sql .= ", inactive ASC";
+  }
 
   $stmt = $db->prepare($sql);
   $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);

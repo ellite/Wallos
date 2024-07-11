@@ -40,6 +40,7 @@ $i18n = [
     "add_first_subscription" => "Додајте прву претплату",
     'new_subscription' => "Нова претплата",
     'search' => "Претрага",
+    'state' => "Статус",
     'sort' => "Сортирај",
     'name' => "Назив",
     'last_added' => "Последње додато",
