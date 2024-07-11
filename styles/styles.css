@@ -10,6 +10,10 @@ body.no-scroll {
   overflow-y: hidden; 
 }
 
+input, button, select, textarea {
+  font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
+}
+
 @media (max-width: 768px) {
   body.no-scroll section.contain {
     display: none;
@@ -2108,6 +2112,11 @@ button.dark-theme-button i {
 
 .user-list a:hover {
   color: var(--hover-color);
+}
+
+.user-list .user-list-icon {
+  width: 16px;
+  text-align: center;
 }
 
 .calendar-nav {

@@ -99,8 +99,8 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 </p>
             </div>
             <div class="buttons">
-                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>" id="saveAccountRegistrations"
-                    onClick="saveAccountRegistrationsButton()" />
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveAccountRegistrations" onClick="saveAccountRegistrationsButton()" />
             </div>
         </div>
     </section>
@@ -120,9 +120,16 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     ?>
                     <div class="form-group-inline" data-userid="<?= $user['id'] ?>">
                         <div class="user-list-row">
-                            <div title="<?= translate('username', $i18n) ?>"><i
-                                    class="fa-solid <?= $userIcon ?>"></i><?= $user['username'] ?></div>
-                            <div title="<?= translate('email', $i18n) ?>"><i class="fa-solid fa-envelope"></i>
+                            <div title="<?= translate('username', $i18n) ?>">
+                                <div class="user-list-icon">
+                                    <i class="fa-solid <?= $userIcon ?>"></i>
+                                </div>
+                                <?= $user['username'] ?>
+                            </div>
+                            <div title="<?= translate('email', $i18n) ?>">
+                                <div class="user-list-icon">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
                                 <a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a>
                             </div>
                         </div>
@@ -130,13 +137,15 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                             <?php
                             if ($user['id'] != 1) {
                                 ?>
-                                <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)" title="<?= translate('delete_user', $i18n) ?>">
+                                <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)"
+                                    title="<?= translate('delete_user', $i18n) ?>">
                                     <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
                             } else {
                                 ?>
-                                <button class="image-button medium disabled" disabled  title="<?= translate('delete_user', $i18n) ?>">
+                                <button class="image-button medium disabled" disabled
+                                    title="<?= translate('delete_user', $i18n) ?>">
                                     <?php include "images/siteicons/svg/delete.php"; ?>
                                 </button>
                                 <?php
@@ -159,7 +168,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             <div class="form-group">
                 <input type="text" id="newUsername" placeholder="<?= translate('username', $i18n) ?>" />
             </div>
-            <div class="form-group">    
+            <div class="form-group">
                 <input type="email" id="newEmail" placeholder="<?= translate('email', $i18n) ?>" />
             </div>
             <div class="form-group-inline">
@@ -186,11 +195,13 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="form-group-inline">
                 <div>
-                    <input type="radio" name="encryption" id="encryptiontls" value="tls" <?= empty($settings['encryption']) || $settings['encryption'] == "tls" ? "checked" : "" ?> />
+                    <input type="radio" name="encryption" id="encryptiontls" value="tls"
+                        <?= empty($settings['encryption']) || $settings['encryption'] == "tls" ? "checked" : "" ?> />
                     <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
                 </div>
                 <div>
-                    <input type="radio" name="encryption" id="encryptionssl" value="ssl" <?= $settings['encryption'] == "ssl" ? "checked" : "" ?> />
+                    <input type="radio" name="encryption" id="encryptionssl" value="ssl"
+                        <?= $settings['encryption'] == "ssl" ? "checked" : "" ?> />
                     <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
                 </div>
             </div>
@@ -209,8 +220,8 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             <div class="buttons">
                 <input type="button" class="secondary-button thin mobile-grow" value="<?= translate('test', $i18n) ?>"
                     id="testSmtpSettingsButton" onClick="testSmtpSettingsButton()" />
-                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>" id="saveSmtpSettingsButton"
-                    onClick="saveSmtpSettingsButton()" />
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveSmtpSettingsButton" onClick="saveSmtpSettingsButton()" />
             </div>
             <div class="settings-notes">
                 <p>
@@ -225,59 +236,59 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <?php
-        // find unused upload logos
+    // find unused upload logos
+    
+    // Get all logos in the subscriptions table
+    $query = 'SELECT logo FROM subscriptions';
+    $stmt = $db->prepare($query);
+    $result = $stmt->execute();
 
-        // Get all logos in the subscriptions table
-        $query = 'SELECT logo FROM subscriptions';
-        $stmt = $db->prepare($query);
-        $result = $stmt->execute();
+    $logosOnDisk = [];
+    $logosOnDB = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $logosOnDB[] = $row['logo'];
+    }
 
-        $logosOnDisk = [];
-        $logosOnDB = [];
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            $logosOnDB[] = $row['logo'];
+    // Get all logos in the payment_methods table
+    $query = 'SELECT icon FROM payment_methods';
+    $stmt = $db->prepare($query);
+    $result = $stmt->execute();
+
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        if (!strstr($row['icon'], "images/uploads/icons/")) {
+            $logosOnDB[] = $row['icon'];
         }
+    }
 
-        // Get all logos in the payment_methods table
-        $query = 'SELECT icon FROM payment_methods';
-        $stmt = $db->prepare($query);
-        $result = $stmt->execute();
+    $logosOnDB = array_unique($logosOnDB);
 
-        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-            if (!strstr($row['icon'], "images/uploads/icons/")) {
-                $logosOnDB[] = $row['icon'];
+    // Get all logos in the uploads folder
+    $uploadDir = 'images/uploads/logos/';
+    $uploadFiles = scandir($uploadDir);
+
+    foreach ($uploadFiles as $file) {
+        if ($file != '.' && $file != '..' && $file != 'avatars') {
+            $logosOnDisk[] = ['logo' => $file];
+        }
+    }
+
+    // Find unused logos
+    $unusedLogos = [];
+    foreach ($logosOnDisk as $disk) {
+        $found = false;
+        foreach ($logosOnDB as $dbLogo) {
+            if ($disk['logo'] == $dbLogo) {
+                $found = true;
+                break;
             }
         }
-
-        $logosOnDB = array_unique($logosOnDB);
-
-        // Get all logos in the uploads folder
-        $uploadDir = 'images/uploads/logos/';
-        $uploadFiles = scandir($uploadDir);
-        
-        foreach ($uploadFiles as $file) {
-            if ($file != '.'&& $file != '..' && $file != 'avatars') {
-                $logosOnDisk[] = ['logo' => $file];
-            }
+        if (!$found) {
+            $unusedLogos[] = $disk;
         }
+    }
 
-        // Find unused logos
-        $unusedLogos = [];
-        foreach ($logosOnDisk as $disk) {
-            $found = false;
-            foreach ($logosOnDB as $dbLogo) {
-                if ($disk['logo'] == $dbLogo) {
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                $unusedLogos[] = $disk;
-            }
-        }
+    $logosToDelete = count($unusedLogos);
 
-        $logosToDelete = count($unusedLogos);
-        
     ?>
 
     <section class="account-section">
@@ -289,9 +300,10 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         <div class="maintenance-tasks">
             <h3><?= translate('orphaned_logos', $i18n) ?></h3>
             <div class="form-group-inline">
-                <input type="button" class="button thin mobile-grow" value="<?= translate('delete', $i18n) ?>" id="deleteUnusedLogos"
-                    onClick="deleteUnusedLogos()" <?= $logosToDelete == 0 ? 'disabled' : '' ?> />
-                    <span class="number-of-logos bold"><?= $logosToDelete ?></span> <?= translate('orphaned_logos', $i18n) ?>
+                <input type="button" class="button thin mobile-grow" value="<?= translate('delete', $i18n) ?>"
+                    id="deleteUnusedLogos" onClick="deleteUnusedLogos()" <?= $logosToDelete == 0 ? 'disabled' : '' ?> />
+                <span class="number-of-logos bold"><?= $logosToDelete ?></span>
+                <?= translate('orphaned_logos', $i18n) ?>
             </div>
         </div>
     </section>
