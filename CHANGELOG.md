@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.17.0](https://github.com/ellite/Wallos/compare/v2.16.1...v2.17.0) (2024-07-11)
+
+
+### Features
+
+* add filter and sort dashboard by subscription state ([afff992](https://github.com/ellite/Wallos/commit/afff992878287fdc51229297c455d1f69216c36e))
+
+
+### Bug Fixes
+
+* use the same font for inputs ([a539058](https://github.com/ellite/Wallos/commit/a5390580259105f14154b0d7ce1eb13631c471b1))
+
 ## [2.16.1](https://github.com/ellite/Wallos/compare/v2.16.0...v2.16.1) (2024-07-10)
 
 
