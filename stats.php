@@ -19,7 +19,6 @@ function getPricePerMonth($cycle, $frequency, $price)
   }
 }
 
-
 function getPriceConverted($price, $currency, $database, $userId)
 {
   $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
@@ -134,6 +133,8 @@ foreach ($params as $key => $value) {
 }
 
 $result = $stmt->execute();
+$usesMultipleCurrencies = false;
+
 if ($result) {
   while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $subscriptions[] = $row;
@@ -146,6 +147,9 @@ if ($result) {
       $frequency = $subscription['frequency'];
       $cycle = $subscription['cycle'];
       $currency = $subscription['currency_id'];
+      if ($currency != $userData['main_currency']) {
+        $usesMultipleCurrencies = true;
+      }
       $next_payment = $subscription['next_payment'];
       $payerId = $subscription['payer_user_id'];
       $categoryId = $subscription['category_id'];
@@ -219,9 +223,32 @@ if (isset($userData['budget']) && $userData['budget'] > 0) {
   }
 }
 
+$showCantConverErrorMessage = false;
+if ($usesMultipleCurrencies) {
+  $query = "SELECT api_key FROM fixer WHERE user_id = :userId";
+  $stmt = $db->prepare($query);
+  $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+  $result = $stmt->execute();
+  if ($result->fetchArray(SQLITE3_ASSOC) === false) {
+    $showCantConverErrorMessage = true;
+  }
+}
+
 $numberOfElements = 6;
 ?>
 <section class="contain">
+  <?php
+  if ($showCantConverErrorMessage) {
+    ?>
+    <div class="error-box">
+      <div class="error-message">
+        <i class="fa-solid fa-exclamation-circle"></i>
+        <?= translate('cant_convert_currency', $i18n) ?>
+      </div>
+    </div>
+    <?php
+  }
+  ?>
   <div class="split-header">
     <h2>
       <?= translate('general_statistics', $i18n) ?> <span class="header-subtitle"><?= $statsSubtitle ?></span>
@@ -272,7 +299,8 @@ $numberOfElements = 6;
                 }
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                  <?= $category['name'] ?></div>
+                  <?= $category['name'] ?>
+                </div>
                 <?php
               }
               ?>
@@ -295,7 +323,8 @@ $numberOfElements = 6;
                 }
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-                  <?= $payment['name'] ?></div>
+                  <?= $payment['name'] ?>
+                </div>
                 <?php
               }
               ?>

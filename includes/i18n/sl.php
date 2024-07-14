@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "Prekliči",
     "upload_logo" => "Naloži logotip",
     // Statistics page
+    'cant_convert_currency' => "Pri naročninah uporabljate več valut. Če želite imeti veljavne in točne statistične podatke, na strani z nastavitvami nastavite ključ API Fixer.",
     'general_statistics' => "Splošna statistika",
     'active_subscriptions' => "Aktivne naročnine",
     'inactive_subscriptions' => "Neaktivne naročnine",

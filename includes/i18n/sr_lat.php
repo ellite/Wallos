@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "Otkaži",
     "upload_logo" => "Učitaj logo",
     // Stranica sa statistikama
+    'cant_convert_currency' => "Na svojim pretplatama koristite više valuta. Da biste imali validnu i tačnu statistiku, postavite Fiker API ključ na stranici podešavanja.",
     'general_statistics' => "Opšte statistike",
     'active_subscriptions' => "Aktivne pretplate",
     'inactive_subscriptions' => "Neaktivne pretplate",

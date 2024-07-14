@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "キャンセル",
     "upload_logo" => "ロゴのアップロード",
     // Statistics page
+    'cant_convert_currency' => "購読に複数の通貨を使用しています。有効で正確な統計を取るには、設定ページでFixer API Keyを設定してください。",
     'general_statistics' => "一般統計",
     'active_subscriptions' => "アクティブな定期購入",
     'inactive_subscriptions' => "非アクティブなサブスクリプション",

@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "İptal",
     "upload_logo" => "Logo Yükle",
     // Statistics page
+    'cant_convert_currency' => "Aboneliklerinizde birden fazla para birimi kullanıyorsunuz. Geçerli ve doğru istatistiklere sahip olmak için lütfen ayarlar sayfasında bir Fixer API Anahtarı ayarlayın.",
     'general_statistics' => "Genel İstatistikler",
     'active_subscriptions' => "Aktif Abonelikler",
     'inactive_subscriptions' => "Aktif Olmayan Abonelikler",
