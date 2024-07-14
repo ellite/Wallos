@@ -5,6 +5,7 @@ require_once 'includes/getdbkeys.php';
 include_once 'includes/list_subscriptions.php';
 
 $sort = "next_payment";
+$sortOrder = $sort;
 $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'];
@@ -22,7 +23,7 @@ if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   }
 
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
-  $sql .= " ORDER BY LOWER($sort) $order";
+  $sql .= " ORDER BY $sort $order";
   if ($sort != "next_payment") {
     $sql .= ", next_payment ASC";
   }

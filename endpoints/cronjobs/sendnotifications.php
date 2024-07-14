@@ -9,6 +9,9 @@ require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
+$date = new DateTime('now');
+echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
+
 // Get all user ids
 $query = "SELECT id, username FROM user";
 $stmt = $db->prepare($query);
@@ -16,7 +19,7 @@ $usersToNotify = $stmt->execute();
 
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
-    echo "For user: " . $userToNotify['username'] . "<br />";
+    echo "\nFor user: " . $userToNotify['username'] . "<br />";
 
     $days = 1;
     $emailNotificationsEnabled = false;

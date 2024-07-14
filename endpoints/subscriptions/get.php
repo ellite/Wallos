@@ -20,6 +20,7 @@ if (isset($settings['color_theme'])) {
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $sort = "next_payment";
+  $sortOrder = $sort;
   $order = "ASC";
   $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
