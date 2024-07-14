@@ -95,6 +95,7 @@ $i18n = [
     "upload_logo" => "上传 Logo",
 
     // 统计页面
+    'cant_convert_currency' => "您在订阅中使用了多种货币。要获得有效、准确的统计数据，请在设置页面设置 Fixer API 密钥。",
     'general_statistics' => "总体统计",
     'active_subscriptions' => "活跃订阅",
     'inactive_subscriptions' => "非活动订阅",

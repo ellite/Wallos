@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "Anuluj",
     "upload_logo" => "Prześlij logo",
     // Statistics page
+    'cant_convert_currency' => "Używasz wielu walut w swoich subskrypcjach. Aby uzyskać prawidłowe i dokładne statystyki, należy ustawić klucz API Fixer na stronie ustawień.",
     'general_statistics' => "Statystyki ogólne",
     'active_subscriptions' => "Aktywne subskrypcje",
     'inactive_subscriptions' => "Nieaktywne subskrypcje",

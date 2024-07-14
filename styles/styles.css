@@ -12,6 +12,7 @@ body.no-scroll {
 
 input, button, select, textarea {
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {
@@ -33,6 +34,20 @@ h2, h3 {
   max-width: 970px;
   margin: 0px auto;
   box-sizing: border-box;
+}
+
+.error-box {
+  padding: 20px 16px;
+  background-color: rgba(var(--error-color-rgb), 0.3);
+  border: 1px solid var(--error-color);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.error-box .error-message i {
+  color: var(--error-color);
+  margin-right: 10px;
 }
 
 .split-header {

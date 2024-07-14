@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "Cancelar",
     "upload_logo" => "Enviar Logo",
     // Statistics page
+    'cant_convert_currency' => "Está a utilizar várias moedas nas suas subscrições. Para obter estatísticas válidas e exactas, defina uma chave API do Fixer na página de definições.",
     'general_statistics' => "Estatísticas Gerais",
     'active_subscriptions' => "Subscrições Activas",
     'inactive_subscriptions' => "Subscrições inactivas",

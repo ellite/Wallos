@@ -848,6 +848,7 @@ function addFixerKeyButton() {
   const apiKeyInput = document.querySelector("#fixerKey");
   apiKey = apiKeyInput.value.trim();
   const provider = document.querySelector("#fixerProvider").value;
+  const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
   fetch("endpoints/currency/fixer_api_key.php", {
     method: "POST",
     headers: {
@@ -860,6 +861,7 @@ function addFixerKeyButton() {
       if (data.success) {
           showSuccessMessage(data.message);
           document.getElementById("addFixerKey").disabled = false;
+          convertCurrencyCheckbox.disabled = false;
           // update currency exchange rates
           fetch("endpoints/currency/update_exchange.php?force=true");
       } else {

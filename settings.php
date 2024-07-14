@@ -1215,8 +1215,10 @@ require_once 'includes/header.php';
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrency()"
-                        <?php if ($settings['convert_currency'])
-                            echo 'checked'; ?>>
+                        <?php 
+                            if ($settings['convert_currency']) echo ' checked'; 
+                            if ($apiKey == "") echo ' disabled';
+                        ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
                 </div>
             </div>

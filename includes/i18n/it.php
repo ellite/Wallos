@@ -95,6 +95,7 @@ $i18n = [
     'upload_logo' => 'Carica logo',
 
     // Statistics
+    'cant_convert_currency' => "Si stanno utilizzando più valute per gli abbonamenti. Per avere statistiche valide e precise, impostare una chiave API Fixer nella pagina delle impostazioni.",
     'general_statistics' => 'Statistiche generali',
     'active_subscriptions' => 'Abbonamenti attivi',
     'inactive_subscriptions' => 'Abbonamenti inattivi',

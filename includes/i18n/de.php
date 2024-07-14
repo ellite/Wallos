@@ -89,6 +89,7 @@ $i18n = [
     "cancel" => "Abbrechen",
     "upload_logo" => "Logo hochladen",
     // Statistics page
+    'cant_convert_currency' => "Sie verwenden mehrere Währungen für Ihre Abonnements. Um gültige und genaue Statistiken zu erhalten, legen Sie bitte einen Fixer-API-Schlüssel auf der Einstellungsseite fest.",
     'general_statistics' => "Allgemeine Statistiken",
     'active_subscriptions' => "Aktive Abonnements",
     'inactive_subscriptions' => "Inaktive Abonnements",
