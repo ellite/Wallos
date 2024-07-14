@@ -41,6 +41,7 @@ $i18n = [
     'new_subscription' => "Neues Abonnement",
     'search' => "Suche",
     'state' => "Status",
+    'alphanumeric' => "Alphanumerisch",
     'sort' => "Sortieren",
     'name' => "Bezeichnung",
     'last_added' => "Zuletzt hinzugefügt",

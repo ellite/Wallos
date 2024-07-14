@@ -41,6 +41,7 @@ $i18n = [
     'new_subscription' => "새 구독",
     'search' => "검색",
     'state' => "상태",
+    'alphanumeric' => "알파벳순",
     'sort' => "정렬",
     'name' => "이름",
     'last_added' => "최근 등록",

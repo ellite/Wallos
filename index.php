@@ -8,17 +8,21 @@ $sort = "next_payment";
 $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'];
-  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive'];
+  $sortOrder = $sort;
+  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
   $order = "ASC";
   if ($sort == "price" || $sort == "id") {
     $order = "DESC";
+  }
+  if ($sort == "alphanumeric") {
+    $sort = "name";
   }
   if (!in_array($sort, $allowedSortCriteria)) {
     $sort = "next_payment";
   }
 
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
-  $sql .= " ORDER BY $sort $order";
+  $sql .= " ORDER BY LOWER($sort) $order";
   if ($sort != "next_payment") {
     $sql .= ", next_payment ASC";
   }
@@ -165,32 +169,33 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         </button>
         <div class="sort-options" id="sort-options">
           <ul>
-            <li <?= $sort == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name">
+            <li <?= $sortOrder == "name" ? 'class="selected"' : "" ?> onClick="setSortOption('name')" id="sort-name">
               <?= translate('name', $i18n) ?>
             </li>
-            <li <?= $sort == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id">
+            <li <?= $sortOrder == "id" ? 'class="selected"' : "" ?> onClick="setSortOption('id')" id="sort-id">
               <?= translate('last_added', $i18n) ?>
             </li>
-            <li <?= $sort == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price">
+            <li <?= $sortOrder == "price" ? 'class="selected"' : "" ?> onClick="setSortOption('price')" id="sort-price">
               <?= translate('price', $i18n) ?>
             </li>
-            <li <?= $sort == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')"
+            <li <?= $sortOrder == "next_payment" ? 'class="selected"' : "" ?> onClick="setSortOption('next_payment')"
               id="sort-next_payment"><?= translate('next_payment', $i18n) ?></li>
-            <li <?= $sort == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')"
+            <li <?= $sortOrder == "payer_user_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payer_user_id')"
               id="sort-payer_user_id"><?= translate('member', $i18n) ?></li>
-            <li <?= $sort == "category_id" ? 'class="selected"' : "" ?> onClick="setSortOption('category_id')"
+            <li <?= $sortOrder == "category_id" ? 'class="selected"' : "" ?> onClick="setSortOption('category_id')"
               id="sort-category_id"><?= translate('category', $i18n) ?></li>
-            <li <?= $sort == "payment_method_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payment_method_id')"
+            <li <?= $sortOrder == "payment_method_id" ? 'class="selected"' : "" ?> onClick="setSortOption('payment_method_id')"
               id="sort-payment_method_id"><?= translate('payment_method', $i18n) ?></li>
             <?php
             if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
               ?>
-              <li <?= $sort == "inactive" ? 'class="selected"' : "" ?> onClick="setSortOption('inactive')"
+              <li <?= $sortOrder == "inactive" ? 'class="selected"' : "" ?> onClick="setSortOption('inactive')"
                 id="sort-inactive"><?= translate('state', $i18n) ?></li>
               <?php
             }
             ?>
-
+            <li <?= $sortOrder == "alphanumeric" ? 'class="selected"' : "" ?> onClick="setSortOption('alphanumeric')"
+              id="sort-alphanumeric"><?= translate('alphanumeric', $i18n) ?></li>
           </ul>
         </div>
       </div>
@@ -231,6 +236,12 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
         $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
       }
+    }
+
+    if ($sortOrder == "alphanumeric") {
+      usort($print, function ($a, $b) {
+        return strnatcmp(strtolower($a['name']), strtolower($b['name']));
+      });
     }
 
     if (isset($print)) {

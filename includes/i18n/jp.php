@@ -41,6 +41,7 @@ $i18n = [
     'new_subscription' => "新しい定期購入",
     'search' => "検索",
     'state' => "状態",
+    'alphanumeric' => "アルファベット順",
     'sort' => "並べ替え",
     'name' => "名前",
     'last_added' => "最終追加日",
