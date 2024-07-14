@@ -24,9 +24,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
-    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive'];
+    $sortOrder = $sort;
+    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
     if ($sort == "price" || $sort == "id") {
       $order = "DESC";
+    }
+    if ($sort == "alphanumeric") {
+      $sort = "name";
     }
     if (!in_array($sort, $allowedSortCriteria)) {
       $sort = "next_payment";
@@ -56,7 +60,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $params[':inactive'] = $_GET['state'];
   }
 
-  $sql .= " ORDER BY $sort $order";
+  $sql .= " ORDER BY LOWER($sort) $order";
   if ($sort != "next_payment") {
     $sql .= ", next_payment ASC";
   }
@@ -112,6 +116,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
       $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
     }
+  }
+
+  if ($sortOrder == "alphanumeric") {
+    usort($print, function ($a, $b) {
+      return strnatcmp(strtolower($a['name']), strtolower($b['name']));
+    });
   }
 
   if (isset($print)) {

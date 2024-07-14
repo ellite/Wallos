@@ -45,6 +45,7 @@ $i18n = [
     'new_subscription' => "新订阅",
     'search' => "搜索",
     'state' => "状态",
+    'alphanumeric' => "名称",
     'sort' => "排序",
     'name' => "名称",
     'last_added' => "创建时间",

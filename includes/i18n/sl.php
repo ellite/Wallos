@@ -41,6 +41,7 @@ $i18n = [
     'new_subscription' => "Nova naročnina",
     'search' => "Iskanje",
     'state' => "Stanje",
+    'alphanumeric' => "Abecedno",
     'sort' => "Razvrsti",
     'name' => "Ime",
     'last_added' => "Zadnje dodano",
