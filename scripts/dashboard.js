@@ -99,7 +99,7 @@ function fillEditFormFields(subscription) {
 
   const deleteButton = document.querySelector("#deletesub");
   deleteButton.style = 'display: block';
-  deleteButton.setAttribute("onClick", `deleteSubscription(${subscription.id})`);
+  deleteButton.setAttribute("onClick", `deleteSubscription(event, ${subscription.id})`);
 
   const modal = document.getElementById('subscription-form');
   modal.classList.add("is-open");
