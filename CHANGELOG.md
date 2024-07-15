@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.3](https://github.com/ellite/Wallos/compare/v2.19.2...v2.19.3) (2024-07-15)
+
+
+### Bug Fixes
+
+* delete button on subscription form ([#460](https://github.com/ellite/Wallos/issues/460)) ([8cb4355](https://github.com/ellite/Wallos/commit/8cb43553fd2d3328fe9b1f7c5986e040071844c0))
+
 ## [2.19.2](https://github.com/ellite/Wallos/compare/v2.19.1...v2.19.2) (2024-07-15)
 
 
