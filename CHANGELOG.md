@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.19.2](https://github.com/ellite/Wallos/compare/v2.19.1...v2.19.2) (2024-07-15)
+
+
+### Bug Fixes
+
+* test ntfy without custom headers ([#456](https://github.com/ellite/Wallos/issues/456)) ([8fcfc92](https://github.com/ellite/Wallos/commit/8fcfc9264726ec1ded81ca2c51daa65ae9f4e7d8))
+
 ## [2.19.1](https://github.com/ellite/Wallos/compare/v2.19.0...v2.19.1) (2024-07-14)
 
 
