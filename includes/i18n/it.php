@@ -230,6 +230,14 @@ $i18n = [
     "backup" => 'Backup',
     "restore" => 'Ripristina',
     "restore_info" => "Il ripristino del database annullerà tutti i dati correnti. Al termine del ripristino, l'utente verrà disconnesso.",
+    "account" => "Account",
+    "export_subscriptions" => "Esporta abbonamenti",
+    "export_as_json" => "Esporta come JSON",
+    "export_as_csv" => "Esporta come CSV",
+    "danger_zone" => "Zona di pericolo",
+    "delete_account" => "Elimina account",
+    "delete_account_info" => "L'eliminazione del vostro account cancellerà anche tutte le vostre sottoscrizioni e impostazioni.",
+
     // Filters
     'filter' => 'Filtra',
     'clear' => 'Pulisci',

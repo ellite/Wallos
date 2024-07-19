@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "Неизвестная ошибка. Повторите попытку.",
   error_saving_notification_data: "Ошибка сохранения данных уведомления.",
   error_sending_notification: "Ошибка отправки уведомления",
+  delete_account_confirmation: "Вы уверены, что хотите удалить свою учетную запись?",
+  this_will_delete_all_data: "Это удалит все ваши данные и не может быть отменено. Продолжить?",
   // Calendar
   price: "Цена",
   category: "Категория",

@@ -33,6 +33,8 @@ let i18n = {
     unknown_error: '發生未知的錯誤，請再試一次。',
     error_saving_notification_data: '保存通知資料時發生錯誤',
     error_sending_notification: '發送通知時發生錯誤',
+    delete_account_confirmation: "您確定要刪除您的帳戶嗎？",
+    this_will_delete_all_data: "這將刪除所有資料，且無法復原。繼續？",
     // Calendar
     price: "價格",
     category: "類別",

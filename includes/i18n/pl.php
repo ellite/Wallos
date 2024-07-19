@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Kopia zapasowa",
     "restore" => "Przywróć",
     "restore_info" => "Przywrócenie bazy danych zastąpi wszystkie bieżące dane. Po przywróceniu zostaniesz wylogowany.",
+    "account" => "Konto",
+    "export_subscriptions" => "Eksportuj subskrypcje",
+    "export_as_json" => "Eksportuj jako JSON",
+    "export_as_csv" => "Eksportuj jako CSV",
+    "danger_zone" => "Strefa zagrożenia",
+    "delete_account" => "Usuń konto",
+    "delete_account_info" => "Usunięcie konta spowoduje również usunięcie wszystkich subskrypcji i ustawień.",
     // Filters menu
     "filter" => "Filtr",
     "clear" => "Wyczyść",

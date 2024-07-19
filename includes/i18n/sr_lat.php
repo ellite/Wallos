@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Backup",
     "restore" => "Restore",
     "restore_info" => "Vraćanje baze podataka će zameniti sve trenutne podatke. Bićete odjavljeni nakon vraćanja.",
+    "account" => "Nalog",
+    "export_subscriptions" => "Izvezi pretplate",
+    "export_as_json" => "Izvezi kao JSON",
+    "export_as_csv" => "Izvezi kao CSV",
+    "danger_zone" => "Opasna zona",
+    "delete_account" => "Izbriši nalog",
+    "delete_account_info" => "Brisanjem naloga izbrisaćete sve podatke, uključujući pretplate, podešavanja, članove domaćinstva i načine plaćanja.",
     // Meni sa filterima
     "filter" => "Filter",
     "clear" => "Očisti",

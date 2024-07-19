@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "알 수 없는 에러입니다. 다시 시도해 주세요.",
   error_saving_notification_data: "알림 데이터 저장 에러",
   error_sending_notification: "알림 전송 에러",
+  delete_account_confirmation: "정말 계정을 삭제하시겠습니까?",
+  this_will_delete_all_data: "이로 인해 모든 데이터가 삭제되며 복구할 수 없습니다. 계속하시겠습니까?",
   // Calendar
   price: "가격",
   category: "카테고리",

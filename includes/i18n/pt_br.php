@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Backup",
     "restore" => "Restaurar",
     "restore_info" => "A restauração do banco de dados substituirá todos os dados atuais. Você será desconectado após a restauração.",
+    "account" => "Conta",
+    "export_subscriptions" => "Exportar assinaturas",
+    "export_as_json" => "Exportar como JSON",
+    "export_as_csv" => "Exportar como CSV",
+    "danger_zone" => "Zona de perigo",
+    "delete_account" => "Excluir conta",
+    "delete_account_info" => "Excluir sua conta também excluirá todas as assinaturas e configurações.",
     // Filters menu
     "filter" => "Filtrar",
     "clear" => "Limpar",

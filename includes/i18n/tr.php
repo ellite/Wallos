@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Yedekle",
     "restore" => "Geri Yükle",
     "restore_info" => "Veritabanının geri yüklenmesi tüm mevcut verileri geçersiz kılacaktır. Geri yüklemeden sonra oturumunuz kapatılacaktır.",
+    "account" => "Hesap",
+    "export_subscriptions" => "Abonelikleri dışa aktar",
+    "export_as_json" => "JSON olarak dışa aktar",
+    "export_as_csv" => "CSV olarak dışa aktar",
+    "danger_zone" => "Tehlikeli Bölge",
+    "delete_account" => "Hesabı Sil",
+    "delete_account_info" => "Hesabınızı sildiğinizde tüm abonelikleriniz ve ayarlarınız da silinecektir.",
     // Filters menu
     "filter" => "Filtre",
     "clear" => "Temizle",

@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "Neznana napaka, poskusite znova.",
   error_saving_notification_data: "Napaka pri shranjevanju obvestilnih podatkov",
   error_sending_notification: "Napaka pri pošiljanju obvestila",
+  delete_account_confirmation: "Ali ste prepričani, da želite izbrisati svoj račun?",
+  this_will_delete_all_data: "To bo izbrisalo vse vaše podatke in jih ni mogoče obnoviti. Nadaljujem?",
   // Calendar
   price: "Cena",
   category: "Kategorija",

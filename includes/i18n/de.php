@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Backup",
     "restore" => "Wiederherstellen",
     "restore_info" => "Durch die Wiederherstellung der Datenbank werden alle aktuellen Daten überschrieben. Nach der Wiederherstellung werden Sie abgemeldet.",
+    "account" => "Konto",
+    "export_subscriptions" => "Abonnements exportieren",
+    "export_as_json" => "Als JSON exportieren",
+    "export_as_csv" => "Als CSV exportieren",
+    "danger_zone" => "Gefahrenzone",
+    "delete_account" => "Konto löschen",
+    "delete_account_info" => "Mit dem Löschen Ihres Kontos werden auch alle Ihre Abonnements und Einstellungen gelöscht.",
     // Filters menu
     "filter" => "Filter",
     "clear" => "Leeren",

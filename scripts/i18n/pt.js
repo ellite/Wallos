@@ -33,6 +33,8 @@ let i18n = {
     unknown_error: 'Erro desconhecido, por favor, tente novamente.',
     error_saving_notification_data: 'Erro ao guardar dados de notificação',
     error_sending_notification: 'Erro ao enviar notificação',
+    delete_account_confirmation: "Tem a certeza de que deseja eliminar a sua conta?",
+    this_will_delete_all_data: "Isto irá eliminar todos os seus dados e não poderão ser recuperados. Continuar?",
     // Calendar
     price: "Preço",
     category: "Categoria",

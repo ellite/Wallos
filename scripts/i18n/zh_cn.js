@@ -33,6 +33,8 @@ let i18n = {
     'unknown_error': '未知错误，请重试。',
     'error_saving_notification_data': '保存通知数据时出错',
     'error_sending_notification': '发送通知时出错',
+    'delete_account_confirmation': "您确定要删除您的帐户吗？",
+    'this_will_delete_all_data': "这将删除所有您的数据，且无法撤销。是否继续？",
     // Calendar
     price: "价格",
     category: "类别",
