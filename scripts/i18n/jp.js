@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "不明なエラー。もう一度試してください。",
   error_saving_notification_data: "通知データの保存エラー",
   error_sending_notification: "通知の送信エラー",
+  delete_account_confirmation: "アカウントを削除してもよろしいですか？",
+  this_will_delete_all_data: "これによりすべてのデータが削除され、元に戻すことはできません。続行しますか？",
   // Calendar
   price: "価格",
   category: "カテゴリ",

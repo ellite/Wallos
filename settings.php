@@ -1104,8 +1104,8 @@ require_once 'includes/header.php';
                     <h3><?= translate('colors', $i18n) ?></h3>
                     <div class="form-group-inline wrap">
                         <div class="theme">
-                            <input type="radio" name="theme" id="theme-blue" value="blue"
-                            onClick="setTheme('blue')" <?= $settings['color_theme'] == 'blue' ? 'checked' : '' ?>>
+                            <input type="radio" name="theme" id="theme-blue" value="blue" onClick="setTheme('blue')"
+                                <?= $settings['color_theme'] == 'blue' ? 'checked' : '' ?>>
                             <label for="theme-blue"
                                 class="theme-preview blue <?= $settings['color_theme'] == 'blue' ? 'is-selected' : '' ?>">
                                 <span class="main-color"></span>
@@ -1114,8 +1114,8 @@ require_once 'includes/header.php';
                             </label>
                         </div>
                         <div class="theme">
-                            <input type="radio" name="theme" id="theme-green" value="green"
-                            onClick="setTheme('green')" <?= $settings['color_theme'] == 'green' ? 'checked' : '' ?>>
+                            <input type="radio" name="theme" id="theme-green" value="green" onClick="setTheme('green')"
+                                <?= $settings['color_theme'] == 'green' ? 'checked' : '' ?>>
                             <label for="theme-green"
                                 class="theme-preview green <?= $settings['color_theme'] == 'green' ? 'is-selected' : '' ?>">
                                 <span class="main-color"></span>
@@ -1124,8 +1124,8 @@ require_once 'includes/header.php';
                             </label>
                         </div>
                         <div class="theme">
-                            <input type="radio" name="theme" id="theme-red" value="red"
-                            onClick="setTheme('red')" <?= $settings['color_theme'] == 'red' ? 'checked' : '' ?>>
+                            <input type="radio" name="theme" id="theme-red" value="red" onClick="setTheme('red')"
+                                <?= $settings['color_theme'] == 'red' ? 'checked' : '' ?>>
                             <label for="theme-red"
                                 class="theme-preview red <?= $settings['color_theme'] == 'red' ? 'is-selected' : '' ?>">
                                 <span class="main-color"></span>
@@ -1135,7 +1135,7 @@ require_once 'includes/header.php';
                         </div>
                         <div class="theme">
                             <input type="radio" name="theme" id="theme-yellow" value="yellow"
-                            onClick="setTheme('yellow')" <?= $settings['color_theme'] == 'yellow' ? 'checked' : '' ?>>
+                                onClick="setTheme('yellow')" <?= $settings['color_theme'] == 'yellow' ? 'checked' : '' ?>>
                             <label for="theme-yellow"
                                 class="theme-preview yellow <?= $settings['color_theme'] == 'yellow' ? 'is-selected' : '' ?>">
                                 <span class="main-color"></span>
@@ -1145,7 +1145,7 @@ require_once 'includes/header.php';
                         </div>
                         <div class="theme">
                             <input type="radio" name="theme" id="theme-purple" value="purple"
-                            onClick="setTheme('purple')" <?= $settings['color_theme'] == 'purple' ? 'checked' : '' ?>>
+                                onClick="setTheme('purple')" <?= $settings['color_theme'] == 'purple' ? 'checked' : '' ?>>
                             <label for="theme-purple"
                                 class="theme-preview purple <?= $settings['color_theme'] == 'purple' ? 'is-selected' : '' ?>">
                                 <span class="main-color"></span>
@@ -1215,9 +1215,11 @@ require_once 'includes/header.php';
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrency()"
-                        <?php 
-                            if ($settings['convert_currency']) echo ' checked'; 
-                            if ($apiKey == "") echo ' disabled';
+                        <?php
+                        if ($settings['convert_currency'])
+                            echo ' checked';
+                        if ($apiKey == "")
+                            echo ' disabled';
                         ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
                 </div>
@@ -1251,6 +1253,42 @@ require_once 'includes/header.php';
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('experimental_info', $i18n) ?>
             </p>
+        </div>
+    </section>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('account', $i18n) ?></h2>
+        </header>
+        <div class="account-list">
+            <div>
+                <h3><?= translate('export_subscriptions', $i18n) ?></h3>
+                <div class="form-group-inline">
+                    <input type="button" value="<?= translate('export_as_json', $i18n) ?>" onClick="exportAsJson()"
+                        class="secondary-button thin mobile-grow" id="export-json">
+                    <input type="button" value="<?= translate('export_as_csv', $i18n) ?>" onClick="exportAsCsv()"
+                        class="secondary-button thin mobile-grow" id="export-csv">
+                </div>
+            </div>
+        </div>
+        <div>
+            <?php
+            if ($userId != 1) {
+                ?>
+                <h3><?= translate('danger_zone', $i18n) ?></h3>
+                <div class="form-group-inline">
+                    <input type="button" value="<?= translate('delete_account', $i18n) ?>" onClick="deleteAccount(<?= $userId ?>)"
+                        class="warning-button thin mobile-grow" id="delete-account">
+                </div>
+                <div class="settings-notes">
+                    <p>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <?= translate('delete_account_info', $i18n) ?>
+                    </p>
+                </div>
+                <?php
+            }
+            ?>
         </div>
     </section>
 

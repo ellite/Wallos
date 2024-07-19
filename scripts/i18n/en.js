@@ -33,7 +33,9 @@ let i18n = {
   unknown_error: "Unknown error, please try again.",
   error_saving_notification_data: "Error saving notification data",
   error_sending_notification: "Error sending notification",
-  // Calendar
+  delete_account_confirmation: "Are you sure you want to delete your account?",
+  this_will_delete_all_data: "This will delete all your data and can't be undone. Continue?",
+  // Calendar 
   price: "Price",
   category: "Category",
   paid_by: "Paid by",

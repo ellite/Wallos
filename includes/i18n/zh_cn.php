@@ -230,6 +230,13 @@ $i18n = [
     "backup" => "备份",
     "restore" => "恢复",
     "restore_info" => "还原数据库将覆盖所有当前数据。还原后，您将退出登录。",
+    "account" => "账户",
+    "export_subscriptions" => "导出订阅",
+    "export_as_json" => "导出为 JSON",
+    "export_as_csv" => "导出为 CSV",
+    "danger_zone" => "危险区",
+    "delete_account" => "删除账户",
+    "delete_account_info" => "删除账户将删除所有数据，包括订阅、设置和家庭成员。此操作不可逆。",
     // Filters menu
     "filter" => "筛选",
     "clear" => "清除",

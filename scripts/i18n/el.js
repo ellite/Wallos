@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "Άγνωστο σφάλμα, προσπάθησε ξανά.",
   error_saving_notification_data: "Σφάλμα αποθήκευσης δεδομένων ειδοποίησης",
   error_sending_notification: "Σφάλμα αποστολής ειδοποίησης",
+  delete_account_confirmation: "Είστε σίγουρος ότι θέλετε να διαγράψετε το λογαριασμό σας;",
+  this_will_delete_all_data: "Αυτό θα διαγράψει όλα τα δεδομένα σας και δεν μπορεί να ανακτηθεί. Να συνεχίσω;",
   // Calendar
   price: "Τιμή",
   category: "Κατηγορία",

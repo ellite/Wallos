@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "備份",
     "restore" => "還原",
     "restore_info" => "復原資料庫將覆蓋所有目前資料。 恢復後您將被註銷。",
+    "account" => "帳戶",
+    "export_subscriptions" => "匯出訂閱",
+    "export_as_json" => "匯出為 JSON",
+    "export_as_csv" => "匯出為 CSV",
+    "danger_zone" => "危險區域",
+    "delete_account" => "刪除帳戶",
+    "delete_account_info" => "刪除帳戶將刪除所有訂閱和設定。 此操作無法撤銷。",
     // Filters menu
     "filter" => "篩選",
     "clear" => "清除",

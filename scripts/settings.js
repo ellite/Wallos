@@ -957,3 +957,80 @@ var sortable = Sortable.create(el, {
     saveCategorySorting();
   },
 });
+
+function exportAsJson() {
+  fetch("endpoints/subscriptions/export.php")
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      const subscriptions = JSON.stringify(data.subscriptions);
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(subscriptions));
+      element.setAttribute('download', 'subscriptions.json');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => {
+    console.log(error);
+    showErrorMessage(translate('unknown_error'));
+  });
+}
+
+function exportAsCsv() {
+  fetch("endpoints/subscriptions/export.php")
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      const subscriptions = data.subscriptions;
+      const header = Object.keys(subscriptions[0]).join(',');
+      const csv = subscriptions.map(subscription => Object.values(subscription).join(',')).join('\n');
+      const csvWithHeader = header + '\n' + csv;
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csvWithHeader));
+      element.setAttribute('download', 'subscriptions.csv');
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => {
+    showErrorMessage(translate('unknown_error'));
+  });
+}
+
+function deleteAccount(userId) {
+  if (!confirm(translate('delete_account_confirmation'))) {
+    return;
+  }
+
+  if (!confirm(translate('this_will_delete_all_data'))) {
+    return;
+  }
+
+  fetch('endpoints/settings/deleteaccount.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ userId: userId }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      window.location.href = 'logout.php';
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch((error) => {
+    showErrorMessage(translate('unknown_error'));
+  });
+}

@@ -34,6 +34,8 @@ let i18n = {
   unknown_error: "Errore sconosciuto, si prega di riprovare.",
   error_saving_notification_data: "Errore nel salvataggio delle impostazioni di notifica",
   error_sending_notification: "Errore nell'invio della notifica",
+  delete_account_confirmation: "Sei sicuro di voler eliminare il tuo account?",
+  this_will_delete_all_data: "Questo eliminerà tutti i tuoi dati e non potrà essere annullato. Continuare?",
   // Calendar
   price: "Prezzo",
   category: "Categoria",

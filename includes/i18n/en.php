@@ -222,6 +222,13 @@ $i18n = [
     "backup" => "Backup",
     "restore" => "Restore",
     "restore_info" => "Restoring the database will override all current data. You will be signed out after the restore.",
+    "account" => "Account",
+    "export_subscriptions" => "Export Subscriptions",
+    "export_as_json" => "Export as JSON",
+    "export_as_csv" => "Export as CSV",
+    "danger_zone" => "Danger Zone",
+    "delete_account" => "Delete Account",
+    "delete_account_info" => "Deleting your account will also delete all your subscriptions and settings.",
     // Filters menu
     "filter" => "Filter",
     "clear" => "Clear",

@@ -223,6 +223,13 @@ $i18n = [
     "backup" => "백업",
     "restore" => "복구",
     "restore_info" => "데이터베이스를 복구하면 현재 데이터를 모두 덮어씁니다. 복구 후 로그아웃됩니다.",
+    "account" => "계정",
+    "export_subscriptions" => "구독 내보내기",
+    "export_as_json" => "JSON으로 내보내기",
+    "export_as_csv" => "CSV로 내보내기",
+    "danger_zone" => "위험 구역",
+    "delete_account" => "계정 삭제",
+    "delete_account_info" => "계정을 삭제하면 모든 구독과 설정도 함께 삭제됩니다.",
     // Filters menu
     "filter" => "필터",
     "clear" => "초기화",

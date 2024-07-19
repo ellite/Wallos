@@ -33,6 +33,8 @@ let i18n = {
   unknown_error: "Непозната грешка, молимо покушајте поново.",
   error_saving_notification_data: "Грешка при чувању података о обавештењима",
   error_sending_notification: "Грешка при слању обавештења",
+  delete_account_confirmation: "Да ли сте сигурни да желите да избришете свој налог?",
+  this_will_delete_all_data: "Ово ће избрисати све ваше податке и не може се поништити. Настави?",
   // Calendar
   price: "Цена",
   category: "Категорија",
