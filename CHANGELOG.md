@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.20.0](https://github.com/ellite/Wallos/compare/v2.19.3...v2.20.0) (2024-07-19)
+
+
+### Features
+
+* export subscriptions as csv ([8f1e155](https://github.com/ellite/Wallos/commit/8f1e1554787c6e3ffaf7e73369a66794c0636713))
+* export subscriptions as json ([8f1e155](https://github.com/ellite/Wallos/commit/8f1e1554787c6e3ffaf7e73369a66794c0636713))
+* user can delete their own account ([8f1e155](https://github.com/ellite/Wallos/commit/8f1e1554787c6e3ffaf7e73369a66794c0636713))
+
 ## [2.19.3](https://github.com/ellite/Wallos/compare/v2.19.2...v2.19.3) (2024-07-15)
 
 
