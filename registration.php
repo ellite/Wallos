@@ -151,7 +151,7 @@ $emailExists = false;
 $registrationFailed = false;
 $hasErrors = false;
 if (isset($_POST['username'])) {
-    $username = validate(strtolower($_POST['username']));
+    $username = validate($_POST['username']);
     $email = validate($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
