@@ -35,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $subscription['category'] = $categories[$subscription['category_id']]['name'];
         $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
         $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
+        $subscription['price'] = number_format($subscription['price'], 2);
 
         echo json_encode([
             'success' => true,
