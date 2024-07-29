@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.20.1](https://github.com/ellite/Wallos/compare/v2.20.0...v2.20.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* allow usernames with capital letters ([f241ba2](https://github.com/ellite/Wallos/commit/f241ba23018ee910ab859b2ce860b4c0678d6402))
+* use 2 decimal places for price on the calendar ([f241ba2](https://github.com/ellite/Wallos/commit/f241ba23018ee910ab859b2ce860b4c0678d6402))
+* use 2 decimal places for price when exporting ical in the calendar ([f241ba2](https://github.com/ellite/Wallos/commit/f241ba23018ee910ab859b2ce860b4c0678d6402))
+
 ## [2.20.0](https://github.com/ellite/Wallos/compare/v2.19.3...v2.20.0) (2024-07-19)
 
 
