@@ -35,6 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
         $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
         $subscription['trigger'] = $subscription['notify_days_before'] ? $subscription['notify_days_before'] : 1;
+        $subscription['price'] = number_format($subscription['price'], 2);
 
        // Create ICS from subscription information
         $uid = uniqid();
