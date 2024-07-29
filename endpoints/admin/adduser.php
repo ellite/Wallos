@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $loggedInUserId = $userId;
 
     $email = validate($data['email']);
-    $username = validate(strtolower($data['username']));
+    $username = validate($data['username']);
     $password = $data['password'];
 
     if (empty($username) || empty($password) || empty($email)) {
