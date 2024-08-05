@@ -197,6 +197,7 @@ $i18n = [
     "calculate_monthly_price" => "Izračunaj i prikaži mesečnu cenu za sve pretplate",
     "convert_prices" => "Uvek konvertuj i prikaži cene u mojoj glavnoj valuti (sporije)",
     "hide_disabled_subscriptions" => "Sakrij onemogućene pretplate",
+    "show_disabled_subscriptions_at_the_bottom" => "Prikaži onemogućene pretplate na dnu",
     "experimental_settings" => "Eksperimentalna podešavanja",
     "remove_background" => "Pokušajte ukloniti pozadinu logotipa sa pretrage slika (eksperimentalno)",
     "experimental_info" => "Eksperimentalna podešavanja verovatno neće savršeno funkcionisati.",

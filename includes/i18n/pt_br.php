@@ -197,6 +197,7 @@ $i18n = [
     "calculate_monthly_price" => "Calcular e exibir o custo mensal para todas as assinaturas",
     "convert_prices" => "Sempre converter e exibir preços na moeda principal (mais lento)",
     "hide_disabled_subscriptions" => "Ocultar assinaturas desativadas",
+    "show_disabled_subscriptions_at_the_bottom" => "Mostre as assinaturas desativadas no final da lista",
     "experimental_settings" => "Configurações experimentais",
     "remove_background" => "Tentar remover o fundo de logos na pesquisa de imagem",
     "experimental_info" => "As configurações experimentais provavelmente não funcionarão corretamente",

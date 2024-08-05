@@ -198,6 +198,7 @@ $i18n = [
     "calculate_monthly_price" => "모든 구독에 대한 월별 요금을 계산하고 표시",
     "convert_prices" => "항상 기본 통화로 가격을 환산하고 표시 (느림)",
     "hide_disabled_subscriptions" => "비활성화된 구독 숨기기",
+    "show_disabled_subscriptions_at_the_bottom" => "비활성화된 구독을 하단에 표시",
     "experimental_settings" => "실험적 설정",
     "remove_background" => "로고 이미지 검색에서 배경 삭제 (실험적)",
     "experimental_info" => "실험적 설정은 제대로 작동하지 않을 수 있습니다.",

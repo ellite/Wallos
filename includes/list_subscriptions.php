@@ -49,12 +49,6 @@
     }
 
     function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath) {
-        if ($sort === "price") {
-            usort($subscriptions, function($a, $b) {
-                return $a['price'] < $b['price'] ? 1 : -1;
-            });
-        }
-
         $currentCategory = 0;
         $currentPayerUserId = 0;
         $currentPaymentMethodId = 0;

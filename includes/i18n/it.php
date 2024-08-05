@@ -205,6 +205,7 @@ $i18n = [
     'calculate_monthly_price' => 'Calcola e mostra il prezzo mensile per tutti gli abbonamenti',
     'convert_prices' => 'Converti sempre e mostra i prezzi nella mia valuta principale (più lento)',
     "hide_disabled_subscriptions" => 'Nascondi gli abbonamenti disattivati',
+    "show_disabled_subscriptions_at_the_bottom" => 'Mostra gli abbonamenti disattivati in fondo',
     'experimental_settings' => 'Impostazioni sperimentali',
     'remove_background' => 'Prova a rimuovere lo sfondo dei loghi dalla ricerca delle immagini (sperimentale)',
     'experimental_info' => 'Le impostazioni sperimentali potrebbero non funzioneranno perfettamente.',

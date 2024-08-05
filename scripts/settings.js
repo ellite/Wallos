@@ -920,6 +920,13 @@ function setHideDisabled() {
   storeSettingsOnDB('hide_disabled', value);
 }
 
+function setDisabledToBottom() {
+  const disabledToBottomCheckbox = document.querySelector("#disabledtobottom");
+  const value = disabledToBottomCheckbox.checked;
+  
+  storeSettingsOnDB('disabled_to_bottom', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById('categories');
   const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);

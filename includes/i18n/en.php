@@ -197,6 +197,7 @@ $i18n = [
     "calculate_monthly_price" => "Calculate and show monthly price for all subscriptions",
     "convert_prices" => "Always convert and show prices on my main currency (slower)",
     "hide_disabled_subscriptions" => "Hide disabled subscriptions",
+    "show_disabled_subscriptions_at_the_bottom" => "Show disabled subscriptions at the bottom",
     "experimental_settings" => "Experimental Settings",
     "remove_background" => "Attempt to remove background of logos from image search (experimental)",
     "experimental_info" => "Experimental settings will probably not work perfectly.",

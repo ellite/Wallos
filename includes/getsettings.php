@@ -27,6 +27,7 @@ if ($settings) {
     $settings['convertCurrency'] = $settings['convert_currency'] ? 'true': 'false';
     $settings['removeBackground'] = $settings['remove_background'] ? 'true': 'false';
     $settings['hideDisabledSubscriptions'] = $settings['hide_disabled'] ? 'true': 'false';
+    $settings['disabledToBottom'] = $settings['disabled_to_bottom'] ? 'true': 'false';
 }
 
 $query = "SELECT * FROM custom_colors WHERE user_id = :userId";

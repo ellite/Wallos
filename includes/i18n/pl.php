@@ -197,6 +197,7 @@ $i18n = [
     "calculate_monthly_price" => "Oblicz i pokaż miesięczną cenę wszystkich subskrypcji",
     "convert_prices" => "Zawsze przeliczaj i pokazuj ceny w mojej głównej walucie (wolniej)",
     "hide_disabled_subscriptions" => "Ukryj wyłączone subskrypcje",
+    "show_disabled_subscriptions_at_the_bottom" => "Pokaż wyłączone subskrypcje na dole",
     "experimental_settings" => "Ustawienia eksperymentalne",
     "remove_background" => "Próba usunięcia tła logo z wyszukiwania obrazów (eksperymentalnie)",
     "experimental_info" => "Ustawienia eksperymentalne prawdopodobnie nie będą działać idealnie.",
