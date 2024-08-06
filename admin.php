@@ -237,8 +237,12 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
 
     <?php
     // Get latest version from admin table
-    $latestVersion = $settings['latest_version'];
-    $hasUpdate = version_compare($version, $latestVersion) == -1;
+    if (!is_null($settings['latest_version'])) {
+        $latestVersion = $settings['latest_version'];
+        $hasUpdate = version_compare($version, $latestVersion) == -1;
+    } else {
+        $hasUpdate = false;
+    }
 
     // find unused upload logos
     

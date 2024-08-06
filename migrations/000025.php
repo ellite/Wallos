@@ -14,7 +14,7 @@ $columnQuery = $db->query("SELECT * FROM pragma_table_info('admin') where name='
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
-    $db->exec('ALTER TABLE admin ADD COLUMN latest_version TEXT');
+    $db->exec("ALTER TABLE admin ADD COLUMN latest_version TEXT DEFAULT 'v2.21.1'");
 }
 
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('admin') where name='update_notification'");

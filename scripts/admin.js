@@ -305,6 +305,9 @@ function toggleUpdateNotification() {
   .then(data => {
     if (data.success) {
       showSuccessMessage(data.message);
+      if (notificationEnabled === 1) {
+        fetch('endpoints/cronjobs/checkforupdates.php');
+      }
     } else {
       showErrorMessage(data.message);
     }
