@@ -1231,6 +1231,13 @@ require_once 'includes/header.php';
                     <label for="hidedisabled"><?= translate('hide_disabled_subscriptions', $i18n) ?></label>
                 </div>
             </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
+                        echo 'checked'; ?>>
+                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
+                </div>
+            </div>
         </div>
     </section>
 

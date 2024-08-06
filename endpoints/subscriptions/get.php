@@ -19,24 +19,11 @@ if (isset($settings['color_theme'])) {
 }
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+
+
   $sort = "next_payment";
   $sortOrder = $sort;
   $order = "ASC";
-  $sql = "SELECT * FROM subscriptions ORDER BY next_payment ASC, inactive ASC";
-  if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
-    $sort = $_COOKIE['sortOrder'];
-    $sortOrder = $sort;
-    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
-    if ($sort == "price" || $sort == "id") {
-      $order = "DESC";
-    }
-    if ($sort == "alphanumeric") {
-      $sort = "name";
-    }
-    if (!in_array($sort, $allowedSortCriteria)) {
-      $sort = "next_payment";
-    }
-  }
 
   $params = array();
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
@@ -61,12 +48,41 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $params[':inactive'] = $_GET['state'];
   }
 
-  $sql .= " ORDER BY LOWER($sort) $order";
-  if ($sort != "next_payment") {
-    $sql .= ", next_payment ASC";
-  }
-  if ($sort != "state") {
-    $sql .= ", inactive ASC";
+  if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
+    $sort = $_COOKIE['sortOrder'];
+    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
+    $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
+
+    if ($sort == "alphanumeric") {
+      $sort = "name";
+    }
+
+    if (!in_array($sort, $allowedSortCriteria)) {
+      $sort = "next_payment";
+    }
+
+    $orderByClauses = [];
+
+    if ($settings['disabledToBottom'] === 'true') {
+      if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
+        $orderByClauses[] = "$sort $order";
+        $orderByClauses[] = "inactive ASC";
+      } else {
+        $orderByClauses[] = "inactive ASC";
+        $orderByClauses[] = "$sort $order";
+      }
+    } else {
+      $orderByClauses[] = "$sort $order";
+      if ($sort != "inactive") {
+        $orderByClauses[] = "inactive ASC";
+      }
+    }
+
+    if ($sort != "next_payment") {
+      $orderByClauses[] = "next_payment ASC";
+    }
+
+    $sql .= " ORDER BY " . implode(", ", $orderByClauses);
   }
 
   $stmt = $db->prepare($sql);
@@ -123,6 +139,22 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     usort($print, function ($a, $b) {
       return strnatcmp(strtolower($a['name']), strtolower($b['name']));
     });
+    if ($settings['disabledToBottom'] === 'true') {
+      usort($print, function ($a, $b) {
+        return $a['inactive'] - $b['inactive'];
+      });
+    }
+  }
+
+  if ($sort === "price") {
+    usort($subscriptions, function ($a, $b) {
+      return $a['price'] < $b['price'] ? 1 : -1;
+    });
+    if ($settings['disabledToBottom'] === 'true') {
+      usort($print, function ($a, $b) {
+        return $a['inactive'] - $b['inactive'];
+      });
+    }
   }
 
   if (isset($print)) {

@@ -285,3 +285,30 @@ function deleteUnusedLogos() {
     button.disabled = false;
   });
 }
+
+function toggleUpdateNotification() {
+  const notificationEnabledCheckbox = document.getElementById('updateNotification');
+  const notificationEnabled = notificationEnabledCheckbox.checked ? 1 : 0;
+
+  const data = {
+    notificationEnabled: notificationEnabled
+  };
+
+  fetch('endpoints/admin/updatenotification.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      showSuccessMessage(data.message);
+    } else {
+      showErrorMessage(data.message);
+    }
+  })
+  .catch(error => showErrorMessage('Error:', error));
+
+}

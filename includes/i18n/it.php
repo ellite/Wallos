@@ -205,6 +205,7 @@ $i18n = [
     'calculate_monthly_price' => 'Calcola e mostra il prezzo mensile per tutti gli abbonamenti',
     'convert_prices' => 'Converti sempre e mostra i prezzi nella mia valuta principale (più lento)',
     "hide_disabled_subscriptions" => 'Nascondi gli abbonamenti disattivati',
+    "show_disabled_subscriptions_at_the_bottom" => 'Mostra gli abbonamenti disattivati in fondo',
     'experimental_settings' => 'Impostazioni sperimentali',
     'remove_background' => 'Prova a rimuovere lo sfondo dei loghi dalla ricerca delle immagini (sperimentale)',
     'experimental_info' => 'Le impostazioni sperimentali potrebbero non funzioneranno perfettamente.',
@@ -328,6 +329,12 @@ $i18n = [
     "smtp_usage_info" => "Verrà utilizzato per il recupero della password e altre e-mail di sistema.",
     "maintenance_tasks" => "Compiti di manutenzione",
     "orphaned_logos" => "Loghi orfani",
+    "update" => "Aggiorna",
+    "new_version_available" => "È disponibile una nuova versione di Wallos",
+    "current_version" => "Versione attuale",
+    "latest_version" => "Ultima versione",
+    "on_current_version" => "Stai utilizzando l'ultima versione di Wallos.",
+    "show_update_notification" => "Mostra notifica di aggiornamento sulla dashboard",
 
     // Email Verification
     "email_verified" => "L'indirizzo email è stato verificato con successo",
