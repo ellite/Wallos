@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.1](https://github.com/ellite/Wallos/compare/v2.21.0...v2.21.1) (2024-08-06)
+
+
+### Bug Fixes
+
+* deprecation message for null value ([#479](https://github.com/ellite/Wallos/issues/479)) ([0274b1d](https://github.com/ellite/Wallos/commit/0274b1d5257f8f1c4156e2a342df6acf177ad726))
+
 ## [2.21.0](https://github.com/ellite/Wallos/compare/v2.20.1...v2.21.0) (2024-08-06)
 
 
