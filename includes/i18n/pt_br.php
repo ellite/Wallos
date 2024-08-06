@@ -310,6 +310,12 @@ $i18n = [
     "smtp_usage_info" => "Será usado para recuperação de senha e outros e-mails do sistema.",
     "maintenance_tasks" => "Tarefas de manutenção",
     "orphaned_logos" => "Logos órfãos",
+    "update" => "Atualizar",
+    "new_version_available" => "Nova versão do Wallos disponível",
+    "current_version" => "Versão atual",
+    "latest_version" =>"Última versão",
+    "on_current_version" => "Você está na última versão do Wallos.",
+    "show_update_notification" => "Mostrar notificação de atualização no dashboard",
     // Email Verification
     "email_verified" => "Email verificado",
     "email_verification_failed" => "Falha na verificação do email",

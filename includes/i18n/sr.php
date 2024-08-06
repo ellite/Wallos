@@ -310,6 +310,12 @@ $i18n = [
     "smtp_usage_info" => "SMTP се користи за слање е-поште за обавештења.",
     "maintenance_tasks" => "Одржавање",
     "orphaned_logos" => "Породични логотипови",
+    "update" => "Ажурирај",
+    "new_version_available" => "Нова верзија Wallos-а је доступна",
+    "current_version" => "Тренутна верзија",
+    "latest_version" => "Најновија верзија",
+    "on_current_version" => "Користите најновију верзију Wallos-а.",
+    "show_update_notification" => "Прикажи обавештење о ажурирањима на dashboardu",
     // Email Verification
     "email_verified" => "Е-пошта је верификована",
     "email_verification_failed" => "Верификација е-поште није успела",

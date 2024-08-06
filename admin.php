@@ -236,6 +236,10 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <?php
+    // Get latest version from admin table
+    $latestVersion = $settings['latest_version'];
+    $hasUpdate = version_compare($version, $latestVersion) == -1;
+
     // find unused upload logos
     
     // Get all logos in the subscriptions table
@@ -298,6 +302,45 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </h2>
         </header>
         <div class="maintenance-tasks">
+            <h3><?= translate('update', $i18n) ?></h3>
+            <div class="form-group">
+                <?php
+                if ($hasUpdate) {
+                    ?>
+                    <div class="updates-list">
+                        <p><?= translate('new_version_available', $i18n) ?>.</p>
+                        <p>
+                            <?= translate('current_version', $i18n) ?>:
+                            <span>
+                                <?= $version ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $version ?>" target="_blank">
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </span>
+                        </p>
+                        <p>
+                            <?= translate('latest_version', $i18n) ?>:
+                            <span>
+                                <?= $latestVersion ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $latestVersion ?>"
+                                    target="_blank">
+                                    <i class="fa-solid fa-external-link"></i>
+                                </a>
+                            </span>
+                        </p>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <?= translate('on_current_version', $i18n) ?>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="updateNotification" <?= $settings['update_notification'] ? 'checked' : '' ?> onchange="toggleUpdateNotification()"/>
+                <label for="updateNotification"><?= translate('show_update_notification', $i18n) ?></label>
+            </div>
             <h3><?= translate('orphaned_logos', $i18n) ?></h3>
             <div class="form-group-inline">
                 <input type="button" class="button thin mobile-grow" value="<?= translate('delete', $i18n) ?>"

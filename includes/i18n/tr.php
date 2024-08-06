@@ -310,6 +310,12 @@ $i18n = [
     "smtp_usage_info" => "Şifre kurtarma ve diğer sistem e-postaları için kullanılacaktır.",
     "maintenance_tasks" => "Bakım Görevleri",
     "orphaned_logos" => "Yetim Logolar",
+    "update" => "Güncelle",
+    "new_version_available" => "Yeni bir Wallos sürümü mevcut",
+    "current_version" => "Mevcut Sürüm",
+    "latest_version" => "En Son Sürüm",
+    "on_current_version" => "Wallos'un en son sürümünü kullanıyorsunuz.",
+    "show_update_notification" => "Gösterge panelinde güncelleme bildirimini göster",
     // Email Verification
     "email_verified" => "E-posta doğrulandı",
     "email_verification_failed" => "E-posta doğrulaması başarısız oldu",

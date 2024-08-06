@@ -63,7 +63,6 @@ if ($result) {
   }
 }
 
-
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 ?>
 <style>
@@ -71,7 +70,18 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     content: '<?= translate('upload_logo', $i18n) ?>';
   }
 </style>
+
 <section class="contain">
+  <?php
+  if ($isAdmin && $settings['update_notification'] && version_compare($version, $settings['latest_version']) == -1) {
+    ?>
+    <div class="update-banner">
+      <?= translate('new_version_available', $i18n) ?>: <span><?= $settings['latest_version'] ?></span>
+    </div>
+    <?php
+  }
+  ?>
+
   <header class="<?= $headerClass ?>" id="main-actions">
     <button class="button" onClick="addSubscription()">
       <i class="fa-solid fa-circle-plus"></i>

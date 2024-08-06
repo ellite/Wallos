@@ -5,3 +5,4 @@
 0 9 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendnotifications.php >> /var/log/cron/sendnotifications.log 2>&1
 */2 * * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendverificationemails.php >> /var/log/cron/sendverificationemails.log 2>&1
 */2 * * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/sendresetpasswordemails.php >> /var/log/cron/sendresetpasswordemails.log 2>&1
+0 */6 * * * /usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php >> /var/log/cron/checkforupdates.log 2>&1

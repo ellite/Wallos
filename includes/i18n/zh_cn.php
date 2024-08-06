@@ -194,7 +194,7 @@ $i18n = [
     "theme" => "主题",
     "dark_theme" => "深色主题",
     "light_theme" => "浅色主题",
-    "automatic"=> "自动",
+    "automatic" => "自动",
     "main_color" => "主色",
     "accent_color" => "强调色",
     "hover_color" => "悬停颜色",
@@ -328,6 +328,12 @@ $i18n = [
     "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
     "maintenance_tasks" => "维护任务",
     "orphaned_logos" => "孤立的 Logo",
+    "update" => "更新",
+    "new_version_available" => "新的 Wallos 版本可用",
+    "current_version" => "当前版本",
+    "latest_version" => "最新版本",
+    "on_current_version" => "您正在运行最新版本的 Wallos。",
+    "show_update_notification" => "在仪表板上显示更新通知",
 
     // Email Verification
     "email_verified" => "电子邮件已验证",

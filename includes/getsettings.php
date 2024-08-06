@@ -55,6 +55,8 @@ $adminSettings = $result->fetchArray(SQLITE3_ASSOC);
 
 if ($adminSettings) {
     $settings['disableLogin'] = $adminSettings['login_disabled'];
+    $settings['update_notification'] = $adminSettings['update_notification'];
+    $settings['latest_version'] = $adminSettings['latest_version'];
 }
 
 ?>

@@ -233,3 +233,7 @@ input[type="radio"]:disabled + label::before {
 input {
     color-scheme: dark;
 }
+
+.update-banner {
+    color: #FFF;
+}
