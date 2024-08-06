@@ -73,12 +73,17 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
 
 <section class="contain">
   <?php
-  if ($isAdmin && $settings['update_notification'] && version_compare($version, $settings['latest_version']) == -1) {
-    ?>
-    <div class="update-banner">
-      <?= translate('new_version_available', $i18n) ?>: <span><?= $settings['latest_version'] ?></span>
-    </div>
-    <?php
+  if ($isAdmin && $settings['update_notification']) {
+    if (!is_null($settings['latest_version'])) {
+      $latestVersion = $settings['latest_version'];
+      if (version_compare($version, $latestVersion) == -1) {
+        ?>
+        <div class="update-banner">
+          <?= translate('new_version_available', $i18n) ?>: <span><?= $latestVersion ?></span>
+        </div>
+        <?php
+      }
+    }
   }
   ?>
 
@@ -219,7 +224,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
               id="sort-category_id"><?= translate('category', $i18n) ?></li>
             <li <?= $sortOrder == "payment_method_id" ? 'class="selected"' : "" ?>
               onClick="setSortOption('payment_method_id')" id="sort-payment_method_id">
-              <?= translate('payment_method', $i18n) ?></li>
+              <?= translate('payment_method', $i18n) ?>
+            </li>
             <?php
             if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
               ?>
