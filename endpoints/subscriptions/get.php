@@ -146,19 +146,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
-  if ($sort === "price") {
-    usort($subscriptions, function ($a, $b) {
-      return $a['price'] < $b['price'] ? 1 : -1;
-    });
-    if ($settings['disabledToBottom'] === 'true') {
-      usort($print, function ($a, $b) {
-        return $a['inactive'] - $b['inactive'];
-      });
-    }
-  }
-
   if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../");
+    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom']);
   }
 
   if (count($subscriptions) == 0) {
