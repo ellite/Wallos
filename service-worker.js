@@ -8,7 +8,6 @@ self.addEventListener('install', function (event) {
                 'settings.php',
                 'stats.php',
                 'about.php',
-                'logout.php',
                 'login.php',
                 'admin.php',
                 'endpoints/subscriptions/get.php',

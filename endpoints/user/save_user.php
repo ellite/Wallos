@@ -291,7 +291,11 @@ if (
         $oldLanguage = isset($_COOKIE['language']) ? $_COOKIE['language'] : "en";
         $root = str_replace('/endpoints/user', '', dirname($_SERVER['PHP_SELF']));
         $root = $root == '' ? '/' : $root;
-        setcookie('language', $language, $cookieExpire, $root);
+        setcookie('language', $language, [
+            'path' => $root,
+            'expires' => $cookieExpire,
+            'samesite' => 'Strict'
+        ]);
         $_SESSION['avatar'] = $avatar;
         $_SESSION['main_currency'] = $main_currency;
 

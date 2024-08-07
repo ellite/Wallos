@@ -8,9 +8,9 @@ function toggleDropdown() {
 
 function showErrorMessage(message) {
   const toast = document.querySelector(".toast#errorToast");
-  (closeIcon = document.querySelector(".close-error")),
-    (errorMessage = document.querySelector(".errorMessage")),
-    (progress = document.querySelector(".progress.error"));
+  const closeIcon = document.querySelector(".close-error");
+  const errorMessage = document.querySelector(".errorMessage");
+  const progress = document.querySelector(".progress.error");
   let timer1, timer2;
   errorMessage.textContent = message;
   toast.classList.add("active");
@@ -39,9 +39,9 @@ function showErrorMessage(message) {
 
 function showSuccessMessage(message) {
   const toast = document.querySelector(".toast#successToast");
-  (closeIcon = document.querySelector(".close-success")),
-    (successMessage = document.querySelector(".successMessage")),
-    (progress = document.querySelector(".progress.success"));
+  const closeIcon = document.querySelector(".close-success");
+  const successMessage = document.querySelector(".successMessage");
+  const progress = document.querySelector(".progress.success");
   let timer1, timer2;
   successMessage.textContent = message;
   toast.classList.add("active");
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const darkThemeCss = document.querySelector("#dark-theme");
     darkThemeCss.disabled = themePreference === 'light';
     document.body.className = themePreference;
-    document.cookie = `inUseTheme=${themePreference}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    document.cookie = `inUseTheme=${themePreference}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#222222' : '#FFFFFF');
   }

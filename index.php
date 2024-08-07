@@ -289,19 +289,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       }
     }
 
-    if ($sort === "price") {
-      usort($subscriptions, function ($a, $b) {
-        return $a['price'] < $b['price'] ? 1 : -1;
-      });
-      if ($settings['disabledToBottom'] === 'true') {
-        usort($print, function ($a, $b) {
-          return $a['inactive'] - $b['inactive'];
-        });
-      }
-    }
-
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "");
+      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom']);
     }
     $db->close();
 
