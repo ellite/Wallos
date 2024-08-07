@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.21.2](https://github.com/ellite/Wallos/compare/v2.21.1...v2.21.2) (2024-08-07)
+
+
+### Bug Fixes
+
+* add samesite directive to cookies ([8b0325c](https://github.com/ellite/Wallos/commit/8b0325c7d3c672754de220efd52b9ba9de8a9868))
+* service worker precaching logout.php causes user to be logged out ([8b0325c](https://github.com/ellite/Wallos/commit/8b0325c7d3c672754de220efd52b9ba9de8a9868))
+* sort by price ([8b0325c](https://github.com/ellite/Wallos/commit/8b0325c7d3c672754de220efd52b9ba9de8a9868))
+
 ## [2.21.1](https://github.com/ellite/Wallos/compare/v2.21.0...v2.21.1) (2024-08-06)
 
 
