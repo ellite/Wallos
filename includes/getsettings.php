@@ -11,7 +11,10 @@ if ($settings) {
     $themeMapping = array(0 => 'light', 1 => 'dark', 2 => 'automatic');
     $themeKey = isset($settings['dark_theme']) ? $settings['dark_theme'] : 2;
     $themeValue = $themeMapping[$themeKey];
-    setcookie('theme', $themeValue, $cookieExpire);
+    setcookie('theme', $themeValue, [
+        'expires' => $cookieExpire,
+        'samesite' => 'Strict'
+    ]);
     $settings['update_theme_setttings'] = false;
     if (isset($_COOKIE['inUseTheme']) && $settings['dark_theme'] == 2) {
         $inUseTheme = $_COOKIE['inUseTheme'];

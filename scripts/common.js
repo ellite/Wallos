@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const darkThemeCss = document.querySelector("#dark-theme");
     darkThemeCss.disabled = themePreference === 'light';
     document.body.className = themePreference;
-    document.cookie = `inUseTheme=${themePreference}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    document.cookie = `inUseTheme=${themePreference}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#222222' : '#FFFFFF');
   }

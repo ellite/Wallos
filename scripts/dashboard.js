@@ -337,7 +337,7 @@ function setSortOption(sortOption) {
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + daysToExpire);
   const cookieValue = encodeURIComponent(sortOption) + '; expires=' + expirationDate.toUTCString();
-  document.cookie = 'sortOrder=' + cookieValue;
+  document.cookie = 'sortOrder=' + cookieValue + '; SameSite=Strict';
   fetchSubscriptions();
   toggleSortOptions();
 }
