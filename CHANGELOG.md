@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.21.3](https://github.com/ellite/Wallos/compare/v2.21.2...v2.21.3) (2024-08-08)
+
+
+### Bug Fixes
+
+* broken avatar upload when using the french language ([cf0d5d3](https://github.com/ellite/Wallos/commit/cf0d5d3df30909a0de7ef84aae2601d805617f90))
+* more deprecation warnings on image uploads ([cf0d5d3](https://github.com/ellite/Wallos/commit/cf0d5d3df30909a0de7ef84aae2601d805617f90))
+
 ## [2.21.2](https://github.com/ellite/Wallos/compare/v2.21.1...v2.21.2) (2024-08-07)
 
 
