@@ -53,7 +53,7 @@ require_once 'includes/header.php';
                             </div>
                             <input type="file" id="profile_pic" class="hidden-input" name="profile_pic"
                                 accept="image/jpeg, image/png, image/gif, image/webp"
-                                onChange="successfulUpload(this, '<?= translate('file_type_error', $i18n) ?>')" />
+                                onChange="successfulUpload(this, '<?= addslashes(translate('file_type_error', $i18n)) ?>')" />
                         </div>
                     </div>
                     <div class="grow">
@@ -1229,13 +1229,6 @@ require_once 'includes/header.php';
                     <input type="checkbox" id="hidedisabled" name="hidedisabled" onChange="setHideDisabled()" <?php if ($settings['hide_disabled'])
                         echo 'checked'; ?>>
                     <label for="hidedisabled"><?= translate('hide_disabled_subscriptions', $i18n) ?></label>
-                </div>
-            </div>
-            <div>
-                <div class="form-group-inline">
-                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
-                        echo 'checked'; ?>>
-                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
                 </div>
             </div>
         </div>

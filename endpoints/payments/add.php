@@ -115,13 +115,13 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name)
             $newHeight = $height;
 
             if ($width > $targetWidth) {
-                $newWidth = $targetWidth;
-                $newHeight = ($targetWidth / $width) * $height;
+                $newWidth = (int)$targetWidth;
+                $newHeight = (int)(($targetWidth / $width) * $height);
             }
 
             if ($newHeight > $targetHeight) {
-                $newWidth = ($targetHeight / $newHeight) * $newWidth;
-                $newHeight = $targetHeight;
+                $newWidth = (int)(($targetHeight / $newHeight) * $newWidth);
+                $newHeight = (int)$targetHeight;
             }
 
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
