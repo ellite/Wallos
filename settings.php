@@ -31,14 +31,14 @@ require_once 'includes/header.php';
                                 <?php foreach (scandir('images/avatars') as $index => $image): ?>
                                     <?php if (!str_starts_with($image, '.')): ?>
                                         <img src="images/avatars/<?= $image ?>" alt="<?= $image ?>" class="avatar-option"
-                                            data-src="images/avatars/<?= $image ?>" />
+                                            data-src="images/avatars/<?= $image ?>">
                                     <?php endif ?>
                                 <?php endforeach ?>
                                 <?php foreach (scandir('images/uploads/logos/avatars') as $index => $image): ?>
                                     <?php if (!str_starts_with($image, '.')): ?>
                                         <div class="avatar-container" data-src="<?= $image ?>">
                                             <img src="images/uploads/logos/avatars/<?= $image ?>" alt="<?= $image ?>"
-                                                class="avatar-option" data-src="images/uploads/logos/avatars/<?= $image ?>" />
+                                                class="avatar-option" data-src="images/uploads/logos/avatars/<?= $image ?>">
                                             <div class="remove-avatar" onclick="deleteAvatar('<?= $image ?>')"
                                                 title="Delete avatar">
                                                 <i class="fa-solid fa-xmark"></i>
