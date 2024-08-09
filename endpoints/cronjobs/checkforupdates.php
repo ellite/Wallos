@@ -28,11 +28,13 @@ if (!preg_match('/^v\d+\.\d+\.\d+$/', $latestVersion)) {
 
 $db->exec("UPDATE admin SET latest_version = '$latestVersion'");
 
-include __DIR__ . '/../../includes/version.php';
 
-if (version_compare($latestVersion, $version) > 0) {
-    echo "New version available: $latestVersion";
-} else {
-    echo "No new version available, currently on $version";
+if (php_sapi_name() !== 'cli') {
+    include __DIR__ . '/../../includes/version.php';
+    if (version_compare($latestVersion, $version) > 0) {
+        echo "New version available: $latestVersion";
+    } else {
+        echo "No new version available, currently on $version";
+    }
 }
 ?>

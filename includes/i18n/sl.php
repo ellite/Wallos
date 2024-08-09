@@ -309,6 +309,7 @@ $i18n = [
     "latest_version" => "Najnovejša različica",
     "on_current_version" => "Uporabljate najnovejšo različico Wallos.",
     "show_update_notification" => "Prikaži obvestilo o posodobitvah na dashboardu",
+    "cronjobs" => "Cronjobs",
     // Email Verification
     "email_verified" => "E-pošta je bila uspešno preverjena",
     "email_verification_failed" => "Preverjanje e-pošte ni uspelo",

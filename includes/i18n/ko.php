@@ -317,6 +317,7 @@ $i18n = [
     "latest_version" => "최신 버전",
     "on_current_version" => "최신 버전의 Wallos를 사용 중입니다.",
     "show_update_notification" => "대시보드에 업데이트 알림 표시",
+    "cronjobs" => "크론잡",
     // Email Verification
     "email_verified" => "이메일 인증 완료",
     "email_verification_failed" => "이메일 인증 실패",

@@ -352,6 +352,21 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 <span class="number-of-logos bold"><?= $logosToDelete ?></span>
                 <?= translate('orphaned_logos', $i18n) ?>
             </div>
+            <h3><?= translate('cronjobs', $i18n) ?></h3>
+            <div>
+                <div class="inline">
+                    <input type="button" value="Check for Updates" class="button tiny mobile-grow" onclick="executeCronJob('checkforupdates')">
+                    <input type="button" value="Send Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendnotifications')">
+                    <input type="button" value="Send Cancellation Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendcancellationnotifications')">
+                    <input type="button" value="Send Password Reset Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendresetpasswordemails')">
+                    <input type="button" value="Send Verification Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendverificationemails')">
+                    <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow" onclick="executeCronJob('updateexchange')">
+                    <input type="button" value="Update Next Payments" class="button tiny mobile-grow" onclick="executeCronJob('updatenextpayment')">
+                </div>
+                <div class="inline">
+                    <textarea id="cronjobResult" class="thin" readonly></textarea>
+                </div>
+            </div>
         </div>
     </section>
 

@@ -4,6 +4,11 @@ require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 // Get all user ids
 
+if (php_sapi_name() == 'cli') {
+    $date = new DateTime('now');
+    echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
+}
+
 $query = "SELECT id, username FROM user";
 $stmt = $db->prepare($query);
 $usersToUpdateExchange = $stmt->execute();

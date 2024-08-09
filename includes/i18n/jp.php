@@ -309,6 +309,7 @@ $i18n = [
     "latest_version" => "最新バージョン",
     "on_current_version" => "最新バージョンのWallosを使用しています。",
     "show_update_notification" => "ダッシュボードに更新通知を表示する",
+    "cronjobs" => "クロンジョブズ",
     // Email Verification
     "email_verified" => "メールアドレスが確認されました",
     "email_verification_failed" => "メールアドレスの確認に失敗しました",

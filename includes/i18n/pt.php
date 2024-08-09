@@ -316,6 +316,7 @@ $i18n = [
     "latest_version" => "Última Versão",
     "on_current_version" => "Está a usar a versão mais recente do Wallos.",
     "show_update_notification" => "Mostrar notificação de atualizações no dashboard",
+    "Cronjobs" => "Cronjobs",
     // Email Verification
     "email_verified" => "Email verificado",
     "email_verification_failed" => "Verificação de email falhou",

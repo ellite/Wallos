@@ -315,3 +315,21 @@ function toggleUpdateNotification() {
   .catch(error => showErrorMessage('Error:', error));
 
 }
+
+function executeCronJob(job) {
+  const url = `endpoints/cronjobs/${job}.php`;
+  const resultTextArea = document.getElementById('cronjobResult');
+
+  fetch(url)
+    .then(response => {
+      return response.text();
+    })
+    .then(data => {
+      const formattedData = data.replace(/<br\s*\/?>/gi, '\n');
+      resultTextArea.value = formattedData;
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+      showErrorMessage('Error:', error);
+    });
+}

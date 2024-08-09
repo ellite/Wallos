@@ -73,10 +73,16 @@ if ($rows) {
         }
     } else {
         // There are no SMTP settings
+        if (php_sapi_name() !== 'cli') {
+            echo "SMTP settings are not configured. Please configure SMTP settings in the admin page.";
+        }
         exit();
     }
 } else {
     // There are no password reset emails to be sent
+    if (php_sapi_name() !== 'cli') {
+        echo "There are no password reset emails to be sent.";
+    }
     exit();
 }
 
