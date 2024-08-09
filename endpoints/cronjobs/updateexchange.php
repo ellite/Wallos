@@ -1,4 +1,5 @@
 <?php
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 // Get all user ids

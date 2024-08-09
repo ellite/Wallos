@@ -43,5 +43,8 @@ crontab -d -u root
 # Run updateexchange.php
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/updateexchange.php
 
+# Run checkforupdates.php
+/usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php
+
 # Keep the container running indefinitely (this won't exit)
 tail -f /dev/null
