@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.22.0](https://github.com/ellite/Wallos/compare/v2.21.3...v2.22.0) (2024-08-09)
+
+
+### Features
+
+* admin can manually trigger cronjobs ([1946ac9](https://github.com/ellite/Wallos/commit/1946ac9855696892b9a0790d46623614aa9aab2c))
+
+
+### Bug Fixes
+
+* only allow the system and admin to run the cronjobs ([1946ac9](https://github.com/ellite/Wallos/commit/1946ac9855696892b9a0790d46623614aa9aab2c))
+* reduce size of the log files of the cronjobs ([1946ac9](https://github.com/ellite/Wallos/commit/1946ac9855696892b9a0790d46623614aa9aab2c))
+
 ## [2.21.3](https://github.com/ellite/Wallos/compare/v2.21.2...v2.21.3) (2024-08-08)
 
 
