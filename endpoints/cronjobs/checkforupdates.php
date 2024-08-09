@@ -1,10 +1,11 @@
 <?php
 
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 $options = [
     'http' => [
-        'header' => "User-Agent: MyApp\r\n"
+        'header' => "User-Agent: Wallos\r\n"
     ]
 ];
 
@@ -27,4 +28,13 @@ if (!preg_match('/^v\d+\.\d+\.\d+$/', $latestVersion)) {
 
 $db->exec("UPDATE admin SET latest_version = '$latestVersion'");
 
+
+if (php_sapi_name() !== 'cli') {
+    include __DIR__ . '/../../includes/version.php';
+    if (version_compare($latestVersion, $version) > 0) {
+        echo "New version available: $latestVersion";
+    } else {
+        echo "No new version available, currently on $version";
+    }
+}
 ?>

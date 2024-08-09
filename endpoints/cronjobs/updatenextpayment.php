@@ -1,6 +1,12 @@
 <?php
 
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
+
+if (php_sapi_name() == 'cli') {
+    $date = new DateTime('now');
+    echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
+}
 
 $currentDate = new DateTime();
 $currentDateString = $currentDate->format('Y-m-d');

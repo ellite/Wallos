@@ -334,6 +334,7 @@ $i18n = [
     "latest_version" => "最新版本",
     "on_current_version" => "您正在运行最新版本的 Wallos。",
     "show_update_notification" => "在仪表板上显示更新通知",
+    "cronjobs" => "Cronjobs",
 
     // Email Verification
     "email_verified" => "电子邮件已验证",

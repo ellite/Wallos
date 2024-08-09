@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 $query = "SELECT * FROM admin";
@@ -72,10 +73,16 @@ if ($rows) {
         }
     } else {
         // There are no SMTP settings
+        if (php_sapi_name() !== 'cli') {
+            echo "SMTP settings are not configured. Please configure SMTP settings in the admin page.";
+        }
         exit();
     }
 } else {
     // There are no password reset emails to be sent
+    if (php_sapi_name() !== 'cli') {
+        echo "There are no password reset emails to be sent.";
+    }
     exit();
 }
 

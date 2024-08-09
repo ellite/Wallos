@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
@@ -16,7 +17,9 @@ $usersToNotify = $stmt->execute();
 
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
-    echo "For user: " . $userToNotify['username'] . "<br />";
+    if (php_sapi_name() !== 'cli') {
+        echo "For user: " . $userToNotify['username'] . "<br />";
+    }
 
     $emailNotificationsEnabled = false;
     $gotifyNotificationsEnabled = false;
@@ -110,7 +113,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     // If no notifications are enabled, no need to run
     if (!$notificationsEnabled) {
-        echo "Notifications are disabled. No need to run.<br />";
+        if (php_sapi_name() !== 'cli') {
+            echo "Notifications are disabled. No need to run.<br />";
+        }
         continue;
     } else {
         // Get all currencies
@@ -460,7 +465,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             }
 
         } else {
-            echo "Nothing to notify.<br />";
+            if (php_sapi_name() !== 'cli') {
+                echo "Nothing to notify.<br />";
+            }
         }
 
     }

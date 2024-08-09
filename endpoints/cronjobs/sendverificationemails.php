@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 $query = "SELECT * FROM admin";
@@ -11,7 +12,10 @@ $result = $stmt->execute();
 $admin = $result->fetchArray(SQLITE3_ASSOC);
 
 if ($admin['require_email_verification'] == 0) {
-    die("Email verification is not required.");
+    if (php_sapi_name() !== 'cli') {
+        echo "Email verification is not required.";
+    }
+    die();
 }
 
 $query = "SELECT * FROM email_verification WHERE email_sent = 0";
@@ -75,10 +79,16 @@ if ($rows) {
         }
     } else {
         // There are no SMTP settings
+        if (php_sapi_name() !== 'cli') {
+            echo "SMTP settings are not configured. Please configure SMTP settings in the admin page.";
+        }
         exit();
     }
 } else {
     // There are no verification emails to be sent
+    if (php_sapi_name() !== 'cli') {
+        echo "No verification emails to be sent.";
+    }
     exit();
 }
 
