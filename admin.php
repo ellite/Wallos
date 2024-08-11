@@ -354,7 +354,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <h3><?= translate('cronjobs', $i18n) ?></h3>
             <div>
-                <div class="inline">
+                <div class="inline-row">
                     <input type="button" value="Check for Updates" class="button tiny mobile-grow" onclick="executeCronJob('checkforupdates')">
                     <input type="button" value="Send Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendnotifications')">
                     <input type="button" value="Send Cancellation Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendcancellationnotifications')">
@@ -363,7 +363,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow" onclick="executeCronJob('updateexchange')">
                     <input type="button" value="Update Next Payments" class="button tiny mobile-grow" onclick="executeCronJob('updatenextpayment')">
                 </div>
-                <div class="inline">
+                <div class="inline-row">
                     <textarea id="cronjobResult" class="thin" readonly></textarea>
                 </div>
             </div>

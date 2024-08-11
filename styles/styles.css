@@ -1054,7 +1054,7 @@ header #avatar {
   flex-basis: 50%;
 }
 
-.inline {
+.inline-row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
