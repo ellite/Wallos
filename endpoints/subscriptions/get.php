@@ -33,9 +33,17 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $params[':category'] = $_GET['category'];
   }
 
-  if (isset($_GET['payment']) && $_GET['payment'] != "") {
-    $sql .= " AND payment_method_id = :payment";
-    $params[':payment'] = $_GET['payment'];
+  if (isset($_GET['payments']) && $_GET['payments'] !== "") {
+    $sql .= " AND (";
+    $innerSql = [];
+    $idx = 0;
+    $allPayments = explode(',', $_GET['payments']);
+    foreach($allPayments as $payment) {
+      $innerSql[] = "payment_method_id = :payments{$idx}";
+      $params[':payments' . $idx] = $payment;
+      $idx++;
+    }
+    $sql .= implode(' OR ', $innerSql) . ")";
   }
 
   if (isset($_GET['member']) && $_GET['member'] != "") {
