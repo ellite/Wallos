@@ -249,6 +249,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = $row['smtp_username'];
         $notificationsEmail['smtp_password'] = $row['smtp_password'];
         $notificationsEmail['from_email'] = $row['from_email'];
+        $notificationsEmail['other_email'] = $row['other_email'];
         $rowCount++;
     }
 
@@ -260,6 +261,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = "";
         $notificationsEmail['smtp_password'] = "";
         $notificationsEmail['from_email'] = "";
+        $notificationsEmail['other_email'] = "";
     }
 
     // Discord notifications
@@ -480,6 +482,11 @@ require_once 'includes/header.php';
                         <input type="text" name="fromemail" id="fromemail"
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="otheremail" id="otheremail"
+                            placeholder="<?= translate('other_email', $i18n) ?>"
+                            value="<?= $notificationsEmail['other_email'] ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"

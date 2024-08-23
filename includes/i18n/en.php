@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "SMTP Username",
     "smtp_password" => "SMTP Password",
     "from_email" => "From email (Optional)",
+    "other_email" => "Other email (Use ; to separate)",
     "smtp_info" => "SMTP Password is transmitted and stored in plaintext. For security, please create an account just for this.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",
