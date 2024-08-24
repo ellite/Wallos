@@ -71,8 +71,6 @@ function fillEditFormFields(subscription) {
   paymentSelect.value = subscription.payment_method_id;
   const categorySelect = document.querySelector("#category");
   const options = categorySelect.querySelectorAll('option');
-  console.log(options);
-  console.log(options[4]);
   [subscription.category_id, subscription.category_id_2, subscription.category_id_3].filter(elm => elm).forEach(el => {
     options[el-1].selected = true;
   });
@@ -133,7 +131,6 @@ function openEditSubscription(event, id) {
       }
     })
     .catch((error) => {
-      console.log(error)
       showErrorMessage(translate('failed_to_load_subscription'));
     });
 }

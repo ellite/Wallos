@@ -29,7 +29,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
 
   if (isset($_GET['category']) && $_GET['category'] != "") {
-    $sql .= " AND category_id = :category";
+    $sql .= " AND (category_id = :category OR  category_id_2 = :category OR category_id_3 = :category) ";
     $params[':category'] = $_GET['category'];
   }
 
@@ -120,6 +120,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
+    $print[$id]['category_id_2'] = $subscription['category_id_2'];
+    $print[$id]['category_id_3'] = $subscription['category_id_3'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['inactive'] = $subscription['inactive'];

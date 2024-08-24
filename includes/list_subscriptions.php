@@ -151,6 +151,22 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 <span class="category"
                     title="<?= translate('category', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/category.php"; ?><?= $categories[$subscription['category_id']]['name'] ?></span>
                 <?php
+                if (!empty($subscription['category_id_2'])) {
+                    ?>
+                    <span class="category"
+                    title="<?= translate('category', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/category.php"; ?><?= $categories[$subscription['category_id_2']]['name'] ?></span>
+                    <?php
+                }
+                ?>   
+                <?php
+                if (!empty($subscription['category_id_3'])) {
+                    ?>
+                    <span class="category"
+                    title="<?= translate('category', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/category.php"; ?><?= $categories[$subscription['category_id_3']]['name'] ?></span>
+                    <?php
+                }
+                ?>    
+                <?php
                 if ($subscription['url'] != "") {
                     $url = $subscription['url'];
                     if (!preg_match('/^https?:\/\//', $url)) {
