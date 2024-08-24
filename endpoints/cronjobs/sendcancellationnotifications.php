@@ -42,7 +42,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $email['smtpUsername'] = $row["smtp_username"];
         $email['smtpPassword'] = $row["smtp_password"];
         $email['fromEmail'] = $row["from_email"] ? $row["from_email"] : "wallos@wallosapp.com";
-        $mail['otherEmail'] = $row["other_email"];
+        $email['otherEmail'] = $row["other_email"];
     }
 
     // Check if Discord notifications are enabled and get the settings
