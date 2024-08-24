@@ -70,7 +70,12 @@ function fillEditFormFields(subscription) {
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
   const categorySelect = document.querySelector("#category");
-  categorySelect.value = subscription.category_id;
+  const options = categorySelect.querySelectorAll('option');
+  console.log(options);
+  console.log(options[4]);
+  [subscription.category_id, subscription.category_id_2, subscription.category_id_3].filter(elm => elm).forEach(el => {
+    options[el-1].selected = true;
+  });
   const payerSelect = document.querySelector("#payer_user");
   payerSelect.value = subscription.payer_user_id;
 
@@ -128,6 +133,7 @@ function openEditSubscription(event, id) {
       }
     })
     .catch((error) => {
+      console.log(error)
       showErrorMessage(translate('failed_to_load_subscription'));
     });
 }
@@ -395,6 +401,27 @@ function submitFormData(formData, submitButton, endpoint) {
       submitButton.disabled = false;
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+  const category = document.querySelector("#category");
+  let opt;
+
+  category.addEventListener("change", function (e) {
+    let selected = 0;
+    for (var i=0, iLen= e.target.options.length; i<iLen; i++) {
+      opt = e.target.options[i];
+
+      if (opt.selected) {
+        selected++;
+      }
+      
+      if (selected > 3) {
+        opt.selected = false;
+        break;
+      }
+    }
+  })  
+});
 
 document.addEventListener('DOMContentLoaded', function () {
   const subscriptionForm = document.querySelector("#subs-form");

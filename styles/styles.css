@@ -1129,6 +1129,10 @@ select {
   height: 50px;
 }
 
+.select-multiple {
+  height: 70px;
+}
+
 input[type="date"] {
   flex-grow: 1;
   width: 100%;

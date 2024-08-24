@@ -25,6 +25,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['payment_method_id'] = $row['payment_method_id'];
             $subscriptionData['payer_user_id'] = $row['payer_user_id'];
             $subscriptionData['category_id'] = $row['category_id'];
+            $subscriptionData['category_id_2'] = $row['category_id_2'];
+            $subscriptionData['category_id_3'] = $row['category_id_3'];
             $subscriptionData['notify'] = $row['notify'];
             $subscriptionData['inactive'] = $row['inactive'];
             $subscriptionData['url'] = htmlspecialchars_decode($row['url'] ?? "");

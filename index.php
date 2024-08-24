@@ -422,8 +422,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     </div>
 
     <div class="form-group">
-      <label for="category"><?= translate('category', $i18n) ?></label>
-      <select id="category" name="category_id">
+      <label for="category"><?= translate('categories', $i18n) ?></label>
+      <select id="category" name="category_id[]" multiple class="select-multiple">
         <?php
         foreach ($categories as $category) {
           ?>

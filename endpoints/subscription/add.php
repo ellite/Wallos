@@ -165,6 +165,27 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $paymentMethodId = $_POST["payment_method_id"];
         $payerUserId = $_POST["payer_user_id"];
         $categoryId = $_POST['category_id'];
+        switch(count($categoryId)) {
+            case 1:
+                $categoryId = $categoryId[0];
+                $categoryId2 = '';
+                $categoryId3 = '';
+                break;
+            case 2:
+                $categoryId2 = $categoryId[1];
+                $categoryId3 = '';
+                $categoryId = $categoryId[0];
+                break;
+            case 3:
+                $categoryId2 = $categoryId[1];
+                $categoryId3 = $categoryId[2];
+                $categoryId = $categoryId[0];
+                break;
+            default:
+                $categoryId = '';
+                $categoryId2 = '';
+                $categoryId3 = '';
+        }
         $notes = validate($_POST["notes"]);
         $url = validate($_POST['url']);
         $logoUrl = validate($_POST['logo-url']);
@@ -189,20 +210,20 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
         if (!$isEdit) {
             $sql = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url, notify_days_before, user_id, cancellation_date) 
+                        payment_method_id, payer_user_id, category_id, category_id_2, category_id_3, notify, inactive, url, notify_days_before, user_id, cancellation_date) 
                         VALUES (:name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, :notifyDaysBefore, :userId, :cancellationDate)";
+                        :paymentMethodId, :payerUserId, :categoryId, :categoryId2, :categoryId3, :notify, :inactive, :url, :notifyDaysBefore, :userId, :cancellationDate)";
         } else {
             $id = $_POST['id'];
             if ($logo != "") {
                 $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId,
                      next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
-                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
+                     payer_user_id = :payerUserId, category_id = :categoryId, category_id_2 = :categoryId2, category_id_3 = :categoryId3, notify = :notify, inactive = :inactive, 
                      url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
             } else {
                 $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId,
                      next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
-                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
+                     payer_user_id = :payerUserId, category_id = :categoryId, category_id_2 = :categoryId2, category_id_3 = :categoryId3, notify = :notify, inactive = :inactive, 
                      url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
             }
         }
@@ -221,6 +242,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmt->bindParam(':paymentMethodId', $paymentMethodId, SQLITE3_INTEGER);
         $stmt->bindParam(':payerUserId', $payerUserId, SQLITE3_INTEGER);
         $stmt->bindParam(':categoryId', $categoryId, SQLITE3_INTEGER);
+        $stmt->bindParam(':categoryId2', $categoryId2, SQLITE3_INTEGER);
+        $stmt->bindParam(':categoryId3', $categoryId3, SQLITE3_INTEGER);
         $stmt->bindParam(':notify', $notify, SQLITE3_INTEGER);
         $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
         $stmt->bindParam(':url', $url, SQLITE3_TEXT);
