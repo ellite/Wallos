@@ -163,7 +163,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
                 <?php
                 foreach ($payment_methods as $payment) {
                   $selectedClass = '';
-                  if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
+                  if (isset($_GET['payment']) && in_array( $payment['id'], $_GET['payment'])) {
                     $selectedClass = 'selected';
                   }
                   ?>

@@ -298,8 +298,8 @@ function fetchSubscriptions() {
   if (activeFilters['member'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&member=${activeFilters['member']}` : `?member=${activeFilters['member']}`;
   }
-  if (activeFilters['payment'] !== "") {
-    getSubscriptions += getSubscriptions.includes("?") ? `&payment=${activeFilters['payment']}` : `?payment=${activeFilters['payment']}`;
+  if (activeFilters['payments'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&payments=${activeFilters['payments']}` : `?payments=${activeFilters['payments']}`;
   }
   if (activeFilters['state'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&state=${activeFilters['state']}` : `?state=${activeFilters['state']}`;
@@ -461,7 +461,7 @@ function closeSubMenus() {
 const activeFilters = [];
 activeFilters['category'] = "";
 activeFilters['member'] = "";
-activeFilters['payment'] = "";
+activeFilters['payments'] = [];
 activeFilters['state'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -526,14 +526,17 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     } else if (this.hasAttribute('data-paymentid')) {
       const paymentId = this.getAttribute('data-paymentid');
-      if (activeFilters['payment'] === paymentId) {
-        activeFilters['payment'] = "";
+      if (activeFilters['payments'].includes(paymentId)) {
+        const index = activeFilters['payments'].indexOf(paymentId);
+        activeFilters['payments'].splice(index, 1);
         this.classList.remove('selected');
       } else {
-        activeFilters['payment'] = paymentId;
+        activeFilters['payments'].push(paymentId);
+        /*
         Array.from(this.parentNode.children).forEach(sibling => {
           sibling.classList.remove('selected');
         });
+        */
         this.classList.add('selected');
       }
     } else if (this.hasAttribute('data-state')) {
@@ -550,7 +553,7 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     }
 
-    if (activeFilters['category'] !== "" || activeFilters['member'] !== "" || activeFilters['payment'] !== "") {
+    if (activeFilters['category'] !== "" || activeFilters['member'] !== "" || activeFilters['payments'].length > 0) {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -565,7 +568,7 @@ function clearFilters() {
   searchInput.value = "";
   activeFilters['category'] = "";
   activeFilters['member'] = "";
-  activeFilters['payment'] = "";
+  activeFilters['payments'] = [];
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
   });
