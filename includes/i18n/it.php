@@ -148,7 +148,7 @@ $i18n = [
     'smtp_username' => 'Nome utente SMTP',
     'smtp_password' => 'Password SMTP',
     'from_email' => 'Da quale e-mail (Opzionale)',
-    "other_email" => "Altre e-mail (Usa ; per separare)",
+    
     'smtp_info' => 'La password SMTP viene memorizzata e trasmessa in chiaro. Per motivi di sicurezza, si prega di creare un account da utilizzare solo per questo.',
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",

@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "Uporabniško ime SMTP",
     "smtp_password" => "Geslo SMTP",
     "from_email" => "Iz e-pošte (izbirno)",
+    "send_to_other_emails" => "Pošlji obvestila tudi na naslednje e-poštne naslove (uporabi ; za ločevanje):",
     "smtp_info" => "Geslo SMTP se prenaša in shranjuje v navadnem besedilu. Zaradi varnosti ustvarite račun samo za to.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot žeton",

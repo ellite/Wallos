@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "SMTP 유저명",
     "smtp_password" => "SMTP 비밀번호",
     "from_email" => "발송 주소 (선택사항)",
+    "send_to_other_emails" => "알림을 다음 이메일 주소로도 보내기 (구분자는 ; 사용):",
     "smtp_info" => "SMTP 비밀번호는 평문으로 저장되고 발송됩니다. 보안을 위해, 이 서비스를 위해서만 사용하는 계정을 생성해 주세요.",
     "telegram" => "텔레그램",
     "telegram_bot_token" => "텔레그램 봇 토큰",

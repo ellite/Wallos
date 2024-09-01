@@ -249,7 +249,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = $row['smtp_username'];
         $notificationsEmail['smtp_password'] = $row['smtp_password'];
         $notificationsEmail['from_email'] = $row['from_email'];
-        $notificationsEmail['other_email'] = $row['other_email'];
+        $notificationsEmail['other_emails'] = $row['other_emails'];
         $rowCount++;
     }
 
@@ -261,7 +261,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = "";
         $notificationsEmail['smtp_password'] = "";
         $notificationsEmail['from_email'] = "";
-        $notificationsEmail['other_email'] = "";
+        $notificationsEmail['other_emails'] = "";
     }
 
     // Discord notifications
@@ -483,10 +483,11 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
+                    <label for="otheremails" ><?= translate('send_to_other_emails', $i18n) ?></label>
                     <div class="form-group-inline">
-                        <input type="text" name="otheremail" id="otheremail"
-                            placeholder="<?= translate('other_email', $i18n) ?>"
-                            value="<?= $notificationsEmail['other_email'] ?>" />
+                        <input type="text" name="otheremails" id="otheremails"
+                            placeholder="<?= translate('other_emails_placeholder', $i18n) ?>"
+                            value="<?= $notificationsEmail['other_emails'] ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"

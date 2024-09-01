@@ -148,6 +148,7 @@ $i18n = [
     "smtp_username" => "SMTP 用户名",
     "smtp_password" => "SMTP 密码",
     "from_email" => "发件人邮箱（可选）",
+    "send_to_other_emails" => "还发送通知到以下电子邮件地址（使用 ; 分隔它们）：",
     "smtp_info" => "SMTP 密码以明文传输和存储。为安全起见，建议专门为 Wallos 创建一个账户。",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram 机器人令牌",

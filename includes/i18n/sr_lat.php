@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "SMTP korisničko ime",
     "smtp_password" => "SMTP lozinka",
     "from_email" => "Od e-pošte (Opciono)",
+    "send_to_other_emails" => "Takođe pošaljite obaveštenja na sledeće e-mail adrese (koristite ; za razdvajanje):",
     "smtp_info" => "SMTP lozinka se prenosi i čuva u običnom tekstu. Iz sigurnosnih razloga, molimo vas da napravite nalog samo za ovo.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram bot token",

@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "SMTP Kullanıcı Adı",
     "smtp_password" => "SMTP Şifresi",
     "from_email" => "Gönderen e-posta (İsteğe bağlı)",
+    "send_to_other_emails" => "Bildirimleri aşağıdaki e-posta adreslerine de gönder (ayırmak için ; kullanın):",
     "smtp_info" => "SMTP Şifresi düz metin olarak iletilir ve saklanır. Güvenlik için, lütfen bunun için özel bir hesap oluşturun.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",

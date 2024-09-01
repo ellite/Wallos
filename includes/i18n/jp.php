@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "SMTPユーザー名",
     "smtp_password" => "SMTPパスワード",
     "from_email" => "送信元アドレス (オプション)",
+    "send_to_other_emails" => "通知を以下のメールアドレスにも送信する（区切りには ; を使用）:",
     "smtp_info" => "SMTPパスワードは平文で送信および保存されます。セキュリティのため専用のアカウントを作成してください。",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegramボットトークン",

@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "Nombre de usuario SMTP",
     "smtp_password" => "Contraseña SMTP",
     "from_email" => "Correo electrónico de origen (Opcional)",
+    "send_to_other_emails" => "También enviar notificaciones a las siguientes direcciones de correo electrónico (use ; para separarlas):",
     "smtp_info" => "La contraseña SMTP se transmite y almacena en texto plano. Por seguridad, crea una cuenta solo para esto.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Token del Bot de Telegram",

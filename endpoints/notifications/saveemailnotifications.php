@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $smtpUsername = $data["smtpusername"];
         $smtpPassword = $data["smtppassword"];
         $fromEmail = $data["fromemail"];
-        $otherEmail = $data["otheremail"];
+        $otherEmails = $data["otheremails"];
 
         $query = "SELECT COUNT(*) FROM email_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
@@ -51,12 +51,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $row = $result->fetchArray();
             $count = $row[0];
             if ($count == 0) {
-                $query = "INSERT INTO email_notifications (enabled, smtp_address, smtp_port, smtp_username, smtp_password, from_email, other_email, encryption, user_id)
-                              VALUES (:enabled, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail, :otherEmail, :encryption, :userId)";
+                $query = "INSERT INTO email_notifications (enabled, smtp_address, smtp_port, smtp_username, smtp_password, from_email, other_emails, encryption, user_id)
+                              VALUES (:enabled, :smtpAddress, :smtpPort, :smtpUsername, :smtpPassword, :fromEmail, :otherEmails, :encryption, :userId)";
             } else {
                 $query = "UPDATE email_notifications
                               SET enabled = :enabled, smtp_address = :smtpAddress, smtp_port = :smtpPort,
-                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail, other_email = :otherEmail, encryption = :encryption WHERE user_id = :userId";
+                                  smtp_username = :smtpUsername, smtp_password = :smtpPassword, from_email = :fromEmail, other_emails = :otherEmails, encryption = :encryption WHERE user_id = :userId";
             }
 
             $stmt = $db->prepare($query);
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindValue(':smtpUsername', $smtpUsername, SQLITE3_TEXT);
             $stmt->bindValue(':smtpPassword', $smtpPassword, SQLITE3_TEXT);
             $stmt->bindValue(':fromEmail', $fromEmail, SQLITE3_TEXT);
-            $stmt->bindValue(':otherEmail', $otherEmail, SQLITE3_TEXT);
+            $stmt->bindValue(':otherEmails', $otherEmails, SQLITE3_TEXT);
             $stmt->bindValue(':encryption', $encryption, SQLITE3_TEXT);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 

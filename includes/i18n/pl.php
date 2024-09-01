@@ -140,6 +140,7 @@ $i18n = [
     "smtp_username" => "Nazwa użytkownika SMTP",
     "smtp_password" => "Hasło SMTP",
     "from_email" => "Z adresu e-mail (opcjonalnie)",
+    "send_to_other_emails" => "Wyślij powiadomienia również na następujące adresy e-mail (użyj ; aby je rozdzielić):",
     "smtp_info" => "Hasło SMTP jest przesyłane i przechowywane w postaci zwykłego tekstu. Ze względów bezpieczeństwa utwórz konto tylko w tym celu.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Token bota",
