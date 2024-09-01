@@ -118,9 +118,21 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 <span class="cycle"><?= $subscription['billing_cycle'] ?></span>
                 <span class="next"><?= $subscription['next_payment'] ?></span>
                 <span class="price">
-                    <img src="<?= $subscription['payment_method_icon'] ?>"
-                        title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
-                    <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
+                    <span class="payment_method">
+                        <img src="<?= $subscription['payment_method_icon'] ?>"
+                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                    </span>
+                    <span class="value">
+                        <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
+                        <?php
+                        if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
+                            ?>
+                            <span
+                                class="original_price">(<?= CurrencyFormatter::format($subscription['original_price'], $subscription['original_currency_code']) ?>)</span>
+                            <?php
+                        }
+                        ?>
+                    </span>
                 </span>
                 <button type="button" class="actions-expand" onClick="expandActions(event, <?= $subscription['id'] ?>)">
                     <i class="fas fa-ellipsis-v"></i>

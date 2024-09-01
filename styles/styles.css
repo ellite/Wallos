@@ -459,12 +459,7 @@ button:hover svg .main-color {
   flex-grow: 1;
 }
 
-.subscription .price {
-  flex-basis: 12%;
-  justify-content: flex-start;
-}
-
-.subscription .price img {
+.subscription .payment_method img {
   width: 45px;
   height: 30px;
   aspect-ratio: 3 / 2;
@@ -472,10 +467,21 @@ button:hover svg .main-color {
   margin-right: 12px;
 }
 
-.rtl .subscription .price img {
+.rtl .subscription .payment_method img {
   margin-right: 0px;
   margin-left: 12px;
 
+}
+
+.subscription .price {
+  flex-basis: 8%;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.subscription .price .original_price {
+  font-size: 14px;
+  color: #888;
 }
 
 .subscription .actions {
@@ -615,6 +621,10 @@ button:hover svg .main-color {
 
 .account-section .account-settings-list .form-group-inline {
   margin-bottom: 0px;
+}
+
+.account-section .account-settings-list h3 {
+  margin: 0px;
 }
 
 .account-section .account-settings-theme h3 {

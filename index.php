@@ -1,7 +1,4 @@
 <?php
-// Display all errors for debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
@@ -73,9 +70,11 @@ if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     }
   }
 
-  if (isset($_GET['state']) && $_GET['state'] != "") {
-    $sql .= " AND inactive = :inactive";
-    $params[':inactive'] = $_GET['state'];
+  if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
+    if (isset($_GET['state']) && $_GET['state'] != "") {
+      $sql .= " AND inactive = :inactive";
+      $params[':inactive'] = $_GET['state'];
+    }
   }
 
   $orderByClauses = [];
@@ -339,6 +338,10 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       }
       if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
         $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
+      }
+      if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
+        $print[$id]['original_price'] = floatval($subscription['price']);
+        $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
       }
     }
 

@@ -163,6 +163,10 @@ if (isset($_GET['members']) && $_GET['members'] != "") {
     if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
       $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
     }
+    if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
+      $print[$id]['original_price'] = floatval($subscription['price']);
+      $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
+    }
   }
 
   if ($sortOrder == "alphanumeric") {

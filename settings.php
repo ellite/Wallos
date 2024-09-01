@@ -1213,6 +1213,7 @@ require_once 'includes/header.php';
             <h2><?= translate('display_settings', $i18n) ?></h2>
         </header>
         <div class="account-settings-list">
+            <h3><?= translate('price', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPrice()" <?php if ($settings['monthly_price'])
@@ -1230,6 +1231,21 @@ require_once 'includes/header.php';
                             echo ' disabled';
                         ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice" onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
+                        echo 'checked'; ?>>
+                    <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
+                </div>
+            </div>
+            <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
+                        echo 'checked'; ?>>
+                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
                 </div>
             </div>
             <div>

@@ -927,6 +927,13 @@ function setDisabledToBottom() {
   storeSettingsOnDB('disabled_to_bottom', value);
 }
 
+function setShowOriginalPrice() {
+  const showOriginalPriceCheckbox = document.querySelector("#showoriginalprice");
+  const value = showOriginalPriceCheckbox.checked;
+
+  storeSettingsOnDB('show_original_price', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById('categories');
   const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);

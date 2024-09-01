@@ -148,7 +148,6 @@ $i18n = [
     'smtp_username' => 'Nome utente SMTP',
     'smtp_password' => 'Password SMTP',
     'from_email' => 'Da quale e-mail (Opzionale)',
-    
     'smtp_info' => 'La password SMTP viene memorizzata e trasmessa in chiaro. Per motivi di sicurezza, si prega di creare un account da utilizzare solo per questo.',
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",
@@ -205,6 +204,8 @@ $i18n = [
     "save_custom_css" => "Salva CSS personalizzato",
     'calculate_monthly_price' => 'Calcola e mostra il prezzo mensile per tutti gli abbonamenti',
     'convert_prices' => 'Converti sempre e mostra i prezzi nella mia valuta principale (più lento)',
+    "show_original_price" => "Mostra anche il prezzo originale quando vengono effettuate conversioni o calcoli",
+    "disabled_subscriptions" => 'Abbonamenti disattivati',
     "hide_disabled_subscriptions" => 'Nascondi gli abbonamenti disattivati',
     "show_disabled_subscriptions_at_the_bottom" => 'Mostra gli abbonamenti disattivati in fondo',
     'experimental_settings' => 'Impostazioni sperimentali',
