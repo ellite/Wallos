@@ -14,6 +14,8 @@ if ($settings['disabledToBottom'] === 'true') {
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC, inactive ASC";
 }
 
+$params = array();
+
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'] ?? 'next_payment';
   $sortOrder = $sort;
@@ -28,7 +30,6 @@ if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = "next_payment";
   }
 
-  $params = array();
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
 
   if (isset($_GET['member'])) {
@@ -105,8 +106,10 @@ $stmt = $db->prepare($sql);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
 
-foreach ($params as $key => $value) {
-  $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+if (!empty($params)) {
+  foreach ($params as $key => $value) {
+      $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+  }
 }
 
 $result = $stmt->execute();
