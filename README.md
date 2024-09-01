@@ -107,8 +107,6 @@ bellamy/wallos:latest
 ### Docker Compose
 
 ```
-version: '3.0'
-
 services:
   wallos:
     container_name: wallos
