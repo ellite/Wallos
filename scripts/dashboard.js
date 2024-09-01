@@ -292,11 +292,11 @@ function fetchSubscriptions() {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
 
-  if (activeFilters['category'] !== "") {
-    getSubscriptions += `?category=${activeFilters['category']}`;
+  if (activeFilters['categories'].length > 0) {
+    getSubscriptions += `?categories=${activeFilters['categories']}`;
   }
-  if (activeFilters['member'] !== "") {
-    getSubscriptions += getSubscriptions.includes("?") ? `&member=${activeFilters['member']}` : `?member=${activeFilters['member']}`;
+  if (activeFilters['members'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&members=${activeFilters['members']}` : `?members=${activeFilters['members']}`;
   }
   if (activeFilters['payments'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&payments=${activeFilters['payments']}` : `?payments=${activeFilters['payments']}`;
@@ -346,18 +346,18 @@ function convertSvgToPng(file, callback) {
   const reader = new FileReader();
 
   reader.onload = function (e) {
-      const img = new Image();
-      img.src = e.target.result;
-      img.onload = function() {
-          const canvas = document.createElement('canvas');
-          canvas.width = img.width;
-          canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
-          const pngDataUrl = canvas.toDataURL('image/png');
-          const pngFile = dataURLtoFile(pngDataUrl, file.name.replace(".svg", ".png"));
-          callback(pngFile);
-      };
+    const img = new Image();
+    img.src = e.target.result;
+    img.onload = function () {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const pngDataUrl = canvas.toDataURL('image/png');
+      const pngFile = dataURLtoFile(pngDataUrl, file.name.replace(".svg", ".png"));
+      callback(pngFile);
+    };
   };
 
   reader.readAsDataURL(file);
@@ -365,16 +365,16 @@ function convertSvgToPng(file, callback) {
 
 function dataURLtoFile(dataurl, filename) {
   let arr = dataurl.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
-      
-  while(n--){
-      u8arr[n] = bstr.charCodeAt(n);
+    mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1]),
+    n = bstr.length,
+    u8arr = new Uint8Array(n);
+
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n);
   }
 
-  return new File([u8arr], filename, {type:mime});
+  return new File([u8arr], filename, { type: mime });
 }
 
 function submitFormData(formData, submitButton, endpoint) {
@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   subscriptionForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    
+
     submitButton.disabled = true;
     const formData = new FormData(subscriptionForm);
 
@@ -411,12 +411,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const file = fileInput.files[0];
 
     if (file && file.type === "image/svg+xml") {
-        convertSvgToPng(file, function(pngFile) {
-            formData.set("logo", pngFile);
-            submitFormData(formData, submitButton, endpoint);
-        });
-    } else {
+      convertSvgToPng(file, function (pngFile) {
+        formData.set("logo", pngFile);
         submitFormData(formData, submitButton, endpoint);
+      });
+    } else {
+      submitFormData(formData, submitButton, endpoint);
     }
   });
 
@@ -459,8 +459,8 @@ function closeSubMenus() {
 }
 
 const activeFilters = [];
-activeFilters['category'] = "";
-activeFilters['member'] = "";
+activeFilters['categories'] = [];
+activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
 
@@ -502,41 +502,32 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
 
     if (this.hasAttribute('data-categoryid')) {
       const categoryId = this.getAttribute('data-categoryid');
-      if (activeFilters['category'] === categoryId) {
-        activeFilters['category'] = "";
+      if (activeFilters['categories'].includes(categoryId)) {
+        const categoryIndex = activeFilters['categories'].indexOf(categoryId);
+        activeFilters['categories'].splice(categoryIndex, 1);
         this.classList.remove('selected');
       } else {
-        activeFilters['category'] = categoryId;
-        Array.from(this.parentNode.children).forEach(sibling => {
-          sibling.classList.remove('selected');
-        });
+        activeFilters['categories'].push(categoryId);
         this.classList.add('selected');
       }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
-      if (activeFilters['member'] === memberId) {
-        activeFilters['member'] = "";
-        this.classList.remove('selected');
-      } else {
-        activeFilters['member'] = memberId;
-        Array.from(this.parentNode.children).forEach(sibling => {
-          sibling.classList.remove('selected');
-        });
-        this.classList.add('selected');
-      }
+        if (activeFilters['members'].includes(memberId)) {
+            const memberIndex = activeFilters['members'].indexOf(memberId);
+            activeFilters['members'].splice(memberIndex, 1);
+            this.classList.remove('selected');
+        } else {
+            activeFilters['members'].push(memberId);
+            this.classList.add('selected');
+        }
     } else if (this.hasAttribute('data-paymentid')) {
       const paymentId = this.getAttribute('data-paymentid');
       if (activeFilters['payments'].includes(paymentId)) {
-        const index = activeFilters['payments'].indexOf(paymentId);
-        activeFilters['payments'].splice(index, 1);
+        const paymentIndex = activeFilters['payments'].indexOf(paymentId);
+        activeFilters['payments'].splice(paymentIndex, 1);
         this.classList.remove('selected');
       } else {
         activeFilters['payments'].push(paymentId);
-        /*
-        Array.from(this.parentNode.children).forEach(sibling => {
-          sibling.classList.remove('selected');
-        });
-        */
         this.classList.add('selected');
       }
     } else if (this.hasAttribute('data-state')) {
@@ -553,7 +544,7 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     }
 
-    if (activeFilters['category'] !== "" || activeFilters['member'] !== "" || activeFilters['payments'].length > 0) {
+    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 || activeFilters['payments'].length > 0) {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -566,8 +557,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
 function clearFilters() {
   const searchInput = document.querySelector("#search");
   searchInput.value = "";
-  activeFilters['category'] = "";
-  activeFilters['member'] = "";
+  activeFilters['categories'] = [];
+  activeFilters['members'] = [];
   activeFilters['payments'] = [];
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
