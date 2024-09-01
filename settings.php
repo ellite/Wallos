@@ -249,7 +249,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = $row['smtp_username'];
         $notificationsEmail['smtp_password'] = $row['smtp_password'];
         $notificationsEmail['from_email'] = $row['from_email'];
-        $notificationsEmail['other_email'] = $row['other_email'];
+        $notificationsEmail['other_emails'] = $row['other_emails'];
         $rowCount++;
     }
 
@@ -261,7 +261,7 @@ require_once 'includes/header.php';
         $notificationsEmail['smtp_username'] = "";
         $notificationsEmail['smtp_password'] = "";
         $notificationsEmail['from_email'] = "";
-        $notificationsEmail['other_email'] = "";
+        $notificationsEmail['other_emails'] = "";
     }
 
     // Discord notifications
@@ -483,10 +483,11 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
+                    <label for="otheremails" ><?= translate('send_to_other_emails', $i18n) ?></label>
                     <div class="form-group-inline">
-                        <input type="text" name="otheremail" id="otheremail"
-                            placeholder="<?= translate('other_email', $i18n) ?>"
-                            value="<?= $notificationsEmail['other_email'] ?>" />
+                        <input type="text" name="otheremails" id="otheremails"
+                            placeholder="<?= translate('other_emails_placeholder', $i18n) ?>"
+                            value="<?= $notificationsEmail['other_emails'] ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -1212,6 +1213,7 @@ require_once 'includes/header.php';
             <h2><?= translate('display_settings', $i18n) ?></h2>
         </header>
         <div class="account-settings-list">
+            <h3><?= translate('price', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
                     <input type="checkbox" id="monthlyprice" name="monthlyprice" onChange="setShowMonthlyPrice()" <?php if ($settings['monthly_price'])
@@ -1229,6 +1231,21 @@ require_once 'includes/header.php';
                             echo ' disabled';
                         ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice" onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
+                        echo 'checked'; ?>>
+                    <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
+                </div>
+            </div>
+            <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
+                        echo 'checked'; ?>>
+                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
                 </div>
             </div>
             <div>
