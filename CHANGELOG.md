@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.22.2](https://github.com/ellite/Wallos/compare/v2.22.1...v2.22.2) (2024-09-01)
+
+
+### Bug Fixes
+
+* export.php csv header typo ([#499](https://github.com/ellite/Wallos/issues/499)) ([6e96c5d](https://github.com/ellite/Wallos/commit/6e96c5d4b0c7264ab37a85e9a8b8062f96f69c5c))
+
 ## [2.22.1](https://github.com/ellite/Wallos/compare/v2.22.0...v2.22.1) (2024-08-11)
 
 
