@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://github.com/ellite/Wallos/compare/v2.23.0...v2.23.1) (2024-09-01)
+
+
+### Bug Fixes
+
+* warning on top of dashboard page ([#512](https://github.com/ellite/Wallos/issues/512)) ([9056722](https://github.com/ellite/Wallos/commit/905672243b75e6b3d367d439bdbbb37d1b5ae0fa))
+
 ## [2.23.0](https://github.com/ellite/Wallos/compare/v2.22.1...v2.23.0) (2024-09-01)
 
 
