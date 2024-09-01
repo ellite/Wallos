@@ -40,7 +40,8 @@
             if ($cloneStmt->execute()) {
                 $response = [
                     "success" => true,
-                    "message" => translate('success', $i18n)
+                    "message" => translate('success', $i18n),
+                    "id" => $db->lastInsertRowID()
                 ];
                 echo json_encode($response);
             } else {

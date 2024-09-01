@@ -207,7 +207,8 @@ function cloneSubscription(event, id) {
     })
     .then(data => {
       if (data.success) {
-        fetchSubscriptions();
+        const id = data.id;
+        fetchSubscriptions(id, event);
         showSuccessMessage(decodeURI(data.message));
       } else {
         showErrorMessage(data.message || translate('error'));
@@ -288,7 +289,7 @@ function closeLogoSearch() {
   logoResults.innerHTML = "";
 }
 
-function fetchSubscriptions() {
+function fetchSubscriptions(id, event) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
 
@@ -316,6 +317,10 @@ function fetchSubscriptions() {
         } else {
           mainActions.classList.remove("hidden");
         }
+      }
+      
+      if (id && event) {
+        openEditSubscription(event, id);
       }
     })
     .catch(error => {
