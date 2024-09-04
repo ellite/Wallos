@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.2](https://github.com/ellite/Wallos/compare/v2.23.1...v2.23.2) (2024-09-04)
+
+
+### Bug Fixes
+
+* sort order after edit subscription in case the cookie is missing ([87809fe](https://github.com/ellite/Wallos/commit/87809fea71b92c7518173fedd189d7e76ce11bfb))
+
 ## [2.23.1](https://github.com/ellite/Wallos/compare/v2.23.0...v2.23.1) (2024-09-01)
 
 
