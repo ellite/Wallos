@@ -82,6 +82,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $sort = $_COOKIE['sortOrder'];
   }
 
+  $sortOrder = $sort;
   $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
   $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
 
