@@ -18,89 +18,90 @@ $params = array();
 
 if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
   $sort = $_COOKIE['sortOrder'] ?? 'next_payment';
-  $sortOrder = $sort;
-  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
-  $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
-
-  if ($sort == "alphanumeric") {
-    $sort = "name";
-  }
-
-  if (!in_array($sort, $allowedSortCriteria)) {
-    $sort = "next_payment";
-  }
-
-  $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
-
-  if (isset($_GET['member'])) {
-    $memberIds = explode(',', $_GET['member']);
-    $placeholders = array_map(function ($key) {
-      return ":member{$key}";
-    }, array_keys($memberIds));
-
-    $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($memberIds as $key => $memberId) {
-      $params[":member{$key}"] = $memberId;
-    }
-  }
-
-  if (isset($_GET['category'])) {
-    $categoryIds = explode(',', $_GET['category']);
-    $placeholders = array_map(function ($key) {
-      return ":category{$key}";
-    }, array_keys($categoryIds));
-
-    $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($categoryIds as $key => $categoryId) {
-      $params[":category{$key}"] = $categoryId;
-    }
-  }
-
-  if (isset($_GET['payment'])) {
-    $paymentIds = explode(',', $_GET['payment']);
-    $placeholders = array_map(function ($key) {
-      return ":payment{$key}";
-    }, array_keys($paymentIds));
-
-    $sql .= " AND payment_method_id IN (" . implode(',', $placeholders) . ")";
-
-    foreach ($paymentIds as $key => $paymentId) {
-      $params[":payment{$key}"] = $paymentId;
-    }
-  }
-
-  if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
-    if (isset($_GET['state']) && $_GET['state'] != "") {
-      $sql .= " AND inactive = :inactive";
-      $params[':inactive'] = $_GET['state'];
-    }
-  }
-
-  $orderByClauses = [];
-
-  if ($settings['disabledToBottom'] === 'true') {
-    if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
-      $orderByClauses[] = "$sort $order";
-      $orderByClauses[] = "inactive ASC";
-    } else {
-      $orderByClauses[] = "inactive ASC";
-      $orderByClauses[] = "$sort $order";
-    }
-  } else {
-    $orderByClauses[] = "$sort $order";
-    if ($sort != "inactive") {
-      $orderByClauses[] = "inactive ASC";
-    }
-  }
-
-  if ($sort != "next_payment") {
-    $orderByClauses[] = "next_payment ASC";
-  }
-
-  $sql .= " ORDER BY " . implode(", ", $orderByClauses);
 }
+
+$sortOrder = $sort;
+$allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
+$order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
+
+if ($sort == "alphanumeric") {
+  $sort = "name";
+}
+
+if (!in_array($sort, $allowedSortCriteria)) {
+  $sort = "next_payment";
+}
+
+$sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
+
+if (isset($_GET['member'])) {
+  $memberIds = explode(',', $_GET['member']);
+  $placeholders = array_map(function ($key) {
+    return ":member{$key}";
+  }, array_keys($memberIds));
+
+  $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($memberIds as $key => $memberId) {
+    $params[":member{$key}"] = $memberId;
+  }
+}
+
+if (isset($_GET['category'])) {
+  $categoryIds = explode(',', $_GET['category']);
+  $placeholders = array_map(function ($key) {
+    return ":category{$key}";
+  }, array_keys($categoryIds));
+
+  $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($categoryIds as $key => $categoryId) {
+    $params[":category{$key}"] = $categoryId;
+  }
+}
+
+if (isset($_GET['payment'])) {
+  $paymentIds = explode(',', $_GET['payment']);
+  $placeholders = array_map(function ($key) {
+    return ":payment{$key}";
+  }, array_keys($paymentIds));
+
+  $sql .= " AND payment_method_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($paymentIds as $key => $paymentId) {
+    $params[":payment{$key}"] = $paymentId;
+  }
+}
+
+if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
+  if (isset($_GET['state']) && $_GET['state'] != "") {
+    $sql .= " AND inactive = :inactive";
+    $params[':inactive'] = $_GET['state'];
+  }
+}
+
+$orderByClauses = [];
+
+if ($settings['disabledToBottom'] === 'true') {
+  if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
+    $orderByClauses[] = "$sort $order";
+    $orderByClauses[] = "inactive ASC";
+  } else {
+    $orderByClauses[] = "inactive ASC";
+    $orderByClauses[] = "$sort $order";
+  }
+} else {
+  $orderByClauses[] = "$sort $order";
+  if ($sort != "inactive") {
+    $orderByClauses[] = "inactive ASC";
+  }
+}
+
+if ($sort != "next_payment") {
+  $orderByClauses[] = "next_payment ASC";
+}
+
+$sql .= " ORDER BY " . implode(", ", $orderByClauses);
 
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
@@ -108,7 +109,7 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
 if (!empty($params)) {
   foreach ($params as $key => $value) {
-      $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+    $stmt->bindValue($key, $value, SQLITE3_INTEGER);
   }
 }
 

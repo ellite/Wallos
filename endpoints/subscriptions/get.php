@@ -30,48 +30,48 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if (isset($_GET['categories']) && $_GET['categories'] != "") {
     $allCategories = explode(',', $_GET['categories']);
-    $placeholders = array_map(function($idx) {
-        return ":categories{$idx}";
+    $placeholders = array_map(function ($idx) {
+      return ":categories{$idx}";
     }, array_keys($allCategories));
 
-    $sql .= " AND (" . implode(' OR ', array_map(function($placeholder) {
-        return "category_id = {$placeholder}";
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
+      return "category_id = {$placeholder}";
     }, $placeholders)) . ")";
 
     foreach ($allCategories as $idx => $category) {
-        $params[":categories{$idx}"] = $category;
+      $params[":categories{$idx}"] = $category;
     }
-}
+  }
 
-if (isset($_GET['payments']) && $_GET['payments'] !== "") {
-  $allPayments = explode(',', $_GET['payments']);
-  $placeholders = array_map(function($idx) {
+  if (isset($_GET['payments']) && $_GET['payments'] !== "") {
+    $allPayments = explode(',', $_GET['payments']);
+    $placeholders = array_map(function ($idx) {
       return ":payments{$idx}";
-  }, array_keys($allPayments));
+    }, array_keys($allPayments));
 
-  $sql .= " AND (" . implode(' OR ', array_map(function($placeholder) {
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
       return "payment_method_id = {$placeholder}";
-  }, $placeholders)) . ")";
+    }, $placeholders)) . ")";
 
-  foreach ($allPayments as $idx => $payment) {
+    foreach ($allPayments as $idx => $payment) {
       $params[":payments{$idx}"] = $payment;
+    }
   }
-}
 
-if (isset($_GET['members']) && $_GET['members'] != "") {
-  $allMembers = explode(',', $_GET['members']);
-  $placeholders = array_map(function($idx) {
+  if (isset($_GET['members']) && $_GET['members'] != "") {
+    $allMembers = explode(',', $_GET['members']);
+    $placeholders = array_map(function ($idx) {
       return ":members{$idx}";
-  }, array_keys($allMembers));
+    }, array_keys($allMembers));
 
-  $sql .= " AND (" . implode(' OR ', array_map(function($placeholder) {
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
       return "payer_user_id = {$placeholder}";
-  }, $placeholders)) . ")";
+    }, $placeholders)) . ")";
 
-  foreach ($allMembers as $idx => $member) {
+    foreach ($allMembers as $idx => $member) {
       $params[":members{$idx}"] = $member;
+    }
   }
-}
 
   if (isset($_GET['state']) && $_GET['state'] != "") {
     $sql .= " AND inactive = :inactive";
@@ -80,40 +80,42 @@ if (isset($_GET['members']) && $_GET['members'] != "") {
 
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
-    $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
-    $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
-
-    if ($sort == "alphanumeric") {
-      $sort = "name";
-    }
-
-    if (!in_array($sort, $allowedSortCriteria)) {
-      $sort = "next_payment";
-    }
-
-    $orderByClauses = [];
-
-    if ($settings['disabledToBottom'] === 'true') {
-      if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
-        $orderByClauses[] = "$sort $order";
-        $orderByClauses[] = "inactive ASC";
-      } else {
-        $orderByClauses[] = "inactive ASC";
-        $orderByClauses[] = "$sort $order";
-      }
-    } else {
-      $orderByClauses[] = "$sort $order";
-      if ($sort != "inactive") {
-        $orderByClauses[] = "inactive ASC";
-      }
-    }
-
-    if ($sort != "next_payment") {
-      $orderByClauses[] = "next_payment ASC";
-    }
-
-    $sql .= " ORDER BY " . implode(", ", $orderByClauses);
   }
+
+  $sortOrder = $sort;
+  $allowedSortCriteria = ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'];
+  $order = ($sort == "price" || $sort == "id") ? "DESC" : "ASC";
+
+  if ($sort == "alphanumeric") {
+    $sort = "name";
+  }
+
+  if (!in_array($sort, $allowedSortCriteria)) {
+    $sort = "next_payment";
+  }
+
+  $orderByClauses = [];
+
+  if ($settings['disabledToBottom'] === 'true') {
+    if (in_array($sort, ["payer_user_id", "category_id", "payment_method_id"])) {
+      $orderByClauses[] = "$sort $order";
+      $orderByClauses[] = "inactive ASC";
+    } else {
+      $orderByClauses[] = "inactive ASC";
+      $orderByClauses[] = "$sort $order";
+    }
+  } else {
+    $orderByClauses[] = "$sort $order";
+    if ($sort != "inactive") {
+      $orderByClauses[] = "inactive ASC";
+    }
+  }
+
+  if ($sort != "next_payment") {
+    $orderByClauses[] = "next_payment ASC";
+  }
+
+  $sql .= " ORDER BY " . implode(", ", $orderByClauses);
 
   $stmt = $db->prepare($sql);
   $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
