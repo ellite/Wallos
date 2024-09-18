@@ -277,7 +277,12 @@ button:hover svg .main-color {
   flex-grow: 1;
 }
 
-.top-actions>.search>.search-icon {
+.top-actions .search > input[type="text"] {
+  padding-right: 40px;
+}
+
+.top-actions>.search>.search-icon,
+.top-actions>.search>.clear-search  {
   float: right;
   right: 15px;
   margin-top: -35px;
@@ -287,7 +292,21 @@ button:hover svg .main-color {
   font-size: 20px;
 }
 
-.rtl .top-actions>.search>.search-icon {
+.top-actions>.search>.clear-search {
+  display: none;
+  cursor: pointer;
+}
+
+.top-actions>.search.has-text>.search-icon {
+  display: none;
+}
+
+.top-actions>.search.has-text>.clear-search {
+  display: block;
+}
+
+.rtl .top-actions>.search>.search-icon,
+.rtl .top-actions>.search>.clear-search {
   float: left;
   right: -15px;
 }
@@ -364,6 +383,11 @@ button:hover svg .main-color {
   margin: 0px;
 }
 
+.rtl .subscription-main .actions {
+  left: -16px;
+  right: auto;
+}
+
 .subscription-main .actions.is-open {
   display: flex;
 }
@@ -376,6 +400,10 @@ button:hover svg .main-color {
   gap: 12px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
+}
+
+.rtl .subscription-main .actions>li {
+  padding: 14px 18px 14px 35px;
 }
 
 .subscription-main .actions>li:hover {

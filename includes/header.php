@@ -38,6 +38,14 @@
     $customCss = $settings['customCss'];
   }
 
+  if (isset($themeValue)) {
+    $cookieExpire = time() + (30 * 24 * 60 * 60);
+    setcookie('theme', $themeValue, [
+      'expires' => $cookieExpire,
+      'samesite' => 'Strict'
+    ]);
+  }
+
   $isAdmin = $_SESSION['userId'] == 1;
 
   function hex2rgb($hex) {

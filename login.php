@@ -20,6 +20,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit();
 }
 
+$cookieExpire = time() + (30 * 24 * 60 * 60);
+
 // Check if login is disabled
 $adminQuery = "SELECT login_disabled FROM admin";
 $adminResult = $db->query($adminQuery);
@@ -50,11 +52,17 @@ if ($adminRow['login_disabled'] == 1) {
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $main_currency;
         $_SESSION['userId'] = $userId;
-        $cookieExpire = time() + (30 * 24 * 60 * 60);
         setcookie('language', $language, [
             'expires' => $cookieExpire,
             'samesite' => 'Strict'
         ]);
+
+        if (!isset($_COOKIE['sortOrder'])) {
+            setcookie('sortOrder', 'next_payment', [
+                'expires' => $cookieExpire,
+                'samesite' => 'Strict'
+            ]);
+        }
 
         $query = "SELECT color_theme FROM settings";
         $stmt = $db->prepare($query);
@@ -126,22 +134,28 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 $_SESSION['loggedin'] = true;
                 $_SESSION['main_currency'] = $main_currency;
                 $_SESSION['userId'] = $userId;
-                $cookieExpire = time() + (30 * 24 * 60 * 60);
                 setcookie('language', $language, [
                     'expires' => $cookieExpire,
                     'samesite' => 'Strict'
                 ]);
 
-                if ($rememberMe) {
-                    $query = "SELECT color_theme FROM settings";
-                    $stmt = $db->prepare($query);
-                    $result = $stmt->execute();
-                    $settings = $result->fetchArray(SQLITE3_ASSOC);
-                    setcookie('colorTheme', $settings['color_theme'], [
+                if (!isset($_COOKIE['sortOrder'])) {
+                    setcookie('sortOrder', 'next_payment', [
                         'expires' => $cookieExpire,
                         'samesite' => 'Strict'
                     ]);
+                }
 
+                $query = "SELECT color_theme FROM settings";
+                $stmt = $db->prepare($query);
+                $result = $stmt->execute();
+                $settings = $result->fetchArray(SQLITE3_ASSOC);
+                setcookie('colorTheme', $settings['color_theme'], [
+                    'expires' => $cookieExpire,
+                    'samesite' => 'Strict'
+                ]);
+
+                if ($rememberMe) {
                     $token = bin2hex(random_bytes(32));
                     $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
                     $addLoginTokensStmt = $db->prepare($addLoginTokens);
