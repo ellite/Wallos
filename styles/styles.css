@@ -383,6 +383,11 @@ button:hover svg .main-color {
   margin: 0px;
 }
 
+.rtl .subscription-main .actions {
+  left: -16px;
+  right: auto;
+}
+
 .subscription-main .actions.is-open {
   display: flex;
 }
@@ -395,6 +400,10 @@ button:hover svg .main-color {
   gap: 12px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
+}
+
+.rtl .subscription-main .actions>li {
+  padding: 14px 18px 14px 35px;
 }
 
 .subscription-main .actions>li:hover {
