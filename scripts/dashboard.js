@@ -442,7 +442,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function searchSubscriptions() {
   const searchInput = document.querySelector("#search");
+  const searchContainer = searchInput.parentElement;
   const searchTerm = searchInput.value.trim().toLowerCase();
+
+  if (searchTerm.length > 0) {
+    searchContainer.classList.add("has-text");
+  } else {
+    searchContainer.classList.remove("has-text");
+  }
 
   const subscriptions = document.querySelectorAll(".subscription");
   subscriptions.forEach(subscription => {
@@ -453,6 +460,13 @@ function searchSubscriptions() {
       subscription.classList.remove("hide");
     }
   });
+}
+
+function clearSearch() {
+  const searchInput = document.querySelector("#search");
+
+  searchInput.value = "";
+  searchSubscriptions();
 }
 
 function closeSubMenus() {

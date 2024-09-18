@@ -155,6 +155,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <input type="text" autocomplete="off" name="search" id="search" placeholder="<?= translate('search', $i18n) ?>"
           onkeyup="searchSubscriptions()" />
         <span class="fa-solid fa-magnifying-glass search-icon"></span>
+        <span class="fa-solid fa-xmark clear-search" onClick="clearSearch()"></span>
       </div>
 
       <div class="filtermenu on-dashboard">

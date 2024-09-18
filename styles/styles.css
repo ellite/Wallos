@@ -277,7 +277,12 @@ button:hover svg .main-color {
   flex-grow: 1;
 }
 
-.top-actions>.search>.search-icon {
+.top-actions .search > input[type="text"] {
+  padding-right: 40px;
+}
+
+.top-actions>.search>.search-icon,
+.top-actions>.search>.clear-search  {
   float: right;
   right: 15px;
   margin-top: -35px;
@@ -287,7 +292,21 @@ button:hover svg .main-color {
   font-size: 20px;
 }
 
-.rtl .top-actions>.search>.search-icon {
+.top-actions>.search>.clear-search {
+  display: none;
+  cursor: pointer;
+}
+
+.top-actions>.search.has-text>.search-icon {
+  display: none;
+}
+
+.top-actions>.search.has-text>.clear-search {
+  display: block;
+}
+
+.rtl .top-actions>.search>.search-icon,
+.rtl .top-actions>.search>.clear-search {
   float: left;
   right: -15px;
 }
