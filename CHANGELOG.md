@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.24.0](https://github.com/ellite/Wallos/compare/v2.23.2...v2.24.0) (2024-09-18)
+
+
+### Features
+
+* add button to clean up search field ([da3ee78](https://github.com/ellite/Wallos/commit/da3ee782f13c1eaa98a85de5dbe33714d173a323))
+
+
+### Bug Fixes
+
+* cases where theme and sort cookies could be missing ([da3ee78](https://github.com/ellite/Wallos/commit/da3ee782f13c1eaa98a85de5dbe33714d173a323))
+* position of dropdown on rtl layout ([da3ee78](https://github.com/ellite/Wallos/commit/da3ee782f13c1eaa98a85de5dbe33714d173a323))
+
 ## [2.23.2](https://github.com/ellite/Wallos/compare/v2.23.1...v2.23.2) (2024-09-04)
 
 
