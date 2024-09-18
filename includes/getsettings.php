@@ -7,14 +7,9 @@ $result = $stmt->execute();
 
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 if ($settings) {
-    $cookieExpire = time() + (30 * 24 * 60 * 60);
     $themeMapping = array(0 => 'light', 1 => 'dark', 2 => 'automatic');
     $themeKey = isset($settings['dark_theme']) ? $settings['dark_theme'] : 2;
     $themeValue = $themeMapping[$themeKey];
-    setcookie('theme', $themeValue, [
-        'expires' => $cookieExpire,
-        'samesite' => 'Strict'
-    ]);
     $settings['update_theme_setttings'] = false;
     if (isset($_COOKIE['inUseTheme']) && $settings['dark_theme'] == 2) {
         $inUseTheme = $_COOKIE['inUseTheme'];
