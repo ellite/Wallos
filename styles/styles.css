@@ -1262,7 +1262,9 @@ button.disabled {
   cursor: not-allowed;
 }
 
-input[type="text"]:disabled {
+input[type="text"]:disabled,
+input[type="password"]:disabled,
+input[type="email"]:disabled {
   background-color: #f5f5f5;
   border-color: #f5f5f5;
   cursor: not-allowed;
@@ -2471,4 +2473,13 @@ input[type="radio"]:checked+label::after {
 
 .update-banner > span {
   font-weight: 500;
+}
+
+.demo-banner {
+  padding: 15px 20px;
+  background-color: rgba(var(--error-color-rgb), 0.2);
+  border: 1px solid #f45a40;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
 }

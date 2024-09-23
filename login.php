@@ -20,6 +20,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     exit();
 }
 
+$demoMode = getenv('DEMO_MODE');
+
 $cookieExpire = time() + (30 * 24 * 60 * 60);
 
 // Check if login is disabled
@@ -258,10 +260,16 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
                     <label for="password"><?= translate('password', $i18n) ?>:</label>
                     <input type="password" id="password" name="password" required>
                 </div>
-                <div class="form-group-inline">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
-                </div>
+                <?php
+                if (!$demoMode) {
+                    ?>
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
+                    </div>
+                    <?php
+                }
+                ?>
                 <div class="form-group">
                     <input type="submit" value="<?= translate('login', $i18n) ?>">
                 </div>

@@ -143,6 +143,15 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       }
     }
   }
+
+  if ($demoMode) {
+    ?>
+    <div class="demo-banner">
+      Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
+      The database will be reset every 120 minutes.
+    </div>
+    <?php
+  }
   ?>
 
   <header class="<?= $headerClass ?>" id="main-actions">

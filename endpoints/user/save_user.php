@@ -90,6 +90,8 @@ function update_exchange_rate($db, $userId)
     }
 }
 
+$demoMode = getenv('DEMO_MODE');
+
 $query = "SELECT main_currency FROM user WHERE id = :userId";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
@@ -244,7 +246,7 @@ if (
         $avatar = resizeAndUploadAvatar($_FILES['profile_pic'], '../../images/uploads/logos/avatars/', $name);
     }
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $password = $_POST['password'];
         if (isset($_POST['confirm_password'])) {
             $confirm = $_POST['confirm_password'];
@@ -266,7 +268,7 @@ if (
         }
     }
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $sql = "UPDATE user SET avatar = :avatar, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = :userId";
     } else {
         $sql = "UPDATE user SET avatar = :avatar, email = :email, main_currency = :main_currency, language = :language WHERE id = :userId";
@@ -279,7 +281,7 @@ if (
     $stmt->bindParam(':language', $language, SQLITE3_TEXT);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
-    if (isset($_POST['password']) && $_POST['password'] != "") {
+    if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindParam(':password', $hashedPassword, SQLITE3_TEXT);
     }

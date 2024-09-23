@@ -10,6 +10,7 @@ Wallos: Open-Source Personal Subscription Tracker
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Demo](#demo)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
     - [Baremetal](#baremetal)
@@ -45,6 +46,17 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Statistics: Another perspective into your spendings.
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
+
+## Demo
+
+If you want to try Wallos, a demo is available at [https://demo.wallosapp.com](https://demo.wallosapp.com).  
+The database is reset every 2 hours.  
+To access the demo use the following credentials:
+
+```python
+Username: demo  
+Password: demo
+```
 
 ## Getting Started
 
