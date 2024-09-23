@@ -10,7 +10,7 @@ require_once 'includes/header.php';
         </header>
         <div class="credits-list">
             <h3><?= translate('about', $i18n) ?></h3>
-            <p>Wallos <?= $version ?></p>
+            <p>Wallos <?= $version ?> <?= $demoMode ? "Demo" : "" ?></p>
             <p><?= translate('license', $i18n) ?>:
                 <span>
                     GPLv3
