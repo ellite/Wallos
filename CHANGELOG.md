@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.1](https://github.com/ellite/Wallos/compare/v2.24.0...v2.24.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* small layout issue on the settings page ([0623ceb](https://github.com/ellite/Wallos/commit/0623cebe67182b493770615c518977907e11d359))
+
 ## [2.24.0](https://github.com/ellite/Wallos/compare/v2.23.2...v2.24.0) (2024-09-18)
 
 
