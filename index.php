@@ -148,7 +148,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     ?>
     <div class="demo-banner">
       Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
-      The database will be reset every 90 minutes.
+      The database will be reset every 120 minutes.
     </div>
     <?php
   }
