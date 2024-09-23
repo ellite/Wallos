@@ -2477,7 +2477,7 @@ input[type="radio"]:checked+label::after {
 
 .demo-banner {
   padding: 15px 20px;
-  background-color: rgba(var(--error-color-rgb), 0.5);
+  background-color: rgba(var(--error-color-rgb), 0.2);
   border: 1px solid #f45a40;
   border-radius: 12px;
   margin-bottom: 20px;
