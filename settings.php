@@ -59,21 +59,19 @@ require_once 'includes/header.php';
                     <div class="grow">
                         <div class="form-group">
                             <label for="username"><?= translate('username', $i18n) ?>:</label>
-                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>"
-                                disabled>
+                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" disabled>
                         </div>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
-                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required
-                                <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
-                            <input type="password" id="password" name="password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                            <input type="password" id="password" name="password" <?= $demoMode && !$isAdmin ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <div class="form-group">
                             <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                            <input type="password" id="confirm_password" name="confirm_password" <?= $demoMode && !$isAdmin ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <?php
                         $currencies = array();
@@ -943,7 +941,8 @@ require_once 'includes/header.php';
         <div class="account-fixer">
             <div class="form-group">
                 <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>"
-                    placeholder="<?= translate('api_key', $i18n) ?>">
+                    placeholder="<?= translate('api_key', $i18n) ?>"
+                    <?= $demoMode && !$isAdmin ? 'disabled title="Not available on Demo Mode"' : '' ?>>
             </div>
             <div class="form-group">
                 <label for="fixerProvider"><?= translate('provider', $i18n) ?>:</label>
@@ -1195,7 +1194,7 @@ require_once 'includes/header.php';
                 </div>
             </div>
             <?php
-            if (!$demoMode) {
+            if (!$demoMode || $isAdmin) {
                 ?>
                 <div>
                     <h3><?= translate('custom_css', $i18n) ?></h3>
@@ -1234,7 +1233,7 @@ require_once 'includes/header.php';
                         <?php
                         if ($settings['convert_currency'])
                             echo ' checked';
-                        if ($apiKey == "" || $demoMode)
+                        if ($apiKey == "")
                             echo ' disabled';
                         ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
@@ -1299,9 +1298,9 @@ require_once 'includes/header.php';
                 <h3><?= translate('export_subscriptions', $i18n) ?></h3>
                 <div class="form-group-inline wrap">
                     <input type="button" value="<?= translate('export_as_json', $i18n) ?>" onClick="exportAsJson()"
-                        class="secondary-button thin mobile-grow" id="export-json" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                        class="secondary-button thin mobile-grow" id="export-json" <?= $demoMode && !$isAdmin ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                     <input type="button" value="<?= translate('export_as_csv', $i18n) ?>" onClick="exportAsCsv()"
-                        class="secondary-button thin mobile-grow" id="export-csv" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                        class="secondary-button thin mobile-grow" id="export-csv" <?= $demoMode && !$isAdmin ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                 </div>
             </div>
         </div>
