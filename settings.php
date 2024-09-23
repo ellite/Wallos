@@ -64,15 +64,16 @@ require_once 'includes/header.php';
                         </div>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
-                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
+                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required
+                                <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <div class="form-group">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
-                            <input type="password" id="password" name="password">
+                            <input type="password" id="password" name="password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <div class="form-group">
                             <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                            <input type="password" id="confirm_password" name="confirm_password">
+                            <input type="password" id="confirm_password" name="confirm_password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <?php
                         $currencies = array();
@@ -483,7 +484,7 @@ require_once 'includes/header.php';
                             placeholder="<?= translate('from_email', $i18n) ?>"
                             value="<?= $notificationsEmail['from_email'] ?>" />
                     </div>
-                    <label for="otheremails" ><?= translate('send_to_other_emails', $i18n) ?></label>
+                    <label for="otheremails"><?= translate('send_to_other_emails', $i18n) ?></label>
                     <div class="form-group-inline">
                         <input type="text" name="otheremails" id="otheremails"
                             placeholder="<?= translate('other_emails_placeholder', $i18n) ?>"
@@ -1193,19 +1194,25 @@ require_once 'includes/header.php';
                         onClick="saveCustomColors()" class="buton thin mobile-grow" id="save-colors">
                 </div>
             </div>
-            <div>
-                <h3><?= translate('custom_css', $i18n) ?></h3>
-                <div class="form-group">
-                    <div class="form-group-inline">
-                        <textarea name="customCss" id="customCss" placeholder="<?= translate('custom_css', $i18n) ?>"
-                            class="thin"><?= $settings['customCss'] ?? "" ?></textarea>
-                    </div>
-                    <div class="form-group-inline">
-                        <input type="button" value="<?= translate('save_custom_css', $i18n) ?>"
-                            onClick="saveCustomCss()" class="buton thin mobile-grow" id="save-css">
+            <?php
+            if (!$demoMode) {
+                ?>
+                <div>
+                    <h3><?= translate('custom_css', $i18n) ?></h3>
+                    <div class="form-group">
+                        <div class="form-group-inline">
+                            <textarea name="customCss" id="customCss" placeholder="<?= translate('custom_css', $i18n) ?>"
+                                class="thin"><?= $settings['customCss'] ?? "" ?></textarea>
+                        </div>
+                        <div class="form-group-inline">
+                            <input type="button" value="<?= translate('save_custom_css', $i18n) ?>"
+                                onClick="saveCustomCss()" class="buton thin mobile-grow" id="save-css">
+                        </div>
                     </div>
                 </div>
-            </div>
+                <?php
+            }
+            ?>
     </section>
 
     <section class="account-section">
@@ -1227,7 +1234,7 @@ require_once 'includes/header.php';
                         <?php
                         if ($settings['convert_currency'])
                             echo ' checked';
-                        if ($apiKey == "")
+                        if ($apiKey == "" || $demoMode)
                             echo ' disabled';
                         ?>>
                     <label for="convertcurrency"><?= translate('convert_prices', $i18n) ?></label>
@@ -1235,17 +1242,20 @@ require_once 'includes/header.php';
             </div>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice" onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
-                        echo 'checked'; ?>>
+                    <input type="checkbox" id="showoriginalprice" name="showoriginalprice"
+                        onChange="setShowOriginalPrice()" <?php if ($settings['show_original_price'])
+                            echo 'checked'; ?>>
                     <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
                 </div>
             </div>
             <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
-                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom" onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
-                        echo 'checked'; ?>>
-                    <label for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
+                    <input type="checkbox" id="disabledtobottom" name="disabledtobottom"
+                        onChange="setDisabledToBottom()" <?php if ($settings['disabled_to_bottom'])
+                            echo 'checked'; ?>>
+                    <label
+                        for="disabledtobottom"><?= translate('show_disabled_subscriptions_at_the_bottom', $i18n) ?></label>
                 </div>
             </div>
             <div>
@@ -1287,22 +1297,22 @@ require_once 'includes/header.php';
         <div class="account-list">
             <div>
                 <h3><?= translate('export_subscriptions', $i18n) ?></h3>
-                <div class="form-group-inline">
+                <div class="form-group-inline wrap">
                     <input type="button" value="<?= translate('export_as_json', $i18n) ?>" onClick="exportAsJson()"
-                        class="secondary-button thin mobile-grow" id="export-json">
+                        class="secondary-button thin mobile-grow" id="export-json" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                     <input type="button" value="<?= translate('export_as_csv', $i18n) ?>" onClick="exportAsCsv()"
-                        class="secondary-button thin mobile-grow" id="export-csv">
+                        class="secondary-button thin mobile-grow" id="export-csv" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                 </div>
             </div>
         </div>
         <div>
             <?php
-            if ($userId != 1) {
+            if ($userId != 1 && !$demoMode) {
                 ?>
                 <h3><?= translate('danger_zone', $i18n) ?></h3>
                 <div class="form-group-inline">
-                    <input type="button" value="<?= translate('delete_account', $i18n) ?>" onClick="deleteAccount(<?= $userId ?>)"
-                        class="warning-button thin mobile-grow" id="delete-account">
+                    <input type="button" value="<?= translate('delete_account', $i18n) ?>"
+                        onClick="deleteAccount(<?= $userId ?>)" class="warning-button thin mobile-grow" id="delete-account">
                 </div>
                 <div class="settings-notes">
                     <p>

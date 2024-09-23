@@ -18,6 +18,8 @@
     exit();
   }
 
+  $demoMode = getenv('DEMO_MODE');
+
   $theme = "automatic";
   if (isset($settings['theme'])) {
     $theme = $settings['theme'];
