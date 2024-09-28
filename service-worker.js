@@ -57,6 +57,7 @@ self.addEventListener('install', function (event) {
                 'scripts/i18n/getlang.js',
                 'scripts/libs/chart.js',
                 'scripts/libs/sortable.min.js',
+                'scripts/libs/qrcode.min.js',
                 'images/icon/favicon.ico',
                 'images/icon/android-chrome-192x192.png',
                 'images/icon/apple-touch-icon-180',
