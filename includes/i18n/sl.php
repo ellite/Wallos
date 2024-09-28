@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "Naloži avatar",
     'file_type_error' => "Vrsta datoteke ni podprta.",
     'user_details' => "Podrobnosti o uporabniku",
+    'two_factor_authentication' => "Dvojna preverba pristnosti",
+    'two_factor_info' => "Two Factor Authentication adds an extra layer of security to your account.<br>Za optično branje kode QR potrebujete aplikacijo za preverjanje pristnosti, kot so Google Authenticator, Authy ali Ente Auth.",
+    'two_factor_enabled_info' => "Vaš račun je varen z dvostopenjskim preverjanjem pristnosti. Onemogočite jo lahko tako, da kliknete zgornji gumb.",
+    "enable_two_factor_authentication" => "Omogoči dvostopenjsko preverjanje pristnosti",
+    "2fa_already_enabled" => "Dvostopenjsko preverjanje pristnosti je že omogočeno",
+    "totp_code_incorrect" => "Koda TOTP je napačna",
+    "backup_codes" => "Rezervne kode",
+    "download_backup_codes" => "Prenesi rezervne kode",
+    "copy_to_clipboard" => "Kopiraj v odložišče",
+    "totp_backup_codes_info" => "Shranite te rezervne kode na varno mesto. Uporabite jih lahko, če izgubite dostop do svoje aplikacije za preverjanje pristnosti.",
+    "disable_two_factor_authentication" => "Onemogoči dvostopenjsko preverjanje pristnosti",
+    "totp_code" => "TOTP koda",
     "monthly_budget" => "Mesečni proračun",
     "budget_info" => "Mesečni proračun se uporablja za izračun statistike",
     "household" => "Gospodinjstvo",
@@ -337,6 +349,8 @@ $i18n = [
     "month-10" => "Oktober",
     "month-11" => "November",
     "month-12" => "December",
+    // TOTP Page
+    "insert_totp_code" => "Vnesite kodo TOTP",
 
 ];
 

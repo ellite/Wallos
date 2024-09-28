@@ -2483,3 +2483,74 @@ input[type="radio"]:checked+label::after {
   margin-bottom: 20px;
   text-align: center;
 }
+
+.totp-popup {
+  display: none;
+  position: fixed;
+  width: 380px;
+  max-width: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  padding: 20px;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 2;
+}
+
+.totp-popup h3,
+.totp-popup h4 {
+  margin: 4px 0px;
+  text-align: center;
+}
+
+.totp-popup.is-open {
+  display: flex;
+}
+
+.totp-popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.totp-setup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.totp-setup.hide {
+  display: none;
+}
+
+.totp-qrcode-container {
+  padding: 14px;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.totp-backup-codes {
+  background-color: #EEE;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  justify-content: space-evenly;
+}
+
+.totp-backup-codes li {
+  list-style: none;
+  padding: 5px 10px;
+  font-weight: 500;
+}

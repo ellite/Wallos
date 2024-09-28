@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Ошибка отправки уведомления",
   delete_account_confirmation: "Вы уверены, что хотите удалить свою учетную запись?",
   this_will_delete_all_data: "Это удалит все ваши данные и не может быть отменено. Продолжить?",
+  success: "Успешно",
+  copied_to_clipboard: "Скопировано в буфер обмена",
   // Calendar
   price: "Цена",
   category: "Категория",

@@ -35,6 +35,8 @@ let i18n = {
     error_sending_notification: "Erreur lors de l'envoi de la notification",
     delete_account_confirmation: "Êtes-vous sûr de vouloir supprimer votre compte ?",
     this_will_delete_all_data: "Cela supprimera toutes vos données et ne pourra pas être annulé. Continuer ?",
+    success: "Succès",
+    copied_to_clipboard: "Copié dans le presse-papiers",
     // Calendar
     price: "Prix",
     category: "Catégorie",

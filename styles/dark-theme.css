@@ -28,7 +28,8 @@ svg .text-color {
 .graph,
 .filtermenu-content,
 .subscription-main .actions,
-.calendar {
+.calendar,
+.totp-popup {
     background-color: #222;
     border: 1px solid #333;
     box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
@@ -236,4 +237,15 @@ input {
 
 .update-banner {
     color: #FFF;
+}
+
+.totp-qrcode-container {
+    padding: 14px;
+    border: 1px solid #DDD;
+    border-radius: 8px;
+}
+
+.totp-backup-codes {
+    background-color: #111;
+    border: 2px dashed #444;
 }

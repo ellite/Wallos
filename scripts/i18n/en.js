@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Error sending notification",
   delete_account_confirmation: "Are you sure you want to delete your account?",
   this_will_delete_all_data: "This will delete all your data and can't be undone. Continue?",
+  success: "Success",
+  copied_to_clipboard: "Copied to clipboard",
   // Calendar 
   price: "Price",
   category: "Category",

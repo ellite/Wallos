@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "Avatarı yükle",
     'file_type_error' => "Dosya türü izin verilmiyor",
     'user_details' => "Kullanıcı Detayları",
+    'two_factor_authentication' => "İki Faktörlü Kimlik Doğrulama",
+    'two_factor_info' => "İki Faktörlü Kimlik Doğrulama, hesabınıza ekstra bir güvenlik katmanı ekler.<br>Karekodu taramak için Google Authenticator, Authy veya Ente Auth gibi bir kimlik doğrulayıcı uygulamasına ihtiyacınız olacaktır.",
+    'two_factor_enabled_info' => "Hesabınız İki Faktörlü Kimlik Doğrulama ile güvendedir. Yukarıdaki düğmeye tıklayarak devre dışı bırakabilirsiniz.",
+    "enable_two_factor_authentication" => "İki Faktörlü Kimlik Doğrulamayı Etkinleştir",
+    "2fa_already_enabled" => "İki Faktörlü Kimlik Doğrulama zaten etkinleştirildi",
+    "totp_code_incorrect" => "TOTP kodu yanlış",
+    "backup_codes" => "Yedek Kodlar",
+    "download_backup_codes" => "Yedek Kodları İndir",
+    "copy_to_clipboard" => "Panoya Kopyala",
+    "totp_backup_codes_info" => "Yedek kodları güvenli bir yerde saklayın. Her biri yalnızca bir kez kullanılabilir.",
+    "disable_two_factor_authentication" => "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
+    "totp_code" => "TOTP Kodu",
     "monthly_budget" => "Aylık Bütçe",
     "budget_info" => "Bir bütçe belirlemek, istatistik sayfasında bütçe ve gerçek harcamaları karşılaştırmanıza olanak tanır.",
     "household" => "Hane",
@@ -344,6 +356,8 @@ $i18n = [
     "month-10" => "Ekim",
     "month-11" => "Kasım",
     "month-12" => "Aralık",
+    // TOTP Page
+    "insert_totp_code" => "Lütfen TOTP kodunuzu girin",
 
 ];
 

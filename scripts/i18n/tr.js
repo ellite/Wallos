@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Bildirim gönderilirken hata oluştu",
   delete_account_confirmation: "Hesabınızı silmek istediğinizden emin misiniz?",
   this_will_delete_all_data: "Bu tüm verilerinizi silecek ve geri alınamaz. Devam etmek istiyor musunuz?",
+  success: "Başarılı",
+  copied_to_clipboard: "Panoya kopyalandı",
   // Calendar
   price: "Price",
   category: "Category",

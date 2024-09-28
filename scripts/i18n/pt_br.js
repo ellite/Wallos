@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Erro ao enviar notificação",
   delete_account_confirmation: "Você tem certeza que deseja excluir sua conta?",
   this_will_delete_all_data: "Isso excluirá todos os seus dados e não poderão ser recuperados. Continuar?",
+  success: "Sucesso",
+  copied_to_clipboard: "Copiado para a área de transferência",
   // Calendar
   price: "Preço",
   category: "Categoria",

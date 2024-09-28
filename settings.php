@@ -3,6 +3,7 @@ require_once 'includes/header.php';
 ?>
 
 <script src="scripts/libs/sortable.min.js"></script>
+<script src="scripts/libs/qrcode.min.js"></script>
 <style>
     .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
@@ -59,7 +60,8 @@ require_once 'includes/header.php';
                     <div class="grow">
                         <div class="form-group">
                             <label for="username"><?= translate('username', $i18n) ?>:</label>
-                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>" disabled>
+                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>"
+                                disabled>
                         </div>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
@@ -123,8 +125,115 @@ require_once 'includes/header.php';
                 </div>
             </div>
         </form>
-
     </section>
+
+    <?php
+    $sql = "SELECT login_disabled FROM admin";
+    $stmt = $db->prepare($sql);
+    $result = $stmt->execute();
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+    $loginDisabled = $row['login_disabled'];
+
+    $showTotpSection = true;
+    if ($loginDisabled && !$userData['totp_enabled']) {
+        $showTotpSection = false;
+    }
+
+    if ($showTotpSection) {
+        ?>
+        <section class="account-section">
+            <header>
+                <h2><?= translate("two_factor_authentication", $i18n) ?></h2>
+            </header>
+            <div class="account-2fa">
+                <div class="form-group">
+                    <?php
+                    if (!$userData['totp_enabled']) {
+                        ?>
+                        <input type="button" value="<?= translate('enable_two_factor_authentication', $i18n) ?>" id="enableTotp"
+                            onClick="enableTotp()" />
+                        <div class="totp-popup" id="totp-popup">
+                            <header>
+                                <h3><?= translate('enable_two_factor_authentication', $i18n) ?></h3>
+                                <span class="fa-solid fa-xmark close-form" onclick="closeTotpPopup()"></span>
+                            </header>
+                            <div class="totp-popup-content">
+                                <div class="totp-setup" id="totp-setup">
+                                    <div class="totp-qrcode-container">
+                                        <div id="totp-qr-code"></div>
+                                    </div>
+                                    <p class="totp-secret" id="totp-secret-code"></p>
+                                    <div class="form-group-inline">
+                                        <input type="hidden" name="totp-secret" id="totp-secret" value="" />
+                                        <input type="text" id="totp" name="totp"
+                                            placeholder="<?= translate("totp_code", $i18m) ?>" />
+                                        <input type="button" value="<?= translate('enable', $i18n) ?>" id="enableTotpButton"
+                                            onClick="submitTotp()" />
+                                    </div>
+                                </div>
+                                <div class="totp-setup hide" id="totp-backup-codes">
+                                    <h4><?= translate('backup_codes', $i18n) ?></h4>
+                                    <ul class="totp-backup-codes" id="backup-codes">
+                                    </ul>
+                                    <div class="form-group-inline wrap">
+                                        <input type="button" class="button secondary-button grow"
+                                            value="<?= translate('copy_to_clipboard', $i18n) ?>" id="copyBackupCodes"
+                                            onClick="copyBackupCodes()" />
+                                        <input type="button" class="grow"
+                                            value="<?= translate('download_backup_codes', $i18n) ?>" id="dounloadBackupCodes"
+                                            onClick="downloadBackupCodes()" />
+                                    </div>
+                                    <div class="settings-notes">
+                                        <p>
+                                            <i class="fa-solid fa-circle-info"></i>
+                                            <?= translate('totp_backup_codes_info', $i18n) ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    } else {
+                        ?>
+                        <input type="button" class="button secondary-button"
+                            value="<?= translate('disable_two_factor_authentication', $i18n) ?>" id="disableTotp"
+                            onClick="disableTotp()" />
+                        <div class="totp-popup" id="totp-disable-popup">
+                            <header>
+                                <h3><?= translate('disable_two_factor_authentication', $i18n) ?></h3>
+                                <span class="fa-solid fa-xmark close-form" onclick="closeTotpDisablePopup()"></span>
+                            </header>
+                            <div class="totp-popup-content">
+                                <div class="form-group-inline">
+                                    <input type="text" id="totp-disable" name="totp-disable" placeholder="totp" />
+                                    <input type="button" value="<?= translate('disable', $i18n) ?>" id="disableTotpButton"
+                                        onClick="submitDisableTotp()" />
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+                <div class="settings-notes">
+                    <p>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <?php
+                        if (!$userData['totp_enabled']) {
+                            echo translate('two_factor_info', $i18n);
+                        } else {
+                            echo translate('two_factor_enabled_info', $i18n);
+                        }
+                        ?>
+                    </p>
+                    <p>
+                </div>
+            </div>
+        </section>
+        <?php
+    }
+
+    ?>
 
     <section class="account-section">
         <header>
@@ -140,7 +249,6 @@ require_once 'includes/header.php';
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('budget_info', $i18n) ?>
                 </p>
-                <p>
             </div>
         </div>
     </section>
@@ -941,8 +1049,7 @@ require_once 'includes/header.php';
         <div class="account-fixer">
             <div class="form-group">
                 <input type="text" name="fixer-key" id="fixerKey" value="<?= $apiKey ?>"
-                    placeholder="<?= translate('api_key', $i18n) ?>"
-                    <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                    placeholder="<?= translate('api_key', $i18n) ?>" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
             </div>
             <div class="form-group">
                 <label for="fixerProvider"><?= translate('provider', $i18n) ?>:</label>

@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "アバターをアップロードする",
     'file_type_error' => "ファイルタイプが許可されていません",
     'user_details' => "ユーザー詳細",
+    'two_factor_authentication' => "2要素認証",
+    'two_factor_info' => "二要素認証は、アカウントに追加のセキュリティレイヤーを追加します。QR コードをスキャンするには、Google Authenticator、Authy、Ente Auth などの認証アプリが必要です。",
+    'two_factor_enabled_info' => "お客様のアカウントは二要素認証で保護されています。上のボタンをクリックして無効にすることができます。",
+    "enable_two_factor_authentication" => "二要素認証を有効にする",
+    "2fa_already_enabled" => "2要素認証は既に有効です",
+    "totp_code_incorrect" => "TOTPコードが正しくありません",
+    "backup_codes" => "バックアップコード",
+    "download_backup_codes" => "バックアップコードをダウンロード",
+    "copy_to_clipboard" => "クリップボードにコピー",
+    "totp_backup_codes_info" => "これらのコードは、2要素認証アプリが利用できない場合に使用します。コードは一度しか表示されません。",
+    "disable_two_factor_authentication" => "二要素認証を無効にする",
+    "totp_code" => "TOTPコード",
     "monthly_budget" => "月間予算",
     "budget_info" => "予算を設定すると、統計ページで予算と実際の支出を比較できます。",
     "household" => "世帯",
@@ -337,6 +349,8 @@ $i18n = [
     "month-10" => "10月",
     "month-11" => "11月",
     "month-12" => "12月",
+    // TOTP Page
+    "insert_totp_code" => "TOTPコードを入力してください",
 
 ];
 

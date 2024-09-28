@@ -69,6 +69,15 @@ require_once 'includes/header.php';
                     </a>
                 </span>
             </p>
+            <p>
+                QRCode.js:
+                <span>
+                    https://github.com/davidshimjs/qrcodejs
+                    <a href="https://github.com/davidshimjs/qrcodejs" target="_blank" title="<?= translate('external_url', $i18n) ?>">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </span>
+            </p>
         </div>
     </section>
 

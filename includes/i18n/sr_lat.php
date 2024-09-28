@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "Učitaj avatar",
     'file_type_error' => "Tip datoteke koji ste priložili nije podržan.",
     'user_details' => "Detalji korisnika",
+    'two_factor_authentication' => "Dvostruka autentifikacija",
+    'two_factor_info' => "Dvofaktorska autentifikacija dodaje dodatni nivo sigurnosti vašem nalogu. <br>Biće vam potrebna aplikacija za autentifikaciju kao što je Google Authenticator, Authi ili Ente Auth da biste skenirali KR kod.",
+    'two_factor_enabled_info' => "Vaš nalog je siguran sa dvofaktorskom autentifikacijom. Možete ga onemogućiti klikom na dugme iznad.",
+    "enable_two_factor_authentication" => "Omogući dvofaktorsku autentifikaciju",
+    "2fa_already_enabled" => "Dvofaktorska autentifikacija je već omogućena",
+    "totp_code_incorrect" => "Kod za dvofaktorsku autentifikaciju nije tačan",
+    "backup_codes" => "Rezervni kodovi",
+    "download_backup_codes" => "Preuzmi rezervne kodove",
+    "copy_to_clipboard" => "Kopiraj u clipboard",
+    "totp_backup_codes_info" => "Ovo su vaši rezervni kodovi za dvofaktorsku autentifikaciju. Sačuvajte ih na sigurnom mestu.",
+    "disable_two_factor_authentication" => "Onemogući dvofaktorsku autentifikaciju",
+    "totp_code" => "Kod za dvofaktorsku autentifikaciju",
     "monthly_budget" => "Mesečni budžet",
     "budget_info" => "Ovo je vaš mesečni budžet za sve pretplate. Ovo je samo informativno i ne ograničava vas.",
     "household" => "Domaćinstvo",
@@ -344,6 +356,8 @@ $i18n = [
     "month-10" => "Oktobar",
     "month-11" => "Novembar",
     "month-12" => "Decembar",
+    // TOTP Page
+    "insert_totp_code" => "Unesite TOTP kod",
 
 ];
 
