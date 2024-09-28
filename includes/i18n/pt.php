@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "Enviar avatar",
     'file_type_error' => "Tipo de ficheiro não permitido",
     'user_details' => "Detalhes do utilizador",
+    'two_factor_authentication' => "Autenticação de dois fatores",
+    'two_factor_info' => "A autenticação de dois factores acrescenta uma camada extra de segurança à sua conta.<br>Necessitará de uma aplicação de autenticação como o Google Authenticator, Authy ou Ente Auth para ler o código QR.",
+    'two_factor_enabled_info' => "A sua conta está segura com a autenticação de dois factores. Pode desactivá-la clicando no botão acima.",
+    "enable_two_factor_authentication" => "Activar autenticação de dois factores",
+    "2fa_already_enabled" => "A autenticação de dois factores já está activada",
+    "totp_code_incorrect" => "Código TOTP incorrecto",
+    "backup_codes" => "Códigos de Backup",
+    "download_backup_codes" => "Descarregar códigos de backup",
+    "copy_to_clipboard" => "Copiar para a área de transferência",
+    "totp_backup_codes_info" => "Guarde estes códigos num local seguro. Pode usá-los para aceder à sua conta se perder o acesso ao seu dispositivo de autenticação.",
+    "disable_two_factor_authentication" => "Desactivar autenticação de dois factores",
+    "totp_code" => "Código TOTP",
     "monthly_budget" => "Orçamento Mensal",
     "budget_info" => "Ao definir um orçamento pode comparar com os gastos reais na página de estatísticas.",
     "household" => "Agregado",
@@ -344,6 +356,8 @@ $i18n = [
     "month-10" => "Outubro",
     "month-11" => "Novembro",
     "month-12" => "Dezembro",
+    // TOTP Page
+    "insert_totp_code" => "Insira o código TOTP",
 
 ];
 

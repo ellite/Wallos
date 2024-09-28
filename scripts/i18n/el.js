@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Σφάλμα αποστολής ειδοποίησης",
   delete_account_confirmation: "Είστε σίγουρος ότι θέλετε να διαγράψετε το λογαριασμό σας;",
   this_will_delete_all_data: "Αυτό θα διαγράψει όλα τα δεδομένα σας και δεν μπορεί να ανακτηθεί. Να συνεχίσω;",
+  success: "Επιτυχία",
+  copied_to_clipboard: "Αντιγράφηκε στο πρόχειρο",
   // Calendar
   price: "Τιμή",
   category: "Κατηγορία",

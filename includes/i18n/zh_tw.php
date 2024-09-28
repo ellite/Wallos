@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "上传头像",
     'file_type_error' => "文件类型不允许",
     'user_details' => "使用者詳細資訊",
+    'two_factor_authentication' => "雙因素驗證",
+    'two_factor_info' => "雙因素驗證為您的帳戶增加了一層額外的安全性。您需要使用 Google Authenticator、Authy 或 Ente Auth 等驗證器應用程式來掃描 QR 代碼。",
+    'two_factor_enabled_info' => "您的帳戶有雙重認證，十分安全。您可以按一下上面的按鈕停用它。",
+    "enable_two_factor_authentication" => "啟用雙因素驗證",
+    "2fa_already_enabled" => "雙因素驗證已經啟用",
+    "totp_code_incorrect" => "TOTP 驗證碼不正確",
+    "backup_codes" => "備份代碼",
+    "download_backup_codes" => "下載備份代碼",
+    "copy_to_clipboard" => "複製到剪貼板",
+    "totp_backup_codes_info" => "請妥善保管這些代碼。當您無法使用雙因素驗證應用程式時，您可以使用這些代碼來登入。",
+    "disable_two_factor_authentication" => "停用雙因素驗證",
+    "totp_code" => "TOTP 驗證碼",
     "monthly_budget" => "每月預算",
     "budget_info" => "設定預算後，您可以在統計頁面上比較預算和實際支出。",
     "household" => "家庭",
@@ -344,6 +356,9 @@ $i18n = [
     "month-10" => "十月",
     "month-11" => "十一月",
     "month-12" => "十二月",
+
+    // TOTP Page
+    "insert_totp_code" => "請輸入 TOTP 驗證碼",
 
 ];
 

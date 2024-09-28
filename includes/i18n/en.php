@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "Upload Avatar",
     'file_type_error' => "The file type supplied is not supported.",
     'user_details' => "User Details",
+    'two_factor_authentication' => "Two Factor Authentication",
+    'two_factor_info' => "Two Factor Authentication adds an extra layer of security to your account.<br>You will need an authenticator app like Google Authenticator, Authy or Ente Auth to scan the QR code.",
+    "two_factor_enabled_info" => "Your account is secure with Two Factor Authentication. You can disable it by clicking the button above.",
+    "enable_two_factor_authentication" => "Enable Two Factor Authentication",
+    "2fa_already_enabled" => "Two Factor Authentication is already enabled",
+    "totp_code_incorrect" => "TOTP code is incorrect",
+    "backup_codes" => "Backup Codes",
+    "download_backup_codes" => "Download Backup Codes",
+    "copy_to_clipboard" => "Copy to clipboard",
+    "totp_backup_codes_info" => "These codes can be used to login if you lose access to your authenticator app.",
+    "disable_two_factor_authentication" => "Disable Two Factor Authentication",
+    "totp_code" => "TOTP Code",
     "monthly_budget" => "Monthly Budget",
     "budget_info" => "Monthly budget is used to calculate statistics",
     "household" => "Household",
@@ -345,6 +357,8 @@ $i18n = [
     "month-10" => "October",
     "month-11" => "November",
     "month-12" => "December",
+    // TOTP Page
+    "insert_totp_code" => "Insert TOTP code",
 
 
 ];

@@ -37,6 +37,8 @@ let i18n = {
   error_sending_notification: "Fehler beim Senden der Benachrichtigung",
   delete_account_confirmation: "Möchten Sie Ihr Konto wirklich löschen?",
   this_will_delete_all_data: "Dadurch werden alle Daten gelöscht und können nicht wiederhergestellt werden. Fortfahren?",
+  success: "Erfolg",
+  copied_to_clipboard: "In die Zwischenablage kopiert",
   // Calendar
   price: "Preis",
   category: "Kategorie",

@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "通知の送信エラー",
   delete_account_confirmation: "アカウントを削除してもよろしいですか？",
   this_will_delete_all_data: "これによりすべてのデータが削除され、元に戻すことはできません。続行しますか？",
+  success: "成功",
+  copied_to_clipboard: "クリップボードにコピーされました",
   // Calendar
   price: "価格",
   category: "カテゴリ",

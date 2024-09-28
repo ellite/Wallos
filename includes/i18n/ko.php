@@ -120,6 +120,18 @@ $i18n = [
     'upload_avatar' => "아바타 업로드",
     'file_type_error' => "제공된 파일이 지원하지 않는 타입입니다.",
     'user_details' => "유저 상세",
+    'two_factor_authentication' => "이중 인증",
+    'two_factor_info' => "2단계 인증은 계정에 보안을 한층 더 강화합니다. QR 코드를 스캔하려면 Google Authenticator, Authy 또는 Ente Auth와 같은 인증 앱이 필요합니다.",
+    'two_factor_enabled_info' => "계정은 2단계 인증으로 안전하게 보호됩니다. 위의 버튼을 클릭하여 비활성화할 수 있습니다.",
+    "enable_two_factor_authentication" => "2단계 인증 활성화",
+    "2fa_already_enabled" => "2단계 인증이 이미 활성화되어 있습니다.",
+    "totp_code_incorrect" => "TOTP 코드가 올바르지 않습니다.",
+    "backup_codes" => "백업 코드",
+    "download_backup_codes" => "백업 코드 다운로드",
+    "copy_to_clipboard" => "클립보드로 복사",
+    "totp_backup_codes_info" => "이 코드는 계정에 대한 백업 코드입니다. 이 코드를 안전한 곳에 보관하세요. 이 코드는 한 번만 사용할 수 있습니다.",
+    "disable_two_factor_authentication" => "2단계 인증 비활성화",
+    "totp_code" => "TOTP 코드",
     "monthly_budget" => "월간 예산",
     "budget_info" => "예산을 설정하면 통계 페이지에서 예산과 실제 지출을 비교할 수 있습니다.",
     "household" => "가구",
@@ -345,6 +357,8 @@ $i18n = [
     "month-10" => "10월",
     "month-11" => "11월",
     "month-12" => "12월",
+    // TOTP Page
+    "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 
 ];
 

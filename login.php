@@ -86,6 +86,14 @@ if ($adminRow['login_disabled'] == 1) {
     }
 }
 
+if (isset($_SESSION['totp_user_id'])) {
+    unset($_SESSION['totp_user_id']);
+}
+
+if (isset($_SESSION['token'])) {
+    unset($_SESSION['token']);
+}
+
 
 $theme = "light";
 $updateThemeSettings = false;
@@ -126,12 +134,42 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
             $stmt = $db->prepare($query);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
             $result = $stmt->execute();
-            $verificationRow = $result->fetchArray(SQLITE3_ASSOC);
+            $verificationMissing = $result->fetchArray(SQLITE3_ASSOC);
 
-            if ($verificationRow) {
+            // Check if the user has 2fa enabled
+            $query = "SELECT totp_enabled FROM user WHERE id = :userId";
+            $stmt = $db->prepare($query);
+            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $result = $stmt->execute();
+            $totpEnabled = $result->fetchArray(SQLITE3_ASSOC);
+
+            if ($verificationMissing) {
                 $userEmailWaitingVerification = true;
                 $loginFailed = true;
             } else {
+                if ($rememberMe) {
+                    $token = bin2hex(random_bytes(32));
+                    $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
+                    $addLoginTokensStmt = $db->prepare($addLoginTokens);
+                    $addLoginTokensStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+                    $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
+                    $addLoginTokensStmt->execute();
+                    $_SESSION['token'] = $token;
+                    $cookieValue = $username . "|" . $token . "|" . $main_currency;
+                    setcookie('wallos_login', $cookieValue, [
+                        'expires' => $cookieExpire,
+                        'samesite' => 'Strict'
+                    ]);
+                }
+
+                // Send to totp page if 2fa is enabled
+                if ($totpEnabled['totp_enabled'] == 1) {
+                    $_SESSION['totp_user_id'] = $userId;
+                    $db->close();
+                    header("Location: totp.php");
+                    exit();
+                }
+
                 $_SESSION['username'] = $username;
                 $_SESSION['loggedin'] = true;
                 $_SESSION['main_currency'] = $main_currency;
@@ -148,8 +186,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     ]);
                 }
 
-                $query = "SELECT color_theme FROM settings";
+                $query = "SELECT color_theme FROM settings WHERE user_id = :userId";
                 $stmt = $db->prepare($query);
+                $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
                 $result = $stmt->execute();
                 $settings = $result->fetchArray(SQLITE3_ASSOC);
                 setcookie('colorTheme', $settings['color_theme'], [
@@ -157,20 +196,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     'samesite' => 'Strict'
                 ]);
 
-                if ($rememberMe) {
-                    $token = bin2hex(random_bytes(32));
-                    $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
-                    $addLoginTokensStmt = $db->prepare($addLoginTokens);
-                    $addLoginTokensStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-                    $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
-                    $addLoginTokensStmt->execute();
-                    $_SESSION['token'] = $token;
-                    $cookieValue = $username . "|" . $token . "|" . $main_currency;
-                    setcookie('wallos_login', $cookieValue, [
-                        'expires' => $cookieExpire,
-                        'samesite' => 'Strict'
-                    ]);
-                }
                 $db->close();
                 header("Location: .");
                 exit();

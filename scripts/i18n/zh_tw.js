@@ -35,6 +35,8 @@ let i18n = {
     error_sending_notification: '發送通知時發生錯誤',
     delete_account_confirmation: "您確定要刪除您的帳戶嗎？",
     this_will_delete_all_data: "這將刪除所有資料，且無法復原。繼續？",
+    success: "成功",
+    copied_to_clipboard: "已複製到剪貼簿",
     // Calendar
     price: "價格",
     category: "類別",

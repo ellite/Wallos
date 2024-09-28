@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Грешка при слању обавештења",
   delete_account_confirmation: "Да ли сте сигурни да желите да избришете свој налог?",
   this_will_delete_all_data: "Ово ће избрисати све ваше податке и не може се поништити. Настави?",
+  success: "Успех",
+  copied_to_clipboard: "Копирано у привремену меморију",
   // Calendar
   price: "Цена",
   category: "Категорија",

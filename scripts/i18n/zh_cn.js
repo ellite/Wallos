@@ -35,6 +35,8 @@ let i18n = {
     'error_sending_notification': '发送通知时出错',
     'delete_account_confirmation': "您确定要删除您的帐户吗？",
     'this_will_delete_all_data': "这将删除所有您的数据，且无法撤销。是否继续？",
+    'success': "成功",
+    'copied_to_clipboard': "已复制到剪贴板",
     // Calendar
     price: "价格",
     category: "类别",

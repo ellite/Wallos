@@ -35,6 +35,8 @@ let i18n = {
   error_sending_notification: "Napaka pri pošiljanju obvestila",
   delete_account_confirmation: "Ali ste prepričani, da želite izbrisati svoj račun?",
   this_will_delete_all_data: "To bo izbrisalo vse vaše podatke in jih ni mogoče obnoviti. Nadaljujem?",
+  success: "Uspeh",
+  copied_to_clipboard: "Kopirano v odložišče",
   // Calendar
   price: "Cena",
   category: "Kategorija",
