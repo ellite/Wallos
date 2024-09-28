@@ -89,6 +89,11 @@ if (isset($_POST['one-time-code'])) {
         } else {
             $invalidTotp = true;
         }
+    } else {
+        $statement = $db->prepare('UPDATE totp SET last_totp_used = :last_totp_used WHERE user_id = :id');
+        $statement->bindValue(':last_totp_used', time(), SQLITE3_INTEGER);
+        $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
+        $statement->execute();
     }
 
     if ($valid) {
