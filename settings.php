@@ -1,4 +1,9 @@
 <?php
+// Show all errors
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'includes/header.php';
 ?>
 
@@ -166,21 +171,20 @@ require_once 'includes/header.php';
                                     <div class="form-group-inline">
                                         <input type="hidden" name="totp-secret" id="totp-secret" value="" />
                                         <input type="text" id="totp" name="totp"
-                                            placeholder="<?= translate("totp_code", $i18m) ?>" />
+                                            placeholder="<?= translate("totp_code", $i18n) ?>" />
                                         <input type="button" value="<?= translate('enable', $i18n) ?>" id="enableTotpButton"
                                             onClick="submitTotp()" />
                                     </div>
                                 </div>
                                 <div class="totp-setup hide" id="totp-backup-codes">
                                     <h4><?= translate('backup_codes', $i18n) ?></h4>
-                                    <ul class="totp-backup-codes" id="backup-codes">
-                                    </ul>
+                                    <ul class="totp-backup-codes" id="backup-codes"></ul>
                                     <div class="form-group-inline wrap">
                                         <input type="button" class="button secondary-button grow"
                                             value="<?= translate('copy_to_clipboard', $i18n) ?>" id="copyBackupCodes"
                                             onClick="copyBackupCodes()" />
                                         <input type="button" class="grow"
-                                            value="<?= translate('download_backup_codes', $i18n) ?>" id="dounloadBackupCodes"
+                                            value="<?= translate('download_backup_codes', $i18n) ?>" id="downloadBackupCodes"
                                             onClick="downloadBackupCodes()" />
                                     </div>
                                     <div class="settings-notes">
@@ -226,7 +230,6 @@ require_once 'includes/header.php';
                         }
                         ?>
                     </p>
-                    <p>
                 </div>
             </div>
         </section>
