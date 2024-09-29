@@ -123,9 +123,14 @@ header .logo .logo-image svg {
   display: inline-block;
 }
 
-@media (min-width: 768px) {
-  .dropbtn:after {
-    content: " ▼";
+.dropbtn:after {
+  content: " ▼";
+}
+
+@media (max-width: 768px) {
+  .mobile-navivagtion .dropbtn:after {
+    content: "";
+    display: none;
   }
 }
 
@@ -2610,10 +2615,8 @@ input[type="radio"]:checked+label::after {
   .mobile-nav>button>i {
     color: #fff;
   }
-}
 
-@media (max-width: 768px) {
-  .hideOnMobile {
+  .mobile-navivagtion .mobileNavigationHideOnMobile {
     display: none !important;
   }
 }

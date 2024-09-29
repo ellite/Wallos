@@ -65,6 +65,8 @@ function hex2rgb($hex)
   return "$r, $g, $b";
 }
 
+$mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
+
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
@@ -139,7 +141,7 @@ function hex2rgb($hex)
   <script type="text/javascript" src="scripts/i18n/getlang.js?<?= $version ?>"></script>
 </head>
 
-<body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?>">
+<body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?> <?= $mobileNavigation ?>">
   <header>
     <div class="contain">
       <div class="logo">
@@ -153,16 +155,16 @@ function hex2rgb($hex)
         <div class="dropdown">
           <button class="dropbtn" onClick="toggleDropdown()">
             <img src="<?= $userData['avatar'] ?>" alt="me" id="avatar">
-            <span id="user" class="hideOnMobile"><?= $username ?></span>
+            <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="." class="hideOnMobile"><i
+            <a href="." class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
-            <a href="calendar.php" class="hideOnMobile"><i
+            <a href="calendar.php" class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-calendar"></i><?= translate('calendar', $i18n) ?></a>
-            <a href="stats.php" class="hideOnMobile"><i
+            <a href="stats.php" class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
-            <a href="settings.php" class="hideOnMobile"><i
+            <a href="settings.php" class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
             <?php if ($isAdmin): ?>
               <a href="admin.php"><i class="fa-solid fa-user-tie"></i><?= translate('admin', $i18n) ?></a>
@@ -191,34 +193,40 @@ function hex2rgb($hex)
   $settingsClass = $page === 'settings.php' ? 'active' : '';
   ?>
 
-  <nav class="mobile-nav">
-    <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
-      <i class="fas fa-solid fa-list"></i>
-    </a>
-    <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
-      <i class="fas fa-solid fa-calendar"></i>
-    </a>
-    <?php
-    if ($page === 'index.php') {
-      ?>
-      <button class="nav-link" title="<?= translate('add_subscription', $i18n) ?>" onClick="addSubscription()">
-        <i class="fas fa-solid fa-plus"></i>
-      </button>
-      <?php
-    } else {
-      ?>
-      <a href=".?add" class="nav-link secondary" title="<?= translate('add_subscription', $i18n) ?>">
-        <i class="fas fa-solid fa-plus"></i>
+  <?php
+  if ($settings['mobile_nav'] == 1) {
+    ?>
+    <nav class="mobile-nav">
+      <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
+        <i class="fas fa-solid fa-list"></i>
+      </a>
+      <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
+        <i class="fas fa-solid fa-calendar"></i>
       </a>
       <?php
-    }
-    ?>
-    <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
-      <i class="fas fa-solid fa-chart-simple"></i>
-    </a>
-    <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
-      <i class="fas fa-solid fa-cog"></i>
-    </a>
-  </nav>
+      if ($page === 'index.php') {
+        ?>
+        <button class="nav-link" title="<?= translate('add_subscription', $i18n) ?>" onClick="addSubscription()">
+          <i class="fas fa-solid fa-plus"></i>
+        </button>
+        <?php
+      } else {
+        ?>
+        <a href=".?add" class="nav-link secondary" title="<?= translate('add_subscription', $i18n) ?>">
+          <i class="fas fa-solid fa-plus"></i>
+        </a>
+        <?php
+      }
+      ?>
+      <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
+        <i class="fas fa-solid fa-chart-simple"></i>
+      </a>
+      <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
+        <i class="fas fa-solid fa-cog"></i>
+      </a>
+    </nav>
+    <?php
+  }
+  ?>
 
   <main>

@@ -934,6 +934,13 @@ function setShowOriginalPrice() {
   storeSettingsOnDB('show_original_price', value);
 }
 
+function setMobileNavigation() {
+  const mobileNavigationCheckbox = document.querySelector("#mobilenavigation");
+  const value = mobileNavigationCheckbox.checked;
+
+  storeSettingsOnDB('mobile_navigation', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById('categories');
   const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);

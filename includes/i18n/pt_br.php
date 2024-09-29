@@ -215,6 +215,7 @@ $i18n = [
     "show_disabled_subscriptions_at_the_bottom" => "Mostre as assinaturas desativadas no final da lista",
     "experimental_settings" => "Configurações experimentais",
     "remove_background" => "Tentar remover o fundo de logos na pesquisa de imagem",
+    "use_mobile_navigation_bar" => "Usar barra de navegação móvel",
     "experimental_info" => "As configurações experimentais provavelmente não funcionarão corretamente",
     "payment_methods" => "Métodos de pagamento",
     "payment_methods_info" => "Clique em um método de pagamento para ativá-lo ou desativá-lo",

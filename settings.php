@@ -1390,6 +1390,14 @@ require_once 'includes/header.php';
                     <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
                 </div>
             </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="mobilenavigation" name="mobilenavigation"
+                        onChange="setMobileNavigation()" <?php if ($settings['mobile_nav'])
+                            echo 'checked'; ?>>
+                    <label for="mobilenavigation"><?= translate('use_mobile_navigation_bar', $i18n) ?></label>
+                </div>
+            </div>
         </div>
         <div class="settings-notes">
             <p>
