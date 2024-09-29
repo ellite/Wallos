@@ -10,6 +10,12 @@ body.no-scroll {
   overflow-y: hidden;
 }
 
+@media (max-width: 768px) {
+  main {
+    margin-bottom: 60px;
+  }
+}
+
 input,
 button,
 select,
@@ -117,8 +123,10 @@ header .logo .logo-image svg {
   display: inline-block;
 }
 
-.dropbtn:after {
-  content: " ▼";
+@media (min-width: 768px) {
+  .dropbtn:after {
+    content: " ▼";
+  }
 }
 
 .dropbtn {
@@ -277,12 +285,12 @@ button:hover svg .main-color {
   flex-grow: 1;
 }
 
-.top-actions .search > input[type="text"] {
+.top-actions .search>input[type="text"] {
   padding-right: 40px;
 }
 
 .top-actions>.search>.search-icon,
-.top-actions>.search>.clear-search  {
+.top-actions>.search>.clear-search {
   float: right;
   right: 15px;
   margin-top: -35px;
@@ -1664,7 +1672,7 @@ button.dark-theme-button i {
 
 @media (max-width: 768px) {
   .toast {
-    bottom: 0px;
+    bottom: 60px;
     right: 0px;
     left: 0px;
     width: 100%;
@@ -2471,7 +2479,7 @@ input[type="radio"]:checked+label::after {
   color: #222;
 }
 
-.update-banner > span {
+.update-banner>span {
   font-weight: 500;
 }
 
@@ -2553,4 +2561,59 @@ input[type="radio"]:checked+label::after {
   list-style: none;
   padding: 5px 10px;
   font-weight: 500;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-nav {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-top: 1px solid #EEEEEE;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    z-index: 2;
+    padding: 10px 0px;
+    font-size: 28px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    align-items: baseline;
+  }
+  
+  .mobile-nav>a>i {
+    color: #AAA;
+  }
+  
+  .mobile-nav>a.active>i {
+    color: #202020;
+  }
+  
+  .mobile-nav>a.secondary,
+  .mobile-nav>button {
+    background-color: var(--main-color);
+    border: none;
+    border-radius: 35px;
+    padding: 3px 8px;
+  }
+
+  .mobile-nav>button {
+    border: none;
+    font-size: 28px;
+  }
+  
+  .mobile-nav>a.secondary>i,
+  .mobile-nav>button>i {
+    color: #fff;
+  }
+}
+
+@media (max-width: 768px) {
+  .hideOnMobile {
+    display: none !important;
+  }
 }

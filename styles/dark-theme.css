@@ -249,3 +249,17 @@ input {
     background-color: #111;
     border: 2px dashed #444;
 }
+
+.mobile-nav {
+    background-color: #222;
+    border-top: #111;
+    box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);;
+}
+
+.mobile-nav>a {
+    padding: 0px 10px;
+}
+
+.mobile-nav>a.active>i {
+    color: #BBB;
+  }

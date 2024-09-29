@@ -155,7 +155,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   ?>
 
   <header class="<?= $headerClass ?>" id="main-actions">
-    <button class="button" onClick="addSubscription()">
+    <button class="button hideOnMobile" onClick="addSubscription()">
       <i class="fa-solid fa-circle-plus"></i>
       <?= translate('new_subscription', $i18n) ?>
     </button>
@@ -568,7 +568,14 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   </form>
 </section>
 <script src="scripts/dashboard.js?<?= $version ?>"></script>
-
 <?php
+if (isset($_GET['add'])) {
+  ?>
+  <script>
+    addSubscription();
+  </script>
+  <?php
+}
+
 require_once 'includes/footer.php';
 ?>
