@@ -155,7 +155,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   ?>
 
   <header class="<?= $headerClass ?>" id="main-actions">
-    <button class="button" onClick="addSubscription()">
+    <button class="button mobileNavigationHideOnMobile" onClick="addSubscription()">
       <i class="fa-solid fa-circle-plus"></i>
       <?= translate('new_subscription', $i18n) ?>
     </button>
@@ -334,7 +334,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $paymentMethodId = $subscription['payment_method_id'];
       $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
       $currencyId = $subscription['currency_id'];
-      $print[$id]['next_payment'] = date('M d, Y', strtotime($subscription['next_payment']));
+      $next_payment_timestamp = strtotime($subscription['next_payment']);
+      $formatted_date = $formatter->format($next_payment_timestamp);
+      $print[$id]['next_payment'] = $formatted_date;
       $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
       $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
       $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
@@ -568,7 +570,14 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   </form>
 </section>
 <script src="scripts/dashboard.js?<?= $version ?>"></script>
-
 <?php
+if (isset($_GET['add'])) {
+  ?>
+  <script>
+    addSubscription();
+  </script>
+  <?php
+}
+
 require_once 'includes/footer.php';
 ?>
