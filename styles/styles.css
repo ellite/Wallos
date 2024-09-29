@@ -12,7 +12,7 @@ body.no-scroll {
 
 @media (max-width: 768px) {
   main {
-    margin-bottom: 60px;
+    margin-bottom: 70px;
   }
 }
 
@@ -1672,7 +1672,7 @@ button.dark-theme-button i {
 
 @media (max-width: 768px) {
   .toast {
-    bottom: 60px;
+    bottom: 70px;
     right: 0px;
     left: 0px;
     width: 100%;
@@ -2578,7 +2578,7 @@ input[type="radio"]:checked+label::after {
     flex-direction: row;
     justify-content: space-around;
     z-index: 2;
-    padding: 10px 0px;
+    padding: 10px 0px 20px 0px;
     font-size: 28px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;

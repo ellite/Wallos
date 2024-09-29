@@ -218,14 +218,14 @@ button.dark-theme-button:hover {
     border: 1px solid #666;
 }
 
-input[type="checkbox"] + label::before,
-input[type="radio"] + label::before {
+input[type="checkbox"]+label::before,
+input[type="radio"]+label::before {
     background: #555;
     border: 1px solid #666;
 }
 
-input[type="checkbox"]:disabled + label::before,
-input[type="radio"]:disabled + label::before {
+input[type="checkbox"]:disabled+label::before,
+input[type="radio"]:disabled+label::before {
     background-color: #333;
     border-color: #222;
     cursor: not-allowed;
@@ -250,16 +250,23 @@ input {
     border: 2px dashed #444;
 }
 
-.mobile-nav {
-    background-color: #222;
-    border-top: #111;
-    box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);;
-}
+@media (max-width: 768px) {
+    .mobile-nav {
+        background-color: #222;
+        border-top: #111;
+        box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);
+        ;
+    }
 
-.mobile-nav>a {
-    padding: 0px 10px;
-}
+    .mobile-nav>a {
+        padding: 0px 10px;
+    }
 
-.mobile-nav>a.active>i {
-    color: #BBB;
-  }
+    .mobile-nav>a>i {
+        color: #777;
+    }
+
+    .mobile-nav>a.active>i {
+        color: #f0f0F0;
+    }
+}
