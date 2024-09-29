@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.26.0](https://github.com/ellite/Wallos/compare/v2.25.0...v2.26.0) (2024-09-29)
+
+
+### Features
+
+* add mobile menu navigation to experimental settings ([1dbba18](https://github.com/ellite/Wallos/commit/1dbba18446ac53568492af9d2aee3f90db7168ca))
+* use browsers locale to set dates on the dashboard ([1dbba18](https://github.com/ellite/Wallos/commit/1dbba18446ac53568492af9d2aee3f90db7168ca))
+
 ## [2.25.0](https://github.com/ellite/Wallos/compare/v2.24.1...v2.25.0) (2024-09-28)
 
 
