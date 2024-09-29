@@ -70,6 +70,9 @@ function showSuccessMessage(message) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  const userLocale = navigator.language || navigator.languages[0];
+  document.cookie = `user_locale=${userLocale}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
+
   if (window.update_theme_settings) {
     const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const themePreference = prefersDarkMode ? 'dark' : 'light';

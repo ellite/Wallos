@@ -50,6 +50,13 @@ if (isset($themeValue)) {
 
 $isAdmin = $_SESSION['userId'] == 1;
 
+$locale = isset($_COOKIE['user_locale']) ? $_COOKIE['user_locale'] : 'en_US';
+$formatter = new IntlDateFormatter(
+  $locale, 
+  IntlDateFormatter::MEDIUM,
+  IntlDateFormatter::NONE
+);
+
 function hex2rgb($hex)
 {
   $hex = str_replace("#", "", $hex);
