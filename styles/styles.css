@@ -11,7 +11,7 @@ body.no-scroll {
 }
 
 @media (max-width: 768px) {
-  main {
+  .mobile-navivagtion main {
     margin-bottom: 70px;
   }
 }
