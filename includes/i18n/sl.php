@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "E-pošta ponastavitev gesla je bila poslana. Prosim, preglejte vašo e-pošto.",
     'password_reset_successful' => "Ponastavitev gesla je uspela",
     // Header
+    'profile' => "Profil",
     'subscriptions' => "Naročnine",
     'stats' => "Statistika",
     'settings' => "Nastavitve",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Avtor",
     'icons' => "Ikone",
     'payment_icons' => "Ikone plačil",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Naloži avatar",
     'file_type_error' => "Vrsta datoteke ni podprta.",
     'user_details' => "Podrobnosti o uporabniku",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Shranite te rezervne kode na varno mesto. Uporabite jih lahko, če izgubite dostop do svoje aplikacije za preverjanje pristnosti.",
     "disable_two_factor_authentication" => "Onemogoči dvostopenjsko preverjanje pristnosti",
     "totp_code" => "TOTP koda",
+    "api_key" => "API ključ",
+    "regenerate" => "Ponovno generiraj",
+    "api_key_info" => "API ključ se uporablja za dostop do vaših podatkov prek API-ja. Če mislite, da je vaš ključ kompromitiran, ga lahko ponovno generirate.",
+    // Settings page
     "monthly_budget" => "Mesečni proračun",
     "budget_info" => "Mesečni proračun se uporablja za izračun statistike",
     "household" => "Gospodinjstvo",

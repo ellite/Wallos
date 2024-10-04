@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Pedido de reposição de password enviado. Verifique o seu email.",
     'password_reset_successful' => "Password reposta com sucesso",
     // Header
+    'profile' => "Perfil",
     'subscriptions' => "Subscrições",
     'stats' => "Estatísticas",
     'settings' => "Definições",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "O Autor",
     'icons' => "Ícones",
     'payment_icons' => "Ícones de Pagamentos",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Enviar avatar",
     'file_type_error' => "Tipo de ficheiro não permitido",
     'user_details' => "Detalhes do utilizador",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Guarde estes códigos num local seguro. Pode usá-los para aceder à sua conta se perder o acesso ao seu dispositivo de autenticação.",
     "disable_two_factor_authentication" => "Desactivar autenticação de dois factores",
     "totp_code" => "Código TOTP",
+    "api_key" => "API Key",
+    "regenerate" => "Regenerar",
+    "api_key_info" => "A sua API Key é usada para aceder à API do Wallos. Não a partilhe com ninguém.",
+    // Settings page
     "monthly_budget" => "Orçamento Mensal",
     "budget_info" => "Ao definir um orçamento pode comparar com os gastos reais na página de estatísticas.",
     "household" => "Agregado",

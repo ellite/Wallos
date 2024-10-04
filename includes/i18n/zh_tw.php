@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "重設密碼的電子郵件已發送，請檢查您的電子郵件",
     'password_reset_successful' => "密碼重設成功",
     // 頁首
+    'profile' => "個人資料",
     'subscriptions' => "訂閱",
     'stats' => "統計",
     'settings' => "設定",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "作者",
     'icons' => "圖示",
     'payment_icons' => "付款圖示",
-    // 設定頁面
+    // Profile page
     'upload_avatar' => "上传头像",
     'file_type_error' => "文件类型不允许",
     'user_details' => "使用者詳細資訊",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "請妥善保管這些代碼。當您無法使用雙因素驗證應用程式時，您可以使用這些代碼來登入。",
     "disable_two_factor_authentication" => "停用雙因素驗證",
     "totp_code" => "TOTP 驗證碼",
+    "api_key" => "API 金鑰",
+    "regenerate" => "重新生成",
+    "api_key_info" => "API 金鑰用於與 Wallos API 進行通信。請勿將此金鑰分享給任何人。",
+    // 設定頁面
     "monthly_budget" => "每月預算",
     "budget_info" => "設定預算後，您可以在統計頁面上比較預算和實際支出。",
     "household" => "家庭",

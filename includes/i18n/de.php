@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Passwort zurücksetzen E-Mail wurde gesendet. Bitte überprüfen Sie Ihr Postfach.",
     'password_reset_successful' => "Passwort erfolgreich zurückgesetzt",
     // Header
+    'profile' => "Profil",
     'subscriptions' => "Abonnements",
     'stats' => "Statistiken",
     'settings' => "Einstellungen",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Der Autor",
     'icons' => "Icons",
     'payment_icons' => "Zahlungsweisen Icons",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Avatar hochladen",
     'file_type_error' => "Dateityp nicht unterstützt",
     'user_details' => "Benutzerdetails",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Speichern Sie diese Codes an einem sicheren Ort. Sie können sie verwenden, wenn Sie keinen Zugriff auf Ihre Authentifizierungs-App haben.",
     "disable_two_factor_authentication" => "Zwei-Faktor-Authentifizierung deaktivieren",
     "totp_code" => "TOTP-Code",
+    "api_key" => "API Key",
+    "regenerate" => "Neu generieren",
+    "api_key_info" => "Der API-Schlüssel wird für die Integration von Drittanbieter-Apps verwendet. Wenn Sie Ihren Schlüssel neu generieren, müssen Sie ihn in allen Apps aktualisieren, die ihn verwenden.",
+    // Settings page
     "monthly_budget" => "Monatliches Budget",
     "budget_info" => "Das monatliche Budget wird für die Berechnung der Statistiken verwendet.",
     "household" => "Haushalt",

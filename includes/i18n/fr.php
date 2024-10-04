@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Un courriel a été envoyé à l'adresse fournie. Vérifiez votre boîte de réception.",
     'password_reset_successful' => "Réinitialisation du mot de passe réussie",
     // En-tête
+    'profile' => "Profil",
     'subscriptions' => "Abonnements",
     'stats' => "Statistiques",
     'settings' => "Paramètres",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "L'auteur",
     'icons' => "Icônes",
     'payment_icons' => "Icônes de paiement",
-    // Page de paramètres
+    // Page de profil
     'upload_avatar' => "Télécharger un Avatar",
     'file_type_error' => "Le type de fichier n'est pas pris en charge",
     'user_details' => "Détails de l'utilisateur",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Conservez ces codes en lieu sûr. Vous ne pourrez pas les récupérer plus tard.",
     "disable_two_factor_authentication" => "Désactiver l'authentification à deux facteurs",
     "totp_code" => "Code TOTP",
+    "api_key" => "Clé API",
+    "regenerate" => "Régénérer",
+    "api_key_info" => "La clé API est utilisée pour les applications tierces et les intégrations. Ne la partagez pas.",
+    // Page de paramètres
     "monthly_budget" => "Budget mensuel",
     "budget_info" => "Le budget mensuel est utilisé pour calculer les statistiques. Laissez vide pour désactiver.",
     "household" => "Ménage",

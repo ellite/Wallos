@@ -165,6 +165,8 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
             <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
+            <a href="profile.php" class="mobileNavigationHideOnMobile"><i
+                class="fa-solid fa-user"></i><?= translate('profile', $i18n) ?></a>
             <a href="." class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
             <a href="calendar.php" class="mobileNavigationHideOnMobile"><i

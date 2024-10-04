@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Reset email sent. Please check your email.",
     'password_reset_successful' => "Password reset successful",
     // Header
+    'profile' => "Profile",
     'subscriptions' => "Subscriptions",
     'stats' => "Statistics",
     'settings' => "Settings",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "The author",
     'icons' => "Icons",
     'payment_icons' => "Payment Icons",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Upload Avatar",
     'file_type_error' => "The file type supplied is not supported.",
     'user_details' => "User Details",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "These codes can be used to login if you lose access to your authenticator app.",
     "disable_two_factor_authentication" => "Disable Two Factor Authentication",
     "totp_code" => "TOTP Code",
+    "api_key" => "API Key",
+    "regenerate" => "Regenerate",
+    "api_key_info" => "The API key is used to access the API. Keep it secret.",
+    // Settings page
     "monthly_budget" => "Monthly Budget",
     "budget_info" => "Monthly budget is used to calculate statistics",
     "household" => "Household",

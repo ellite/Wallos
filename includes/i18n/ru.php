@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Ссылка для сброса пароля отправлена на вашу электронную почту",
     'password_reset_successful' => "Пароль успешно сброшен",
     // Header
+    'profile' => "Профиль",
     'subscriptions' => "Подписки",
     'stats' => "Статистика",
     'settings' => "Настройки",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Автор",
     'icons' => "Значки",
     'payment_icons' => "Значки способов оплаты",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Загрузить аватар",
     'file_type_error' => "Указанный тип файла не поддерживается.",
     'user_details' => "Данные пользователя",
@@ -133,6 +134,10 @@ $i18n = [
     "disable_two_factor_authentication" => "Отключить двухфакторную аутентификацию",
     "totp_code" => "Код TOTP",
     "monthly_budget" => "Ежемесячный бюджет",
+    "api_key" => "API ключ",
+    "regenerate" => "Сгенерировать",
+    "api_key_info" => "API ключ используется для доступа к вашим данным через API. Не передавайте его третьим лицам.",
+    // Settings page
     "budget_info" => "Если вы укажете бюджет, Wallos будет отображать вашу текущую стоимость подписок в сравнении с вашим бюджетом.",
     "household" => "Семья",
     "save_member" => "Сохранить члена семьи",

@@ -1677,10 +1677,14 @@ button.dark-theme-button i {
 
 @media (max-width: 768px) {
   .toast {
-    bottom: 70px;
+    bottom: 0px;
     right: 0px;
     left: 0px;
     width: 100%;
+  }
+
+  .mobile-navivagtion .toast {
+    bottom: 70px;
   }
 }
 
