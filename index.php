@@ -155,7 +155,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   ?>
 
   <header class="<?= $headerClass ?>" id="main-actions">
-    <button class="button mobileNavigationHideOnMobile" onClick="addSubscription()">
+    <button class="button" onClick="addSubscription()">
       <i class="fa-solid fa-circle-plus"></i>
       <?= translate('new_subscription', $i18n) ?>
     </button>

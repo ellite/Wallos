@@ -2587,11 +2587,19 @@ input[type="radio"]:checked+label::after {
     flex-direction: row;
     justify-content: space-around;
     z-index: 2;
-    padding: 10px 0px 20px 0px;
+    padding: 5px 0px;
     font-size: 28px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     align-items: baseline;
+  }
+
+  .mobile-nav>a {
+    flex-basis: 20%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 5px 0px 15px 0px;
   }
   
   .mobile-nav>a>i {

@@ -206,33 +206,21 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
   if ($settings['mobile_nav'] == 1) {
     ?>
     <nav class="mobile-nav">
-      <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
-        <i class="fas fa-solid fa-list"></i>
-      </a>
-      <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
-        <i class="fas fa-solid fa-calendar"></i>
-      </a>
-      <?php
-      if ($page === 'index.php') {
-        ?>
-        <button class="nav-link" title="<?= translate('add_subscription', $i18n) ?>" onClick="addSubscription()">
-          <i class="fas fa-solid fa-plus"></i>
-        </button>
-        <?php
-      } else {
-        ?>
-        <a href=".?add" class="nav-link secondary" title="<?= translate('add_subscription', $i18n) ?>">
-          <i class="fas fa-solid fa-plus"></i>
+        <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
+            <i class="fas fa-regular fa-list"></i>
         </a>
-        <?php
-      }
-      ?>
-      <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
-        <i class="fas fa-solid fa-chart-simple"></i>
-      </a>
-      <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
-        <i class="fas fa-solid fa-cog"></i>
-      </a>
+        <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
+            <i class="fas fa-regular fa-calendar"></i>
+        </a>
+        <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
+            <i class="fas fa-regular fa-chart-simple"></i>
+        </a>
+        <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
+            <i class="fas fa-regular fa-cog"></i>
+        </a>
+        <a href="profile.php" class="nav-link" title="<?= translate('profile', $i18n) ?>">
+            <i class="fas fa-regular fa-user"></i>
+        </a>
     </nav>
     <?php
   }
