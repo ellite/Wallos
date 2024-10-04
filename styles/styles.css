@@ -846,11 +846,16 @@ header #avatar {
 .account-fixer .buttons,
 .account-categories .buttons,
 .account-notifications .buttons,
-.admin-form .buttons {
+.admin-form .buttons,
+.account-2fa .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
+}
+
+.account-2fa .buttons {
+  justify-content: flex-start;
 }
 
 .admin-form hr {
@@ -1677,10 +1682,14 @@ button.dark-theme-button i {
 
 @media (max-width: 768px) {
   .toast {
-    bottom: 70px;
+    bottom: 0px;
     right: 0px;
     left: 0px;
     width: 100%;
+  }
+
+  .mobile-navivagtion .toast {
+    bottom: 70px;
   }
 }
 
@@ -2583,37 +2592,34 @@ input[type="radio"]:checked+label::after {
     flex-direction: row;
     justify-content: space-around;
     z-index: 2;
-    padding: 10px 0px 20px 0px;
-    font-size: 28px;
+    padding: 7px 0px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    align-items: baseline;
-  }
-  
-  .mobile-nav>a>i {
-    color: #AAA;
-  }
-  
-  .mobile-nav>a.active>i {
-    color: #202020;
-  }
-  
-  .mobile-nav>a.secondary,
-  .mobile-nav>button {
-    background-color: var(--main-color);
-    border: none;
-    border-radius: 35px;
-    padding: 3px 8px;
+    align-items: center;
   }
 
-  .mobile-nav>button {
-    border: none;
-    font-size: 28px;
+  .mobile-nav>a {
+    flex-grow: 1;
+    flex-shrink: 0;
+    text-align: center;
+    padding: 5px 0px 10px 0px;
+    color: #AAA;
+    font-size: 10px;
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .mobile-nav>a.secondary>i,
-  .mobile-nav>button>i {
-    color: #fff;
+
+  .mobile-nav>a>svg {
+    width: 30px;
+    height: 30px;
+    max-width: 85%;
+  }
+
+  .mobile-nav>a.active{
+    color: #202020;
   }
 
   .mobile-navivagtion .mobileNavigationHideOnMobile {

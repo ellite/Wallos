@@ -78,6 +78,15 @@ require_once 'includes/header.php';
                     </a>
                 </span>
             </p>
+            <p>
+                Icons by icons8:
+                <span>
+                    https://icons8.com/
+                    <a href="https://icons8.com/" target="_blank" title="<?= translate('external_url', $i18n) ?>">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </span>
+            </p>
         </div>
     </section>
 

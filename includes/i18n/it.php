@@ -31,6 +31,7 @@ $i18n = [
     'password_reset_successful' => "La password è stata reimpostata con successo",
 
     // Header
+    'profile' => 'Profilo',
     'subscriptions' => 'Abbonamenti',
     'stats' => 'Statistiche',
     'settings' => 'Impostazioni',
@@ -124,7 +125,7 @@ $i18n = [
     'icons' => 'Icone',
     'payment_icons' => 'Icone di pagamento',
 
-    // Settings
+    // Profile
     'upload_avatar' => 'Carica avatar',
     'file_type_error' => 'Il tipo di file fornito non è supportato.',
     'user_details' => 'Dettagli utente',
@@ -140,6 +141,10 @@ $i18n = [
     "totp_backup_codes_info" => "I codici di backup possono essere utilizzati per accedere al tuo account se non hai accesso al tuo dispositivo di autenticazione a due fattori.",
     "disable_two_factor_authentication" => "Disabilita l'autenticazione a due fattori",
     "totp_code" => "Codice TOTP",
+    "api_key" => "Chiave API",
+    "regenerate" => "Rigenera",
+    "api_key_info" => "La chiave API viene utilizzata per accedere ai dati tramite l'API di Wallos. Non condividere la tua chiave API con nessuno.",
+    // Settings
     "monthly_budget" => "Budget mensile",
     "budget_info" => "Il budget mensile viene utilizzato per calcolare le statistiche. Se non si desidera utilizzare questa funzionalità, impostare il budget su 0.",
     'household' => 'Nucleo familiare',
@@ -193,7 +198,6 @@ $i18n = [
     'currency_info' => 'Trova le valute supportate e i codici valuta corretti su',
     'currency_performance' => 'Per garantire prestazioni migliori, tieni solo le valute che utilizzi.',
     'fixer_api_key' => 'Chiave API di Fixer',
-    'api_key' => 'Chiave API',
     'provider' => 'Fornitore',
     'fixer_info' => 'Se utilizzi più valute e desideri visualizzare statistiche e ordinamenti accurati sugli abbonamenti, è necessaria una chiave API (Gratuita) da Fixer.',
     'get_key' => 'Ottieni la tua chiave su',

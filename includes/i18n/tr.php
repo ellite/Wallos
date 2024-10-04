@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Lütfen e-postanızı kontrol edin.",
     'password_reset_successful' => "Şifre sıfırlama başarılı",
     // Header
+    'profile' => "Profil",
     'subscriptions' => "Abonelikler",
     'stats' => "İstatistikler",
     'settings' => "Ayarlar",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Yazar",
     'icons' => "İkonlar",
     'payment_icons' => "Ödeme İkonları",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Avatarı yükle",
     'file_type_error' => "Dosya türü izin verilmiyor",
     'user_details' => "Kullanıcı Detayları",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Yedek kodları güvenli bir yerde saklayın. Her biri yalnızca bir kez kullanılabilir.",
     "disable_two_factor_authentication" => "İki Faktörlü Kimlik Doğrulamayı Devre Dışı Bırak",
     "totp_code" => "TOTP Kodu",
+    "api_key" => "API Anahtarı",
+    "regenerate" => "Yeniden Oluştur",
+    "api_key_info" => "API Anahtarı, Wallos'un API'sine erişmek için kullanılır. Bu anahtarı kimseyle paylaşmayın.",
+    // Settings page
     "monthly_budget" => "Aylık Bütçe",
     "budget_info" => "Bir bütçe belirlemek, istatistik sayfasında bütçe ve gerçek harcamaları karşılaştırmanıza olanak tanır.",
     "household" => "Hane",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "Desteklenen para birimlerini ve doğru para birimi kodlarını burada bulun",
     "currency_performance" => "Performansı artırmak için sadece kullandığınız para birimlerini tutun.",
     "fixer_api_key" => "Fixer API Anahtarı",
-    "api_key" => "API Anahtarı",
     "provider" => "Sağlayıcı",
     "fixer_info" => "Birden fazla para birimi kullanıyorsanız ve aboneliklerde doğru istatistikler ve sıralama istiyorsanız, Fixer'dan ÜCRETSİZ bir API Anahtarı gereklidir.",
     "get_key" => "Anahtarınızı şuradan alın",

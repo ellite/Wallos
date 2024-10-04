@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "비밀번호 재설정 이메일이 전송되었습니다. 이메일을 확인해 주세요.",
     'password_reset_successful' => "비밀번호 재설정 성공",
     // Header
+    'profile' => "프로필",
     'subscriptions' => "구독",
     'stats' => "통계",
     'settings' => "설정",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "제작자",
     'icons' => "아이콘",
     'payment_icons' => "지불 방식 아이콘",
-    // Settings page
+    // Profile page
     'upload_avatar' => "아바타 업로드",
     'file_type_error' => "제공된 파일이 지원하지 않는 타입입니다.",
     'user_details' => "유저 상세",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "이 코드는 계정에 대한 백업 코드입니다. 이 코드를 안전한 곳에 보관하세요. 이 코드는 한 번만 사용할 수 있습니다.",
     "disable_two_factor_authentication" => "2단계 인증 비활성화",
     "totp_code" => "TOTP 코드",
+    "api_key" => "API 키",
+    "regenerate" => "재생성",
+    "api_key_info" => "API 키는 외부 애플리케이션과 통신할 때 사용됩니다. API 키를 재생성하면 이전 키는 더 이상 유효하지 않습니다.",
+    // Settings page
     "monthly_budget" => "월간 예산",
     "budget_info" => "예산을 설정하면 통계 페이지에서 예산과 실제 지출을 비교할 수 있습니다.",
     "household" => "가구",
@@ -187,7 +192,6 @@ $i18n = [
     "currency_info" => "지원하는 통화와 정확한 통화 코드 찾기",
     "currency_performance" => "성능을 향상시키기 위해서는 사용할 통화들만 유지하세요.",
     "fixer_api_key" => "Fixer API 키",
-    "api_key" => "API 키",
     "provider" => "제공자",
     "fixer_info" => "여러 통화를 사용하고, 정확한 통계와 구독별 정렬을 원하시느 경우에는, Fixer에서 발급받은 무료 API 키가 필요합니다.",
     "get_key" => "키 얻기",

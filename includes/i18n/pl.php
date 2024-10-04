@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Link do zresetowania hasła został wysłany na Twój adres e-mail",
     'password_reset_successful' => "Hasło zostało zresetowane pomyślnie",
     // Header
+    'profile' => "Profil",
     'subscriptions' => "Subskrypcje",
     'stats' => "Statystyki",
     'settings' => "Ustawienia",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Autor",
     'icons' => "Ikony",
     'payment_icons' => "Ikony płatności",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Prześlij awatar",
     'file_type_error' => "Podany typ pliku nie jest obsługiwany.",
     'user_details' => "Szczegóły użytkownika",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Kody zapasowe są jednorazowe i można je użyć do zalogowania się, jeśli nie masz dostępu do aplikacji uwierzytelniającej.",
     "disable_two_factor_authentication" => "Wyłącz uwierzytelnianie dwuskładnikowe",
     "totp_code" => "Kod TOTP",
+    "api_key" => "Klucz API",
+    "regenerate" => "Wygeneruj ponownie",
+    "api_key_info" => "Klucz API jest używany do integracji z innymi aplikacjami. Nie udostępniaj go nikomu.",
+    // Settings page
     "monthly_budget" => "Miesięczny budżet",
     "budget_info" => "Jeśli ustawisz budżet, zobaczysz pasek postępu na stronie głównej.",
     "household" => "Gospodarstwo domowe",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "Znajdź obsługiwane waluty i prawidłowe kody walut na",
     "currency_performance" => "W celu poprawy wydajności przechowuj tylko te waluty, których używasz.",
     "fixer_api_key" => "Klucz API Fixer'a",
-    "api_key" => "Klucz API",
     "provider" => "Dostawca",
     "fixer_info" => "Jeśli używasz wielu walut i chcesz dokładnych statystyk i sortowania subskrypcji, niezbędny jest DARMOWY klucz API z Fixer'a.",
     "get_key" => "Zdobądź klucz na stronie",

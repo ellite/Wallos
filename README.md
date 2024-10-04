@@ -190,5 +190,5 @@ I strongly believe in the importance of open source software and the collaborati
 ## Links
 
 - The author: [henrique.pt](https://henrique.pt)
-- Wallos Landinpage: [wallosapp.com](https://wallosapp.com)
+- Wallos Landingpage: [wallosapp.com](https://wallosapp.com)
 - Join the conversation: [Discord Server](https://discord.gg/anex9GUrPW)

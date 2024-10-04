@@ -165,6 +165,8 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
             <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
+            <a href="profile.php" class="mobileNavigationHideOnMobile"><i
+                class="fa-solid fa-user"></i><?= translate('profile', $i18n) ?></a>
             <a href="." class="mobileNavigationHideOnMobile"><i
                 class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
             <a href="calendar.php" class="mobileNavigationHideOnMobile"><i
@@ -198,39 +200,33 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
   $calendarClass = $page === 'calendar.php' ? 'active' : '';
   $statsClass = $page === 'stats.php' ? 'active' : '';
   $settingsClass = $page === 'settings.php' ? 'active' : '';
+  $profileClass = $page === 'profile.php' ? 'active' : '';
   ?>
 
   <?php
   if ($settings['mobile_nav'] == 1) {
     ?>
     <nav class="mobile-nav">
-      <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
-        <i class="fas fa-solid fa-list"></i>
-      </a>
-      <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
-        <i class="fas fa-solid fa-calendar"></i>
-      </a>
-      <?php
-      if ($page === 'index.php') {
-        ?>
-        <button class="nav-link" title="<?= translate('add_subscription', $i18n) ?>" onClick="addSubscription()">
-          <i class="fas fa-solid fa-plus"></i>
-        </button>
-        <?php
-      } else {
-        ?>
-        <a href=".?add" class="nav-link secondary" title="<?= translate('add_subscription', $i18n) ?>">
-          <i class="fas fa-solid fa-plus"></i>
+        <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
+          <?php include "images/siteicons/svg/mobile-menu/home.php"; ?>
+          Home
         </a>
-        <?php
-      }
-      ?>
-      <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
-        <i class="fas fa-solid fa-chart-simple"></i>
-      </a>
-      <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
-        <i class="fas fa-solid fa-cog"></i>
-      </a>
+        <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
+          <?php include "images/siteicons/svg/mobile-menu/calendar.php"; ?>
+          Calendar
+        </a>
+        <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
+          <?php include "images/siteicons/svg/mobile-menu/statistics.php"; ?>
+          Statistics
+        </a>
+        <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
+          <?php include "images/siteicons/svg/mobile-menu/settings.php"; ?>
+          Settings
+        </a>
+        <a href="profile.php" class="nav-link <?= $profileClass ?>" title="<?= translate('profile', $i18n) ?>">
+          <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
+          Profile
+        </a>
     </nav>
     <?php
   }

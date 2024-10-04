@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Poslali smo vam e-poštu sa uputstvima za resetovanje lozinke",
     'password_reset_successful' => "Lozinka uspešno resetovana",
     // Header
+    'profile' => "Profil",
     'subscriptions' => "Pretplate",
     'stats' => "Statistike",
     'settings' => "Podešavanja",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "Autor",
     'icons' => "Ikone",
     'payment_icons' => "Ikone za plaćanje",
-    // Stranica sa podešavanjima
+    // Stranica sa profilom
     'upload_avatar' => "Učitaj avatar",
     'file_type_error' => "Tip datoteke koji ste priložili nije podržan.",
     'user_details' => "Detalji korisnika",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Ovo su vaši rezervni kodovi za dvofaktorsku autentifikaciju. Sačuvajte ih na sigurnom mestu.",
     "disable_two_factor_authentication" => "Onemogući dvofaktorsku autentifikaciju",
     "totp_code" => "Kod za dvofaktorsku autentifikaciju",
+    "api_key" => "API ključ",
+    "regenerate" => "Regeneriši",
+    "api_key_info" => "API ključ se koristi za pristup Wallos API-ju. Ako mislite da je vaš ključ kompromitovan, možete ga regenerisati.",
+    // Stranica sa podešavanjima
     "monthly_budget" => "Mesečni budžet",
     "budget_info" => "Ovo je vaš mesečni budžet za sve pretplate. Ovo je samo informativno i ne ograničava vas.",
     "household" => "Domaćinstvo",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "Pronađite podržane valute i ispravne kodove valuta na",
     "currency_performance" => "Za poboljšanu performansu, zadržite samo valute koje koristite.",
     "fixer_api_key" => "Fixer API ključ",
-    "api_key" => "API ključ",
     "provider" => "Provajder",
     "fixer_info" => "Ako koristite više valuta i želite tačne statistike i sortiranje pretplata, neophodan je BESPLATNI API ključ sa Fixer-a.",
     "get_key" => "Pronađite svoj ključ na",

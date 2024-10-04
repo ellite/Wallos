@@ -255,18 +255,13 @@ input {
         background-color: #222;
         border-top: #111;
         box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);
-        ;
     }
 
     .mobile-nav>a {
-        padding: 0px 10px;
+        color: #909090;
     }
 
-    .mobile-nav>a>i {
-        color: #777;
-    }
-
-    .mobile-nav>a.active>i {
+    .mobile-nav>a.active {
         color: #f0f0F0;
     }
 }

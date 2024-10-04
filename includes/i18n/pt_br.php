@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Redefinição de senha enviada. Por favor, verifique seu email",
     'password_reset_successful' => "Senha redefinida com sucesso",
     // Header
+    'profile' => "Perfil",
     'subscriptions' => "Assinaturas",
     'stats' => "Estatísticas",
     'settings' => "Configurações",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "O autor",
     'icons' => "Ícones",
     'payment_icons' => "Ícones de pagamento",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Carregar avatar",
     'file_type_error' => "Tipo de arquivo não permitido",
     'user_details' => "Informações do Usuário",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Guarde esses códigos em um lugar seguro. Eles podem ser usados para acessar sua conta se você perder o acesso ao aplicativo de autenticação.",
     "disable_two_factor_authentication" => "Desativar autenticação de dois fatores",
     "totp_code" => "Código TOTP",
+    "api_key" => "Chave da API",
+    "regenerate" => "Regenerar",
+    "api_key_info" => "A chave da API é usada para acessar a API do Wallos. Não compartilhe sua chave com ninguém.",
+    // Settings page
     "monthly_budget" => "Orçamento mensal",
     "budget_info" => "O orçamento mensal é usado para calcular estatísticas",
     "household" => "Membros",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "Encontre as moedas suportadas e os códigos de moeda em",
     "currency_performance" => "Para um melhor desempenho, mantenha apenas as moedas que você utiliza.",
     "fixer_api_key" => "Chave da API do Fixer",
-    "api_key" => "Chave da API",
     "provider" => "Fornecedor",
     "fixer_info" => "Se você utiliza múltiplas moedas e deseja ter estatísticas precisas e ordenação das assinaturas, uma chave GRATUÍTA da API do Fixer é necessária.",
     "get_key" => "Obtenha a sua chave em",

@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "パスワードリセットリンクが送信されました。メールを確認してください。",
     'password_reset_successful' => "パスワードリセットに成功",
     // Header
+    'profile' => "プロフィール",
     'subscriptions' => "定期購入",
     'stats' => "統計",
     'settings' => "設定",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "著者",
     'icons' => "アイコン",
     'payment_icons' => "支払いアイコン",
-    // Settings page
+    // Profile page
     'upload_avatar' => "アバターをアップロードする",
     'file_type_error' => "ファイルタイプが許可されていません",
     'user_details' => "ユーザー詳細",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "これらのコードは、2要素認証アプリが利用できない場合に使用します。コードは一度しか表示されません。",
     "disable_two_factor_authentication" => "二要素認証を無効にする",
     "totp_code" => "TOTPコード",
+    "api_key" => "APIキー",
+    "regenerate" => "再生成",
+    "api_key_info" => "APIキーは、WallosのAPIを使用するために必要です。APIキーを再生成すると、以前のキーは無効になります。",
+    // Settings page
     "monthly_budget" => "月間予算",
     "budget_info" => "予算を設定すると、統計ページで予算と実際の支出を比較できます。",
     "household" => "世帯",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "サポートされている通貨と正しい通貨コードを見つける",
     "currency_performance" => "Fパフォーマンスを向上させるには、使用する通貨のみを保持してください。",
     "fixer_api_key" => "FixerのAPIキー",
-    "api_key" => "APIキー",
     "provider" => "プロバイダ",
     "fixer_info" => "複数の通貨を使用し、定期購入に関する正確な統計と並べ替えが必要な場合は、Fixerからの無料APIキーが必要です。",
     "get_key" => "キーを入手する",

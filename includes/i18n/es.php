@@ -28,6 +28,7 @@ $i18n = [
     'reset_sent_check_email' => "Se ha enviado un correo electrónico con instrucciones para restablecer la contraseña. Por favor, compruebe su correo electrónico.",
     'password_reset_successful' => "Contraseña restablecida con éxito",
     // Header
+    'profile' => "Perfil",
     'subscriptions' => "Suscripciones",
     'stats' => "Estadísticas",
     'settings' => "Configuración",
@@ -116,7 +117,7 @@ $i18n = [
     'the_author' => "El autor",
     'icons' => "Iconos",
     'payment_icons' => "Iconos de Pago",
-    // Settings page
+    // Profile page
     'upload_avatar' => "Subir avatar",
     'file_type_error' => "El archivo debe ser una imagen en formato PNG, JPG, WEBP o SVG",
     'user_details' => "Detalles del Usuario",
@@ -132,6 +133,10 @@ $i18n = [
     "totp_backup_codes_info" => "Guarda estos códigos en un lugar seguro. Puedes usarlos si pierdes acceso a tu aplicación de autenticación.",
     "disable_two_factor_authentication" => "Desactivar Autenticación de Dos Factores",
     "totp_code" => "Código TOTP",
+    "api_key" => "Clave API",
+    "regenerate" => "Regenerar",
+    "api_key_info" => "La clave API se utiliza para acceder a la API de Wallos. No compartas esta clave con nadie.",
+    // Settings page
     "monthly_budget" => "Presupuesto Mensual",
     "budget_info" => "El presupuesto mensual se utiliza para calcular las estadísticas. Si no deseas utilizar esta función, déjalo en 0.",
     "household" => "Hogar",
@@ -186,7 +191,6 @@ $i18n = [
     "currency_info" => "Encuentra las monedas admitidas y los códigos de moneda correctos en",
     "currency_performance" => "Para un rendimiento mejorado, guarda solo las monedas que uses.",
     "fixer_api_key" => "API Key de Fixer",
-    "api_key" => "API Key",
     "provider" => "Proveedor",
     "fixer_info" => "Si usas varias monedas y deseas estadísticas y orden precisos en las suscripciones, es necesaria una API KEY gratuita de Fixer.",
     "get_key" => "Obtén tu clave en",
