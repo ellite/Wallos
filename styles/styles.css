@@ -2587,45 +2587,34 @@ input[type="radio"]:checked+label::after {
     flex-direction: row;
     justify-content: space-around;
     z-index: 2;
-    padding: 5px 0px;
-    font-size: 28px;
+    padding: 7px 0px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    align-items: baseline;
+    align-items: center;
   }
 
   .mobile-nav>a {
-    flex-basis: 20%;
-    flex-grow: 0;
+    flex-grow: 1;
     flex-shrink: 0;
     text-align: center;
-    padding: 5px 0px 15px 0px;
-  }
-  
-  .mobile-nav>a>i {
+    padding: 5px 0px 10px 0px;
     color: #AAA;
-  }
-  
-  .mobile-nav>a.active>i {
-    color: #202020;
-  }
-  
-  .mobile-nav>a.secondary,
-  .mobile-nav>button {
-    background-color: var(--main-color);
-    border: none;
-    border-radius: 35px;
-    padding: 3px 8px;
+    font-size: 10px;
+    text-decoration: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .mobile-nav>button {
-    border: none;
-    font-size: 28px;
+  .mobile-nav>a>svg {
+    width: 30px;
+    height: 30px;
+    max-width: 85%;
   }
-  
-  .mobile-nav>a.secondary>i,
-  .mobile-nav>button>i {
-    color: #fff;
+
+  .mobile-nav>a.active{
+    color: #202020;
   }
 
   .mobile-navivagtion .mobileNavigationHideOnMobile {
