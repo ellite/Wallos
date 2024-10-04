@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "如要查詢支援的貨幣與相對應的貨幣代碼，請前往",
     "currency_performance" => "為提高效能，建議您只保留常用的貨幣。",
     "fixer_api_key" => "Fixer API 金鑰",
-    "api_key" => "API 金鑰",
     "provider" => "提供者",
     "fixer_info" => "如果您使用多種貨幣單位，且希望統計資訊和訂閱排序更加精確，則需要 Fixer API 金鑰來查詢匯率（可免費申請）。",
     "get_key" => "申請金鑰",

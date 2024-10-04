@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "Finde die unterstützten Währungen und korrekten Währungscodes auf",
     "currency_performance" => "Aus Gründen der Performance wähle bitte ausschließlich die genutzen Währungen.",
     "fixer_api_key" => "Fixer API Key",
-    "api_key" => "API Key",
     "provider" => "Anbieter",
     "fixer_info" => "Falls du mehrere Währungen nutzt und genaue Statistiken und die Sortierungsfunktion nutzen möchtest, wird ein kostenfreier API Key von Fixer benötigt.",
     "get_key" => "Erhalte deinen key bei",

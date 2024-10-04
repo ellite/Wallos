@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "サポートされている通貨と正しい通貨コードを見つける",
     "currency_performance" => "Fパフォーマンスを向上させるには、使用する通貨のみを保持してください。",
     "fixer_api_key" => "FixerのAPIキー",
-    "api_key" => "APIキー",
     "provider" => "プロバイダ",
     "fixer_info" => "複数の通貨を使用し、定期購入に関する正確な統計と並べ替えが必要な場合は、Fixerからの無料APIキーが必要です。",
     "get_key" => "キーを入手する",

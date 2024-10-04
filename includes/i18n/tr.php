@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "Desteklenen para birimlerini ve doğru para birimi kodlarını burada bulun",
     "currency_performance" => "Performansı artırmak için sadece kullandığınız para birimlerini tutun.",
     "fixer_api_key" => "Fixer API Anahtarı",
-    "api_key" => "API Anahtarı",
     "provider" => "Sağlayıcı",
     "fixer_info" => "Birden fazla para birimi kullanıyorsanız ve aboneliklerde doğru istatistikler ve sıralama istiyorsanız, Fixer'dan ÜCRETSİZ bir API Anahtarı gereklidir.",
     "get_key" => "Anahtarınızı şuradan alın",

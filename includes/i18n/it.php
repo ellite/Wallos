@@ -198,7 +198,6 @@ $i18n = [
     'currency_info' => 'Trova le valute supportate e i codici valuta corretti su',
     'currency_performance' => 'Per garantire prestazioni migliori, tieni solo le valute che utilizzi.',
     'fixer_api_key' => 'Chiave API di Fixer',
-    'api_key' => 'Chiave API',
     'provider' => 'Fornitore',
     'fixer_info' => 'Se utilizzi più valute e desideri visualizzare statistiche e ordinamenti accurati sugli abbonamenti, è necessaria una chiave API (Gratuita) da Fixer.',
     'get_key' => 'Ottieni la tua chiave su',

@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "Poiščite podprte valute in pravilne kode valut na",
     "currency_performance" => "Za izboljšano delovanje obdržite samo valute, ki jih uporabljate.",
     "fixer_api_key" => "API ključ za Fixer",
-    "api_key" => "Fixer API",
     "provider" => "Ponudnik",
     "fixer_info" => "Če uporabljate več valut in želite natančno statistiko in razvrščanje naročnin, potrebujete BREZPLAČNI API ključ od Fixerja.",
     "get_key" => "Pridobite svoj ključ pri",

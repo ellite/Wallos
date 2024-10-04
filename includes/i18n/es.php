@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "Encuentra las monedas admitidas y los códigos de moneda correctos en",
     "currency_performance" => "Para un rendimiento mejorado, guarda solo las monedas que uses.",
     "fixer_api_key" => "API Key de Fixer",
-    "api_key" => "API Key",
     "provider" => "Proveedor",
     "fixer_info" => "Si usas varias monedas y deseas estadísticas y orden precisos en las suscripciones, es necesaria una API KEY gratuita de Fixer.",
     "get_key" => "Obtén tu clave en",

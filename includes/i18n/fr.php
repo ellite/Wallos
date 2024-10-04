@@ -191,7 +191,6 @@ $i18n = [
     "currency_info" => "Trouvez les devises prises en charge et les codes de devise corrects sur",
     "currency_performance" => "Pour des performances améliorées, ne conservez que les devises que vous utilisez.",
     "fixer_api_key" => "Clé API de Fixer",
-    "api_key" => "Clé API",
     "provider" => "Fournisseur",
     "fixer_info" => "Si vous utilisez plusieurs devises et souhaitez des statistiques et un tri précis sur les abonnements, une clé API GRATUITE de Fixer est nécessaire.",
     "get_key" => "Obtenez votre clé sur",

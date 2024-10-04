@@ -192,7 +192,6 @@ $i18n = [
     "currency_info" => "Find the supported currencies and correct currency codes on",
     "currency_performance" => "For improved performance keep only the currencies you use.",
     "fixer_api_key" => "Fixer API Key",
-    "api_key" => "API Key",
     "provider" => "Provider",
     "fixer_info" => "If you use multiple currencies, and want accurate statistics and sorting on the subscriptions, a FREE API Key from Fixer is necessary.",
     "get_key" => "Get your key at",

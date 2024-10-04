@@ -192,7 +192,6 @@ $i18n = [
     "currency_info" => "지원하는 통화와 정확한 통화 코드 찾기",
     "currency_performance" => "성능을 향상시키기 위해서는 사용할 통화들만 유지하세요.",
     "fixer_api_key" => "Fixer API 키",
-    "api_key" => "API 키",
     "provider" => "제공자",
     "fixer_info" => "여러 통화를 사용하고, 정확한 통계와 구독별 정렬을 원하시느 경우에는, Fixer에서 발급받은 무료 API 키가 필요합니다.",
     "get_key" => "키 얻기",
