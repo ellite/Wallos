@@ -140,7 +140,7 @@ Just open the browser and open `ip:port` of the machine running wallos.
 On the first time you run wallos a user account must be created.  
 Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.  
 Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.  
-If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your prefered one.  
+If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.  
 
 ## Screenshots
 
