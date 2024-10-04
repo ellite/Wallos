@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.27.2](https://github.com/ellite/Wallos/compare/v2.27.1...v2.27.2) (2024-10-04)
+
+
+### Bug Fixes
+
+* bump version ([#546](https://github.com/ellite/Wallos/issues/546)) ([c5460bd](https://github.com/ellite/Wallos/commit/c5460bd79bdd056e788774ac52cfd4262eada5e7))
+
 ## [2.27.1](https://github.com/ellite/Wallos/compare/v2.27.0...v2.27.1) (2024-10-04)
 
 
