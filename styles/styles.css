@@ -846,11 +846,16 @@ header #avatar {
 .account-fixer .buttons,
 .account-categories .buttons,
 .account-notifications .buttons,
-.admin-form .buttons {
+.admin-form .buttons,
+.account-2fa .buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   gap: 20px;
+}
+
+.account-2fa .buttons {
+  justify-content: flex-start;
 }
 
 .admin-form hr {

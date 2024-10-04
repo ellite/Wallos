@@ -151,12 +151,12 @@ require_once 'includes/header.php';
                 <h2><?= translate("two_factor_authentication", $i18n) ?></h2>
             </header>
             <div class="account-2fa">
-                <div class="form-group">
+                <div class="buttons">
                     <?php
                     if (!$userData['totp_enabled']) {
                         ?>
                         <input type="button" value="<?= translate('enable_two_factor_authentication', $i18n) ?>" id="enableTotp"
-                            onClick="enableTotp()" />
+                            onClick="enableTotp()" class="button thin mobile-grow"/>
                         <div class="totp-popup" id="totp-popup">
                             <header>
                                 <h3><?= translate('enable_two_factor_authentication', $i18n) ?></h3>
@@ -199,7 +199,7 @@ require_once 'includes/header.php';
                         <?php
                     } else {
                         ?>
-                        <input type="button" class="button secondary-button"
+                        <input type="button" class="button secondary-button thin mobile-grow"
                             value="<?= translate('disable_two_factor_authentication', $i18n) ?>" id="disableTotp"
                             onClick="disableTotp()" />
                         <div class="totp-popup" id="totp-disable-popup">
