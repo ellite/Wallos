@@ -2,6 +2,11 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 
+if (!file_exists('images/uploads/logos')) {
+    mkdir('../../images/uploads/logos', 0777, true);
+    mkdir('../../images/uploads/logos/avatars', 0777, true);
+}
+
 function update_exchange_rate($db, $userId)
 {
     $query = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";

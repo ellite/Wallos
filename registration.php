@@ -17,6 +17,12 @@ function validate($value)
     return $value;
 }
 
+// If logo folder doesn't exist, create it
+if (!file_exists('images/uploads/logos')) {
+    mkdir('images/uploads/logos', 0777, true);
+    mkdir('images/uploads/logos/avatars', 0777, true);
+}
+
 // If there's already a user on the database, redirect to login page if registrations are closed or maxn users is reached
 $stmt = $db->prepare('SELECT COUNT(*) as userCount FROM user');
 $result = $stmt->execute();

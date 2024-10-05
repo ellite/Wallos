@@ -4,6 +4,11 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/getsettings.php';
 
+if (!file_exists('images/uploads/logos')) {
+    mkdir('../../images/uploads/logos', 0777, true);
+    mkdir('../../images/uploads/logos/avatars', 0777, true);
+}
+
 function sanitizeFilename($filename)
 {
     $filename = preg_replace("/[^a-zA-Z0-9\s]/", "", $filename);
