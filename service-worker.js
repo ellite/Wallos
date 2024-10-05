@@ -26,6 +26,8 @@ self.addEventListener('install', function (event) {
                 'webfonts/fa-solid-900.ttf',
                 'webfonts/fa-brands-400.woff2',
                 'webfonts/fa-brands-400.ttf',
+                'webfonts/fa-regular-400.woff2',
+                'webfonts/fa-regular-400.ttf',
                 'scripts/common.js',
                 'scripts/dashboard.js',
                 'scripts/stats.js',
