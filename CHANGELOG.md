@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.27.3](https://github.com/ellite/Wallos/compare/v2.27.2...v2.27.3) (2024-10-05)
+
+
+### Bug Fixes
+
+* missing folders on baremetal installation ([#554](https://github.com/ellite/Wallos/issues/554)) ([03f34d1](https://github.com/ellite/Wallos/commit/03f34d1aee3f74c3bf9c53c04c1494106be4bb47))
+* missing fonts ([03f34d1](https://github.com/ellite/Wallos/commit/03f34d1aee3f74c3bf9c53c04c1494106be4bb47))
+
 ## [2.27.2](https://github.com/ellite/Wallos/compare/v2.27.1...v2.27.2) (2024-10-04)
 
 
