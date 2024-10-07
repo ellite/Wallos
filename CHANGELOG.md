@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.28.0](https://github.com/ellite/Wallos/compare/v2.27.3...v2.28.0) (2024-10-07)
+
+
+### Features
+
+* get admin setting api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get categories endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get currencies endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get fixer api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get household api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get notifications api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get payment methods api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get settings api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get subscriptions api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+* get user api endpoint ([07d456a](https://github.com/ellite/Wallos/commit/07d456a9c3d9cc3eb9ae80edb666caa103cababe))
+
 ## [2.27.3](https://github.com/ellite/Wallos/compare/v2.27.2...v2.27.3) (2024-10-05)
 
 
