@@ -1,17 +1,30 @@
 <?php
 /*
-This API Endpoint accepts both POST and GET requests
-It receives as parameters:
-- month: the month for which the cost is to be calculated
-- year: the year for which the cost is to be calculated
-- apiKey: the API key of the user
+This API Endpoint accepts both POST and GET requests.
+It receives the following parameters:
+- month: the month for which the cost is to be calculated (integer).
+- year: the year for which the cost is to be calculated (integer).
+- apiKey: the API key of the user (string).
+
 It returns a JSON object with the following properties:
-- success: a boolean indicating whether the request was successful
-- title: a string with "${month} ${year}" (e.g. "January 2022")
-- monthly_cost: a float with the total cost for the given month
-- currency_code: a string with the currency code of the user's main currency
-- currency_symbol: a string with the currency symbol of the user's main currency
-- notes: warning messages or additional information
+- success: whether the request was successful (boolean).
+- title: a string with "${month} ${year}" (e.g., "March 2025").
+- monthly_cost: a float with the total cost for the given month.
+- localized_monthly_cost: a string with the total cost formatted according to the user's locale and currency.
+- currency_code: a string with the currency code of the user's main currency.
+- currency_symbol: a string with the currency symbol of the user's main currency.
+- notes: warning messages or additional information (array).
+
+Example response:
+{
+  "success": true,
+  "title": "March 2025",
+  "monthly_cost": "120.24",
+  "localized_monthly_cost": "€120.24",
+  "currency_code": "EUR",
+  "currency_symbol": "€",
+  "notes": []
+}
 */
 
 require_once '../../includes/connect_endpoint.php';
