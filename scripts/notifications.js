@@ -112,12 +112,14 @@ function saveNotificationsWebhookButton() {
     const webhook_url = document.getElementById("webhookurl").value;
     const headers = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
+    const iterator = document.getElementById("webhookiteratorkey").value;
   
     const data = {
       enabled: enabled,
       webhook_url: webhook_url,
       headers: headers,
-      payload: payload
+      payload: payload,
+      iterator: iterator
     };
 
     makeFetchCall('endpoints/notifications/savewebhooknotifications.php', data, button);
@@ -132,13 +134,15 @@ function testNotificationsWebhookButton() {
     const url = document.getElementById("webhookurl").value;
     const customheaders = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
+    const iterator = document.getElementById("webhookiteratorkey").value;
   
     const data = {
       enabled: enabled,
       requestmethod: requestmethod,
       url: url,
       customheaders: customheaders,
-      payload: payload
+      payload: payload,
+      iterator: iterator
     };
 
     makeFetchCall('endpoints/notifications/testwebhooknotifications.php', data, button);

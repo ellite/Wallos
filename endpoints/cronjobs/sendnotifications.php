@@ -141,7 +141,12 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $webhook['payload'] = $row["payload"];
         $webhook['iterator'] = $row["iterator"];
         if ($webhook['iterator'] === "") {
-            $webhook['iterator'] = "subscriptions";
+            echo "No iterator set for webhook. Skipping.<br />";
+            $webhook['iterator'] = "{{subscriptions}}";
+        } else {
+            if (strpos($webhook['iterator'], "{{") === false) {
+                $webhook['iterator'] = "{{" . $webhook['iterator'] . "}}";
+            }
         }
     }
 
@@ -215,6 +220,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
                 $notify[$rowSubscription['payer_user_id']][$i]['days'] = $daysToCompare;
+                $notify[$rowSubscription['payer_user_id']][$i]['url'] = $rowSubscription['url'];
+                $notify[$rowSubscription['payer_user_id']][$i]['notes'] = $rowSubscription['notes'];
                 $i++;
             }
         }
@@ -532,10 +539,16 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             if ($webhookNotificationsEnabled) {
                 // Get webhook payload and turn it into a json object
 
-                $payload = str_replace("{{days_until}}", $days, $webhook['payload']); // The default value for all subscriptions
+                $payload = str_replace("{{days_until}}", $days, $webhook['payload']);
+
                 $payload_json = json_decode($payload, true);
 
-                $subscription_template = $payload_json["{{subscriptions}}"];
+                if ($payload_json === null) {
+                    echo "Error parsing payload JSON<br />";
+                    continue;
+                }
+
+                $subscription_template = $payload_json[$webhook['iterator']];
                 $subscriptions = [];
 
                 foreach ($notify as $userId => $perUser) {
@@ -560,7 +573,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 $temp_subscription[$key] = str_replace("{{subscription_category}}", $subscription['category'], $temp_subscription[$key]);
                                 $temp_subscription[$key] = str_replace("{{subscription_payer}}", $subscription['payer'], $temp_subscription[$key]);
                                 $temp_subscription[$key] = str_replace("{{subscription_date}}", $subscription['date'], $temp_subscription[$key]);
-                                $temp_subscription[$key] = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $temp_subscription[$key]); // The de facto value for this subscription
+                                $temp_subscription[$key] = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $temp_subscription[$key]);
+                                $temp_subscription[$key] = str_replace("{{subscription_url}}", $subscription['url'], $temp_subscription[$key]);
+                                $temp_subscription[$key] = str_replace("{{subscription_notes}}", $subscription['notes'], $temp_subscription[$key]);
                             }
                         }
                         $subscriptions[] = $temp_subscription;
@@ -568,10 +583,14 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
                 }
 
-                $payload_json["{{subscriptions}}"] = $subscriptions;
-                $payload_json[$webhook['iterator']] = $subscriptions;
-                unset($payload_json["{{subscriptions}}"]);
+                // remove {{ and }} from the iterator
+                $payload_iterator = str_replace("{{", "", $webhook['iterator']);
+                $payload_iterator = str_replace("}}", "", $payload_iterator);
 
+                $payload_json["{{subscriptions}}"] = $subscriptions;
+                $payload_json[$payload_iterator] = $subscriptions;
+                unset($payload_json["{{subscriptions}}"]);
+                
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $webhook['url']);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
