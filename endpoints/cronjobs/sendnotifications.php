@@ -141,7 +141,6 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $webhook['payload'] = $row["payload"];
         $webhook['iterator'] = $row["iterator"];
         if ($webhook['iterator'] === "") {
-            echo "No iterator set for webhook. Skipping.<br />";
             $webhook['iterator'] = "{{subscriptions}}";
         } else {
             if (strpos($webhook['iterator'], "{{") === false) {
