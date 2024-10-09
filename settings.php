@@ -275,8 +275,10 @@ $userData['currency_symbol'] = "€";
             "currency": "{{subscription_currency}}",
             "category": "{{subscription_category}}",
             "date": "{{subscription_date}}",
-            "payer": "{{subscription_payer}}"
-            "days": "{{subscription_days_until_payment}}"
+            "payer": "{{subscription_payer}}",
+            "days": "{{subscription_days_until_payment}}",
+            "notes": "{{subscription_notes}}",
+            "url": "{{subscription_url}}"
         }
     ]
 
@@ -617,7 +619,7 @@ $userData['currency_symbol'] = "€";
                             <i class="fa-solid fa-circle-info"></i> <?= translate('variables_available', $i18n) ?>:
                             {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}},
                             {{subscription_category}}, {{subscription_date}}, {{subscription_payer}},
-                            {{subscription_days_until_payment}}
+                            {{subscription_days_until_payment}}, {{subscription_notes}}, {{subscription_url}}
                         </p>
                         <p>
                     </div>

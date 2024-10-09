@@ -26,6 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $url = $data["webhook_url"];
         $headers = $data["headers"];
         $payload = $data["payload"];
+        $iterator = $data["iterator"];
 
         $query = "SELECT COUNT(*) FROM webhook_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
@@ -42,11 +43,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $row = $result->fetchArray();
             $count = $row[0];
             if ($count == 0) {
-                $query = "INSERT INTO webhook_notifications (enabled, url, headers, payload, user_id)
-                              VALUES (:enabled, :url, :headers, :payload, :userId)";
+                $query = "INSERT INTO webhook_notifications (enabled, url, headers, payload, iterator, user_id)
+                              VALUES (:enabled, :url, :headers, :payload, :iterator, :userId)";
             } else {
                 $query = "UPDATE webhook_notifications
-                              SET enabled = :enabled, url = :url, headers = :headers, payload = :payload WHERE user_id = :userId";
+                              SET enabled = :enabled, url = :url, headers = :headers, payload = :payload, iterator = :iterator WHERE user_id = :userId";
             }
 
             $stmt = $db->prepare($query);
@@ -54,6 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindValue(':url', $url, SQLITE3_TEXT);
             $stmt->bindValue(':headers', $headers, SQLITE3_TEXT);
             $stmt->bindValue(':payload', $payload, SQLITE3_TEXT);
+            $stmt->bindValue(':iterator', $iterator, SQLITE3_TEXT);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
             if ($stmt->execute()) {
