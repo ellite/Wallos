@@ -218,7 +218,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                       if (date('d', $date) == $day) {
                         ?>
                         <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                          <?= htmlspecialchars($subscription['name']) ?>
+                          <?= $subscription['name'] ?>
                         </div>
                         <?php
                       }

@@ -146,7 +146,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $id = $subscription['id'];
     $print[$id]['id'] = $id;
     $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
-    $print[$id]['name'] = htmlspecialchars_decode($subscription['name'] ?? "");
+    $print[$id]['name'] = $subscription['name'] ?? "";
     $cycle = $subscription['cycle'];
     $frequency = $subscription['frequency'];
     $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
@@ -164,8 +164,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['inactive'] = $subscription['inactive'];
-    $print[$id]['url'] = htmlspecialchars_decode($subscription['url'] ?? "");
-    $print[$id]['notes'] = htmlspecialchars_decode($subscription['notes'] ?? "");
+    $print[$id]['url'] = $subscription['url'] ?? "";
+    $print[$id]['notes'] = $subscription['notes'] ?? "";
 
     if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
       $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
