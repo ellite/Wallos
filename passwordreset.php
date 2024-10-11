@@ -45,11 +45,23 @@ if (isset($_POST['email']) && $_POST['email'] != "" && isset($_GET['submit']) &&
     $requestMode = true;
     $resetMode = false;
     $email = $_POST['email'];
-    $user = $db->querySingle("SELECT * FROM user WHERE email = '$email'", true);
+
+    $stmt = $db->prepare("SELECT * FROM user WHERE email = :email");
+    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+    $user = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+
     if ($user) {
-        $db->exec("DELETE FROM password_resets WHERE email = '$email'");
+        $stmt = $db->prepare("DELETE FROM password_resets WHERE email = :email");
+        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+        $stmt->execute();
+
         $token = bin2hex(random_bytes(32));
-        $db->exec("INSERT INTO password_resets (user_id, email, token) VALUES (" . $user['id'] . ", '$email', '$token')");
+
+        $stmt = $db->prepare("INSERT INTO password_resets (user_id, email, token) VALUES (:user_id, :email, :token)");
+        $stmt->bindValue(':user_id', $user['id'], SQLITE3_INTEGER);
+        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+        $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+        $stmt->execute();
     }
     $hasSuccessMessage = true;
 }
@@ -84,7 +96,11 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     $reset = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
 
     if ($reset) {
-        $user = $db->querySingle("SELECT * FROM user WHERE email = '" . $reset['email'] . "'", true);
+        $stmt = $db->prepare("SELECT * FROM user WHERE email = :email");
+        $stmt->bindValue(':email', $reset['email'], SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $user = $result->fetchArray(SQLITE3_ASSOC);
+        
         if ($password == $confirmPassword) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             $db->exec("UPDATE user SET password = '$passwordHash' WHERE id = " . $user['id']);
