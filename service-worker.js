@@ -4,6 +4,7 @@ self.addEventListener('install', function (event) {
             const urlsToCache = [
                 '.',
                 'index.php',
+                'profile.php',
                 'calendar.php',
                 'settings.php',
                 'stats.php',
@@ -165,7 +166,7 @@ self.addEventListener('fetch', function (event) {
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
     // Check if the request is for an image in the logos directory
-    if (url.pathname.startsWith('/images/uploads/logos/')) {
+    if (url.pathname.includes('images/uploads/logos')) {
         event.respondWith(
             caches.match(event.request).then(response => {
                 return response || fetch(event.request).then(response => {
