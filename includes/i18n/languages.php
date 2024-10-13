@@ -19,6 +19,7 @@ $languages = [
     "sr_lat" => ["name" => "Srpski", "dir" => "ltr"],
     "sr" => ["name" => "Српски", "dir" => "ltr"],
     "tr" => ["name" => "Türkçe", "dir" => "ltr"],
+    "vi" => ["name" => "Tiếng Việt", "dir" => "ltr"],
     "zh_cn" => ["name" => "简体中文", "dir" => "ltr"],
     "zh_tw" => ["name" => "繁體中文", "dir" => "ltr"],
 ]
