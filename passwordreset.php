@@ -240,5 +240,3 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
 </body>
 
 </html>
-
-?>
