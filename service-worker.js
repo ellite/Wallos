@@ -55,6 +55,7 @@ self.addEventListener('install', function (event) {
                 'scripts/i18n/sr_lat.js',
                 'scripts/i18n/sr.js',
                 'scripts/i18n/tr.js',
+                'scripts/i18n/vi.js',
                 'scripts/i18n/zh_cn.js',
                 'scripts/i18n/zh_tw.js',
                 'scripts/i18n/getlang.js',

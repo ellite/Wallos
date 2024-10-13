@@ -171,10 +171,10 @@ I welcome contributions from the community and look forward to working with you 
 ### Translations
 
 If you want to contribute with a translation of wallos:
-- Add your language code to `includes/i18n/languages.php` in the format `"en" => "English"`. Please use the original language name and not the english translation.
-- Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => "Português".
+- Add your language code to `includes/i18n/languages.php` in the format `"en" => ["name" => "English", "dir" => "ltr"],`. Please use the original language name and not the english translation.
+- Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => ["name" => "Português", "dir" => "ltr"],.
 - Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
-- Create a copy of the file `scripts/i18n/en.js` and rename it to the language code you used above. Example: pt.js for "pt" => "Português".
+- Create a copy of the file `scripts/i18n/en.js` and rename it to the language code you used above. Example: pt.js for "pt" => ["name" => "Português", "dir" => "ltr"],.
 - Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
 
 ## License
