@@ -21,10 +21,11 @@ Wallos: Open-Source Personal Subscription Tracker
     - [Docker](#docker-1)
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
+- [API Documentation](#api-documentation)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
   - [Translations](#translations)
-- [Screenshots](#screenshots)
 - [License](#license)
 - [Links](#links)
 
@@ -155,6 +156,10 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-form.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+
+## API Documentation
+
+Wallos provides a comprehensive API that allows you to interact with the application programmatically. The API documentation is available at [https://api.wallosapp.com/](https://api.wallosapp.com/).
 
 ## Contributing
 
