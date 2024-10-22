@@ -24,10 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
         die(json_encode($response));
     } else {
-        // Set the message parameters
-        $title = translate('wallos_notification', $i18n);
-        $message = translate('test_notification', $i18n);
-
         $requestmethod = $data["requestmethod"];
         $url = $data["url"];
         $payload = $data["payload"];
@@ -47,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Execute the request
         $response = curl_exec($ch);
 
+
         // Close the cURL session
         curl_close($ch);
 
@@ -54,12 +51,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if ($response === false) {
             die(json_encode([
                 "success" => false,
-                "message" => translate('notification_failed', $i18n)
+                "message" => translate('notification_failed', $i18n),
+                "response" => curl_error($ch)
             ]));
         } else {
             die(json_encode([
                 "success" => true,
-                "message" => translate('notification_sent_successfuly', $i18n)
+                "message" => translate('notification_sent_successfuly', $i18n),
+                "response" => $response
             ]));
         }
     }
