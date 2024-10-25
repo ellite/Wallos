@@ -626,6 +626,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         foreach ($perUser as $k => $subscription) {
                             // Ensure the payload is reset for each subscription
                             $payload = $webhook['payload'];
+                            $payload = str_replace("{{days_until}}", $days, $payload);
                             $payload = str_replace("{{subscription_name}}", $subscription['name'], $payload);
                             $payload = str_replace("{{subscription_price}}", $subscription['price'], $payload);
                             $payload = str_replace("{{subscription_currency}}", $subscription['currency'], $payload);

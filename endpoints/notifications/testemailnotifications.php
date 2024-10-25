@@ -66,19 +66,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $mail->Subject = translate('wallos_notification', $i18n);
         $mail->Body = translate('test_notification', $i18n);
 
-        if ($mail->send()) {
-            $response = [
-                "success" => true,
-                "message" => translate('notification_sent_successfuly', $i18n)
-            ];
-            die(json_encode($response));
-        } else {
+        try {
+            if ($mail->send()) {
+                $response = [
+                    "success" => true,
+                    "message" => translate('notification_sent_successfuly', $i18n)
+                ];
+            } else {
+                $response = [
+                    "success" => false,
+                    "message" => translate('email_error', $i18n) . $mail->ErrorInfo
+                ];
+            }
+        } catch (Exception $e) {
             $response = [
                 "success" => false,
-                "message" => translate('email_error', $i18n) . $mail->ErrorInfo
+                "message" => translate('email_error', $i18n) . $e->getMessage()
             ];
-            die(json_encode($response));
         }
+        
+        die(json_encode($response));
 
     }
 }
