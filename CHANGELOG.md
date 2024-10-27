@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.32.0](https://github.com/ellite/Wallos/compare/v2.31.1...v2.32.0) (2024-10-27)
+
+
+### Features
+
+* settings to allow to ignore certificates for some notification methods ([2a0e665](https://github.com/ellite/Wallos/commit/2a0e665e77eca804fa70dafc1a3a0010eb9da270))
+
 ## [2.31.1](https://github.com/ellite/Wallos/compare/v2.31.0...v2.31.1) (2024-10-25)
 
 
