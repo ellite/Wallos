@@ -1,4 +1,4 @@
-# Use the php:8.0.5-fpm-alpine base image
+# Use the php:8.2-fpm-alpine base image
 FROM php:8.2-fpm-alpine
 
 # Set working directory to /var/www/html
@@ -21,7 +21,12 @@ COPY . .
 
 # Copy Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.default.conf /etc/nginx/http.d/default.conf
+
+# Ensure conf.d directory exists
+RUN mkdir -p /etc/nginx/conf.d
+
+# Copy the default Nginx configuration
+COPY nginx.default.conf /etc/nginx/conf.d/default.conf
 
 # Copy the custom crontab file
 COPY cronjobs /etc/cron.d/cronjobs
@@ -43,4 +48,4 @@ ENV PORT 80
 EXPOSE ${PORT}
 
 # Start both PHP-FPM, Nginx
-CMD ["sh", "-c", "envsubst '${PORT:-80}' < /etc/nginx/http.d/default.conf > /etc/nginx/conf.d/default.conf && /var/www/html/startup.sh"]
+CMD ["sh", "-c", "envsubst '${PORT:-80}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && /var/www/html/startup.sh"]
