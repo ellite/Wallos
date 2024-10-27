@@ -186,6 +186,7 @@ $i18n = [
     "pushover_user_key" => "Pushover 用户密钥",
     'host' => "主机",
     'topic' => "主题",
+    "ignore_ssl_errors" => "忽略 SSL 错误",
     "categories" => "分类",
     "save_category" => "保存分类",
     "delete_category" => "删除分类",

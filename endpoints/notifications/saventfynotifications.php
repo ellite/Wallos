@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $host = $data["host"];
         $topic = $data["topic"];
         $headers = $data["headers"];
+        $ignore_ssl = $data["ignore_ssl"];
 
         $query = "SELECT COUNT(*) FROM ntfy_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
@@ -43,11 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $row = $result->fetchArray();
             $count = $row[0];
             if ($count == 0) {
-                $query = "INSERT INTO ntfy_notifications (enabled, host, topic, headers, user_id)
-                              VALUES (:enabled, :host, :topic, :headers, :userId)";
+                $query = "INSERT INTO ntfy_notifications (enabled, host, topic, headers, user_id, ignore_ssl)
+                              VALUES (:enabled, :host, :topic, :headers, :userId, :ignore_ssl)";
             } else {
                 $query = "UPDATE ntfy_notifications
-                              SET enabled = :enabled, host = :host, topic = :topic, headers = :headers WHERE user_id = :userId";
+                              SET enabled = :enabled, host = :host, topic = :topic, headers = :headers, ignore_ssl = :ignore_ssl WHERE user_id = :userId";
             }
 
             $stmt = $db->prepare($query);
@@ -55,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindValue(':host', $host, SQLITE3_TEXT);
             $stmt->bindValue(':topic', $topic, SQLITE3_TEXT);
             $stmt->bindValue(':headers', $headers, SQLITE3_TEXT);
+            $stmt->bindValue(':ignore_ssl', $ignore_ssl, SQLITE3_INTEGER);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
             if ($stmt->execute()) {

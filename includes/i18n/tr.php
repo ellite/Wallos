@@ -178,6 +178,7 @@ $i18n = [
     "pushover_user_key" => "Pushover Kullanıcı Anahtarı",
     'host' => "Host",
     'topic' => "Konu",
+    "ignore_ssl_errors" => "SSL Hatalarını Yoksay",
     "categories" => "Kategoriler",
     "save_category" => "Kategoriyi Kaydet",
     "delete_category" => "Kategoriyi Sil",

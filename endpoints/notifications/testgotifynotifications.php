@@ -29,6 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $url = $data["gotify_url"];
         $token = $data["token"];
+        $ignore_ssl = $data["ignore_ssl"];
 
         $ch = curl_init();
 
@@ -41,6 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             'priority' => $priority,
         ]));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if ($ignore_ssl) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
 
         // Execute the request
         $response = curl_exec($ch);

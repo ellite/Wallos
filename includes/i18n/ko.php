@@ -179,6 +179,7 @@ $i18n = [
     ~
     'host' => "호스트",
     'topic' => "토픽",
+    "ignore_ssl_errors" => "SSL 에러 무시",
     "categories" => "카테고리",
     "save_category" => "카테고리 저장",
     "delete_category" => "카테고리 삭제",

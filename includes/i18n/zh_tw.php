@@ -178,6 +178,7 @@ $i18n = [
     "pushover_user_key" => "Pushover 使用者金鑰",
     'host' => "主機",
     'topic' => "主題",
+    "ignore_ssl_errors" => "忽略 SSL 錯誤",
     "categories" => "分類",
     "save_category" => "儲存分類",
     "delete_category" => "刪除分類",

@@ -88,6 +88,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $gotifyNotificationsEnabled = $row['enabled'];
         $gotify['serverUrl'] = $row["url"];
         $gotify['appToken'] = $row["token"];
+        $gotify['ignore_ssl'] = $row["ignore_ssl"];
     }
 
     // Check if Telegram notifications are enabled and get the settings
@@ -125,6 +126,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $ntfy['host'] = $row["host"];
         $ntfy['topic'] = $row["topic"];
         $ntfy['headers'] = $row["headers"];
+        $ntfy['ignore_ssl'] = $row["ignore_ssl"];
     }
 
     // Check if Webhook notifications are enabled and get the settings
@@ -147,6 +149,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $webhook['iterator'] = "{{" . $webhook['iterator'] . "}}";
             }
         }
+        $webhook['ignore_ssl'] = $row["ignore_ssl"];
     }
 
     $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled ||
@@ -387,6 +390,11 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         )
                     );
 
+                    if ($gotify['ignore_ssl']) {
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                    }
+
                     $result = curl_exec($ch);
                     if ($result === false) {
                         echo "Error sending notifications: " . curl_error($ch) . "<br />";
@@ -523,6 +531,11 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+                    if ($ntfy['ignore_ssl']) {
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                    }
+
                     $response = curl_exec($ch);
                     curl_close($ch);
 
@@ -597,6 +610,11 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                     }
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    if ($webhook['ignore_ssl']) {
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                    }
 
                     $response = curl_exec($ch);
                     curl_close($ch);

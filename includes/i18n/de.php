@@ -178,6 +178,7 @@ $i18n = [
     "pushover_user_key" => "Pushover User Key",
     'host' => "Host",
     'topic' => "Topic",
+    "ignore_ssl_errors" => "SSL Fehler ignorieren",
     "categories" => "Kategorien",
     "save_category" => "Kategorie speichern",
     "delete_category" => "Kategorie löschen",
