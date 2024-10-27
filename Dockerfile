@@ -43,4 +43,4 @@ ENV PORT 80
 EXPOSE ${PORT}
 
 # Start both PHP-FPM, Nginx
-CMD ["sh", "-c", "/var/www/html/startup.sh"]
+CMD ["sh", "-c", "envsubst '${PORT:-80}' < /etc/nginx/http.d/default.conf > /etc/nginx/conf.d/default.conf && /var/www/html/startup.sh"]
