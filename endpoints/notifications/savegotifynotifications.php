@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $enabled = $data["enabled"];
         $url = $data["gotify_url"];
         $token = $data["token"];
+        $ignore_ssl = $data["ignore_ssl"];
 
         $query = "SELECT COUNT(*) FROM gotify_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
@@ -41,17 +42,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $row = $result->fetchArray();
             $count = $row[0];
             if ($count == 0) {
-                $query = "INSERT INTO gotify_notifications (enabled, url, token, user_id)
-                              VALUES (:enabled, :url, :token, :userId)";
+                $query = "INSERT INTO gotify_notifications (enabled, url, token, user_id, ignore_ssl)
+                              VALUES (:enabled, :url, :token, :userId, :ignore_ssl)";
             } else {
                 $query = "UPDATE gotify_notifications
-                              SET enabled = :enabled, url = :url, token = :token WHERE user_id = :userId";
+                              SET enabled = :enabled, url = :url, token = :token, ignore_ssl = :ignore_ssl WHERE user_id = :userId";
             }
 
             $stmt = $db->prepare($query);
             $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
             $stmt->bindValue(':url', $url, SQLITE3_TEXT);
             $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+            $stmt->bindValue(':ignore_ssl', $ignore_ssl, SQLITE3_INTEGER);
             $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
             if ($stmt->execute()) {

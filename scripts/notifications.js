@@ -113,13 +113,15 @@ function saveNotificationsWebhookButton() {
     const headers = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
     const iterator = document.getElementById("webhookiteratorkey").value;
+    const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
   
     const data = {
       enabled: enabled,
       webhook_url: webhook_url,
       headers: headers,
       payload: payload,
-      iterator: iterator
+      iterator: iterator,
+      ignore_ssl: ignore_ssl
     };
 
     makeFetchCall('endpoints/notifications/savewebhooknotifications.php', data, button);
@@ -135,6 +137,7 @@ function testNotificationsWebhookButton() {
     const customheaders = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
     const iterator = document.getElementById("webhookiteratorkey").value;
+    const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
   
     const data = {
       enabled: enabled,
@@ -142,7 +145,8 @@ function testNotificationsWebhookButton() {
       url: url,
       customheaders: customheaders,
       payload: payload,
-      iterator: iterator
+      iterator: iterator,
+      ignore_ssl: ignore_ssl
     };
 
     makeFetchCall('endpoints/notifications/testwebhooknotifications.php', data, button);
@@ -189,11 +193,13 @@ function saveNotificationsGotifyButton() {
     const enabled = document.getElementById("gotifyenabled").checked ? 1 : 0;
     const gotify_url = document.getElementById("gotifyurl").value;
     const token = document.getElementById("gotifytoken").value;
+    const ignore_ssl = document.getElementById("gotifyignoressl").checked ? 1 : 0;
   
     const data = {
       enabled: enabled,
       gotify_url: gotify_url,
-      token: token
+      token: token,
+      ignore_ssl: ignore_ssl
     };
 
     makeFetchCall('endpoints/notifications/savegotifynotifications.php', data, button);
@@ -206,11 +212,13 @@ function testNotificationsGotifyButton() {
     const enabled = document.getElementById("gotifyenabled").checked ? 1 : 0;
     const gotify_url = document.getElementById("gotifyurl").value;
     const token = document.getElementById("gotifytoken").value;
+    const ignore_ssl = document.getElementById("gotifyignoressl").checked ? 1 : 0;
   
     const data = {
       enabled: enabled,
       gotify_url: gotify_url,
-      token: token
+      token: token,
+      ignore_ssl: ignore_ssl
     };
 
     makeFetchCall('endpoints/notifications/testgotifynotifications.php', data, button);
@@ -295,12 +303,13 @@ function testNotificationsNtfyButton() {
   const host = document.getElementById("ntfyhost").value;
   const topic = document.getElementById("ntfytopic").value;
   const headers = document.getElementById("ntfyheaders").value;
+  const ignore_ssl = document.getElementById("ntfyignoressl").checked ? 1 : 0;
   
-
   const data = {
     host: host,
     topic: topic,
-    headers: headers
+    headers: headers,
+    ignore_ssl: ignore_ssl
   };
 
   makeFetchCall('endpoints/notifications/testntfynotifications.php', data, button);
@@ -314,12 +323,14 @@ function saveNotificationsNtfyButton() {
   const host = document.getElementById("ntfyhost").value;
   const topic = document.getElementById("ntfytopic").value;
   const headers = document.getElementById("ntfyheaders").value;
+  const ignore_ssl = document.getElementById("ntfyignoressl").checked ? 1 : 0;
 
   const data = {
     enabled: enabled,
     host: host,
     topic: topic,
-    headers: headers
+    headers: headers,
+    ignore_ssl: ignore_ssl
   };
 
   makeFetchCall('endpoints/notifications/saventfynotifications.php', data, button);

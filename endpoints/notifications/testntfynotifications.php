@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }, array_keys($headers), $headers);
 
         $url = "$host/$topic";
+        $ignore_ssl = $data["ignore_ssl"];
 
         // Set the message parameters
         $message = translate('test_notification', $i18n);
@@ -46,6 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if ($ignore_ssl) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
 
         // Execute the request
         $response = curl_exec($ch);

@@ -28,6 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $url = $data["url"];
         $payload = $data["payload"];
         $customheaders = json_decode($data["customheaders"], true);
+        $ignore_ssl = $data["ignore_ssl"];
 
         $ch = curl_init();
 
@@ -39,6 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
         }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        if ($ignore_ssl) {
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        }
 
         // Execute the request
         $response = curl_exec($ch);
