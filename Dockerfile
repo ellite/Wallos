@@ -36,10 +36,11 @@ RUN dos2unix /etc/cron.d/cronjobs && \
     echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
     echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
-# Expose port 80 for Nginx
-EXPOSE 80
+# Default port
+ENV PORT 80
 
-ARG SOFTWARE_VERSION=1.20.0
+# Expose the port
+EXPOSE ${PORT}
 
 # Start both PHP-FPM, Nginx
 CMD ["sh", "-c", "/var/www/html/startup.sh"]
