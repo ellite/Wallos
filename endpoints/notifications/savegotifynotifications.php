@@ -53,8 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
             $stmt->bindValue(':url', $url, SQLITE3_TEXT);
             $stmt->bindValue(':token', $token, SQLITE3_TEXT);
-            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
             $stmt->bindValue(':ignore_ssl', $ignore_ssl, SQLITE3_INTEGER);
+            $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
             if ($stmt->execute()) {
                 $response = [
