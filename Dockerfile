@@ -19,19 +19,17 @@ RUN apk upgrade --no-cache && \
 # Copy your PHP application files into the container
 COPY . .
 
-# Copy Nginx configuration
+# Copy the main Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Ensure conf.d directory exists
+# Ensure conf.d directory exists and copy the default configuration
 RUN mkdir -p /etc/nginx/conf.d
-
-# Copy the default Nginx configuration
-COPY nginx.default.conf /etc/nginx/conf.d/default.conf
+COPY nginx.default.conf /etc/nginx/conf.d/default.template.conf
 
 # Copy the custom crontab file
 COPY cronjobs /etc/cron.d/cronjobs
 
-# Convert the line endings, allow read access to the cron file, and create cron log folder
+# Prepare cron configuration and PHP-FPM settings
 RUN dos2unix /etc/cron.d/cronjobs && \
     chmod 0644 /etc/cron.d/cronjobs && \
     /usr/bin/crontab /etc/cron.d/cronjobs && \
@@ -47,5 +45,5 @@ ENV PORT 80
 # Expose the port
 EXPOSE ${PORT}
 
-# Start both PHP-FPM, Nginx
-CMD ["sh", "-c", "envsubst '${PORT:-80}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && /var/www/html/startup.sh"]
+# Substitute the ${PORT} variable in Nginx configs and start services
+CMD ["sh", "-c", "envsubst '${PORT:-80}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf && envsubst '${PORT:-80}' < /etc/nginx/conf.d/default.template.conf > /etc/nginx/conf.d/default.conf && /var/www/html/startup.sh"]
