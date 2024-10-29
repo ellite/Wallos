@@ -121,13 +121,13 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             $newHeight = $height;
 
             if ($width > $targetWidth) {
-                $newWidth = (int)$targetWidth;
-                $newHeight = (int)(($targetWidth / $width) * $height);
+                $newWidth = (int) $targetWidth;
+                $newHeight = (int) (($targetWidth / $width) * $height);
             }
 
             if ($newHeight > $targetHeight) {
-                $newWidth = (int)(($targetHeight / $newHeight) * $newWidth);
-                $newHeight = (int)$targetHeight;
+                $newWidth = (int) (($targetHeight / $newHeight) * $newWidth);
+                $newHeight = (int) $targetHeight;
             }
 
             $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
@@ -178,6 +178,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $notifyDaysBefore = $_POST['notify_days_before'];
         $inactive = isset($_POST['inactive']) ? true : false;
         $cancellationDate = $_POST['cancellation_date'] ?? null;
+        $replacementSubscriptionId = $_POST['replacement_subscription_id'];
+
+        if ($replacementSubscriptionId == 0 || $inactive == 0) {
+            $replacementSubscriptionId = null;
+        }
 
         if ($logoUrl !== "") {
             $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings, $i18n);
@@ -193,23 +198,40 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         }
 
         if (!$isEdit) {
-            $sql = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url, notify_days_before, user_id, cancellation_date) 
-                        VALUES (:name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, :notifyDaysBefore, :userId, :cancellationDate)";
+            $sql = "INSERT INTO subscriptions (
+                        name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
+                        payment_method_id, payer_user_id, category_id, notify, inactive, url, 
+                        notify_days_before, user_id, cancellation_date, replacement_subscription_id
+                    ) VALUES (
+                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
+                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
+                        :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id
+                    )";
         } else {
             $id = $_POST['id'];
+            $sql = "UPDATE subscriptions SET 
+                        name = :name, 
+                        price = :price, 
+                        currency_id = :currencyId,
+                        next_payment = :nextPayment, 
+                        cycle = :cycle, 
+                        frequency = :frequency, 
+                        notes = :notes, 
+                        payment_method_id = :paymentMethodId,
+                        payer_user_id = :payerUserId, 
+                        category_id = :categoryId, 
+                        notify = :notify, 
+                        inactive = :inactive, 
+                        url = :url, 
+                        notify_days_before = :notifyDaysBefore, 
+                        cancellation_date = :cancellationDate, 
+                        replacement_subscription_id = :replacement_subscription_id";
+
             if ($logo != "") {
-                $sql = "UPDATE subscriptions SET name = :name, logo = :logo, price = :price, currency_id = :currencyId,
-                     next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
-                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
-                     url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
-            } else {
-                $sql = "UPDATE subscriptions SET name = :name, price = :price, currency_id = :currencyId,
-                     next_payment = :nextPayment, cycle = :cycle, frequency = :frequency, notes = :notes, payment_method_id = :paymentMethodId,
-                     payer_user_id = :payerUserId, category_id = :categoryId, notify = :notify, inactive = :inactive, 
-                     url = :url, notify_days_before = :notifyDaysBefore, cancellation_date = :cancellationDate WHERE id = :id AND user_id = :userId";
+                $sql .= ", logo = :logo";
             }
+
+            $sql .= " WHERE id = :id AND user_id = :userId";
         }
 
         $stmt = $db->prepare($sql);
@@ -235,6 +257,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $stmt->bindParam(':id', $id, SQLITE3_INTEGER);
         }
         $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {
             $success['status'] = "Success";

@@ -166,6 +166,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
     $print[$id]['notes'] = $subscription['notes'] ?? "";
+    $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
     if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
       $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);

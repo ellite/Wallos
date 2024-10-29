@@ -347,6 +347,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['inactive'] = $subscription['inactive'];
       $print[$id]['url'] = $subscription['url'];
       $print[$id]['notes'] = $subscription['notes'];
+      $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
       if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
         $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
@@ -519,9 +520,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       </select>
     </div>
 
-    <div class="form-group-inline">
+    <div class="form-group-inline grow">
       <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
-      <label for="notifications"><?= translate('enable_notifications', $i18n) ?></label>
+      <label for="notifications" class="grow"><?= translate('enable_notifications', $i18n) ?></label>
     </div>
 
     <div class="form-group">
@@ -555,9 +556,28 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
     </div>
 
-    <div class="form-group-inline">
-      <input type="checkbox" id="inactive" name="inactive">
-      <label for="inactive"><?= translate('inactive', $i18n) ?></label>
+    <div class="form-group">
+      <div class="inline grow">
+        <input type="checkbox" id="inactive" name="inactive" onchange="toggleReplacementSub()">
+        <label for="inactive" class="grow"><?= translate('inactive', $i18n) ?></label>
+      </div>
+    </div>
+
+    <div class="form-group hide" id="replacement_subscritpion">
+      <label for="replacement_subscription_id"><?= translate('replaced_with', $i18n) ?>:</label>
+      <select id="replacement_subscription_id" name="replacement_subscription_id">
+        <option value="0"><?= translate('none', $i18n) ?></option>
+        <?php
+        foreach ($subscriptions as $sub) {
+          if ($sub['inactive'] == 0) {
+            ?>
+            <option value="<?= htmlspecialchars($sub['id']) ?>"><?= htmlspecialchars($sub['name']) ?>
+            </option>
+            <?php
+          }
+        }
+        ?>
+      </select>
     </div>
 
     <div class="buttons">
