@@ -35,6 +35,10 @@ function resetForm() {
   submitButton.disabled = false;
   const notifyDaysBefore = document.querySelector("#notify_days_before");
   notifyDaysBefore.disabled = true;
+  const replacementSubscriptionIdSelect = document.querySelector("#replacement_subscription_id");
+  replacementSubscriptionIdSelect.value = "0";
+  const replacementSubscription = document.querySelector(`#replacement_subscritpion`);
+  replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
   closeLogoSearch();
@@ -92,9 +96,19 @@ function fillEditFormFields(subscription) {
   }
 
   const notifyDaysBefore = document.querySelector("#notify_days_before");
-  notifyDaysBefore.value = subscription.notify_days_before;
+  notifyDaysBefore.value = subscription.notify_days_before ?? 0;
   if (subscription.notify === 1) {
     notifyDaysBefore.disabled = false;
+  }
+
+  const replacementSubscriptionIdSelect = document.querySelector("#replacement_subscription_id");
+  replacementSubscriptionIdSelect.value = subscription.replacement_subscription_id ?? 0;
+
+  const replacementSubscription = document.querySelector(`#replacement_subscritpion`);
+  if (subscription.inactive) {
+    replacementSubscription.classList.remove("hide");
+  } else {
+    replacementSubscription.classList.add("hide");
   }
 
   const deleteButton = document.querySelector("#deletesub");
@@ -511,6 +525,17 @@ function toggleSubMenu(subMenu) {
   } else {
     closeSubMenus();
     subMenu.classList.add("is-open");
+  }
+}
+
+function toggleReplacementSub() {
+  const checkbox = document.getElementById('inactive');
+  const replacementSubscription = document.querySelector(`#replacement_subscritpion`);
+
+  if (checkbox.checked) {
+    replacementSubscription.classList.remove("hide");
+  } else {
+    replacementSubscription.classList.add("hide");
   }
 }
 

@@ -1110,6 +1110,11 @@ header #avatar {
   flex-basis: 50%;
 }
 
+.form-group.hide,
+.form-group-inline.hide {
+  display: none;
+}
+
 .inline-row {
   display: flex;
   flex-direction: row;
