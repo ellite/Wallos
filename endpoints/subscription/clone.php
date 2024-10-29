@@ -36,7 +36,7 @@
             $cloneStmt->bindValue(':notify_days_before', $subscriptionToClone['notify_days_before'], SQLITE3_INTEGER);
             $cloneStmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
             $cloneStmt->bindValue(':cancellation_date', $subscriptionToClone['cancellation_date'], SQLITE3_TEXT);
-            $cloneStmt->bindValue(':replacement_subscription_id', $subscriptionToClone['id'], SQLITE3_INTEGER);
+            $cloneStmt->bindValue(':replacement_subscription_id', $subscriptionToClone['replacement_subscription_id'], SQLITE3_INTEGER);
 
             if ($cloneStmt->execute()) {
                 $response = [
