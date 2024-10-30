@@ -257,7 +257,6 @@ if ($usesMultipleCurrencies) {
   }
 }
 
-$numberOfElements = 6;
 ?>
 <section class="contain">
   <?php
@@ -413,7 +412,6 @@ $numberOfElements = 6;
     </div>
     <?php
     if (isset($budgetUsed)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= number_format($budgetUsed, 2) ?>%</span>
@@ -422,7 +420,6 @@ $numberOfElements = 6;
       <?php
     }
     if (isset($budgetLeft)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
@@ -431,7 +428,6 @@ $numberOfElements = 6;
       <?php
     }
     if (isset($overBudgetAmount)) {
-      $numberOfElements += 1;
       ?>
       <div class="statistic">
         <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
@@ -440,7 +436,6 @@ $numberOfElements = 6;
       <?php
     }
     if ($inactiveSubscriptions > 0) {
-      $numberOfElements += 3;
       ?>
       <div class="statistic">
         <span><?= $inactiveSubscriptions ?></span>
@@ -448,7 +443,6 @@ $numberOfElements = 6;
       </div>
       <?php
       if ($totalSavingsPerMonth > 0) {
-        $numberOfElements += 2;
         ?>
         <div class="statistic">
           <span><?= CurrencyFormatter::format($totalSavingsPerMonth, $code) ?></span>
@@ -460,12 +454,6 @@ $numberOfElements = 6;
         </div>
         <?php
       }
-    }
-
-    if (($numberOfElements + 1) % 3 == 0) {
-      ?>
-      <div class="statistic empty"></div>
-      <?php
     }
     ?>
   </div>

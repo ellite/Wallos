@@ -563,12 +563,19 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       </div>
     </div>
 
+    <?php
+      $orderedSubscriptions = $subscriptions;
+      usort($orderedSubscriptions, function ($a, $b) {
+        return strnatcmp(strtolower($a['name']), strtolower($b['name']));
+      });
+    ?>
+
     <div class="form-group hide" id="replacement_subscritpion">
       <label for="replacement_subscription_id"><?= translate('replaced_with', $i18n) ?>:</label>
       <select id="replacement_subscription_id" name="replacement_subscription_id">
         <option value="0"><?= translate('none', $i18n) ?></option>
         <?php
-        foreach ($subscriptions as $sub) {
+        foreach ($orderedSubscriptions as $sub) {
           if ($sub['inactive'] == 0) {
             ?>
             <option value="<?= htmlspecialchars($sub['id']) ?>"><?= htmlspecialchars($sub['name']) ?>
