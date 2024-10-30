@@ -1800,7 +1800,7 @@ button.dark-theme-button i {
   flex-direction: row;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .statistic {
@@ -1812,9 +1812,11 @@ button.dark-theme-button i {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-basis: 31%;
+  flex-basis: calc(33.333% - (20px * 2 / 3));
   flex-shrink: 0;
   box-sizing: border-box;
+  flex-grow: 0;
+  overflow: hidden;
 }
 
 .statistic.short {
