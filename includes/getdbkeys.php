@@ -18,6 +18,7 @@
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $memberId = $row['id'];
         $members[$memberId] = $row;
+        $members[$memberId]['count'] = 0;
     }
 
     $payment_methods = array();
@@ -28,6 +29,7 @@
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $payment_methodId = $row['id'];
         $payment_methods[$payment_methodId] = $row;
+        $payment_methods[$payment_methodId]['count'] = 0;
     }
 
     $categories = array();
@@ -38,6 +40,7 @@
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $categoryId = $row['id'];
         $categories[$categoryId] = $row;
+        $categories[$categoryId]['count'] = 0;
     }
 
     $cycles = array();
