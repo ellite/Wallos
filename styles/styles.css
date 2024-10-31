@@ -2504,6 +2504,11 @@ input[type="radio"]:checked+label::after {
   font-weight: 500;
 }
 
+.update-banner>span>a {
+  color: #222;
+  text-decoration: underline;
+}
+
 .demo-banner {
   padding: 15px 20px;
   background-color: rgba(var(--error-color-rgb), 0.2);

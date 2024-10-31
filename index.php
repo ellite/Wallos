@@ -121,6 +121,15 @@ if ($result) {
   }
 }
 
+foreach ($subscriptions as $subscription) {
+  $memberId = $subscription['payer_user_id'];
+  $members[$memberId]['count']++;
+  $categoryId = $subscription['category_id'];
+  $categories[$categoryId]['count']++;
+  $paymentMethodId = $subscription['payment_method_id'];
+  $payment_methods[$paymentMethodId]['count']++;
+}
+
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 ?>
 <style>
@@ -137,7 +146,11 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       if (version_compare($version, $latestVersion) == -1) {
         ?>
         <div class="update-banner">
-          <?= translate('new_version_available', $i18n) ?>: <span><?= $latestVersion ?></span>
+          <?= translate('new_version_available', $i18n) ?>:
+          <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+              target="_blank">
+              <?= htmlspecialchars($latestVersion) ?>
+            </a></span>
         </div>
         <?php
       }
@@ -180,6 +193,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
               <div class="filtermenu-submenu-content" id="filter-member">
                 <?php
                 foreach ($members as $member) {
+                  if ($member['count'] == 0) {
+                    continue;
+                  }
                   $selectedClass = '';
                   if (isset($_GET['member'])) {
                     $memberIds = explode(',', $_GET['member']);
@@ -206,6 +222,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
               <div class="filtermenu-submenu-content" id="filter-category">
                 <?php
                 foreach ($categories as $category) {
+                  if ($category['count'] == 0) {
+                    continue;
+                  }
                   if ($category['name'] == "No category") {
                     $category['name'] = translate("no_category", $i18n);
                   }
@@ -236,6 +255,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
               <div class="filtermenu-submenu-content" id="filter-payment">
                 <?php
                 foreach ($payment_methods as $payment) {
+                  if ($payment['count'] == 0) {
+                    continue;
+                  }
                   $selectedClass = '';
                   if (isset($_GET['payment'])) {
                     $paymentIds = explode(',', $_GET['payment']);
@@ -564,10 +586,10 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     </div>
 
     <?php
-      $orderedSubscriptions = $subscriptions;
-      usort($orderedSubscriptions, function ($a, $b) {
-        return strnatcmp(strtolower($a['name']), strtolower($b['name']));
-      });
+    $orderedSubscriptions = $subscriptions;
+    usort($orderedSubscriptions, function ($a, $b) {
+      return strnatcmp(strtolower($a['name']), strtolower($b['name']));
+    });
     ?>
 
     <div class="form-group hide" id="replacement_subscritpion">
