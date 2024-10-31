@@ -146,7 +146,11 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       if (version_compare($version, $latestVersion) == -1) {
         ?>
         <div class="update-banner">
-          <?= translate('new_version_available', $i18n) ?>: <span><?= $latestVersion ?></span>
+          <?= translate('new_version_available', $i18n) ?>:
+          <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+              target="_blank">
+              <?= htmlspecialchars($latestVersion) ?>
+            </a></span>
         </div>
         <?php
       }

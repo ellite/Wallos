@@ -239,6 +239,10 @@ input {
     color: #FFF;
 }
 
+.update-banner>span>a {
+    color: #FFF;
+}
+
 .totp-qrcode-container {
     padding: 14px;
     border: 1px solid #DDD;
