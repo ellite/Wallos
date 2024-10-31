@@ -22,7 +22,7 @@
     }
 
     $payment_methods = array();
-    $query = $db->prepare("SELECT * FROM payment_methods WHERE enabled=:enabled AND user_id = :userId");
+    $query = $db->prepare("SELECT * FROM payment_methods WHERE enabled=:enabled AND user_id = :userId ORDER BY `order` ASC");
     $query->bindValue(':enabled', 1, SQLITE3_INTEGER);
     $query->bindValue(':userId', $userId, SQLITE3_INTEGER);
     $result = $query->execute();

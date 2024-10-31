@@ -348,6 +348,10 @@ if ($usesMultipleCurrencies) {
         ?>
         <?php
         if (count($paymentMethods) > 1) {
+
+          usort($paymentMethods, function ($a, $b) {
+            return $a['order'] <=> $b['order'];
+          });
           ?>
           <div class="filtermenu-submenu">
             <div class="filter-title" onClick="toggleSubMenu('payment')"><?= translate("payment_method", $i18n) ?></div>
