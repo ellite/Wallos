@@ -177,6 +177,7 @@ header .logo .logo-image svg {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  align-items: center;
 }
 
 .dropdown-content a:hover {
@@ -185,6 +186,11 @@ header .logo .logo-image svg {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.dropdown-content a>svg {
+  width: 20px;
+  height: 20px;
 }
 
 @media (max-width: 768px) {
@@ -332,6 +338,57 @@ button:hover svg .main-color {
   font-size: 17px;
 }
 
+.subscription-container {
+  position: relative;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  background-color: #FFFFFF;
+}
+
+.subscription-container > .mobile-actions {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  overflow: hidden;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.subscription-container > .mobile-actions > button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  height: 100%;
+  width: 60px;
+  justify-content: center;
+  color: #f1f1f1;
+}
+
+button.mobile-action-edit {
+  background-color: #ffbf15; /* #f3e22d; */
+}
+
+button.mobile-action-delete {
+  background-color: #f45a40;
+}
+
+button.mobile-action-clone {
+  background-color: #2da7f3
+}
+
+.subscription-container > .mobile-actions > button > svg {
+  width: 25px;
+  height: 25px;
+  min-height: 25px;
+}
+
 .subscription {
   display: flex;
   flex-direction: column;
@@ -343,6 +400,8 @@ button:hover svg .main-color {
   padding: 12px 15px;
   border-radius: 16px;
   cursor: pointer;
+  position: relative;
+  transition: transform 0.2s;
 }
 
 .subscription.hide {
@@ -350,7 +409,7 @@ button:hover svg .main-color {
 }
 
 .subscription.inactive {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: #FFF;
   color: rgba(100, 100, 100, 0.6);
   box-shadow: 0 2px 5px rgba(100, 100, 100, 0.1);
 }
@@ -2630,7 +2689,7 @@ input[type="radio"]:checked+label::after {
     max-width: 85%;
   }
 
-  .mobile-nav>a.active{
+  .mobile-nav>a.active {
     color: #202020;
   }
 

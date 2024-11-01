@@ -27,6 +27,7 @@ if ($settings) {
     $settings['hideDisabledSubscriptions'] = $settings['hide_disabled'] ? 'true': 'false';
     $settings['disabledToBottom'] = $settings['disabled_to_bottom'] ? 'true': 'false';
     $settings['showOriginalPrice'] = $settings['show_original_price'] ? 'true': 'false';
+    $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
 }
 
 $query = "SELECT * FROM custom_colors WHERE user_id = :userId";

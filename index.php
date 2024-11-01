@@ -396,7 +396,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom']);
+      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation']);
     }
     $db->close();
 

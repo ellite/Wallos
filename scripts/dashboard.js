@@ -332,10 +332,12 @@ function fetchSubscriptions(id, event) {
           mainActions.classList.remove("hidden");
         }
       }
-      
+
       if (id && event) {
         openEditSubscription(event, id);
       }
+
+      setSwipeElements();
     })
     .catch(error => {
       console.error(translate('error_reloading_subscription'), error);
@@ -491,6 +493,60 @@ function closeSubMenus() {
 
 }
 
+function setSwipeElements() {
+  if (window.mobileNavigation) {
+    const swipeElements = document.querySelectorAll('.subscription');
+
+    swipeElements.forEach((element) => {
+      let startX = 0;
+      let startY = 0;
+      let currentX = 0;
+      let currentY = 0;
+      let translateX = 0;
+      const maxTranslateX = -180;
+
+      element.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        element.style.transition = ''; // Remove transition for smooth dragging
+      });
+
+      element.addEventListener('touchmove', (e) => {
+        currentX = e.touches[0].clientX;
+        currentY = e.touches[0].clientY;
+
+        const diffX = currentX - startX;
+        const diffY = currentY - startY;
+
+        // Check if the swipe is more horizontal than vertical
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+          e.preventDefault(); // Prevent vertical scrolling
+
+          // Only update translateX if swiping within allowed range
+          if (!(translateX === maxTranslateX && diffX < 0)) {
+            translateX = Math.min(0, Math.max(maxTranslateX, diffX)); // Clamp translateX between -180 and 0
+            element.style.transform = `translateX(${translateX}px)`;
+          }
+        }
+      });
+
+      element.addEventListener('touchend', () => {
+        // Check the final swipe position to determine snap behavior
+        if (translateX < maxTranslateX / 2) {
+          // If more than halfway to the left, snap fully open
+          translateX = maxTranslateX;
+        } else {
+          // If swiped less than halfway left or swiped right, snap back to closed
+          translateX = 0;
+        }
+        element.style.transition = 'transform 0.2s ease'; // Smooth snap effect
+        element.style.transform = `translateX(${translateX}px)`;
+      });
+    });
+
+  }
+}
+
 const activeFilters = [];
 activeFilters['categories'] = [];
 activeFilters['members'] = [];
@@ -516,6 +572,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+
+  setSwipeElements();
+
 });
 
 function toggleSubMenu(subMenu) {
@@ -556,14 +615,14 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
-        if (activeFilters['members'].includes(memberId)) {
-            const memberIndex = activeFilters['members'].indexOf(memberId);
-            activeFilters['members'].splice(memberIndex, 1);
-            this.classList.remove('selected');
-        } else {
-            activeFilters['members'].push(memberId);
-            this.classList.add('selected');
-        }
+      if (activeFilters['members'].includes(memberId)) {
+        const memberIndex = activeFilters['members'].indexOf(memberId);
+        activeFilters['members'].splice(memberIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['members'].push(memberId);
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-paymentid')) {
       const paymentId = this.getAttribute('data-paymentid');
       if (activeFilters['payments'].includes(paymentId)) {
