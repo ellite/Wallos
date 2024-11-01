@@ -165,25 +165,37 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
             <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="profile.php" class="mobileNavigationHideOnMobile"><i
-                class="fa-solid fa-user"></i><?= translate('profile', $i18n) ?></a>
-            <a href="." class="mobileNavigationHideOnMobile"><i
-                class="fa-solid fa-list"></i><?= translate('subscriptions', $i18n) ?></a>
-            <a href="calendar.php" class="mobileNavigationHideOnMobile"><i
-                class="fa-solid fa-calendar"></i><?= translate('calendar', $i18n) ?></a>
-            <a href="stats.php" class="mobileNavigationHideOnMobile"><i
-                class="fa-solid fa-chart-simple"></i><?= translate('stats', $i18n) ?></a>
-            <a href="settings.php" class="mobileNavigationHideOnMobile"><i
-                class="fa-solid fa-gear"></i><?= translate('settings', $i18n) ?></a>
+            <a href="profile.php" class="mobileNavigationHideOnMobile">
+              <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
+              <?= translate('profile', $i18n) ?></a>
+            <a href="." class="mobileNavigationHideOnMobile">
+              <?php include "images/siteicons/svg/mobile-menu/home.php"; ?>
+              <?= translate('subscriptions', $i18n) ?></a>
+            <a href="calendar.php" class="mobileNavigationHideOnMobile">
+                <?php include "images/siteicons/svg/mobile-menu/calendar.php"; ?>
+                <?= translate('calendar', $i18n) ?></a>
+            <a href="stats.php" class="mobileNavigationHideOnMobile">
+              <?php include "images/siteicons/svg/mobile-menu/statistics.php"; ?>
+              <?= translate('stats', $i18n) ?></a>
+            <a href="settings.php" class="mobileNavigationHideOnMobile">
+              <?php include "images/siteicons/svg/mobile-menu/settings.php"; ?>
+              <?= translate('settings', $i18n) ?></a>
             <?php if ($isAdmin): ?>
-              <a href="admin.php"><i class="fa-solid fa-user-tie"></i><?= translate('admin', $i18n) ?></a>
+              <a href="admin.php">
+                <?php include "images/siteicons/svg/mobile-menu/admin.php"; ?>
+                <?= translate('admin', $i18n) ?>
+              </a>
             <?php endif; ?>
-            <a href="about.php"><i class="fa-solid fa-info-circle"></i><?= translate('about', $i18n) ?></a>
+            <a href="about.php">
+              <?php include "images/siteicons/svg/mobile-menu/about.php"; ?>
+              <?= translate('about', $i18n) ?>
+            </a>
             <?php
             if ($settings['disableLogin'] == 0) {
               ?>
-              <a href="logout.php"><i
-                  class="fa-solid fa-arrow-right-from-bracket"></i><?= translate('logout', $i18n) ?></a>
+              <a href="logout.php">
+                <?php include "images/siteicons/svg/mobile-menu/logout.php"; ?>
+                <?= translate('logout', $i18n) ?></a>
               <?php
             }
             ?>

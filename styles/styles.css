@@ -177,6 +177,7 @@ header .logo .logo-image svg {
   display: flex;
   flex-direction: row;
   gap: 12px;
+  align-items: center;
 }
 
 .dropdown-content a:hover {
@@ -185,6 +186,11 @@ header .logo .logo-image svg {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.dropdown-content a>svg {
+  width: 20px;
+  height: 20px;
 }
 
 @media (max-width: 768px) {
