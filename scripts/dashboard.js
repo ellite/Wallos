@@ -499,34 +499,33 @@ function setSwipeElements() {
 
     swipeElements.forEach((element) => {
       let startX = 0;
-      let startY = 0;
-      let endX = 0;
-      let endY = 0;
+      let currentX = 0;
+      let translateX = 0;
+      const maxTranslateX = -180;
 
       element.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
+        element.style.transition = ''; // Remove transition for smooth drag effect
       });
 
       element.addEventListener('touchmove', (e) => {
-        endX = e.touches[0].clientX;
-        endY = e.touches[0].clientY;
+        currentX = e.touches[0].clientX;
+        translateX = Math.min(0, Math.max(maxTranslateX, currentX - startX)); // Clamp value between -180 and 0
+        element.style.transform = `translateX(${translateX}px)`;
       });
 
       element.addEventListener('touchend', () => {
-        const diffX = startX - endX;
-        const diffY = startY - endY;
-
-        // Swipe left
-        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50) {
-          element.classList.add('show-menu');
+        // Snap to closest position (0 or -180)
+        if (translateX < maxTranslateX / 2) {
+          translateX = maxTranslateX; // Snap to -180
+        } else {
+          translateX = 0; // Snap to 0
         }
-        // Swipe right
-        else if (Math.abs(diffX) > Math.abs(diffY) && diffX < -50) {
-          element.classList.remove('show-menu');
-        }
+        element.style.transition = 'transform 0.2s ease'; // Smooth snap-back
+        element.style.transform = `translateX(${translateX}px)`;
       });
     });
+
   }
 }
 

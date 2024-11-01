@@ -158,8 +158,8 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <?php
                         $desktopMenuButtonClass = "";
-                        if ($mobileNavigation) {
-                            $desktopMenuButtonClass = "";
+                        if ($mobileNavigation === "true") {
+                            $desktopMenuButtonClass = "mobileNavigationHideOnMobile";
                         }
                     ?>
                     <button type="button" class="actions-expand <?= $desktopMenuButtonClass ?>"
