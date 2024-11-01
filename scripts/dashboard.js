@@ -332,10 +332,12 @@ function fetchSubscriptions(id, event) {
           mainActions.classList.remove("hidden");
         }
       }
-      
+
       if (id && event) {
         openEditSubscription(event, id);
       }
+
+      setSwipeElements();
     })
     .catch(error => {
       console.error(translate('error_reloading_subscription'), error);
@@ -491,6 +493,43 @@ function closeSubMenus() {
 
 }
 
+function setSwipeElements() {
+  if (window.mobileNavigation) {
+    const swipeElements = document.querySelectorAll('.subscription');
+
+    swipeElements.forEach((element) => {
+      let startX = 0;
+      let startY = 0;
+      let endX = 0;
+      let endY = 0;
+
+      element.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      });
+
+      element.addEventListener('touchmove', (e) => {
+        endX = e.touches[0].clientX;
+        endY = e.touches[0].clientY;
+      });
+
+      element.addEventListener('touchend', () => {
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // Swipe left
+        if (Math.abs(diffX) > Math.abs(diffY) && diffX > 50) {
+          element.classList.add('show-menu');
+        }
+        // Swipe right
+        else if (Math.abs(diffX) > Math.abs(diffY) && diffX < -50) {
+          element.classList.remove('show-menu');
+        }
+      });
+    });
+  }
+}
+
 const activeFilters = [];
 activeFilters['categories'] = [];
 activeFilters['members'] = [];
@@ -516,6 +555,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
+
+  setSwipeElements();
+
 });
 
 function toggleSubMenu(subMenu) {
@@ -556,14 +598,14 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
-        if (activeFilters['members'].includes(memberId)) {
-            const memberIndex = activeFilters['members'].indexOf(memberId);
-            activeFilters['members'].splice(memberIndex, 1);
-            this.classList.remove('selected');
-        } else {
-            activeFilters['members'].push(memberId);
-            this.classList.add('selected');
-        }
+      if (activeFilters['members'].includes(memberId)) {
+        const memberIndex = activeFilters['members'].indexOf(memberId);
+        activeFilters['members'].splice(memberIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['members'].push(memberId);
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-paymentid')) {
       const paymentId = this.getAttribute('data-paymentid');
       if (activeFilters['payments'].includes(paymentId)) {

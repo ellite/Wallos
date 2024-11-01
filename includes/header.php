@@ -106,6 +106,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
     window.update_theme_settings = "<?= $updateThemeSettings ?>";
     window.lang = "<?= $lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
+    window.mobileNavigation = "<?= $mobileNavigation !== "" ?>";
   </script>
   <style>
     <?= htmlspecialchars($customCss, ENT_QUOTES, 'UTF-8') ?>
