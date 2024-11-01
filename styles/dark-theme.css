@@ -58,7 +58,7 @@ svg .text-color {
 }
 
 .subscription.inactive {
-    background-color: rgba(24, 24, 24, 0.3);
+    background-color: #222;
     color: rgba(200, 200, 200, 0.6);
     box-shadow: 0 2px 5px rgba(50, 50, 50, 0.1);
 }
@@ -79,6 +79,10 @@ svg .text-color {
 .subscription-main .actions>li:last-of-type {
     border: none;
 }
+
+.subscription-container {
+    background-color: #222;
+  }
 
 .close-form {
     color: #EEE;

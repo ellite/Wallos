@@ -499,29 +499,47 @@ function setSwipeElements() {
 
     swipeElements.forEach((element) => {
       let startX = 0;
+      let startY = 0;
       let currentX = 0;
+      let currentY = 0;
       let translateX = 0;
       const maxTranslateX = -180;
 
       element.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;
-        element.style.transition = ''; // Remove transition for smooth drag effect
+        startY = e.touches[0].clientY;
+        element.style.transition = ''; // Remove transition for smooth dragging
       });
 
       element.addEventListener('touchmove', (e) => {
         currentX = e.touches[0].clientX;
-        translateX = Math.min(0, Math.max(maxTranslateX, currentX - startX)); // Clamp value between -180 and 0
-        element.style.transform = `translateX(${translateX}px)`;
+        currentY = e.touches[0].clientY;
+
+        const diffX = currentX - startX;
+        const diffY = currentY - startY;
+
+        // Check if the swipe is more horizontal than vertical
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+          e.preventDefault(); // Prevent vertical scrolling
+
+          // Only update translateX if swiping within allowed range
+          if (!(translateX === maxTranslateX && diffX < 0)) {
+            translateX = Math.min(0, Math.max(maxTranslateX, diffX)); // Clamp translateX between -180 and 0
+            element.style.transform = `translateX(${translateX}px)`;
+          }
+        }
       });
 
       element.addEventListener('touchend', () => {
-        // Snap to closest position (0 or -180)
+        // Check the final swipe position to determine snap behavior
         if (translateX < maxTranslateX / 2) {
-          translateX = maxTranslateX; // Snap to -180
+          // If more than halfway to the left, snap fully open
+          translateX = maxTranslateX;
         } else {
-          translateX = 0; // Snap to 0
+          // If swiped less than halfway left or swiped right, snap back to closed
+          translateX = 0;
         }
-        element.style.transition = 'transform 0.2s ease'; // Smooth snap-back
+        element.style.transition = 'transform 0.2s ease'; // Smooth snap effect
         element.style.transform = `translateX(${translateX}px)`;
       });
     });

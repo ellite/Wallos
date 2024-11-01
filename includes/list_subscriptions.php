@@ -104,6 +104,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             if ($mobileNavigation === 'true') {
                 ?>
                 <div class="mobile-actions" data-id="<?= $subscription['id'] ?>">
+                    <button class="mobile-action-edit"></button>
                     <button class="mobile-action-edit" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <?php include $imagePath . "images/siteicons/svg/mobile-menu/edit.php"; ?>
                         Edit

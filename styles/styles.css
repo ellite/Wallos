@@ -343,7 +343,7 @@ button:hover svg .main-color {
   background-color: #FFFFFF;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
-  background-color: #f3e22d;
+  background-color: #FFFFFF;
 }
 
 .subscription-container > .mobile-actions {
@@ -368,10 +368,11 @@ button:hover svg .main-color {
   height: 100%;
   width: 60px;
   justify-content: center;
+  color: #f1f1f1;
 }
 
 button.mobile-action-edit {
-  background-color: #f3e22d;
+  background-color: #ffbf15; /* #f3e22d; */
 }
 
 button.mobile-action-delete {
@@ -399,12 +400,8 @@ button.mobile-action-clone {
   padding: 12px 15px;
   border-radius: 16px;
   cursor: pointer;
-  transition: all .3s ease-in;
   position: relative;
-}
-
-.subscription.show-menu {
-  transform: translateX(-180px);
+  transition: transform 0.2s;
 }
 
 .subscription.hide {
