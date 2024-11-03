@@ -258,6 +258,10 @@ input {
     border: 2px dashed #444;
 }
 
+.mobile-nav-image {
+    background-image: url("../images/siteimages/mobilenavdark.png");
+}
+
 @media (max-width: 768px) {
     .mobile-nav {
         background-color: #222;

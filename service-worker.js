@@ -71,6 +71,8 @@ self.addEventListener('install', function (event) {
                 'images/siteicons/wallos.png',
                 'images/siteicons/walloswhite.png',
                 'images/siteimages/empty.png',
+                'images/siteimages/mobilenav.png',
+                'images/siteimages/mobilenavdark.png',
                 'images/avatars/1.svg',
                 'images/avatars/2.svg',
                 'images/avatars/3.svg',
