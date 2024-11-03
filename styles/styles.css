@@ -11,7 +11,7 @@ body.no-scroll {
 }
 
 @media (max-width: 768px) {
-  .mobile-navivagtion main {
+  .mobile-navigation main {
     margin-bottom: 70px;
   }
 }
@@ -128,7 +128,7 @@ header .logo .logo-image svg {
 }
 
 @media (max-width: 768px) {
-  .mobile-navivagtion .dropbtn:after {
+  .mobile-navigation .dropbtn:after {
     content: "";
     display: none;
   }
@@ -346,7 +346,7 @@ button:hover svg .main-color {
   background-color: #FFFFFF;
 }
 
-.subscription-container > .mobile-actions {
+.subscription-container>.mobile-actions {
   display: flex;
   flex-direction: row;
   position: absolute;
@@ -358,7 +358,7 @@ button:hover svg .main-color {
   border-bottom-right-radius: 16px;
 }
 
-.subscription-container > .mobile-actions > button {
+.subscription-container>.mobile-actions>button {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,7 +372,8 @@ button:hover svg .main-color {
 }
 
 button.mobile-action-edit {
-  background-color: #ffbf15; /* #f3e22d; */
+  background-color: #ffbf15;
+  /* #f3e22d; */
 }
 
 button.mobile-action-delete {
@@ -383,7 +384,7 @@ button.mobile-action-clone {
   background-color: #2da7f3
 }
 
-.subscription-container > .mobile-actions > button > svg {
+.subscription-container>.mobile-actions>button>svg {
   width: 25px;
   height: 25px;
   min-height: 25px;
@@ -1752,7 +1753,7 @@ button.dark-theme-button i {
     width: 100%;
   }
 
-  .mobile-navivagtion .toast {
+  .mobile-navigation .toast {
     bottom: 70px;
   }
 }
@@ -2652,6 +2653,17 @@ input[type="radio"]:checked+label::after {
   display: none;
 }
 
+.mobile-nav-image {
+  width: 100%;
+  max-width: 440px;
+  margin-top: 15px; 
+  background-image: url("../images/siteimages/mobilenav.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 16/9;
+}
+
 @media (max-width: 768px) {
   .mobile-nav {
     position: fixed;
@@ -2693,7 +2705,7 @@ input[type="radio"]:checked+label::after {
     color: #202020;
   }
 
-  .mobile-navivagtion .mobileNavigationHideOnMobile {
+  .mobile-navigation .mobileNavigationHideOnMobile {
     display: none !important;
   }
 }

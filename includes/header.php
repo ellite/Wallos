@@ -72,12 +72,11 @@ function hex2rgb($hex)
   return "$r, $g, $b";
 }
 
-$mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
+$mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
 
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -106,7 +105,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navivagtion" : "";
     window.update_theme_settings = "<?= $updateThemeSettings ?>";
     window.lang = "<?= $lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
-    window.mobileNavigation = "<?= $mobileNavigation !== "" ?>";
+    window.mobileNavigation = "<?= $settings['mobileNavigation'] == "true" ?>";
   </script>
   <style>
     <?= htmlspecialchars($customCss, ENT_QUOTES, 'UTF-8') ?>

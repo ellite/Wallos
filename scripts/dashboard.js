@@ -194,7 +194,7 @@ function deleteSubscription(event, id) {
       .then(response => {
         if (response.ok) {
           showSuccessMessage(translate('subscription_deleted'));
-          fetchSubscriptions();
+          fetchSubscriptions(null, null, "delete");
           closeAddSubscription();
         } else {
           showErrorMessage(translate('error_deleting_subscription'));
@@ -222,7 +222,7 @@ function cloneSubscription(event, id) {
     .then(data => {
       if (data.success) {
         const id = data.id;
-        fetchSubscriptions(id, event);
+        fetchSubscriptions(id, event, "clone");
         showSuccessMessage(decodeURI(data.message));
       } else {
         showErrorMessage(data.message || translate('error'));
@@ -303,7 +303,7 @@ function closeLogoSearch() {
   logoResults.innerHTML = "";
 }
 
-function fetchSubscriptions(id, event) {
+function fetchSubscriptions(id, event, initiator) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
 
@@ -333,11 +333,18 @@ function fetchSubscriptions(id, event) {
         }
       }
 
-      if (id && event) {
+      if (initiator == "clone" && id && event) {
         openEditSubscription(event, id);
       }
 
       setSwipeElements();
+      if (initiator === "add") {
+        if (document.getElementsByClassName('subscription').length === 1) {
+          setTimeout(() => {
+            swipeHintAnimation();
+          }, 1000);
+        }
+      }
     })
     .catch(error => {
       console.error(translate('error_reloading_subscription'), error);
@@ -359,7 +366,7 @@ function setSortOption(sortOption) {
   expirationDate.setDate(expirationDate.getDate() + daysToExpire);
   const cookieValue = encodeURIComponent(sortOption) + '; expires=' + expirationDate.toUTCString();
   document.cookie = 'sortOrder=' + cookieValue + '; SameSite=Strict';
-  fetchSubscriptions();
+  fetchSubscriptions(null, null, "sort");
   toggleSortOptions();
 }
 
@@ -407,8 +414,9 @@ function submitFormData(formData, submitButton, endpoint) {
     .then((data) => {
       if (data.status === "Success") {
         showSuccessMessage(data.message);
-        fetchSubscriptions();
+        fetchSubscriptions(null, null, "add");
         closeAddSubscription();
+
       }
     })
     .catch((error) => {
@@ -653,7 +661,7 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       document.querySelector('#clear-filters').classList.add('hide');
     }
 
-    fetchSubscriptions();
+    fetchSubscriptions(null, null, "filter");
   });
 });
 
@@ -667,7 +675,7 @@ function clearFilters() {
     item.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');
-  fetchSubscriptions();
+  fetchSubscriptions(null, null, "clearfilters");
 }
 
 let currentActions = null;
@@ -705,3 +713,32 @@ function expandActions(event, subscriptionId) {
     currentActions = null;
   }
 }
+
+function swipeHintAnimation() {
+  if (window.mobileNavigation) {
+    const maxAnimations = 3;
+    const cookieName = 'swipeHintCount';
+
+    let count = parseInt(getCookie(cookieName)) || 0;
+    if (count < maxAnimations) {
+      const firstElement = document.querySelector('.subscription');
+      if (firstElement) {
+        firstElement.style.transition = 'transform 0.3s ease';
+        firstElement.style.transform = 'translateX(-80px)';
+
+        setTimeout(() => {
+          firstElement.style.transform = 'translateX(0px)';
+        }, 600);
+      }
+
+      count++;
+      document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Strict`;
+    }
+  }
+}
+
+window.addEventListener('load', () => {
+  if (document.querySelector('.subscription')) {
+    swipeHintAnimation();
+  }
+});
