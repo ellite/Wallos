@@ -549,6 +549,7 @@ function setSwipeElements() {
         }
         element.style.transition = 'transform 0.2s ease'; // Smooth snap effect
         element.style.transform = `translateX(${translateX}px)`;
+        element.style.zIndex = '1';
       });
     });
 
@@ -715,7 +716,7 @@ function expandActions(event, subscriptionId) {
 }
 
 function swipeHintAnimation() {
-  if (window.mobileNavigation) {
+  if (window.mobileNavigation && window.matchMedia('(max-width: 768px)').matches) {
     const maxAnimations = 3;
     const cookieName = 'swipeHintCount';
 
@@ -728,6 +729,7 @@ function swipeHintAnimation() {
 
         setTimeout(() => {
           firstElement.style.transform = 'translateX(0px)';
+          firstElement.style.zIndex = '1';
         }, 600);
       }
 
