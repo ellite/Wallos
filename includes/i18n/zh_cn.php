@@ -384,6 +384,7 @@ $i18n = [
     "month-10" => "十月",
     "month-11" => "十一月",
     "month-12" => "十二月",
+    "total_cost" => "总费用",
 
     // TOTP Page
     "insert_totp_code" => "请输入 TOTP 代码",

@@ -357,6 +357,7 @@ $i18n = [
     "month-10" => "10月",
     "month-11" => "11月",
     "month-12" => "12月",
+    "total_cost" => "合計費用",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
 

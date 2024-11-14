@@ -364,6 +364,7 @@ $i18n = [
     "month-10" => "Ekim",
     "month-11" => "Kasım",
     "month-12" => "Aralık",
+    "total_cost" => "Toplam Maliyet",
     // TOTP Page
     "insert_totp_code" => "Lütfen TOTP kodunuzu girin",
 

@@ -365,6 +365,7 @@ $i18n = [
     "month-10" => "Tháng Mười",
     "month-11" => "Tháng Mười Một",
     "month-12" => "Tháng Mười Hai",
+    "total_cost" => "Tổng chi phí",
     // TOTP Page
     "insert_totp_code" => "Nhập mã TOTP",
 ];
