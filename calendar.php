@@ -1,6 +1,23 @@
 <?php
 require_once 'includes/header.php';
 
+function getPriceConverted($price, $currency, $database, $userId)
+{
+  $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
+  $stmt = $database->prepare($query);
+  $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
+  $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+  $result = $stmt->execute();
+
+  $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
+  if ($exchangeRate === false) {
+    return $price;
+  } else {
+    $fromRate = $exchangeRate['rate'];
+    return $price / $fromRate;
+  }
+}
+
 $currentMonth = date('m');
 $currentYear = date('Y');
 $sameAsCurrent = false;
@@ -30,6 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['month']) && isset($_GET
   $sameAsCurrent = true;
 }
 
+$currenciesInUse = [];
+$numberOfSubscriptionsToPayThisMonth = 0;
+$totalCostThisMonth = 0;
+$amountDueThisMonth = 0;
+
 $query = "SELECT * FROM subscriptions WHERE user_id = :user_id AND inactive = 0";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
@@ -37,12 +59,50 @@ $result = $stmt->execute();
 $subscriptions = [];
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
   $subscriptions[] = $row;
+  $currenciesInUse[] = $row['currency_id'];
 }
+
+$currenciesInUse = array_unique($currenciesInUse);
+$usesMultipleCurrencies = count($currenciesInUse) > 1;
+
+$showCantConverErrorMessage = false;
+if ($usesMultipleCurrencies) {
+  $query = "SELECT api_key FROM fixer WHERE user_id = :userId";
+  $stmt = $db->prepare($query);
+  $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+  $result = $stmt->execute();
+  if ($result->fetchArray(SQLITE3_ASSOC) === false) {
+    $showCantConverErrorMessage = true;
+  }
+}
+
+// Get code of main currency to display on statistics
+$query = "SELECT c.code
+          FROM currencies c
+          INNER JOIN user u ON c.id = u.main_currency
+          WHERE u.id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$row = $result->fetchArray(SQLITE3_ASSOC);
+$code = $row['code'];
 
 $yearsToLoad = $calendarYear - $currentYear + 1;
 ?>
 
 <section class="contain">
+  <?php
+  if ($showCantConverErrorMessage) {
+    ?>
+    <div class="error-box">
+      <div class="error-message">
+        <i class="fa-solid fa-exclamation-circle"></i>
+        <?= translate('cant_convert_currency', $i18n) ?>
+      </div>
+    </div>
+    <?php
+  }
+  ?>
   <div class="split-header">
     <h2>Calendar</h2>
     <div class="calendar-nav">
@@ -78,6 +138,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
     $today = $todayYear . '-' . $todayMonth . '-' . $todayDay;
     $today = strtotime($today);
     ?>
+
     <div class="calendar">
       <div class="calendar-header">
         <div class="calendar-cell"><?= translate('mon', $i18n) ?></div>
@@ -115,9 +176,9 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                     $nextPaymentDate = strtotime($subscription['next_payment']);
                     $cycle = $subscription['cycle']; // Integer from 1 to 4
                     $frequency = $subscription['frequency'];
-  
+
                     $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
-  
+
                     // Determine the strtotime increment string based on cycle
                     switch ($cycle) {
                       case 1: // Days
@@ -142,12 +203,17 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                     // Find the first payment date of the month by moving backwards
                     $startDate = $nextPaymentDate;
                     while ($startDate > $startOfMonth) {
-                        $startDate = strtotime("-" . $incrementString, $startDate);
+                      $startDate = strtotime("-" . $incrementString, $startDate);
                     }
-  
+
                     for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                       if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                         if (date('d', $date) == $day) {
+                          $totalCostThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+                          $numberOfSubscriptionsToPayThisMonth++;
+                          if ($date > $today) {
+                            $amountDueThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+                          }
                           ?>
                           <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
                             <?= htmlspecialchars($subscription['name']) ?>
@@ -210,12 +276,17 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                   // Find the first payment date of the month by moving backwards
                   $startDate = $nextPaymentDate;
                   while ($startDate > $startOfMonth) {
-                      $startDate = strtotime("-" . $incrementString, $startDate);
+                    $startDate = strtotime("-" . $incrementString, $startDate);
                   }
 
                   for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
                     if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                       if (date('d', $date) == $day) {
+                        $totalCostThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+                        $numberOfSubscriptionsToPayThisMonth++;
+                        if ($date > $today) {
+                          $amountDueThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+                        }
                         ?>
                         <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
                           <?= $subscription['name'] ?>
@@ -247,6 +318,28 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
         </div>
       </div>
     </div>
+
+    <div class="calendar-monthly-stats">
+      <div class="calendar-monthly-stats-header">
+        <h3><?= translate("stats", $i18n) ?></h3>
+      </div>
+      <div class="statistics">
+        <div class="statistic">
+          <span>
+            <?= $numberOfSubscriptionsToPayThisMonth ?></span>
+          <div class="title"><?= translate("active_subscriptions", $i18n) ?></div>
+        </div>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($totalCostThisMonth, $code) ?></span>
+          <div class="title">Total cost</div>
+        </div>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
+          <div class="title"><?= translate("amount_due", $i18n) ?></div>
+        </div>
+      </div>
+    </div>
+
 </section>
 
 <div id="subscriptionModal" class="subscription-modal">

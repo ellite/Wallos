@@ -364,6 +364,7 @@ $i18n = [
     "month-10" => "Octubre",
     "month-11" => "Noviembre",
     "month-12" => "Diciembre",
+    "total_cost" => "Costo Total",
     // TOTP Page
     "insert_totp_code" => "Introduce el código TOTP",
 

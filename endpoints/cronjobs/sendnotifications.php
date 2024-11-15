@@ -20,6 +20,16 @@ $query = "SELECT id, username FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 
+function getDaysText($days) {
+    if ($days == 0) {
+        return "Today";
+    } elseif ($days == 1) {
+        return "Tomorrow";
+    } else {
+        return "In " . $days . " days";
+    }
+}
+
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
     if (php_sapi_name() !== 'cli') {
@@ -213,8 +223,16 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $daysToCompare = $days;
             }
             $nextPaymentDate = new DateTime($rowSubscription['next_payment']);
-            $difference = $currentDate->diff($nextPaymentDate)->days + 1;
+
+            $difference = $currentDate->diff($nextPaymentDate)->days;
+            if ($nextPaymentDate > $currentDate) {
+                $difference += 1;
+            }
+
             if ($difference === $daysToCompare) {
+                echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
+                echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
+                echo "Difference: " . $difference . "<br />";
                 $notify[$rowSubscription['payer_user_id']][$i]['name'] = $rowSubscription['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
                 $notify[$rowSubscription['payer_user_id']][$i]['currency'] = $currencies[$rowSubscription['currency_id']]['name'];
@@ -244,7 +262,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $message = "The following subscriptions are up for renewal:\n";
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
@@ -313,7 +331,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
@@ -366,7 +384,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
@@ -420,7 +438,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
@@ -469,7 +487,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
@@ -511,7 +529,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     foreach ($perUser as $subscription) {
-                        $dayText = $subscription['days'] == 1 ? "Tomorrow" : "In " . $subscription['days'] . " days";
+                        $dayText = getDaysText($subscription['days']);
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 

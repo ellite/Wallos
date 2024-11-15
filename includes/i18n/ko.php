@@ -364,6 +364,7 @@ $i18n = [
     "month-10" => "10월",
     "month-11" => "11월",
     "month-12" => "12월",
+    "total_cost" => "총 비용",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 
