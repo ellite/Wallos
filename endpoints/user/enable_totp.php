@@ -86,9 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         $clock = new OTPHP\InternalClock();
+        
         $totp = OTPHP\TOTP::createFromSecret($secret, $clock);
+        $totp->setPeriod(30);
 
-        if ($totp->verify($totp_code)) {
+        if ($totp->verify($totp_code, null, 15)) {
             // Generate 10 backup codes
             $backupCodes = [];
             for ($i = 0; $i < 10; $i++) {

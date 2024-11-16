@@ -180,7 +180,6 @@ function submitTotp() {
                 totpBackupCodes.classList.remove('hide');
             } else {
                 showErrorMessage(data.message);
-                console.log(error);
             }
         })
         .catch(error => {

@@ -71,7 +71,8 @@ if (isset($_POST['one-time-code'])) {
     $clock = new OTPHP\InternalClock();
 
     $totp = OTPHP\TOTP::createFromSecret($totp_secret, $clock);
-    $valid = $totp->verify($totp_code);
+    $totp->setPeriod(30);
+    $valid = $totp->verify($totp_code, null, 15);
 
     // If totp is not valid check backup codes
     if (!$valid) {
