@@ -409,7 +409,7 @@ button.mobile-action-renew {
   transition: transform 0.2s;
 }
 
-.subscription.hide {
+.subscription-container.hide {
   display: none;
 }
 

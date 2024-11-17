@@ -518,9 +518,9 @@ function searchSubscriptions() {
   subscriptions.forEach(subscription => {
     const name = subscription.getAttribute('data-name').toLowerCase();
     if (!name.includes(searchTerm)) {
-      subscription.classList.add("hide");
+      subscription.parentElement.classList.add("hide");
     } else {
-      subscription.classList.remove("hide");
+      subscription.parentElement.classList.remove("hide");
     }
   });
 }
