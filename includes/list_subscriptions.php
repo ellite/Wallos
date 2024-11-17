@@ -129,14 +129,14 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </button>
                 </div>
                 <?php
+            }
 
-                $subscriptionExtraClasses = "";
-                if ($subscription['inactive']) {
-                    $subscriptionExtraClasses .= " inactive";
-                }
-                if ($subscription['auto_renew'] != 1) {
-                    $subscriptionExtraClasses .= " manual";
-                }
+            $subscriptionExtraClasses = "";
+            if ($subscription['inactive']) {
+                $subscriptionExtraClasses .= " inactive";
+            }
+            if ($subscription['auto_renew'] != 1) {
+                $subscriptionExtraClasses .= " manual";
             }
             ?>
 
