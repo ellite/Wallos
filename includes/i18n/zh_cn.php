@@ -52,6 +52,10 @@ $i18n = [
     "last_added" => "创建时间",
     "price" => "价格",
     "next_payment" => "下次支付时间",
+    "auto_renewal" => "自动续订",
+    "automatically_renews" => "自动续订",
+    "manual_renewal" => "手动续订",
+    "start_date" => "开始日期",
     "inactive" => "停用订阅",
     "replaced_with" => "替换为",
     "none" => "无",
@@ -75,6 +79,7 @@ $i18n = [
     "clear_filters" => "清除筛选",
     "no_matching_subscriptions" => "没有匹配的订阅",
     "clone" => "克隆",
+    "renew" => "续订",
 
     // 订阅表单
     "add_subscription" => "添加订阅",

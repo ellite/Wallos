@@ -167,6 +167,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $frequency = $_POST["frequency"];
         $cycle = $_POST["cycle"];
         $nextPayment = $_POST["next_payment"];
+        $autoRenew = isset($_POST['auto_renew']) ? true : false;
+        $startDate = $_POST["start_date"];
         $paymentMethodId = $_POST["payment_method_id"];
         $payerUserId = $_POST["payer_user_id"];
         $categoryId = $_POST['category_id'];
@@ -201,11 +203,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $sql = "INSERT INTO subscriptions (
                         name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
                         payment_method_id, payer_user_id, category_id, notify, inactive, url, 
-                        notify_days_before, user_id, cancellation_date, replacement_subscription_id
+                        notify_days_before, user_id, cancellation_date, replacement_subscription_id,
+                        auto_renew, start_date
                     ) VALUES (
                         :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
                         :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
-                        :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id
+                        :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
+                        :autoRenew, :startDate
                     )";
         } else {
             $id = $_POST['id'];
@@ -214,6 +218,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                         price = :price, 
                         currency_id = :currencyId,
                         next_payment = :nextPayment, 
+                        auto_renew = :autoRenew,
+                        start_date = :startDate,
                         cycle = :cycle, 
                         frequency = :frequency, 
                         notes = :notes, 
@@ -242,6 +248,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $stmt->bindParam(':price', $price, SQLITE3_FLOAT);
         $stmt->bindParam(':currencyId', $currencyId, SQLITE3_INTEGER);
         $stmt->bindParam(':nextPayment', $nextPayment, SQLITE3_TEXT);
+        $stmt->bindParam(':autoRenew', $autoRenew, SQLITE3_INTEGER);
+        $stmt->bindParam(':startDate', $startDate, SQLITE3_TEXT);
         $stmt->bindParam(':cycle', $cycle, SQLITE3_INTEGER);
         $stmt->bindParam(':frequency', $frequency, SQLITE3_INTEGER);
         $stmt->bindParam(':notes', $notes, SQLITE3_TEXT);

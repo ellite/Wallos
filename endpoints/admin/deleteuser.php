@@ -115,6 +115,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
 
+        // Delete totp
+        $stmt = $db->prepare('DELETE FROM totp WHERE user_id = :id');
+        $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        // Delete total yearly cost
+        $stmt = $db->prepare('DELETE FROM total_yearly_cost WHERE user_id = :id');
+        $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
         die(json_encode([
             "success" => true,
             "message" => translate('success', $i18n)
