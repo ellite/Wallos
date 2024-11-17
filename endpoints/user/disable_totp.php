@@ -68,8 +68,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $clock = new OTPHP\InternalClock();
         $totp = OTPHP\TOTP::createFromSecret($secret, $clock);
+        $totp->setPeriod(30);
 
-        if ($totp->verify($totp_code)) {
+        if ($totp->verify($totp_code, null, 15)) {
             $statement = $db->prepare('UPDATE user SET totp_enabled = 0 WHERE id = :id');
             $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
             $statement->execute();

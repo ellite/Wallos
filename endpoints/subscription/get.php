@@ -18,6 +18,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['logo'] = $row['logo'];
             $subscriptionData['price'] = $row['price'];
             $subscriptionData['currency_id'] = $row['currency_id'];
+            $subscriptionData['auto_renew'] = $row['auto_renew'];
+            $subscriptionData['start_date'] = $row['start_date'];
             $subscriptionData['next_payment'] = $row['next_payment'];
             $subscriptionData['frequency'] = $row['frequency'];
             $subscriptionData['cycle'] = $row['cycle'];

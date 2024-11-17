@@ -33,6 +33,10 @@ function resetForm() {
   logoSearchButton.classList.add("disabled");
   const submitButton = document.querySelector("#save-button");
   submitButton.disabled = false;
+  const autoRenew = document.querySelector("#auto_renew");
+  autoRenew.checked = true;
+  const startDate = document.querySelector("#start_date");
+  startDate.value = new Date().toISOString().split('T')[0];
   const notifyDaysBefore = document.querySelector("#notify_days_before");
   notifyDaysBefore.disabled = true;
   const replacementSubscriptionIdSelect = document.querySelector("#replacement_subscription_id");
@@ -78,6 +82,8 @@ function fillEditFormFields(subscription) {
   const payerSelect = document.querySelector("#payer_user");
   payerSelect.value = subscription.payer_user_id;
 
+  const startDate = document.querySelector("#start_date");
+  startDate.value = subscription.start_date;
   const nextPament = document.querySelector("#next_payment");
   nextPament.value = subscription.next_payment;
   const cancellationDate = document.querySelector("#cancellation_date");
@@ -89,6 +95,11 @@ function fillEditFormFields(subscription) {
   inactive.checked = subscription.inactive;
   const url = document.querySelector("#url");
   url.value = subscription.url;
+
+  const autoRenew = document.querySelector("#auto_renew");
+  if (autoRenew) {
+    autoRenew.checked = subscription.auto_renew;
+  }
 
   const notifications = document.querySelector("#notifications");
   if (notifications) {
@@ -142,6 +153,7 @@ function openEditSubscription(event, id) {
       }
     })
     .catch((error) => {
+      console.log(error);
       showErrorMessage(translate('failed_to_load_subscription'));
     });
 }
@@ -223,6 +235,33 @@ function cloneSubscription(event, id) {
       if (data.success) {
         const id = data.id;
         fetchSubscriptions(id, event, "clone");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate('error'));
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error.message || translate('error'));
+    });
+}
+
+function renewSubscription(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  const url = `endpoints/subscription/renew.php?id=${id}`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        const id = data.id;
+        fetchSubscriptions(id, event, "renew");
         showSuccessMessage(decodeURI(data.message));
       } else {
         showErrorMessage(data.message || translate('error'));
@@ -479,9 +518,9 @@ function searchSubscriptions() {
   subscriptions.forEach(subscription => {
     const name = subscription.getAttribute('data-name').toLowerCase();
     if (!name.includes(searchTerm)) {
-      subscription.classList.add("hide");
+      subscription.parentElement.classList.add("hide");
     } else {
-      subscription.classList.remove("hide");
+      subscription.parentElement.classList.remove("hide");
     }
   });
 }
@@ -511,7 +550,7 @@ function setSwipeElements() {
       let currentX = 0;
       let currentY = 0;
       let translateX = 0;
-      const maxTranslateX = -180;
+      const maxTranslateX = element.classList.contains('manual') ? -240 : -180;
 
       element.addEventListener('touchstart', (e) => {
         startX = e.touches[0].clientX;

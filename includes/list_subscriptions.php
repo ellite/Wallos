@@ -104,25 +104,43 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             if ($mobileNavigation === 'true') {
                 ?>
                 <div class="mobile-actions" data-id="<?= $subscription['id'] ?>">
-                    <button class="mobile-action-edit"></button>
-                    <button class="mobile-action-edit" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
-                        <?php include $imagePath . "images/siteicons/svg/mobile-menu/edit.php"; ?>
-                        Edit
+                    <button class="mobile-action-clone"></button>
+                    <button class="mobile-action-clone" onClick="cloneSubscription(event, <?= $subscription['id'] ?>)">
+                        <?php include $imagePath . "images/siteicons/svg/mobile-menu/clone.php"; ?>
+                        Clone
                     </button>
                     <button class="mobile-action-delete" onClick="deleteSubscription(event, <?= $subscription['id'] ?>)">
                         <?php include $imagePath . "images/siteicons/svg/mobile-menu/delete.php"; ?>
                         Delete
                     </button>
-                    <button class="mobile-action-clone" onClick="cloneSubscription(event, <?= $subscription['id'] ?>)">
-                        <?php include $imagePath . "images/siteicons/svg/mobile-menu/clone.php"; ?>
-                        Clone
+                    <?php
+                    if ($subscription['auto_renew'] != 1) {
+                        ?>
+                        <button class="mobile-action-renew" onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
+                            <?php include $imagePath . "images/siteicons/svg/mobile-menu/renew.php"; ?>
+                            Renew
+                        </button>
+                        <?php
+                    }
+                    ?>
+                    <button class="mobile-action-edit" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
+                        <?php include $imagePath . "images/siteicons/svg/mobile-menu/edit.php"; ?>
+                        Edit
                     </button>
                 </div>
                 <?php
+
+                $subscriptionExtraClasses = "";
+                if ($subscription['inactive']) {
+                    $subscriptionExtraClasses .= " inactive";
+                }
+                if ($subscription['auto_renew'] != 1) {
+                    $subscriptionExtraClasses .= " manual";
+                }
             }
             ?>
 
-            <div class="subscription<?= $subscription['inactive'] ? ' inactive' : '' ?>"
+            <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
@@ -138,7 +156,17 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         ?>
                     </span>
                     <span class="name"><?= $subscription['name'] ?></span>
-                    <span class="cycle"><?= $subscription['billing_cycle'] ?></span>
+                    <span class="cycle"
+                        title="<?= $subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n) ?>">
+                        <?php
+                        if ($subscription['auto_renew']) {
+                            include $imagePath . "images/siteicons/svg/automatic.php";
+                        } else {
+                            include $imagePath . "images/siteicons/svg/manual.php";
+                        }
+                        ?>
+                        <?= $subscription['billing_cycle'] ?>
+                    </span>
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
                         <span class="payment_method">
@@ -158,10 +186,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         </span>
                     </span>
                     <?php
-                        $desktopMenuButtonClass = "";
-                        if ($mobileNavigation === "true") {
-                            $desktopMenuButtonClass = "mobileNavigationHideOnMobile";
-                        }
+                    $desktopMenuButtonClass = ""; {
+                    }
+                    if ($mobileNavigation === "true") {
+                        $desktopMenuButtonClass = "mobileNavigationHideOnMobile";
+                    }
                     ?>
                     <button type="button" class="actions-expand <?= $desktopMenuButtonClass ?>"
                         onClick="expandActions(event, <?= $subscription['id'] ?>)">
@@ -183,6 +212,17 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             <?php include $imagePath . "images/siteicons/svg/clone.php"; ?>
                             <?= translate('clone', $i18n) ?>
                         </li>
+                        <?php
+                        if ($subscription['auto_renew'] != 1) {
+                            ?>
+                            <li class="renew" title="<?= translate('renew', $i18n) ?>"
+                                onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
+                                <?php include $imagePath . "images/siteicons/svg/renew.php"; ?>
+                                <?= translate('renew', $i18n) ?>
+                            </li>
+                            <?php
+                        }
+                        ?>
                     </ul>
                 </div>
                 <div class="subscription-secondary">

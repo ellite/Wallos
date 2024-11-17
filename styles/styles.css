@@ -384,6 +384,10 @@ button.mobile-action-clone {
   background-color: #2da7f3
 }
 
+button.mobile-action-renew {
+  background-color: #188823;
+}
+
 .subscription-container>.mobile-actions>button>svg {
   width: 25px;
   height: 25px;
@@ -405,7 +409,7 @@ button.mobile-action-clone {
   transition: transform 0.2s;
 }
 
-.subscription.hide {
+.subscription-container.hide {
   display: none;
 }
 
@@ -553,6 +557,15 @@ button.mobile-action-clone {
 .subscription .cycle {
   flex-basis: 16%;
   flex-grow: 1;
+  flex-direction: row;
+  align-items: center;
+}
+
+.subscription .cycle > svg {
+  width: 15px;
+  height: 15px;
+  margin-right: 3px;
+  margin-top: 2px;
 }
 
 .subscription .next {
@@ -1173,6 +1186,10 @@ header #avatar {
 .form-group.hide,
 .form-group-inline.hide {
   display: none;
+}
+
+.height50 {
+  height: 50px;
 }
 
 .inline-row {

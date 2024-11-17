@@ -21,6 +21,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $subscriptionDetails = array(
         'Name' => str_replace(',', ' ', $row['name']),
         'Next Payment' => $row['next_payment'],
+        'Renewal' => $row['auto_renew'] ? 'Automatic' : 'Manual',
         'Category' => str_replace(',', ' ', $categories[$row['category_id']]['name']),
         'Payment Method' => str_replace(',', ' ', $payment_methods[$row['payment_method_id']]['name']),
         'Paid By' => str_replace(',', ' ', $members[$row['payer_user_id']]['name']),

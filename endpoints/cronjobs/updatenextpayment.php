@@ -19,7 +19,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $cycles[$cycleId] = $row;
 }
 
-$query = "SELECT id, next_payment, frequency, cycle FROM subscriptions WHERE next_payment < :currentDate";
+$query = "SELECT id, next_payment, frequency, cycle FROM subscriptions WHERE next_payment < :currentDate AND auto_renew = 1";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':currentDate', $currentDate->format('Y-m-d'));
 $result = $stmt->execute();

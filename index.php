@@ -356,6 +356,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $paymentMethodId = $subscription['payment_method_id'];
       $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
       $currencyId = $subscription['currency_id'];
+      $print[$id]['auto_renew'] = $subscription['auto_renew'];
       $next_payment_timestamp = strtotime($subscription['next_payment']);
       $formatted_date = $formatter->format($next_payment_timestamp);
       $print[$id]['next_payment'] = $formatted_date;
@@ -490,6 +491,22 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
           </div>
         </div>
         <div class="split33">
+          <label><?= translate('auto_renewal', $i18n) ?></label>
+          <div class="inline height50">
+            <input type="checkbox" id="auto_renew" name="auto_renew" checked>
+            <label for="auto_renew"><?= translate('automatically_renews', $i18n) ?></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="inline">
+        <div class="split50">
+          <label for="start_date"><?= translate('start_date', $i18n) ?></label>
+          <input type="date" id="start_date" name="start_date">
+        </div>
+        <div class="split50">
           <label for="next_payment"><?= translate('next_payment', $i18n) ?></label>
           <input type="date" id="next_payment" name="next_payment" required>
         </div>

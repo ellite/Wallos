@@ -52,6 +52,10 @@ $i18n = [
     "last_added" => 'Ultimo aggiunto',
     "price" => 'Prezzo',
     "next_payment" => 'Prossimo pagamento',
+    "auto_renewal" => 'Rinnovo automatico',
+    "automatically_renews" => 'Si rinnova automaticamente',
+    "manual_renewal" => "Rinnovo manuale",
+    "start_date" => 'Data di inizio',
     "inactive" => 'Disattiva abbonamento',
     "replaced_with" => 'Sostituito con',
     "none" => 'Nessuno',
@@ -75,6 +79,7 @@ $i18n = [
     "clear_filters" => 'Pulisci filtri',
     "no_matching_subscriptions" => 'Nessun abbonamento corrispondente',
     "clone" => "Clona",
+    "renew" => "Rinnova",
 
     // Add/Edit Subscription
     "add_subscription" => 'Aggiungi abbonamento',
