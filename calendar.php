@@ -126,6 +126,10 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
           document.getElementById('iCalendarUrl').value = fullUrl;
 
           function showExportPopup() {
+              if (apiKey === "") {
+                  showErrorMessage( "<?= translate('invalid_api_key', $i18n) ?>" );
+                  return;
+              }
               document.getElementById('subscriptions_calendar').classList.add('is-open');
           }
           function closePopup() {
@@ -133,12 +137,16 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
           }
 
           function copyToClipboard() {
-              const urlField = document.getElementById('calendarUrl');
+              const urlField = document.getElementById('iCalendarUrl');
               urlField.select();
               urlField.setSelectionRange(0, 99999); // For mobile devices
               navigator.clipboard.writeText(urlField.value)
-                  .then(() => {showSuccessMessage(translate('copied_to_clipboard'));})
-                  .catch(() => {showErrorMessage(translate('unknown_error'))});
+                  .then(() => {
+                      showSuccessMessage(translate('copied_to_clipboard'));
+                  })
+                  .catch(() => {
+                      showErrorMessage(translate('unknown_error'));
+                  });
           }
       </script>
 
