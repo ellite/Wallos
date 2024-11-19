@@ -1,3 +1,3 @@
 <?php
-$version = "v2.38.1";
+$version = "v2.38.2";
 ?>
