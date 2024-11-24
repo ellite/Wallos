@@ -1416,6 +1416,7 @@ textarea.thin {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   box-sizing: border-box;
+  z-index: 1;
   display: none;
 }
 
