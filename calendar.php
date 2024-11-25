@@ -118,14 +118,14 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
       </div>
 
       <script>
-          const host = window.location.origin;
-          const apiPath = "/api/subscriptions/get_subscriptions.php";
-          const apiKey = "<?= $userData['api_key'] ?>";
-          const queryParams = `?api_key=${apiKey}&type=iCalendar`;
-          const fullUrl = `${host}${apiPath}${queryParams}`;
-          document.getElementById('iCalendarUrl').value = fullUrl;
-
           function showExportPopup() {
+              const host = window.location.origin;
+              const apiPath = "/api/subscriptions/get_subscriptions.php";
+              const apiKey = "<?= $userData['api_key'] ?>";
+              const queryParams = `?api_key=${apiKey}&type=iCalendar`;
+              const fullUrl = `${host}${apiPath}${queryParams}`;
+              document.getElementById('iCalendarUrl').value = fullUrl;
+
               if (apiKey === "") {
                   showErrorMessage( "<?= translate('invalid_api_key', $i18n) ?>" );
                   return;
