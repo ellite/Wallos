@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.39.1](https://github.com/ellite/Wallos/compare/v2.39.0...v2.39.1) (2024-12-06)
+
+
+### Bug Fixes
+
+* svg error on calendar page ([#650](https://github.com/ellite/Wallos/issues/650)) ([8ba79c0](https://github.com/ellite/Wallos/commit/8ba79c0725815c6de8458c74961bbdf23a7d3e9d))
+
 ## [2.39.0](https://github.com/ellite/Wallos/compare/v2.38.3...v2.39.0) (2024-12-06)
 
 
