@@ -70,6 +70,7 @@ h3 {
 
 .split-header h2 {
   margin-right: 20px;
+  display: flex;
 }
 
 .split-header>h2 .header-subtitle {
@@ -2680,6 +2681,14 @@ input[type="radio"]:checked+label::after {
   background-position: center;
   background-repeat: no-repeat;
   aspect-ratio: 16/9;
+}
+
+.button.export-ical {
+  padding: 0px;
+  width: 30px;
+  height: 30px;
+  margin-left: 10px;
+  color: white;
 }
 
 @media (max-width: 768px) {

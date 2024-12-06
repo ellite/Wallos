@@ -363,6 +363,7 @@ $i18n = [
     "month-11" => "11月",
     "month-12" => "12月",
     "total_cost" => "合計費用",
+    "export_icalendar" => "iCalendarをエクスポート",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
 
