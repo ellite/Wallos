@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.38.3](https://github.com/ellite/Wallos/compare/v2.38.2...v2.38.3) (2024-12-06)
+
+
+### Bug Fixes
+
+* vulnerability on the restore database endpoints ([3b2de8b](https://github.com/ellite/Wallos/commit/3b2de8b7c22090afdf7115c25fd8b497a5626ea3))
+
 ## [2.38.2](https://github.com/ellite/Wallos/compare/v2.38.1...v2.38.2) (2024-11-19)
 
 
