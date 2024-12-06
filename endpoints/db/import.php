@@ -10,6 +10,18 @@ if ($row[0] > 0) {
     ]));
 }
 
+function emptyRestoreFolder() {
+    $files = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator('../../.tmp', RecursiveDirectoryIterator::SKIP_DOTS),
+        RecursiveIteratorIterator::CHILD_FIRST
+    );
+
+    foreach ($files as $fileinfo) {
+        $removeFunction = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+        $removeFunction($fileinfo->getRealPath());
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['file'])) {
         $file = $_FILES['file'];
@@ -68,21 +80,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
 
-                $files = new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator('../../.tmp', RecursiveDirectoryIterator::SKIP_DOTS),
-                    RecursiveIteratorIterator::CHILD_FIRST
-                );
-
-                foreach ($files as $fileinfo) {
-                    $removeFunction = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
-                    $removeFunction($fileinfo->getRealPath());
-                }
+                emptyRestoreFolder();
 
                 echo json_encode([
                     "success" => true,
                     "message" => translate("success", $i18n)
                 ]);
             } else {
+                emptyRestoreFolder();
+
                 die(json_encode([
                     "success" => false,
                     "message" => "wallos.db does not exist in the backup file"
