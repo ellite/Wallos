@@ -107,13 +107,9 @@ function showExportPopup() {
   const queryParams = `?api_key=${apiKey}`;
   const fullUrl = host.replace('calendar.php', apiPath) + queryParams;
   document.getElementById('iCalendarUrl').value = fullUrl;
-
-  if (apiKey === "") {
-      showErrorMessage( "<?= translate('invalid_api_key', $i18n) ?>" );
-      return;
-  }
   document.getElementById('subscriptions_calendar').classList.add('is-open');
 }
+
 function closePopup() {
   document.getElementById('subscriptions_calendar').classList.remove('is-open');
 }
