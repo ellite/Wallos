@@ -306,6 +306,63 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $subscriptionsToReturn[] = $subscriptionToReturn;
     }
 
+    if (isset($_REQUEST['type'])) {
+        $type = $_REQUEST['type'];
+        $stmt->bindValue(':inactive', false, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        if ($type == "iCalendar") {
+            header('Content-Type: text/calendar; charset=utf-8');
+            header('Content-Disposition: attachment; filename="subscriptions.ics"');
+
+            if ($result === false) {
+                die("BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:NAME:\nEND:VCALENDAR");
+            }
+
+            $icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wallos//$type//EN\nNAME:Wallos\nX-WR-CALNAME:Wallos\n";
+
+            while ($subscription = $result->fetchArray(SQLITE3_ASSOC)) {
+                $subscription['payer_user'] = $members[$subscription['payer_user_id']];
+                $subscription['category'] = $categories[$subscription['category_id']];
+                $subscription['payment_method'] = $paymentMethods[$subscription['payment_method_id']];
+                $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
+                $subscription['trigger'] = $subscription['notify_days_before'] ? $subscription['notify_days_before'] : 1;
+                $subscription['price'] = number_format($subscription['price'], 2);
+
+                $uid = uniqid();
+                $summary = "Wallos: " . $subscription['name'];
+                $description = "Price: {$subscription['currency']}{$subscription['price']}\\nCategory: {$subscription['category']}\\nPayment Method: {$subscription['payment_method']}\\nPayer: {$subscription['payer_user']}\\nNotes: {$subscription['notes']}";
+                $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd\THis\Z');
+                $dtend = (new DateTime($subscription['next_payment']))->modify('+1 hour')->format('Ymd\THis\Z');
+                $location = isset($subscription['url']) ? $subscription['url'] : '';
+                $alarm_trigger = '-' . $subscription['trigger'] . 'D';
+
+                $icsContent .= <<<ICS
+                BEGIN:VEVENT
+                UID:$uid
+                SUMMARY:$summary
+                DESCRIPTION:$description
+                DTSTART:$dtstart
+                DTEND:$dtend
+                LOCATION:$location
+                STATUS:CONFIRMED
+                TRANSP:OPAQUE
+                BEGIN:VALARM
+                ACTION:DISPLAY
+                DESCRIPTION:Reminder
+                TRIGGER:$alarm_trigger
+                END:VALARM
+                END:VEVENT
+                
+                ICS;
+            }
+
+            $icsContent .= "END:VCALENDAR\n";
+            echo $icsContent;
+            $db->close();
+            exit;
+        }
+    }
 
     $response = [
         "success" => true,
