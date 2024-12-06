@@ -12,7 +12,7 @@ if ($row[0] > 0) {
 
 function emptyRestoreFolder() {
     $files = new RecursiveIteratorIterator(
-        new RecursiveDirectoryIterator('../../.tmp/restore', RecursiveDirectoryIterator::SKIP_DOTS),
+        new RecursiveDirectoryIterator('../../.tmp', RecursiveDirectoryIterator::SKIP_DOTS),
         RecursiveIteratorIterator::CHILD_FIRST
     );
 
