@@ -370,6 +370,7 @@ $i18n = [
     "month-11" => "11월",
     "month-12" => "12월",
     "total_cost" => "총 비용",
+    "export_icalendar" => "iCalendar 내보내기",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 

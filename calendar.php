@@ -104,51 +104,23 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
   }
   ?>
   <div class="split-header">
-    <h2>Calendar</h2>
-    <button class="button tiny" onClick="showExportPopup()" style="margin-right: auto"> <?= translate('subscriptions', $i18n) ?> </button>
-      <div id="subscriptions_calendar" class="subscription-modal">
-          <div class="modal-header">
-              <h3><?= translate('subscriptions', $i18n) ?></h3>
-              <span class="fa-solid fa-xmark close-modal" onclick="closePopup()"></span>
-          </div>
-          <div class="form-group-inline">
-              <input id="iCalendarUrl" type="text" value="" readonly>
-              <button onclick="copyToClipboard()" class="button tiny"> <?= translate('copy_to_clipboard', $i18n) ?> </button>
-          </div>
-      </div>
-
-      <script>
-          function showExportPopup() {
-              const host = window.location.origin;
-              const apiPath = "/api/subscriptions/get_subscriptions.php";
-              const apiKey = "<?= $userData['api_key'] ?>";
-              const queryParams = `?api_key=${apiKey}&type=iCalendar`;
-              const fullUrl = `${host}${apiPath}${queryParams}`;
-              document.getElementById('iCalendarUrl').value = fullUrl;
-
-              if (apiKey === "") {
-                  showErrorMessage( "<?= translate('invalid_api_key', $i18n) ?>" );
-                  return;
-              }
-              document.getElementById('subscriptions_calendar').classList.add('is-open');
-          }
-          function closePopup() {
-              document.getElementById('subscriptions_calendar').classList.remove('is-open');
-          }
-
-          function copyToClipboard() {
-              const urlField = document.getElementById('iCalendarUrl');
-              urlField.select();
-              urlField.setSelectionRange(0, 99999); // For mobile devices
-              navigator.clipboard.writeText(urlField.value)
-                  .then(() => {
-                      showSuccessMessage(translate('copied_to_clipboard'));
-                  })
-                  .catch(() => {
-                      showErrorMessage(translate('unknown_error'));
-                  });
-          }
-      </script>
+    <h2>
+      Calendar
+      <button class="button export-ical" onClick="showExportPopup()" title="<?= translate('export_icalendar', $i18n) ?>">
+        <?php require_once 'images/siteicons/svg/export_ical.php'; ?>
+      </button>
+    </h2>
+    <div id="subscriptions_calendar" class="subscription-modal">
+        <div class="modal-header">
+            <h3><?= translate('export_icalendar', $i18n) ?></h3>
+            <span class="fa-solid fa-xmark close-modal" onclick="closePopup()"></span>
+        </div>
+        <div class="form-group-inline">
+            <input id="iCalendarUrl" type="text" value="" readonly>
+            <input type="hidden" id="apiKey" value="<?= $userData['api_key'] ?>">
+            <button onclick="copyToClipboard()" class="button tiny"> <?= translate('copy_to_clipboard', $i18n) ?> </button>
+        </div>
+    </div>
 
     <div class="calendar-nav">
       <?php

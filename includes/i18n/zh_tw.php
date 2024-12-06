@@ -370,6 +370,7 @@ $i18n = [
     "month-11" => "十一月",
     "month-12" => "十二月",
     "total_cost" => "總費用",
+    "export_icalendar" => "匯出 iCalendar",
 
     // TOTP Page
     "insert_totp_code" => "請輸入 TOTP 驗證碼",
