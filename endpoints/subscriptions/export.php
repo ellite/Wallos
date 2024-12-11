@@ -18,8 +18,25 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $cycle = $cycles[$row['cycle']]['name'];
+    $frequency =$row['frequency'];
+
+    $cyclesMap = array(
+        'Daily' => 'Days',
+        'Weekly' => 'Weeks',
+        'Monthly' => 'Months',
+        'Yearly' => 'Years'
+    );
+
+    if ($frequency == 1) {
+        $cyclePrint = $cycle;
+    } else {
+        $cyclePrint = "Every " . $frequency . " " . $cyclesMap[$cycle];
+    }
+
     $subscriptionDetails = array(
         'Name' => str_replace(',', ' ', $row['name']),
+        'Payment Cycle' => $cyclePrint,
         'Next Payment' => $row['next_payment'],
         'Renewal' => $row['auto_renew'] ? 'Automatic' : 'Manual',
         'Category' => str_replace(',', ' ', $categories[$row['category_id']]['name']),
