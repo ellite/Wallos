@@ -485,7 +485,7 @@ if ($usesMultipleCurrencies) {
     foreach ($categoryCost as $category) {
       if ($category['cost'] != 0) {
         $categoryDataPoints[] = [
-          "label" => $category['name'],
+          "label" => html_entity_decode($category['name']),
           "y" => $category["cost"],
         ];
       }
@@ -499,7 +499,7 @@ if ($usesMultipleCurrencies) {
     foreach ($memberCost as $member) {
       if ($member['cost'] != 0) {
         $memberDataPoints[] = [
-          "label" => $member['name'],
+          "label" => html_entity_decode($member['name']),
           "y" => $member["cost"],
         ];
 
@@ -513,7 +513,7 @@ if ($usesMultipleCurrencies) {
   foreach ($paymentMethodsCount as $paymentMethod) {
     if ($paymentMethod['count'] != 0) {
       $paymentMethodDataPoints[] = [
-        "label" => $paymentMethod['name'],
+        "label" => html_entity_decode($paymentMethod['name']),
         "y" => $paymentMethod["count"],
       ];
     }

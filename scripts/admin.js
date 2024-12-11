@@ -148,8 +148,15 @@ function restoreDB() {
   .then(response => response.json())
   .then(data => {
     if (data.success) {
-      showSuccessMessage(data.message)
-      window.location.href = 'logout.php';
+      showSuccessMessage(data.message);
+      fetch('endpoints/db/migrate.php')
+      .then(response => response.text())
+      .then(() => {
+          window.location.href = 'logout.php';
+      })
+      .catch(error => {
+        window.location.href = 'logout.php';
+      });
     } else {
       showErrorMessage(data.message);
     }

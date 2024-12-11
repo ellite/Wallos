@@ -362,6 +362,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <input type="button" value="Send Verification Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendverificationemails')">
                     <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow" onclick="executeCronJob('updateexchange')">
                     <input type="button" value="Update Next Payments" class="button tiny mobile-grow" onclick="executeCronJob('updatenextpayment')">
+                    <input type="button" value="Store Total Yearly Cost" class="button tiny mobile-grow" onclick="executeCronJob('storetotalyearlycost')">
                 </div>
                 <div class="inline-row">
                     <textarea id="cronjobResult" class="thin" readonly></textarea>
