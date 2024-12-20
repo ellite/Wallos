@@ -19,14 +19,14 @@ require_once 'includes/header.php';
                 <div class="fields">
                     <div>
                         <div class="user-avatar">
-                            <img src="<?= $userData['avatar'] ?>" alt="avatar" class="avatar" id="avatarImg"
+                            <img src="<?= htmlspecialchars($userData['avatar'], ENT_QUOTES, 'UTF-8') ?>" alt="avatar" class="avatar" id="avatarImg"
                                 onClick="toggleAvatarSelect()" />
                             <span class="edit-avatar" onClick="toggleAvatarSelect()" title="Change Avatar">
                                 <i class="fa-solid fa-pencil"></i>
                             </span>
                         </div>
 
-                        <input type="hidden" name="avatar" value="<?= $userData['avatar'] ?>" id="avatarUser" />
+                        <input type="hidden" name="avatar" value="<?= htmlspecialchars($userData['avatar'], ENT_QUOTES, 'UTF-8') ?>" id="avatarUser" />
                         <div class="avatar-select" id="avatarSelect">
                             <div class="avatar-list">
                                 <?php foreach (scandir('images/avatars') as $index => $image): ?>

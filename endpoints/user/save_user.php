@@ -231,7 +231,7 @@ if (
         }
     }
 
-    $avatar = $_POST['avatar'];
+    $avatar = filter_var($_POST['avatar'], FILTER_SANITIZE_URL);
     $main_currency = $_POST['main_currency'];
     $language = $_POST['language'];
 
