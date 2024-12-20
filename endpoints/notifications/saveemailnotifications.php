@@ -14,9 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if (
         !isset($data["smtpaddress"]) || $data["smtpaddress"] == "" ||
-        !isset($data["smtpport"]) || $data["smtpport"] == "" ||
-        !isset($data["smtpusername"]) || $data["smtpusername"] == "" ||
-        !isset($data["smtppassword"]) || $data["smtppassword"] == ""
+        !isset($data["smtpport"]) || $data["smtpport"] == ""
     ) {
         $response = [
             "success" => false,

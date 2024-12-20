@@ -266,15 +266,21 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
                     }
 
+                    $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
+
                     $mail = new PHPMailer(true);
                     $mail->CharSet = "UTF-8";
                     $mail->isSMTP();
 
                     $mail->Host = $email['smtpAddress'];
-                    $mail->SMTPAuth = true;
-                    $mail->Username = $email['smtpUsername'];
-                    $mail->Password = $email['smtpPassword'];
-                    $mail->SMTPSecure = $email['encryption'];
+                    $mail->SMTPAuth = $smtpAuth;
+                    if ($smtpAuth) {
+                        $mail->Username = $email['smtpUsername'];
+                        $mail->Password = $email['smtpPassword'];
+                    }
+                    if ($email['encryption'] != "none") {
+                        $mail->SMTPSecure = $email['encryption'];
+                    }
                     $mail->Port = $email['smtpPort'];
 
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');

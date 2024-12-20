@@ -30,6 +30,7 @@ if ($rows) {
         $fromEmail = empty($admin['from_email']) ? 'wallos@wallosapp.com' : $admin['from_email'];
         $encryption = $admin['encryption'];
         $server_url = $admin['server_url'];
+        $smtpAuth = (isset($admin["smtp_username"]) && $admin["smtp_username"] != "") || (isset($admin["smtp_password"]) && $admin["smtp_password"] != "");
 
         require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
         require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
@@ -38,10 +39,14 @@ if ($rows) {
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = $smtpAddress;
-        $mail->SMTPAuth = true;
-        $mail->Username = $smtpUsername;
-        $mail->Password = $smtpPassword;
-        $mail->SMTPSecure = $encryption;
+        $mail->SMTPAuth = $smtpAuth;
+        if ($smtpAuth) {
+            $mail->Username = $smtpUsername;
+            $mail->Password = $smtpPassword;
+        }
+        if ($encryption != "none") {
+            $mail->SMTPSecure = $encryption;
+        }
         $mail->Port = $smtpPort;
         $mail->setFrom($fromEmail);
 
