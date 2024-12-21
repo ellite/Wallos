@@ -277,8 +277,6 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
-echo "ASD -> " . count($totalMonthlyCostDataPoints);
-echo "SHOW: -> " . $showTotalMonthlyCostGraph;
 
 ?>
 <section class="contain">
