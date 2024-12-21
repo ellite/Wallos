@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Podela po kategorijama",
     "household_split" => "Podela po domaćinstvima",
     "payment_method_split" => "Podela po načinu plaćanja",
+    "total_cost_trend" => "Trend ukupnog troška",
     // Stranica O aplikaciji
     "about_and_credits" => "O aplikaciji i zasluge",
     "credits" => "Zasluge",

@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Kategori Bölümü",
     "household_split" => "Hane Bölümü",
     "payment_method_split" => "Ödeme Yöntemi Bölümü",
+    "total_cost_trend" => "Toplam Maliyet Eğilimi",
     // About page
     "about_and_credits" => "Hakkında ve Teşekkürler",
     "credits" => "Teşekkürler",

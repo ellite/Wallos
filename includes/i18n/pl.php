@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Podział kategorii",
     "household_split" => "Podział gospodarstwa domowego",
     "payment_method_split" => "Podział metod płatności",
+    "total_cost_trend" => "Trend całkowitego kosztu",
     // About page
     "about_and_credits" => "Informacje i podziękowania",
     "credits" => "Podziękowania",

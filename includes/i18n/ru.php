@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "По категориям",
     "household_split" => "По членам семьи",
     "payment_method_split" => "По способам оплаты",
+    "total_cost_trend" => "Тенденция общей стоимости",
     // About page
     "about_and_credits" => "О компании и авторах",
     "credits" => "Благодарности",

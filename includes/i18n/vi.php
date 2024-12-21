@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "Phân chia theo danh mục",
     "household_split" => "Phân chia theo hộ gia đình",
     "payment_method_split" => "Phân chia theo phương thức thanh toán",
+    "total_cost_trend" => "Xu hướng chi phí tổng cộng",
     //  About page
     "about_and_credits" => "Giới thiệu và cảm ơn",
     "credits" => "Cảm ơn",

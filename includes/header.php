@@ -161,7 +161,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
       <nav>
         <div class="dropdown">
           <button class="dropbtn" onClick="toggleDropdown()">
-            <img src="<?= $userData['avatar'] ?>" alt="me" id="avatar">
+            <img src="<?= htmlspecialchars($userData['avatar'], ENT_QUOTES, 'UTF-8') ?>" alt="me" id="avatar">
             <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
           </button>
           <div class="dropdown-content">

@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "類別分割",
     "household_split" => "家庭分割",
     "payment_method_split" => "付款方式分割",
+    "total_cost_trend" => "總費用趨勢",
     // 關於頁面
     "about_and_credits" => "關於和致謝",
     "credits" => "致謝",
