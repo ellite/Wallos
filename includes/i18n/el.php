@@ -116,7 +116,7 @@ $i18n = [
     "category_split" => "Διαχωρισμός κατηγορίας",
     "household_split" => "Διαχωρισμός νοικοκυριού",
     "payment_method_split" => "Διαχωρισμός τρόπου πληρωμής",
-    "total_monthly_cost_trend" => "Συνολική τάση μηνιαίου κόστους",
+    "total_cost_trend" => "Τάση συνολικού κόστους",
     // About page
     "about_and_credits" => "Σχετικά και Credits",
     "credits" => "Credits",

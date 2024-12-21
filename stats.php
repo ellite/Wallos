@@ -581,7 +581,8 @@ echo "SHOW: -> " . $showTotalMonthlyCostGraph;
         ?>
         <section class="graph">
           <header>
-            <?= translate('total_monthly_cost_trend', $i18n) ?>
+            <?= translate('total_cost_trend', $i18n) ?>
+            <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
           </header>
           <canvas id="totalMonthlyCostChart" style="height: 370px; width: 100%;"></canvas>
         </section>
