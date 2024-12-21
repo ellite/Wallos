@@ -21,10 +21,74 @@ function loadGraph(container, dataPoints, currency, run) {
                     animateRotate: true,
                     animateScale: true,
                 },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = " ";
+                                if (currency) {
+                                    label += new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(context.raw);
+                                } else {
+                                    label += new Intl.NumberFormat(navigator.language).format(context.raw);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
             },
         });
     }
 }
+
+function loadLineGraph(container, dataPoints, currency, run) {
+    if (run) {
+        var ctx = document.getElementById(container).getContext('2d');
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: '',
+                    data: dataPoints.map(point => point.y),
+                }],
+                labels: dataPoints.map(point => {
+                    return `${point.label}`;
+                }),
+            },
+            options: {
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                if (currency) {
+                                    return new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(value);
+                                } else {
+                                    return new Intl.NumberFormat(navigator.language).format(value);
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}
+
 
 function closeSubMenus() {
     var subMenus = document.querySelectorAll('.filtermenu-submenu-content');

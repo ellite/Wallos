@@ -116,6 +116,7 @@ $i18n = [
     "category_split" => "По категориям",
     "household_split" => "По членам семьи",
     "payment_method_split" => "По способам оплаты",
+    "total_monthly_cost_trend" => "Общая стоимость подписок по месяцам",
     // About page
     "about_and_credits" => "О компании и авторах",
     "credits" => "Благодарности",
