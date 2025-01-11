@@ -2,7 +2,7 @@
 /*
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
-- apiKey: the API key of the user.
+- api_key: the API key of the user.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
