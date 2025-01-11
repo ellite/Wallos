@@ -843,6 +843,13 @@ function setMobileNavigation() {
   storeSettingsOnDB('mobile_navigation', value);
 }
 
+function setShowSubscriptionProgress() {
+  const showSubscriptionProgressCheckbox = document.querySelector("#showsubscriptionprogress");
+  const value = showSubscriptionProgressCheckbox.checked;
+
+  storeSettingsOnDB('subscription_progress', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById('categories');
   const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);

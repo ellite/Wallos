@@ -16,6 +16,35 @@ function getBillingCycle($cycle, $frequency, $i18n)
     }
 }
 
+function getSubscriptionProgress($cycle, $frequency, $next_payment) {
+    $nextPaymentDate = new DateTime($next_payment);
+    $currentDate = new DateTime('now');
+
+    $paymentCycleDays = 30; // Default to monthly
+    if ($cycle === 1) {
+        $paymentCycleDays = 1 * $frequency;
+    } else if ($cycle === 2) {
+        $paymentCycleDays = 7 * $frequency;
+    } else if ($cycle === 3) {
+        $paymentCycleDays = 30 * $frequency;
+    } else if ($cycle === 4) {
+        $paymentCycleDays = 365 * $frequency;
+    }
+
+    $lastPaymentDate = clone $nextPaymentDate; 
+    $lastPaymentDate->modify("-$paymentCycleDays days");
+
+    $totalCycleDays = $lastPaymentDate->diff($nextPaymentDate)->days;
+    $daysSinceLastPayment = $lastPaymentDate->diff($currentDate)->days;
+
+    $subscriptionProgress = 0;
+    if ($totalCycleDays > 0) {
+        $subscriptionProgress = ($daysSinceLastPayment / $totalCycleDays) * 100;
+    }
+
+    return floor($subscriptionProgress);
+}
+
 function getPricePerMonth($cycle, $frequency, $price)
 {
     switch ($cycle) {
@@ -51,7 +80,7 @@ function getPriceConverted($price, $currency, $database)
     }
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation)
+function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress)
 {
     if ($sort === "price") {
         usort($subscriptions, function ($a, $b) {
@@ -258,6 +287,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 }
                 ?>
             </div>
+            <?php
+            if ($showSubscriptionProgress === 'true') {
+                ?>
+                <span class="subscription-progress" style="width: <?= $subscription['progress'] ?>%;"></span>
+                <?php
+            }
+            ?>
         </div>
         <?php
     }
