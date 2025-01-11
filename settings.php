@@ -10,7 +10,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $currencyId = $row['id'];
     $currencies[$currencyId] = $row;
 }
-$userData['currency_symbol'] = "€";
+$userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
 
 ?>
 
@@ -1170,6 +1170,25 @@ $userData['currency_symbol'] = "€";
                     <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
                 </div>
             </div>
+            <h3><?= translate('experience', $i18n) ?></h3>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="mobilenavigation" name="mobilenavigation"
+                        onChange="setMobileNavigation()" <?php if ($settings['mobile_nav'])
+                            echo 'checked'; ?>>
+                    <label for="mobilenavigation"><?= translate('use_mobile_navigation_bar', $i18n) ?></label>
+                </div>
+                <div class="mobile-nav-image">
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="showsubscriptionprogress" name="showsubscriptionprogress"
+                        onChange="setShowSubscriptionProgress()" <?php if ($settings['show_subscription_progress'])
+                            echo 'checked'; ?>>
+                    <label for="showsubscriptionprogress"><?= translate('show_subscription_progress', $i18n) ?></label>
+                </div>
+            </div>
             <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
@@ -1201,16 +1220,6 @@ $userData['currency_symbol'] = "€";
                         onChange="setRemoveBackground()" <?php if ($settings['remove_background'])
                             echo 'checked'; ?>>
                     <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
-                </div>
-            </div>
-            <div>
-                <div class="form-group-inline">
-                    <input type="checkbox" id="mobilenavigation" name="mobilenavigation"
-                        onChange="setMobileNavigation()" <?php if ($settings['mobile_nav'])
-                            echo 'checked'; ?>>
-                    <label for="mobilenavigation"><?= translate('use_mobile_navigation_bar', $i18n) ?></label>
-                </div>
-                <div class="mobile-nav-image">
                 </div>
             </div>
         </div>

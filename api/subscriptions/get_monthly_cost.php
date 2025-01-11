@@ -4,7 +4,7 @@ This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
 - month: the month for which the cost is to be calculated (integer).
 - year: the year for which the cost is to be calculated (integer).
-- apiKey: the API key of the user (string).
+- api_key: the API key of the user (string).
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).

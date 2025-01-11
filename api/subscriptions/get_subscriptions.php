@@ -9,7 +9,7 @@ It receives the following parameters:
 - disabled_to_bottom: whether to sort the inactive subscriptions to the bottom (boolean) default false.
 - sort: the sorting method (string) default next_payment ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'].
 - convert_currency: whether to convert to the main currency (boolean) default false.
-- apiKey: the API key of the user.
+- api_key: the API key of the user.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).

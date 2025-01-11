@@ -3,7 +3,7 @@
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
 - convert_currency: whether to convert to the main currency (boolean) default false.
-- apiKey: the API key of the user.
+- api_key: the API key of the user.
 
 It returns a downloadable VCAL file with the active subscriptions
 */
