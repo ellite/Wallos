@@ -10,7 +10,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $currencyId = $row['id'];
     $currencies[$currencyId] = $row;
 }
-$userData['currency_symbol'] = "€";
+$userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
 
 ?>
 
