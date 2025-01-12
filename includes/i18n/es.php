@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Habilitar notificaciones por correo electrónico",
     "notify_me" => "Notificarme",
     "day_before" => "día antes",
+    "on_due_date" => "En la fecha de vencimiento",
     "days_before" => "días antes",
     "smtp_address" => "Dirección SMTP",
     "port" => "Puerto",

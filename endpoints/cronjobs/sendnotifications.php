@@ -217,7 +217,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $i = 0;
         $currentDate = new DateTime('now');
         while ($rowSubscription = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
-            if ($rowSubscription['notify_days_before'] !== 0) {
+            if ($rowSubscription['notify_days_before'] !== -1) {
                 $daysToCompare = $rowSubscription['notify_days_before'];
             } else {
                 $daysToCompare = $days;

@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Bật thông báo qua email",
     "notify_me" => "Thông báo cho tôi",
     "day_before" => "ngày trước",
+    "on_due_date" => "Vào ngày đáo hạn",
     "days_before" => "ngày trước",
     "smtp_address" => "Địa chỉ SMTP",
     "port" => "Cổng",

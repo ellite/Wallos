@@ -165,6 +165,7 @@ $i18n = [
     "enable_email_notifications" => "启用电子邮件通知",
     "notify_me" => "通知提前时间",
     "day_before" => "天", // 设置标题（`notify_me`）中已经表明是提前多少天，因此这里直接用单位即可
+    "on_due_date" => "到期日",
     "days_before" => "天",
     "smtp_address" => "SMTP 地址",
     "port" => "端口",

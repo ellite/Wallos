@@ -570,7 +570,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <div class="split66 mobile-split-50">
           <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>
           <select id="notify_days_before" name="notify_days_before" disabled>
-            <option value="0"><?= translate('default_value_from_settings', $i18n) ?></option>
+            <option value="-1"><?= translate('default_value_from_settings', $i18n) ?></option>
+            <option value="0"><?= translate('on_due_date', $i18n) ?></option>
             <option value="1">1 <?= translate('day_before', $i18n) ?></option>
             <?php
             for ($i = 2; $i <= 90; $i++) {

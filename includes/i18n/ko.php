@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "이메일 알림 활성화",
     "notify_me" => "알림 받기",
     "day_before" => "일 전",
+    "on_due_date" => "만기일",
     "days_before" => "일 전",
     "smtp_address" => "SMTP 주소",
     "port" => "포트",
