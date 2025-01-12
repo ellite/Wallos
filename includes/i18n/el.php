@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Ενεργοποίηση ειδοποιήσεων με email",
     "notify_me" => "Ειδοποίησε με",
     "day_before" => "ημέρα πριν",
+    "on_due_date" => "την ημερομηνία λήξης",
     "days_before" => "ημέρες πριν",
     "smtp_address" => "SMTP Address",
     "port" => "Θύρα",

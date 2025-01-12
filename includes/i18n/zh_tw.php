@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "啟用電子信箱通知",
     "notify_me" => "通知提前時間",
     "day_before" => "天",
+    "on_due_date" => "到期日當天",
     "days_before" => "天",
     "smtp_address" => "SMTP 信箱地址",
     "port" => "連接埠",

@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
         $mail->Port = $smtpPort;
 
-        $getUser = "SELECT * FROM user WHERE id = 1";
+        $getUser = "SELECT * FROM user WHERE id = $userId";
         $user = $db->querySingle($getUser, true);
         $email = $user['email'];
         $name = $user['username'];

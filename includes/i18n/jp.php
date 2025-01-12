@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "電子メール通知を有効にする",
     "notify_me" => "通知",
     "day_before" => "日前",
+    "on_due_date" => "支払い日",
     "days_before" => "日前",
     "smtp_address" => "SMTPアドレス",
     "port" => "ポート番号",

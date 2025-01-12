@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Omogoči e-poštna obvestila",
     "notify_me" => "Obvesti me",
     "day_before" => "dan prej",
+    "on_due_date" => "Na dan zapadlosti",
     "days_before" => "dni prej",
     "smtp_address" => "SMTP naslov",
     "port" => "vrata",

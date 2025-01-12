@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "E-mail notificaties inschakelen",
     "notify_me" => "Informeer mij",
     "day_before" => "dag voor",
+    "on_due_date" => "Op vervaldatum",
     "days_before" => "dagen voor",
     "smtp_address" => "SMTP-adres",
     "port" => "Poort",

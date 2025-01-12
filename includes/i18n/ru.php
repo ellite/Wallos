@@ -157,6 +157,7 @@ $i18n = [
     "enable_email_notifications" => "Включить уведомления по электронной почте",
     "notify_me" => "Уведомить меня за",
     "day_before" => "день до события",
+    "on_due_date" => "в день события",
     "days_before" => "дня(дней) до события",
     "smtp_address" => "SMTP-адрес",
     "port" => "Порт",

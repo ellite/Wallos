@@ -322,13 +322,18 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 <label for="days"><?= translate('notify_me', $i18n) ?>:</label>
                 <div class="form-group-inline">
                     <select name="days" id="days">
+                        <option value="0" <?= $notifications['days'] == 0 ? "selected" : "" ?>>
+                            <?= translate('on_due_date', $i18n) ?>
+                        </option>
+                        <option value="1" <?= $notifications['days'] == 1 ? "selected" : "" ?>>
+                            1 <?= translate('day_before', $i18n) ?>
+                        </option>
                         <?php
-                        for ($i = 1; $i <= 7; $i++) {
-                            $dayText = $i > 1 ? translate('days_before', $i18n) : translate('day_before', $i18n);
+                        for ($i = 2; $i <= 7; $i++) {
                             $selected = $i == $notifications['days'] ? "selected" : "";
                             ?>
                             <option value="<?= $i ?>" <?= $selected ?>>
-                                <?= $i ?>     <?= $dayText ?>
+                                <?= $i ?>     <?= translate('day_before', $i18n) ?>
                             </option>
                             <?php
                         }
