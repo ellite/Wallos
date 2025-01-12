@@ -290,7 +290,9 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             <?php
             if ($showSubscriptionProgress === 'true') {
                 ?>
-                <span class="subscription-progress" style="width: <?= $subscription['progress'] ?>%;"></span>
+                <div class="subscription-progress-container">
+                    <span class="subscription-progress" style="width: <?= $subscription['progress'] ?>%;"></span>
+                </div>
                 <?php
             }
             ?>
