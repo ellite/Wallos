@@ -345,7 +345,6 @@ button:hover svg .main-color {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   background-color: #FFFFFF;
-  overflow: hidden;
 }
 
 .subscription-container>.mobile-actions {
@@ -415,14 +414,20 @@ button.mobile-action-renew {
   display: none;
 }
 
-.subscription-container>.subscription-progress {
-  width: 36%;
+.subscription-container>.subscription-progress-container {
+  position: absolute;
+  bottom: 0px;
+  left: 8px;
+  right: 8px;
+  height: 3px;
+  z-index: 1;
+} 
+
+.subscription-container>.subscription-progress-container>.subscription-progress {
   height: 3px;
   background-color: var(--accent-color);
   display: block;
   position: absolute;
-  bottom: 0px;
-  z-index: 1;
 }
 
 .subscription.inactive {
