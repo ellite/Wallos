@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $paymentMethods[$paymentMethod['id']] = $paymentMethod['name'];
     }
 
-    $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY next_payment ASC";
+    $sql = "SELECT * FROM subscriptions WHERE user_id = :userId AND inactive = 0 ORDER BY next_payment ASC";
 
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
