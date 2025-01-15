@@ -4,6 +4,7 @@ $languages = [
     // English first
     "en" => ["name" => "English", "dir" => "ltr"],
     // Remaining sorted alphabetically by language code
+    "cs" => ["name" => "Čeština", "dir" => "ltr"],
     "de" => ["name" => "Deutsch", "dir" => "ltr"],
     "el" => ["name" => "Ελληνικά", "dir" => "ltr"],
     "es" => ["name" => "Español", "dir" => "ltr"],
