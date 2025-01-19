@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.45.0](https://github.com/ellite/Wallos/compare/v2.44.1...v2.45.0) (2025-01-19)
+
+
+### Features
+
+* add czech translations ([#701](https://github.com/ellite/Wallos/issues/701)) ([426fdfa](https://github.com/ellite/Wallos/commit/426fdfa5c79d32c7d5a0722a0590d39547cfd1fa))
+
 ## [2.44.1](https://github.com/ellite/Wallos/compare/v2.44.0...v2.44.1) (2025-01-19)
 
 
