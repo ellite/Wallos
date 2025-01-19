@@ -86,6 +86,7 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
 
                 $deleteQuery = "DELETE FROM last_exchange_update WHERE user_id = :userId";
                 $deleteStmt = $db->prepare($deleteQuery);
+                $deleteStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                 $deleteResult = $deleteStmt->execute();
 
                 $query = "INSERT INTO last_exchange_update (date, user_id) VALUES (:formattedDate, :userId)";
