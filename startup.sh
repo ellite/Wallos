@@ -2,12 +2,15 @@
 
 echo "Startup script is running..." > /var/log/startup.log
 
-# If the PUID or PGID environment variables are set, create a new user and group
-if [ ! -z "$PUID" ] && [ ! -z "$PGID" ]; then
-    addgroup -g $PGID appgroup
-    adduser -D -u $PUID -G appgroup appuser
-    chown -R appuser:appgroup /var/www/html
-fi
+# Default the PUID and PGID environment variables to 82, otherwise
+# set to the user defined ones.
+PUID=${PUID:-82}
+PGID=${PGID:-82}
+
+# Change the www-data user id and group id to be the user-specified ones
+groupmod -o -g "$PGID" www-data
+usermod -o -u "$PUID" www-data
+chown -R www-data:www-data /var/www/html
 
 # Start both PHP-FPM and Nginx
 php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt
