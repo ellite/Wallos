@@ -7,10 +7,10 @@ echo "Startup script is running..." > /var/log/startup.log
 PUID=${PUID:-82}
 PGID=${PGID:-82}
 
-# Create a new user and group
-addgroup -g $PGID appgroup
-adduser -D -u $PUID -G appgroup appuser
-chown -R appuser:appgroup /var/www/html
+# Change the www-data user id and group id to be the user-specified ones
+groupmod -o -g "$PGID" www-data
+usermod -o -u "$PUID" www-data
+chown -R www-data:www-data /var/www/html
 
 # Start both PHP-FPM and Nginx
 php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt
@@ -29,13 +29,13 @@ sleep 1
 
 # Change permissions on the database directory
 chmod -R 755 /var/www/html/db/
-chown -R appuser:appgroup /var/www/html/db/
+chown -R www-data:www-data /var/www/html/db/
 
 mkdir -p /var/www/html/images/uploads/logos/avatars
 
 # Change permissions on the logos directory
 chmod -R 755 /var/www/html/images/uploads/logos
-chown -R appuser:appgroup /var/www/html/images/uploads/logos
+chown -R www-data:www-data /var/www/html/images/uploads/logos
 
 # Remove crontab for the user
 crontab -d -u root
