@@ -114,11 +114,9 @@ See instructions to run Wallos below.
 ```bash
 docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 -v /path/to/config/wallos/logos:/var/www/html/images/uploads/logos \
--e TZ=Europe/Berlin -e PUID=82 -e PGID=82 -p 8282:80 --restart unless-stopped \
+-e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
 bellamy/wallos:latest
 ```
-
-Note: PUID and PGUID are optional, defaults to 82. Will let you run as an arbitrary user.
 
 ### Docker Compose
 
@@ -131,9 +129,6 @@ services:
       - "8282:80/tcp"
     environment:
       TZ: 'America/Toronto'
-      # PUID and PGUID are optional, defaults to 82. Will let you run as an arbitrary user.
-      # PUID: 82 
-      # PGID: 82
     # Volumes store your data between container upgrades
     volumes:
       - './db:/var/www/html/db'
