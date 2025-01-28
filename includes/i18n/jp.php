@@ -167,6 +167,7 @@ $i18n = [
     "smtp_password" => "SMTPパスワード",
     "from_email" => "送信元アドレス (オプション)",
     "send_to_other_emails" => "通知を以下のメールアドレスにも送信する（区切りには ; を使用）:",
+    "other_emails_placeholder" => "user@domain.com;test@user.com",
     "smtp_info" => "SMTPパスワードは平文で送信および保存されます。セキュリティのため専用のアカウントを作成してください。",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegramボットトークン",
@@ -255,6 +256,13 @@ $i18n = [
     "backup" => "バックアップ",
     "restore" => "リストア",
     "restore_info" => "データベースをリストアすると、現在のデータがすべて上書きされます。リストア後はサインアウトされます。",
+    "account" => "アカウント",
+    "export_subscriptions" => "定期購入をエクスポート",
+    "export_as_json" => "JSONとしてエクスポート",
+    "export_as_csv" => "CSVとしてエクスポート",
+    "danger_zone" => "危険地帯",
+    "delete_account" => "アカウントを削除",
+    "delete_account_info" => "アカウントを削除するとすべてのサブスクリプションと設定も削除されます。",
     // Filters menu
     "filter" => "フィルタ",
     "clear" => "クリア",
@@ -370,6 +378,7 @@ $i18n = [
     "export_icalendar" => "iCalendarをエクスポート",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
+    
 
 ];
 
