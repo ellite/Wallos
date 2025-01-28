@@ -6,7 +6,7 @@ WORKDIR /var/www/html
 
 # Update packages and install dependencies
 RUN apk upgrade --no-cache && \
-    apk add --no-cache sqlite-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev icu-data-full nginx dcron tzdata imagemagick imagemagick-dev libzip-dev sqlite libwebp-dev && \
+    apk add --no-cache shadow sqlite-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev icu-data-full nginx dcron tzdata imagemagick imagemagick-dev libzip-dev sqlite libwebp-dev && \
     docker-php-ext-install pdo pdo_sqlite calendar && \
     docker-php-ext-enable pdo pdo_sqlite && \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
