@@ -6,7 +6,7 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 
 $settings = $result->fetchArray(SQLITE3_ASSOC);
-if ($settings) {
+if ($settings !== false) {
     $themeMapping = array(0 => 'light', 1 => 'dark', 2 => 'automatic');
     $themeKey = isset($settings['dark_theme']) ? $settings['dark_theme'] : 2;
     $themeValue = $themeMapping[$themeKey];
@@ -37,7 +37,7 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $customColors = $result->fetchArray(SQLITE3_ASSOC);
 
-if ($customColors) {
+if ($customColors !== false) {
     $settings['customColors'] = $customColors;
 }
 
@@ -46,7 +46,7 @@ $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $customCss = $result->fetchArray(SQLITE3_ASSOC);
-if ($customCss) {
+if ($customCss !== false) {
     $settings['customCss'] = $customCss['css'];
 }
 
@@ -54,7 +54,7 @@ $query = "SELECT * FROM admin";
 $result = $db->query($query);
 $adminSettings = $result->fetchArray(SQLITE3_ASSOC);
 
-if ($adminSettings) {
+if ($adminSettings !== false) {
     $settings['disableLogin'] = $adminSettings['login_disabled'];
     $settings['update_notification'] = $adminSettings['update_notification'];
     $settings['latest_version'] = $adminSettings['latest_version'];

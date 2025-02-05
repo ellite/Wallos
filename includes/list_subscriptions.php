@@ -289,9 +289,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             </div>
             <?php
             if ($showSubscriptionProgress === 'true') {
+                $progress = $subscription['progress'] > 100 ? 100 : $subscription['progress'];
                 ?>
                 <div class="subscription-progress-container">
-                    <span class="subscription-progress" style="width: <?= $subscription['progress'] ?>%;"></span>
+                    <span class="subscription-progress" style="width: <?= $progress ?>%;"></span>
                 </div>
                 <?php
             }
@@ -306,6 +307,10 @@ $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
-$mainCurrencyId = $row['main_currency'];
+if ($row !== false) {
+    $mainCurrencyId = $row['main_currency'];
+} else {
+    $mainCurrencyId = $currencies[1]['id'];
+}
 
 ?>
