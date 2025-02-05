@@ -61,16 +61,36 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
         imagepng($image, $tempFile);
         imagedestroy($image);
 
-        $imagick = new Imagick($tempFile);
-        if ($removeBackground) {
-            $fuzz = Imagick::getQuantum() * 0.1; // 10%
-            $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
-        }
-        $imagick->setImageFormat('png');
-        $imagick->writeImage($uploadFile);
+        if (extension_loaded('imagick')) {
+            $imagick = new Imagick($tempFile);
+            if ($removeBackground) {
+                $fuzz = Imagick::getQuantum() * 0.1; // 10%
+                $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
+            }
+            $imagick->setImageFormat('png');
+            $imagick->writeImage($uploadFile);
 
-        $imagick->clear();
-        $imagick->destroy();
+            $imagick->clear();
+            $imagick->destroy();
+        } else {
+            // Alternative method if Imagick is not available
+            $newImage = imagecreatefrompng($tempFile);
+            if ($newImage !== false) {
+                if ($removeBackground) {
+                    imagealphablending($newImage, false);
+                    imagesavealpha($newImage, true);
+                    $transparent = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
+                    imagefill($newImage, 0, 0, $transparent);  // Fill the entire image with transparency
+                    imagepng($newImage, $uploadFile);
+                    imagedestroy($newImage);
+                }
+                imagepng($newImage, $uploadFile);
+                imagedestroy($newImage);
+            } else {
+                unlink($tempFile);
+                return false;
+            }
+        }
         unlink($tempFile);
 
         return true;
