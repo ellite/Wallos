@@ -267,7 +267,7 @@ $i18n = [
     "filter" => "Filtrovat",
     "clear" => "Vymazat",
     // Toast
-    "success" => "Úspěchs",
+    "success" => "Úspěch",
     // Endpoint responses
     "session_expired" => "Vaše relace vypršela. Přihlaste se prosím znovu.",
     "fields_missing" => "Některá pole chybí",
