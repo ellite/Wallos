@@ -307,6 +307,10 @@ $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
-$mainCurrencyId = $row['main_currency'];
+if ($row !== false) {
+    $mainCurrencyId = $row['main_currency'];
+} else {
+    $mainCurrencyId = $currencies[1]['id'];
+}
 
 ?>
