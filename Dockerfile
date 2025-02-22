@@ -37,9 +37,8 @@ RUN dos2unix /etc/cron.d/cronjobs && \
     echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # Expose port 80 for Nginx
-EXPOSE 80
-
-ARG SOFTWARE_VERSION=1.20.0
+ARG WALLOS_PORT=80
+EXPOSE ${WALLOS_PORT}
 
 # Start both PHP-FPM, Nginx
-CMD ["sh", "-c", "/var/www/html/startup.sh"]
+CMD ["sh", "-c", "export WALLOS_PORT=${WALLOS_PORT:-80} && /var/www/html/startup.sh"]

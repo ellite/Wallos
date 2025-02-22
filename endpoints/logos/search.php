@@ -64,18 +64,11 @@ if (isset($_GET['search'])) {
 function extractImageUrlsFromPage($html)
 {
     $imageUrls = [];
+    $pattern = '/<img[^>]+src="([^">]+)"/i';
+    preg_match_all($pattern, $html, $matches);
 
-    $doc = new DOMDocument();
-    @$doc->loadHTML($html);
-
-    $imgTags = $doc->getElementsByTagName('img');
-    foreach ($imgTags as $imgTag) {
-        $src = $imgTag->getAttribute('src');
-        if (!strstr($imgTag->getAttribute('class'), "favicon") && !strstr($imgTag->getAttribute('class'), "logo")) {
-            if (filter_var($src, FILTER_VALIDATE_URL)) {
-                $imageUrls[] = $src;
-            }
-        }
+    if (isset($matches[1])) {
+        $imageUrls = $matches[1];
     }
 
     return $imageUrls;
