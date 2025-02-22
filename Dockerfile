@@ -14,6 +14,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache --virtual .build-deps $PHPIZE_DEPS && \
     pecl install imagick && \
     docker-php-ext-enable imagick && \
+    apk add --no-cache gettext && \
     apk del .build-deps
 
 # Copy your PHP application files into the container
