@@ -130,6 +130,18 @@ foreach ($subscriptions as $subscription) {
   $payment_methods[$paymentMethodId]['count']++;
 }
 
+if ($sortOrder == "category_id") {
+  usort($subscriptions, function ($a, $b) use ($categories) {
+    return $categories[$a['category_id']]['order'] - $categories[$b['category_id']]['order'];
+  });
+}
+
+if ($sortOrder == "payment_method_id") {
+  usort($subscriptions, function ($a, $b) use ($payment_methods) {
+    return $payment_methods[$a['payment_method_id']]['order'] - $payment_methods[$b['payment_method_id']]['order'];
+  });
+}
+
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 ?>
 <style>
