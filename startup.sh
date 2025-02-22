@@ -11,6 +11,8 @@ PGID=${PGID:-82}
 groupmod -o -g "$PGID" www-data
 usermod -o -u "$PUID" www-data
 chown -R www-data:www-data /var/www/html
+chown -R www-data:www-data /tmp
+chmod -R 770 /tmp
 
 # Start both PHP-FPM and Nginx
 php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt

@@ -194,6 +194,18 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  if ($sortOrder == "category_id") {
+    usort($print, function ($a, $b) use ($categories) {
+      return $categories[$a['category_id']]['order'] - $categories[$b['category_id']]['order'];
+    });
+  }
+  
+  if ($sortOrder == "payment_method_id") {
+    usort($print, function ($a, $b) use ($payment_methods) {
+      return $payment_methods[$a['payment_method_id']]['order'] - $payment_methods[$b['payment_method_id']]['order'];
+    });
+  }
+
   if (isset($print)) {
     printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress']);
   }
