@@ -12,6 +12,12 @@ groupmod -o -g "$PGID" www-data
 usermod -o -u "$PUID" www-data
 chown -R www-data:www-data /var/www/html
 
+envsubst '${WALLOS_PORT}' < /etc/nginx/http.d/default.conf > /etc/nginx/http.d/default.conf.tmp
+mv /etc/nginx/http.d/default.conf.tmp /etc/nginx/http.d/default.conf
+
+envsubst '${WALLOS_PORT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf.tmp
+mv /etc/nginx/nginx.conf.tmp /etc/nginx/nginx.conf
+
 # Start both PHP-FPM and Nginx
 php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt
 
