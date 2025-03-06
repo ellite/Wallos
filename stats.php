@@ -535,7 +535,7 @@ $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
   }
 
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph) {
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph) {
     ?>
     <h2><?= translate('split_views', $i18n) ?></h2>
     <div class="graphs">

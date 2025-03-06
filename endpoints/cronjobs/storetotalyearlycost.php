@@ -10,6 +10,24 @@ if (php_sapi_name() == 'cli') {
 $currentDate = new DateTime();
 $currentDateString = $currentDate->format('Y-m-d');
 
+function getPricePerMonth($cycle, $frequency, $price)
+{
+  switch ($cycle) {
+    case 1:
+      $numberOfPaymentsPerMonth = (30 / $frequency);
+      return $price * $numberOfPaymentsPerMonth;
+    case 2:
+      $numberOfPaymentsPerMonth = (4.35 / $frequency);
+      return $price * $numberOfPaymentsPerMonth;
+    case 3:
+      $numberOfPaymentsPerMonth = (1 / $frequency);
+      return $price * $numberOfPaymentsPerMonth;
+    case 4:
+      $numberOfMonths = (12 * $frequency);
+      return $price / $numberOfMonths;
+  }
+}
+
 function getPriceConverted($price, $currency, $database, $userId)
 {
   $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
@@ -38,13 +56,14 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $userCurrencyId = $row['main_currency'];
     $totalYearlyCost = 0;
 
-    $query = "SELECT * FROM subscriptions WHERE user_id = :userId";
+    $query = "SELECT * FROM subscriptions WHERE user_id = :userId AND inactive = 0";
     $stmt = $db->prepare($query);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $resultSubscriptions = $stmt->execute();
 
     while ($rowSubscriptions = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
-        $price = getPriceConverted($rowSubscriptions['price'], $rowSubscriptions['currency_id'], $db, $userId);
+        $originalSubscriptionPrice = getPriceConverted($rowSubscriptions['price'], $rowSubscriptions['currency_id'], $db, $userId);
+        $price = getPricePerMonth($rowSubscriptions['cycle'], $rowSubscriptions['frequency'], $originalSubscriptionPrice) * 12;
         $totalYearlyCost += $price;
     }
 
