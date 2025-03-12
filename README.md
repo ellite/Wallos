@@ -70,6 +70,7 @@ See instructions to run Wallos below.
 - NGINX or APACHE websever running
 - PHP 8.2 with the following modules enabled:
     - curl
+    - dom
     - gd
     - imagick
     - intl
