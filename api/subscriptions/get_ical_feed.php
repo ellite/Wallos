@@ -163,12 +163,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $subscription['price'] = number_format($subscription['price'], 2);
 
         $uid = uniqid();
-        $summary = "Wallos: " . $subscription['name'];
+        $summary = $subscription['name'];
         $description = "Price: {$subscription['currency']}{$subscription['price']}\\nCategory: {$subscription['category']}\\nPayment Method: {$subscription['payment_method']}\\nPayer: {$subscription['payer_user']}\\nNotes: {$subscription['notes']}";
         $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd');
         $dtend = (new DateTime($subscription['next_payment']))->format('Ymd');
         $location = isset($subscription['url']) ? $subscription['url'] : '';
-        $alarm_trigger = '-' . $subscription['trigger'] . 'D';
+        $alarm_trigger = '-P' . $subscription['trigger'] . 'D';
 
         $icsContent .= <<<ICS
         BEGIN:VEVENT
