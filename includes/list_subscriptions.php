@@ -16,7 +16,8 @@ function getBillingCycle($cycle, $frequency, $i18n)
     }
 }
 
-function getSubscriptionProgress($cycle, $frequency, $next_payment) {
+function getSubscriptionProgress($cycle, $frequency, $next_payment)
+{
     $nextPaymentDate = new DateTime($next_payment);
     $currentDate = new DateTime('now');
 
@@ -31,7 +32,7 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment) {
         $paymentCycleDays = 365 * $frequency;
     }
 
-    $lastPaymentDate = clone $nextPaymentDate; 
+    $lastPaymentDate = clone $nextPaymentDate;
     $lastPaymentDate->modify("-$paymentCycleDays days");
 
     $totalCycleDays = $lastPaymentDate->diff($nextPaymentDate)->days;
@@ -198,10 +199,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
-                        <span class="payment_method">
-                            <img src="<?= $subscription['payment_method_icon'] ?>"
-                                title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
-                        </span>
+
                         <span class="value">
                             <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
                             <?php
@@ -213,6 +211,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             }
                             ?>
                         </span>
+
+                    </span>
+                    <span class="payment_method">
+                        <img src="<?= $subscription['payment_method_icon'] ?>"
+                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
                     </span>
                     <?php
                     $desktopMenuButtonClass = ""; {
