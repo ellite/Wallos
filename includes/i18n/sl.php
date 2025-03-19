@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Zadnje dodano",
     "price" => "Cena",
     "next_payment" => "Naslednje plačilo",
+    "renewal_type" => "Vrsta obnove",
     "auto_renewal" => "Samodejno obnavljanje",
     "automatically_renews" => "Se samodejno obnavlja",
     "manual_renewal" => "Ročno obnavljanje",

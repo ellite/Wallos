@@ -358,6 +358,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['state'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&state=${activeFilters['state']}` : `?state=${activeFilters['state']}`;
   }
+  if (activeFilters['renewalType'] !== "") {
+    getSubscriptions += getSubscriptions.includes("?") ? `&renewalType=${activeFilters['renewalType']}` : `?renewalType=${activeFilters['renewalType']}`;
+  }
 
   fetch(getSubscriptions)
     .then(response => response.text())
@@ -693,9 +696,23 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         });
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-renewaltype')) {
+      const renewalType = this.getAttribute('data-renewaltype');
+      if (activeFilters['renewalType'] === renewalType) {
+        activeFilters['renewalType'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['renewalType'] = renewalType;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     }
 
-    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 || activeFilters['payments'].length > 0) {
+    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
+       activeFilters['payments'].length > 0 || activeFilters['state'] !== "" || 
+       activeFilters['renewalType'] !== "") {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');

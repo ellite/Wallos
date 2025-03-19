@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Thêm gần đây",
     "price" => "Giá",
     "next_payment" => "Thanh toán tiếp theo",
+    "renewal_type" => "Loại gia hạn",
     "auto_renewal" => "Tự động gia hạn",
     "automatically_renews" => "Tự động gia hạn",
     "manual_renewal" => "Gia hạn thủ công",

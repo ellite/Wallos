@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Laatst toegevoegd",
     "price" => "Prijs",
     "next_payment" => "Volgende betaling",
+    "renewal_type" => "Verlengingstype",
     "auto_renewal" => "Automatische verlenging",
     "automatically_renews" => "Verlengt automatisch",
     "manual_renewal" => "Handmatige verlenging",

@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "최근 등록",
     "price" => "가격",
     "next_payment" => "다음 결제일",
+    "renewal_type" => "갱신 방법",
     "auto_renewal" => "자동 갱신",
     "automatically_renews" => "자동 갱신",
     "manual_renewal" => "수동 갱신",
