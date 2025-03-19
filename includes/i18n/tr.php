@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Son Eklenen",
     "price" => "Fiyat",
     "next_payment" => "Sonraki Ödeme",
+    "renewal_type" => "Yenileme Türü",
     "auto_renewal" => "Otomatik Yenileme",
     "automatically_renews" => "Otomatik Yenileme",
     "manual_renewal" => "Manuel Yenileme",

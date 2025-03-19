@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Τελευταία προσθήκη",
     "price" => "Τιμή",
     "next_payment" => "Επόμενη πληρωμή",
+    "renewal_type" => "Τύπος ανανέωσης",
     "auto_renewal" => "Αυτόματη ανανέωση",
     "automatically_renews" => "Ανανεώνεται αυτόματα",
     "manual_renewal" => "Χειροκίνητη ανανέωση",

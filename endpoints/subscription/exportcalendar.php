@@ -39,13 +39,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
        // Create ICS from subscription information
         $uid = uniqid();
-        $summary = "Wallos: " . $subscription['name'];
+        $summary = html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8');
         $description = "Price: {$subscription['currency']}{$subscription['price']}\nCategory: {$subscription['category']}\nPayment Method: {$subscription['payment_method']}\nPayer: {$subscription['payer_user']}\n\nNotes: {$subscription['notes']}";
         
         $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd\THis\Z');
         $dtend = (new DateTime($subscription['next_payment']))->modify('+1 hour')->format('Ymd\THis\Z');
         $location = isset($subscription['url']) ? $subscription['url'] : '';
-        $alarm_trigger = '-' . $subscription['trigger'] . 'D';
+        $alarm_trigger = '-P' . $subscription['trigger'] . 'D';
 
         $icsContent = <<<ICS
         BEGIN:VCALENDAR

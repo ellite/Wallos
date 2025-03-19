@@ -73,6 +73,12 @@ function openSubscriptionModal(subscriptionId) {
       .catch(error => console.error('Error:', error));
 }
 
+function decodeHtmlEntities(str) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
+}
+
 function exportCalendar(subscriptionId) {
   fetch('endpoints/subscription/exportcalendar.php', {
     method: 'POST',
@@ -89,7 +95,7 @@ function exportCalendar(subscriptionId) {
       const a = document.createElement('a');
       a.href = url;
       // Use the subscription name for the file name, replacing any characters that are invalid in file names
-      a.download = `${data.name.replace(/[\/\\:*?"<>|]/g, '_').toLowerCase()}.ics`;
+      a.download = `${decodeHtmlEntities(data.name).replace(/[\/\\:*?"<>|]/g, '_').toLowerCase()}.ics`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

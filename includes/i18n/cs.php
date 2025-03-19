@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Naposledy přidané",
     "price" => "Cena",
     "next_payment" => "Další platba",
+    "renewal_type" => "Typ obnovení",
     "auto_renewal" => "Automatické obnovení",
     "automatically_renews" => "Automaticky se obnovuje",
     "manual_renewal" => "Ruční obnovení",

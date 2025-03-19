@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Última Adicionada",
     "price" => "Preço",
     "next_payment" => "Próximo Pagamento",
+    "renewal_type" => "Tipo de Renovação",
     "auto_renewal" => "Renovação Automática",
     "automatically_renews" => "Renova automaticamente",
     "manual_renewal" => "Renovação Manual",

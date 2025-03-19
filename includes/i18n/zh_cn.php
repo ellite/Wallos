@@ -52,6 +52,7 @@ $i18n = [
     "last_added" => "创建时间",
     "price" => "价格",
     "next_payment" => "下次支付时间",
+    "renewal_type" => "续订类型",
     "auto_renewal" => "自动续订",
     "automatically_renews" => "自动续订",
     "manual_renewal" => "手动续订",

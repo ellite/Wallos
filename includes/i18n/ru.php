@@ -48,6 +48,7 @@ $i18n = [
     "last_added" => "Дата создания",
     "price" => "Стоимость",
     "next_payment" => "Следующий платеж",
+    "renewal_type" => "Тип продления",
     "auto_renewal" => "Автоматическое продление",
     "automatically_renews" => "Автоматическое продление",
     "manual_renewal" => "Ручное продление",
