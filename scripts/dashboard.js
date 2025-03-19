@@ -603,6 +603,7 @@ activeFilters['categories'] = [];
 activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
+activeFilters['renewalType'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -728,6 +729,9 @@ function clearFilters() {
   activeFilters['categories'] = [];
   activeFilters['members'] = [];
   activeFilters['payments'] = [];
+  activeFilters['state'] = "";
+  activeFilters['renewalType'] = "";
+  
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
   });
