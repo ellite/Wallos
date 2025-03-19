@@ -408,6 +408,8 @@ button.mobile-action-renew {
   cursor: pointer;
   position: relative;
   transition: transform 0.2s;
+  box-sizing: border-box;
+  justify-content: center;
 }
 
 .subscription-container.hide {
@@ -421,7 +423,7 @@ button.mobile-action-renew {
   right: 8px;
   height: 3px;
   z-index: 1;
-} 
+}
 
 .subscription-container>.subscription-progress-container>.subscription-progress {
   height: 3px;
@@ -440,12 +442,17 @@ button.mobile-action-renew {
   text-decoration: line-through;
 }
 
+.subscription.inactive .payment_method img {
+  opacity: 0.4;
+}
+
 .subscription-main {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 12px;
   position: relative;
+  min-height: 40px;
 }
 
 .subscription-main .actions-expand {
@@ -578,7 +585,7 @@ button.mobile-action-renew {
   align-items: center;
 }
 
-.subscription .cycle > svg {
+.subscription .cycle>svg {
   width: 15px;
   height: 15px;
   margin-right: 3px;
@@ -590,23 +597,29 @@ button.mobile-action-renew {
   flex-grow: 1;
 }
 
+.subscription .payment_method {
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .subscription .payment_method img {
-  width: 45px;
+  width: 44px;
   height: 30px;
   aspect-ratio: 3 / 2;
   object-fit: contain;
-  margin-right: 12px;
 }
 
 .rtl .subscription .payment_method img {
-  margin-right: 0px;
-  margin-left: 12px;
+  margin-right: 10px;
+  margin-left: 0px;
 
 }
 
 .subscription .price {
   flex-basis: 8%;
-  justify-content: flex-start;
+  justify-content: center;
   flex-direction: row;
 }
 
@@ -2691,7 +2704,7 @@ input[type="radio"]:checked+label::after {
 .mobile-nav-image {
   width: 100%;
   max-width: 440px;
-  margin-top: 15px; 
+  margin-top: 15px;
   background-image: url("../images/siteimages/mobilenav.png");
   background-size: contain;
   background-position: center;
