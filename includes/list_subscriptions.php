@@ -272,7 +272,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                         <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>"
-                                target="_blank"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
+                                target="_blank" rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
                         <?php
                     }
                     ?>

@@ -83,6 +83,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
   <title>Wallos - Subscription Tracker</title>
   <meta name="apple-mobile-web-app-title" content="Wallos">
   <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color" />
+  <meta name="referrer" content="no-referrer">
   <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
   <link rel="apple-touch-icon" href="images/icon/apple-touch-icon.png">
   <link rel="apple-touch-icon" sizes="152x152" href="images/icon/apple-touch-icon-152.png">
