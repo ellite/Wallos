@@ -1134,6 +1134,11 @@ header #avatar {
   font-size: 20px;
 }
 
+.credits-list>div>h3>i {
+  color: var(--accent-color);
+  font-size: 18px;
+}
+
 .settings-notes {
   margin-bottom: 1.5em;
 }

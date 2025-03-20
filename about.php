@@ -1,4 +1,14 @@
-<?php require_once 'includes/header.php'; ?>
+<?php
+require_once 'includes/header.php';
+
+$wallosIsUpToDate = true;
+if (!is_null($settings['latest_version'])) {
+    $latestVersion = $settings['latest_version'];
+    if (version_compare($version, $latestVersion) == -1) {
+        $wallosIsUpToDate = false;
+    }
+}
+?>
 
 <section class="contain">
 
@@ -8,15 +18,32 @@
         </header>
         <div class="credits-list">
             <div>
-                <h3>Wallos <?= $version ?> <?= $demoMode ? "Demo" : "" ?></h3>
+                <h3>
+                    Wallos <?= $version ?> <?= $demoMode ? "Demo" : "" ?>
+                </h3>
                 <span>
-                    Release Notes
+                    <?= translate('release_notes', $i18n) ?>
                     <a href="https://github.com/ellite/Wallos/releases/tag/<?= $version ?>" target="_blank"
                         title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </span>
             </div>
+            <?php if (!$wallosIsUpToDate): ?>
+                <div class="update-available">
+                    <h3>
+                        <i class="fa-solid fa-info-circle"></i>
+                        <?= translate('update_available', $i18n) ?> <?= $latestVersion ?>
+                    </h3>
+                    <span>
+                        <?= translate('release_notes', $i18n) ?>
+                        <a href="https://github.com/ellite/Wallos/releases/tag/<?= $latestVersion ?>" target="_blank"
+                            title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                </div>
+            <?php endif; ?>
             <div>
                 <h3><?= translate('license', $i18n) ?></h3>
                 <span>
@@ -41,7 +68,8 @@
                 <h3><?= translate('the_author', $i18n) ?></h3>
                 <span>
                     https://henrique.pt
-                    <a href="https://henrique.pt/" target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                    <a href="https://henrique.pt/" target="_blank" title="<?= translate('external_url', $i18n) ?>"
+                        rel="noreferrer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </span>
@@ -79,7 +107,8 @@
                 <h3>Chart.js</h3>
                 <span>
                     https://www.chartjs.org/
-                    <a href="https://www.chartjs.org/" target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                    <a href="https://www.chartjs.org/" target="_blank" title="<?= translate('external_url', $i18n) ?>"
+                        rel="noreferrer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </span>
@@ -98,7 +127,8 @@
                 <h3>Icons by icons8</h3>
                 <span>
                     https://icons8.com/
-                    <a href="https://icons8.com/" target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                    <a href="https://icons8.com/" target="_blank" title="<?= translate('external_url', $i18n) ?>"
+                        rel="noreferrer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
                 </span>
