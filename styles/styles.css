@@ -1118,13 +1118,20 @@ header #avatar {
   line-break: anywhere;
 }
 
-.credits-list>p {
+.credits-list>div {
   margin: 0px;
   font-size: 18px;
+  display: flex;
+  flex-direction: column;
 }
 
-.updates-list>p {
+.updates-list>div {
   margin: 0px;
+}
+
+.credits-list>div>h3 {
+  margin: 2px 0px 0px 0px;
+  font-size: 20px;
 }
 
 .settings-notes {
@@ -1135,19 +1142,19 @@ header #avatar {
   margin-bottom: 0px;
 }
 
-.credits-list>p>span,
+.credits-list>div>span,
 .updates-list>p>span,
 .settings-notes>p>span {
   color: #AAA;
   font-size: 14px;
 }
 
-.credits-list>p>span,
+.credits-list>div>span,
 .updates-list>p>span {
   font-size: 16px;
 }
 
-.credits-list>p>span>a,
+.credits-list>div>span>a,
 .updates-list>p>span>a,
 .settings-notes>p>span>a {
   margin-left: 5px;
@@ -1155,14 +1162,14 @@ header #avatar {
   color: var(--accent-color);
 }
 
-.rtl .credits-list>p>span>a,
+.rtl .credits-list>div>span>a,
 .rtl .updates-list>p>span>a,
 .rtl .settings-notes>p>span>a {
   margin-left: 0px;
   margin-right: 5px;
 }
 
-.credits-list>p>span>a:visited,
+.credits-list>div>span>a:visited,
 .updates-list>p>span>a:visited,
 .settings-notes>p>span>a:visited {
   color: var(--accent-color);
