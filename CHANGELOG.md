@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.48.0](https://github.com/ellite/Wallos/compare/v2.47.1...v2.48.0) (2025-03-20)
+
+
+### Features
+
+* add update notification and release notes to the about page ([3e0e88d](https://github.com/ellite/Wallos/commit/3e0e88d6a2adc46c17773b09dd8684618c979711))
+* increase privacy by not sending referrer to external urls ([3e0e88d](https://github.com/ellite/Wallos/commit/3e0e88d6a2adc46c17773b09dd8684618c979711))
+* small layout change on the about page ([3e0e88d](https://github.com/ellite/Wallos/commit/3e0e88d6a2adc46c17773b09dd8684618c979711))
+
 ## [2.47.1](https://github.com/ellite/Wallos/compare/v2.47.0...v2.47.1) (2025-03-19)
 
 
