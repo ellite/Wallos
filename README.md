@@ -1,10 +1,19 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./images/siteicons/walloswhite.png">
-  <source media="(prefers-color-scheme: light)" srcset="./images/siteicons/wallos.png">
-  <img alt="Wallos" src="./images/siteicons/wallos.png">
-</picture>
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./images/siteicons/walloswhite.png">
+    <source media="(prefers-color-scheme: light)" srcset="./images/siteicons/wallos.png">
+    <img alt="Wallos" src="./images/siteicons/wallos.png">
+  </picture>
 
-Wallos: Open-Source Personal Subscription Tracker
+  <p>Wallos: Open-Source Personal Subscription Tracker</p>
+
+  [![Stars](https://img.shields.io/github/stars/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos)
+  [![Docker](https://img.shields.io/docker/pulls/bellamy/wallos?style=flat-square)](https://hub.docker.com/r/bellamy/wallos)
+  [![GitHub contributors](https://img.shields.io/github/contributors/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos/graphs/contributors)
+  [![GitHub Sponsors](https://img.shields.io/github/sponsors/ellite?style=flat-square)](https://github.com/sponsors/ellite)
+  [![Discord](https://img.shields.io/discord/1237073478910214235?logo=discord&style=flat-square)](https://discord.gg/anex9GUrPW)
+</div>
+
 
 ## Table of Contents
 
