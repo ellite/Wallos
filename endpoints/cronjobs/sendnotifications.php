@@ -229,7 +229,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $difference += 1;
             }
 
-            if ($difference === $daysToCompare) {
+            if ($difference === $daysToCompare && $nextPaymentDate >= $currentDate) {
+                echo "Subscription: " . $rowSubscription['name'] . "<br />";
                 echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
                 echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
                 echo "Difference: " . $difference . "<br />";
