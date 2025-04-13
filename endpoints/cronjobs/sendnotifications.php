@@ -293,13 +293,19 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $mail->Host = $email['smtpAddress'];
                     $mail->SMTPAuth = $smtpAuth;
+                    
                     if ($smtpAuth) {
                         $mail->Username = $email['smtpUsername'];
                         $mail->Password = $email['smtpPassword'];
                     }
+
                     if ($email['encryption'] != "none") {
                         $mail->SMTPSecure = $email['encryption'];
+                    } else {
+                        $mail->SMTPSecure = false;
+                        $mail->SMTPAutoTLS = false;
                     }
+
                     $mail->Port = $email['smtpPort'];
 
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
