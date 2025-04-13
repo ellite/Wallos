@@ -2,6 +2,8 @@
 
 require_once 'i18n/getlang.php';
 
+
+
 function getBillingCycle($cycle, $frequency, $i18n)
 {
     switch ($cycle) {
@@ -81,7 +83,24 @@ function getPriceConverted($price, $currency, $database)
     }
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress)
+function formatPrice($price, $currencyCode, $currencies)
+{
+    $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
+    if (strstr($formattedPrice, $currencyCode)) {
+        $symbol = 'currencyCode';
+        foreach ($currencies as $currency) {
+            if ($currency['code'] === 'UAH') {
+                $symbol = $currency['symbol'];
+                break;
+            }
+        }
+        $formattedPrice = str_replace($currencyCode, $symbol, $formattedPrice);
+    }
+
+    return $formattedPrice;
+}
+
+function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies)
 {
     if ($sort === "price") {
         usort($subscriptions, function ($a, $b) {
@@ -205,14 +224,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
-
                         <span class="value">
-                            <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
+                            <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies ) ?>
                             <?php
                             if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
                                 ?>
                                 <span
-                                    class="original_price">(<?= CurrencyFormatter::format($subscription['original_price'], $subscription['original_currency_code']) ?>)</span>
+                                    class="original_price">(<?= formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies) ?>)</span>
                                 <?php
                             }
                             ?>
