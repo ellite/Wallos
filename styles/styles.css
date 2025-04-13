@@ -1,3 +1,7 @@
+:root {
+  --logo-flex-basis: 17%;
+}
+
 body {
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
   margin: 0;
@@ -557,7 +561,7 @@ button.mobile-action-renew {
 }
 
 .subscription .logo {
-  flex-basis: 17%;
+  flex-basis: var(--logo-flex-basis);
 }
 
 .subscription .logo img {
@@ -669,8 +673,15 @@ button.mobile-action-renew {
 }
 
 @media (max-width: 768px) {
-  .subscription-main>.name {
+
+  .subscription-main>.hideOnMobile {
     display: none;
+  }
+
+  .subscription-main>.name {
+    flex-basis: var(--logo-flex-basis);
+    font-size: 14px;
+    font-weight: normal;
   }
 
   .subscription-secondary>.name {

@@ -81,7 +81,24 @@ function getPriceConverted($price, $currency, $database)
     }
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress)
+function formatPrice($price, $currencyCode, $currencies)
+{
+    $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
+    if (strstr($formattedPrice, $currencyCode)) {
+        $symbol = $currencyCode;
+        foreach ($currencies as $currency) {
+            if ($currency['code'] === 'UAH') {
+                $symbol = $currency['symbol'];
+                break;
+            }
+        }
+        $formattedPrice = str_replace($currencyCode, $symbol, $formattedPrice);
+    }
+
+    return $formattedPrice;
+}
+
+function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies)
 {
     if ($sort === "price") {
         usort($subscriptions, function ($a, $b) {
@@ -168,15 +185,21 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             if ($subscription['auto_renew'] != 1) {
                 $subscriptionExtraClasses .= " manual";
             }
+
+            $hasLogo = false;
+            if ($subscription['logo'] != "") {
+                $hasLogo = true;
+            }
+
             ?>
 
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
-                    <span class="logo">
+                    <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
                         <?php
-                        if ($subscription['logo'] != "") {
+                        if ($hasLogo) {
                             ?>
                             <img src="<?= $subscription['logo'] ?>">
                             <?php
@@ -185,7 +208,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                     </span>
-                    <span class="name"><?= $subscription['name'] ?></span>
+                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
                     <span class="cycle"
                         title="<?= $subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n) ?>">
                         <?php
@@ -199,14 +222,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="next"><?= $subscription['next_payment'] ?></span>
                     <span class="price">
-
                         <span class="value">
-                            <?= CurrencyFormatter::format($subscription['price'], $subscription['currency_code']) ?>
+                            <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies ) ?>
                             <?php
                             if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
                                 ?>
                                 <span
-                                    class="original_price">(<?= CurrencyFormatter::format($subscription['original_price'], $subscription['original_currency_code']) ?>)</span>
+                                    class="original_price">(<?= formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies) ?>)</span>
                                 <?php
                             }
                             ?>
@@ -271,8 +293,8 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             $url = "https://" . $url;
                         }
                         ?>
-                        <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>"
-                                target="_blank" rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
+                        <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"
+                                rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
                         <?php
                     }
                     ?>

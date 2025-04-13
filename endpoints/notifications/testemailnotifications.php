@@ -57,7 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($encryption != "none") {
           $mail->SMTPSecure = $encryption;
+        } else {
+            $mail->SMTPSecure = false;
+            $mail->SMTPAutoTLS = false;
         }
+
         $mail->Port = $smtpPort;
 
         $getUser = "SELECT * FROM user WHERE id = $userId";
