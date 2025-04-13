@@ -16,7 +16,7 @@ if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
     echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
 } else {
-    echo "On Timezone: " . date_default_timezone_get() . "<br />";
+    echo "On Timezone: " . date_default_timezone_get() . "<br /><br />";
 }
 
 // Get all user ids
@@ -37,8 +37,10 @@ function getDaysText($days) {
 function formatPrice($price, $currencyCode, $currencySymbol)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
+
     if (strstr($formattedPrice, $currencyCode)) {
-        $formattedPrice = str_replace($currencyCode, $currencySymbol." ", $formattedPrice);
+        $formattedPrice = str_replace($currencyCode, $currencySymbol, $formattedPrice);
+        $formattedPrice = substr_replace($formattedPrice, "", 3, 1);
     }
 
     return $formattedPrice;
@@ -47,7 +49,7 @@ function formatPrice($price, $currencyCode, $currencySymbol)
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
     if (php_sapi_name() !== 'cli') {
-        echo "For user: " . $userToNotify['username'] . "<br />";
+        echo "For user: " . $userToNotify['username'] . "<br /><br />";
     }
 
     $days = 1;
