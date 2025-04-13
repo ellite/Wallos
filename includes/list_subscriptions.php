@@ -2,8 +2,6 @@
 
 require_once 'i18n/getlang.php';
 
-
-
 function getBillingCycle($cycle, $frequency, $i18n)
 {
     switch ($cycle) {
@@ -87,7 +85,7 @@ function formatPrice($price, $currencyCode, $currencies)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
     if (strstr($formattedPrice, $currencyCode)) {
-        $symbol = 'currencyCode';
+        $symbol = $currencyCode;
         foreach ($currencies as $currency) {
             if ($currency['code'] === 'UAH') {
                 $symbol = $currency['symbol'];

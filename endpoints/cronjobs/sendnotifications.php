@@ -10,9 +10,13 @@ require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
+require __DIR__ . '/../../includes/currency_formatter.php';
+
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
     echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
+} else {
+    echo "On Timezone: " . date_default_timezone_get() . "<br />";
 }
 
 // Get all user ids
@@ -30,10 +34,20 @@ function getDaysText($days) {
     }
 }
 
+function formatPrice($price, $currencyCode, $currencySymbol)
+{
+    $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
+    if (strstr($formattedPrice, $currencyCode)) {
+        $formattedPrice = str_replace($currencyCode, $currencySymbol." ", $formattedPrice);
+    }
+
+    return $formattedPrice;
+}
+
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
     if (php_sapi_name() !== 'cli') {
-        echo "\nFor user: " . $userToNotify['username'] . "<br />";
+        echo "For user: " . $userToNotify['username'] . "<br />";
     }
 
     $days = 1;
@@ -229,14 +243,16 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $difference += 1;
             }
 
-            if ($difference === $daysToCompare && $nextPaymentDate >= $currentDate) {
+            if ($difference === $daysToCompare && $nextPaymentDate->format('Y-m-d') >= $currentDate->format('Y-m-d')) {
                 echo "Subscription: " . $rowSubscription['name'] . "<br />";
                 echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
                 echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
-                echo "Difference: " . $difference . "<br />";
+                echo "Difference: " . $difference . "<br /><br />";
                 $notify[$rowSubscription['payer_user_id']][$i]['name'] = html_entity_decode($rowSubscription['name'], ENT_QUOTES, 'UTF-8');
                 $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
                 $notify[$rowSubscription['payer_user_id']][$i]['currency'] = $currencies[$rowSubscription['currency_id']]['name'];
+                $notify[$rowSubscription['payer_user_id']][$i]['currency_symbol'] = $currencies[$rowSubscription['currency_id']]['symbol'];
+                $notify[$rowSubscription['payer_user_id']][$i]['formatted_price'] = formatPrice($rowSubscription['price'], $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']);
                 $notify[$rowSubscription['payer_user_id']][$i]['category'] = $categories[$rowSubscription['category_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
                 $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
@@ -264,7 +280,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
@@ -339,7 +355,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $postfields = [
@@ -392,7 +408,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $data = array(
@@ -446,7 +462,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $data = array(
@@ -495,7 +511,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $ch = curl_init();
@@ -537,7 +553,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($perUser as $subscription) {
                         $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . " (" . $dayText . ")\n";
+                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
                     $headers = json_decode($ntfy["headers"], true);
@@ -603,7 +619,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             foreach ($temp_subscription as $key => $value) {
                                 if (is_string($value)) {
                                     $temp_subscription[$key] = str_replace("{{subscription_name}}", $subscription['name'], $value);
-                                    $temp_subscription[$key] = str_replace("{{subscription_price}}", $subscription['price'], $temp_subscription[$key]);
+                                    $temp_subscription[$key] = str_replace("{{subscription_price}}", $subscription['formatted_price'], $temp_subscription[$key]);
                                     $temp_subscription[$key] = str_replace("{{subscription_currency}}", $subscription['currency'], $temp_subscription[$key]);
                                     $temp_subscription[$key] = str_replace("{{subscription_category}}", $subscription['category'], $temp_subscription[$key]);
                                     $temp_subscription[$key] = str_replace("{{subscription_payer}}", $subscription['payer'], $temp_subscription[$key]);
@@ -671,7 +687,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             $payload = $webhook['payload'];
                             $payload = str_replace("{{days_until}}", $days, $payload);
                             $payload = str_replace("{{subscription_name}}", $subscription['name'], $payload);
-                            $payload = str_replace("{{subscription_price}}", $subscription['price'], $payload);
+                            $payload = str_replace("{{subscription_price}}", $subscription['formatted_price'], $payload);
                             $payload = str_replace("{{subscription_currency}}", $subscription['currency'], $payload);
                             $payload = str_replace("{{subscription_category}}", $subscription['category'], $payload);
                             $payload = str_replace("{{subscription_payer}}", $payer, $payload); // Use $payer instead of $subscription['payer']
