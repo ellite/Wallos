@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.49.1](https://github.com/ellite/Wallos/compare/v2.49.0...v2.49.1) (2025-04-13)
+
+
+### Bug Fixes
+
+* version number ([eade2d9](https://github.com/ellite/Wallos/commit/eade2d9919e5d30e7be279f53e278fb746095762))
+
 ## [2.49.0](https://github.com/ellite/Wallos/compare/v2.48.1...v2.49.0) (2025-04-13)
 
 
