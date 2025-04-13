@@ -168,15 +168,21 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             if ($subscription['auto_renew'] != 1) {
                 $subscriptionExtraClasses .= " manual";
             }
+
+            $hasLogo = false;
+            if ($subscription['logo'] != "") {
+                $hasLogo = true;
+            }
+
             ?>
 
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
-                    <span class="logo">
+                    <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
                         <?php
-                        if ($subscription['logo'] != "") {
+                        if ($hasLogo) {
                             ?>
                             <img src="<?= $subscription['logo'] ?>">
                             <?php
@@ -185,7 +191,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                     </span>
-                    <span class="name"><?= $subscription['name'] ?></span>
+                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
                     <span class="cycle"
                         title="<?= $subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n) ?>">
                         <?php
@@ -271,8 +277,8 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             $url = "https://" . $url;
                         }
                         ?>
-                        <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>"
-                                target="_blank" rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
+                        <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"
+                                rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
                         <?php
                     }
                     ?>
