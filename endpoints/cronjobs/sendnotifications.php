@@ -24,7 +24,8 @@ $query = "SELECT id, username FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 
-function getDaysText($days) {
+function getDaysText($days)
+{
     if ($days == 0) {
         return "Today";
     } elseif ($days == 1) {
@@ -293,7 +294,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $mail->Host = $email['smtpAddress'];
                     $mail->SMTPAuth = $smtpAuth;
-                    
+
                     if ($smtpAuth) {
                         $mail->Username = $email['smtpUsername'];
                         $mail->Password = $email['smtpPassword'];
@@ -565,9 +566,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
 
                     $headers = json_decode($ntfy["headers"], true);
-                    $customheaders = array_map(function ($key, $value) {
-                        return "$key: $value";
-                    }, array_keys($headers), $headers);
+                    $customheaders = [];
+
+                    if (is_array($headers)) {
+                        $customheaders = array_map(function ($key, $value) {
+                            return "$key: $value";
+                        }, array_keys($headers), $headers);
+                    }
 
                     $ch = curl_init();
 
