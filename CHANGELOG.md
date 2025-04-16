@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.50.0](https://github.com/ellite/Wallos/compare/v2.49.1...v2.50.0) (2025-04-16)
+
+
+### Features
+
+* shorten date displayed on the list of subscriptions ([68f1d47](https://github.com/ellite/Wallos/commit/68f1d4757737de50622bb4b2aeb8f291dec62972))
+* use user defined language for the date on the list of subscriptions ([68f1d47](https://github.com/ellite/Wallos/commit/68f1d4757737de50622bb4b2aeb8f291dec62972))
+
+
+### Bug Fixes
+
+* limit name display, when sub has no logo to two lines ([68f1d47](https://github.com/ellite/Wallos/commit/68f1d4757737de50622bb4b2aeb8f291dec62972))
+* use translations on the mobile menu ([68f1d47](https://github.com/ellite/Wallos/commit/68f1d4757737de50622bb4b2aeb8f291dec62972))
+
 ## [2.49.1](https://github.com/ellite/Wallos/compare/v2.49.0...v2.49.1) (2025-04-13)
 
 
