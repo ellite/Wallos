@@ -126,6 +126,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     $subscriptionsToReturn = array();
 
+    // Get notification settings
+    $notificationQuery = "SELECT days FROM notification_settings WHERE user_id = :userId";
+    $notificationQueryStmt = $db->prepare($notificationQuery);
+    $notificationQueryStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $notificationResult = $notificationQueryStmt->execute();
+    $globalNotificationDays = 1; // Default value
+    if ($row = $notificationResult->fetchArray(SQLITE3_ASSOC)) {
+        $globalNotificationDays = $row['days'];
+    }
+
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
 
@@ -159,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $subscription['category'] = $categories[$subscription['category_id']];
         $subscription['payment_method'] = $paymentMethods[$subscription['payment_method_id']];
         $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
-        $subscription['trigger'] = $subscription['notify_days_before'] ? $subscription['notify_days_before'] : 1;
+        $subscription['trigger'] = ($subscription['notify_days_before'] == -1) ? $globalNotificationDays : ($subscription['notify_days_before'] ?: 1);
         $subscription['price'] = number_format($subscription['price'], 2);
 
         $uid = uniqid();
