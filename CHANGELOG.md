@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.50.1](https://github.com/ellite/Wallos/compare/v2.50.0...v2.50.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* localization on date on browsers not in english ([c7b3fb4](https://github.com/ellite/Wallos/commit/c7b3fb445182e19bc464ac987977bac266628757))
+
 ## [2.50.0](https://github.com/ellite/Wallos/compare/v2.49.1...v2.50.0) (2025-04-16)
 
 
