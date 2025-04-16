@@ -213,6 +213,15 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   </header>
   <div class="subscriptions" id="subscriptions">
     <?php
+    $formatter = new IntlDateFormatter(
+      'en', // Force English locale
+      IntlDateFormatter::SHORT,
+      IntlDateFormatter::NONE,
+      null,
+      null,
+      'MMM d, yyyy'
+    );
+
     foreach ($subscriptions as $subscription) {
       if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
         continue;
