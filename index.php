@@ -269,7 +269,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies);
+      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
     }
     $db->close();
 

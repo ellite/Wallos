@@ -222,23 +222,23 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
     <nav class="mobile-nav">
         <a href="." class="nav-link <?= $subscriptionsClass ?>" title="<?= translate('subscriptions', $i18n) ?>">
           <?php include "images/siteicons/svg/mobile-menu/home.php"; ?>
-          Home
+          <?= translate('subscriptions', $i18n) ?>
         </a>
         <a href="calendar.php" class="nav-link <?= $calendarClass ?>" title="<?= translate('calendar', $i18n) ?>">
           <?php include "images/siteicons/svg/mobile-menu/calendar.php"; ?>
-          Calendar
+          <?= translate('calendar', $i18n) ?>
         </a>
         <a href="stats.php" class="nav-link <?= $statsClass ?>" title="<?= translate('stats', $i18n) ?>">
           <?php include "images/siteicons/svg/mobile-menu/statistics.php"; ?>
-          Statistics
+          <?= translate('stats', $i18n) ?>
         </a>
         <a href="settings.php" class="nav-link <?= $settingsClass ?>" title="<?= translate('settings', $i18n) ?>">
           <?php include "images/siteicons/svg/mobile-menu/settings.php"; ?>
-          Settings
+          <?= translate('settings', $i18n) ?>
         </a>
         <a href="profile.php" class="nav-link <?= $profileClass ?>" title="<?= translate('profile', $i18n) ?>">
           <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
-          Profile
+          <?= translate('profile', $i18n) ?>
         </a>
     </nav>
     <?php

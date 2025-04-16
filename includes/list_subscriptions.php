@@ -98,7 +98,36 @@ function formatPrice($price, $currencyCode, $currencies)
     return $formattedPrice;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies)
+function formatDate($date, $lang = 'en')
+{
+    $currentYear = date('Y');
+    $dateYear = date('Y', strtotime($date));
+
+    // Determine the date format based on whether the year matches the current year
+    $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
+
+    // Validate the locale and fallback to 'en' if unsupported
+    if (!in_array($lang, ResourceBundle::getLocales(''))) {
+        $lang = 'en'; // Fallback to English
+    }
+
+    // Create an IntlDateFormatter instance for the specified language
+    $formatter = new IntlDateFormatter(
+        $lang,
+        IntlDateFormatter::SHORT,
+        IntlDateFormatter::NONE,
+        null,
+        null,
+        $dateFormat
+    );
+
+    // Format the date
+    $formattedDate = $formatter->format(new DateTime($date));
+
+    return $formattedDate;
+}
+
+function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     if ($sort === "price") {
         usort($subscriptions, function ($a, $b) {
@@ -220,10 +249,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         ?>
                         <?= $subscription['billing_cycle'] ?>
                     </span>
-                    <span class="next"><?= $subscription['next_payment'] ?></span>
+                    <span class="next"><?= formatDate($subscription['next_payment'], $lang) ?></span>
                     <span class="price">
                         <span class="value">
-                            <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies ) ?>
+                            <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies) ?>
                             <?php
                             if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
                                 ?>

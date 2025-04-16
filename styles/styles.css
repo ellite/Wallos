@@ -599,6 +599,7 @@ button.mobile-action-renew {
 .subscription .next {
   flex-basis: 16%;
   flex-grow: 1;
+  text-transform: capitalize;
 }
 
 .subscription .payment_method {
@@ -682,6 +683,9 @@ button.mobile-action-renew {
     flex-basis: var(--logo-flex-basis);
     font-size: 14px;
     font-weight: normal;
+    max-height: 38px;
+    overflow: hidden;
+    align-items: baseline;
   }
 
   .subscription-secondary>.name {
