@@ -378,6 +378,7 @@ $i18n = [
     "month-12" => "Dezember",
     "total_cost" => "Gesamtkosten",
     "export_icalendar" => "iCalendar exportieren",
+    "over_budget_warning" => "Sie haben Ihr Budget überschritten",
     // TOTP Page
     "insert_totp_code" => "Bitte geben Sie den TOTP-Code ein",
 

@@ -379,6 +379,7 @@ $i18n = [
     "month-12" => "十二月",
     "total_cost" => "總費用",
     "export_icalendar" => "匯出 iCalendar",
+    "over_budget_warning" => "您超出預算",
     // TOTP 頁面
     "insert_totp_code" => "請輸入 TOTP 驗證碼",
 

@@ -379,6 +379,7 @@ $i18n = [
     "month-12" => "Tháng Mười Hai",
     "total_cost" => "Tổng chi phí",
     "export_icalendar" => "Xuất iCalendar",
+    "over_budget_warning" => "Bạn đang vượt quá ngân sách",
     // TOTP Page
     "insert_totp_code" => "Nhập mã TOTP",
 ];
