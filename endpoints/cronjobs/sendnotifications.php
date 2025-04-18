@@ -12,6 +12,8 @@ require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require __DIR__ . '/../../includes/currency_formatter.php';
 
+require 'settimezone.php';
+
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
     echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";

@@ -10,6 +10,8 @@ require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
+require 'settimezone.php';
+
 // Get all user ids
 $query = "SELECT id, username FROM user";
 $stmt = $db->prepare($query);

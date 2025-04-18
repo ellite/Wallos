@@ -379,6 +379,7 @@ $i18n = [
     "month-12" => "Prosinec",
     "total_cost" => "Celkové náklady",
     "export_icalendar" => "Exportovat iCalendar",
+    "over_budget_warning" => "Překročili jste rozpočet",
     // TOTP Page
     "insert_totp_code" => "Vložte kód TOTP",
 

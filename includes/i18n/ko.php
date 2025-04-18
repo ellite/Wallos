@@ -378,6 +378,7 @@ $i18n = [
     "month-12" => "12월",
     "total_cost" => "총 비용",
     "export_icalendar" => "iCalendar 내보내기",
+    "over_budget_warning" => "예산이 초과되었습니다",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
 

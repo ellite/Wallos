@@ -378,6 +378,7 @@ $i18n = [
     "month-12" => "Aralık",
     "total_cost" => "Toplam Maliyet",
     "export_icalendar" => "iCalendar olarak dışa aktar",
+    "over_budget_warning" => "Bütçenizi aştınız",
     // TOTP Page
     "insert_totp_code" => "Lütfen TOTP kodunuzu girin",
 

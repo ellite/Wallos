@@ -371,6 +371,7 @@ $i18n = [
     "month-12" => "December",
     "total_cost" => "Skupni stroški",
     "export_icalendar" => "Izvozi iCalendar",
+    "over_budget_warning" => "Presegli ste proračun",
     // TOTP Page
     "insert_totp_code" => "Vnesite kodo TOTP",
 

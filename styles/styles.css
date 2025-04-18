@@ -2377,6 +2377,10 @@ button.dark-theme-button i {
   font-size: 18px;
 }
 
+.calendar-nav .month {
+  text-align: center;
+}
+
 .calendar {
   display: flex;
   flex-direction: column;
@@ -2475,6 +2479,20 @@ button.dark-theme-button i {
 .calendar .today .day {
   color: var(--main-color);
   font-weight: 700;
+}
+
+.over-budget {
+  background-color: rgba(var(--error-color-rgb), 0.2);
+  border: 1px solid var(--error-color);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.over-budget>i {
+  color: var(--error-color);
 }
 
 .subscription-modal {
