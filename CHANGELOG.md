@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.51.0](https://github.com/ellite/Wallos/compare/v2.50.1...v2.51.0) (2025-04-18)
+
+
+### Features
+
+* add over budget warnings on the calendar ([88eae10](https://github.com/ellite/Wallos/commit/88eae1002f0cc29a847e95b7698ab713779ec4f4))
+
+
+### Bug Fixes
+
+* force correct timezone on the cronjobs ([88eae10](https://github.com/ellite/Wallos/commit/88eae1002f0cc29a847e95b7698ab713779ec4f4))
+
 ## [2.50.1](https://github.com/ellite/Wallos/compare/v2.50.0...v2.50.1) (2025-04-16)
 
 
