@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\Exception;
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
+require 'settimezone.php';
+
 $query = "SELECT * FROM admin";
 $stmt = $db->prepare($query);
 $result = $stmt->execute();

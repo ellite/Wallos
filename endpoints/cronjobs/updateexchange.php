@@ -2,6 +2,8 @@
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
+require 'settimezone.php';
+
 // Get all user ids
 
 if (php_sapi_name() == 'cli') {
