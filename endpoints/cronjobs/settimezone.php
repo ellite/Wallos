@@ -1,7 +1,11 @@
 <?php
 
-$timezone = date_default_timezone_get();
+$timezone = getenv('TZ');
 if ($timezone == '') {
-    $timezone = 'UTC';
+    $timezone = date_default_timezone_get();
+    if ($timezone == '') {
+        $timezone = 'UTC';
+    }
 }
+
 date_default_timezone_set($timezone);
