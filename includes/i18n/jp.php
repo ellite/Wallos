@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "世帯別",
     "payment_method_split" => "支払い方法別",
     "total_cost_trend" => "合計費用のトレンド",
+    "cost_vs_budget" => "費用対予算",
     // About page
     "about_and_credits" => "概要とクレジット",
     "credits" => "クレジット",

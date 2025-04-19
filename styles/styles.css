@@ -2031,6 +2031,10 @@ button.dark-theme-button i {
   font-weight: normal;
 }
 
+.graph.x2 {
+  flex-basis: 100%;
+}
+
 @media (max-width: 768px) {
   .graph {
     flex-basis: 100%;

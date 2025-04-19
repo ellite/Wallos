@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "За членами сім'ї",
     "payment_method_split" => "За способами оплати",
     "total_cost_trend" => "Тенденція загальної вартості",
+    "cost_vs_budget" => "Вартість у порівнянні з бюджетом",
     // About page
     "about_and_credits" => "Про компанію та авторів",
     "credits" => "Подяки",

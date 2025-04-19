@@ -241,6 +241,7 @@ if ($result) {
   }
 }
 
+$showVsBudgetGraph = false;
 if (isset($userData['budget']) && $userData['budget'] > 0) {
   $budget = $userData['budget'];
   $budgetLeft = $budget - $totalCostPerMonth;
@@ -250,6 +251,17 @@ if (isset($userData['budget']) && $userData['budget'] > 0) {
   if ($totalCostPerMonth > $budget) {
     $overBudgetAmount = $totalCostPerMonth - $budget;
   }
+  $showVsBudgetGraph = true;
+  $vsBudgetDataPoints = [
+    [
+      "label" => translate('budget_remaining', $i18n),
+      "y" => $budgetLeft,
+    ],
+    [
+      "label" => translate('total_cost', $i18n),
+      "y" => $totalCostPerMonth,
+    ],
+  ];
 }
 
 $showCantConverErrorMessage = false;
@@ -341,18 +353,18 @@ $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
               <?php
               foreach ($categories as $category) {
                 if ($category['count'] > 0) {
-                if ($category['name'] == "No category") {
-                  $category['name'] = translate("no_category", $i18n);
-                }
-                $selectedClass = '';
-                if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
-                  $selectedClass = 'selected';
-                }
-                ?>
-                <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                  <?= $category['name'] ?>
-                </div>
-                <?php
+                  if ($category['name'] == "No category") {
+                    $category['name'] = translate("no_category", $i18n);
+                  }
+                  $selectedClass = '';
+                  if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
+                    $selectedClass = 'selected';
+                  }
+                  ?>
+                  <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
+                    <?= $category['name'] ?>
+                  </div>
+                  <?php
                 }
               }
               ?>
@@ -535,11 +547,24 @@ $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
   }
 
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph) {
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
     ?>
     <h2><?= translate('split_views', $i18n) ?></h2>
     <div class="graphs">
       <?php
+
+      if ($showTotalMonthlyCostGraph) {
+        ?>
+        <section class="graph x2">
+          <header>
+            <?= translate('total_cost_trend', $i18n) ?>
+            <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+          </header>
+          <canvas id="totalMonthlyCostChart" style="height: 370px; width: 100%; max-height: 370px;"></canvas>
+        </section>
+        <?php
+      }
+
       if ($showMemberCostGraph) {
         ?>
         <section class="graph">
@@ -575,14 +600,13 @@ $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
         <?php
       }
 
-      if ($showTotalMonthlyCostGraph) {
+      if ($showVsBudgetGraph) {
         ?>
         <section class="graph">
           <header>
-            <?= translate('total_cost_trend', $i18n) ?>
-            <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+            <?= translate('cost_vs_budget', $i18n) ?> (<?= CurrencyFormatter::format($budget, $code) ?>)
           </header>
-          <canvas id="totalMonthlyCostChart" style="height: 370px; width: 100%;"></canvas>
+          <canvas id="budgetVsCostChart" style="height: 370px; width: 100%;"></canvas>
         </section>
         <?php
       }
@@ -595,15 +619,16 @@ $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
 
 </section>
 <?php
-if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph) {
+if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
   ?>
   <script src="scripts/libs/chart.js"></script>
   <script type="text/javascript">
     window.onload = function () {
+      loadLineGraph("totalMonthlyCostChart", <?php echo json_encode($totalMonthlyCostDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", "<?= $showTotalMonthlyCostGraph ?>");
       loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
       loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);
       loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showPaymentMethodsGraph ?>);
-      loadLineGraph("totalMonthlyCostChart", <?php echo json_encode($totalMonthlyCostDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", "<?= $showTotalMonthlyCostGraph ?>");
+      loadGraph("budgetVsCostChart", <?php echo json_encode($vsBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showVsBudgetGraph ?>);
     }
   </script>
   <?php
