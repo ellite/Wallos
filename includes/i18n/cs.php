@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Rozdělení domácnosti",
     "payment_method_split" => "Rozdělení platebních metod",
     "total_cost_trend" => "Trend celkových nákladů",
+    "cost_vs_budget" => "Celkové náklady vs. rozpočet",
     // About page
     "about_and_credits" => "O aplikaci a zásluhy",
     "credits" => "Zásluhy",

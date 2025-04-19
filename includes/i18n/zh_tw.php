@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "家庭成員分析",
     "payment_method_split" => "付款方式分析",
     "total_cost_trend" => "總費用趨勢",
+    "cost_vs_budget" => "費用與預算比較",
     // 關於頁面
     "about_and_credits" => "關於和致謝",
     "credits" => "致謝",

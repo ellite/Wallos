@@ -124,6 +124,7 @@ $i18n = [
     "household_split" => "家庭视图",
     "payment_method_split" => "支付方式视图",
     "total_cost_trend" => "总费用趋势",
+    "cost_vs_budget" => "费用与预算",
 
     // 关于页面
     "about_and_credits" => "关于和鸣谢",

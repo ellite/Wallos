@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "가구별",
     "payment_method_split" => "지불방법별",
     "total_cost_trend" => "총 비용 추이",
+    "cost_vs_budget" => "비용 vs 예산",
     // About page
     "about_and_credits" => "개요 및 크레딧",
     "credits" => "크레딧",

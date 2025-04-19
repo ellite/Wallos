@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Razdelitev gospodinjstva",
     "payment_method_split" => "Razdelitev načina plačila",
     "total_cost_trend" => "Trend skupnih stroškov",
+    "cost_vs_budget" => "Stroški v primerjavi s proračunom",
     // About page
     "about_and_credits" => "O programu in zahvale",
     "credits" => "Zahvale",

@@ -118,6 +118,7 @@ $i18n = [
     "household_split" => "Por membro",
     "payment_method_split" => "Por método de pagamento",
     "total_cost_trend" => "Tendência de custo total",
+    "cost_vs_budget" => "Custo vs Orçamento",
     // About page
     "about_and_credits" => "Sobre e Créditos",
     "credits" => "Créditos",
