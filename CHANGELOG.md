@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.51.1](https://github.com/ellite/Wallos/compare/v2.51.0...v2.51.1) (2025-04-19)
+
+
+### Bug Fixes
+
+* timezone for cronjobs now comes from TZ env var first ([#791](https://github.com/ellite/Wallos/issues/791)) ([66a1a45](https://github.com/ellite/Wallos/commit/66a1a45f2dc1df99f8292cbb531d569f706eca6d))
+
 ## [2.51.0](https://github.com/ellite/Wallos/compare/v2.50.1...v2.51.0) (2025-04-18)
 
 
