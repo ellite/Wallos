@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.52.1](https://github.com/ellite/Wallos/compare/v2.52.0...v2.52.1) (2025-04-26)
+
+
+### Bug Fixes
+
+* error on statistics page when budget = 0 ([#800](https://github.com/ellite/Wallos/issues/800)) ([b7712dc](https://github.com/ellite/Wallos/commit/b7712dc80d6642a6a33a28adc641f9a4b3263ae6))
+
 ## [2.52.0](https://github.com/ellite/Wallos/compare/v2.51.1...v2.52.0) (2025-04-19)
 
 
