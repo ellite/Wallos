@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.52.2](https://github.com/ellite/Wallos/compare/v2.52.1...v2.52.2) (2025-04-26)
+
+
+### Bug Fixes
+
+* incorrect headers on the api ([#802](https://github.com/ellite/Wallos/issues/802)) ([af68c11](https://github.com/ellite/Wallos/commit/af68c11abf5d5a64fd7136e1d2e37323d170c77e))
+
 ## [2.52.1](https://github.com/ellite/Wallos/compare/v2.52.0...v2.52.1) (2025-04-26)
 
 
