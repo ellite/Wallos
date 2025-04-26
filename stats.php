@@ -242,6 +242,7 @@ if ($result) {
 }
 
 $showVsBudgetGraph = false;
+$vsBudgetDataPoints = [];
 if (isset($userData['budget']) && $userData['budget'] > 0) {
   $budget = $userData['budget'];
   $budgetLeft = $budget - $totalCostPerMonth;
