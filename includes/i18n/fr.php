@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Méthode de requête",
     "custom_headers" => "En-têtes personnalisés",
     "webhook_payload" => "Charge utile du webhook",
-    "webhook_iterator_key" => "Remplacer {{subscriptions}} par le nom de la clé",
     "variables_available" => "Variables disponibles",
     "gotify" => "Gotify",
     "token" => "Jeton",

@@ -181,7 +181,6 @@ $i18n = [
     "request_method" => "リクエストメソッド",
     "custom_headers" => "カスタムヘッダー",
     "webhook_payload" => "Webhookペイロード",
-    "webhook_iterator_keu" => "{{subscriptions}}をキー名に置き換える」",
     "variables_available" => "利用可能な変数",
     "gotify" => "Gotify",
     "token" => "トークン",

@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Metoda zahteve",
     "custom_headers" => "Glave po meri",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Zamenjaj {{subscriptions}} z imenom ključa",
     "variables_available" => "Spremenljivke, ki so na voljo",
     "gotify" => "Gotify",
     "token" => "Žeton",

@@ -181,7 +181,6 @@ $i18n = [
     "request_method" => "Metoda požadavku",
     "custom_headers" => "Vlastní hlavičky",
     "webhook_payload" => "Zatížení webhooku",
-    "webhook_iterator_key" => "Nahradit {{subscriptions}} názvem klíče",
     "variables_available" => "Dostupné proměnné",
     "gotify" => "Gotify",
     "token" => "Token",

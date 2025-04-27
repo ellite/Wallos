@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Método de Solicitud",
     "custom_headers" => "Cabeceras Personalizadas",
     "webhook_payload" => "Carga del Webhook",
-    "webhook_iterator_key" => "Sustituye {{subscriptions}} por el nombre de la clave",
     "variables_available" => "Variables disponibles",
     "gotify" => "Gotify",
     "token" => "Token",

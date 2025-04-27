@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "İstek Metodu",
     "custom_headers" => "Özel Başlıklar",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "{{subscriptions}}'yi anahtar olarak değiştir",
     "variables_available" => "Kullanılabilir Değişkenler",
     "gotify" => "Gotify",
     "token" => "Token",

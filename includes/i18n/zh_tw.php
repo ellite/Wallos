@@ -181,7 +181,6 @@ $i18n = [
     "request_method" => "請求方法",
     "custom_headers" => "自訂標頭",
     "webhook_payload" => "Webhook 內容",
-    "webhook_iterator_key" => "取代 {{subscriptions}} 為金鑰名稱",
     "variables_available" => "可用變數",
     "gotify" => "Gotify",
     "token" => "令牌",

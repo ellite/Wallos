@@ -181,7 +181,6 @@ $i18n = [
     "request_method" => "Phương thức yêu cầu",
     "custom_headers" => "Tiêu đề tùy chỉnh",
     "webhook_payload" => "Payload Webhook",
-    "webhook_iterator_key" => "Thay thế {{subscriptions}} bằng tên khóa",
     "variables_available" => "Các biến khả dụng",
     "gotify" => "Gotify",
     "token" => "Mã thông báo",

@@ -188,7 +188,6 @@ $i18n = [
     "request_method" => "请求方法",
     "custom_headers" => "自定义标头",
     "webhook_payload" => "Webhook 负载",
-    "webhook_iterator_key" => "替换 {{subscriptions}} 为键名",
     "variables_available" => "可用变量",
     "gotify" => "Gotify",
     "token" => "令牌",

@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Μέθοδος αίτησης",
     "custom_headers" => "Προσαρμοσμένες κεφαλίδες",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Αντικαταστήστε {{subscriptions}} με το όνομα του κλειδιού",
     "variables_available" => "Διαθέσιμες μεταβλητές",
     "gotify" => "Gotify",
     "token" => "Token",

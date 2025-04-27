@@ -170,14 +170,6 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $webhook['request_method'] = $row["request_method"];
         $webhook['headers'] = $row["headers"];
         $webhook['payload'] = $row["payload"];
-        $webhook['iterator'] = $row["iterator"];
-        if ($webhook['iterator'] === "") {
-            $webhook['iterator'] = "{{subscriptions}}";
-        } else {
-            if (strpos($webhook['iterator'], "{{") === false) {
-                $webhook['iterator'] = "{{" . $webhook['iterator'] . "}}";
-            }
-        }
         $webhook['ignore_ssl'] = $row["ignore_ssl"];
     }
 
@@ -605,139 +597,66 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Webhook notifications if enabled
             if ($webhookNotificationsEnabled) {
-
-                // Get webhook payload and turn it into a json object
-
-                $payload = str_replace("{{days_until}}", $days, $webhook['payload']);
-
-                $payload_json = json_decode($payload, true);
-
-                // If the payload is valid json, iterate the object and replace the placeholders with the subscription data (all subscriptions in one payload)
-                if ($payload_json !== null) {
-                    $subscription_template = $payload_json[$webhook['iterator']];
-                    $subscriptions = [];
-
-                    foreach ($notify as $userId => $perUser) {
-                        // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-                        $result = $stmt->execute();
-                        $user = $result->fetchArray(SQLITE3_ASSOC);
-
-                        if ($user['name']) {
-                            $payer = $user['name'];
+                foreach ($notify as $userId => $perUser) {
+                    // Get name of user from household table
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $user = $result->fetchArray(SQLITE3_ASSOC);
+            
+                    if ($user['name']) {
+                        $payer = $user['name'];
+                    }
+            
+                    foreach ($perUser as $subscription) {
+                        // Ensure the payload is reset for each subscription
+                        $payload = $webhook['payload'];
+                        $payload = str_replace("{{days_until}}", $days, $payload);
+                        $payload = str_replace("{{subscription_name}}", $subscription['name'], $payload);
+                        $payload = str_replace("{{subscription_price}}", $subscription['formatted_price'], $payload);
+                        $payload = str_replace("{{subscription_currency}}", $subscription['currency'], $payload);
+                        $payload = str_replace("{{subscription_category}}", $subscription['category'], $payload);
+                        $payload = str_replace("{{subscription_payer}}", $payer, $payload); // Use $payer instead of $subscription['payer']
+                        $payload = str_replace("{{subscription_date}}", $subscription['date'], $payload);
+                        $payload = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $payload);
+                        $payload = str_replace("{{subscription_url}}", $subscription['url'], $payload);
+                        $payload = str_replace("{{subscription_notes}}", $subscription['notes'], $payload);
+            
+                        // Initialize cURL for each subscription
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $webhook['url']);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            
+                        // Add headers if they exist
+                        if (!empty($webhook['headers'])) {
+                            $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                         }
-
-                        foreach ($perUser as $k => $subscription) {
-                            $temp_subscription = $subscription_template[0];
-
-                            foreach ($temp_subscription as $key => $value) {
-                                if (is_string($value)) {
-                                    $temp_subscription[$key] = str_replace("{{subscription_name}}", $subscription['name'], $value);
-                                    $temp_subscription[$key] = str_replace("{{subscription_price}}", $subscription['formatted_price'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_currency}}", $subscription['currency'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_category}}", $subscription['category'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_payer}}", $subscription['payer'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_date}}", $subscription['date'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_url}}", $subscription['url'], $temp_subscription[$key]);
-                                    $temp_subscription[$key] = str_replace("{{subscription_notes}}", $subscription['notes'], $temp_subscription[$key]);
-                                }
-                            }
-                            $subscriptions[] = $temp_subscription;
-
+            
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            
+                        // Handle SSL settings
+                        if ($webhook['ignore_ssl']) {
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                         }
-                    }
-
-                    // remove {{ and }} from the iterator
-                    $payload_iterator = str_replace("{{", "", $webhook['iterator']);
-                    $payload_iterator = str_replace("}}", "", $payload_iterator);
-
-                    $payload_json["{{subscriptions}}"] = $subscriptions;
-                    $payload_json[$payload_iterator] = $subscriptions;
-                    unset($payload_json["{{subscriptions}}"]);
-
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $webhook['url']);
-                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload_json));
-                    if (!empty($webhook['headers'])) {
-                        $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
-                    }
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                    if ($webhook['ignore_ssl']) {
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-                    }
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
-
-                    if ($response === false) {
-                        echo "Error sending notifications: " . curl_error($ch) . "<br />";
-                    } else {
-                        echo "Webhook Notifications sent<br />";
+            
+                        // Execute the cURL request
+                        $response = curl_exec($ch);
+                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+            
+                        if ($response === false || $httpCode >= 400) {
+                            echo "Error sending notifications: " . curl_error($ch) . "<br />";
+                        } else {
+                            echo "Webhook Notification sent for subscription: " . $subscription['name'] . "<br />";
+                        }
+            
+                        usleep(1000000); // 1s delay between requests
                     }
                 }
-
-
-                // If the payload is not valid json, send it directly as a string, replacing the placeholders with the subscription data (one notification per subscription)
-
-                if ($payload_json === null) {
-                    foreach ($notify as $userId => $perUser) {
-                        // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-                        $result = $stmt->execute();
-                        $user = $result->fetchArray(SQLITE3_ASSOC);
-
-                        if ($user['name']) {
-                            $payer = $user['name'];
-                        }
-
-                        foreach ($perUser as $k => $subscription) {
-                            // Ensure the payload is reset for each subscription
-                            $payload = $webhook['payload'];
-                            $payload = str_replace("{{days_until}}", $days, $payload);
-                            $payload = str_replace("{{subscription_name}}", $subscription['name'], $payload);
-                            $payload = str_replace("{{subscription_price}}", $subscription['formatted_price'], $payload);
-                            $payload = str_replace("{{subscription_currency}}", $subscription['currency'], $payload);
-                            $payload = str_replace("{{subscription_category}}", $subscription['category'], $payload);
-                            $payload = str_replace("{{subscription_payer}}", $payer, $payload); // Use $payer instead of $subscription['payer']
-                            $payload = str_replace("{{subscription_date}}", $subscription['date'], $payload);
-                            $payload = str_replace("{{subscription_days_until_payment}}", $subscription['days'], $payload);
-                            $payload = str_replace("{{subscription_url}}", $subscription['url'], $payload);
-                            $payload = str_replace("{{subscription_notes}}", $subscription['notes'], $payload);
-
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL, $webhook['url']);
-                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
-                            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                            if (!empty($webhook['headers'])) {
-                                $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
-                                curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
-                            }
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                            $response = curl_exec($ch);
-                            curl_close($ch);
-
-                            if ($response === false) {
-                                echo "Error sending notifications: " . curl_error($ch) . "<br />";
-                            } else {
-                                echo "Webhook Notification sent <br />";
-                            }
-
-                            // Delay for 200 milliseconds
-                            usleep(500000);
-                        }
-                    }
-                }
-
             }
-
 
         } else {
             if (php_sapi_name() !== 'cli') {

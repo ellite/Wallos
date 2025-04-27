@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Метод захтева",
     "custom_headers" => "Прилагођени заглавља",
     "webhook_payload" => "Вебхук Пајлоад",
-    "webhook_iterator_key" => "{{subscriptions}} замени кључним итератором",
     "variables_available" => "Доступне променљиве",
     "gotify" => "Готифи",
     "token" => "Токен",

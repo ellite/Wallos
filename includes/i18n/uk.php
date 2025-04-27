@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "Метод запиту",
     "custom_headers" => "Користувацькі заголовки",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Замінити {{subscriptions}} ім'ям ключа.",
     "variables_available" => "Доступні змінні",
     "gotify" => "Gotify",
     "token" => "Токен",

@@ -180,7 +180,6 @@ $i18n = [
     "request_method" => "요청 메서드",
     "custom_headers" => "커스텀 헤더",
     "webhook_payload" => "웹훅 페이로드",
-    "webhook_iterator_key" => "{{subscriptions}}을 키 이름으로 바꾸기",
     "variables_available" => "사용 가능한 변수",
     "gotify" => "Gotify",
     "token" => "토큰",

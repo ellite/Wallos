@@ -181,7 +181,6 @@ $i18n = [
     "request_method" => "Request Methode",
     "custom_headers" => "Aangepaste Headers",
     "webhook_payload" => "Webhook Payload",
-    "webhook_iterator_key" => "Vervang {{subscriptions}} met sleutelnaam",
     "variables_available" => "Beschikbare variabelen",
     "gotify" => "Gotify",
     "token" => "Token",
