@@ -1017,7 +1017,7 @@ header #avatar {
 }
 
 .account-notification-section-settings.is-open {
-  max-height: 1000px;
+  max-height: 1500px;
   /* Set to a value larger than the content's natural height */
 }
 
