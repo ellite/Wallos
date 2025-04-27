@@ -38,7 +38,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 
-header('Content-Type: application/json, charset=UTF-8');
+header('Content-Type: application/json; charset=UTF-8');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET") {
     // if the parameters are not set, return an error
