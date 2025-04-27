@@ -93,6 +93,7 @@ input[type="email"],
 input[type="password"],
 input[type="date"],
 input[type="number"],
+textarea,
 select {
     background-color: #555;
     border: 1px solid #666;
@@ -104,6 +105,7 @@ input[type="email"]::placeholder,
 input[type="password"]::placeholder,
 input[type="date"]::placeholder,
 input[type="number"]::placeholder,
+textarea::placeholder,
 select::placeholder {
     color: #BBB;
 }
@@ -113,6 +115,7 @@ input[type="email"]:disabled,
 input[type="password"]:disabled,
 input[type="date"]:disabled,
 input[type="number"]:disabled,
+textarea:disabled,
 select:disabled {
     background-color: #999;
     border-color: #666;
@@ -133,12 +136,6 @@ input[type="button"].secondary-button:hover {
 
 input[type="color"] {
     background-color: #F2F2F2;
-}
-
-textarea {
-    background-color: #555;
-    border: 1px solid #666;
-    color: #E0E0E0;
 }
 
 .avatar-select .avatar-list .remove-avatar {

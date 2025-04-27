@@ -257,7 +257,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsWebhook['request_method'] = $row['request_method'];
         $notificationsWebhook['headers'] = $row['headers'];
         $notificationsWebhook['payload'] = $row['payload'];
-        $notificationsWebhook['iterator'] = $row['iterator'];
+        $notificationsWebhook['cancelation_payload'] = $row['cancelation_payload'];
         $notificationsWebhook['ignore_ssl'] = $row['ignore_ssl'];
         $rowCount++;
     }
@@ -267,25 +267,19 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsWebhook['url'] = "";
         $notificationsWebhook['request_method'] = "POST";
         $notificationsWebhook['headers'] = "";
-        $notificationsWebhook['iterator'] = "";
         $notificationsWebhook['payload'] = '
 {
-    "days_until": "{{days_until}}",
-    "{{subscriptions}}": [
-        {
-            "name": "{{subscription_name}}",
-            "price": "{{subscription_price}}",
-            "currency": "{{subscription_currency}}",
-            "category": "{{subscription_category}}",
-            "date": "{{subscription_date}}",
-            "payer": "{{subscription_payer}}",
-            "days": "{{subscription_days_until_payment}}",
-            "notes": "{{subscription_notes}}",
-            "url": "{{subscription_url}}"
-        }
-    ]
-
+    "name": "{{subscription_name}}",
+    "price": "{{subscription_price}}",
+    "currency": "{{subscription_currency}}",
+    "category": "{{subscription_category}}",
+    "date": "{{subscription_date}}",
+    "payer": "{{subscription_payer}}",
+    "days": "{{subscription_days_until_payment}}",
+    "notes": "{{subscription_notes}}",
+    "url": "{{subscription_url}}"
 }';
+        $notificationsWebhook['cancelation_payload'] = "";
         $notificationsWebhook['ignore_ssl'] = 0;
     }
 
@@ -626,12 +620,11 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                     <div class="form-group-inline">
                         <textarea name="webhookpayload" id="webhookpayload"
-                            placeholder="<?= translate('webhook_payload', $i18n) ?>"><?= $notificationsWebhook['payload'] ?></textarea>
+                            placeholder="<?= translate('payment_notifications_payload', $i18n) ?>"><?= $notificationsWebhook['payload'] ?></textarea>
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="webhookiteratorkey" id="webhookiteratorkey"
-                            placeholder="<?= translate('webhook_iterator_key', $i18n) ?>"
-                            value="<?= $notificationsWebhook['iterator'] ?>" />
+                        <textarea name="webhookcancelationpayload" id="webhookcancelationpayload"
+                            placeholder="<?= translate('cancelation_notification_payload', $i18n) ?>"><?= $notificationsWebhook['cancelation_payload'] ?></textarea>
                     </div>
                     <div class="form-group-inline">
                         <input type="checkbox" id="webhookignoressl" name="webhookignoressl"

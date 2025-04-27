@@ -2,6 +2,20 @@
 
 require_once '../../includes/connect_endpoint.php';
 
+// Variables available: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}, {{subscription_days_until_payment}}, {{subscription_notes}}, {{subscription_url}}
+$fakeSubscription = [
+    "days_until" => 5,
+    "subscription_name" => "Test Subscription",
+    "subscription_price" => 10.00,
+    "subscription_currency" => "USD",
+    "subscription_category" => "Test Category",
+    "subscription_date" => date("Y-m-d H:i:s"),
+    "subscription_payer" => "Test Payer",
+    "subscription_days_until_payment" => 30,
+    "subscription_notes" => "Test Notes",
+    "subscription_url" => "https://example.com/test-subscription"
+];
+
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     die(json_encode([
         "success" => false,
@@ -27,6 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $requestmethod = $data["requestmethod"];
         $url = $data["url"];
         $payload = $data["payload"];
+
+        // Replace placeholders in the payload with fake subscription data
+        foreach ($fakeSubscription as $key => $value) {
+            $placeholder = "{{" . $key . "}}";
+            $payload = str_replace($placeholder, $value, $payload);
+        }
+
         $customheaders = json_decode($data["customheaders"], true);
         $ignore_ssl = $data["ignore_ssl"];
 
@@ -48,13 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Execute the request
         $response = curl_exec($ch);
-
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         // Close the cURL session
         curl_close($ch);
 
         // Check if the message was sent successfully
-        if ($response === false) {
+        if ($response === false || $httpCode >= 400) {
             die(json_encode([
                 "success" => false,
                 "message" => translate('notification_failed', $i18n),

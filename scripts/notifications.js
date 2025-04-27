@@ -112,7 +112,7 @@ function saveNotificationsWebhookButton() {
     const webhook_url = document.getElementById("webhookurl").value;
     const headers = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
-    const iterator = document.getElementById("webhookiteratorkey").value;
+    const cancelation_payload = document.getElementById("webhookcancelationpayload").value;
     const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
   
     const data = {
@@ -120,7 +120,7 @@ function saveNotificationsWebhookButton() {
       webhook_url: webhook_url,
       headers: headers,
       payload: payload,
-      iterator: iterator,
+      cancelation_payload: cancelation_payload,
       ignore_ssl: ignore_ssl
     };
 
@@ -136,7 +136,7 @@ function testNotificationsWebhookButton() {
     const url = document.getElementById("webhookurl").value;
     const customheaders = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
-    const iterator = document.getElementById("webhookiteratorkey").value;
+    const cancelation_payload = document.getElementById("webhookcancelationpayload").value;
     const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
   
     const data = {
@@ -145,7 +145,7 @@ function testNotificationsWebhookButton() {
       url: url,
       customheaders: customheaders,
       payload: payload,
-      iterator: iterator,
+      cancelation_payload: cancelation_payload,
       ignore_ssl: ignore_ssl
     };
 

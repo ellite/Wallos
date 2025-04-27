@@ -29,6 +29,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $pushoverNotificationsEnabled = false;
     $discordNotificationsEnabled = false;
     $ntfyNotificationsEnabled = false;
+    $webhookNotificationsEnabled = false;
 
     // Check if email notifications are enabled and get the settings
     $query = "SELECT * FROM email_notifications WHERE user_id = :userId";
@@ -113,8 +114,24 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $ntfy['ignore_ssl'] = $row["ignore_ssl"];
     }
 
+    // Check if webhook notifications are enabled and have cancelation payload set and get the settings
+    $query = "SELECT * FROM webhook_notifications WHERE user_id = :userId";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $webhook = [];
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $webhook['url'] = $row["url"];
+        $webhook['headers'] = $row["headers"];
+        $webhook['cancelation_payload'] = $row["cancelation_payload"];
+        $webhook['ignore_ssl'] = $row["ignore_ssl"];
+        $webhook['request_method'] = $row["request_method"];
+        $webhookNotificationsEnabled = $row['enabled'] && $row['cancelation_payload'] != "";
+    }
+
     $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled ||
-        $pushoverNotificationsEnabled || $discordNotificationsEnabled ||$ntfyNotificationsEnabled;
+        $pushoverNotificationsEnabled || $discordNotificationsEnabled ||$ntfyNotificationsEnabled || $webhookNotificationsEnabled;
 
     // If no notifications are enabled, no need to run
     if (!$notificationsEnabled) {
@@ -177,6 +194,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             $notify[$rowSubscription['payer_user_id']][$i]['category'] = $categories[$rowSubscription['category_id']]['name'];
             $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
             $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
+            $notify[$rowSubscription['payer_user_id']][$i]['url'] = $rowSubscription['url'];
+            $notify[$rowSubscription['payer_user_id']][$i]['notes'] = $rowSubscription['notes'];
             $i++;
         }
 
@@ -498,6 +517,68 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     }
                 }
             }
+
+            // Webhook notifications if enabled
+            if ($webhookNotificationsEnabled) {
+                foreach ($notify as $userId => $perUser) {
+                    // Get name of user from household table
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $user = $result->fetchArray(SQLITE3_ASSOC);
+            
+                    if ($user['name']) {
+                        $payer = $user['name'];
+                    }
+            
+                    foreach ($perUser as $subscription) {
+                        // Ensure the payload is reset for each subscription
+                        $payload = $webhook['cancelation_payload'];
+                        $payload = str_replace("{{subscription_name}}", $subscription['name'], $payload);
+                        $payload = str_replace("{{subscription_price}}", $subscription['price'], $payload);
+                        $payload = str_replace("{{subscription_currency}}", $subscription['currency'], $payload);
+                        $payload = str_replace("{{subscription_category}}", $subscription['category'], $payload);
+                        $payload = str_replace("{{subscription_payer}}", $payer, $payload);
+                        $payload = str_replace("{{subscription_date}}", $subscription['date'], $payload);
+                        $payload = str_replace("{{subscription_url}}", $subscription['url'], $payload);
+                        $payload = str_replace("{{subscription_notes}}", $subscription['notes'], $payload);
+            
+                        // Initialize cURL for each subscription
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $webhook['url']);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            
+                        // Add headers if they exist
+                        if (!empty($webhook['headers'])) {
+                            $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
+                        }
+            
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            
+                        // Handle SSL settings
+                        if ($webhook['ignore_ssl']) {
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                        }
+            
+                        // Execute the cURL request
+                        $response = curl_exec($ch);
+                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+            
+                        if ($response === false || $httpCode >= 400) {
+                            echo "Error sending cancellation notifications: " . curl_error($ch) . "<br />";
+                        } else {
+                            echo "Webhook Cancellation Notification sent for subscription: " . $subscription['name'] . "<br />";
+                        }
+            
+                        usleep(1000000); // 1s delay between requests
+                    }
+                }
+            }
+            
 
         } else {
             if (php_sapi_name() !== 'cli') {

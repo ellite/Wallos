@@ -1017,7 +1017,7 @@ header #avatar {
 }
 
 .account-notification-section-settings.is-open {
-  max-height: 1000px;
+  max-height: 1500px;
   /* Set to a value larger than the content's natural height */
 }
 
@@ -2542,45 +2542,62 @@ input[type="checkbox"] {
 
 input[type="checkbox"]+label {
   position: relative;
-  padding-left: 35px;
+  padding-left: 54px;
   cursor: pointer;
-  display: inline-block;
-  line-height: 22px;
+  display: inline-flex;
+  align-items: center;
 }
 
 input[type="checkbox"]+label::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0;
-  width: 22px;
-  height: 22px;
-  background: #fafafa;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 24px;
+  background-color: #e9e9eb;
+  border-radius: 12px;
+  transition: background-color 0.3s ease;
   border: 1px solid #ccc;
-  border-radius: 3px;
+}
+
+input[type="checkbox"]+label::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
 }
 
 input[type="checkbox"]:focus+label::before {
-  border-color: var(--main-color);
-  box-shadow: 0 0 0 2px rgba(--main-color-rgb, 0.5);
+  box-shadow: 0 0 0 2px rgba(var(--main-color-rgb, 100, 149, 237), 0.5);
 }
 
 input[type="checkbox"]:disabled+label::before {
-  background-color: #F5F5F5;
-  border-color: #F5F5F5;
-  cursor: not-allowed;
+  background-color: #d3d3d3;
+}
+
+input[type="checkbox"]:disabled+label::after {
+  background-color: #f0f0f0;
+}
+
+input[type="checkbox"]:checked+label::before {
+  background-color: var(--main-color);
 }
 
 input[type="checkbox"]:checked+label::after {
-  content: '';
-  position: absolute;
-  left: 8px;
-  top: 2px;
-  width: 4px;
-  height: 12px;
-  border: solid var(--main-color);
-  border-width: 0 4px 4px 0;
-  transform: rotate(45deg);
+  transform: translate(20px, -50%);
+}
+
+input[type="checkbox"]:focus+label::after {
+  outline: 2px solid rgba(var(--main-color-rgb, 100, 149, 237), 0.5);
 }
 
 /* Radio */
