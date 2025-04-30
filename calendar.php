@@ -24,7 +24,7 @@ $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
-$budget = $row['budget'];
+$budget = $row['budget'] ?? 0;
 
 $currentMonth = date('m');
 $currentYear = date('Y');
@@ -345,7 +345,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
     </div>
 
     <?php
-      if ($totalCostThisMonth > $budget) {
+      if ($budget > 0 && $totalCostThisMonth > $budget) {
         $overBudgetAmount = $totalCostThisMonth - $budget;
         $overBudgetAmount = CurrencyFormatter::format($overBudgetAmount, $code);
         ?>
