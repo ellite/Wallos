@@ -113,7 +113,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
   ?>
   <div class="split-header">
     <h2>
-      Calendar
+    <?= translate('calendar', $i18n) ?>
       <button class="button export-ical" onClick="showExportPopup()" title="<?= translate('export_icalendar', $i18n) ?>">
         <?php require_once 'images/siteicons/svg/export_ical.php'; ?>
       </button>
@@ -369,7 +369,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
         </div>
         <div class="statistic">
           <span><?= CurrencyFormatter::format($totalCostThisMonth, $code) ?></span>
-          <div class="title">Total cost</div>
+          <div class="title"><?= translate("total_cost", $i18n) ?></div>
         </div>
         <div class="statistic">
           <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
