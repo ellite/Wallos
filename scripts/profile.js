@@ -77,7 +77,7 @@ function successfulUpload(field, msg) {
 }
 
 function deleteAvatar(path) {
-    fetch('/endpoints/user/delete_avatar.php', {
+    fetch('endpoints/user/delete_avatar.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
