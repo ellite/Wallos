@@ -93,7 +93,7 @@ function deleteAvatar(path) {
                 }
                 showSuccessMessage();
             } else {
-                showErrorMessage();
+                showErrorMessage(data.message || "");
             }
         })
         .catch((error) => {
