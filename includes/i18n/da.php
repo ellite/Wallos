@@ -385,5 +385,5 @@ $i18n = [
     "over_budget_warning" => "Du er over budget",
     // TOTP Page
     "insert_totp_code" => "Indtast TOTP-kode",
-]
+];
 ?>
