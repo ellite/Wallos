@@ -50,20 +50,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         // Execute the request
         $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         // Close the cURL session
         curl_close($ch);
 
         // Check if the message was sent successfully
-        if ($response === false) {
+        if ($response === false || $httpCode < 200 || $httpCode >= 300) {
             die(json_encode([
                 "success" => false,
-                "message" => translate('notification_failed', $i18n)
+                "message" => translate('notification_failed', $i18n),
+                "response" => $response,
+                "http_code" => $httpCode
             ]));
         } else {
             die(json_encode([
                 "success" => true,
-                "message" => translate('notification_sent_successfuly', $i18n)
+                "message" => translate('notification_sent_successfuly', $i18n),
+                "response" => $response 
             ]));
         }
     }
