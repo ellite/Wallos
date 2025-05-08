@@ -86,12 +86,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ]));
         } else {
             // Compare the TOTP code agains the backup codes
+            // Normalize TOTP input
+            $totp_code = strtolower(trim((string) $totp_code));
+
+            // Decode and normalize backup codes
             $backupCodes = json_decode($backupCodes, true);
-            if (($key = array_search($totp_code, $backupCodes)) !== false) {
-                unset($backupCodes[$key]);
-                $statement = $db->prepare('UPDATE totp SET backup_codes = :backup_codes WHERE user_id = :id');
+            $normalizedBackupCodes = array_map(function ($code) {
+                return strtolower(trim((string) $code));
+            }, $backupCodes);
+
+            // Search for the normalized code
+            if (($key = array_search($totp_code, $normalizedBackupCodes)) !== false) {
+                // Match found, disable TOTP
+                $statement = $db->prepare('UPDATE user SET totp_enabled = 0 WHERE id = :id');
                 $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
-                $statement->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
+                $statement->execute();
+
+                $statement = $db->prepare('DELETE FROM totp WHERE user_id = :id');
+                $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
                 $statement->execute();
 
                 die(json_encode([
@@ -106,6 +118,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     "reload" => false
                 ]));
             }
+
         }
 
     } else {
