@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.1.0](https://github.com/ellite/Wallos/compare/v3.0.2...v3.1.0) (2025-05-08)
+
+
+### Features
+
+* add danish translation ([0cfefc7](https://github.com/ellite/Wallos/commit/0cfefc7f07056d59ad911f926cc56ff3e6c8e261))
+
+
+### Bug Fixes
+
+* disable totp with backup code ([0cfefc7](https://github.com/ellite/Wallos/commit/0cfefc7f07056d59ad911f926cc56ff3e6c8e261))
+* gotify settings test ([0cfefc7](https://github.com/ellite/Wallos/commit/0cfefc7f07056d59ad911f926cc56ff3e6c8e261))
+* vulnerability adding logos from url ([0cfefc7](https://github.com/ellite/Wallos/commit/0cfefc7f07056d59ad911f926cc56ff3e6c8e261))
+
 ## [3.0.2](https://github.com/ellite/Wallos/compare/v3.0.1...v3.0.2) (2025-05-03)
 
 
