@@ -25,9 +25,31 @@ function validateFileExtension($fileExtension)
 
 function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
 {
+    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $url)) {
+        $response = [
+            "success" => false,
+            "errorMessage" => "Invalid URL format."
+        ];
+        echo json_encode($response);
+        exit();
+    }
+
+    $host = parse_url($url, PHP_URL_HOST);
+    $ip = gethostbyname($host);
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+        $response = [
+            "success" => false,
+            "errorMessage" => "Invalid IP Address."
+        ];
+        echo json_encode($response);
+        exit();
+    }
 
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
 
     $imageData = curl_exec($ch);
 
@@ -50,6 +72,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         return "";
     }
 }
+
 
 function saveLogo($imageData, $uploadFile, $name, $settings)
 {
