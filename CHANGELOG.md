@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/ellite/Wallos/compare/v3.1.0...v3.1.1) (2025-05-15)
+
+
+### Bug Fixes
+
+* issue listing prices when uah  was added to the list of currencies ([#823](https://github.com/ellite/Wallos/issues/823)) ([bd20b56](https://github.com/ellite/Wallos/commit/bd20b5697659fc6117113205a3995d7e5f9026c9))
+
 ## [3.1.0](https://github.com/ellite/Wallos/compare/v3.0.2...v3.1.0) (2025-05-08)
 
 
