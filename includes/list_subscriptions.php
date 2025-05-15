@@ -86,9 +86,13 @@ function formatPrice($price, $currencyCode, $currencies)
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
     if (strstr($formattedPrice, $currencyCode)) {
         $symbol = $currencyCode;
+        
         foreach ($currencies as $currency) {
-            if ($currency['code'] === 'UAH') {
-                $symbol = $currency['symbol'];
+
+            if ($currency['code'] === $currencyCode) {
+                if ($currency['symbol'] != "") {
+                    $symbol = $currency['symbol'];
+                }
                 break;
             }
         }
