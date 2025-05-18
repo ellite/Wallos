@@ -77,6 +77,7 @@ $i18n = [
     "no_matching_subscriptions" => "Keine passenden Abonnements gefunden",
     "clone" => "Klonen",
     "renew" => "Verlängern",
+    "autofill_next_payment" => "Nächste Zahlung automatisch ausfüllen anhand von Startdatum und Interval",
     // Subscription form
     "add_subscription" => "Abonnement hinzufügen",
     "edit_subscription" => "Abonnement editieren",
