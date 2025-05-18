@@ -50,6 +50,7 @@ $currencies = [
     ['id' => 31, 'name' => 'Thai Baht', 'symbol' => '฿', 'code' => 'THB'],
     ['id' => 32, 'name' => 'South African Rand', 'symbol' => 'R', 'code' => 'ZAR'],
     ['id' => 33, 'name' => 'Ukrainian Hryvnia', 'symbol' => '₴', 'code' => 'UAH'],
+    ['id' => 34, 'name' => 'New Taiwan Dollar', 'symbol' => 'NT$', 'code' => 'NTD'],
 ];
 
 $categories = [
