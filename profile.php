@@ -64,6 +64,14 @@ require_once 'includes/header.php';
                                 disabled>
                         </div>
                         <div class="form-group">
+                            <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
+                            <input type="text" id="firstname" name="firstname" value="<?= $userData['firstname'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
+                            <input type="text" id="lastname" name="lastname" value="<?= $userData['lastname'] ?>">
+                        </div>
+                        <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
                             <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
                         </div>
