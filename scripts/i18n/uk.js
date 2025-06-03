@@ -13,6 +13,8 @@ let i18n = {
     failed_add_member: "Не вдалося додати користувача",
     member: "Користувач",
     email: "Електронна пошта",
+    firstname: "Ім'я",
+    lastname: "Прізвище",
     save_member: "Зберегти користувача",
     delete_member: "Видалити користувача",
     failed_remove_member: "Не вдалося видалити користувача",

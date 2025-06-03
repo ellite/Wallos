@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Αποτυχία προσθήκης μέλους",
   member: "Μέλος",
   email: "Email",
+  firstname: "Ονομα",
+  lastname: "Επώνυμο",
   save_member: "Αποθήκευση μέλους",
   delete_member: "Διαγραφή μέλους",
   failed_remove_member: "Αποτυχία διαγραφής μέλους",

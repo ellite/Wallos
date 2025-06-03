@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Nie udało się dodać użytkownika",
   member: "Użytkownik",
   email: "E-mail",
+  firstname: "Imię",
+  lastname: "Nazwisko",
   save_member: "Zapisz użytkownika",
   delete_member: "Usuń użytkownika",
   failed_remove_member: "Nie udało się usunąć użytkownika",

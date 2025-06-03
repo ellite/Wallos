@@ -13,6 +13,8 @@ let i18n = {
     'failed_add_member': '添加成员失败',
     'member': '成员',
     'email': '电子邮箱',
+    'firstname': '名',
+    'lastname': '姓',
     'save_member': '保存成员',
     'delete_member': '删除成员',
     'failed_remove_member': '移除成员失败',

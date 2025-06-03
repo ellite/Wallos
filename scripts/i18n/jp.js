@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "世帯員の追加に失敗",
   member: "世帯員",
   email: "メール",
+  firstname: "ファーストネーム",
+  lastname: "苗字",
   save_member: "世帯員の保存",
   delete_member: "世帯員の削除",
   failed_remove_member: "世帯員の削除に失敗",
