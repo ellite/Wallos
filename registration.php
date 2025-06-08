@@ -358,11 +358,11 @@ if (isset($_POST['username'])) {
                 </div>
                 <div class="form-group">
                     <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
-                    <input type="text" id="firstname" name="firstname" required>
+                    <input type="text" id="firstname" name="firstname">
                 </div>
                 <div class="form-group">
                     <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
-                    <input type="text" id="lastname" name="lastname" required>
+                    <input type="text" id="lastname" name="lastname">
                 </div>
                 <div class="form-group">
                     <label for="email"><?= translate('email', $i18n) ?>:</label>
@@ -454,6 +454,12 @@ if (isset($_POST['username'])) {
                         id="restoreDB" onClick="openRestoreDBFileSelect()" />
                     <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()"
                         accept=".zip">
+                </div>
+                <?php
+            } else {
+                ?>
+                <div class="separator">
+                    <input id="goToLoginButton" type="button" class="secondary-button" value="<?= translate('login', $i18n) ?>">
                 </div>
                 <?php
             }

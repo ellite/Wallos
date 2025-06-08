@@ -198,8 +198,8 @@ function resizeAndUploadAvatar($uploadedFile, $uploadDir, $name)
 
 if (
     isset($_SESSION['username']) 
-    && isset($_POST['firstname']) && $_POST['firstname'] !== ""
-    && isset($_POST['lastname']) && $_POST['lastname'] !== ""
+    && isset($_POST['firstname'])
+    && isset($_POST['lastname'])
     && isset($_POST['email']) && $_POST['email'] !== ""
     && isset($_POST['avatar']) && $_POST['avatar'] !== ""
     && isset($_POST['main_currency']) && $_POST['main_currency'] !== ""
