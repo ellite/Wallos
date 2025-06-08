@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Không thể thêm thành viên",
   member: "Thành viên",
   email: "Email",
+  firstname: "Tên đầu tiên",
+  lastname: "Họ",
   save_member: "Lưu thành viên",
   delete_member: "Xóa thành viên",
   failed_remove_member: "Không thể xóa thành viên",

@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Dodajanje člana ni uspelo",
   member: "Član",
   email: "E-pošta",
+  firstname: "Ime",
+  lastname: "Priimek",
   save_member: "Shrani člana",
   delete_member: "Izbriši člana",
   failed_remove_member: "Odstranitev člana ni uspela",

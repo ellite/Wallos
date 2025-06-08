@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Error al añadir miembro",
   member: "Miembro",
   email: "Correo electrónico",
+  firstname: "Nombre de pila",
+  lastname: "Apellido",
   save_member: "Guardar miembro",
   delete_member: "Eliminar miembro",
   failed_remove_member: "Error al eliminar miembro",
