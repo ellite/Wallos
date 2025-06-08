@@ -1280,6 +1280,12 @@ label {
   cursor: pointer;
 }
 
+label.split-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 input {
   box-sizing: border-box;
 }
@@ -2832,6 +2838,27 @@ input[type="radio"]:checked+label::after {
   }
 }
 
-.autofill-next-payment-button {
-  margin-top: 20px;
+.button.autofill-next-payment {
+    padding: 15px 15px !important;
+    margin-top: 22px;
+}
+
+.autofill-next-payment {
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+.autofill-next-payment.hideOnDesktop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .button.autofill-next-payment.hideOnMobile {
+    display: none !important;
+  }
+
+
+  .autofill-next-payment.hideOnDesktop {
+    display: block;
+  }
 }

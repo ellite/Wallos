@@ -799,11 +799,18 @@ function swipeHintAnimation() {
   }
 }
 
-function autoFillNextPaymentDate() {
+function autoFillNextPaymentDate(e) {
+  e.preventDefault();
   const frequencySelect = document.querySelector("#frequency");
   const cycleSelect = document.querySelector("#cycle"); 
   const startDate = document.querySelector("#start_date");
   const nextPayment = document.querySelector("#next_payment"); 
+
+  // Do nothing if frequency, cycle, or start date is not set
+  if (!frequencySelect.value || !cycleSelect.value || !startDate.value || isNaN(Date.parse(startDate.value))) {
+    console.log(frequencySelect.value, cycleSelect.value, startDate.value);
+    return;
+  }
   
   const today = new Date();  
   const cycle = cycleSelect.value;

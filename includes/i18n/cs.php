@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Žádné odpovídající předplatné",
     "clone" => "Klonovat",
     "renew" => "Obnovit",
+    "calculate_next_payment_date" => "Vypočítat datum další platby",
     // Subscription form
     "add_subscription" => "Přidat předplatné",
     "edit_subscription" => "Upravit předplatné",

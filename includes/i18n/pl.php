@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Brak pasujących subskrypcji",
     "clone" => "Klonuj",
     "renew" => "Odnów",
+    "calculate_next_payment_date" => "Oblicz datę następnej płatności",
     // Subscription form
     "add_subscription" => "Dodaj subskrypcję",
     "edit_subscription" => "Edytuj subskrypcję",

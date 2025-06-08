@@ -33,8 +33,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             return "$key: $value";
         }, array_keys($headers), $headers);
 
-        $url = "$host/$topic";
+        $url = rtrim($host, '/') . '/' . ltrim($topic, '/');
         $ignore_ssl = $data["ignore_ssl"];
+
+        // Validate URL scheme
+        $parsedUrl = parse_url($url);
+        if (
+            !isset($parsedUrl['scheme']) ||
+            !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+            !filter_var($url, FILTER_VALIDATE_URL)
+        ) {
+            die(json_encode([
+                "success" => false,
+                "message" => translate("error", $i18n)
+            ]));
+        }
 
         // Set the message parameters
         $message = translate('test_notification', $i18n);

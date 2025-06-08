@@ -6,7 +6,7 @@ $i18n = [
     "username" => "Kullanıcı Adı",
     "password" => "Şifre",
     "email" => "E-posta",
-    "firstname" => "İlk adı",
+    "firstname" => "Ad",
     "lastname" => "Soy isim",
     "confirm_password" => "Şifreyi Onayla",
     "main_currency" => "Ana Para Birimi",
@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Eşleşen abonelik bulunamadı",
     "clone" => "Kopyala",
     "renew" => "Yenile",
+    "calculate_next_payment_date" => "Sonraki ödeme tarihini hesapla",
     // Subscription form
     "add_subscription" => "Abonelik ekle",
     "edit_subscription" => "Aboneliği düzenle",

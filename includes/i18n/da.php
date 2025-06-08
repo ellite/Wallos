@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Ingen matchende abonnementer",
     "clone" => "Klon",
     "renew" => "Forny",
+    "calculate_next_payment_date" => "Beregn næste betalingsdato",
     // Subscription form
     "add_subscription" => "Tilføj abonnement",
     "edit_subscription" => "Rediger abonnement",

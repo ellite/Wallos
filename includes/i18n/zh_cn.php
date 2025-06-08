@@ -83,6 +83,7 @@ $i18n = [
     "no_matching_subscriptions" => "没有匹配的订阅",
     "clone" => "克隆",
     "renew" => "续订",
+    "calculate_next_payment_date" => "计算下次支付日期",
 
     // 订阅表单
     "add_subscription" => "添加订阅",
