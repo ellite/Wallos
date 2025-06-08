@@ -27,6 +27,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $token = $data["token"];
         $ignore_ssl = $data["ignore_ssl"];
 
+        // Validate URL scheme
+        $parsedUrl = parse_url($url);
+        if (
+            !isset($parsedUrl['scheme']) ||
+            !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+            !filter_var($url, FILTER_VALIDATE_URL)
+        ) {
+            die(json_encode([
+                "success" => false,
+                "message" => translate("error", $i18n)
+            ]));
+        }
+
         $query = "SELECT COUNT(*) FROM gotify_notifications WHERE user_id = :userId";
         $stmt = $db->prepare($query);
         $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
