@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Tidak ada langganan yang cocok",
     "clone" => "Duplikat",
     "renew" => "Perpanjang",
+    "calculate_next_payment_date" => "Hitung Tanggal Pembayaran Berikutnya",
     // Subscription form
     "add_subscription" => "Tambahkan langganan",
     "edit_subscription" => "Edit langganan",

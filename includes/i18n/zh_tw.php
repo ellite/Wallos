@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "沒有符合的訂閱服務",
     "clone" => "複製",
     "renew" => "續訂",
+    "calculate_next_payment_date" => "計算下次付款日期",
     // 訂閱表單
     "add_subscription" => "新增訂閱服務",
     "edit_subscription" => "編輯訂閱服務",

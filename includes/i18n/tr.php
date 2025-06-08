@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Eşleşen abonelik bulunamadı",
     "clone" => "Kopyala",
     "renew" => "Yenile",
+    "calculate_next_payment_date" => "Sonraki ödeme tarihini hesapla",
     // Subscription form
     "add_subscription" => "Abonelik ekle",
     "edit_subscription" => "Aboneliği düzenle",

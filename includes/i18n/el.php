@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Δεν υπάρχουν συνδρομές που ταιριάζουν με τα φίλτρα σου",
     "clone" => "Κλώνος",
     "renew" => "Ανανέωση",
+    "calculate_next_payment_date" => "Υπολογισμός ημερομηνίας επόμενης πληρωμής",
     // Subscription form
     "add_subscription" => "Προσθήκη συνδρομής",
     "edit_subscription" => "Επεξεργασία συνδρομής",

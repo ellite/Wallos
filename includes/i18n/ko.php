@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "해당하는 구독이 없습니다.",
     "clone" => "복제",
     "renew" => "갱신",
+    "calculate_next_payment_date" => "다음 결제일 계산",
     // Subscription form
     "add_subscription" => "구독 추가",
     "edit_subscription" => "구독 편집",

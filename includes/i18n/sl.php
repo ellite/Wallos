@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Ni ustreznih naročnin",
     "clone" => "Klon",
     "renew" => "Obnovi",
+    "calculate_next_payment_date" => "Izračunaj datum naslednjega plačila",
     // Subscription form
     "add_subscription" => "Dodaj naročnino",
     "edit_subscription" => "Uredi naročnino",

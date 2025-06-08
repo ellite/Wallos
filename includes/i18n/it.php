@@ -83,6 +83,7 @@ $i18n = [
     "no_matching_subscriptions" => 'Nessun abbonamento corrispondente',
     "clone" => "Clona",
     "renew" => "Rinnova",
+    "calculate_next_payment_date" => "Calcola la prossima data di pagamento",
 
     // Add/Edit Subscription
     "add_subscription" => 'Aggiungi abbonamento',

@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "一致する定期購入がありません",
     "clone" => "複製",
     "renew" => "更新",
+    "calculate_next_payment_date" => "次回支払い日を計算",
     // Subscription form
     "add_subscription" => "定期購入の追加",
     "edit_subscription" => "定期購入の編集",

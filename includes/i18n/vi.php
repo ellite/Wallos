@@ -79,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Không có đăng ký phù hợp",
     "clone" => "Nhân bản",
     "renew" => "Gia hạn",
+    "calculate_next_payment_date" => "Tính toán ngày thanh toán tiếp theo",
     // Subscription form
     "add_subscription" => "Thêm đăng ký",
     "edit_subscription" => "Chỉnh sửa đăng ký",

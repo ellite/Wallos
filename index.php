@@ -387,12 +387,21 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
           <label for="start_date"><?= translate('start_date', $i18n) ?></label>
           <input type="date" id="start_date" name="start_date">
         </div>
-      <div id="autofill-next-payment-button" class="image-button medium disabled autofill-next-payment-button" title="<?= translate('autofill_next_payment', $i18n) ?>" onClick="autoFillNextPaymentDate()">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-      </div>
+        <button type="button" id="autofill-next-payment-button" class="button secondary-button autofill-next-payment hideOnMobile"
+          title="<?= translate('calculate_next_payment_date', $i18n) ?>" onClick="autoFillNextPaymentDate(event)">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+        </button>
         <div class="split50">
-          <label for="next_payment"><?= translate('next_payment', $i18n) ?></label>
-          <input type="date" id="next_payment" name="next_payment" required>
+          <label for="next_payment" class="split-label">
+            <?= translate('next_payment', $i18n) ?>
+            <div id="autofill-next-payment-button" class="autofill-next-payment hideOnDesktop"
+              title="<?= translate('calculate_next_payment_date', $i18n) ?>" onClick="autoFillNextPaymentDate(event)">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+          </label>
+          <div>
+            <input type="date" id="next_payment" name="next_payment" required>
+          </div>
         </div>
       </div>
     </div>
