@@ -2831,3 +2831,7 @@ input[type="radio"]:checked+label::after {
     display: none !important;
   }
 }
+
+.autofill-next-payment-button {
+  margin-top: 20px;
+}
