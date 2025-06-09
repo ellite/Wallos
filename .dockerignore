@@ -3,3 +3,10 @@
 
 # Exclude .git directory
 .git/
+.github/
+
+*.md
+nginx.conf
+nginx.default.conf
+.gitignore
+.dockerignore
