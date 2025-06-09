@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.1](https://github.com/ellite/Wallos/compare/v3.2.0...v3.2.1) (2025-06-09)
+
+
+### Bug Fixes
+
+* visual issue with date fields on ios ([#846](https://github.com/ellite/Wallos/issues/846)) ([e2df8f7](https://github.com/ellite/Wallos/commit/e2df8f7e24678f9d62f36f68c94de838fc741913))
+
 ## [3.2.0](https://github.com/ellite/Wallos/compare/v3.1.1...v3.2.0) (2025-06-08)
 
 
