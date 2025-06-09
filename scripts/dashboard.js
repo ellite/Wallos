@@ -161,6 +161,10 @@ function openEditSubscription(event, id) {
 function addSubscription() {
   resetForm();
   const modal = document.getElementById('subscription-form');
+  
+  const startDate = document.querySelector("#start_date");
+  startDate.value = new Date().toISOString().split('T')[0];
+
   modal.classList.add("is-open");
   const body = document.querySelector('body');
   body.classList.add('no-scroll');
