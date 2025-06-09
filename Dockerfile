@@ -23,6 +23,10 @@ COPY . .
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.default.conf /etc/nginx/http.d/default.conf
 
+# Remove nginx conf files from webroot
+RUN rm -rf /var/www/html/nginx.conf && \
+    rm -rf /var/www/html/nginx.default.conf
+
 # Copy the custom crontab file
 COPY cronjobs /etc/cron.d/cronjobs
 
