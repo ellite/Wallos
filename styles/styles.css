@@ -2838,27 +2838,7 @@ input[type="radio"]:checked+label::after {
   }
 }
 
-.button.autofill-next-payment {
-    padding: 15px 15px !important;
-    margin-top: 22px;
-}
-
 .autofill-next-payment {
   color: var(--main-color);
   cursor: pointer;
-}
-
-.autofill-next-payment.hideOnDesktop {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .button.autofill-next-payment.hideOnMobile {
-    display: none !important;
-  }
-
-
-  .autofill-next-payment.hideOnDesktop {
-    display: block;
-  }
 }

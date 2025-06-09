@@ -14,6 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $remove_background = $data['value'];
 
+    // Validate input
+    if (!isset($remove_background) || !is_bool($remove_background)) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("error", $i18n)
+        ]));
+    }
+
     $stmt = $db->prepare('UPDATE settings SET remove_background = :remove_background WHERE user_id = :userId');
     $stmt->bindParam(':remove_background', $remove_background, SQLITE3_INTEGER);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

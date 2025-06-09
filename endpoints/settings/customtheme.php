@@ -17,6 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $accent_color = $data['accentColor'];
     $hover_color = $data['hoverColor'];
 
+    // Validate input, should be a color in #RRGGBB format
+    if (!preg_match('/^#[0-9A-Fa-f]{6}$/', $main_color) || !preg_match('/^#[0-9A-Fa-f]{6}$/', $accent_color) || !preg_match('/^#[0-9A-Fa-f]{6}$/', $hover_color)) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("error", $i18n)
+        ]));
+    }
+
     if ($main_color == $accent_color) {
         die(json_encode([
             "success" => false,

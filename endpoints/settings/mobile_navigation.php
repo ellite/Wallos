@@ -15,6 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $mobile_nav = $data['value'];
 
+    // Validate input
+    if (!isset($mobile_nav) || !is_bool($mobile_nav)) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("error", $i18n)
+        ]));
+    }
+
     $stmt = $db->prepare('UPDATE settings SET mobile_nav = :mobile_nav WHERE user_id = :userId');
     $stmt->bindParam(':mobile_nav', $mobile_nav, SQLITE3_INTEGER);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
