@@ -6,7 +6,5 @@
 .github/
 
 *.md
-nginx.conf
-nginx.default.conf
 .gitignore
 .dockerignore
