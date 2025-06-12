@@ -195,7 +195,7 @@ if (!file_exists($databaseFile)) {
     ('Thai Baht', '฿', 'THB', 1),
     ('South African Rand', 'R', 'ZAR', 1),
     ('Ukrainian Hryvnia', '₴', 'UAH', 1),
-    ('New Taiwan Dollar', 'NT$', 'NTD', 1)");
+    ('New Taiwan Dollar', 'NT$', 'TWD', 1)");
 
     $db->exec("INSERT INTO payment_methods (id, name, icon) VALUES
     (1, 'PayPal', 'paypal.png'),
