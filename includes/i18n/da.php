@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Brugernavn",
     "password" => "Adgangskode",
     "email" => "E-mail",
+    "firstname" => "Fornavn",
+    "lastname" => "Efternavn",
     "confirm_password" => "Bekræft adgangskode",
     "main_currency" => "Primær valuta",
     "language" => "Sprog",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Ingen matchende abonnementer",
     "clone" => "Klon",
     "renew" => "Forny",
+    "calculate_next_payment_date" => "Beregn næste betalingsdato",
     // Subscription form
     "add_subscription" => "Tilføj abonnement",
     "edit_subscription" => "Rediger abonnement",

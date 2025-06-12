@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Nombre de Usuario",
     "password" => "Contraseña",
     "email" => "Correo Electrónico",
+    "firstname" => "Nombre",
+    "lastname" => "Apellido",
     "confirm_password" => "Confirmar Contraseña",
     "main_currency" => "Moneda Principal",
     "language" => "Idioma",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "No hay suscripciones que coincidan con los filtros",
     "clone" => "Clonar",
     "renew" => "Renovar",
+    "calculate_next_payment_date" => "Calcular Fecha del Próximo Pago",
     // Subscription form
     "add_subscription" => "Añadir suscripción",
     "edit_subscription" => "Editar suscripción",

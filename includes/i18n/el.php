@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Όνομα χρήστη",
     "password" => "Κωδικός",
     "email" => "Email",
+    "firstname" => "Ονομα",
+    "lastname" => "Επώνυμο",
     "confirm_password" => "Επιβεβαίωση κωδικού",
     "main_currency" => "Κύριο νόμισμα",
     "language" => "Γλώσσα",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Δεν υπάρχουν συνδρομές που ταιριάζουν με τα φίλτρα σου",
     "clone" => "Κλώνος",
     "renew" => "Ανανέωση",
+    "calculate_next_payment_date" => "Υπολογισμός ημερομηνίας επόμενης πληρωμής",
     // Subscription form
     "add_subscription" => "Προσθήκη συνδρομής",
     "edit_subscription" => "Επεξεργασία συνδρομής",

@@ -197,12 +197,17 @@ function resizeAndUploadAvatar($uploadedFile, $uploadDir, $name)
 }
 
 if (
-    isset($_SESSION['username']) && isset($_POST['email']) && $_POST['email'] !== ""
+    isset($_SESSION['username']) 
+    && isset($_POST['firstname'])
+    && isset($_POST['lastname'])
+    && isset($_POST['email']) && $_POST['email'] !== ""
     && isset($_POST['avatar']) && $_POST['avatar'] !== ""
     && isset($_POST['main_currency']) && $_POST['main_currency'] !== ""
     && isset($_POST['language']) && $_POST['language'] !== ""
 ) {
 
+    $firstname = validate($_POST['firstname']);
+    $lastname = validate($_POST['lastname']);
     $email = validate($_POST['email']);
 
     $query = "SELECT email FROM user WHERE id = :user_id";
@@ -274,13 +279,15 @@ if (
     }
 
     if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
-        $sql = "UPDATE user SET avatar = :avatar, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = :userId";
+        $sql = "UPDATE user SET avatar = :avatar, firstname = :firstname, lastname = :lastname, email = :email, password = :password, main_currency = :main_currency, language = :language WHERE id = :userId";
     } else {
-        $sql = "UPDATE user SET avatar = :avatar, email = :email, main_currency = :main_currency, language = :language WHERE id = :userId";
+        $sql = "UPDATE user SET avatar = :avatar, firstname = :firstname, lastname = :lastname, email = :email, main_currency = :main_currency, language = :language WHERE id = :userId";
     }
 
     $stmt = $db->prepare($sql);
     $stmt->bindParam(':avatar', $avatar, SQLITE3_TEXT);
+    $stmt->bindParam(':firstname', $firstname, SQLITE3_TEXT);
+    $stmt->bindParam(':lastname', $lastname, SQLITE3_TEXT);
     $stmt->bindParam(':email', $email, SQLITE3_TEXT);
     $stmt->bindParam(':main_currency', $main_currency, SQLITE3_INTEGER);
     $stmt->bindParam(':language', $language, SQLITE3_TEXT);
@@ -303,6 +310,7 @@ if (
             'expires' => $cookieExpire,
             'samesite' => 'Strict'
         ]);
+        $_SESSION['firstname'] = $firstname;
         $_SESSION['avatar'] = $avatar;
         $_SESSION['main_currency'] = $main_currency;
 

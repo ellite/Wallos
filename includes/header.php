@@ -163,7 +163,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
         <div class="dropdown">
           <button class="dropbtn" onClick="toggleDropdown()">
             <img src="<?= htmlspecialchars($userData['avatar'], ENT_QUOTES, 'UTF-8') ?>" alt="me" id="avatar">
-            <span id="user" class="mobileNavigationHideOnMobile"><?= $username ?></span>
+            <span id="user" class="mobileNavigationHideOnMobile"><?= $userData['username'] ?></span>
           </button>
           <div class="dropdown-content">
             <a href="profile.php" class="mobileNavigationHideOnMobile">

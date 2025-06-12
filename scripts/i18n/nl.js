@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Lid toevoegen mislukt",
   member: "Lid",
   email: "E-mail",
+  firstname: "Voornaam",
+  lastname: "Achternaam",
   save_member: "Lid opslaan",
   delete_member: "Lid verwijderen",
   failed_remove_member: "Lid verwijderen mislukt",

@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Gebruikersnaam",
     "password" => "Wachtwoord",
     "email" => "E-mail",
+    "firstname" => "Voornaam",
+    "lastname" => "Achternaam",
     "confirm_password" => "Bevestig wachtwoord",
     "main_currency" => "Basisvaluta",
     "language" => "Taal",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Geen overeenkomende abonnementen",
     "clone" => "Klonen",
     "renew" => "Verlengen",
+    "calculate_next_payment_date" => "Bereken volgende betalingsdatum",
     // Subscription form
     "add_subscription" => "Abonnement toevoegen",
     "edit_subscription" => "Abonnement bewerken",

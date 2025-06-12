@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Kunne ikke tilføje medlem",
   member: "Medlem",
   email: "E-mail",
+  firstname: "Fornavn",
+  lastname: "Efternavn",
   save_member: "Gem medlem",
   delete_member: "Slet medlem",
   failed_remove_member: "Kunne ikke fjerne medlem",

@@ -160,6 +160,8 @@ $registrationFailed = false;
 $hasErrors = false;
 if (isset($_POST['username'])) {
     $username = validate($_POST['username']);
+    $firstname = validate($_POST['firstname']);
+    $lastname = validate($_POST['lastname']);
     $email = validate($_POST['email']);
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
@@ -197,10 +199,12 @@ if (isset($_POST['username'])) {
     $requireValidation = false;
 
     if ($hasErrors == false) {
-        $query = "INSERT INTO user (username, email, password, main_currency, avatar, language, budget) VALUES (:username, :email, :password, :main_currency, :avatar, :language, :budget)";
+        $query = "INSERT INTO user (username, firstname, lastname, email, password, main_currency, avatar, language, budget) VALUES (:username, :firstname, :lastname, :email, :password, :main_currency, :avatar, :language, :budget)";
         $stmt = $db->prepare($query);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+        $stmt->bindValue(':firstname', $firstname, SQLITE3_TEXT);
+        $stmt->bindValue(':lastname', $lastname, SQLITE3_TEXT);
         $stmt->bindValue(':email', $email, SQLITE3_TEXT);
         $stmt->bindValue(':password', $hashedPassword, SQLITE3_TEXT);
         $stmt->bindValue(':main_currency', $main_currency_id, SQLITE3_TEXT);
@@ -353,6 +357,14 @@ if (isset($_POST['username'])) {
                     <input type="text" id="username" name="username" required>
                 </div>
                 <div class="form-group">
+                    <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
+                    <input type="text" id="firstname" name="firstname">
+                </div>
+                <div class="form-group">
+                    <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
+                    <input type="text" id="lastname" name="lastname">
+                </div>
+                <div class="form-group">
                     <label for="email"><?= translate('email', $i18n) ?>:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
@@ -442,6 +454,12 @@ if (isset($_POST['username'])) {
                         id="restoreDB" onClick="openRestoreDBFileSelect()" />
                     <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()"
                         accept=".zip">
+                </div>
+                <?php
+            } else {
+                ?>
+                <div class="separator">
+                    <input id="goToLoginButton" type="button" class="secondary-button" value="<?= translate('login', $i18n) ?>">
                 </div>
                 <?php
             }

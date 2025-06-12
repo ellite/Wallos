@@ -14,6 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $show_original_price = $data['value'];
 
+    // Validate input
+    if (!isset($show_original_price) || !is_bool($show_original_price)) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("error", $i18n)
+        ]));
+    }
+
     $stmt = $db->prepare('UPDATE settings SET show_original_price = :show_original_price WHERE user_id = :userId');
     $stmt->bindParam(':show_original_price', $show_original_price, SQLITE3_INTEGER);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

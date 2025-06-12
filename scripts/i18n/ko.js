@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "구성원 추가에 실패했습니다",
   member: "구성원",
   email: "이메일",
+  firstname: "이름",
+  lastname: "성",
   save_member: "구성원 저장",
   delete_member: "구성원 삭제",
   failed_remove_member: "구성원 삭제에 실패했습니다",

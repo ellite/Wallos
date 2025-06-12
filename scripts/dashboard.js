@@ -161,6 +161,10 @@ function openEditSubscription(event, id) {
 function addSubscription() {
   resetForm();
   const modal = document.getElementById('subscription-form');
+  
+  const startDate = document.querySelector("#start_date");
+  startDate.value = new Date().toISOString().split('T')[0];
+
   modal.classList.add("is-open");
   const body = document.querySelector('body');
   body.classList.add('no-scroll');
@@ -797,6 +801,70 @@ function swipeHintAnimation() {
       document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Strict`;
     }
   }
+}
+
+function autoFillNextPaymentDate(e) {
+  e.preventDefault();
+  const frequencySelect = document.querySelector("#frequency");
+  const cycleSelect = document.querySelector("#cycle"); 
+  const startDate = document.querySelector("#start_date");
+  const nextPayment = document.querySelector("#next_payment"); 
+
+  // Do nothing if frequency, cycle, or start date is not set
+  if (!frequencySelect.value || !cycleSelect.value || !startDate.value || isNaN(Date.parse(startDate.value))) {
+    console.log(frequencySelect.value, cycleSelect.value, startDate.value);
+    return;
+  }
+  
+  const today = new Date();  
+  const cycle = cycleSelect.value;
+  const frequency = Number(frequencySelect.value);
+
+  const nextDate = new Date(startDate.value);
+  let safetyCounter = 0;
+  const maxIterations = 1000;
+
+  while (nextDate <= today && safetyCounter < maxIterations) {
+    switch (cycle) {
+    case '1': // Days
+      nextDate.setDate(nextDate.getDate() + frequency);
+      break;
+    case '2': // Weeks
+      nextDate.setDate(nextDate.getDate() + 7 * frequency);
+      break;
+    case '3': // Months  
+      nextDate.setMonth(nextDate.getMonth() + frequency);
+      break;
+    case '4': // Years
+      nextDate.setFullYear(nextDate.getFullYear() + frequency);
+      break;
+    default:
+    }
+    safetyCounter++;
+  }
+
+if (safetyCounter === maxIterations) {
+  return;
+}
+
+nextPayment.value = toISOStringWithTimezone(nextDate).substring(0, 10);
+}
+
+function toISOStringWithTimezone(date) {
+  const pad = n => String(Math.floor(Math.abs(n))).padStart(2, '0');
+  const tzOffset = -date.getTimezoneOffset();
+  const sign = tzOffset >= 0 ? '+' : '-';
+  const hoursOffset = pad(tzOffset / 60);
+  const minutesOffset = pad(tzOffset % 60);
+
+  return date.getFullYear() +
+    '-' + pad(date.getMonth() + 1) +
+    '-' + pad(date.getDate()) +
+    'T' + pad(date.getHours()) +
+    ':' + pad(date.getMinutes()) +
+    ':' + pad(date.getSeconds()) +
+    sign + hoursOffset +
+    ':' + minutesOffset;
 }
 
 window.addEventListener('load', () => {

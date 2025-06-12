@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Nepodařilo se přidat člena",
   member: "Člen",
   email: "E-mail",
+  firstname: "Křestní jméno",
+  lastname: "Příjmení",
   save_member: "Uložit člena",
   delete_member: "Odstranit člena",
   failed_remove_member: "Nepodařilo se odebrat člena",

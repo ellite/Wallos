@@ -14,6 +14,8 @@ let i18n = {
   failed_add_member: "Impossibile aggiungere il membro",
   member: "Membro",
   email: "Email",
+  firstname: "Nome di battesimo",
+  lastname: "Cognome",
   save_member: "Salva membro",
   delete_member: "Elimina membro",
   failed_remove_member: "Impossibile rimuovere il membro",

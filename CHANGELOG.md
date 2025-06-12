@@ -1,5 +1,34 @@
 # Changelog
 
+## [3.3.0](https://github.com/ellite/Wallos/compare/v3.2.0...v3.3.0) (2025-06-09)
+
+
+### Features
+
+* set todays date on start subscription field for new subscriptions by default ([#848](https://github.com/ellite/Wallos/issues/848)) ([d3fd938](https://github.com/ellite/Wallos/commit/d3fd9387d34f430adb84ef553193b4ad3080c009))
+
+
+### Bug Fixes
+
+* visual issue with date fields on ios ([#846](https://github.com/ellite/Wallos/issues/846)) ([e2df8f7](https://github.com/ellite/Wallos/commit/e2df8f7e24678f9d62f36f68c94de838fc741913))
+
+## [3.2.0](https://github.com/ellite/Wallos/compare/v3.1.1...v3.2.0) (2025-06-08)
+
+
+### Features
+
+* add button to auto fill the next payment date ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+* add first and last names to the user profile ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+* add indonesian language ([#842](https://github.com/ellite/Wallos/issues/842)) ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+* add new currency ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+* Add new currency ([#829](https://github.com/ellite/Wallos/issues/829)) ([288ad45](https://github.com/ellite/Wallos/commit/288ad456564c307018541a09df447898e1d62d26))
+* enable IPv6 environments by configuring a dual-stack listen in nginx ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+
+
+### Bug Fixes
+
+* vulnerability on test webhook endpoint ([48db4e3](https://github.com/ellite/Wallos/commit/48db4e300df6128b7cc0b4e0c86271bfb3159545))
+
 ## [3.1.1](https://github.com/ellite/Wallos/compare/v3.1.0...v3.1.1) (2025-05-15)
 
 

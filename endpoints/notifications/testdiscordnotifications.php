@@ -30,6 +30,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $bot_username = $data["bot_username"];
         $bot_avatar_url = $data["bot_avatar"];
 
+        // Validate URL scheme
+        $parsedUrl = parse_url($webhook_url);
+        if (
+            !isset($parsedUrl['scheme']) ||
+            !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+            !filter_var($webhook_url, FILTER_VALIDATE_URL)
+        ) {
+            die(json_encode([
+                "success" => false,
+                "message" => translate("error", $i18n)
+            ]));
+        }
+
         $postfields = [
             'content' => $message,
             'embeds' => [

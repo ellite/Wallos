@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Tên người dùng",
     "password" => "Mật khẩu",
     "email" => "Email",
+    "firstname" => "Tên",
+    "lastname" => "Họ",
     "confirm_password" => "Xác nhận mật khẩu",
     "main_currency" => "Tiền tệ chính",
     "language" => "Ngôn ngữ",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Không có đăng ký phù hợp",
     "clone" => "Nhân bản",
     "renew" => "Gia hạn",
+    "calculate_next_payment_date" => "Tính toán ngày thanh toán tiếp theo",
     // Subscription form
     "add_subscription" => "Thêm đăng ký",
     "edit_subscription" => "Chỉnh sửa đăng ký",

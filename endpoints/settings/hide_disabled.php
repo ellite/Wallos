@@ -14,6 +14,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $hide_disabled = $data['value'];
 
+    // Validate input
+    if (!isset($hide_disabled) || !is_bool($hide_disabled)) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate("error", $i18n)
+        ]));
+    }
+
     $stmt = $db->prepare('UPDATE settings SET hide_disabled = :hide_disabled WHERE user_id = :userId');
     $stmt->bindParam(':hide_disabled', $hide_disabled, SQLITE3_INTEGER);
     $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

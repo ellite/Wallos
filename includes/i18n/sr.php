@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Корисничко име",
     "password" => "Лозинка",
     "email" => "И-пошта",
+    "firstname" => "Име",
+    "lastname" => "Презиме",
     "confirm_password" => "Потврди лозинку",
     "main_currency" => "Главна валута",
     "language" => "Језик",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Нема подударајућих претплата",
     "clone" => "Клонирај",
     "renew" => "Обнови",
+    "calculate_next_payment_date" => "Израчунајте датум следеће уплате",
     // Форма за претплату
     "add_subscription" => "Додај претплату",
     "edit_subscription" => "Уреди претплату",

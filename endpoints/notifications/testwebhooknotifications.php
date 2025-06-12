@@ -42,6 +42,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $url = $data["url"];
         $payload = $data["payload"];
 
+        // Validate URL scheme
+        $parsedUrl = parse_url($url);
+        if (
+            !isset($parsedUrl['scheme']) ||
+            !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+            !filter_var($url, FILTER_VALIDATE_URL)
+        ) {
+            die(json_encode([
+                "success" => false,
+                "message" => translate("error", $i18n)
+            ]));
+        }
+
         // Replace placeholders in the payload with fake subscription data
         foreach ($fakeSubscription as $key => $value) {
             $placeholder = "{{" . $key . "}}";

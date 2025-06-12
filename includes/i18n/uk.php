@@ -6,6 +6,8 @@ $i18n = [
     "username" => "Ім'я користувача",
     "password" => "Пароль",
     "email" => "E-mail",
+    "firstname" => "Ім'я",
+    "lastname" => "Прізвище",
     "confirm_password" => "Підтвердьте пароль",
     "main_currency" => "Основна валюта",
     "language" => "Мова",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "Немає відповідних підписок",
     "clone" => "Клонувати",
     "renew" => "Продовжити",
+    "calculate_next_payment_date" => "Розрахувати дату наступного платежу",
     // Subscription form
     "add_subscription" => "Додати підписку",
     "edit_subscription" => "Змінити підписку",

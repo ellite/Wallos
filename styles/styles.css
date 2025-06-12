@@ -1238,6 +1238,8 @@ header #avatar {
 
 .form-group .inline .split50 {
   flex-basis: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group.hide,
@@ -1278,6 +1280,12 @@ label {
   margin-bottom: 0px;
   margin-left: 0px;
   cursor: pointer;
+}
+
+label.split-label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 input {
@@ -1324,13 +1332,20 @@ select {
   height: 50px;
 }
 
-input[type="date"] {
-  flex-grow: 1;
-  width: 100%;
+.date-wrapper {
   display: flex;
+  flex-grow: 0;
+  flex-direction: row;
+  flex-basis: 100%;
+  box-sizing: border-box;
+}
+
+input[type="date"] {
+  display: flex;
+  flex-grow: 1;
   flex-direction: row;
   align-items: center;
-  min-width: 85%;
+  flex-basis: 100%;
   box-sizing: border-box;
 }
 
@@ -2829,5 +2844,30 @@ input[type="radio"]:checked+label::after {
 
   .mobile-navigation .mobileNavigationHideOnMobile {
     display: none !important;
+  }
+}
+
+.button.autofill-next-payment {
+    padding: 15px 15px !important;
+    margin-top: 22px;
+}
+
+.autofill-next-payment {
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+.autofill-next-payment.hideOnDesktop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .button.autofill-next-payment.hideOnMobile {
+    display: none !important;
+  }
+
+
+  .autofill-next-payment.hideOnDesktop {
+    display: block;
   }
 }

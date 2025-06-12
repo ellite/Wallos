@@ -176,9 +176,19 @@ function checkThemeNeedsUpdate() {
   }
 }
 
+function enableGoToLoginButton() {
+  const goToLoginButton = document.getElementById('goToLoginButton');
+  if (goToLoginButton) {
+    goToLoginButton.addEventListener('click', function () {
+      window.location.href = 'login.php';
+    });
+  }
+}
+
 window.onload = function () {
   restoreFormFields();
   removeFromStorage();
   runDatabaseMigration();
   checkThemeNeedsUpdate();
+  enableGoToLoginButton();
 };

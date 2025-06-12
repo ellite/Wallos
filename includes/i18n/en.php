@@ -5,6 +5,8 @@ $i18n = [
     "create_account" => "You need to create an account before you're able to login",
     "username" => "Username",
     "password" => "Password",
+    "firstname" => "First name",
+    "lastname" => "Last name",
     "email" => "Email",
     "confirm_password" => "Confirm Password",
     "main_currency" => "Main Currency",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "No matching subscriptions",
     "clone" => "Clone",
     "renew" => "Renew",
+    "calculate_next_payment_date" => "Calculate Next Payment Date",
     // Subscription form
     "add_subscription" => "Add subscription",
     "edit_subscription" => "Edit subscription",

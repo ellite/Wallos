@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Failed to add member",
   member: "Member",
   email: "Email",
+  firstname: "First name",
+  lastname: "Last name",
   save_member: "Save member",
   delete_member: "Delete member",
   failed_remove_member: "Failed to remove member",

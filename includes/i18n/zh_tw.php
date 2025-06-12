@@ -6,6 +6,8 @@ $i18n = [
     "username" => "使用者名稱",
     "password" => "密碼",
     "email" => "電子郵件",
+    "firstname" => "名",
+    "lastname" => "姓",
     "confirm_password" => "確認密碼",
     "main_currency" => "主要貨幣",
     "language" => "語言",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "沒有符合的訂閱服務",
     "clone" => "複製",
     "renew" => "續訂",
+    "calculate_next_payment_date" => "計算下次付款日期",
     // 訂閱表單
     "add_subscription" => "新增訂閱服務",
     "edit_subscription" => "編輯訂閱服務",

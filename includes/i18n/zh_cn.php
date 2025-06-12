@@ -6,6 +6,8 @@ $i18n = [
     "username" => "用户名",
     "password" => "密码",
     "email" => "电子邮箱",
+    "firstname" => "名",
+    "lastname" => "姓",
     "confirm_password" => "确认密码",
     "main_currency" => "主要货币",
     "language" => "语言",
@@ -81,6 +83,7 @@ $i18n = [
     "no_matching_subscriptions" => "没有匹配的订阅",
     "clone" => "克隆",
     "renew" => "续订",
+    "calculate_next_payment_date" => "计算下次支付日期",
 
     // 订阅表单
     "add_subscription" => "添加订阅",

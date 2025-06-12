@@ -13,6 +13,8 @@ let i18n = {
   failed_add_member: "Üye eklenemedi",
   member: "Üye",
   email: "E-posta",
+  firstname: "İlk adı",
+  lastname: "Soy isim",
   save_member: "Üyeyi Kaydet",
   delete_member: "Üyeyi Sil",
   failed_remove_member: "Üye silinmedi",

@@ -6,6 +6,8 @@ $i18n = [
     "username" => 'Nome utente',
     "password" => 'Password',
     "email" => 'Email',
+    "firstname" => 'Nome di battesimo',
+    "lastname" => 'Cognome',
     "confirm_password" => 'Conferma password',
     "main_currency" => 'Valuta principale',
     "language" => 'Lingua',
@@ -81,6 +83,7 @@ $i18n = [
     "no_matching_subscriptions" => 'Nessun abbonamento corrispondente',
     "clone" => "Clona",
     "renew" => "Rinnova",
+    "calculate_next_payment_date" => "Calcola la prossima data di pagamento",
 
     // Add/Edit Subscription
     "add_subscription" => 'Aggiungi abbonamento',

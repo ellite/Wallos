@@ -6,6 +6,8 @@ $i18n = [
     "username" => "유저명",
     "password" => "비밀번호",
     "email" => "이메일",
+    "firstname" => "이름",
+    "lastname" => "성",
     "confirm_password" => "비밀번호 확인",
     "main_currency" => "기본 통화",
     "language" => "언어",
@@ -77,6 +79,7 @@ $i18n = [
     "no_matching_subscriptions" => "해당하는 구독이 없습니다.",
     "clone" => "복제",
     "renew" => "갱신",
+    "calculate_next_payment_date" => "다음 결제일 계산",
     // Subscription form
     "add_subscription" => "구독 추가",
     "edit_subscription" => "구독 편집",

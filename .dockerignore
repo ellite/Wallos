@@ -3,3 +3,8 @@
 
 # Exclude .git directory
 .git/
+.github/
+
+*.md
+.gitignore
+.dockerignore
