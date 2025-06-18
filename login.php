@@ -8,6 +8,61 @@ require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
 
+function validateRemoteAddressAgainstIPs(string $remoteAddress, string $sources): bool {
+    $remotePacked = @inet_pton($remoteAddress);
+    if ($remotePacked === false) {
+        return false; // Invalid remote IP
+    }
+
+    $sourceList = explode(' ', trim($sources));
+
+    foreach ($sourceList as $source) {
+        if (strpos($source, '/') === false) {
+            // Single IP
+            $sourcePacked = @inet_pton($source);
+            if ($sourcePacked !== false && $remotePacked === $sourcePacked) {
+                return true;
+            }
+        } else {
+            // CIDR block
+            list($subnet, $prefixLen) = explode('/', $source, 2);
+            $subnetPacked = @inet_pton($subnet);
+            $prefixLen = (int)$prefixLen;
+
+            if ($subnetPacked === false) {
+                continue;
+            }
+
+            $length = strlen($remotePacked);
+            if ($length !== strlen($subnetPacked)) {
+                continue; // IPv4 vs IPv6 mismatch
+            }
+
+            $bytesToCheck = intdiv($prefixLen, 8);
+            $remainingBits = $prefixLen % 8;
+
+            // Compare full bytes
+            if (substr($remotePacked, 0, $bytesToCheck) !== substr($subnetPacked, 0, $bytesToCheck)) {
+                continue;
+            }
+
+            // Compare remaining bits
+            if ($remainingBits > 0) {
+                $remoteByte = ord($remotePacked[$bytesToCheck]);
+                $subnetByte = ord($subnetPacked[$bytesToCheck]);
+                $mask = 0xFF << (8 - $remainingBits) & 0xFF;
+                if (($remoteByte & $mask) !== ($subnetByte & $mask)) {
+                    continue;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
 if ($userCount == 0) {
     header("Location: registration.php");
     exit();
@@ -111,9 +166,24 @@ if (isset($_COOKIE['colorTheme'])) {
 $loginFailed = false;
 $hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
 $userEmailWaitingVerification = false;
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+
+// start trusted login via header
+$trustedHeaderValue = getenv('TRUSTED_HEADER');
+$trustedHeader = "HTTP_" . str_replace("-", "_", strtoupper($trustedHeaderValue));
+$trustedSource = getenv('TRUSTED_SOURCE');
+error_log(json_encode(getenv(null)));
+// end trusted login via header
+
+if (
+    isset($_POST['username']) && isset($_POST['password']) ||
+    (
+        false !== $trustedHeader && 
+        isset($_SERVER[$trustedHeader]) &&
+        validateRemoteAddressAgainstIPs($_SERVER['REMOTE_ADDR'], $trustedSource)
+    )
+   ) {
+    $username = false == $trustedHeader ? $_POST['username'] : $_SERVER[$trustedHeader];
+    $password = false == $trustedHeader ? $_POST['password'] : '';
     $rememberMe = isset($_POST['remember']) ? true : false;
 
     $query = "SELECT id, password, main_currency, language FROM user WHERE username = :username";
@@ -127,7 +197,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $userId = $row['id'];
         $main_currency = $row['main_currency'];
         $language = $row['language'];
-        if (password_verify($password, $hashedPasswordFromDb)) {
+        if (
+            password_verify($password, $hashedPasswordFromDb) ||
+            (
+                false !== $trustedHeader &&
+                isset($_SERVER[$trustedHeader])
+                // IP check already done
+            )
+           ) {
 
             // Check if the user is in the email_verification table
             $query = "SELECT 1 FROM email_verification WHERE user_id = :userId";
