@@ -174,16 +174,16 @@ An authentication provider proxy (such as [http://goauthentik.io](Authentik)) ca
 - TRUSTED_HEADER
   - The header to read as the username
 - TRUSTED_SOURCE
-  - A space-separated list of IP addresses or CIDR ranges from which to trust the header
+  - A space-separated list of IP addresses or CIDR ranges from which to trust the header.
 
 ### Notes
-- Ensure that TRUSTED_SOURCE is set correctly - otherwise if someone can guess your username they could log in as you
+- Ensure that TRUSTED_SOURCE is set correctly - otherwise if someone can guess your username they could log in as you. Docker defaults to 172.17.0.0/16 but ensure it matches your environment.
 - Initial admin setup username must match the current user or you won't be able to log in
 - Users still need to be created manually, with the `username` matching the Wallos user
 - Suggest setting strong passwords for Wallos accounts as they're created, they're not used anymore so don't really matter
 
 ### Docker run
-Add `-e TRUSTED_HEADER=Your-Header-Here -e TRUSTED_SOURCE=172.17.0.0/16` to a docker run command. Replace the IP addresses with the address of your proxy, or your trusted network
+Add `-e TRUSTED_HEADER=Your-Header-Here -e TRUSTED_SOURCE=172.17.0.0/16` to a docker run command. Replace the IP addresses with the address of your proxy, or your trusted network subnet.
 
 ### Docker Compose
 Add the `TRUSTED_HEADER` and `TRUSTED_SOURCE` environment variables to the `environment:` section:
@@ -194,7 +194,7 @@ services:
     environment:
       TZ: ...
       TRUSTED_HEADER: 'Your-Header-Here'
-      TRUSTED_SOURCE: '172.16.0.0/16'
+      TRUSTED_SOURCE: '172.16.0.0/16 192.0.2.200'
     # ... rest of compose stanza from above
 ```
 
