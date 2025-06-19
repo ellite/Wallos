@@ -32,6 +32,7 @@
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [API Documentation](#api-documentation)
+- [Trusted Header automatic login](#trusted-header-automatic-login)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
   - [Translations](#translations)
@@ -167,6 +168,35 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-form.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+
+## Trusted Header automatic login
+An authentication provider proxy (such as [http://goauthentik.io](Authentik)) can be used to provide single-sign on of users. This is performed by using a trusted header provided by a trusted source IP, and if the user maps to an already existing user in Wallos then the user will be automatically logged in. The configuration is driven via two environment variables:
+- TRUSTED_HEADER
+  - The header to read as the username
+- TRUSTED_SOURCE
+  - A space-separated list of IP addresses or CIDR ranges from which to trust the header
+
+### Notes
+- Ensure that TRUSTED_SOURCE is set correctly - otherwise if someone can guess your username they could log in as you
+- Initial admin setup username must match the current user or you won't be able to log in
+- Users still need to be created manually, with the `username` matching the Wallos user
+- Suggest setting strong passwords for Wallos accounts as they're created, they're not used anymore so don't really matter
+
+### Docker run
+Add `-e TRUSTED_HEADER=Your-Header-Here -e TRUSTED_SOURCE=172.17.0.0/16` to a docker run command. Replace the IP addresses with the address of your proxy, or your trusted network
+
+### Docker Compose
+Add the `TRUSTED_HEADER` and `TRUSTED_SOURCE` environment variables to the `environment:` section:
+```yaml
+services:
+  wallos:
+    # ...
+    environment:
+      TZ: ...
+      TRUSTED_HEADER: 'Your-Header-Here'
+      TRUSTED_SOURCE: '172.16.0.0/16'
+    # ... rest of compose stanza from above
+```
 
 ## API Documentation
 

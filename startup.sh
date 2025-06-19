@@ -12,6 +12,9 @@ echo 'Update users'
 groupmod -o -g "$PGID" www-data
 usermod -o -u "$PUID" www-data
 
+echo "Set permissions on www root"
+chown -R root:root /var/www/html
+
 echo "Setting rights for /tmp"
 chown -R www-data:www-data /tmp
 chmod -R 770 /tmp
@@ -27,10 +30,6 @@ echo "Create database if it does not exist"
 
 echo "Perform any database migrations"
 /usr/local/bin/php /var/www/html/endpoints/db/migrate.php
-
-echo "Change permissions on the database directory"
-chmod -R 755 /var/www/html/db/
-chown -R www-data:www-data /var/www/html/db/
 
 mkdir -p /var/www/html/images/uploads/logos/avatars
 
@@ -49,6 +48,10 @@ echo "Run updateexchange.php"
 
 echo "Run checkforupdates.php"
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php
+
+echo "Change permissions on the database directory"
+chmod -R 755 /var/www/html/db
+chown -R www-data:www-data /var/www/html/db
 
 echo "Start PHP-FPM"
 php-fpm &
