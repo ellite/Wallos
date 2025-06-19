@@ -9,9 +9,11 @@ require_once 'includes/i18n/' . $lang . '.php';
 require_once 'includes/version.php';
 
 function validateRemoteAddressAgainstIPs(string $remoteAddress, string $sources): bool {
+    // Normalize IPv4-mapped IPv6 to IPv4
+    $remoteAddress = normalizeIpToIPv6($remoteAddress);
     $remotePacked = @inet_pton($remoteAddress);
     if ($remotePacked === false) {
-        return false; // Invalid remote IP
+        return false;
     }
 
     $sourceList = explode(' ', trim($sources));
@@ -19,34 +21,34 @@ function validateRemoteAddressAgainstIPs(string $remoteAddress, string $sources)
     foreach ($sourceList as $source) {
         if (strpos($source, '/') === false) {
             // Single IP
-            $sourcePacked = @inet_pton($source);
+            $sourceAddress = normalizeIpToIPv6($source);
+            $sourcePacked = @inet_pton($sourceAddress);
             if ($sourcePacked !== false && $remotePacked === $sourcePacked) {
                 return true;
             }
         } else {
             // CIDR block
             list($subnet, $prefixLen) = explode('/', $source, 2);
-            $subnetPacked = @inet_pton($subnet);
+            $subnetAddress = normalizeIpToIPv6($subnet);
+            $subnetPacked = @inet_pton($subnetAddress);
             $prefixLen = (int)$prefixLen;
 
-            if ($subnetPacked === false) {
+            if ($subnetPacked === false || $prefixLen < 0) {
                 continue;
             }
 
-            $length = strlen($remotePacked);
-            if ($length !== strlen($subnetPacked)) {
-                continue; // IPv4 vs IPv6 mismatch
+            // Skip if address versions don't match
+            if (strlen($remotePacked) !== strlen($subnetPacked)) {
+                continue;
             }
 
             $bytesToCheck = intdiv($prefixLen, 8);
             $remainingBits = $prefixLen % 8;
 
-            // Compare full bytes
             if (substr($remotePacked, 0, $bytesToCheck) !== substr($subnetPacked, 0, $bytesToCheck)) {
                 continue;
             }
 
-            // Compare remaining bits
             if ($remainingBits > 0) {
                 $remoteByte = ord($remotePacked[$bytesToCheck]);
                 $subnetByte = ord($subnetPacked[$bytesToCheck]);
@@ -63,6 +65,16 @@ function validateRemoteAddressAgainstIPs(string $remoteAddress, string $sources)
     return false;
 }
 
+function normalizeIpToIPv6(string $ip): string {
+    // Convert IPv4-mapped IPv6 (e.g. ::ffff:192.0.2.128) to 192.0.2.128
+    if (strpos($ip, '::ffff:') === 0 && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+        $mapped = substr($ip, 7);
+        if (filter_var($mapped, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return $mapped;
+        }
+    }
+    return $ip;
+}
 if ($userCount == 0) {
     header("Location: registration.php");
     exit();
