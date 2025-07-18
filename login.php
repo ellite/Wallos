@@ -8,6 +8,73 @@ require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
 
+function validateRemoteAddressAgainstIPs(string $remoteAddress, string $sources): bool {
+    // Normalize IPv4-mapped IPv6 to IPv4
+    $remoteAddress = normalizeIpToIPv6($remoteAddress);
+    $remotePacked = @inet_pton($remoteAddress);
+    if ($remotePacked === false) {
+        return false;
+    }
+
+    $sourceList = explode(' ', trim($sources));
+
+    foreach ($sourceList as $source) {
+        if (strpos($source, '/') === false) {
+            // Single IP
+            $sourceAddress = normalizeIpToIPv6($source);
+            $sourcePacked = @inet_pton($sourceAddress);
+            if ($sourcePacked !== false && $remotePacked === $sourcePacked) {
+                return true;
+            }
+        } else {
+            // CIDR block
+            list($subnet, $prefixLen) = explode('/', $source, 2);
+            $subnetAddress = normalizeIpToIPv6($subnet);
+            $subnetPacked = @inet_pton($subnetAddress);
+            $prefixLen = (int)$prefixLen;
+
+            if ($subnetPacked === false || $prefixLen < 0) {
+                continue;
+            }
+
+            // Skip if address versions don't match
+            if (strlen($remotePacked) !== strlen($subnetPacked)) {
+                continue;
+            }
+
+            $bytesToCheck = intdiv($prefixLen, 8);
+            $remainingBits = $prefixLen % 8;
+
+            if (substr($remotePacked, 0, $bytesToCheck) !== substr($subnetPacked, 0, $bytesToCheck)) {
+                continue;
+            }
+
+            if ($remainingBits > 0) {
+                $remoteByte = ord($remotePacked[$bytesToCheck]);
+                $subnetByte = ord($subnetPacked[$bytesToCheck]);
+                $mask = 0xFF << (8 - $remainingBits) & 0xFF;
+                if (($remoteByte & $mask) !== ($subnetByte & $mask)) {
+                    continue;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function normalizeIpToIPv6(string $ip): string {
+    // Convert IPv4-mapped IPv6 (e.g. ::ffff:192.0.2.128) to 192.0.2.128
+    if (strpos($ip, '::ffff:') === 0 && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+        $mapped = substr($ip, 7);
+        if (filter_var($mapped, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+            return $mapped;
+        }
+    }
+    return $ip;
+}
 if ($userCount == 0) {
     header("Location: registration.php");
     exit();
@@ -111,9 +178,29 @@ if (isset($_COOKIE['colorTheme'])) {
 $loginFailed = false;
 $hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
 $userEmailWaitingVerification = false;
-if (isset($_POST['username']) && isset($_POST['password'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+
+// start trusted login via header
+# will be false if unset
+$trustedHeaderValue = getenv('TRUSTED_HEADER');
+$trustedHeader = "HTTP_" . str_replace("-", "_", strtoupper($trustedHeaderValue));
+$trustedSource = getenv('TRUSTED_SOURCE');
+if (false !== $trustedHeaderValue) {
+    error_log("Trusted header cooked: '$trustedHeader' source: '$trustedSource'");
+    error_log("Actual REMOTE_ADDR: {$_SERVER['REMOTE_ADDR']}");
+    error_log("Actual $trustedHeader: {$_SERVER[$trustedHeader]}");
+}
+// end trusted login via header
+
+if (
+    isset($_POST['username']) && isset($_POST['password']) ||
+    (
+        false !== $trustedHeaderValue && 
+        isset($_SERVER[$trustedHeader]) &&
+        validateRemoteAddressAgainstIPs($_SERVER['REMOTE_ADDR'], $trustedSource)
+    )
+   ) {
+    $username = false !== $trustedHeaderValue ? $_SERVER[$trustedHeader] : $_POST['username'];
+    $password = false !== $trustedHeaderValue ? '' : $_POST['password'];
     $rememberMe = isset($_POST['remember']) ? true : false;
 
     $query = "SELECT id, password, main_currency, language FROM user WHERE username = :username";
@@ -127,7 +214,14 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $userId = $row['id'];
         $main_currency = $row['main_currency'];
         $language = $row['language'];
-        if (password_verify($password, $hashedPasswordFromDb)) {
+        if (
+            password_verify($password, $hashedPasswordFromDb) ||
+            (
+                false !== $trustedHeaderValue &&
+                isset($_SERVER[$trustedHeader])
+                // IP check already done
+            )
+           ) {
 
             // Check if the user is in the email_verification table
             $query = "SELECT 1 FROM email_verification WHERE user_id = :userId";
