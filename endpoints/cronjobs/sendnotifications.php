@@ -470,7 +470,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $data = array(
                         'chat_id' => $telegram['chatId'],
-                        'text' => $message
+                        'text' => mb_convert_encoding($message, 'UTF-8', 'auto')
                     );
 
                     $data_string = json_encode($data);
@@ -630,7 +630,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             
                         // Add headers if they exist
                         if (!empty($webhook['headers'])) {
-                            $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                            $customheaders = json_decode($webhook["headers"], true);
                             curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                         }
             
