@@ -184,23 +184,26 @@ $userEmailWaitingVerification = false;
 $trustedHeaderValue = getenv('TRUSTED_HEADER');
 $trustedHeader = "HTTP_" . str_replace("-", "_", strtoupper($trustedHeaderValue));
 $trustedSource = getenv('TRUSTED_SOURCE');
+
+$isTrustedLogin = false !== $trustedHeaderValue &&
+                  isset($_SERVER[$trustedHeader]) &&
+                  $_SERVER[$trustedHeader] !== null &&
+                  $_SERVER[$trustedHeader] !== '(null)' &&
+                  validateRemoteAddressAgainstIPs($_SERVER['REMOTE_ADDR'], $trustedSource);
+
 if (false !== $trustedHeaderValue) {
-    error_log("Trusted header cooked: '$trustedHeader' source: '$trustedSource'");
-    error_log("Actual REMOTE_ADDR: {$_SERVER['REMOTE_ADDR']}");
-    error_log("Actual $trustedHeader: {$_SERVER[$trustedHeader]}");
+    error_log("Trusted header cooked:'$trustedHeader' source:'$trustedSource' isTrustedLogin:$isTrustedLogin");
+    error_log("Actual REMOTE_ADDR: '{$_SERVER['REMOTE_ADDR']}'");
+    error_log("Actual $trustedHeader: '{$_SERVER[$trustedHeader]}'");
 }
 // end trusted login via header
 
 if (
     isset($_POST['username']) && isset($_POST['password']) ||
-    (
-        false !== $trustedHeaderValue && 
-        isset($_SERVER[$trustedHeader]) &&
-        validateRemoteAddressAgainstIPs($_SERVER['REMOTE_ADDR'], $trustedSource)
-    )
+    $isTrustedLogin
    ) {
-    $username = false !== $trustedHeaderValue ? $_SERVER[$trustedHeader] : $_POST['username'];
-    $password = false !== $trustedHeaderValue ? '' : $_POST['password'];
+    $username = $isTrustedLogin === true ? $_SERVER[$trustedHeader] : $_POST['username'];
+    $password = $isTrustedLogin === true ? '' : $_POST['password'];
     $rememberMe = isset($_POST['remember']) ? true : false;
 
     $query = "SELECT id, password, main_currency, language FROM user WHERE username = :username";
@@ -216,11 +219,7 @@ if (
         $language = $row['language'];
         if (
             password_verify($password, $hashedPasswordFromDb) ||
-            (
-                false !== $trustedHeaderValue &&
-                isset($_SERVER[$trustedHeader])
-                // IP check already done
-            )
+            $isTrustedLogin === true
            ) {
 
             // Check if the user is in the email_verification table
