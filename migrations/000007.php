@@ -2,7 +2,6 @@
 // This migration adds a new table to store the display and experimental settings
 // This settings will now be persisted across sessions and devices
 
-/** @noinspection PhpUndefinedVariableInspection */
 $db->exec('CREATE TABLE IF NOT EXISTS settings (
     dark_theme BOOLEAN DEFAULT 0,
     monthly_price BOOLEAN DEFAULT 0,

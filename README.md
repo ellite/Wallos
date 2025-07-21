@@ -31,6 +31,7 @@
     - [Docker-Compose](#docker-compose)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
+- [OIDC](#oidc)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
@@ -167,6 +168,10 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-form.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+
+## OIDC
+
+OIDC can be enabled on the Admin page and can be used with providers that support OAuth.
 
 ## API Documentation
 

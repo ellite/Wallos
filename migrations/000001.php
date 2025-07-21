@@ -1,6 +1,5 @@
 <?php
 
-/** @noinspection PhpUndefinedVariableInspection */
 $db->exec('CREATE TABLE IF NOT EXISTS migrations (
     id INTEGER PRIMARY KEY,
     migration TEXT NOT NULL,

@@ -1,7 +1,6 @@
 <?php
 // This migration adds a "hide_disabled" column to the settings table and sets to false as default.
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') where name='hide_disabled'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

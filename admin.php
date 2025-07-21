@@ -11,6 +11,29 @@ $stmt = $db->prepare('SELECT * FROM admin');
 $result = $stmt->execute();
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 
+// get OIDC settings
+$stmt = $db->prepare('SELECT * FROM oauth_settings WHERE id = 1');
+$result = $stmt->execute();
+$oidcSettings = $result->fetchArray(SQLITE3_ASSOC);
+
+if ($oidcSettings === false) {
+    // Table is empty or no row with id=1, set defaults
+    $oidcSettings = [
+        'name' => '',
+        'client_id' => '',
+        'client_secret' => '',
+        'authorization_url' => '',
+        'token_url' => '',
+        'user_info_url' => '',
+        'redirect_url' => '',
+        'logout_url' => '',
+        'user_identifier_field' => 'sub',
+        'scopes' => 'openid email profile',
+        'auth_style' => 'auto',
+        'auto_create_user' => 0
+    ];
+}
+
 // get user accounts
 $stmt = $db->prepare('SELECT id, username, email FROM user ORDER BY id ASC');
 $result = $stmt->execute();
@@ -184,6 +207,66 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
 
     <section class="account-section">
         <header>
+            <h2><?= translate('oidc_settings', $i18n) ?></h2>
+        </header>
+        <div class="admin-form">
+            <div class="form-group-inline">
+                <input type="checkbox" id="oidcEnabled" <?= $settings['oidc_oauth_enabled'] ? 'checked' : '' ?>
+                    onchange="toggleOidcEnabled()" />
+                <label for="oidcEnabled"><?= translate('oidc_oauth_enabled', $i18n) ?></label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcName" placeholder="Provider Name" value="<?= $oidcSettings['name'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcClientId" placeholder="Client ID" value="<?= $oidcSettings['client_id'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcClientSecret" placeholder="Client Secret" value="<?= $oidcSettings['client_secret'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcAuthUrl" placeholder="Auth URL" value="<?= $oidcSettings['authorization_url'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcTokenUrl" placeholder="Token URL" value="<?= $oidcSettings['token_url'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcUserInfoUrl" placeholder="User Info URL"
+                    value="<?= $oidcSettings['user_info_url'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcRedirectUrl" placeholder="Redirect URL"
+                    value="<?= $oidcSettings['redirect_url'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcLogoutUrl" placeholder="Logout URL"
+                    value="<?= $oidcSettings['logout_url'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcUserIdentifierField" placeholder="User Identifier Field"
+                    value="<?= $oidcSettings['user_identifier_field'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="text" id="oidcScopes" placeholder="Scopes" value="<?= $oidcSettings['scopes'] ?>" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="oidcAuthStyle" placeholder="Auth Style"
+                    value="<?= $oidcSettings['auth_style'] ?>" />
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="oidcAutoCreateUser" <?= $oidcSettings['auto_create_user'] ? 'checked' : '' ?> />
+                <label for="oidcAutoCreateUser"><?= translate('create_user_automatically', $i18n) ?></label>
+            </div>
+            <div class="buttons">
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveOidcSettingsButton" onClick="saveOidcSettingsButton()" />
+            </div>
+        </div>
+
+    </section>
+
+    <section class="account-section">
+        <header>
             <h2><?= translate('smtp_settings', $i18n) ?></h2>
         </header>
         <div class="admin-form">
@@ -347,7 +430,8 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 ?>
             </div>
             <div class="form-group-inline">
-                <input type="checkbox" id="updateNotification" <?= $settings['update_notification'] ? 'checked' : '' ?> onchange="toggleUpdateNotification()"/>
+                <input type="checkbox" id="updateNotification" <?= $settings['update_notification'] ? 'checked' : '' ?>
+                    onchange="toggleUpdateNotification()" />
                 <label for="updateNotification"><?= translate('show_update_notification', $i18n) ?></label>
             </div>
             <h3><?= translate('orphaned_logos', $i18n) ?></h3>
@@ -360,14 +444,22 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             <h3><?= translate('cronjobs', $i18n) ?></h3>
             <div>
                 <div class="inline-row">
-                    <input type="button" value="Check for Updates" class="button tiny mobile-grow" onclick="executeCronJob('checkforupdates')">
-                    <input type="button" value="Send Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendnotifications')">
-                    <input type="button" value="Send Cancellation Notifications" class="button tiny mobile-grow" onclick="executeCronJob('sendcancellationnotifications')">
-                    <input type="button" value="Send Password Reset Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendresetpasswordemails')">
-                    <input type="button" value="Send Verification Emails" class="button tiny mobile-grow" onclick="executeCronJob('sendverificationemails')">
-                    <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow" onclick="executeCronJob('updateexchange')">
-                    <input type="button" value="Update Next Payments" class="button tiny mobile-grow" onclick="executeCronJob('updatenextpayment')">
-                    <input type="button" value="Store Total Yearly Cost" class="button tiny mobile-grow" onclick="executeCronJob('storetotalyearlycost')">
+                    <input type="button" value="Check for Updates" class="button tiny mobile-grow"
+                        onclick="executeCronJob('checkforupdates')">
+                    <input type="button" value="Send Notifications" class="button tiny mobile-grow"
+                        onclick="executeCronJob('sendnotifications')">
+                    <input type="button" value="Send Cancellation Notifications" class="button tiny mobile-grow"
+                        onclick="executeCronJob('sendcancellationnotifications')">
+                    <input type="button" value="Send Password Reset Emails" class="button tiny mobile-grow"
+                        onclick="executeCronJob('sendresetpasswordemails')">
+                    <input type="button" value="Send Verification Emails" class="button tiny mobile-grow"
+                        onclick="executeCronJob('sendverificationemails')">
+                    <input type="button" value="Update Exchange Rates" class="button tiny mobile-grow"
+                        onclick="executeCronJob('updateexchange')">
+                    <input type="button" value="Update Next Payments" class="button tiny mobile-grow"
+                        onclick="executeCronJob('updatenextpayment')">
+                    <input type="button" value="Store Total Yearly Cost" class="button tiny mobile-grow"
+                        onclick="executeCronJob('storetotalyearlycost')">
                 </div>
                 <div class="inline-row">
                     <textarea id="cronjobResult" class="thin" readonly></textarea>

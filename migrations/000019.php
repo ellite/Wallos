@@ -4,7 +4,6 @@ This migration adds a column to the subscriptuons table to store individual choi
 The default value of 0 means global settings will be used
 */
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('subscriptions') where name='notify_days_before'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

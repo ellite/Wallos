@@ -1,7 +1,6 @@
 <?php
 // This migration adds "firstname" and "lastname" columns to the user table
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('user') where name='firstname'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

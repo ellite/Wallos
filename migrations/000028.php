@@ -2,7 +2,6 @@
 
 // This migration adds a "mobile_nav" column to the settings table
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') where name='mobile_nav'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

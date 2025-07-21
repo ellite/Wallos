@@ -108,6 +108,44 @@ if (isset($_COOKIE['colorTheme'])) {
     $colorTheme = $_COOKIE['colorTheme'];
 }
 
+// Check if OIDC is Enabled
+$oidcEnabled = false;
+$oidcQuery = "SELECT oidc_oauth_enabled FROM admin";
+$oidcResult = $db->query($oidcQuery);
+$oidcRow = $oidcResult->fetchArray(SQLITE3_ASSOC);
+if ($oidcRow) {
+    $oidcEnabled = $oidcRow['oidc_oauth_enabled'] == 1;
+    if ($oidcEnabled) {
+        // Fetch OIDC settings
+        $oidcSettingsQuery = "SELECT * FROM oauth_settings WHERE id = 1";
+        $oidcSettingsResult = $db->query($oidcSettingsQuery);
+        $oidcSettings = $oidcSettingsResult->fetchArray(SQLITE3_ASSOC);
+        if (!$oidcSettings) {
+            $oidcEnabled = false;
+        } else {
+            $oidc_name = $oidcSettings['name'] ?? '';
+
+            // Generate a CSRF-protecting state string
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            $state = bin2hex(random_bytes(16));
+            $_SESSION['oidc_state'] = $state;
+
+            // Build the OIDC authorization URL
+            $params = http_build_query([
+                'response_type' => 'code',
+                'client_id' => $oidcSettings['client_id'],
+                'redirect_uri' => $oidcSettings['redirect_url'],
+                'scope' => $oidcSettings['scopes'],
+                'state' => $state,
+            ]);
+
+            $oidc_auth_url = rtrim($oidcSettings['authorization_url'], '?') . '?' . $params;
+        }
+    }
+}
+
 $loginFailed = false;
 $hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
 $userEmailWaitingVerification = false;
@@ -234,6 +272,10 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
     $resetPasswordEnabled = true;
 }
 
+if(isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
+    $loginFailed = true;
+}
+
 ?>
 <!DOCTYPE html>
 <html dir="<?= $languages[$lang]['dir'] ?>">
@@ -297,6 +339,16 @@ if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
                 ?>
                 <div class="form-group">
                     <input type="submit" value="<?= translate('login', $i18n) ?>">
+                    <?php
+                    if ($oidcEnabled) {
+                        ?>
+                        <span class="or-separator"><?= translate('or', $i18n) ?></span>
+                        <a class="button secondary-button" href="<?= htmlspecialchars($oidc_auth_url) ?>">
+                            <?= translate('login_with', $i18n) ?> <?= htmlspecialchars($oidc_name) ?>
+                        </a>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <?php
                 if ($loginFailed) {

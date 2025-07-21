@@ -4,7 +4,6 @@
 // Also removes the iterator column as it is not used anymore.
 // The cancelation payload will be used to send cancelation notifications to the webhook
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('webhook_notifications') where name='cancelation_payload'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
