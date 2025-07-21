@@ -1,7 +1,6 @@
 <?php
 // This migration adds a "color_theme" column to the settings table and sets it to blue as default.
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') where name='color_theme'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

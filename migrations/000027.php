@@ -3,7 +3,6 @@
 // this migration adds a "totp_enabled" column to the user table
 // it also adds a "totp" table to the database
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('user') where name='totp_enabled'");
 
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;

@@ -2,7 +2,6 @@
 // This migration adds a "other_emails" column to the email_notifications table.
 // It also adds a "show_original_price" column to the settings table.
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('email_notifications') where name='other_emails'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

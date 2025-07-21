@@ -4,8 +4,6 @@
 / It also creates the admin table to store the admin settings.
 */
 
-/** @noinspection PhpUndefinedVariableInspection */
-
 $tablesToUpdate = ['payment_methods', 'subscriptions', 'categories', 'currencies', 'fixer', 'household', 'settings', 'custom_colors', 'notification_settings', 'telegram_notifications', 'webhook_notifications', 'gotify_notifications', 'email_notifications', 'pushover_notifications', 'discord_notifications', 'last_exchange_update'];
 foreach ($tablesToUpdate as $table) {
     $columnQuery = $db->query("SELECT * FROM pragma_table_info('$table') WHERE name='user_id'");

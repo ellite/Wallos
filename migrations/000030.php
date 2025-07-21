@@ -5,7 +5,6 @@
 
 // Add the ignore_ssl column to the webhook_notifications table
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('webhook_notifications') where name='ignore_ssl'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
@@ -15,7 +14,6 @@ if ($columnRequired) {
 
 // Add the ignore_ssl column to the ntfy_notifications table
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('ntfy_notifications') where name='ignore_ssl'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
@@ -25,7 +23,6 @@ if ($columnRequired) {
 
 // Add the ignore_ssl column to the gotify_notifications table
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('gotify_notifications') where name='ignore_ssl'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

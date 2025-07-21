@@ -117,7 +117,8 @@ select {
 }
 
 input[type="submit"],
-input[type="button"] {
+input[type="button"],
+a.button {
     width: 100%;
     padding: 15px;
     font-size: 16px;
@@ -128,19 +129,29 @@ input[type="button"] {
     cursor: pointer;
 }
 
-input[type="submit"]:hover {
+a.button {
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+input[type="submit"]:hover,
+a.button:hover {
     background-color: var(--hover-color);
 }
 
 input[type="button"].secondary-button,
-button.button.secondary-button {
+button.button.secondary-button,
+a.button.secondary-button {
   background-color: #FFFFFF;
   color: var(--main-color);
   border: 2px solid var(--main-color);
 }
 
 input[type="button"].secondary-button:hover,
-button.button.secondary-button:hover {
+button.button.secondary-button:hover,
+a.button.secondary-button:hover {
   background-color: #EEEEEE;
   color: var(--hover-color);
   border-color: var(--hover-color);
@@ -157,6 +168,13 @@ input[type="checkbox"] {
     border-radius: 8px;
     display: grid;
     place-content: center;
+}
+
+.or-separator {
+    text-align: center;
+    display: block;
+    margin: 3px 0px 7px;
+    font-size: 16px;
 }
 
 .error {

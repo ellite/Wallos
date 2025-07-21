@@ -1,7 +1,6 @@
 <?php
 // This migration adds a "show_subscription_progress" column to the settings table and sets to false as default.
 
-/** @noinspection PhpUndefinedVariableInspection */
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') where name='show_subscription_progress'");
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 

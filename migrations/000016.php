@@ -5,7 +5,6 @@
 * Existing values on the notifications table will be split and migrated to the new tables.
 */
 
-/** @noinspection PhpUndefinedVariableInspection */
 $db->exec('CREATE TABLE IF NOT EXISTS telegram_notifications (
     enabled BOOLEAN DEFAULT 0,
     bot_token TEXT DEFAULT "",

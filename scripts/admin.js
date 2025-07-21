@@ -1,28 +1,28 @@
 function makeFetchCall(url, data, button) {
   return fetch(url, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
   })
-  .then(response => response.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
-          showSuccessMessage(data.message);
+        showSuccessMessage(data.message);
       } else {
-          showErrorMessage(data.message);
+        showErrorMessage(data.message);
       }
       button.disabled = false;
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       showErrorMessage(error);
       button.disabled = false;
-  });
+    });
 
 }
 
-function testSmtpSettingsButton()  {
+function testSmtpSettingsButton() {
   const button = document.getElementById("testSmtpSettingsButton");
   button.disabled = true;
 
@@ -66,27 +66,27 @@ function saveSmtpSettingsButton() {
   };
 
   fetch('endpoints/admin/savesmtpsettings.php', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
   })
-  .then(response => response.json())
-  .then(data => {
+    .then(response => response.json())
+    .then(data => {
       if (data.success) {
-          const emailVerificationCheckbox = document.getElementById('requireEmail');
-          emailVerificationCheckbox.disabled = false;
-          showSuccessMessage(data.message);
+        const emailVerificationCheckbox = document.getElementById('requireEmail');
+        emailVerificationCheckbox.disabled = false;
+        showSuccessMessage(data.message);
       } else {
-          showErrorMessage(data.message);
+        showErrorMessage(data.message);
       }
       button.disabled = false;
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       showErrorMessage(error);
       button.disabled = false;
-  });
+    });
 
 }
 
@@ -124,7 +124,7 @@ function backupDB() {
       button.disabled = false;
     });
 }
-  
+
 function openRestoreDBFileSelect() {
   document.getElementById('restoreDBFile').click();
 };
@@ -145,26 +145,26 @@ function restoreDB() {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
-      fetch('endpoints/db/migrate.php')
-      .then(response => response.text())
-      .then(() => {
-          window.location.href = 'logout.php';
-      })
-      .catch(error => {
-        window.location.href = 'logout.php';
-      });
-    } else {
-      showErrorMessage(data.message);
-    }
-  })
-  .catch(error => showErrorMessage('Error:', error));
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        fetch('endpoints/db/migrate.php')
+          .then(response => response.text())
+          .then(() => {
+            window.location.href = 'logout.php';
+          })
+          .catch(error => {
+            window.location.href = 'logout.php';
+          });
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(error => showErrorMessage('Error:', error));
 }
 
-function saveAccountRegistrationsButton () {
+function saveAccountRegistrationsButton() {
   const button = document.getElementById('saveAccountRegistrations');
   button.disabled = true;
 
@@ -189,20 +189,20 @@ function saveAccountRegistrationsButton () {
     },
     body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        button.disabled = false;
+      } else {
+        showErrorMessage(data.message);
+        button.disabled = false;
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error);
       button.disabled = false;
-    } else {
-      showErrorMessage(data.message);
-      button.disabled = false;
-    }
-  })
-  .catch(error => {
-    showErrorMessage(error);
-    button.disabled = false;
-  });
+    });
 }
 
 function removeUser(userId) {
@@ -217,19 +217,19 @@ function removeUser(userId) {
     },
     body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
-      const userContainer = document.querySelector(`.form-group-inline[data-userid="${userId}"]`);
-      if (userContainer) {
-        userContainer.remove();
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        const userContainer = document.querySelector(`.form-group-inline[data-userid="${userId}"]`);
+        if (userContainer) {
+          userContainer.remove();
+        }
+      } else {
+        showErrorMessage(data.message);
       }
-    } else {
-      showErrorMessage(data.message);
-    }
-  })
-  .catch(error => showErrorMessage('Error:', error));
+    })
+    .catch(error => showErrorMessage('Error:', error));
 
 }
 
@@ -254,21 +254,21 @@ function addUserButton() {
     },
     body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        button.disabled = false;
+        window.location.reload();
+      } else {
+        showErrorMessage(data.message);
+        button.disabled = false;
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error);
       button.disabled = false;
-      window.location.reload();
-    } else {
-      showErrorMessage(data.message);
-      button.disabled = false;
-    }
-  })
-  .catch(error => {
-    showErrorMessage(error);
-    button.disabled = false;
-  });
+    });
 }
 
 function deleteUnusedLogos() {
@@ -276,21 +276,21 @@ function deleteUnusedLogos() {
   button.disabled = true;
 
   fetch('endpoints/admin/deleteunusedlogos.php')
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
-      const numberOfLogos = document.querySelector('.number-of-logos');
-      numberOfLogos.innerText = '0';
-    } else {
-      showErrorMessage(data.message);
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        const numberOfLogos = document.querySelector('.number-of-logos');
+        numberOfLogos.innerText = '0';
+      } else {
+        showErrorMessage(data.message);
+        button.disabled = false;
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error);
       button.disabled = false;
-    }
-  })
-  .catch(error => {
-    showErrorMessage(error);
-    button.disabled = false;
-  });
+    });
 }
 
 function toggleUpdateNotification() {
@@ -308,18 +308,18 @@ function toggleUpdateNotification() {
     },
     body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      showSuccessMessage(data.message);
-      if (notificationEnabled === 1) {
-        fetch('endpoints/cronjobs/checkforupdates.php');
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        if (notificationEnabled === 1) {
+          fetch('endpoints/cronjobs/checkforupdates.php');
+        }
+      } else {
+        showErrorMessage(data.message);
       }
-    } else {
-      showErrorMessage(data.message);
-    }
-  })
-  .catch(error => showErrorMessage('Error:', error));
+    })
+    .catch(error => showErrorMessage('Error:', error));
 
 }
 
@@ -338,5 +338,93 @@ function executeCronJob(job) {
     .catch(error => {
       console.error('Fetch error:', error);
       showErrorMessage('Error:', error);
+    });
+}
+
+function toggleOidcEnabled() {
+  const toggle = document.getElementById("oidcEnabled");
+  toggle.disabled = true;
+
+  const oidcEnabled = toggle.checked ? 1 : 0;
+  
+  const data = {
+    oidcEnabled: oidcEnabled
+  };
+
+  fetch('endpoints/admin/enableoidc.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      toggle.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage('Error:', error);
+      toggle.disabled = false;
+    });
+
+}
+
+function saveOidcSettingsButton() {
+  const button = document.getElementById("saveOidcSettingsButton");
+  button.disabled = true;
+
+  const oidcName = document.getElementById("oidcName").value;
+  const oidcClientId = document.getElementById("oidcClientId").value;
+  const oidcClientSecret = document.getElementById("oidcClientSecret").value;
+  const oidcAuthUrl = document.getElementById("oidcAuthUrl").value;
+  const oidcTokenUrl = document.getElementById("oidcTokenUrl").value;
+  const oidcUserInfoUrl = document.getElementById("oidcUserInfoUrl").value;
+  const oidcRedirectUrl = document.getElementById("oidcRedirectUrl").value;
+  const oidcLogoutUrl = document.getElementById("oidcLogoutUrl").value;
+  const oidcUserIdentifierField = document.getElementById("oidcUserIdentifierField").value;
+  const oidcScopes = document.getElementById("oidcScopes").value;
+  const oidcAuthStyle = document.getElementById("oidcAuthStyle").value;
+  const oidcAutoCreateUser = document.getElementById("oidcAutoCreateUser").checked ? 1 : 0;
+
+  const data = {
+    oidcName: oidcName,
+    oidcClientId: oidcClientId,
+    oidcClientSecret: oidcClientSecret,
+    oidcAuthUrl: oidcAuthUrl,
+    oidcTokenUrl: oidcTokenUrl,
+    oidcUserInfoUrl: oidcUserInfoUrl,
+    oidcRedirectUrl: oidcRedirectUrl,
+    oidcLogoutUrl: oidcLogoutUrl,
+    oidcUserIdentifierField: oidcUserIdentifierField,
+    oidcScopes: oidcScopes,
+    oidcAuthStyle: oidcAuthStyle,
+    oidcAutoCreateUser: oidcAutoCreateUser
+  };
+
+
+  fetch('endpoints/admin/saveoidcsettings.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage('Error:', error);
+      button.disabled = false;
     });
 }
