@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Ресетовање лозинке је успешно",
     // Header
     "profile" => "Профил",
+    "dashboard" => "Панел",
     "subscriptions" => "Претплате",
     "stats" => "Статистике",
     "settings" => "Подешавања",

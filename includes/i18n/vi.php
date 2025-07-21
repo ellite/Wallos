@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Đặt lại mật khẩu thành công",
     // Header
     "profile" => "Hồ sơ",
+    "dashboard" => "Bảng",
     "subscriptions" => "Đăng ký",
     "stats" => "Thống kê",
     "settings" => "Cài đặt",

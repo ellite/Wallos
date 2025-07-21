@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Adgangskoden blev nulstillet",
     // Header
     "profile" => "Profil",
+    "dashboard" => "Dashboard",
     "subscriptions" => "Abonnementer",
     "stats" => "Statistik",
     "settings" => "Indstillinger",

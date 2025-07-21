@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Pengaturan ulang kata sandi berhasil",
     // Header
     "profile" => "Profil",
+    "dashboard" => "Dasbor",
     "subscriptions" => "Langganan",
     "stats" => "Statistik",
     "settings" => "Pengaturan",

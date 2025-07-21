@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "密碼重設成功",
     // 頁首
     "profile" => "個人檔案",
+    "dashboard" => "儀表板",
     "subscriptions" => "訂閱服務",
     "stats" => "統計資訊",
     "settings" => "設定",

@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Réinitialisation du mot de passe réussie",
     // En-tête
     "profile" => "Profil",
+    "dashboard" => "Accueil",
     "subscriptions" => "Abonnements",
     "stats" => "Statistiques",
     "settings" => "Paramètres",

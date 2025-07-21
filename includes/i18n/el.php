@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Επιτυχής επαναφορά κωδικού πρόσβασης",
     // Header
     "profile" => "Προφίλ",
+    "dashboard" => "Πίνακας",
     "subscriptions" => "Συνδρομές",
     "stats" => "Στατιστικές",
     "settings" => "Ρυθμίσεις",

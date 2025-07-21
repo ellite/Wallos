@@ -4,6 +4,7 @@ self.addEventListener('install', function (event) {
             const urlsToCache = [
                 '.',
                 'index.php',
+                'subscriptions.php',
                 'profile.php',
                 'calendar.php',
                 'settings.php',
@@ -31,6 +32,7 @@ self.addEventListener('install', function (event) {
                 'webfonts/fa-regular-400.ttf',
                 'scripts/common.js',
                 'scripts/dashboard.js',
+                'scripts/subscriptions.js',
                 'scripts/stats.js',
                 'scripts/settings.js',
                 'scripts/theme.js',

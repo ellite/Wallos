@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Úspěšné obnovení hesla",
     // Header
     "profile" => "Profil",
+    "dashboard" => "Přehled",
     "subscriptions" => "Předplatná",
     "stats" => "Statistiky",
     "settings" => "Nastavení",

@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Hasło zostało zresetowane pomyślnie",
     // Header
     "profile" => "Profil",
+    "dashboard" => "Panel",
     "subscriptions" => "Subskrypcje",
     "stats" => "Statystyki",
     "settings" => "Ustawienia",

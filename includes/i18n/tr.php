@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Şifre sıfırlama başarılı",
     // Header
     "profile" => "Profil",
+    "dashboard" => "Panel",
     "subscriptions" => "Abonelikler",
     "stats" => "İstatistikler",
     "settings" => "Ayarlar",

@@ -33,6 +33,7 @@ $i18n = [
     "password_reset_successful" => "Пароль успішно скинуто",
     // Header
     "profile" => "Профіль",
+    "dashboard" => "Панель",
     "subscriptions" => "Підписки",
     "stats" => "Статистика",
     "settings" => "Налаштування",

@@ -36,6 +36,7 @@ $i18n = [
 
     // Header
     "profile" => 'Profilo',
+    "dashboard" => 'Dashboard',
     "subscriptions" => 'Abbonamenti',
     "stats" => 'Statistiche',
     "settings" => 'Impostazioni',
