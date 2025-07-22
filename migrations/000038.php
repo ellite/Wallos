@@ -1,6 +1,6 @@
 <?php
 // This migration adds a "oidc_oauth_enabled" colum to the "admin" table
-// It also adds a "oidc_sub" column to the "user" table
+// It also adds a "oidc_sub" column to the "user" table 
 // It also adds a "oauth_settings" table to store OAuth settings.
 
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('admin') where name='oidc_oauth_enabled'");
