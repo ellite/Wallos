@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Yönetici",
     "about" => "Hakkında",
     "logout" => "Çıkış Yap",
+    // Dashboard
+    "hello" => "Merhaba",
+    "upcoming_payments" => "Yaklaşan Ödemeler",
+    "no_upcoming_payments" => "Yaklaşan ödemeniz yok",
+    "overdue_renewals" => "Gecikmiş Yenilemeler",
+    "your_budget" => "Bütçeniz",
+    "budget" => "Bütçe",
+    "budget_used" => "İşletilen Bütçe",
+    "over_budget" => "Bütçeyi Aşma",
+    "your_subscriptions" => "Abonelikleriniz",
+    "your_savings" => "Tasarruflarınız",
     // Subscriptions page
     "subscription" => "Abonelik",
     "no_subscriptions_yet" => "Henüz herhangi bir aboneliğiniz yok",

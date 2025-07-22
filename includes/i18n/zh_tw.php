@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "管理員",
     "about" => "關於",
     "logout" => "登出",
+    // Dashboard
+    "hello" => "你好",
+    "upcoming_payments" => "即將到期的付款",
+    "no_upcoming_payments" => "您沒有任何即將到期的付款",
+    "overdue_renewals" => "逾期續訂",
+    "your_budget" => "您的預算",
+    "budget" => "預算",
+    "budget_used" => "預算已使用",
+    "over_budget" => "超出預算",
+    "your_subscriptions" => "您的訂閱",
+    "your_savings" => "您的儲蓄",
     // 訂閱頁面
     "subscription" => "訂閱服務",
     "no_subscriptions_yet" => "您目前沒有任何訂閱服務",

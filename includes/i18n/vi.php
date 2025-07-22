@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Quản trị viên",
     "about" => "Giới thiệu",
     "logout" => "Đăng xuất",
+    // Dashboard
+    "hello" => "Xin chào",
+    "upcoming_payments" => "Các khoản thanh toán sắp tới",
+    "no_upcoming_payments" => "Bạn không có khoản thanh toán nào sắp tới",
+    "overdue_renewals" => "Gia hạn quá hạn",
+    "your_budget" => "Ngân sách của bạn",
+    "budget" => "Ngân sách",
+    "budget_used" => "Ngân sách đã sử dụng",
+    "over_budget" => "Vượt ngân sách",
+    "your_subscriptions" => "Đăng ký của bạn",
+    "your_savings" => "Tiết kiệm của bạn",
     // Subscriptions page
     "subscription" => "Đăng ký",
     "no_subscriptions_yet" => "Bạn chưa có đăng ký nào",

@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Administração",
     "about" => "Sobre",
     "logout" => "Terminar Sessão",
+    // Dashboard
+    "hello" => "Olá",
+    "upcoming_payments" => "Próximos Pagamentos",
+    "no_upcoming_payments" => "Você não tem pagamentos agendados",
+    "overdue_renewals" => "Renovações Atrasadas",
+    "your_budget" => "Seu Orçamento",
+    "budget" => "Orçamento",
+    "budget_used" => "Orçamento Usado",
+    "over_budget" => "Acima do Orçamento",
+    "your_subscriptions" => "Suas subscrições",
+    "your_savings" => "Suas Poupanças",
     // Subscriptions page
     "subscription" => "Subscrição",
     "no_subscriptions_yet" => "Ainda não tem subscrições",

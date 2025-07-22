@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Адміністратор",
     "about" => "Про програму",
     "logout" => "Вийти",
+    // Dashboard
+    "hello" => "Привіт",
+    "upcoming_payments" => "Предстоять платежі",
+    "no_upcoming_payments" => "У вас немає предстоять платежів",
+    "overdue_renewals" => "Прострочені поновлення",
+    "your_budget" => "Ваш бюджет",
+    "budget" => "Бюджет",
+    "budget_used" => "Використаний бюджет",
+    "over_budget" => "Перевищений бюджет",
+    "your_subscriptions" => "Ваші підписки",
+    "your_savings" => "Ваші заощадження",
     // Subscriptions page
     "subscription" => "Підписка",
     "no_subscriptions_yet" => "У вас поки немає підписок",

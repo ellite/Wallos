@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Admin",
     "about" => "Om",
     "logout" => "Log ud",
+    // Dashboard
+    "hello" => "Hej",
+    "upcoming_payments" => "Kommende betalinger",
+    "no_upcoming_payments" => "Du har ingen kommende betalinger",
+    "overdue_renewals" => "Forsinkede fornyelser",
+    "your_budget" => "Dit budget",
+    "budget" => "Budget",
+    "budget_used" => "Budget brugt",
+    "over_budget" => "Over budget",
+    "your_subscriptions" => "Dine abonnementer",
+    "your_savings" => "Dine besparelser",
     // Subscriptions page
     "subscription" => "Abonnement",
     "no_subscriptions_yet" => "Du har endnu ingen abonnementer",

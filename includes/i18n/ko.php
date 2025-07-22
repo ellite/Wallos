@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "관리자",
     "about" => "정보",
     "logout" => "로그아웃",
+    // Dashboard
+    "hello" => "안녕하세요",
+    "upcoming_payments" => "예정된 결제",
+    "no_upcoming_payments" => "예정된 결제가 없습니다.",
+    "overdue_renewals" => "연체 갱신",
+    "your_budget" => "당신의 예산",
+    "budget" => "예산",
+    "budget_used" => "예산 사용",
+    "over_budget" => "예산 초과",
+    "your_subscriptions" => "당신의 구독",
+    "your_savings" => "당신의 저축",
     // Subscriptions page
     "subscription" => "구독",
     "no_subscriptions_yet" => "아직 구독을 등록하지 않았습니다.",

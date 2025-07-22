@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Админ",
     "about" => "О апликацији",
     "logout" => "Одјава",
+    // Dashboard
+    "hello" => "Здраво",
+    "upcoming_payments" => "Предстојећа плаћања",
+    "no_upcoming_payments" => "Немате предстојећих плаћања",
+    "overdue_renewals" => "Засадне обнове",
+    "your_budget" => "Ваш буџет",
+    "budget" => "Буџет",
+    "budget_used" => "Искоришћен буџет",
+    "over_budget" => "Прекорачен буџет",
+    "your_subscriptions" => "Ваше претплате",
+    "your_savings" => "Ваша уштеда",
     // Страница са претплатама
     "subscription" => "Претплата",
     "no_subscriptions_yet" => "Још увек немате ниједну претплату",

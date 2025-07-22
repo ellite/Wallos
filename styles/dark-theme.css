@@ -29,7 +29,8 @@ svg .text-color {
 .filtermenu-content,
 .subscription-main .actions,
 .calendar,
-.totp-popup {
+.totp-popup,
+.dashboard-subscriptions-list>.subscription-item  {
     background-color: #222;
     border: 1px solid #333;
     box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);

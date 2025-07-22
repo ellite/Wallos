@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Admin",
     "about" => "Tentang",
     "logout" => "Keluar",
+    // Dashboard
+    "hello" => "Halo",
+    "upcoming_payments" => "Pembayaran Mendatang",
+    "no_upcoming_payments" => "Anda tidak memiliki pembayaran mendatang",
+    "overdue_renewals" => "Perpanjangan Terlambat",
+    "your_budget" => "Anggaran Anda",
+    "budget" => "Anggaran",
+    "budget_used" => "Anggaran Digunakan",
+    "over_budget" => "Di Atas Anggaran",
+    "your_subscriptions" => "Langganan Anda",
+    "your_savings" => "Tabungan Anda",
     // Subscriptions page
     "subscription" => "Langganan",
     "no_subscriptions_yet" => "Anda belum memiliki langganan",

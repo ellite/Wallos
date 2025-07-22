@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "管理者",
     "about" => "About",
     "logout" => "ログアウト",
+    // Dashboard
+    "hello" => "こんにちは",
+    "upcoming_payments" => "今後の支払い",
+    "no_upcoming_payments" => "今後の支払いはありません",
+    "overdue_renewals" => "期限切れの更新",
+    "your_budget" => "あなたの予算",
+    "budget" => "予算",
+    "budget_used" => "予算の使用",
+    "over_budget" => "予算オーバー",
+    "your_subscriptions" => "あなたの定期購入",
+    "your_savings" => "あなたの貯蓄",
     // Subscriptions page
     "subscription" => "定期購入",
     "no_subscriptions_yet" => "まだ定期購入がありません",

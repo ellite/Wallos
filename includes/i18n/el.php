@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Διαχείριση",
     "about" => "Για εμάς",
     "logout" => "Αποσύνδεση",
+    // Dashboard
+    "hello" => "Γειά σου",
+    "upcoming_payments" => "Επερχόμενες Πληρωμές",
+    "no_upcoming_payments" => "Δεν έχετε καμία επερχόμενη πληρωμή",
+    "overdue_renewals" => "Καθυστερημένες Ανανεώσεις",
+    "your_budget" => "Ο Προϋπολογισμός σας",
+    "budget" => "Προϋπολογισμός",
+    "budget_used" => "Προϋπολογισμός Χρησιμοποιημένος",
+    "over_budget" => "Πάνω από τον Προϋπολογισμό",
+    "your_subscriptions" => "Οι Συνδρομές σας",
+    "your_savings" => "Οι Εξοικονομήσεις σας",
     // Subscriptions page
     "subscription" => "Συνδρομή",
     "no_subscriptions_yet" => "Δεν υπάρχουν καταχωρημένες συνδρομές",

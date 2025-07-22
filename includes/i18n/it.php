@@ -44,10 +44,22 @@ $i18n = [
     "about" => 'Informazioni',
     "logout" => 'Esci',
 
+    // Dashboard
+    "hello" => "Ciao",
+    "upcoming_payments" => "Pagamenti in arrivo",
+    "no_upcoming_payments" => "Non hai pagamenti in arrivo",
+    "overdue_renewals" => "Rinnovi scaduti",
+    "your_budget" => "Il tuo budget",
+    "budget" => "Budget",
+    "budget_used" => "Budget Utilizzato",
+    "over_budget" => "Sopra il Budget",
+    "your_subscriptions" => "I tuoi Abbonamenti",
+    "your_savings" => "I tuoi Risparmi",
+
     // Subscriptions
     "subscription" => 'Abbonamento',
     "no_subscriptions_yet" => 'Non hai ancora nessun abbonamento',
-    "add_first_subscription" => 'Aggiungo il tuo primo abbonamento',
+    "add_first_subscription" => 'Aggiungi il tuo primo abbonamento',
     "new_subscription" => 'Nuovo abbonamento',
     "search" => 'Cerca',
     "state" => "Stato",

@@ -2848,8 +2848,8 @@ input[type="radio"]:checked+label::after {
 }
 
 .button.autofill-next-payment {
-    padding: 15px 15px !important;
-    margin-top: 22px;
+  padding: 15px 15px !important;
+  margin-top: 22px;
 }
 
 .autofill-next-payment {
@@ -2870,4 +2870,87 @@ input[type="radio"]:checked+label::after {
   .autofill-next-payment.hideOnDesktop {
     display: block;
   }
+}
+
+.dashboard h1 {
+  margin: 0px;
+}
+
+
+.dashboard-subscriptions-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  padding-bottom: 10px;
+}
+
+.dashboard-subscriptions-list {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  min-width: fit-content;
+  /* prevent collapsing */
+}
+
+.dashboard-subscriptions-list>.subscription-item {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 155px;
+  height: 145px;
+  flex: 0 0 auto;
+  /* prevent flex resizing */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dashboard-subscriptions-list>.subscription-item.thin {
+  height: 115px;
+}
+
+.dashboard-subscriptions-list>.subscription-item .subscription-item-title {
+  font-size: 19px;
+  font-weight: 500;
+  margin: 0px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* maximum number of lines */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-subscriptions-list>.subscription-item.thin .subscription-item-title {
+  font-size: 16px;
+}
+
+.dashboard-subscriptions-list>.subscription-item .subscription-item-logo {
+  max-width: 100%;
+  height: 42px;
+  object-fit: contain;
+}
+
+.dashboard-subscriptions-list>.subscription-item .subscription-item-date {
+  font-size: 16px;
+  margin: 0px;
+}
+
+.dashboard-subscriptions-list>.subscription-item .subscription-item-price {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.dashboard-subscriptions-list>.subscription-item .subscription-item-value {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0px;
+}
+
+.dashboard-subscriptions-list>.subscription-item.thin .subscription-item-value {
+  font-size: 20px;;
 }

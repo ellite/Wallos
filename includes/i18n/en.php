@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Admin",
     "about" => "About",
     "logout" => "Logout",
+    // Dashboard
+    "hello" => "Hello",
+    "upcoming_payments" => "Upcoming Payments",
+    "no_upcoming_payments" => "You don't have any upcoming payments",
+    "overdue_renewals" => "Overdue Renewals",
+    "your_budget" => "Your Budget",
+    "budget" => "Budget",
+    "budget_used" => "Budget Used",
+    "over_budget" => "Over Budget",
+    "your_subscriptions" => "Your Subscriptions",
+    "your_savings" => "Your Savings",
     // Subscriptions page
     "subscription" => "Subscription",
     "no_subscriptions_yet" => "You don't have any subscriptions yet",

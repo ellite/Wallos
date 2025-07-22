@@ -40,6 +40,17 @@ $i18n = [
     "admin" => "Administrace",
     "about" => "O aplikaci",
     "logout" => "Odhlásit se",
+    // Dashboard
+    "hello" => "Ahoj",
+    "upcoming_payments" => "Plánované platby",
+    "no_upcoming_payments" => "Žádné plánované platby",
+    "overdue_renewals" => "Zpožděná obnovení",
+    "your_budget" => "Váš rozpočet",
+    "budget" => "Rozpočet",
+    "budget_used" => "Využití rozpočtu",
+    "over_budget" => "Překročení rozpočtu",
+    "your_subscriptions" => "Vaše předplatná",
+    "your_savings" => "Vaše úspory",
     // Subscriptions page
     "subscription" => "Předplatné",
     "no_subscriptions_yet" => "Zatím nemáte žádná předplatná",
