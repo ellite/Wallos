@@ -166,9 +166,6 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
             <span id="user" class="mobileNavigationHideOnMobile"><?= $userData['username'] ?></span>
           </button>
           <div class="dropdown-content">
-            <a href="profile.php">
-              <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
-              <?= translate('profile', $i18n) ?></a>
             <a href="." class="mobileNavigationHideOnMobile">
               <?php include "images/siteicons/svg/mobile-menu/home.php"; ?>
               <?= translate('dashboard', $i18n) ?></a>
@@ -184,6 +181,9 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
             <a href="settings.php" class="mobileNavigationHideOnMobile">
               <?php include "images/siteicons/svg/mobile-menu/settings.php"; ?>
               <?= translate('settings', $i18n) ?></a>
+            <a href="profile.php">
+              <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
+              <?= translate('profile', $i18n) ?></a>  
             <?php if ($isAdmin): ?>
               <a href="admin.php">
                 <?php include "images/siteicons/svg/mobile-menu/admin.php"; ?>
