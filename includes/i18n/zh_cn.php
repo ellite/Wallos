@@ -36,12 +36,25 @@ $i18n = [
 
     // 页眉
     "profile" => "个人资料",
+    "dashboard" => "仪表盘",
     "subscriptions" => "订阅",
     "stats" => "统计",
     "settings" => "设置",
     "admin" => "管理员",
     "about" => "关于",
     "logout" => "登出",
+
+    // Dashboard
+    "hello" => "你好",
+    "upcoming_payments" => "即将到期的付款",
+    "no_upcoming_payments" => "您没有任何即将到期的付款",
+    "overdue_renewals" => "逾期续订",
+    "your_budget" => "您的预算",
+    "budget" => "预算",
+    "budget_used" => "预算已使用",
+    "over_budget" => "超出预算",
+    "your_subscriptions" => "您的订阅",
+    "your_savings" => "您的储蓄",
 
     // 订阅页面
     "subscription" => "订阅",
