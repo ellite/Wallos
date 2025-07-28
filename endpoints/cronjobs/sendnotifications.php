@@ -41,9 +41,9 @@ function formatPrice($price, $currencyCode, $currencySymbol)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
 
-    if (strstr($formattedPrice, $currencyCode)) {
-        $formattedPrice = str_replace($currencyCode, $currencySymbol, $formattedPrice);
-        $formattedPrice = substr_replace($formattedPrice, "", 3, 1);
+    if (strpos($formattedPrice, $currencyCode) !== false) {
+        $formattedPrice = str_replace($currencyCode, $currencySymbol . ' ', $formattedPrice);
+        $formattedPrice = preg_replace('/\s+/', ' ', $formattedPrice);
     }
 
     return $formattedPrice;
