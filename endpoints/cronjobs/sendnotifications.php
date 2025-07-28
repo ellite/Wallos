@@ -42,8 +42,8 @@ function formatPrice($price, $currencyCode, $currencySymbol)
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
 
     if (strpos($formattedPrice, $currencyCode) !== false) {
-        $formattedPrice = str_replace($currencyCode, $currencySymbol, $formattedPrice);
-        $formattedPrice = preg_replace('/\s+/', '', $formattedPrice);
+        $formattedPrice = str_replace($currencyCode, $currencySymbol . ' ', $formattedPrice);
+        $formattedPrice = preg_replace('/\s+/', ' ', $formattedPrice);
     }
 
     return $formattedPrice;
