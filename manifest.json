@@ -1,87 +1,126 @@
 {
-    "short_name": "Wallos",
-    "name": "Wallos - Subscription Tracker",
-    "icons": [
+  "short_name": "Wallos",
+  "name": "Wallos - Subscription Tracker",
+  "icons": [
+    {
+      "src": "images/icon/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "images/icon/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "images/icon/maskable_icon_x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/icon/maskable_icon_x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "id": "com.wallos.app",
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your dashboard",
+      "url": "index.php",
+      "icons": [
         {
-            "src": "images/icon/android-chrome-192x192.png",
-            "type": "image/png",
-            "sizes": "192x192"
-        },
-        {
-            "src": "images/icon/android-chrome-512x512.png",
-            "type": "image/png",
-            "sizes": "512x512"
-        },
-        {
-            "src": "images/icon/maskable_icon_x192.png",
-            "type": "image/png",
-            "sizes": "192x192",
-            "purpose": "maskable"
-        },
-        {
-            "src": "images/icon/maskable_icon_x512.png",
-            "type": "image/png",
-            "sizes": "512x512",
-            "purpose": "maskable"
+          "src": "images/siteicons/pwa/dashboard.png",
+          "sizes": "96x96"
         }
-    ],
-    "start_url": "/",   
-    "id": "com.wallos.app",
-    "shortcuts": [
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "short_name": "Subscriptions",
+      "description": "View your subscriptions",
+      "url": "subscriptions.php",
+      "icons": [
         {
-          "name": "Subscriptions",
-          "short_name": "Subscriptions",
-          "description": "View your subscriptions",
-          "url": "index.php",
-          "icons": [{ "src": "images/siteicons/pwa/subscriptions.png", "sizes": "96x96" }]
-        },
-        {
-          "name": "Calendar",
-          "short_name": "Calendar",
-          "description": "View your calendar",
-          "url": "calendar.php",
-          "icons": [{ "src": "images/siteicons/pwa/calendar.png", "sizes": "96x96" }]
-        },
-        {
-          "name": "Stats",
-          "short_name": "Stats",
-          "description": "View your statistics",
-          "url": "stats.php",
-          "icons": [{ "src": "images/siteicons/pwa/stats.png", "sizes": "96x96" }]
-        },
-        {
-          "name": "Settings",
-          "short_name": "Settings",
-          "description": "Change your settings",
-          "url": "settings.php",
-          "icons": [{ "src": "images/siteicons/pwa/settings.png", "sizes": "96x96" }]
-        },
-        {
-          "name": "About",
-          "short_name": "About",
-          "description": "More info about Wallos",
-          "url": "about.php",
-          "icons": [{ "src": "images/siteicons/pwa/about.png", "sizes": "96x96" }]
+          "src": "images/siteicons/pwa/subscriptions.png",
+          "sizes": "96x96"
         }
-    ],
-    "screenshots": [
+      ]
+    },
+    {
+      "name": "Calendar",
+      "short_name": "Calendar",
+      "description": "View your calendar",
+      "url": "calendar.php",
+      "icons": [
         {
-          "src": "images/screenshots/desktop.png",
-          "sizes": "1000x750",
-          "type": "image/png",
-          "form_factor": "wide"
-        },
-        {
-          "src": "images/screenshots/mobile.png",
-          "sizes": "600x1000",
-          "type": "image/png"
+          "src": "images/siteicons/pwa/calendar.png",
+          "sizes": "96x96"
         }
-    ],
-    "background_color": "#FFFFFF",
-    "display": "standalone",
-    "scope": "/",
-    "theme_color": "#FFFFFF",
-    "description": "Wallos is a personal subscription tracker that helps you keep track of your subscriptions and save money.",
-    "orientation": "portrait-primary",
-    "display_override": ["window-controls-overlay"]
+      ]
+    },
+    {
+      "name": "Stats",
+      "short_name": "Stats",
+      "description": "View your statistics",
+      "url": "stats.php",
+      "icons": [
+        {
+          "src": "images/siteicons/pwa/stats.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Settings",
+      "short_name": "Settings",
+      "description": "Change your settings",
+      "url": "settings.php",
+      "icons": [
+        {
+          "src": "images/siteicons/pwa/settings.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "More info about Wallos",
+      "url": "about.php",
+      "icons": [
+        {
+          "src": "images/siteicons/pwa/about.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "images/screenshots/desktop.png",
+      "sizes": "1000x750",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "images/screenshots/mobile.png",
+      "sizes": "600x1000",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#FFFFFF",
+  "description": "Wallos is a personal subscription tracker that helps you keep track of your subscriptions and save money.",
+  "orientation": "portrait-primary",
+  "display_override": [
+    "window-controls-overlay"
+  ]
 }
