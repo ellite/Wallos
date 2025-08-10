@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "Pengaturan OIDC",
     "oidc_oauth_enabled" => "Aktifkan OIDC/OAuth",
     "create_user_automatically" => "Buat pengguna secara otomatis",
+    "disable_password_login" => "Nonaktifkan masuk dengan kata sandi",
     "smtp_settings" => "Pengaturan SMTP",
     "smtp_usage_info" => "Akan digunakan untuk pemulihan kata sandi dan email sistem lainnya.",
     "maintenance_tasks" => "Tugas Pemeliharaan",

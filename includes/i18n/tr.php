@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "OpenID Connect Ayarları",
     "oidc_auth_enabled" => "OpenID Connect Kimlik Doğrulaması Etkinleştirildi",
     "create_user_automatically" => "OpenID Connect ile giriş yapıldığında kullanıcı otomatik olarak oluşturulsun",
+    "disable_password_login" => "Parola ile giriş devre dışı bırakılsın",
     "smtp_settings" => "SMTP Ayarları",
     "smtp_usage_info" => "Şifre kurtarma ve diğer sistem e-postaları için kullanılacaktır.",
     "maintenance_tasks" => "Bakım Görevleri",

@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "OIDC подешавања",
     "oidc_auth_enabled" => "OIDC аутентификација је омогућена",
     "create_user_automatically" => "Креирај корисника аутоматски",
+    "disable_password_login" => "Онемогући пријаву лозинком",
     "smtp_settings" => "SMTP подешавања",
     "smtp_usage_info" => "SMTP се користи за слање е-поште за обавештења.",
     "maintenance_tasks" => "Одржавање",

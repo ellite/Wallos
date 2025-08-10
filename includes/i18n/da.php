@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "OIDC-indstillinger",
     "oidc_oauth_enabled" => "Aktivér OIDC/OAuth",
     "create_user_automatically" => "Opret bruger automatisk",
+    "disable_password_login" => "Deaktivér adgangskode-login",
     "smtp_settings" => "SMTP-indstillinger",
     "smtp_usage_info" => "Vil blive brugt til adgangskodenulstilling og andre systemmails.",
     // Maintenance Tasks

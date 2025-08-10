@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "Налаштування OIDC",
     "oidc_auth_enabled" => "Увімкнути OIDC автентифікацію",
     "create_user_automatically" => "Автоматично створювати користувача при вході",
+    "disable_password_login" => "Відключити вхід за паролем",
     "smtp_usage_info" => "Буде використовуватися для відновлення пароля та інших системних листів.",
     "maintenance_tasks" => "Завдання обслуговування",
     "orphaned_logos" => "Втрачений логотип",

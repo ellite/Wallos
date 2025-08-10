@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "Cài đặt OIDC",
     "oidc_auth_enabled" => "Xác thực OIDC đã được bật",
     "create_user_automatically" => "Tạo người dùng tự động",
+    "disable_password_login" => "Vô hiệu hóa đăng nhập bằng mật khẩu",
     "smtp_settings" => "Cài đặt SMTP",
     "smtp_usage_info" => "Sẽ được sử dụng cho việc khôi phục mật khẩu và các email hệ thống khác.",
     "maintenance_tasks" => "Nhiệm vụ bảo trì",

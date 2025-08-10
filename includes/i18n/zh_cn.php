@@ -382,6 +382,7 @@ $i18n = [
     "oidc_settings" => "OIDC 设置",
     "oidc_auth_enabled" => "启用 OIDC 身份验证",
     "create_user_automatically" => "当使用 OIDC 登录时自动创建用户",
+    "disable_password_login" => "禁用密码登录",
     "smtp_settings" => "SMTP 设置",
     "smtp_usage_info" => "将用于密码恢复和其他系统电子邮件。",
     "maintenance_tasks" => "维护任务",

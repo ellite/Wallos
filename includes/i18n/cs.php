@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "Nastavení OIDC",
     "oidc_oauth_enabled" => "Povolit OIDC/OAuth",
     "create_user_automatically" => "Automaticky vytvořit uživatele",
+    "disable_password_login" => "Zakázat přihlašování pomocí hesla",
     "smtp_settings" => "Nastavení SMTP",
     "smtp_usage_info" => "Bude použito pro obnovení hesla a další systémové e-maily.",
     "maintenance_tasks" => "Úkoly údržby",

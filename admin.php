@@ -30,7 +30,8 @@ if ($oidcSettings === false) {
         'user_identifier_field' => 'sub',
         'scopes' => 'openid email profile',
         'auth_style' => 'auto',
-        'auto_create_user' => 0
+        'auto_create_user' => 0,
+        'password_login_disabled' => 0
     ];
 }
 
@@ -256,6 +257,12 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             <div class="form-group-inline">
                 <input type="checkbox" id="oidcAutoCreateUser" <?= $oidcSettings['auto_create_user'] ? 'checked' : '' ?> />
                 <label for="oidcAutoCreateUser"><?= translate('create_user_automatically', $i18n) ?></label>
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="oidcPasswordLoginDisabled"
+                    <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?>
+                    <?= $loginDisabledAllowed ? '' : 'disabled' ?> />
+                <label for="oidcPasswordLoginDisabled"><?= translate('disable_password_login', $i18n) ?></label>
             </div>
             <div class="buttons">
                 <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"

@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "OIDC 설정",
     "oidc_auth_enabled" => "OIDC 인증 활성화",
     "create_user_automatically" => "사용자 자동 생성",
+    "disable_password_login" => "비밀번호 로그인 비활성화",
     "smtp_settings" => "SMTP 설정",
     "smtp_usage_info" => "비밀번호 복구 및 기타 시스템 이메일에 사용됩니다.",
     "maintenance_tasks" => "유지보수 작업",

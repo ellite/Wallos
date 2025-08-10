@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "Ρυθμίσεις OIDC",
     "oidc_oauth_enabled" => "Ενεργοποίηση OIDC/OAuth",
     "create_user_automatically" => "Δημιουργία χρήστη αυτόματα",
+    "disable_password_login" => "Απενεργοποίηση σύνδεσης με κωδικό πρόσβασης",
     "smtp_settings" => "SMTP ρυθμίσεις",
     "smtp_usage_info" => "Θα χρησιμοποιηθεί για ανάκτηση κωδικού πρόσβασης και άλλα μηνύματα ηλεκτρονικού ταχυδρομείου συστήματος.",
     "maintenance_tasks" => "Εργασίες συντήρησης",

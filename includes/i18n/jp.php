@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "OIDC設定",
     "oidc_auth_enabled" => "OIDC認証を有効にする",
     "create_user_automatically" => "OIDCユーザーを自動的に作成する",
+    "disable_password_login" => "パスワードログインを無効にする",
     "smtp_settings" => "SMTP設定",
     "smtp_usage_info" => "パスワードの回復やその他のシステム電子メールに使用されます。",
     "maintenance_tasks" => "メンテナンスタスク",

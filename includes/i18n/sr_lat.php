@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "OIDC podešavanja",
     "oidc_auth_enabled" => "Omogući OIDC autentifikaciju",
     "create_user_automatically" => "Kreiraj korisnika automatski",
+    "disable_password_login" => "Onemoguči prijavu z geslom",
     "smtp_settings" => "SMTP podešavanja",
     "smtp_usage_info" => "Koristiće se za oporavak lozinke i druge sistemske e-poruke.",
     "maintenance_tasks" => "Održavanje",

@@ -363,6 +363,7 @@ $i18n = [
     "oidc_settings" => "Configuración OIDC",
     "oidc_oauth_enabled" => "Habilitar OIDC/OAuth",
     "create_user_automatically" => "Crear usuario automáticamente",
+    "disable_password_login" => "Deshabilitar inicio de sesión con contraseña",
     "smtp_settings" => "Configuración SMTP",
     "smtp_usage_info" => "Se utilizará para recuperar contraseñas y otros correos electrónicos del sistema.",
     "maintenance_tasks" => "Tareas de Mantenimiento",

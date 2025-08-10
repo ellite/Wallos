@@ -364,6 +364,7 @@ $i18n = [
     "oidc_settings" => "OIDC-instellingen",
     "oidc_oauth_enabled" => "OIDC/OAuth inschakelen",
     "create_user_automatically" => "Gebruiker automatisch aanmaken",
+    "disable_password_login" => "Wachtwoordlogin uitschakelen",
     "smtp_settings" => "SMTP-instellingen",
     "smtp_usage_info" => "Wordt gebruikt voor wachtwoordherstel en andere systeem e-mails.",
     "maintenance_tasks" => "Onderhoudstaken",
