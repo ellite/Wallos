@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Kommende betalinger",
     "no_upcoming_payments" => "Du har ingen kommende betalinger",
     "overdue_renewals" => "Forsinkede fornyelser",
+    "ai_recommendations" => "Denne AI anbefaling",
     "your_budget" => "Dit budget",
     "budget" => "Budget",
     "budget_used" => "Budget brugt",

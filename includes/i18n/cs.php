@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Plánované platby",
     "no_upcoming_payments" => "Žádné plánované platby",
     "overdue_renewals" => "Zpožděná obnovení",
+    "ai_recommendations" => "Doporučení AI",
     "your_budget" => "Váš rozpočet",
     "budget" => "Rozpočet",
     "budget_used" => "Využití rozpočtu",

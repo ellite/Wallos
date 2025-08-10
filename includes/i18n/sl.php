@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Prihajajoča plačila",
     "no_upcoming_payments" => "Nimate prihodnjih plačil",
     "overdue_renewals" => "Zapadla podaljšanja",
+    "ai_recommendations" => "Priporočila AI",
     "your_budget" => "Vaš proračun",
     "budget" => "Proračun",
     "budget_used" => "Porabljen proračun",

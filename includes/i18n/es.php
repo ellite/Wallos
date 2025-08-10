@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Próximos Pagos",
     "no_upcoming_payments" => "No tienes pagos próximos",
     "overdue_renewals" => "Renovaciones Atrasadas",
+    "ai_recommendations" => "Recomendaciones de IA",
     "your_budget" => "Tu Presupuesto",
     "budget" => "Presupuesto",
     "budget_used" => "Presupuesto Utilizado",

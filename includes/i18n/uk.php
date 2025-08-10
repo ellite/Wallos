@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Предстоять платежі",
     "no_upcoming_payments" => "У вас немає предстоять платежів",
     "overdue_renewals" => "Прострочені поновлення",
+    "ai_recommendations" => "AI рекомендації",
     "your_budget" => "Ваш бюджет",
     "budget" => "Бюджет",
     "budget_used" => "Використаний бюджет",

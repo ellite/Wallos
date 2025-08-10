@@ -93,6 +93,15 @@ $hasOverdueSubscriptions = !empty($overdueSubscriptions);
 
 require_once 'includes/stats_calculations.php';
 
+// Get AI Recommendations for user
+$stmt = $db->prepare("SELECT * FROM ai_recommendations WHERE user_id = :userId");
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$aiRecommendations = [];
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $aiRecommendations[] = $row;
+}
+
 ?>
 
 <section class="contain dashboard">
@@ -191,6 +200,33 @@ require_once 'includes/stats_calculations.php';
                 ?>
             </div>
         </div>
+
+        <?php if (!empty($aiRecommendations)) { ?>
+            <div class="ai-recommendations">
+                <h2><?= translate('ai_recommendations', $i18n) ?></h2>
+                <div class="ai-recommendations-container">
+                    <ul class="ai-recommendations-list">
+                        <?php
+
+                        foreach ($aiRecommendations as $key => $recommendation) { ?>
+                            <li class="ai-recommendation-item">
+                                <div class="ai-recommendation-header">
+                                    <h3>
+                                        <span><?= ($key + 1) . ". " ?></span>
+                                        <?= htmlspecialchars($recommendation['title']) ?>
+                                    </h3>
+                                    <span class="item-arrow-down fa fa-caret-down"></span>
+                                </div>
+                                
+                                <p class="collapsible"><?= htmlspecialchars($recommendation['description']) ?></p>
+                                <p><?= htmlspecialchars($recommendation['savings']) ?></p>
+                            </li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+
+        <?php } ?>
 
         <?php if (isset($amountDueThisMonth) || isset($budget) || isset($budgetUsed) || isset($budgetLeft) || isset($overBudgetAmount)) { ?>
             <div class="budget-subscriptions">

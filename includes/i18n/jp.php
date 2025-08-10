@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "今後の支払い",
     "no_upcoming_payments" => "今後の支払いはありません",
     "overdue_renewals" => "期限切れの更新",
+    "ai_recommendations" => "AIによる推奨",
     "your_budget" => "あなたの予算",
     "budget" => "予算",
     "budget_used" => "予算の使用",

@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "예정된 결제",
     "no_upcoming_payments" => "예정된 결제가 없습니다.",
     "overdue_renewals" => "연체 갱신",
+    "ai_recommendations" => "AI 추천",
     "your_budget" => "당신의 예산",
     "budget" => "예산",
     "budget_used" => "예산 사용",

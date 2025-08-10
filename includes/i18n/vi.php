@@ -45,6 +45,7 @@ $i18n = [
     "upcoming_payments" => "Các khoản thanh toán sắp tới",
     "no_upcoming_payments" => "Bạn không có khoản thanh toán nào sắp tới",
     "overdue_renewals" => "Gia hạn quá hạn",
+    "ai_recommendations" => "Khuyến nghị AI",
     "your_budget" => "Ngân sách của bạn",
     "budget" => "Ngân sách",
     "budget_used" => "Ngân sách đã sử dụng",

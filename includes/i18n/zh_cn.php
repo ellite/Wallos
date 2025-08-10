@@ -49,6 +49,7 @@ $i18n = [
     "upcoming_payments" => "即将到期的付款",
     "no_upcoming_payments" => "您没有任何即将到期的付款",
     "overdue_renewals" => "逾期续订",
+    "ai_recommendations" => "AI 推荐",
     "your_budget" => "您的预算",
     "budget" => "预算",
     "budget_used" => "预算已使用",

@@ -2954,3 +2954,77 @@ input[type="radio"]:checked+label::after {
 .dashboard-subscriptions-list>.subscription-item.thin .subscription-item-value {
   font-size: 20px;;
 }
+
+.ai-recommendations-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ai-recommendations-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ai-recommendation-item {
+  background-color: #FFFFFF;
+  border: 1px solid #EEEEEE;
+  border-radius: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 18px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.ai-recommendation-item .ai-recommendation-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0px;
+  line-height: 1.2;
+}
+
+.ai-recommendation-item .ai-recommendation-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ai-recommendation-item .ai-recommendation-header .item-arrow-down {
+  color: var(--main-color);
+}
+
+.ai-recommendation-item.expanded .ai-recommendation-header .item-arrow-down {
+  transform: rotate(180deg);
+}
+
+.ai-recommendation-item .ai-recommendation-header h3 > span {
+  color: var(--main-color);
+}
+
+.ai-recommendation-item p {
+  display: none;
+  font-size: 15px;
+  margin: 0 0 4px 0;
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+.ai-recommendation-item.expanded p {
+  display: block;
+}
+
+.ai-recommendation-item p:last-child {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
