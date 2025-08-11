@@ -1,14 +1,36 @@
 :root {
-    --main-color: #007bff;
+    --main-color: #007BFF;
     --main-color-rgb: 0, 123, 255;
-    --accent-color: #8fbffa;
+    --accent-color: #8FBFFA;
     --accent-color-rgb: 143, 191, 250;
-    --hover-color: #0056b3;
+    --hover-color: #0056B3;
     --hover-color-rgb: 0, 86, 179;
-    --error-color: #f45a40;
+    --error-color: #F45A40;
     --error-color-rgb: 244, 90, 64;
     --success-color: #188823;
     --success-color-rgb: 24, 136, 35;
+    --background-color: #F5F5F5;
+    --background-color-rgb: 245, 245, 245;
+    --header-background-color: #FFFFFF;
+    --header-background-color-rgb: 255, 255, 255;
+    --box-background-color: #FFFFFF;
+    --box-background-color-rgb: 255, 255, 255;
+    --box-border-color: #EEEEEE;
+    --box-border-color-rgb: 238, 238, 238;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --text-color: #202020;
+    --text-color-rgb: 32, 32, 32;
+    --text-color-inverted: #FFFFFF;
+    --text-color-inverted-rgb: 255, 255, 255;
+    --input-background-color: #FFFFFF;
+    --input-background-color-rgb: 255, 255, 255;
+    --input-border-color: #CCCCCC;
+    --input-border-color-rgb: 204, 204, 204;
+    --input-disabled-background-color: #F5F5F5;
+    --input-disabled-background-color-rgb: 245, 245, 245;
+    --input-disabled-border-color: #F5F5F5;
+    --input-disabled-border-color-rgb: 245, 245, 245;
+    --negative-box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 svg .main-color {

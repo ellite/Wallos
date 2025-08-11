@@ -6,8 +6,8 @@ body {
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f5f5f5;
-  color: #202020;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 body.no-scroll {
@@ -97,7 +97,7 @@ h3 {
 
 body>header {
   border-bottom: 7px solid var(--main-color);
-  background-color: white;
+  background-color: var(--header-background-color);
 }
 
 body>header>.contain {
@@ -145,7 +145,7 @@ header .logo .logo-image svg {
   align-items: center;
   gap: 8px;
   background-color: transparent;
-  color: #202020;
+  color: var(--text-color);
   padding: 7px 12px;
   font-size: 16px;
   border: none;
@@ -165,10 +165,10 @@ header .logo .logo-image svg {
   display: none;
   position: absolute;
   right: 0px;
-  background-color: #fff;
-  border: 1px solid #eee;
+  background-color: var(--header-background-color);
+  border: 1px solid var(--box-border-color);
   min-width: 130px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   z-index: 5;
   width: max-content;
   border-top: none;
@@ -176,7 +176,7 @@ header .logo .logo-image svg {
 }
 
 .dropdown-content a {
-  color: black;
+  color: var(--text-color);
   padding: 14px 18px;
   text-decoration: none;
   display: flex;
@@ -345,10 +345,9 @@ button:hover svg .main-color {
 
 .subscription-container {
   position: relative;
-  background-color: #FFFFFF;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--box-background-color);
+  box-shadow: var(--box-shadow);
   border-radius: 16px;
-  background-color: #FFFFFF;
 }
 
 .subscription-container>.mobile-actions {
@@ -405,8 +404,8 @@ button.mobile-action-renew {
   height: auto;
   justify-content: flex-start;
   gap: 12px;
-  background-color: #FFFFFF;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: var(--box-background-color);
+  box-shadow: var(--box-shadow);
   padding: 12px 15px;
   border-radius: 16px;
   cursor: pointer;
@@ -437,7 +436,7 @@ button.mobile-action-renew {
 }
 
 .subscription.inactive {
-  background-color: #FFF;
+  background-color: var(--box-background-color);
   color: rgba(100, 100, 100, 0.6);
   box-shadow: 0 2px 5px rgba(100, 100, 100, 0.1);
 }
@@ -479,10 +478,10 @@ button.mobile-action-renew {
   top: 60px;
   z-index: 2;
   flex-direction: column;
-  color: #202020;
-  background-color: #FFFFFF;
-  border: 1px solid #eee;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
+  box-shadow: var(--box-shadow);
   border-radius: 16px;
   padding: 0px;
   margin: 0px;
@@ -504,7 +503,7 @@ button.mobile-action-renew {
   padding: 14px 35px 14px 18px;
   gap: 12px;
   cursor: pointer;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--box-border-color);
 }
 
 .rtl .subscription-main .actions>li {
@@ -752,10 +751,10 @@ button.mobile-action-renew {
 }
 
 .account-section {
-  background-color: #FFFFFF;
-  border: 1px solid #eee;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   border-radius: 16px;
 }
 
@@ -860,14 +859,14 @@ header #avatar {
 
 .avatar-select {
   display: none;
-  background-color: white;
-  border: 1px solid #eee;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   position: absolute;
   padding: 20px;
   box-sizing: border-box;
   width: 336px;
   max-width: 100%;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   z-index: 3;
 }
 
@@ -936,7 +935,7 @@ header #avatar {
   position: absolute;
   top: -4px;
   right: -11px;
-  background-color: #FFF;
+  background-color: var(--box-background-color);
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -1123,7 +1122,7 @@ header #avatar {
 .payments-list .payments-payment .delete-payment-method {
   padding: 5px;
   font-weight: bold;
-  color: #202020;
+  color: var(--text-color);
 }
 
 .credits-list {
@@ -1302,11 +1301,11 @@ select {
   padding: 0px 15px;
   height: 50px;
   font-size: 16px;
-  background-color: #FFFFFF;
-  border: 1px solid #ccc;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   outline: none;
-  color: #202020;
+  color: var(--text-color);
   box-sizing: border-box;
 }
 
@@ -1361,7 +1360,7 @@ button.button {
   padding: 15px 30px;
   font-size: 16px;
   background-color: var(--main-color);
-  color: #fff;
+  color: var(--text-color-inverted);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -1423,8 +1422,8 @@ input[type="checkbox"] {
   height: 25px;
   padding: 0px;
   margin: 0px;
-  background-color: #fff;
-  border: 1px solid #ccc;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   display: grid;
   place-content: center;
@@ -1437,18 +1436,18 @@ button.disabled {
 input[type="text"]:disabled,
 input[type="password"]:disabled,
 input[type="email"]:disabled {
-  background-color: #f5f5f5;
-  border-color: #f5f5f5;
+  background-color: var(--input-disabled-background-color);
+  border-color: var(--input-disabled-border-color);
   cursor: not-allowed;
 }
 
 textarea {
   font-size: 16px;
-  background-color: #FFFFFF;
-  border: 1px solid #ccc;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   padding: 5px 14px;
-  color: #202020;
+  color: var(--text-color);
   width: 100%;
   height: 245px;
 }
@@ -1483,10 +1482,10 @@ textarea.thin {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 10px;
-  border: 1px solid #EEEEEE;
+  border: 1px solid var(--box-border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  box-shadow: var(--box-shadow);
+  background-color: var(--box-background-color);
   box-sizing: border-box;
   z-index: 1;
   display: none;
@@ -1557,7 +1556,7 @@ button.dark-theme-button {
   border-radius: 8px;
   padding: 16px 20px 14px;
   background-color: transparent;
-  color: #202020;
+  color: var(--text-color);
   cursor: pointer;
   flex-grow: 1;
 }
@@ -1596,11 +1595,11 @@ button.dark-theme-button i {
 
 .subscription-form,
 .subscription-modal {
-  background-color: #FFFFFF;
+  background-color: var(--box-background-color);
   padding: 22px;
-  border: 1px solid #EEEEEE;
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   box-sizing: border-box;
   position: fixed;
   left: 50%;
@@ -1736,12 +1735,12 @@ button.dark-theme-button i {
 
 .sort-options {
   position: absolute;
-  color: #202020;
+  color: var(--text-color);
   font-size: 16px;
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(163, 100, 100, 0.1);
   box-sizing: border-box;
   top: 52px;
   right: 0px;
@@ -1824,8 +1823,8 @@ button.dark-theme-button i {
   bottom: 25px;
   right: 30px;
   border-radius: 12px;
-  border: 1px solid #eeeeee;
-  background: #fff;
+  border: 1px solid var(--box-border-color);
+  background-color: var(--box-background-color);
   padding: 20px 35px 20px 25px;
   box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -1954,10 +1953,10 @@ button.dark-theme-button i {
 }
 
 .statistic {
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   padding: 20px 24px 30px;
   display: flex;
   flex-direction: column;
@@ -2021,10 +2020,10 @@ button.dark-theme-button i {
 }
 
 .graph {
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   flex-basis: 48%;
   align-items: center;
   justify-content: center;
@@ -2097,14 +2096,13 @@ button.dark-theme-button i {
 .filtermenu-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
   left: auto;
   right: 0;
   width: 220px;
-  background-color: #fff;
-  border: 1px solid #eee;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   z-index: 3;
   overflow: hidden;
   margin-top: 6px;
@@ -2325,7 +2323,7 @@ button.dark-theme-button i {
   right: -5px;
   border: 1px solid;
   border-radius: 15px;
-  background-color: white;
+  background-color: var(--box-background-color);
   padding: 4px;
 }
 
@@ -2404,10 +2402,10 @@ button.dark-theme-button i {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: var(--box-background-color);
   border-collapse: collapse;
   border-radius: 16px;
-  box-shadow: 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   box-sizing: border-box;
 }
 
@@ -2452,7 +2450,7 @@ button.dark-theme-button i {
   text-align: center;
   box-sizing: border-box;
   min-height: 92px;
-  border-right: 1px solid #EEE;
+  border-right: 1px solid var(--box-border-color);
 }
 
 .calendar .calendar-body .calendar-cell:last-of-type {
@@ -2686,7 +2684,7 @@ input[type="radio"]:checked+label::after {
   border-radius: 12px;
   margin-bottom: 20px;
   text-align: center;
-  color: #222;
+  color: var(--text-color);
 }
 
 .update-banner>span {
@@ -2694,7 +2692,7 @@ input[type="radio"]:checked+label::after {
 }
 
 .update-banner>span>a {
-  color: #222;
+  color: var(--text-color);
   text-decoration: underline;
 }
 
@@ -2715,10 +2713,10 @@ input[type="radio"]:checked+label::after {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   box-sizing: border-box;
   padding: 20px;
   flex-direction: column;
@@ -2806,14 +2804,14 @@ input[type="radio"]:checked+label::after {
     position: fixed;
     bottom: 0px;
     width: 100%;
-    background-color: #FFFFFF;
-    border-top: 1px solid #EEEEEE;
+    background-color: var(--box-background-color);
+    border-top: 1px solid var(--box-border-color);
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     z-index: 2;
     padding: 7px 0px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--negative-box-shadow);
     box-sizing: border-box;
     align-items: center;
   }
@@ -2893,10 +2891,10 @@ input[type="radio"]:checked+label::after {
 }
 
 .dashboard-subscriptions-list>.subscription-item {
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   padding: 20px;
   width: 155px;
   height: 145px;
@@ -2970,10 +2968,10 @@ input[type="radio"]:checked+label::after {
 }
 
 .ai-recommendation-item {
-  background-color: #FFFFFF;
-  border: 1px solid #EEEEEE;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
   border-radius: 16px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--box-shadow);
   padding: 18px 20px;
   width: 100%;
   box-sizing: border-box;
