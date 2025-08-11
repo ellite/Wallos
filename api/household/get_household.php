@@ -39,7 +39,9 @@ header('Content-Type: application/json; charset=UTF-8');
 if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET") {
     // if the parameters are not set, return an error
 
-    if (!isset($_REQUEST['api_key'])) {
+    $apiKey = $_REQUEST['api_key'] ?? $_REQUEST['apiKey'] ?? null;
+
+    if (!$apiKey) {
         $response = [
             "success" => false,
             "title" => "Missing parameters"
@@ -48,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         exit;
     }
 
-    $apiKey = $_REQUEST['api_key'];
 
      // Get user from API key
      $sql = "SELECT * FROM user WHERE api_key = :apiKey";

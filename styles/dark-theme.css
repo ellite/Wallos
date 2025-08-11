@@ -1,42 +1,45 @@
+ :root {   
+    --background-color: #303030;
+    --background-color-rgb: 48, 48, 48;
+    --box-background-color: #222222;
+    --box-background-color-rgb: 34, 34, 34;
+    --box-border-color: #333;
+    --box-border-color-rgb: 51, 51, 51;
+    --header-background-color: #222222;
+    --header-background-color-rgb: 34, 34, 34;
+    --text-color: #E0E0E0;
+    --text-color-rgb: 224, 224, 224;
+    --input-border-color: #666;
+    --input-border-color-rgb: 102, 102, 102;
+    --input-background-color: #555;
+    --input-background-color-rgb: 85, 85, 85;
+    --input-disabled-background-color: #999999;
+    --input-disabled-background-color-rgb: 153, 153, 153;
+    --input-disabled-border-color: #666666;
+    --input-disabled-border-color-rgb: 102, 102, 102;
+    --box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
+    --negative-box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);
+ }
+
 body {
-    background-color: #303030;
-    color: #E0E0E0;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 body>header {
-    background-color: #222;
+    background-color: var(--header-background-color);
 }
 
 svg .text-color {
-    fill: #E0E0E0;
+    fill: var(--text-color);
 }
 
 .split-header>h2 .header-subtitle {
-    color: #A9A9A9;
-}
-
-.subscription,
-.subscription-form,
-.subscription-modal,
-.account-section,
-.avatar-select,
-.logo-search,
-.icon-search,
-.dropdown-content,
-.sort-options,
-.statistic,
-.graph,
-.filtermenu-content,
-.subscription-main .actions,
-.calendar,
-.totp-popup {
-    background-color: #222;
-    border: 1px solid #333;
-    box-shadow: 0 2px 5px rgba(120, 120, 120, 0.1);
+    color: var(--text-color);
 }
 
 .dropbtn {
-    color: #E0E0E0E0;
+    color: #E0E0E0;
 }
 
 .dropdown-content a {
@@ -88,18 +91,6 @@ svg .text-color {
     color: #EEE;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="date"],
-input[type="number"],
-textarea,
-select {
-    background-color: #555;
-    border: 1px solid #666;
-    color: #E0E0E0;
-}
-
 input[type="text"]::placeholder,
 input[type="email"]::placeholder,
 input[type="password"]::placeholder,
@@ -108,18 +99,6 @@ input[type="number"]::placeholder,
 textarea::placeholder,
 select::placeholder {
     color: #BBB;
-}
-
-input[type="text"]:disabled,
-input[type="email"]:disabled,
-input[type="password"]:disabled,
-input[type="date"]:disabled,
-input[type="number"]:disabled,
-textarea:disabled,
-select:disabled {
-    background-color: #999;
-    border-color: #666;
-    cursor: not-allowed;
 }
 
 button.secondary-button,
@@ -161,8 +140,6 @@ input[type="color"] {
 }
 
 .toast {
-    border: 1px solid #333;
-    background: #222;
     box-shadow: 0 6px 20px -5px rgba(255, 255, 255, 0.1);
 }
 
@@ -260,12 +237,6 @@ input {
 }
 
 @media (max-width: 768px) {
-    .mobile-nav {
-        background-color: #222;
-        border-top: #111;
-        box-shadow: 0 -2px 5px rgba(120, 120, 120, 0.1);
-    }
-
     .mobile-nav>a {
         color: #909090;
     }

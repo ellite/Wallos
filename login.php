@@ -109,6 +109,7 @@ if (isset($_COOKIE['colorTheme'])) {
 }
 
 // Check if OIDC is Enabled
+$password_login_disabled = false;
 $oidcEnabled = false;
 $oidcQuery = "SELECT oidc_oauth_enabled FROM admin";
 $oidcResult = $db->query($oidcQuery);
@@ -124,6 +125,7 @@ if ($oidcRow) {
             $oidcEnabled = false;
         } else {
             $oidc_name = $oidcSettings['name'] ?? '';
+            $password_login_disabled = $oidcSettings['password_login_disabled'] == 1;
 
             // Generate a CSRF-protecting state string
             if (session_status() === PHP_SESSION_NONE) {
@@ -249,30 +251,33 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 //Check if registration is open
 $registrations = false;
-$adminQuery = "SELECT registrations_open, max_users, server_url, smtp_address FROM admin";
-$adminResult = $db->query($adminQuery);
-$adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
-$registrationsOpen = $adminRow['registrations_open'];
-$maxUsers = $adminRow['max_users'];
+$resetPasswordEnabled = false;
+if (!$password_login_disabled) {
+    $adminQuery = "SELECT registrations_open, max_users, server_url, smtp_address FROM admin";
+    $adminResult = $db->query($adminQuery);
+    $adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
+    $registrationsOpen = $adminRow['registrations_open'];
+    $maxUsers = $adminRow['max_users'];
 
-if ($registrationsOpen == 1 && $maxUsers == 0) {
-    $registrations = true;
-} else if ($registrationsOpen == 1 && $maxUsers > 0) {
-    $userCountQuery = "SELECT COUNT(id) as userCount FROM user";
-    $userCountResult = $db->query($userCountQuery);
-    $userCountRow = $userCountResult->fetchArray(SQLITE3_ASSOC);
-    $userCount = $userCountRow['userCount'];
-    if ($userCount < $maxUsers) {
+    if ($registrationsOpen == 1 && $maxUsers == 0) {
         $registrations = true;
+    } else if ($registrationsOpen == 1 && $maxUsers > 0) {
+        $userCountQuery = "SELECT COUNT(id) as userCount FROM user";
+        $userCountResult = $db->query($userCountQuery);
+        $userCountRow = $userCountResult->fetchArray(SQLITE3_ASSOC);
+        $userCount = $userCountRow['userCount'];
+        if ($userCount < $maxUsers) {
+            $registrations = true;
+        }
+    }
+
+    if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
+        $resetPasswordEnabled = true;
     }
 }
 
-$resetPasswordEnabled = false;
-if ($adminRow['smtp_address'] != "" && $adminRow['server_url'] != "") {
-    $resetPasswordEnabled = true;
-}
 
-if(isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
+if (isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
     $loginFailed = true;
 }
 
@@ -319,32 +324,40 @@ if(isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
                 </p>
             </header>
             <form action="login.php" method="post">
-                <div class="form-group">
-                    <label for="username"><?= translate('username', $i18n) ?>:</label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password"><?= translate('password', $i18n) ?>:</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <?php
-                if (!$demoMode) {
-                    ?>
-                    <div class="form-group-inline">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
+                <?php if (!$password_login_disabled) { ?>
+                    <div class="form-group">
+                        <label for="username"><?= translate('username', $i18n) ?>:</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password"><?= translate('password', $i18n) ?>:</label>
+                        <input type="password" id="password" name="password" required>
                     </div>
                     <?php
-                }
-                ?>
+                    if (!$demoMode) {
+                        ?>
+                        <div class="form-group-inline">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember"><?= translate('stay_logged_in', $i18n) ?></label>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <div class="form-group">
+                        <input type="submit" value="<?= translate('login', $i18n) ?>">
+                    </div>
+                <?php } ?>
                 <div class="form-group">
-                    <input type="submit" value="<?= translate('login', $i18n) ?>">
                     <?php
                     if ($oidcEnabled) {
+                        if (!$password_login_disabled) {
+                            ?>
+                            <span class="or-separator"><?= translate('or', $i18n) ?></span>
+                            <?php
+                        }
                         ?>
-                        <span class="or-separator"><?= translate('or', $i18n) ?></span>
                         <a class="button secondary-button" href="<?= htmlspecialchars($oidc_auth_url) ?>">
-                            <?= translate('login_with', $i18n) ?> <?= htmlspecialchars($oidc_name) ?>
+                            <?= translate('login_with', $i18n) ?>     <?= htmlspecialchars($oidc_name) ?>
                         </a>
                         <?php
                     }

@@ -887,3 +887,115 @@ var sortable = Sortable.create(el, {
     saveCategorySorting();
   },
 });
+
+function fetch_ai_models() {
+  const endpoint = 'endpoints/ai/fetch_models.php';
+  const type = document.querySelector("#ai_type").value;
+  const api_key = document.querySelector("#ai_api_key").value.trim();
+  const ollama_host = document.querySelector("#ai_ollama_host").value.trim();
+  const modelSelect = document.querySelector("#ai_model");
+
+  fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ type, api_key, ollama_host })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        modelSelect.innerHTML = '';
+        data.models.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      } else {
+        showErrorMessage(data.errorMessage);
+      }
+    })
+    .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+    });
+}
+
+function toggleAiInputs() {
+  const aiTypeSelect = document.getElementById("ai_type");
+  const apiKeyInput = document.getElementById("ai_api_key");
+  const ollamaHostInput = document.getElementById("ai_ollama_host");
+  const type = aiTypeSelect.value;
+  if (type === "ollama") {
+    apiKeyInput.classList.add("hidden");
+    ollamaHostInput.classList.remove("hidden");
+  } else {
+    apiKeyInput.classList.remove("hidden");
+    ollamaHostInput.classList.add("hidden");
+  }
+}
+
+function saveAiSettingsButton() {
+  const aiEnabled = document.querySelector("#ai_enabled").checked;
+  const aiType = document.querySelector("#ai_type").value;
+  const aiApiKey = document.querySelector("#ai_api_key").value.trim();
+  const aiOllamaHost = document.querySelector("#ai_ollama_host").value.trim();
+  const aiModel = document.querySelector("#ai_model").value;
+
+  fetch('endpoints/ai/save_settings.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        const runAiActionButton = document.querySelector("#runAiRecommendations");
+        if (data.enabled) {
+          runAiActionButton.classList.remove("hidden");
+        } else {
+          runAiActionButton.classList.add("hidden");
+        }
+      } else {
+        showErrorMessage(data.errorMessage);
+      }
+    })
+    .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+    });
+}
+
+function runAiRecommendations() {
+  const endpoint = 'endpoints/ai/generate_recommendations.php';
+  const button = document.querySelector("#runAiRecommendations");
+  const spinner = document.querySelector("#aiSpinner");
+
+  button.classList.add("hidden");
+  spinner.classList.remove("hidden");
+
+  fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.errorMessage);
+      }
+    })
+    .catch(error => {
+      showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
+      button.classList.remove("hidden");
+      spinner.classList.add("hidden");
+    });
+
+}
