@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.1.0](https://github.com/ellite/Wallos/compare/v4.0.0...v4.1.0) (2025-08-11)
+
+
+### Features
+
+* add at a glance dashboard ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+* add get_oidc_settings endpoint to the api ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+* ai recommendations with chatgpt, gemini or ollama ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+* allow to disable password login when oidc is enabled ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+* display ai recommendations on the dashboard ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+* refactor css colors ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+
+
+### Bug Fixes
+
+* accept both api_key and apiKey as parameter on the api ([ba6dddf](https://github.com/ellite/Wallos/commit/ba6dddf52601fdbeb18897731beacc48d16043c3))
+
 ## [4.0.0](https://github.com/ellite/Wallos/compare/v3.3.1...v4.0.0) (2025-07-21)
 
 
