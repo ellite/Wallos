@@ -57,6 +57,8 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Statistics: Another perspective into your spendings.
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
+- OIDC with OAuth
+- AI Recommendations with ChatGPT, Gemini or Local Ollama
 
 ## Demo
 
