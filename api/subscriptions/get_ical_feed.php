@@ -26,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         exit;
     }
 
-
     function getPriceConverted($price, $currency, $database)
     {
         $query = "SELECT rate FROM currencies WHERE id = :currency";

@@ -53,6 +53,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $stmt->bindValue(':apiKey', $apiKey);
     $result = $stmt->execute();
     $user = $result->fetchArray(SQLITE3_ASSOC);
+    // If the user is not found or the API key is invalid, return an error
+    if (!$user) {
+        echo json_encode([
+            "success" => false,
+            "title" => "Invalid API key",
+            "notes" => ["User not found or API key invalid."]
+        ]);
+        exit;
+    }
 
     $sql = "SELECT * FROM last_exchange_update";
     $result = $db->query($sql);
@@ -70,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $currency = $result->fetchArray(SQLITE3_ASSOC);
     $currency_code = $currency['code'];
     $currency_symbol = $currency['symbol'];
-    
+
 
     $title = date('F Y', strtotime($year . '-' . $month . '-01'));
     $monthlyCost = 0;
@@ -150,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     $formatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
     $localizedMonthlyCost = $formatter->formatCurrency($monthlyCost, $currency_code);
-    
+
     echo json_encode([
         'success' => true,
         'title' => $title,

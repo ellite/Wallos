@@ -2,6 +2,7 @@
 require_once 'connect.php';
 require_once 'checkuser.php';
 require_once 'checksession.php';
+require_once 'checkredirect.php';
 require_once 'currency_formatter.php';
 
 require_once 'i18n/languages.php';
