@@ -260,8 +260,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="form-group-inline">
                 <input type="checkbox" id="oidcPasswordLoginDisabled"
-                    <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?>
-                    <?= $loginDisabledAllowed ? '' : 'disabled' ?> />
+                    <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?> />
                 <label for="oidcPasswordLoginDisabled"><?= translate('disable_password_login', $i18n) ?></label>
             </div>
             <div class="buttons">
