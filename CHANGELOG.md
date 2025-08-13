@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.1.1](https://github.com/ellite/Wallos/compare/v4.1.0...v4.1.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* missing apikey validation error on get_monthly_cost api endpoint ([3ecc160](https://github.com/ellite/Wallos/commit/3ecc160ccb73f22367bea427315519876de74a65))
+* redirect from dashboard to subscriptions for new users ([3ecc160](https://github.com/ellite/Wallos/commit/3ecc160ccb73f22367bea427315519876de74a65))
+* wrong check for disabling password login ([3ecc160](https://github.com/ellite/Wallos/commit/3ecc160ccb73f22367bea427315519876de74a65))
+
 ## [4.1.0](https://github.com/ellite/Wallos/compare/v4.0.0...v4.1.0) (2025-08-11)
 
 
