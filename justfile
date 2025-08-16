@@ -40,6 +40,11 @@ status:
     @echo "Container status:"
     docker compose ps
 
+# Open Wallos in the default browser
+open:
+    @echo "Opening Wallos in browser..."
+    open http://localhost:8282
+
 # Run Superlinter on the codebase
 superlint:
     @echo "Running Superlinter on Wallos codebase..."
