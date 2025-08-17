@@ -59,6 +59,10 @@ clean:
     @echo "Removing local image {{ image_tag }}..."
     docker image rm -f {{ image_tag }} || true
 
+# Rebuild: build, stop, and start
+rebuild: build stop start
+    @echo "Rebuild completed!"
+
 # Full reset: stop, clean, rebuild, and start
 reset: stop clean build start
     @echo "Full reset completed!"
