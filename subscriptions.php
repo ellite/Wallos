@@ -189,25 +189,6 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <?= translate('new_subscription', $i18n) ?>
     </button>
     <div class="top-actions">
-      <div class="period-selector">
-        <button class="button secondary-button" onClick="togglePeriodOptions()" id="period-button" 
-          title="<?= translate('period', $i18n) ?>">
-          <span id="period-text"><?= ucfirst($period) ?></span>
-          <i class="fa-solid fa-chevron-down"></i>
-        </button>
-        <div class="period-options" id="period-options">
-          <div class="period-option" data-period="week" onClick="setPeriod('week')">
-            <span>Week</span>
-          </div>
-          <div class="period-option" data-period="month" onClick="setPeriod('month')">
-            <span>Month</span>
-          </div>
-          <div class="period-option" data-period="year" onClick="setPeriod('year')">
-            <span>Year</span>
-          </div>
-        </div>
-      </div>
-
       <div class="search">
         <input type="text" autocomplete="off" name="search" id="search" placeholder="<?= translate('search', $i18n) ?>"
           onkeyup="searchSubscriptions()" />
@@ -228,6 +209,25 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
           <i class="fa-solid fa-arrow-down-wide-short"></i>
         </button>
         <?php include 'includes/sort_options.php'; ?>
+      </div>
+
+      <div class="period-selector">
+        <button class="button secondary-button" onClick="togglePeriodOptions()" id="period-button" 
+          title="<?= translate('period', $i18n) ?>">
+          <span id="period-text"><?= ucfirst($period) ?></span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="period-options" id="period-options">
+          <div class="period-option" data-period="week" onClick="setPeriod('week')">
+            <span>Week</span>
+          </div>
+          <div class="period-option" data-period="month" onClick="setPeriod('month')">
+            <span>Month</span>
+          </div>
+          <div class="period-option" data-period="year" onClick="setPeriod('year')">
+            <span>Year</span>
+          </div>
+        </div>
       </div>
     </div>
   </header>

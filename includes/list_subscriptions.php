@@ -306,6 +306,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         <?= $subscription['billing_cycle'] ?>
                     </span>
                     <span class="next"><?= formatDate($subscription['next_payment'], $lang) ?></span>
+                    <span class="payment_method">
+                        <img src="<?= $subscription['payment_method_icon'] ?>"
+                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                    </span>
                     <span class="price">
                         <span class="value">
                             <?= number_format($subscription['price'], 2) ?>
@@ -326,13 +330,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                                     
                                     // Add cycle notation if different from selected period
                                     if ($originalCycleNotation != $selectedPeriodShort) {
-                                        $originalPriceText .= ' @ ' . $originalCycleNotation;
+                                        $originalPriceText .= ' ↻ ' . $originalCycleNotation;
                                     }
                                 }
                                 
                                 if ($showOriginal) {
                                 ?>
-                                <span class="original_price">(<?= $originalPriceText ?>)</span>
+                                <br><span class="original_price">(<?= $originalPriceText ?>)</span>
                                 <?php
                                 }
                             }
@@ -340,13 +344,8 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         </span>
 
                     </span>
-                    <span class="payment_method">
-                        <img src="<?= $subscription['payment_method_icon'] ?>"
-                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
-                    </span>
                     <?php
-                    $desktopMenuButtonClass = ""; {
-                    }
+                    $desktopMenuButtonClass = "";
                     if ($mobileNavigation === "true") {
                         $desktopMenuButtonClass = "mobileNavigationHideOnMobile";
                     }

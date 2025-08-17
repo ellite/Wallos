@@ -16,14 +16,10 @@ function toggleSortOptions() {
 }
 
 function togglePeriodOptions() {
-  console.log('togglePeriodOptions called');
   const periodOptions = document.querySelector("#period-options");
   if (periodOptions) {
     periodOptions.classList.toggle("is-open");
     isPeriodOptionsOpen = !isPeriodOptionsOpen;
-    console.log('Period options open:', isPeriodOptionsOpen);
-  } else {
-    console.error('Period options element not found');
   }
 }
 
@@ -882,8 +878,6 @@ function toISOStringWithTimezone(date) {
 }
 
 function setPeriod(period) {
-  console.log('setPeriod called with:', period);
-  
   // Update current period
   currentPeriod = period;
   
@@ -903,7 +897,6 @@ function setPeriod(period) {
   // Reload page with new period parameter
   const url = new URL(window.location);
   url.searchParams.set('period', period);
-  console.log('Redirecting to:', url.toString());
   window.location.href = url.toString();
 }
 
