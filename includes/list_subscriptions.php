@@ -64,6 +64,58 @@ function getPricePerMonth($cycle, $frequency, $price)
     }
 }
 
+function getPricePerWeek($cycle, $frequency, $price)
+{
+    switch ($cycle) {
+        case 1: // Days
+            $numberOfPaymentsPerWeek = (7 / $frequency);
+            return $price * $numberOfPaymentsPerWeek;
+        case 2: // Weeks
+            $numberOfPaymentsPerWeek = (1 / $frequency);
+            return $price * $numberOfPaymentsPerWeek;
+        case 3: // Months
+            $numberOfWeeksPerMonth = 4.35;
+            $numberOfPaymentsPerWeek = (1 / ($frequency * $numberOfWeeksPerMonth));
+            return $price * $numberOfPaymentsPerWeek;
+        case 4: // Years
+            $numberOfWeeksPerYear = 52;
+            $numberOfPaymentsPerWeek = (1 / ($frequency * $numberOfWeeksPerYear));
+            return $price * $numberOfPaymentsPerWeek;
+    }
+}
+
+function getPricePerYear($cycle, $frequency, $price)
+{
+    switch ($cycle) {
+        case 1: // Days
+            $numberOfPaymentsPerYear = (365 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 2: // Weeks
+            $numberOfPaymentsPerYear = (52 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 3: // Months
+            $numberOfPaymentsPerYear = (12 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 4: // Years
+            $numberOfPaymentsPerYear = (1 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+    }
+}
+
+function getCycleShortNotation($cycle, $frequency)
+{
+    switch ($cycle) {
+        case 1:
+            return $frequency == 1 ? 'd' : $frequency . 'd';
+        case 2:
+            return $frequency == 1 ? 'w' : $frequency . 'w';
+        case 3:
+            return $frequency == 1 ? 'm' : $frequency . 'm';
+        case 4:
+            return $frequency == 1 ? 'y' : $frequency . 'y';
+    }
+}
+
 
 function getPriceConverted($price, $currency, $database)
 {
@@ -258,13 +310,31 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         <span class="value">
                             <?= number_format($subscription['price'], 2) ?>
                             <?php
-                            if (isset($subscription['original_price']) && 
-                                ($subscription['original_currency_code'] != $subscription['currency_code'] || 
-                                 $subscription['original_price'] != $subscription['price'])) {
+                            if (isset($subscription['original_price']) && isset($subscription['display_period'])) {
+                                // Check if we need to show original price
+                                $originalCycleNotation = getCycleShortNotation($subscription['original_cycle'], $subscription['original_frequency']);
+                                $selectedPeriodShort = substr($subscription['display_period'], 0, 1); // w, m, y
+                                
+                                $showOriginal = false;
+                                $originalPriceText = '';
+                                
+                                // Show original if currency differs OR billing cycle differs from selected period
+                                if ($subscription['original_currency_code'] != $subscription['currency_code'] || 
+                                    $originalCycleNotation != $selectedPeriodShort) {
+                                    $showOriginal = true;
+                                    $originalPriceText = formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies);
+                                    
+                                    // Add cycle notation if different from selected period
+                                    if ($originalCycleNotation != $selectedPeriodShort) {
+                                        $originalPriceText .= ' @ ' . $originalCycleNotation;
+                                    }
+                                }
+                                
+                                if ($showOriginal) {
                                 ?>
-                                <span
-                                    class="original_price">(<?= formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies) ?>)</span>
+                                <span class="original_price">(<?= $originalPriceText ?>)</span>
                                 <?php
+                                }
                             }
                             ?>
                         </span>

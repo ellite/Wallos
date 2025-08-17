@@ -7,6 +7,7 @@ include_once 'includes/list_subscriptions.php';
 
 $sort = "next_payment";
 $sortOrder = $sort;
+$period = isset($_GET['period']) ? $_GET['period'] : 'month';
 
 if ($settings['disabledToBottom'] === 'true') {
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY inactive ASC, next_payment ASC";
@@ -188,6 +189,25 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <?= translate('new_subscription', $i18n) ?>
     </button>
     <div class="top-actions">
+      <div class="period-selector">
+        <button class="button secondary-button" onClick="togglePeriodOptions()" id="period-button" 
+          title="<?= translate('period', $i18n) ?>">
+          <span id="period-text"><?= ucfirst($period) ?></span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="period-options" id="period-options">
+          <div class="period-option" data-period="week" onClick="setPeriod('week')">
+            <span>Week</span>
+          </div>
+          <div class="period-option" data-period="month" onClick="setPeriod('month')">
+            <span>Month</span>
+          </div>
+          <div class="period-option" data-period="year" onClick="setPeriod('year')">
+            <span>Year</span>
+          </div>
+        </div>
+      </div>
+
       <div class="search">
         <input type="text" autocomplete="off" name="search" id="search" placeholder="<?= translate('search', $i18n) ?>"
           onkeyup="searchSubscriptions()" />
@@ -253,19 +273,33 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
-      // Always convert to EUR monthly price for display
+      // Always convert to EUR for selected period display
       $eurCurrencyId = 1; // EUR currency ID
       $eurPrice = $print[$id]['price']; // Start with original price
       if ($currencyId != $eurCurrencyId) {
         $eurPrice = getPriceConverted($eurPrice, $currencyId, $db);
       }
-      // Always show monthly price in EUR
-      $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $eurPrice);
+      
+      // Calculate price for selected period in EUR
+      switch ($period) {
+        case 'week':
+          $print[$id]['price'] = getPricePerWeek($cycle, $frequency, $eurPrice);
+          break;
+        case 'year':
+          $print[$id]['price'] = getPricePerYear($cycle, $frequency, $eurPrice);
+          break;
+        default: // month
+          $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $eurPrice);
+          break;
+      }
       $print[$id]['currency_code'] = 'EUR';
       
       // Store original price and currency in original billing cycle for comparison
       $print[$id]['original_price'] = floatval($subscription['price']);
       $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
+      $print[$id]['original_cycle'] = $cycle;
+      $print[$id]['original_frequency'] = $frequency;
+      $print[$id]['display_period'] = $period;
     }
 
     if ($sortOrder == "alphanumeric") {

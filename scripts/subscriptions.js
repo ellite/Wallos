@@ -1,6 +1,8 @@
 let isSortOptionsOpen = false;
+let isPeriodOptionsOpen = false;
 let scrollTopBeforeOpening = 0;
 const shouldScroll = window.innerWidth <= 768;
+let currentPeriod = 'month';
 
 function toggleOpenSubscription(subId) {
   const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
@@ -11,6 +13,18 @@ function toggleSortOptions() {
   const sortOptions = document.querySelector("#sort-options");
   sortOptions.classList.toggle("is-open");
   isSortOptionsOpen = !isSortOptionsOpen;
+}
+
+function togglePeriodOptions() {
+  console.log('togglePeriodOptions called');
+  const periodOptions = document.querySelector("#period-options");
+  if (periodOptions) {
+    periodOptions.classList.toggle("is-open");
+    isPeriodOptionsOpen = !isPeriodOptionsOpen;
+    console.log('Period options open:', isPeriodOptionsOpen);
+  } else {
+    console.error('Period options element not found');
+  }
 }
 
 function toggleNotificationDays() {
@@ -867,8 +881,46 @@ function toISOStringWithTimezone(date) {
     ':' + minutesOffset;
 }
 
+function setPeriod(period) {
+  console.log('setPeriod called with:', period);
+  
+  // Update current period
+  currentPeriod = period;
+  
+  // Update button text
+  const periodText = document.getElementById('period-text');
+  if (periodText) {
+    periodText.textContent = period.charAt(0).toUpperCase() + period.slice(1);
+  }
+  
+  // Close the dropdown
+  const periodOptions = document.querySelector("#period-options");
+  if (periodOptions) {
+    periodOptions.classList.remove("is-open");
+  }
+  isPeriodOptionsOpen = false;
+  
+  // Reload page with new period parameter
+  const url = new URL(window.location);
+  url.searchParams.set('period', period);
+  console.log('Redirecting to:', url.toString());
+  window.location.href = url.toString();
+}
+
+// Initialize period selector on page load
 window.addEventListener('load', () => {
   if (document.querySelector('.subscription')) {
     swipeHintAnimation();
+  }
+  
+  // Set current period from URL parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const period = urlParams.get('period') || 'month';
+  currentPeriod = period;
+  
+  // Update button text
+  const periodText = document.getElementById('period-text');
+  if (periodText) {
+    periodText.textContent = period.charAt(0).toUpperCase() + period.slice(1);
   }
 });

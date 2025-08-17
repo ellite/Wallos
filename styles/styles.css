@@ -3046,6 +3046,61 @@ input[type="radio"]:checked+label::after {
   display: flex;
 }
 
+/* Period Selector */
+.period-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.period-options {
+  display: none;
+  position: absolute;
+  left: auto;
+  right: 0;
+  width: 120px;
+  color: var(--text-color);
+  font-size: 16px;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--box-border-color);
+  border-radius: 12px;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  z-index: 1000;
+  top: 100%;
+  margin-top: 5px;
+}
+
+.rtl .period-options {
+  left: 0;
+  right: auto;
+}
+
+.period-options.is-open {
+  display: block;
+}
+
+.period-option {
+  position: relative;
+  padding: 14px 18px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  border-bottom: 1px solid #DDD;
+}
+
+.period-option:last-of-type {
+  border-bottom: none;
+}
+
+.period-option:hover {
+  background-color: #f1f1f1;
+}
+
+/* Wider price column */
+.subscription .price {
+  min-width: 120px;
+  text-align: right;
+}
+
 .info-badge {
     background-color: orange;
     border-radius: 5px;
