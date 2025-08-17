@@ -312,7 +312,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="price">
                         <span class="value">
-                            <?= number_format($subscription['price'], 2) ?>
+                            <?php
+                            // Round to nearest whole number for yearly view, show cents for others
+                            $decimals = (isset($subscription['display_period']) && $subscription['display_period'] === 'year') ? 0 : 2;
+                            echo number_format($subscription['price'], $decimals);
+                            ?>
                             <?php
                             if (isset($subscription['original_price']) && isset($subscription['display_period'])) {
                                 // Check if we need to show original price
