@@ -3106,6 +3106,16 @@ input[type="radio"]:checked+label::after {
   font-variant-numeric: tabular-nums;
 }
 
+/* Notes textarea styling */
+#notes {
+  resize: vertical;
+  height: 72px;
+  min-height: 72px;
+  max-height: 200px;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
 .subscription .price .value {
   text-align: right !important;
   display: block;

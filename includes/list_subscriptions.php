@@ -412,7 +412,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <div class="subscription-notes">
                         <span class="notes">
                             <?php include $imagePath . "images/siteicons/svg/notes.php"; ?>
-                            <?= $subscription['notes'] ?>
+                            <?= nl2br(htmlspecialchars($subscription['notes'])) ?>
                         </span>
                     </div>
                     <?php

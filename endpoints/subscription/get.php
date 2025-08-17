@@ -23,7 +23,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['next_payment'] = $row['next_payment'];
             $subscriptionData['frequency'] = $row['frequency'];
             $subscriptionData['cycle'] = $row['cycle'];
-            $subscriptionData['notes'] = htmlspecialchars_decode($row['notes'] ?? "");
+            $subscriptionData['notes'] = $row['notes'] ?? "";
             $subscriptionData['payment_method_id'] = $row['payment_method_id'];
             $subscriptionData['payer_user_id'] = $row['payer_user_id'];
             $subscriptionData['category_id'] = $row['category_id'];
