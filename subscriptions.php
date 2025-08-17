@@ -253,17 +253,19 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
-      if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
-        $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
-        $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
+      // Always convert to EUR monthly price for display
+      $eurCurrencyId = 1; // EUR currency ID
+      $eurPrice = $print[$id]['price']; // Start with original price
+      if ($currencyId != $eurCurrencyId) {
+        $eurPrice = getPriceConverted($eurPrice, $currencyId, $db);
       }
-      if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
-        $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
-      }
-      if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
-        $print[$id]['original_price'] = floatval($subscription['price']);
-        $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
-      }
+      // Always show monthly price in EUR
+      $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $eurPrice);
+      $print[$id]['currency_code'] = 'EUR';
+      
+      // Store original price and currency in original billing cycle for comparison
+      $print[$id]['original_price'] = floatval($subscription['price']);
+      $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
     }
 
     if ($sortOrder == "alphanumeric") {

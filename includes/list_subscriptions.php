@@ -256,9 +256,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <span class="next"><?= formatDate($subscription['next_payment'], $lang) ?></span>
                     <span class="price">
                         <span class="value">
-                            <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies) ?>
+                            <?= number_format($subscription['price'], 2) ?>
                             <?php
-                            if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
+                            if (isset($subscription['original_price']) && 
+                                ($subscription['original_currency_code'] != $subscription['currency_code'] || 
+                                 $subscription['original_price'] != $subscription['price'])) {
                                 ?>
                                 <span
                                     class="original_price">(<?= formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies) ?>)</span>
