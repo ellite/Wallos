@@ -3095,19 +3095,23 @@ input[type="radio"]:checked+label::after {
   background-color: #f1f1f1;
 }
 
-/* Wider price column with right alignment */
+/* Price column with tabular numbers and right alignment */
 .subscription .price {
-  min-width: 120px;
+  min-width: 80px;
   text-align: right !important;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 .subscription .price .value {
   text-align: right !important;
   display: block;
   width: 100%;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 .subscription .price .original_price {
@@ -3115,6 +3119,8 @@ input[type="radio"]:checked+label::after {
   color: #777;
   font-weight: normal;
   text-align: right !important;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
 }
 
 .info-badge {
