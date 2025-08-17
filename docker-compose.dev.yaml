@@ -1,0 +1,25 @@
+services:
+  wallos:
+    # Bind mount source code for development
+    volumes:
+      - './db:/var/www/html/db'
+      - './logos:/var/www/html/images/uploads/logos'
+      # Development bind mounts for PHP files - code changes reflect immediately
+      - './includes:/var/www/html/includes'
+      - './endpoints:/var/www/html/endpoints'
+      - './scripts:/var/www/html/scripts'
+      - './styles:/var/www/html/styles'
+      - './api:/var/www/html/api'
+      - './images:/var/www/html/images'
+      - './subscriptions.php:/var/www/html/subscriptions.php'
+      - './index.php:/var/www/html/index.php'
+      - './profile.php:/var/www/html/profile.php'
+      - './settings.php:/var/www/html/settings.php'
+      - './stats.php:/var/www/html/stats.php'
+      - './calendar.php:/var/www/html/calendar.php'
+      - './admin.php:/var/www/html/admin.php'
+      - './about.php:/var/www/html/about.php'
+    environment:
+      TZ: 'America/Toronto'
+      # Add development-specific environment variables if needed
+      PHP_ENV: 'development'

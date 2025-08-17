@@ -20,10 +20,20 @@ start:
     @echo "Starting Wallos Docker services..."
     docker compose up -d
 
+# Start development mode with bind mounts (no rebuild needed)
+dev:
+    @echo "Starting Wallos in development mode with bind mounts..."
+    docker compose -f docker-compose.yaml -f docker-compose.dev.yaml up -d
+
 # Stop the Docker services
 stop:
     @echo "Stopping Wallos Docker services..."
     docker compose down
+
+# Stop development mode
+dev-stop:
+    @echo "Stopping Wallos development mode..."
+    docker compose -f docker-compose.yaml -f docker-compose.dev.yaml down
 
 # Restart the Docker services
 restart:
