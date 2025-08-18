@@ -233,6 +233,18 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   </header>
   <div class="subscriptions" id="subscriptions">
     <?php
+    // Get main currency for price conversion
+    $query = "SELECT main_currency FROM user WHERE id = :userId";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+    if ($row !== false) {
+        $mainCurrencyId = $row['main_currency'];
+    } else {
+        $mainCurrencyId = $currencies[1]['id']; // Fallback to EUR
+    }
+    
     $formatter = new IntlDateFormatter(
       'en', // Force English locale
       IntlDateFormatter::SHORT,
@@ -273,26 +285,25 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
 
-      // Always convert to EUR for selected period display
-      $eurCurrencyId = 1; // EUR currency ID
-      $eurPrice = $print[$id]['price']; // Start with original price
-      if ($currencyId != $eurCurrencyId) {
-        $eurPrice = getPriceConverted($eurPrice, $currencyId, $db);
+      // Always convert to main currency for selected period display
+      $mainPrice = $print[$id]['price']; // Start with original price
+      if ($currencyId != $mainCurrencyId) {
+        $mainPrice = getPriceConverted($mainPrice, $currencyId, $db);
       }
       
-      // Calculate price for selected period in EUR
+      // Calculate price for selected period in main currency
       switch ($period) {
         case 'week':
-          $print[$id]['price'] = getPricePerWeek($cycle, $frequency, $eurPrice);
+          $print[$id]['price'] = getPricePerWeek($cycle, $frequency, $mainPrice);
           break;
         case 'year':
-          $print[$id]['price'] = getPricePerYear($cycle, $frequency, $eurPrice);
+          $print[$id]['price'] = getPricePerYear($cycle, $frequency, $mainPrice);
           break;
         default: // month
-          $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $eurPrice);
+          $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $mainPrice);
           break;
       }
-      $print[$id]['currency_code'] = 'EUR';
+      $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
       
       // Store original price and currency in original billing cycle for comparison
       $print[$id]['original_price'] = floatval($subscription['price']);
