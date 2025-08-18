@@ -378,6 +378,11 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['renewalType'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&renewalType=${activeFilters['renewalType']}` : `?renewalType=${activeFilters['renewalType']}`;
   }
+  
+  // Always pass the current period parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const period = urlParams.get('period') || 'month';
+  getSubscriptions += getSubscriptions.includes("?") ? `&period=${period}` : `?period=${period}`;
 
   fetch(getSubscriptions)
     .then(response => response.text())
