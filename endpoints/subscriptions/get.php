@@ -82,6 +82,21 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  if (isset($_GET['currency']) && $_GET['currency'] !== "") {
+    $allCurrencies = explode(',', $_GET['currency']);
+    $placeholders = array_map(function ($idx) {
+      return ":currencies{$idx}";
+    }, array_keys($allCurrencies));
+
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
+      return "currency_id = {$placeholder}";
+    }, $placeholders)) . ")";
+
+    foreach ($allCurrencies as $idx => $currency) {
+      $params[":currencies{$idx}"] = $currency;
+    }
+  }
+
   if (isset($_GET['state']) && $_GET['state'] != "") {
     $sql .= " AND inactive = :inactive";
     $params[':inactive'] = $_GET['state'];
