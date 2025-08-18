@@ -4,13 +4,14 @@ services:
     volumes:
       - './db:/var/www/html/db'
       - './logos:/var/www/html/images/uploads/logos'
-      # Development bind mounts for PHP files - code changes reflect immediately
+      # Development bind mounts for key directories and files
       - './includes:/var/www/html/includes'
       - './endpoints:/var/www/html/endpoints'
       - './scripts:/var/www/html/scripts'
       - './styles:/var/www/html/styles'
       - './api:/var/www/html/api'
       - './images:/var/www/html/images'
+      # Mount main PHP files individually
       - './subscriptions.php:/var/www/html/subscriptions.php'
       - './index.php:/var/www/html/index.php'
       - './profile.php:/var/www/html/profile.php'
@@ -21,5 +22,4 @@ services:
       - './about.php:/var/www/html/about.php'
     environment:
       TZ: 'America/Toronto'
-      # Add development-specific environment variables if needed
       PHP_ENV: 'development'
