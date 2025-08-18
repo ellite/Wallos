@@ -78,6 +78,19 @@ if (isset($_GET['payment'])) {
   }
 }
 
+if (isset($_GET['currency'])) {
+  $currencyIds = explode(',', $_GET['currency']);
+  $placeholders = array_map(function ($key) {
+    return ":currency{$key}";
+  }, array_keys($currencyIds));
+
+  $sql .= " AND currency_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($currencyIds as $key => $currencyId) {
+    $params[":currency{$key}"] = $currencyId;
+  }
+}
+
 if (!isset($settings['hideDisabledSubscriptions']) || $settings['hideDisabledSubscriptions'] !== 'true') {
   if (isset($_GET['state']) && $_GET['state'] != "") {
     $sql .= " AND inactive = :inactive";
@@ -132,6 +145,8 @@ foreach ($subscriptions as $subscription) {
   $categories[$categoryId]['count']++;
   $paymentMethodId = $subscription['payment_method_id'];
   $payment_methods[$paymentMethodId]['count']++;
+  $currencyId = $subscription['currency_id'];
+  $currencies[$currencyId]['count']++;
 }
 
 if ($sortOrder == "category_id") {

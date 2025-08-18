@@ -369,6 +369,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['payments'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&payments=${activeFilters['payments']}` : `?payments=${activeFilters['payments']}`;
   }
+  if (activeFilters['currencies'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&currency=${activeFilters['currencies']}` : `?currency=${activeFilters['currencies']}`;
+  }
   if (activeFilters['state'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&state=${activeFilters['state']}` : `?state=${activeFilters['state']}`;
   }
@@ -616,6 +619,7 @@ const activeFilters = [];
 activeFilters['categories'] = [];
 activeFilters['members'] = [];
 activeFilters['payments'] = [];
+activeFilters['currencies'] = [];
 activeFilters['state'] = "";
 activeFilters['renewalType'] = "";
 
@@ -699,6 +703,16 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         activeFilters['payments'].push(paymentId);
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-currencyid')) {
+      const currencyId = this.getAttribute('data-currencyid');
+      if (activeFilters['currencies'].includes(currencyId)) {
+        const currencyIndex = activeFilters['currencies'].indexOf(currencyId);
+        activeFilters['currencies'].splice(currencyIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['currencies'].push(currencyId);
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-state')) {
       const state = this.getAttribute('data-state');
       if (activeFilters['state'] === state) {
@@ -726,8 +740,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
     }
 
     if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
-       activeFilters['payments'].length > 0 || activeFilters['state'] !== "" || 
-       activeFilters['renewalType'] !== "") {
+       activeFilters['payments'].length > 0 || activeFilters['currencies'].length > 0 || 
+       activeFilters['state'] !== "" || activeFilters['renewalType'] !== "") {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -743,6 +757,7 @@ function clearFilters() {
   activeFilters['categories'] = [];
   activeFilters['members'] = [];
   activeFilters['payments'] = [];
+  activeFilters['currencies'] = [];
   activeFilters['state'] = "";
   activeFilters['renewalType'] = "";
   

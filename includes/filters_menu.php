@@ -104,6 +104,36 @@
     <?php
   }
   ?>
+  <?php
+  if (count($currencies) > 1) {
+    ?>
+    <div class="filtermenu-submenu">
+      <div class="filter-title" onClick="toggleSubMenu('currency')"><?= translate("currency", $i18n) ?></div>
+      <div class="filtermenu-submenu-content" id="filter-currency">
+        <?php
+        foreach ($currencies as $currency) {
+          if ($currency['count'] == 0) {
+            continue;
+          }
+          $selectedClass = '';
+          if (isset($_GET['currency'])) {
+            $currencyIds = explode(',', $_GET['currency']);
+            if (in_array($currency['id'], $currencyIds)) {
+              $selectedClass = 'selected';
+            }
+          }
+          ?>
+          <div class="filter-item <?= $selectedClass ?>" data-currencyid="<?= $currency['id'] ?>">
+            <?= $currency['name'] ?>
+          </div>
+          <?php
+        }
+        ?>
+      </div>
+    </div>
+    <?php
+  }
+  ?>
 
   <div class="filtermenu-submenu">
     <div class="filter-title" onClick="toggleSubMenu('renewal_type')"><?= translate("renewal_type", $i18n) ?></div>
