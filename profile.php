@@ -93,7 +93,12 @@ require_once 'includes/header.php';
                             $currencyId = $row['id'];
                             $currencies[$currencyId] = $row;
                         }
-                        $userData['currency_symbol'] = "€";
+                        
+                        // Set currency symbol from user's main currency
+                        $userData['currency_symbol'] = "€"; // Fallback
+                        if (isset($currencies[$userData['main_currency']])) {
+                            $userData['currency_symbol'] = $currencies[$userData['main_currency']]['symbol'];
+                        }
                         ?>
                         <div class="form-group">
                             <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
