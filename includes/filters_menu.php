@@ -123,8 +123,8 @@
             }
           }
           ?>
-          <div class="filter-item <?= $selectedClass ?>" data-currencyid="<?= $currency['id'] ?>">
-            <?= $currency['name'] ?>
+          <div class="filter-item <?= $selectedClass ?>" data-currencyid="<?= htmlspecialchars($currency['id'], ENT_QUOTES, 'UTF-8') ?>">
+            <?= htmlspecialchars($currency['name'], ENT_QUOTES, 'UTF-8') ?>
           </div>
           <?php
         }

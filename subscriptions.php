@@ -8,6 +8,11 @@ include_once 'includes/list_subscriptions.php';
 $sort = "next_payment";
 $sortOrder = $sort;
 $period = isset($_GET['period']) ? $_GET['period'] : 'month';
+// Validate period parameter
+$allowedPeriods = ['week', 'month', 'year'];
+if (!in_array($period, $allowedPeriods)) {
+  $period = 'month'; // Safe fallback
+}
 
 if ($settings['disabledToBottom'] === 'true') {
   $sql = "SELECT * FROM subscriptions WHERE user_id = :userId ORDER BY inactive ASC, next_payment ASC";

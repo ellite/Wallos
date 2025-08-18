@@ -33,6 +33,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $sortOrder = $sort;
   $order = "ASC";
   $period = isset($_GET['period']) ? $_GET['period'] : 'month';
+  // Validate period parameter
+  $allowedPeriods = ['week', 'month', 'year'];
+  if (!in_array($period, $allowedPeriods)) {
+    $period = 'month'; // Safe fallback
+  }
   
   // Get main currency for price conversion
   $query = "SELECT main_currency FROM user WHERE id = :userId";
