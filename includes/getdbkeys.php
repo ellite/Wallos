@@ -8,6 +8,7 @@
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $currencyId = $row['id'];
         $currencies[$currencyId] = $row;
+        $currencies[$currencyId]['count'] = 0;
     }
 
     $members = array();
