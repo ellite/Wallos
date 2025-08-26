@@ -15,6 +15,7 @@ self.addEventListener('install', function (event) {
                 'endpoints/subscriptions/get.php',
                 'manifest.json',
                 'styles/styles.css',
+                // 'styles/styles_projects.css',
                 'styles/dark-theme.css',
                 'styles/login.css',
                 'styles/font-awesome.min.css',

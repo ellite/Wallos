@@ -46,4 +46,16 @@ let i18n = {
     payment_method: "支付方式",
     notes: "备注",
     export: "导出",
+    // 项目操作与状态
+    new_project: "新建项目",
+    edit_project: "编辑项目",
+    project_deleted_successfully: "项目已成功删除",
+    // 确认信息
+    delete_project_confirmation: "您确定要删除这个项目及其下的所有订阅吗？此操作不可恢复！",
+    // 错误信息
+    error_reloading_project_list: "重新加载项目列表时出错:",
+    error_loading_project_info: "加载项目信息失败:",
+    error_fetching_project_info: "获取项目信息时出错:",
+    error_deleting_project: "删除项目时出错",
+
 };

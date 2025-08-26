@@ -416,7 +416,20 @@ $i18n = [
     "over_budget_warning" => "予算オーバーだ",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
-    
+    // project
+    "no_project" => "プロジェクトなし",
+    "associated_project" => "関連プロジェクト",
+    "projects" => "プロジェクト",
+    "add_project" => "プロジェクトを追加",
+    "edit_project" => "プロジェクトを編集",
+    "valid_until" => "有効期限",
+    "status_enabled" => "有効",
+    "status_disabled" => "期限切れ",
+    "no_sub_in_project" => "このプロジェクトにはサブスクリプションがありません",
+    "add_first_project" => "最初のプロジェクトを追加してください",
+    "project_name" => "プロジェクト名",
+    "project_category" => "プロジェクトカテゴリ",
+    "project_website" => "プロジェクトのウェブサイト（任意）",
 
 ];
 

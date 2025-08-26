@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Način plačila",
   notes: "Opombe",
   export: "Izvozi",
+  // Dejanja in stanje projekta
+  new_project: "Nov projekt",
+  edit_project: "Uredi projekt",
+  project_deleted_successfully: "Projekt uspešno izbrisan",
+  // Sporočila za potrditev
+  delete_project_confirmation: "Ali ste prepričani, da želite izbrisati ta projekt in vse njegove naročnine? Tega dejanja ni mogoče razveljaviti!",
+  // Sporočila o napakah
+  error_reloading_project_list: "Napaka pri ponovnem nalaganju seznama projektov:",
+  error_loading_project_info: "Nalaganje informacij o projektu ni uspelo:",
+  error_fetching_project_info: "Napaka pri pridobivanju informacij o projektu:",
+  error_deleting_project: "Napaka pri brisanju projekta",
 }

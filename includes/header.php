@@ -12,6 +12,8 @@ require_once 'getsettings.php';
 
 require_once 'version.php';
 
+
+
 if ($userCount == 0) {
   $db->close();
   header("Location: registration.php");
@@ -169,9 +171,14 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
             <a href="." class="mobileNavigationHideOnMobile">
               <?php include "images/siteicons/svg/mobile-menu/home.php"; ?>
               <?= translate('dashboard', $i18n) ?></a>
-            <a href="subscriptions.php" class="mobileNavigationHideOnMobile">
-              <?php include "images/siteicons/svg/mobile-menu/subscriptions.php"; ?>
-              <?= translate('subscriptions', $i18n) ?></a>  
+              <a href="projects.php" class="mobileNavigationHideOnMobile">
+                  <?php include "images/siteicons/svg/mobile-menu/projects.php"; ?>
+                  <?= translate('projects', $i18n) ?>
+
+              </a>
+              <a href="subscriptions.php" class="mobileNavigationHideOnMobile">
+                  <?php include "images/siteicons/svg/mobile-menu/subscriptions.php"; ?>
+                  <?= translate('subscriptions', $i18n) ?></a>
             <a href="calendar.php" class="mobileNavigationHideOnMobile">
                 <?php include "images/siteicons/svg/mobile-menu/calendar.php"; ?>
                 <?= translate('calendar', $i18n) ?></a>
@@ -183,7 +190,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
               <?= translate('settings', $i18n) ?></a>
             <a href="profile.php">
               <?php include "images/siteicons/svg/mobile-menu/profile.php"; ?>
-              <?= translate('profile', $i18n) ?></a>  
+              <?= translate('profile', $i18n) ?></a>
             <?php if ($isAdmin): ?>
               <a href="admin.php">
                 <?php include "images/siteicons/svg/mobile-menu/admin.php"; ?>

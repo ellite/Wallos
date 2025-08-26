@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Método de pago",
   notes: "Notas",
   export: "Exportar",
+  // Acciones y estado del proyecto
+  new_project: "Nuevo proyecto",
+  edit_project: "Editar proyecto",
+  project_deleted_successfully: "Proyecto eliminado con éxito",
+  // Mensajes de confirmación
+  delete_project_confirmation: "¿Estás seguro de que quieres eliminar este proyecto y todas sus suscripciones? ¡Esta acción no se puede deshacer!",
+  // Mensajes de error
+  error_reloading_project_list: "Error al recargar la lista de proyectos:",
+  error_loading_project_info: "No se pudo cargar la información del proyecto:",
+  error_fetching_project_info: "Error al obtener la información del proyecto:",
+  error_deleting_project: "Error al eliminar el proyecto",
 }

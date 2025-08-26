@@ -417,5 +417,19 @@ $i18n = [
     "over_budget_warning" => "Du er over budget",
     // TOTP Page
     "insert_totp_code" => "Indtast TOTP-kode",
+    // project
+    "no_project" => "Intet projekt",
+    "associated_project" => "Tilknyttet projekt",
+    "projects" => "Projekter",
+    "add_project" => "Tilføj projekt",
+    "edit_project" => "Rediger projekt",
+    "valid_until" => "Gyldig indtil",
+    "status_enabled" => "Aktiv",
+    "status_disabled" => "Udløbet",
+    "no_sub_in_project" => "Ingen abonnementer i dette projekt",
+    "add_first_project" => "Tilføj dit første projekt",
+    "project_name" => "Projektnavn",
+    "project_category" => "Projektkategori",
+    "project_website" => "Projektets websted (valgfrit)",
 ];
 ?>

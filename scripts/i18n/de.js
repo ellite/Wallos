@@ -48,4 +48,15 @@ let i18n = {
   payment_method: "Zahlungsmethode",
   notes: "Notizen",
   export: "Exportieren",
+  // Projektaktionen & Status
+  new_project: "Neues Projekt",
+  edit_project: "Projekt bearbeiten",
+  project_deleted_successfully: "Projekt erfolgreich gelöscht",
+  // Bestätigungsmeldungen
+  delete_project_confirmation: "Sind Sie sicher, dass Sie dieses Projekt und alle seine Abonnements löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden!",
+  // Fehlermeldungen
+  error_reloading_project_list: "Fehler beim Neuladen der Projektliste:",
+  error_loading_project_info: "Laden der Projektinformationen fehlgeschlagen:",
+  error_fetching_project_info: "Fehler beim Abrufen der Projektinformationen:",
+  error_deleting_project: "Fehler beim Löschen des Projekts",
 }

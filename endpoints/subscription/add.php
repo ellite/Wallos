@@ -205,6 +205,8 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $isEdit = isset($_POST['id']) && $_POST['id'] != "";
+//        $project_id = isset($_POST['project_id']) && $_POST['project_id'] != "";
+        $project_id = $_POST['project_id'] ?? "";
         $name = validate($_POST["name"]);
         $price = $_POST['price'];
         $currencyId = $_POST["currency_id"];
@@ -245,12 +247,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
         if (!$isEdit) {
             $sql = "INSERT INTO subscriptions (
-                        name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
+                        name, project_id ,logo, price, currency_id, next_payment, cycle, frequency, notes, 
                         payment_method_id, payer_user_id, category_id, notify, inactive, url, 
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
                         auto_renew, start_date
                     ) VALUES (
-                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
+                        :name, :project_id ,:logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
                         :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
                         :autoRenew, :startDate
@@ -260,6 +262,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $sql = "UPDATE subscriptions SET 
                         name = :name, 
                         price = :price, 
+                        project_id = :project_id,
                         currency_id = :currencyId,
                         next_payment = :nextPayment, 
                         auto_renew = :autoRenew,
@@ -286,6 +289,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':name', $name, SQLITE3_TEXT);
+        if ($project_id != "") {
+            $stmt->bindParam(':project_id', $project_id, SQLITE3_INTEGER);
+        }
+
         if ($logo != "") {
             $stmt->bindParam(':logo', $logo, SQLITE3_TEXT);
         }

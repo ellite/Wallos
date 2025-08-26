@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Betalingsmetode",
   notes: "Noter",
   export: "Eksportér",
+  // Projekthandlinger og status
+  new_project: "Nyt projekt",
+  edit_project: "Rediger projekt",
+  project_deleted_successfully: "Projekt slettet med succes",
+  // Bekræftelsesmeddelelser
+  delete_project_confirmation: "Er du sikker på, at du vil slette dette projekt og alle dets abonnementer? Handlingen kan ikke fortrydes!",
+  // Fejlmeddelelser
+  error_reloading_project_list: "Fejl ved genindlæsning af projektliste:",
+  error_loading_project_info: "Kunne ikke indlæse projektoplysninger:",
+  error_fetching_project_info: "Fejl ved hentning af projektoplysninger:",
+  error_deleting_project: "Fejl ved sletning af projekt",
 }

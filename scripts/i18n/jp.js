@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "支払い方法",
   notes: "メモ",
   export: "エクスポート",
+  // プロジェクトの操作とステータス
+  new_project: "新規プロジェクト",
+  edit_project: "プロジェクトを編集",
+  project_deleted_successfully: "プロジェクトは正常に削除されました",
+  // 確認メッセージ
+  delete_project_confirmation: "このプロジェクトとそのすべてのサブスクリプションを削除してもよろしいですか？この操作は元に戻せません！",
+  // エラーメッセージ
+  error_reloading_project_list: "プロジェクトリストの再読み込み中にエラーが発生しました:",
+  error_loading_project_info: "プロジェクト情報の読み込みに失敗しました:",
+  error_fetching_project_info: "プロジェクト情報の取得中にエラーが発生しました:",
+  error_deleting_project: "プロジェクトの削除中にエラーが発生しました",
 }

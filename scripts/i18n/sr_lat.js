@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Način plaćanja",
   notes: "Beleške",
   export: "Izvezi",
+  // Akcije i status projekta
+  new_project: "Novi projekat",
+  edit_project: "Uredi projekat",
+  project_deleted_successfully: "Projekat je uspešno obrisan",
+  // Poruke za potvrdu
+  delete_project_confirmation: "Da li ste sigurni da želite da obrišete ovaj projekat i sve njegove pretplate? Ova radnja se ne može opozvati!",
+  // Poruke o grešci
+  error_reloading_project_list: "Greška pri ponovnom učitavanju liste projekata:",
+  error_loading_project_info: "Nije uspelo učitavanje informacija o projektu:",
+  error_fetching_project_info: "Greška pri dobavljanju informacija o projektu:",
+  error_deleting_project: "Greška pri brisanju projekta",
 }

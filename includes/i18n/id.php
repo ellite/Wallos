@@ -416,6 +416,20 @@ $i18n = [
     "over_budget_warning" => "Anda melebihi anggaran",
     // TOTP Page
     "insert_totp_code" => "Masukkan kode TOTP",
+    // project
+    "no_project" => "Tidak ada proyek",
+    "associated_project" => "Proyek terkait",
+    "projects" => "Proyek",
+    "add_project" => "Tambah proyek",
+    "edit_project" => "Edit proyek",
+    "valid_until" => "Berlaku hingga",
+    "status_enabled" => "Aktif",
+    "status_disabled" => "Kedaluwarsa",
+    "no_sub_in_project" => "Tidak ada langganan dalam proyek ini",
+    "add_first_project" => "Tambahkan proyek pertama Anda",
+    "project_name" => "Nama Proyek",
+    "project_category" => "Kategori Proyek",
+    "project_website" => "Situs web proyek (opsional)",
 ];
 
 ?>

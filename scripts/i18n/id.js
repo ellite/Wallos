@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Metode pembayaran",
   notes: "Catatan",
   export: "Ekspor",
+  // Tindakan & Status Proyek
+  new_project: "Proyek Baru",
+  edit_project: "Edit Proyek",
+  project_deleted_successfully: "Proyek berhasil dihapus",
+  // Pesan Konfirmasi
+  delete_project_confirmation: "Apakah Anda yakin ingin menghapus proyek ini dan semua langganannya? Tindakan ini tidak dapat diurungkan!",
+  // Pesan Eror
+  error_reloading_project_list: "Terjadi kesalahan saat memuat ulang daftar proyek:",
+  error_loading_project_info: "Gagal memuat informasi proyek:",
+  error_fetching_project_info: "Terjadi kesalahan saat mengambil informasi proyek:",
+  error_deleting_project: "Terjadi kesalahan saat menghapus proyek",
 }

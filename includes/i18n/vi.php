@@ -416,6 +416,20 @@ $i18n = [
     "over_budget_warning" => "Bạn đang vượt quá ngân sách",
     // TOTP Page
     "insert_totp_code" => "Nhập mã TOTP",
+    // project
+    "no_project" => "Không có dự án",
+    "associated_project" => "Dự án liên quan",
+    "projects" => "Dự án",
+    "add_project" => "Thêm dự án",
+    "edit_project" => "Chỉnh sửa dự án",
+    "valid_until" => "Có hiệu lực đến",
+    "status_enabled" => "Hoạt động",
+    "status_disabled" => "Đã hết hạn",
+    "no_sub_in_project" => "Không có đăng ký nào trong dự án này",
+    "add_first_project" => "Thêm dự án đầu tiên của bạn",
+    "project_name" => "Tên dự án",
+    "project_category" => "Hạng mục dự án",
+    "project_website" => "Trang web dự án (tùy chọn)",
 ];
 
 ?>

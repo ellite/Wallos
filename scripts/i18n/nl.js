@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Betaalmethode",
   notes: "Notities",
   export: "Exporteren"
+  // Projectacties & Status
+  new_project: "Nieuw project",
+  edit_project: "Project bewerken",
+  project_deleted_successfully: "Project succesvol verwijderd",
+  // Bevestigingsberichten
+  delete_project_confirmation: "Weet u zeker dat u dit project en al zijn abonnementen wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt!",
+  // Foutmeldingen
+  error_reloading_project_list: "Fout bij het opnieuw laden van de projectlijst:",
+  error_loading_project_info: "Laden van projectinformatie mislukt:",
+  error_fetching_project_info: "Fout bij het ophalen van projectinformatie:",
+  error_deleting_project: "Fout bij het verwijderen van het project",
 }

@@ -415,7 +415,20 @@ $i18n = [
     "over_budget_warning" => "예산이 초과되었습니다",
     // TOTP Page
     "insert_totp_code" => "2단계 인증 코드를 입력하세요",
-
+// project
+    "no_project" => "프로젝트 없음",
+    "associated_project" => "연관된 프로젝트",
+    "projects" => "프로젝트",
+    "add_project" => "프로젝트 추가",
+    "edit_project" => "프로젝트 편집",
+    "valid_until" => "유효 기간",
+    "status_enabled" => "활성",
+    "status_disabled" => "만료됨",
+    "no_sub_in_project" => "이 프로젝트에 구독이 없습니다",
+    "add_first_project" => "첫 번째 프로젝트를 추가하세요",
+    "project_name" => "프로젝트 이름",
+    "project_category" => "프로젝트 카테고리",
+    "project_website" => "프로젝트 웹사이트 (선택 사항)",
 ];
 
 

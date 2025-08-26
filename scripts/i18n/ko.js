@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "결제 수단",
   notes: "메모",
   export: "내보내기",
+  // 프로젝트 작업 및 상태
+  new_project: "새 프로젝트",
+  edit_project: "프로젝트 편집",
+  project_deleted_successfully: "프로젝트가 성공적으로 삭제되었습니다",
+  // 확인 메시지
+  delete_project_confirmation: "이 프로젝트와 모든 구독을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다!",
+  // 오류 메시지
+  error_reloading_project_list: "프로젝트 목록을 다시 로드하는 중 오류 발생:",
+  error_loading_project_info: "프로젝트 정보를 로드하지 못했습니다:",
+  error_fetching_project_info: "프로젝트 정보를 가져오는 중 오류 발생:",
+  error_deleting_project: "프로젝트를 삭제하는 중 오류 발생",
 };

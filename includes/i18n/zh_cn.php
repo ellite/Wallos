@@ -437,6 +437,24 @@ $i18n = [
 
     // TOTP Page
     "insert_totp_code" => "请输入 TOTP 代码",
+    // project
+    "no_project" => "无项目",
+    "associated_project" => "所属项目",
+    "projects" => "项目",
+    "add_project" => "新建项目",
+    "edit_project" => "编辑项目",
+    "valid_until" => "到期时间",
+    "status_enabled" => "有效",
+    "status_disabled" => "已到期",
+    "no_sub_in_project" => "该项目下无订阅",
+    "add_first_project" => "添加首个项目",
+    "project_name" => "项目名称",
+    "project_category" => "项目分类",
+    "project_website" => "项目网址 (可选)",
+
+
+
+
 
 ];
 

@@ -416,7 +416,20 @@ $i18n = [
     "over_budget_warning" => "U bent over uw budget",
     // TOTP Page
     "insert_totp_code" => "Voer TOTP code in",
-
+// project
+    "no_project" => "Geen project",
+    "associated_project" => "Bijbehorend project",
+    "projects" => "Projecten",
+    "add_project" => "Project toevoegen",
+    "edit_project" => "Project bewerken",
+    "valid_until" => "Geldig tot",
+    "status_enabled" => "Actief",
+    "status_disabled" => "Verlopen",
+    "no_sub_in_project" => "Geen abonnementen in dit project",
+    "add_first_project" => "Voeg uw eerste project toe",
+    "project_name" => "Projectnaam",
+    "project_category" => "Projectcategorie",
+    "project_website" => "Projectwebsite (optioneel)",
 
 ];
 

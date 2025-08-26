@@ -46,4 +46,15 @@ let i18n = {
     payment_method: "支付方式",
     notes: "備註",
     export: "匯出",
+    // 專案操作與狀態
+    new_project: "新增專案",
+    edit_project: "編輯專案",
+    project_deleted_successfully: "專案已成功刪除",
+    // 確認訊息
+    delete_project_confirmation: "您確定要刪除這個專案及其下的所有訂閱嗎？此操作不可恢復！",
+    // 錯誤訊息
+    error_reloading_project_list: "重新載入專案清單時出錯:",
+    error_loading_project_info: "載入專案資訊失敗:",
+    error_fetching_project_info: "獲取專案資訊時出錯:",
+    error_deleting_project: "刪除專案時出錯",
 };

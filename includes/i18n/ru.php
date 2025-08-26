@@ -415,7 +415,20 @@ $i18n = [
     "over_budget_warning" => "Вы превысили бюджет",
     // TOTP Page
     "insert_totp_code" => "Введите код TOTP",
-
+// project
+    "no_project" => "Нет проекта",
+    "associated_project" => "Связанный проект",
+    "projects" => "Проекты",
+    "add_project" => "Добавить проект",
+    "edit_project" => "Редактировать проект",
+    "valid_until" => "Действителен до",
+    "status_enabled" => "Активен",
+    "status_disabled" => "Истек срок",
+    "no_sub_in_project" => "В этом проекте нет подписок",
+    "add_first_project" => "Добавьте свой первый проект",
+    "project_name" => "Название проекта",
+    "project_category" => "Категория проекта",
+    "project_website" => "Веб-сайт проекта (необязательно)",
 ];
 
 

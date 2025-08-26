@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Phương thức thanh toán",
   notes: "Ghi chú",
   export: "Xuất",
+  // Hành động & Trạng thái dự án
+  new_project: "Dự án mới",
+  edit_project: "Chỉnh sửa dự án",
+  project_deleted_successfully: "Đã xóa dự án thành công",
+  // Tin nhắn xác nhận
+  delete_project_confirmation: "Bạn có chắc chắn muốn xóa dự án này và tất cả các đăng ký của nó không? Hành động này không thể hoàn tác!",
+  // Tin nhắn lỗi
+  error_reloading_project_list: "Lỗi khi tải lại danh sách dự án:",
+  error_loading_project_info: "Không thể tải thông tin dự án:",
+  error_fetching_project_info: "Lỗi khi tìm nạp thông tin dự án:",
+  error_deleting_project: "Lỗi khi xóa dự án",
 }

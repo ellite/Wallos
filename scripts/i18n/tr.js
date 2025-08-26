@@ -46,6 +46,17 @@ let i18n = {
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+  // Proje Eylemleri ve Durumu
+  new_project: "Yeni Proje",
+  edit_project: "Projeyi Düzenle",
+  project_deleted_successfully: "Proje başarıyla silindi",
+  // Onay Mesajları
+  delete_project_confirmation: "Bu projeyi ve tüm aboneliklerini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!",
+  // Hata Mesajları
+  error_reloading_project_list: "Proje listesi yeniden yüklenirken hata oluştu:",
+  error_loading_project_info: "Proje bilgileri yüklenemedi:",
+  error_fetching_project_info: "Proje bilgileri alınırken hata oluştu:",
+  error_deleting_project: "Proje silinirken hata oluştu",
 }
 
 

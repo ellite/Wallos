@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+// Project Actions & Status
+  new_project: "New Project",
+  edit_project: "Edit Project",
+  project_deleted_successfully: "Project deleted successfully",
+  // Confirmation Messages
+  delete_project_confirmation: "Are you sure you want to delete this project and all of its subscriptions? This action cannot be undone!",
+  // Error Messages
+  error_reloading_project_list: "Error reloading project list:",
+  error_loading_project_info: "Failed to load project information:",
+  error_fetching_project_info: "Error fetching project information:",
+  error_deleting_project: "Error deleting project",
 }

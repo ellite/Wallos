@@ -416,7 +416,20 @@ $i18n = [
     "over_budget_warning" => "Překročili jste rozpočet",
     // TOTP Page
     "insert_totp_code" => "Vložte kód TOTP",
-
+// project
+    "no_project" => "Žádný projekt",
+    "associated_project" => "Přidružený projekt",
+    "projects" => "Projekty",
+    "add_project" => "Přidat projekt",
+    "edit_project" => "Upravit projekt",
+    "valid_until" => "Platné do",
+    "status_enabled" => "Aktivní",
+    "status_disabled" => "Platnost vypršela",
+    "no_sub_in_project" => "V tomto projektu nejsou žádné odběry",
+    "add_first_project" => "Přidejte svůj první projekt",
+    "project_name" => "Název projektu",
+    "project_category" => "Kategorie projektu",
+    "project_website" => "Webová stránka projektu (volitelné)",
 
 ];
 

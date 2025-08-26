@@ -46,4 +46,15 @@ let i18n = {
   payment_method: "Platební metoda",
   notes: "Poznámky",
   export: "Exportovat",
+  // Projektové akce a stavy
+  new_project: "Nový projekt",
+  edit_project: "Upravit projekt",
+  project_deleted_successfully: "Projekt byl úspěšně smazán",
+  // Potvrzovací zprávy
+  delete_project_confirmation: "Opravdu chcete smazat tento projekt a všechna jeho předplatná? Tuto akci nelze vrátit!",
+  // Chybové zprávy
+  error_reloading_project_list: "Chyba při opětovném načítání seznamu projektů:",
+  error_loading_project_info: "Načtení informací o projektu se nezdařilo:",
+  error_fetching_project_info: "Chyba při získávání informací o projektu:",
+  error_deleting_project: "Chyba při mazání projektu",
 }

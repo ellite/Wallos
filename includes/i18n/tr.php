@@ -415,7 +415,20 @@ $i18n = [
     "over_budget_warning" => "Bütçenizi aştınız",
     // TOTP Page
     "insert_totp_code" => "Lütfen TOTP kodunuzu girin",
-
+// project
+    "no_project" => "Proje yok",
+    "associated_project" => "İlişkili Proje",
+    "projects" => "Projeler",
+    "add_project" => "Proje Ekle",
+    "edit_project" => "Projeyi Düzenle",
+    "valid_until" => "Geçerlilik tarihi",
+    "status_enabled" => "Aktif",
+    "status_disabled" => "Süresi doldu",
+    "no_sub_in_project" => "Bu projede abonelik yok",
+    "add_first_project" => "İlk projenizi ekleyin",
+    "project_name" => "Proje Adı",
+    "project_category" => "Proje Kategorisi",
+    "project_website" => "Proje Web Sitesi (İsteğe bağlı)",
 ];
 
 

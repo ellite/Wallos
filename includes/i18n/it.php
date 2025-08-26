@@ -437,6 +437,20 @@ $i18n = [
 
     // TOTP Page
     "insert_totp_code" => "Inserisci il codice TOTP",
+    // project
+    "no_project" => "Nessun progetto",
+    "associated_project" => "Progetto associato",
+    "projects" => "Progetti",
+    "add_project" => "Aggiungi progetto",
+    "edit_project" => "Modifica progetto",
+    "valid_until" => "Valido fino al",
+    "status_enabled" => "Attivo",
+    "status_disabled" => "Scaduto",
+    "no_sub_in_project" => "Nessun abbonamento in questo progetto",
+    "add_first_project" => "Aggiungi il tuo primo progetto",
+    "project_name" => "Nome del progetto",
+    "project_category" => "Categoria del progetto",
+    "project_website" => "Sito web del progetto (opzionale)",
 ];
 
 ?>

@@ -416,7 +416,20 @@ $i18n = [
     "over_budget_warning" => "您超出預算",
     // TOTP 頁面
     "insert_totp_code" => "請輸入 TOTP 驗證碼",
-
+// project
+    "no_project" => "無專案",
+    "associated_project" => "所屬專案",
+    "projects" => "專案",
+    "add_project" => "新增專案",
+    "edit_project" => "編輯專案",
+    "valid_until" => "到期時間",
+    "status_enabled" => "有效",
+    "status_disabled" => "已到期",
+    "no_sub_in_project" => "該專案下無訂閱",
+    "add_first_project" => "新增您的第一個專案",
+    "project_name" => "專案名稱",
+    "project_category" => "專案分類",
+    "project_website" => "專案網址 (可選)",
 
 ];
 

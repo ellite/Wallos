@@ -3,17 +3,7 @@
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 
-// Redirect to subscriptions page if no subscriptions exist
-$stmt = $db->prepare("SELECT COUNT(*) FROM subscriptions WHERE user_id = :userId");
-$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-$result = $stmt->execute();
-$row = $result->fetchArray(SQLITE3_NUM);
-$subscriptionCount = $row[0];
 
-if ($subscriptionCount === 0) {
-    header('Location: subscriptions.php');
-    exit;
-}
 
 function formatPrice($price, $currencyCode, $currencies)
 {
@@ -217,7 +207,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                     </h3>
                                     <span class="item-arrow-down fa fa-caret-down"></span>
                                 </div>
-                                
+
                                 <p class="collapsible"><?= htmlspecialchars($recommendation['description']) ?></p>
                                 <p><?= htmlspecialchars($recommendation['savings']) ?></p>
                             </li>

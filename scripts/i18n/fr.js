@@ -46,4 +46,15 @@ let i18n = {
     payment_method: "Méthode de paiement",
     notes: "Notes",
     export: "Exporter",
+    // Actions et statut du projet
+    new_project: "Nouveau projet",
+    edit_project: "Modifier le projet",
+    project_deleted_successfully: "Projet supprimé avec succès",
+    // Messages de confirmation
+    delete_project_confirmation: "Êtes-vous sûr de vouloir supprimer ce projet et tous ses abonnements ? Cette action est irréversible !",
+    // Messages d'erreur
+    error_reloading_project_list: "Erreur lors du rechargement de la liste des projets :",
+    error_loading_project_info: "Échec du chargement des informations sur le projet :",
+    error_fetching_project_info: "Erreur lors de la récupération des informations sur le projet :",
+    error_deleting_project: "Erreur lors de la suppression du projet",
 };

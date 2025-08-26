@@ -415,7 +415,20 @@ $i18n = [
     "over_budget_warning" => "Prekoračili ste budžet",
     // TOTP Page
     "insert_totp_code" => "Unesite TOTP kod",
-
+// project
+    "no_project" => "Nema projekta",
+    "associated_project" => "Povezani projekat",
+    "projects" => "Projekti",
+    "add_project" => "Dodaj projekat",
+    "edit_project" => "Uredi projekat",
+    "valid_until" => "Važi do",
+    "status_enabled" => "Aktivno",
+    "status_disabled" => "Istekao",
+    "no_sub_in_project" => "Nema pretplata u ovom projektu",
+    "add_first_project" => "Dodajte svoj prvi projekat",
+    "project_name" => "Naziv projekta",
+    "project_category" => "Kategorija projekta",
+    "project_website" => "Veb lokacija projekta (opciono)",
 ];
 
 

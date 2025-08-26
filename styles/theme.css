@@ -44,3 +44,232 @@ svg .accent-color {
 svg .text-color {
     fill: #202020;
 }
+
+
+/* ======================================================================================= */
+
+/* --- 桌面端和移动端次要信息显示切换 (网格版) --- */
+
+/* 默认情况下，隐藏所有桌面端内容，只显示移动端视图 */
+.subscription-secondary .secondary-desktop-grid,
+.subscription-notes-grid {
+    display: none;
+}
+
+.subscription-secondary .secondary-mobile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 桌面端网格布局样式 */
+.secondary-desktop-grid {
+    width: 100%;
+    display: grid;
+    /* 定义6列，每列占据1个分数单位，实现均分 */
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px 15px; /* 行间距10px, 列间距15px */
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color, #e0e0e0); /* 使用项目变量或默认颜色 */
+}
+
+/* 表头单元格样式 */
+.secondary-desktop-grid .grid-header {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--text-color-secondary, #6c757d); /* 使用项目变量或默认颜色 */
+    padding-bottom: 5px;
+}
+
+/* 数据单元格样式 */
+.secondary-desktop-grid .grid-item {
+    font-size: 0.9em;
+}
+
+/* 备注区域样式 */
+.subscription-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 同样分为6列以便对齐 */
+    gap: 10px 15px;
+    padding-bottom: 10px;
+}
+
+/* 备注的标题 */
+.subscription-notes-grid .grid-header {
+    grid-column: 1 / 2; /* 占据第一列 */
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--text-color-secondary, #6c757d);
+}
+
+/* 备注的内容，让它横跨所有6列 */
+.subscription-notes-grid .grid-item-full {
+    grid-column: 1 / -1; /* 从第一列开始，到最后一列结束 */
+    font-size: 0.9em;
+    padding-top: 5px;
+}
+
+/* 当屏幕宽度大于992px时 (使用一个更宽的断点以确保空间足够) */
+@media (min-width: 993px) {
+    /* 隐藏移动端视图 */
+    .subscription-secondary .secondary-mobile {
+        display: none;
+    }
+
+    /* 显示桌面端网格和备注 */
+    .subscription-secondary .secondary-desktop-grid {
+        display: grid;
+    }
+    .subscription-notes-grid {
+        display: grid;
+    }
+}
+
+
+/**/
+/**/
+/**/
+/**/
+/**/
+/* --- 项目下订阅子列表的原生风格样式 --- */
+
+/* 默认隐藏桌面版表格，显示移动版列表 */
+.secondary-desktop-table {
+    display: none;
+}
+.secondary-mobile {
+    display: block;
+}
+
+/* 新增：项目备注的样式 */
+.project-notes {
+    padding: 10px 15px;
+    font-size: 0.9em;
+    color: var(--text-color-secondary, #6c757d);
+    background-color: var(--background-color-secondary, #f8f9fa);
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+.project-notes strong {
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+/* 子列表容器的基本样式 */
+.subscription-secondary.has-children {
+    padding: 0;
+}
+.subscription-secondary.no-subscriptions {
+    padding: 20px;
+    text-align: center;
+    color: var(--text-color-secondary, #6c757d);
+    font-style: italic;
+    background-color: var(--background-color-secondary, #f8f9fa);
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+/* 表格主体样式 */
+.secondary-desktop-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    table-layout: fixed; /* 关键：让表格布局更可预测 */
+    background-color: var(--background-color-secondary, #f8f9fa);
+}
+.secondary-desktop-table th,
+.secondary-desktop-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color-light, #eaeaea);
+    vertical-align: middle; /* 垂直居中对齐 */
+}
+.secondary-desktop-table tr:first-child th,
+.secondary-desktop-table tr:first-child td {
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+.secondary-desktop-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 表头样式 */
+.secondary-desktop-table thead tr {
+    background-color: var(--background-color-secondary, #f8f9fa);
+}
+.secondary-desktop-table th {
+    font-weight: 600;
+    color: var(--text-color-secondary, #6c757d);
+}
+
+/* 行样式 */
+.secondary-desktop-table .inactive-row {
+    color: var(--text-color-secondary, #6c757d);
+    opacity: 0.7;
+}
+
+/* 【关键修正】为每一列精确分配宽度 */
+.secondary-desktop-table th:nth-child(1), .secondary-desktop-table td:nth-child(1) { width: 12%; } /* 订阅日期 */
+.secondary-desktop-table th:nth-child(2), .secondary-desktop-table td:nth-child(2) { width: 12%; } /* 到期日期 */
+.secondary-desktop-table th:nth-child(3), .secondary-desktop-table td:nth-child(3) { width: 8%; }  /* 状态 */
+.secondary-desktop-table th:nth-child(4), .secondary-desktop-table td:nth-child(4) { width: 12%; } /* 周期 */
+.secondary-desktop-table th:nth-child(5), .secondary-desktop-table td:nth-child(5) { width: 10%; } /* 金额 */
+.secondary-desktop-table th:nth-child(6), .secondary-desktop-table td:nth-child(6) { width: 12%; } /* 付费形式 */
+.secondary-desktop-table th:nth-child(7), .secondary-desktop-table td:nth-child(7) { width: 24%; } /* 【重点】为备注分配足够宽度 */
+.secondary-desktop-table th:nth-child(8), .secondary-desktop-table td:nth-child(8) { width: 10%; text-align: center; } /* 设置 */
+
+/* 【关键修正】确保备注单元格可以换行并正确显示 */
+.secondary-desktop-table .notes-cell {
+    white-space: normal; /* 允许内容自动换行 */
+    word-break: break-word; /* 对长单词或链接进行强制换行 */
+    font-style: italic; /* 斜体以区分 */
+    color: var(--text-color-secondary, #6c757d);
+}
+
+.secondary-desktop-table .actions-cell {
+    text-align: center;
+}
+.actions-icon {
+    background: none; border: none; cursor: pointer;
+    color: var(--text-color-secondary, #6c757d);
+    padding: 5px;
+    transition: color 0.2s;
+}
+.actions-icon:hover {
+    color: var(--primary-color, #007bff);
+}
+
+
+/* --- 移动端响应式样式 --- */
+@media (max-width: 768px) {
+    /* ... 移动端样式保持不变 ... */
+    .project-notes {
+        border-top: none;
+        padding-top: 0;
+    }
+    .secondary-mobile {
+        padding: 10px;
+    }
+    .mobile-child-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 5px;
+        border-bottom: 1px solid var(--border-color-light, #eaeaea);
+    }
+    .mobile-child-row:last-child {
+        border-bottom: none;
+    }
+    .mobile-child-row.inactive {
+        opacity: 0.6;
+    }
+}
+
+
+/* 当屏幕宽度大于768px时 (认为是桌面端) */
+@media (min-width: 769px) {
+    /* 隐藏移动端视图 */
+    .secondary-mobile {
+        display: none;
+    }
+    /* 显示桌面端表格 */
+    .secondary-desktop-table {
+        display: block;
+    }
+}

@@ -415,7 +415,20 @@ $i18n = [
     "over_budget_warning" => "Έχετε ξεπεράσει τον προϋπολογισμό",
     // TOTP Page
     "insert_totp_code" => "Εισάγετε τον κωδικό TOTP",
-
+// project
+    "no_project" => "Κανένα έργο",
+    "associated_project" => "Συσχετισμένο έργο",
+    "projects" => "Έργα",
+    "add_project" => "Προσθήκη έργου",
+    "edit_project" => "Επεξεργασία έργου",
+    "valid_until" => "Ισχύει μέχρι",
+    "status_enabled" => "Ενεργό",
+    "status_disabled" => "Έληξε",
+    "no_sub_in_project" => "Δεν υπάρχουν συνδρομές σε αυτό το έργο",
+    "add_first_project" => "Προσθέστε το πρώτο σας έργο",
+    "project_name" => "Όνομα έργου",
+    "project_category" => "Κατηγορία έργου",
+    "project_website" => "Ιστοσελίδα έργου (προαιρετικό)",
 ];
 
 
