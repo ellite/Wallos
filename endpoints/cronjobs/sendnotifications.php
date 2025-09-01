@@ -131,7 +131,16 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $telegram['botToken'] = $row["bot_token"];
         $telegram['chatId'] = $row["chat_id"];
     }
+    // Check if PushPlus notifications are enabled and get the settings
+    $query = "SELECT * FROM pushplus_notifications WHERE user_id = :userId";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
 
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $pushplusNotificationsEnabled = $row['enabled'];
+        $pushplus['token'] = $row["token"];
+    }
     // Check if Pushover notifications are enabled and get the settings
     $query = "SELECT * FROM pushover_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);
@@ -174,7 +183,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     }
 
     $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled ||
-        $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled ||
+        $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled ||$pushplusNotificationsEnabled||
         $ntfyNotificationsEnabled;
 
     // If no notifications are enabled, no need to run
@@ -494,6 +503,69 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     } else {
                         echo "Telegram Notifications sent<br />";
                     }
+                }
+            }
+
+
+            // PushPlus notifications if enabled
+            if ($pushplusNotificationsEnabled) {
+                foreach ($notify as $userId => $perUser) {
+                    // Get name of user from household table
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $result = $stmt->execute();
+                    $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                    // 构建消息内容
+                    $messageContent = "";
+                    if ($user['name']) {
+                        $messageContent = $user['name'] . ", the following subscriptions are up for renewal:\n";
+                    } else {
+                        $messageContent = "The following subscriptions are up for renewal:\n";
+                    }
+
+                    foreach ($perUser as $subscription) {
+                        $dayText = getDaysText($subscription['days']);
+                        $messageContent .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                    }
+
+                    // 准备 PushPlus 数据
+                    $data = array(
+                        'token' => $pushplus['token'],
+                        'title' => '订阅续期提醒 - Wallos',
+                        'content' => mb_convert_encoding($messageContent, 'UTF-8', 'auto'),
+                        'template' => 'json'
+                    );
+
+                    $data_string = json_encode($data);
+
+                    $ch = curl_init('https://www.pushplus.plus/send');
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt(
+                        $ch,
+                        CURLOPT_HTTPHEADER,
+                        array(
+                            'Content-Type: application/json'
+                        ),
+                    );
+
+                    $result = curl_exec($ch);
+                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                    if ($result === false) {
+                        echo "Error sending PushPlus notifications: " . curl_error($ch) . "<br />";
+                    } else {
+                        $resultData = json_decode($result, true);
+                        if (isset($resultData['code']) && $resultData['code'] == 200) {
+                            echo "PushPlus Notifications sent successfully<br />";
+                        } else {
+                            $errorMsg = isset($resultData['msg']) ? $resultData['msg'] : 'Unknown error';
+                            echo "PushPlus API error: " . $errorMsg . "<br />";
+                        }
+                    }
+                    curl_close($ch);
                 }
             }
 
