@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -euo pipefail
+
 echo "Startup script is running..." > /var/log/startup.log
 
 # Default the PUID and PGID environment variables to 82, otherwise
@@ -14,11 +16,46 @@ chown -R www-data:www-data /var/www/html
 chown -R www-data:www-data /tmp
 chmod -R 770 /tmp
 
-# Start both PHP-FPM and Nginx
-php-fpm & nginx -g 'daemon off;' & touch ~/startup.txt
+# PIDs we’ll track
+PHP_FPM_PID=
+NGINX_PID=
+CROND_PID=
+shutdown_in_progress=0
 
-# Start the cron daemon
-crond
+shutdown_once() {
+  exit_signal=$?
+  kill_signal=$(kill -l "$exit_signal" 2>/dev/null || echo "$exit_signal")
+
+  [ "$shutdown_in_progress" -eq 1 ] && return 0
+  shutdown_in_progress=1
+
+  echo "Got signal: $kill_signal - Shutting down gracefully... "
+  # nginx wants QUIT for graceful
+  nginx -s quit || true
+  # php-fpm graceful quit as well
+  [ -n "${PHP_FPM_PID}" ] && kill -QUIT "${PHP_FPM_PID}" 2>/dev/null || true
+  # cron can just get TERM
+  [ -n "${CROND_PID}" ] && kill -TERM "${CROND_PID}" 2>/dev/null || true
+  echo "Graceful shutdown complete."
+}
+
+# Handle all common stop signals
+trap 'shutdown_once' SIGTERM SIGINT SIGQUIT
+
+# Start both PHP-FPM and Nginx
+echo "Launching php-fpm"
+php-fpm -F &
+PHP_FPM_PID=$!
+
+echo "Launching crond"
+crond -f &
+CROND_PID=$!
+
+echo "Launching nginx"
+nginx -g 'daemon off;' &
+NGINX_PID=$!
+
+touch ~/startup.txt
 
 # Wait one second before running scripts
 sleep 1
@@ -51,5 +88,5 @@ crontab -d -u root
 # Run checkforupdates.php
 /usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php
 
-# Keep the container running indefinitely (this won't exit)
-tail -f /dev/null
+# Essentially wait until all child processes exit
+wait
