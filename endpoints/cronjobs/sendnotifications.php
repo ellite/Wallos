@@ -516,7 +516,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    // 构建消息内容
+                    // Build Message Content
                     $messageContent = "";
                     if ($user['name']) {
                         $messageContent = $user['name'] . ", the following subscriptions are up for renewal:\n";
@@ -529,7 +529,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         $messageContent .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                     }
 
-                    // 准备 PushPlus 数据
+                    // Prepare PushPlus Data
                     $data = array(
                         'token' => $pushplus['token'],
                         'title' => '订阅续期提醒 - Wallos',

@@ -223,22 +223,22 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
 
 
     // PushPlus notifications
-$sql = "SELECT * FROM pushplus_notifications WHERE user_id = :userId LIMIT 1";
-$stmt = $db->prepare($sql);
-$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-$result = $stmt->execute();
+    $sql = "SELECT * FROM pushplus_notifications WHERE user_id = :userId LIMIT 1";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
 
-$rowCount = 0;
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $notificationsPushPlus['enabled'] = $row['enabled'];
-    $notificationsPushPlus['token'] = $row['token'];
-    $rowCount++;
-}
+    $rowCount = 0;
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $notificationsPushPlus['enabled'] = $row['enabled'];
+        $notificationsPushPlus['token'] = $row['token'];
+        $rowCount++;
+    }
 
-if ($rowCount == 0) {
-    $notificationsPushPlus['enabled'] = 0;
-    $notificationsPushPlus['token'] = "";
-}
+    if ($rowCount == 0) {
+        $notificationsPushPlus['enabled'] = 0;
+        $notificationsPushPlus['token'] = "";
+    }
 
     // Ntfy notifications
     $sql = "SELECT * FROM ntfy_notifications WHERE user_id = :userId LIMIT 1";
