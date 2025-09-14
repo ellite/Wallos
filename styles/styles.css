@@ -3042,6 +3042,19 @@ input[type="radio"]:checked+label::after {
   color: var(--accent-color);
 }
 
+.ai-recommendation-item p.ai-recommendation-savings {
+  justify-content: space-between;
+}
+
+.ai-recommendation-item p.ai-recommendation-savings a {
+  color: var(--main-color);
+  text-decoration: none;
+}
+
+.ai-recommendation-item.expanded p.ai-recommendation-savings {
+  display: flex;
+}
+
 .flex {
   display: flex;
 }

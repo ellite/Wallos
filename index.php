@@ -197,7 +197,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         <?php
 
                         foreach ($aiRecommendations as $key => $recommendation) { ?>
-                            <li class="ai-recommendation-item">
+                            <li class="ai-recommendation-item" data-id="<?= $recommendation['id'] ?>">
                                 <div class="ai-recommendation-header">
                                     <h3>
                                         <span><?= ($key + 1) . ". " ?></span>
@@ -205,9 +205,15 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                     </h3>
                                     <span class="item-arrow-down fa fa-caret-down"></span>
                                 </div>
-                                
                                 <p class="collapsible"><?= htmlspecialchars($recommendation['description']) ?></p>
-                                <p><?= htmlspecialchars($recommendation['savings']) ?></p>
+                                <p class="ai-recommendation-savings">
+                                    <?= htmlspecialchars($recommendation['savings']) ?>
+                                    <span>
+                                        <a href="#" class="delete-ai-recommendation" title="<?= translate('delete', $i18n) ?>">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                    </span>
+                                </p>
                             </li>
                         <?php } ?>
                     </ul>
