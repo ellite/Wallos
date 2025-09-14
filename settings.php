@@ -221,6 +221,25 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsTelegram['chat_id'] = "";
     }
 
+
+    // PushPlus notifications
+$sql = "SELECT * FROM pushplus_notifications WHERE user_id = :userId LIMIT 1";
+$stmt = $db->prepare($sql);
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
+$rowCount = 0;
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $notificationsPushPlus['enabled'] = $row['enabled'];
+    $notificationsPushPlus['token'] = $row['token'];
+    $rowCount++;
+}
+
+if ($rowCount == 0) {
+    $notificationsPushPlus['enabled'] = 0;
+    $notificationsPushPlus['token'] = "";
+}
+
     // Ntfy notifications
     $sql = "SELECT * FROM ntfy_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -549,6 +568,35 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                 </div>
             </section>
+
+            <section class="account-notifications-section">
+    <header class="account-notification-section-header" onclick="openNotificationsSettings('pushplus');">
+        <h3>
+            <i class="fa-solid fa-bell"></i>
+            <?= translate('pushplus', $i18n) ?>
+        </h3>
+    </header>
+    <div class="account-notification-section-settings" data-type="pushplus">
+        <div class="form-group-inline">
+            <input type="checkbox" id="pushplusenabled" name="pushplusenabled"
+                <?= $notificationsPushPlus['enabled'] ? "checked" : "" ?>>
+            <label for="pushplusenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+        </div>
+        <div class="form-group-inline">
+            <input type="text" name="pushplustoken" id="pushplustoken"
+                placeholder="<?= translate('pushplus_token', $i18n) ?>"
+                value="<?= $notificationsPushPlus['token'] ? $notificationsPushPlus['token'] : '' ?>" />
+        </div>
+        <div class="buttons">
+            <input type="button" class="secondary-button thin mobile-grow"
+                value="<?= translate('test', $i18n) ?>" id="testNotificationsPushPlus"
+                onClick="testNotificationsPushPlusButton()" />
+            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                id="saveNotificationsPushPlus" onClick="saveNotificationsPushPlusButton()" />
+        </div>
+    </div>
+</section>
+
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('ntfy');">
                     <h3>

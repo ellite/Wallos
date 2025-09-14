@@ -186,6 +186,36 @@ function testNotificationsTelegramButton() {
     makeFetchCall('endpoints/notifications/testtelegramnotifications.php', data, button);
 }
 
+function testNotificationsPushPlusButton() {
+    const button = document.getElementById("testNotificationsPushPlus");
+    button.disabled = true;
+  
+    const enabled = document.getElementById("pushplusenabled").checked ? 1 : 0;
+    const token = document.getElementById("pushplustoken").value;
+  
+    const data = {
+      enabled: enabled,
+      token: token
+    };
+
+    makeFetchCall('endpoints/notifications/testpushplusnotifications.php', data, button);
+}
+
+function saveNotificationsPushPlusButton() {
+    const button = document.getElementById("saveNotificationsPushPlus");
+    button.disabled = true;
+  
+    const enabled = document.getElementById("pushplusenabled").checked ? 1 : 0;
+    const token = document.getElementById("pushplustoken").value;
+  
+    const data = {
+      enabled: enabled,
+      token: token
+    };
+
+    makeFetchCall('endpoints/notifications/savepushplusnotifications.php', data, button);
+}
+
 function saveNotificationsGotifyButton() {
     const button = document.getElementById("saveNotificationsGotify");
     button.disabled = true;
@@ -204,6 +234,7 @@ function saveNotificationsGotifyButton() {
 
     makeFetchCall('endpoints/notifications/savegotifynotifications.php', data, button);
 }
+
 
 function testNotificationsGotifyButton() {
     const button = document.getElementById("testNotificationsGotify");
