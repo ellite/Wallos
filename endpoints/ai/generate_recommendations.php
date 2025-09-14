@@ -274,7 +274,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $recommendations = json_decode($recommendationsJson, true);
     } elseif ($type === 'gemini' && isset($replyData['candidates'][0]['content']['parts'][0]['text'])) {
         $recommendationsJson = $replyData['candidates'][0]['content']['parts'][0]['text'];
-        $recommendations = json_decode($recommendationsJson, true);
+        // Gemini has a habit of returning the JSON wrapped in markdown syntax, no matter the prompting, strip before parsing.
+        $recommendationsJson = preg_replace('/^```json\s*|\s*```$/m', '', $recommendationsJson);
+        $recommendationsJson = trim($recommendationsJson);
+        $recommendations = json_decode($recommendationsJson, true);        
     } else {
         $recommendations = json_decode($replyData['response'], true);
     }
