@@ -131,6 +131,16 @@ docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
 bellamy/wallos:latest
 ```
 
+Disable healthcheck (optional, e.g., for Docker <25 or faster startup reporting):
+
+```bash
+docker run -d --name wallos -v /path/to/config/wallos/db:/var/www/html/db \
+-v /path/to/config/wallos/logos:/var/www/html/images/uploads/logos \
+-e TZ=Europe/Berlin -p 8282:80 --restart unless-stopped \
+--health-cmd=NONE \
+bellamy/wallos:latest
+```
+
 ### Docker Compose
 
 ```
@@ -149,6 +159,25 @@ services:
     restart: unless-stopped
 ```
 
+Disable healthcheck (optional, e.g., for Docker <25 or faster startup reporting):
+
+```
+services:
+  wallos:
+    container_name: wallos
+    image: bellamy/wallos:latest
+    ports:
+      - "8282:80/tcp"
+    environment:
+      TZ: 'America/Toronto'
+    volumes:
+      - './db:/var/www/html/db'
+      - './logos:/var/www/html/images/uploads/logos'
+    restart: unless-stopped
+    healthcheck:
+      test: ["NONE"]
+```
+
 ## Usage
 
 Just open the browser and open `ip:port` of the machine running wallos.  
@@ -159,15 +188,17 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 
 ## Screenshots
 
-![Screenshot](screenshots/wallos-dashboard-light.png)
+![Screenshot](screenshots/wallos-subscriptions-light.png)
 
-![Screenshot](screenshots/wallos-dashboard-dark.png)
+![Screenshot](screenshots/wallos-subscriptions-dark.png)
 
 ![Screenshot](screenshots/wallos-stats.png)
 
 ![Screenshot](screenshots/wallos-calendar.png)
 
 ![Screenshot](screenshots/wallos-form.png)
+
+![Screenshot](screenshots/wallos-subscriptions-mobile-light.png) ![Screenshot](screenshots/wallos-subscriptions-mobile-dark.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
 
