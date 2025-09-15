@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.3.0](https://github.com/ellite/Wallos/compare/v4.2.0...v4.3.0) (2025-09-15)
+
+
+### Features
+
+* add health endpoint and healthcheck to container ([#919](https://github.com/ellite/Wallos/issues/919)) ([852cb48](https://github.com/ellite/Wallos/commit/852cb485a65a58c91577b369fb9ea293d370bda8))
+
 ## [4.2.0](https://github.com/ellite/Wallos/compare/v4.1.1...v4.2.0) (2025-09-14)
 
 
