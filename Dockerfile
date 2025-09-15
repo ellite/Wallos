@@ -43,13 +43,11 @@ RUN dos2unix /etc/cron.d/cronjobs && \
 # Expose port 80 for Nginx
 EXPOSE 80
 
-ARG SOFTWARE_VERSION=1.20.0
-
 ENTRYPOINT ["dumb-init", "--"]
 
 # Requires docker engine 25+ for the --start-interval flag
 HEALTHCHECK --interval=2m --timeout=2s --start-period=20s --start-interval=5s --retries=3 \
-    CMD ["curl", "-fsS", "127.0.0.1/health.php"]
+    CMD ["curl", "-fsS", "http://127.0.0.1/health.php"]
 
 # Start both PHP-FPM, Nginx
 CMD ["/var/www/html/startup.sh"]
