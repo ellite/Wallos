@@ -12,7 +12,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $aiOllamaHost = isset($data['ollama_host']) ? trim($data['ollama_host']) : '';
         $aiModel = isset($data['model']) ? trim($data['model']) : '';
 
-        if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'ollama'])) {
+        if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama'])) {
             $response = [
                 "success" => false,
                 "message" => translate('error', $i18n)
@@ -21,7 +21,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             exit;
         }
 
-        if (($aiType === 'chatgpt' || $aiType === 'gemini') && empty($aiApiKey)) {
+        if (($aiType === 'chatgpt' || $aiType === 'gemini' || $aiType === 'openrouter') && empty($aiApiKey)) {
             $response = [
                 "success" => false,
                 "message" => translate('invalid_api_key', $i18n)
