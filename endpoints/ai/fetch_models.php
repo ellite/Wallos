@@ -4,6 +4,7 @@ require_once '../../includes/connect_endpoint.php';
 
 $chatgptModelsApiUrl = 'https://api.openai.com/v1/models';
 $geminiModelsApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
+$openrouterModelsApiUrl = 'https://openrouter.ai/api/v1/models';
 
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -15,7 +16,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
         $aiOllamaHost = isset($data["ollama_host"]) ? trim($data["ollama_host"]) : '';
 
         // Validate ai-type
-        if (!in_array($aiType, ['chatgpt', 'gemini', 'ollama'])) {
+        if (!in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama'])) {
             $response = [
                 "success" => false,
                 "message" => translate('error', $i18n)
@@ -24,8 +25,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             exit;
         }
 
-        // Validate ai-api-key and fetch models if ai-type is chatgpt or gemini
-        if ($aiType === 'chatgpt' || $aiType === 'gemini') {
+        // Validate ai-api-key and fetch models if ai-type is chatgpt, gemini or openrouter
+        if ($aiType === 'chatgpt' || $aiType === 'gemini' || $aiType === 'openrouter') {
             if (empty($aiApiKey)) {
                 $response = [
                     "success" => false,
@@ -45,7 +46,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $apiUrl = $chatgptModelsApiUrl;
         } elseif ($aiType === 'gemini') {
             $apiUrl = $geminiModelsApiUrl . '?key=' . urlencode($aiApiKey);
-        } else {
+        } elseif ($aiType === 'openrouter') {
+            $headers[] = 'Authorization: Bearer ' . $aiApiKey;
+            $apiUrl = $openrouterModelsApiUrl;
+        }
+        else {
             // For ollama, no API key is needed
             // Check for ollama host
             if (empty($aiOllamaHost)) {

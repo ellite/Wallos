@@ -62,7 +62,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $model = isset($aiSettings['model']) ? $aiSettings['model'] : '';
     $host = "";
     $apiKey = "";
-    if (!in_array($type, ['chatgpt', 'gemini', 'ollama']) || !$enabled || empty($model)) {
+    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'ollama']) || !$enabled || empty($model)) {
         $response = [
             "success" => false,
             "message" => translate('error', $i18n)
@@ -243,6 +243,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
                     ]
                 ]
             ]));
+        } elseif ($type === 'openrouter') {
+            $headers[] = 'Authorization: Bearer ' . $apiKey;
+            curl_setopt($ch, CURLOPT_URL, 'https://openrouter.ai/api/v1/chat/completions');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+                'model' => $model,
+                'messages' => [['role' => 'user', 'content' => $prompt]]
+            ]));
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -269,7 +276,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
     // Try to decode the AI's JSON reply
     $replyData = json_decode($reply, true); // decode into array
-    if ($type === 'chatgpt' && isset($replyData['choices'][0]['message']['content'])) {
+    if (($type === 'chatgpt' || $type === 'openrouter') && isset($replyData['choices'][0]['message']['content'])) {
         $recommendationsJson = $replyData['choices'][0]['message']['content'];
         $recommendations = json_decode($recommendationsJson, true);
     } elseif ($type === 'gemini' && isset($replyData['candidates'][0]['content']['parts'][0]['text'])) {
