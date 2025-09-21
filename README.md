@@ -89,6 +89,8 @@ See instructions to run Wallos below.
     - openssl
     - sqlite3
     - zip
+    - mbstring
+    - fpm
 
 #### Docker
 
