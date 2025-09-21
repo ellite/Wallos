@@ -240,6 +240,28 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsPushPlus['token'] = "";
     }
 
+    // Mattermost notifications
+    $sql = "SELECT * FROM mattermost_notifications WHERE user_id = :userID LIMIT 1";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userID', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $rowCount = 0;
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $notificationsMattermost['enabled'] = $row['enabled'];
+        $notificationsMattermost['webhook_url'] = $row['webhook_url'];
+        $notificationsMattermost['bot_username'] = $row['bot_username'];
+        $notificationsMattermost['bot_icon_emoji'] = $row['bot_icon_emoji'];
+        $rowCount++;
+    }
+
+    if ($rowCount == 0) {
+        $notificationsMattermost['enabled'] = 0;
+        $notificationsMattermost['webhook_url'] = "";
+        $notificationsMattermost['bot_username'] = "";
+        $notificationsMattermost['bot_icon_emoji'] = "";
+    }
+
     // Ntfy notifications
     $sql = "SELECT * FROM ntfy_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -593,6 +615,44 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 onClick="testNotificationsPushPlusButton()" />
             <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                 id="saveNotificationsPushPlus" onClick="saveNotificationsPushPlusButton()" />
+        </div>
+    </div>
+</section>
+
+<section class="account-notifications-section">
+<header class="account-notification-section-header" onclick="openNotificationsSettings('mattermost');">
+        <h3>
+            <i class="fa-solid fa-bell"></i>
+            <?= translate('mattermost', $i18n) ?>
+        </h3>
+    </header>
+    <div class="account-notification-section-settings" data-type="mattermost">
+        <div class="form-group-inline">
+            <input type="checkbox" id="mattermostenabled" name="mattermostenabled"
+                <?= $notificationsMattermost['enabled'] ? "checked" : "" ?>>
+            <label for="mattermostenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+        </div>
+        <div class="form-group-inline">
+            <input type="text" name="mattermostwebhookurl" id="mattermostwebhookurl"
+                placeholder="<?= translate('mattermost_webhook_url', $i18n) ?>"
+                value="<?= $notificationsMattermost['webhook_url'] ? $notificationsMattermost['webhook_url'] : '' ?>" />
+        </div>
+        <div class="form-group-inline">
+            <input type="text" name="mattermostbotusername" id="mattermostbotusername"
+                placeholder="<?= translate('mattermost_bot_username', $i18n) ?>"
+                value="<?= $notificationsMattermost['bot_username'] ? $notificationsMattermost['bot_username'] : '' ?>" />
+        </div>
+        <div class="form-group-inline">
+            <input type="text" name="mattermostboticonemoji" id="mattermostboticonemoji"
+                placeholder="<?= translate('mattermost_bot_icon_emoji', $i18n) ?>"
+                value="<?= $notificationsMattermost['bot_icon_emoji'] ? $notificationsMattermost['bot_icon_emoji'] : '' ?>" />
+        </div>
+        <div class="buttons">
+            <input type="button" class="secondary-button thin mobile-grow"
+                value="<?= translate('test', $i18n) ?>" id="testNotificationsMattermost"
+                onClick="testNotificationsMattermostButton()" />
+            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                id="saveNotificationsMattermost" onClick="saveNotificationsMattermostButton()" />
         </div>
     </div>
 </section>
