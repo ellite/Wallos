@@ -161,7 +161,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                         ?>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
-                            <input type="text" id="email" name="email" required>
+                            <input type="text" id="email" name="email" autocomplete="email" required>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="<?= translate('reset_password', $i18n) ?>">
@@ -190,11 +190,11 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                             <input type="hidden" name="token" value="<?= $token ?>">
                             <input type="hidden" name="email" value="<?= $email ?>">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
-                            <input type="password" id="password" name="password" required>
+                            <input type="password" id="password" name="password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" required>
+                            <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="<?= translate('reset_password', $i18n) ?>">

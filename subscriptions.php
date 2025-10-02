@@ -307,7 +307,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
   <form action="endpoints/subscription/add.php" method="post" id="subs-form">
 
     <div class="form-group-inline">
-      <input type="text" id="name" name="name" placeholder="<?= translate('subscription_name', $i18n) ?>"
+      <input type="text" id="name" name="name" autocomplete="off"
+        placeholder="<?= translate('subscription_name', $i18n) ?>"
         onchange="setSearchButtonStatus()" onkeypress="this.onchange();" onpaste="this.onchange();"
         oninput="this.onchange();" required>
       <label for="logo" class="logo-preview">
@@ -331,7 +332,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     </div>
 
     <div class="form-group-inline">
-      <input type="number" step="0.01" id="price" name="price" placeholder="<?= translate('price', $i18n) ?>" required>
+      <input type="number" step="0.01" id="price" name="price" autocomplete="off"
+        placeholder="<?= translate('price', $i18n) ?>" required>
       <select id="currency" name="currency_id" placeholder="<?= translate('add_subscription', $i18n) ?>">
         <?php
         foreach ($currencies as $currency) {
@@ -386,7 +388,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <div class="split50">
           <label for="start_date"><?= translate('start_date', $i18n) ?></label>
           <div class="date-wrapper">
-            <input type="date" id="start_date" name="start_date">
+            <input type="date" id="start_date" name="start_date" autocomplete="off">
           </div>
         </div>
         <button type="button" id="autofill-next-payment-button"
@@ -403,7 +405,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
             </div>
           </label>
           <div class="date-wrapper">
-            <input type="date" id="next_payment" name="next_payment" required>
+            <input type="date" id="next_payment" name="next_payment" autocomplete="off" required>
           </div>
         </div>
       </div>
@@ -480,18 +482,18 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <div class="split33 mobile-split-50">
           <label for="cancellation_date"><?= translate('cancellation_notification', $i18n) ?></label>
           <div class="date-wrapper">
-            <input type="date" id="cancellation_date" name="cancellation_date">
+            <input type="date" id="cancellation_date" name="cancellation_date" autocomplete="off">
           </div>
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <input type="text" id="url" name="url" placeholder="<?= translate('url', $i18n) ?>">
+      <input type="text" id="url" name="url" autocomplete="off" placeholder="<?= translate('url', $i18n) ?>">
     </div>
 
     <div class="form-group">
-      <input type="text" id="notes" name="notes" placeholder="<?= translate('notes', $i18n) ?>">
+      <input type="text" id="notes" name="notes" autocomplete="off" placeholder="<?= translate('notes', $i18n) ?>">
     </div>
 
     <div class="form-group">

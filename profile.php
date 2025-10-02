@@ -65,23 +65,28 @@ require_once 'includes/header.php';
                         </div>
                         <div class="form-group">
                             <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
-                            <input type="text" id="firstname" name="firstname" value="<?= $userData['firstname'] ?>">
+                            <input type="text" id="firstname" name="firstname" autocomplete="given-name"
+                                value="<?= $userData['firstname'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
-                            <input type="text" id="lastname" name="lastname" value="<?= $userData['lastname'] ?>">
+                            <input type="text" id="lastname" name="lastname" autocomplete="family-name"
+                                value="<?= $userData['lastname'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
-                            <input type="email" id="email" name="email" value="<?= $userData['email'] ?>" required>
+                            <input type="email" id="email" name="email" autocomplete="email"
+                                value="<?= $userData['email'] ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
-                            <input type="password" id="password" name="password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                            <input type="password" id="password" name="password" autocomplete="new-password"
+                                <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <div class="form-group">
                             <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                            <input type="password" id="confirm_password" name="confirm_password" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                            <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password"
+                                <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
                         </div>
                         <?php
                         $currencies = array();
@@ -173,7 +178,7 @@ require_once 'includes/header.php';
                                     <p class="totp-secret" id="totp-secret-code"></p>
                                     <div class="form-group-inline">
                                         <input type="hidden" name="totp-secret" id="totp-secret" value="" />
-                                        <input type="text" id="totp" name="totp"
+                                        <input type="text" id="totp" name="totp" autocomplete="one-time-code"
                                             placeholder="<?= translate("totp_code", $i18n) ?>" />
                                         <input type="button" value="<?= translate('enable', $i18n) ?>" id="enableTotpButton"
                                             onClick="submitTotp()" />
@@ -212,7 +217,8 @@ require_once 'includes/header.php';
                             </header>
                             <div class="totp-popup-content">
                                 <div class="form-group-inline">
-                                    <input type="text" id="totp-disable" name="totp-disable" placeholder="totp" />
+                                    <input type="text" id="totp-disable" name="totp-disable" autocomplete="one-time-code"
+                                        placeholder="totp" />
                                     <input type="button" value="<?= translate('disable', $i18n) ?>" id="disableTotpButton"
                                         onClick="submitDisableTotp()" />
                                 </div>

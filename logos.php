@@ -53,7 +53,7 @@
 
 <body>
     <form id="search-form">
-        <input type="text" name="search" id="search">
+        <input type="text" name="search" id="search" autocomplete="off">
         <input type="submit" value="Search">
     </form>
     <div id="image-results">

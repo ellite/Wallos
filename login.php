@@ -327,11 +327,11 @@ if (isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
                 <?php if (!$password_login_disabled) { ?>
                     <div class="form-group">
                         <label for="username"><?= translate('username', $i18n) ?>:</label>
-                        <input type="text" id="username" name="username" required>
+                        <input type="text" id="username" name="username" autocomplete="username" required>
                     </div>
                     <div class="form-group">
                         <label for="password"><?= translate('password', $i18n) ?>:</label>
-                        <input type="password" id="password" name="password" required>
+                        <input type="password" id="password" name="password" autocomplete="current-password" required>
                     </div>
                     <?php
                     if (!$demoMode) {

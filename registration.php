@@ -354,27 +354,27 @@ if (isset($_POST['username'])) {
             <form action="registration.php" method="post">
                 <div class="form-group">
                     <label for="username"><?= translate('username', $i18n) ?>:</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" autocomplete="username" required>
                 </div>
                 <div class="form-group">
                     <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
-                    <input type="text" id="firstname" name="firstname">
+                    <input type="text" id="firstname" name="firstname" autocomplete="given-name">
                 </div>
                 <div class="form-group">
                     <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
-                    <input type="text" id="lastname" name="lastname">
+                    <input type="text" id="lastname" name="lastname" autocomplete="family-name">
                 </div>
                 <div class="form-group">
                     <label for="email"><?= translate('email', $i18n) ?>:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" autocomplete="email" required>
                 </div>
                 <div class="form-group">
                     <label for="password"><?= translate('password', $i18n) ?>:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" autocomplete="new-password" required>
                 </div>
                 <div class="form-group">
                     <label for="confirm_password"><?= translate('confirm_password', $i18n) ?>:</label>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
+                    <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required>
                 </div>
                 <div class="form-group">
                     <label for="currency"><?= translate('main_currency', $i18n) ?>:</label>
