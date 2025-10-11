@@ -80,7 +80,7 @@ See instructions to run Wallos below.
 #### Baremetal
 
 - NGINX or APACHE websever running
-- PHP 8.2 with the following modules enabled:
+- PHP 8.3 with the following modules enabled:
     - curl
     - dom
     - gd
@@ -246,3 +246,4 @@ I strongly believe in the importance of open source software and the collaborati
 - The author: [henrique.pt](https://henrique.pt)
 - Wallos Landingpage: [wallosapp.com](https://wallosapp.com)
 - Join the conversation: [Discord Server](https://discord.gg/anex9GUrPW)
+
