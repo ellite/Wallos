@@ -626,7 +626,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
 <section class="account-notifications-section">
 <header class="account-notification-section-header" onclick="openNotificationsSettings('mattermost');">
         <h3>
-            <i class="fa-solid fa-bell"></i>
+            <i class="fa-solid fa-gauge-simple-high"></i>
             <?= translate('mattermost', $i18n) ?>
         </h3>
     </header>
