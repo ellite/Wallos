@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.1](https://github.com/ellite/Wallos/compare/v4.4.0...v4.4.1) (2025-10-12)
+
+
+### Bug Fixes
+
+* get_subscriptions api endpoint was not returning subscriptions ([#937](https://github.com/ellite/Wallos/issues/937)) ([d6329a7](https://github.com/ellite/Wallos/commit/d6329a7af5a48f74b5f1d44a51cdc8c09dc2508b))
+
 ## [4.4.0](https://github.com/ellite/Wallos/compare/v4.3.0...v4.4.0) (2025-10-12)
 
 
