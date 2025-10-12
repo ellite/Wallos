@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.4.0](https://github.com/ellite/Wallos/compare/v4.3.0...v4.4.0) (2025-10-12)
+
+
+### Features
+
+* add mattermost notifications ([#923](https://github.com/ellite/Wallos/issues/923)) ([#934](https://github.com/ellite/Wallos/issues/934)) ([5629a31](https://github.com/ellite/Wallos/commit/5629a319bc5eb6cb80abfca06725aed9d2d9df88))
+* add openrouter ai endpoint ([#922](https://github.com/ellite/Wallos/issues/922)) ([5629a31](https://github.com/ellite/Wallos/commit/5629a319bc5eb6cb80abfca06725aed9d2d9df88))
+* enhance get_subscriptions API with admin access ([#928](https://github.com/ellite/Wallos/issues/928)) ([5629a31](https://github.com/ellite/Wallos/commit/5629a319bc5eb6cb80abfca06725aed9d2d9df88))
+
+
+### Bug Fixes
+
+* add autocomplete attribute to inputes ([#926](https://github.com/ellite/Wallos/issues/926)) ([5629a31](https://github.com/ellite/Wallos/commit/5629a319bc5eb6cb80abfca06725aed9d2d9df88))
+
 ## [4.3.0](https://github.com/ellite/Wallos/compare/v4.2.0...v4.3.0) (2025-09-15)
 
 
