@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     if ($allUserSubscription == 1 && $userId != 1) {
         $response = [
             "success" => false,
-            "title" => "You ask all user subscription but you are not admin"
+            "title" => "Denied. Not admin user"
         ];
         echo json_encode($response);
         exit;
@@ -214,11 +214,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $sort = "next_payment";
     }
 
-    // Construction de la requête SQL principale
+    // Construction of the main SQL Query
+    $params = [];
     if ($allUserSubscription == 1 && $userId == 1) {
         $sql = "SELECT * FROM subscriptions";
     } else {
         $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
+        $params[':userId'] = $userId;
     }
 
     if (isset($_REQUEST['member'])) {
