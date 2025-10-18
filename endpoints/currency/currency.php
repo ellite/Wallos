@@ -16,7 +16,7 @@ switch ($action) {
         handleDeleteCurrency($db, $userId, $i18n);
         break;
     default:
-        echo json_encode(["success" => false, "errorMessage" => translate('error', $i18n)]);
+        echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
         break;
 }
 

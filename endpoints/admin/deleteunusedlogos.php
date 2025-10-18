@@ -1,21 +1,7 @@
 <?php
 
 require_once '../../includes/connect_endpoint.php';
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
-
-// Check that user is an admin
-if ($userId !== 1) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('error', $i18n)
-    ]));
-}
+require_once '../../includes/validate_endpoint_admin.php';
 
 $query = 'SELECT logo FROM subscriptions';
 $stmt = $db->prepare($query);

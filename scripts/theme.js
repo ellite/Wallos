@@ -23,7 +23,7 @@ function switchTheme() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
       button.disabled = false;
     }).catch(error => {
@@ -85,7 +85,7 @@ function setDarkTheme(theme) {
 
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
         darkThemeButton.disabled = false;
         lightThemeButton.disabled = false;
         automaticThemeButton.disabled = false;

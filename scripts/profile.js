@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         location.reload();
                     }
                 } else {
-                    showErrorMessage(data.errorMessage || translate("failed_save_user"));
+                    showErrorMessage(data.message || translate("failed_save_user"));
                 }
             })
             .catch(error => {

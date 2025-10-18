@@ -230,7 +230,7 @@ if (
         if ($otherUser) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('email_exists', $i18n)
+                "message" => translate('email_exists', $i18n)
             ];
             echo json_encode($response);
             exit();
@@ -248,7 +248,7 @@ if (
         if (strpos($fileType, 'image') === false) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('fill_all_fields', $i18n)
+                "message" => translate('fill_all_fields', $i18n)
             ];
             echo json_encode($response);
             exit();
@@ -264,7 +264,7 @@ if (
             if ($password != $confirm) {
                 $response = [
                     "success" => false,
-                    "errorMessage" => translate('passwords_dont_match', $i18n)
+                    "message" => translate('passwords_dont_match', $i18n)
                 ];
                 echo json_encode($response);
                 exit();
@@ -272,7 +272,7 @@ if (
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('passwords_dont_match', $i18n)
+                "message" => translate('passwords_dont_match', $i18n)
             ];
             echo json_encode($response);
             exit();
@@ -330,7 +330,7 @@ if (
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('error_updating_user_data', $i18n)
+            "message" => translate('error_updating_user_data', $i18n)
         ];
         echo json_encode($response);
     }
@@ -339,7 +339,7 @@ if (
 } else {
     $response = [
         "success" => false,
-        "errorMessage" => translate('fill_all_fields', $i18n)
+        "message" => translate('fill_all_fields', $i18n)
     ];
     echo json_encode($response);
     exit();

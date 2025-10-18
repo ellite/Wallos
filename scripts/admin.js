@@ -3,6 +3,7 @@ function makeFetchCall(url, data, button) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data),
   })
@@ -69,6 +70,7 @@ function saveSmtpSettingsButton() {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data),
   })
@@ -94,36 +96,44 @@ function backupDB() {
   const button = document.getElementById("backupDB");
   button.disabled = true;
 
-  fetch('endpoints/db/backup.php')
+  fetch("endpoints/db/backup.php", {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
+  })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         const filename = data.file;
-        link.href = '.tmp/' + filename;
+        link.href = ".tmp/" + filename;
+
         const date = new Date();
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
         const timestamp = `${year}${month}${day}-${hours}${minutes}`;
         link.download = `Wallos-Backup-${timestamp}.zip`;
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-
-        button.disabled = false;
       } else {
-        showErrorMessage(data.errorMessage);
-        button.disabled = false;
+        showErrorMessage(data.message || translate("backup_failed"));
       }
     })
     .catch(error => {
-      showErrorMessage(error);
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    })
+    .finally(() => {
       button.disabled = false;
     });
 }
+
 
 function openRestoreDBFileSelect() {
   document.getElementById('restoreDBFile').click();
@@ -134,34 +144,47 @@ function restoreDB() {
   const file = input.files[0];
 
   if (!file) {
-    console.error('No file selected');
+    showErrorMessage(translate('no_file_selected'));
     return;
   }
 
   const formData = new FormData();
   formData.append('file', file);
 
+  const button = document.getElementById('restoreDB');
+  button.disabled = true;
+
   fetch('endpoints/db/restore.php', {
     method: 'POST',
-    body: formData
+    headers: {
+      'X-CSRF-Token': window.csrfToken, // ✅ CSRF protection
+    },
+    body: formData,
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
+
+        // After restoring, run migrations then log out (force re-login)
         fetch('endpoints/db/migrate.php')
-          .then(response => response.text())
           .then(() => {
             window.location.href = 'logout.php';
           })
-          .catch(error => {
+          .catch(() => {
             window.location.href = 'logout.php';
           });
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.message || translate('restore_failed'));
       }
     })
-    .catch(error => showErrorMessage('Error:', error));
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
+      button.disabled = false;
+    });
 }
 
 function saveAccountRegistrationsButton() {
@@ -185,7 +208,8 @@ function saveAccountRegistrationsButton() {
   fetch('endpoints/admin/saveopenregistrations.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })
@@ -213,7 +237,8 @@ function removeUser(userId) {
   fetch('endpoints/admin/deleteuser.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })
@@ -250,7 +275,8 @@ function addUserButton() {
   fetch('endpoints/admin/adduser.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })
@@ -275,7 +301,13 @@ function deleteUnusedLogos() {
   const button = document.getElementById('deleteUnusedLogos');
   button.disabled = true;
 
-  fetch('endpoints/admin/deleteunusedlogos.php')
+  fetch('endpoints/admin/deleteunusedlogos.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    }
+  })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
@@ -304,7 +336,8 @@ function toggleUpdateNotification() {
   fetch('endpoints/admin/updatenotification.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })
@@ -346,7 +379,7 @@ function toggleOidcEnabled() {
   toggle.disabled = true;
 
   const oidcEnabled = toggle.checked ? 1 : 0;
-  
+
   const data = {
     oidcEnabled: oidcEnabled
   };
@@ -354,7 +387,8 @@ function toggleOidcEnabled() {
   fetch('endpoints/admin/enableoidc.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })
@@ -412,7 +446,8 @@ function saveOidcSettingsButton() {
   fetch('endpoints/admin/saveoidcsettings.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify(data)
   })

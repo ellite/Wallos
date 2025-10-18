@@ -28,7 +28,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
     if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $url)) {
         $response = [
             "success" => false,
-            "errorMessage" => "Invalid URL format."
+            "message" => "Invalid URL format."
         ];
         echo json_encode($response);
         exit();
@@ -39,7 +39,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
     if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
         $response = [
             "success" => false,
-            "errorMessage" => "Invalid IP Address."
+            "message" => "Invalid IP Address."
         ];
         echo json_encode($response);
         exit();

@@ -39,7 +39,7 @@ function handleAddMember($db, $userId, $i18n)
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('failed_add_household', $i18n)
+            "message" => translate('failed_add_household', $i18n)
         ];
         echo json_encode($response);
     }
@@ -69,14 +69,14 @@ function handleEditMember($db, $userId, $i18n)
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('failed_edit_household', $i18n)
+                "message" => translate('failed_edit_household', $i18n)
             ];
             echo json_encode($response);
         }
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('fill_all_fields', $i18n)
+            "message" => translate('fill_all_fields', $i18n)
         ];
         echo json_encode($response);
     }
@@ -97,7 +97,7 @@ function handleDeleteMember($db, $userId, $i18n)
         if ($count > 0) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('household_in_use', $i18n)
+                "message" => translate('household_in_use', $i18n)
             ];
             echo json_encode($response);
         } else {
@@ -115,7 +115,7 @@ function handleDeleteMember($db, $userId, $i18n)
             } else {
                 $response = [
                     "success" => false,
-                    "errorMessage" => translate('failed_remove_household', $i18n)
+                    "message" => translate('failed_remove_household', $i18n)
                 ];
                 echo json_encode($response);
             }
@@ -123,7 +123,7 @@ function handleDeleteMember($db, $userId, $i18n)
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('failed_remove_household', $i18n)
+            "message" => translate('failed_remove_household', $i18n)
         ];
         echo json_encode($response);
     }

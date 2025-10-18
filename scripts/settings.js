@@ -111,7 +111,7 @@ function addMemberButton(memberId) {
 
         container.appendChild(div);
       } else {
-        showErrorMessage(responseData.errorMessage || translate("failed_add_member"));
+        showErrorMessage(responseData.message || translate("failed_add_member"));
       }
     })
     .catch(error => {
@@ -147,7 +147,7 @@ function removeMember(memberId) {
         if (divToRemove) divToRemove.remove();
         showSuccessMessage(responseData.message);
       } else {
-        showErrorMessage(responseData.errorMessage || translate("failed_remove_member"));
+        showErrorMessage(responseData.message || translate("failed_remove_member"));
       }
     })
     .catch(error => {
@@ -194,7 +194,7 @@ function editMember(memberId) {
       if (responseData.success) {
         showSuccessMessage(responseData.message);
       } else {
-        showErrorMessage(responseData.errorMessage || translate("failed_save_member"));
+        showErrorMessage(responseData.message || translate("failed_save_member"));
       }
     })
     .catch(error => {
@@ -269,7 +269,7 @@ function addCategoryButton(categoryId) {
         row.appendChild(deleteLink);
         container.appendChild(row);
       } else {
-        showErrorMessage(responseData.errorMessage);
+        showErrorMessage(responseData.message);
       }
     })
     .catch(error => {
@@ -306,7 +306,7 @@ function removeCategory(categoryId) {
         if (divToRemove) divToRemove.remove();
         showSuccessMessage(responseData.message);
       } else {
-        showErrorMessage(responseData.errorMessage || translate('failed_remove_category'));
+        showErrorMessage(responseData.message || translate('failed_remove_category'));
       }
     })
     .catch(error => {
@@ -353,7 +353,7 @@ function editCategory(categoryId) {
       if (responseData.success) {
         showSuccessMessage(responseData.message);
       } else {
-        showErrorMessage(responseData.errorMessage || translate('failed_save_category'));
+        showErrorMessage(responseData.message || translate('failed_save_category'));
       }
     })
     .catch(error => {
@@ -437,7 +437,7 @@ function addCurrencyButton(currencyId) {
 
         container.appendChild(div);
       } else {
-        showErrorMessage(responseData.errorMessage || translate('failed_add_currency'));
+        showErrorMessage(responseData.message || translate('failed_add_currency'));
       }
     })
     .catch(error => {
@@ -781,7 +781,7 @@ function addPaymentMethod() {
         resetFormIcon();
         reloadPaymentMethods();
       } else {
-        showErrorMessage(data.errorMessage || translate("failed_add_payment_method"));
+        showErrorMessage(data.message || translate("failed_add_payment_method"));
       }
     })
     .catch(error => {
@@ -812,7 +812,7 @@ function deletePaymentMethod(paymentId) {
           paymentToRemove.remove();
         }
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     })
     .catch((error) => {
@@ -842,7 +842,7 @@ function savePaymentMethodsSorting() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage || translate("failed_sort_payment_methods"));
+        showErrorMessage(data.message || translate("failed_sort_payment_methods"));
       }
     })
     .catch(error => {
@@ -941,7 +941,7 @@ function storeSettingsOnDB(endpoint, value) {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     });
 }
@@ -1020,7 +1020,7 @@ function saveCategorySorting() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     })
     .catch(error => {
@@ -1068,7 +1068,7 @@ function fetch_ai_models() {
           modelSelect.appendChild(option);
         });
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     })
     .catch(error => {
@@ -1116,7 +1116,7 @@ function saveAiSettingsButton() {
           runAiActionButton.classList.add("hidden");
         }
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     })
     .catch(error => {
@@ -1144,7 +1144,7 @@ function runAiRecommendations() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.message);
       }
     })
     .catch(error => {

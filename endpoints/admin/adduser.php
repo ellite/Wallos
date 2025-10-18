@@ -1,20 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
-
-// Check that user is an admin
-if ($userId !== 1) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('error', $i18n)
-    ]));
-}
+require_once '../../includes/validate_endpoint_admin.php';
 
 $currencies = [
     ['id' => 1, 'name' => 'Euro', 'symbol' => '€', 'code' => 'EUR'],
@@ -116,155 +102,142 @@ function validate($value)
     return $value;
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+$postData = file_get_contents("php://input");
+$data = json_decode($postData, true);
 
-    $postData = file_get_contents("php://input");
-    $data = json_decode($postData, true);
+$loggedInUserId = $userId;
 
-    $loggedInUserId = $userId;
+$email = validate($data['email']);
+$username = validate($data['username']);
+$password = $data['password'];
 
-    $email = validate($data['email']);
-    $username = validate($data['username']);
-    $password = $data['password'];
-
-    if (empty($username) || empty($password) || empty($email)) {
-        die(json_encode([
-            "success" => false,
-            "message" => translate('error', $i18n)
-        ]));
-    }
-
-    $stmt = $db->prepare('SELECT COUNT(*) FROM user WHERE username = :username OR email = :email');
-    $stmt->bindValue(':username', $username, SQLITE3_INTEGER);
-    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-    $result = $stmt->execute();
-    $row = $result->fetchArray();
-    // Error if user exist
-    if ($row[0] > 0) {
-        die(json_encode([
-            "success" => false,
-            "message" => translate('error', $i18n)
-        ]));
-    }
-
-    // Get main currency and language from admin user
-    $stmt = $db->prepare('SELECT main_currency, language FROM user WHERE id = :id');
-    $stmt->bindValue(':id', $loggedInUserId, SQLITE3_TEXT);
-    $result = $stmt->execute();
-    $row = $result->fetchArray();
-    $currency = $row['main_currency'] ?? 1;
-    $language = $row['language'] ?? 'en';
-    $avatar = "images/avatars/0.svg";
-
-    // Get code for main currency
-    $stmt = $db->prepare('SELECT code FROM currencies WHERE id = :id');
-    $stmt->bindValue(':id', $currency, SQLITE3_TEXT);
-    $row = $stmt->execute();
-    $main_currency = $row->fetchArray()['code'];
-
-    $query = "INSERT INTO user (username, email, password, main_currency, avatar, language, budget) VALUES (:username, :email, :password, :main_currency, :avatar, :language, :budget)";
-    $stmt = $db->prepare($query);
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    $stmt->bindValue(':username', $username, SQLITE3_TEXT);
-    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-    $stmt->bindValue(':password', $hashedPassword, SQLITE3_TEXT);
-    $stmt->bindValue(':main_currency', 1, SQLITE3_TEXT);
-    $stmt->bindValue(':avatar', $avatar, SQLITE3_TEXT);
-    $stmt->bindValue(':language', $language, SQLITE3_TEXT);
-    $stmt->bindValue(':budget', 0, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
-    if ($result) {
-
-        // Get id of the newly created user
-        $newUserId = $db->lastInsertRowID();
-
-        // Add username as household member for that user
-        $query = "INSERT INTO household (name, user_id) VALUES (:name, :user_id)";
-        $stmt = $db->prepare($query);
-        $stmt->bindValue(':name', $username, SQLITE3_TEXT);
-        $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-        $stmt->execute();
-
-        if ($newUserId > 1) {
-
-            // Add categories for that user
-            $query = 'INSERT INTO categories (name, "order", user_id) VALUES (:name, :order, :user_id)';
-            $stmt = $db->prepare($query);
-            foreach ($categories as $index => $category) {
-                $stmt->bindValue(':name', $category['name'], SQLITE3_TEXT);
-                $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
-                $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-                $stmt->execute();
-            }
-
-            // Add payment methods for that user
-            $query = 'INSERT INTO payment_methods (name, icon, "order", user_id) VALUES (:name, :icon, :order, :user_id)';
-            $stmt = $db->prepare($query);
-            foreach ($payment_methods as $index => $payment_method) {
-                $stmt->bindValue(':name', $payment_method['name'], SQLITE3_TEXT);
-                $stmt->bindValue(':icon', $payment_method['icon'], SQLITE3_TEXT);
-                $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
-                $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-                $stmt->execute();
-            }
-
-            // Add currencies for that user
-            $query = "INSERT INTO currencies (name, symbol, code, rate, user_id) VALUES (:name, :symbol, :code, :rate, :user_id)";
-            $stmt = $db->prepare($query);
-            foreach ($currencies as $currency) {
-                $stmt->bindValue(':name', $currency['name'], SQLITE3_TEXT);
-                $stmt->bindValue(':symbol', $currency['symbol'], SQLITE3_TEXT);
-                $stmt->bindValue(':code', $currency['code'], SQLITE3_TEXT);
-                $stmt->bindValue(':rate', 1, SQLITE3_FLOAT);
-                $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-                $stmt->execute();
-            }
-
-            // Retrieve main currency id
-            $query = "SELECT id FROM currencies WHERE code = :code AND user_id = :user_id";
-            $stmt = $db->prepare($query);
-            $stmt->bindValue(':code', $main_currency, SQLITE3_TEXT);
-            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-            $result = $stmt->execute();
-            $currency = $result->fetchArray(SQLITE3_ASSOC);
-
-            // Update user main currency
-            $query = "UPDATE user SET main_currency = :main_currency WHERE id = :user_id";
-            $stmt = $db->prepare($query);
-            $stmt->bindValue(':main_currency', $currency['id'], SQLITE3_INTEGER);
-            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-            $stmt->execute();
-
-            // Add settings for that user
-            $query = "INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav) 
-                        VALUES (2, 0, 0, 0, 'blue', 0, :user_id, 0, 0, 0)";
-            $stmt = $db->prepare($query);
-            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
-            $stmt->execute();
-
-            // If email verification is required add the user to the email_verification table
-            $query = "SELECT * FROM admin";
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute();
-            $settings = $result->fetchArray(SQLITE3_ASSOC);
-        }
-
-        $db->close();
-
-        die(json_encode([
-            "success" => true,
-            "message" => translate('success', $i18n)
-        ]));
-    }
-
-
-
-} else {
+if (empty($username) || empty($password) || empty($email)) {
     die(json_encode([
         "success" => false,
         "message" => translate('error', $i18n)
     ]));
 }
 
-?>
+$stmt = $db->prepare('SELECT COUNT(*) FROM user WHERE username = :username OR email = :email');
+$stmt->bindValue(':username', $username, SQLITE3_INTEGER);
+$stmt->bindValue(':email', $email, SQLITE3_TEXT);
+$result = $stmt->execute();
+$row = $result->fetchArray();
+// Error if user exist
+if ($row[0] > 0) {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('error', $i18n)
+    ]));
+}
+
+// Get main currency and language from admin user
+$stmt = $db->prepare('SELECT main_currency, language FROM user WHERE id = :id');
+$stmt->bindValue(':id', $loggedInUserId, SQLITE3_TEXT);
+$result = $stmt->execute();
+$row = $result->fetchArray();
+$currency = $row['main_currency'] ?? 1;
+$language = $row['language'] ?? 'en';
+$avatar = "images/avatars/0.svg";
+
+// Get code for main currency
+$stmt = $db->prepare('SELECT code FROM currencies WHERE id = :id');
+$stmt->bindValue(':id', $currency, SQLITE3_TEXT);
+$row = $stmt->execute();
+$main_currency = $row->fetchArray()['code'];
+
+$query = "INSERT INTO user (username, email, password, main_currency, avatar, language, budget) VALUES (:username, :email, :password, :main_currency, :avatar, :language, :budget)";
+$stmt = $db->prepare($query);
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+$stmt->bindValue(':username', $username, SQLITE3_TEXT);
+$stmt->bindValue(':email', $email, SQLITE3_TEXT);
+$stmt->bindValue(':password', $hashedPassword, SQLITE3_TEXT);
+$stmt->bindValue(':main_currency', 1, SQLITE3_TEXT);
+$stmt->bindValue(':avatar', $avatar, SQLITE3_TEXT);
+$stmt->bindValue(':language', $language, SQLITE3_TEXT);
+$stmt->bindValue(':budget', 0, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
+if ($result) {
+
+    // Get id of the newly created user
+    $newUserId = $db->lastInsertRowID();
+
+    // Add username as household member for that user
+    $query = "INSERT INTO household (name, user_id) VALUES (:name, :user_id)";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':name', $username, SQLITE3_TEXT);
+    $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    if ($newUserId > 1) {
+
+        // Add categories for that user
+        $query = 'INSERT INTO categories (name, "order", user_id) VALUES (:name, :order, :user_id)';
+        $stmt = $db->prepare($query);
+        foreach ($categories as $index => $category) {
+            $stmt->bindValue(':name', $category['name'], SQLITE3_TEXT);
+            $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
+            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+            $stmt->execute();
+        }
+
+        // Add payment methods for that user
+        $query = 'INSERT INTO payment_methods (name, icon, "order", user_id) VALUES (:name, :icon, :order, :user_id)';
+        $stmt = $db->prepare($query);
+        foreach ($payment_methods as $index => $payment_method) {
+            $stmt->bindValue(':name', $payment_method['name'], SQLITE3_TEXT);
+            $stmt->bindValue(':icon', $payment_method['icon'], SQLITE3_TEXT);
+            $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
+            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+            $stmt->execute();
+        }
+
+        // Add currencies for that user
+        $query = "INSERT INTO currencies (name, symbol, code, rate, user_id) VALUES (:name, :symbol, :code, :rate, :user_id)";
+        $stmt = $db->prepare($query);
+        foreach ($currencies as $currency) {
+            $stmt->bindValue(':name', $currency['name'], SQLITE3_TEXT);
+            $stmt->bindValue(':symbol', $currency['symbol'], SQLITE3_TEXT);
+            $stmt->bindValue(':code', $currency['code'], SQLITE3_TEXT);
+            $stmt->bindValue(':rate', 1, SQLITE3_FLOAT);
+            $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+            $stmt->execute();
+        }
+
+        // Retrieve main currency id
+        $query = "SELECT id FROM currencies WHERE code = :code AND user_id = :user_id";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':code', $main_currency, SQLITE3_TEXT);
+        $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+        $currency = $result->fetchArray(SQLITE3_ASSOC);
+
+        // Update user main currency
+        $query = "UPDATE user SET main_currency = :main_currency WHERE id = :user_id";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':main_currency', $currency['id'], SQLITE3_INTEGER);
+        $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+        $stmt->execute();
+
+        // Add settings for that user
+        $query = "INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav) 
+                        VALUES (2, 0, 0, 0, 'blue', 0, :user_id, 0, 0, 0)";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
+        $stmt->execute();
+
+        // If email verification is required add the user to the email_verification table
+        $query = "SELECT * FROM admin";
+        $stmt = $db->prepare($query);
+        $result = $stmt->execute();
+        $settings = $result->fetchArray(SQLITE3_ASSOC);
+    }
+
+    $db->close();
+
+    die(json_encode([
+        "success" => true,
+        "message" => translate('success', $i18n)
+    ]));
+}

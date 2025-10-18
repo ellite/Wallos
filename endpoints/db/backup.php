@@ -1,12 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
+require_once '../../includes/validate_endpoint_admin.php';
 
 function addFolderToZip($dir, $zipArchive, $zipdir = '')
 {
@@ -68,6 +62,3 @@ if ($zip->close() === false) {
         "file" => $filename
     ]));
 }
-
-
-?>

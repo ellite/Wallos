@@ -19,7 +19,7 @@ switch ($action) {
         handleSortCategories($db, $userId, $i18n);
         break;
     default:
-        echo json_encode(["success" => false, "errorMessage" => translate('error', $i18n)]);
+        echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
         break;
 }
 
@@ -55,7 +55,7 @@ function handleAddCategory($db, $userId, $i18n)
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('failed_add_category', $i18n)
+            "message" => translate('failed_add_category', $i18n)
         ];
         echo json_encode($response);
     }
@@ -82,14 +82,14 @@ function handleEditCategory($db, $userId, $i18n)
         } else {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('failed_edit_category', $i18n)
+                "message" => translate('failed_edit_category', $i18n)
             ];
             echo json_encode($response);
         }
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('fill_all_fields', $i18n)
+            "message" => translate('fill_all_fields', $i18n)
         ];
         echo json_encode($response);
     }
@@ -110,7 +110,7 @@ function handleDeleteCategory($db, $userId, $i18n)
         if ($count > 0) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('category_in_use', $i18n)
+                "message" => translate('category_in_use', $i18n)
             ];
             echo json_encode($response);
         } else {
@@ -128,7 +128,7 @@ function handleDeleteCategory($db, $userId, $i18n)
             } else {
                 $response = [
                     "success" => false,
-                    "errorMessage" => translate('failed_remove_category', $i18n)
+                    "message" => translate('failed_remove_category', $i18n)
                 ];
                 echo json_encode($response);
             }
@@ -136,7 +136,7 @@ function handleDeleteCategory($db, $userId, $i18n)
     } else {
         $response = [
             "success" => false,
-            "errorMessage" => translate('failed_remove_category', $i18n)
+            "message" => translate('failed_remove_category', $i18n)
         ];
         echo json_encode($response);
     }

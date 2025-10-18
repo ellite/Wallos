@@ -29,7 +29,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
     if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $url)) {
         $response = [
             "success" => false,
-            "errorMessage" => "Invalid URL format."
+            "message" => "Invalid URL format."
         ];
         echo json_encode($response);
         exit();
@@ -40,7 +40,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
     if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
         $response = [
             "success" => false,
-            "errorMessage" => "Invalid IP Address."
+            "message" => "Invalid IP Address."
         ];
         echo json_encode($response);
         exit();
@@ -202,7 +202,7 @@ $iconUrl = validate($_POST['icon-url']);
 if ($name === "" || ($iconUrl === "" && empty($_FILES['paymenticon']['name']))) {
     $response = [
         "success" => false,
-        "errorMessage" => translate('fill_all_fields', $i18n)
+        "message" => translate('fill_all_fields', $i18n)
     ];
     echo json_encode($response);
     exit();
@@ -219,7 +219,7 @@ if ($iconUrl !== "") {
         if (strpos($fileType, 'image') === false) {
             $response = [
                 "success" => false,
-                "errorMessage" => translate('fill_all_fields', $i18n)
+                "message" => translate('fill_all_fields', $i18n)
             ];
             echo json_encode($response);
             exit();
