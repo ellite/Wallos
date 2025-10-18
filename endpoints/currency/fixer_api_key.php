@@ -1,23 +1,6 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
-require_once '../../libs/csrf.php';
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(["success" => false, "errorMessage" => "Invalid request method"]);
-    exit;
-}
-
-$csrf = $_POST['csrf_token'] ?? '';
-if (!verify_csrf_token($csrf)) {
-    echo json_encode(["success" => false, "errorMessage" => "Invalid CSRF token"]);
-    exit;
-}
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    echo json_encode(["success" => false, "message" => translate('session_expired', $i18n)]);
-    exit;
-}
-
+require_once '../../includes/validate_endpoint.php';
 
 $newApiKey = isset($_POST["api_key"]) ? trim($_POST["api_key"]) : "";
 $provider = isset($_POST["provider"]) ? $_POST["provider"] : 0;
