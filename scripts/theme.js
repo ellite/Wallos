@@ -13,7 +13,8 @@ function switchTheme() {
   fetch('endpoints/settings/theme.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ theme: themeChoice === 'dark' })
   })
@@ -46,7 +47,8 @@ function setDarkTheme(theme) {
   fetch('endpoints/settings/theme.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ theme: theme })
   })
@@ -134,7 +136,8 @@ function setTheme(themeColor) {
   fetch('endpoints/settings/colortheme.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ color: themeColor })
   })
@@ -156,33 +159,45 @@ function resetCustomColors() {
   const button = document.getElementById("reset-colors");
   button.disabled = true;
 
-  fetch('endpoints/settings/resettheme.php', {
-    method: 'DELETE',
+  fetch("endpoints/settings/resettheme.php", {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: new URLSearchParams({
+      action: "reset",
+    }),
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
-        const custom_theme_colors = document.getElementById('custom_theme_colors');
-        if (custom_theme_colors) {
-          custom_theme_colors.remove();
+
+        const customThemeColors = document.getElementById("custom_theme_colors");
+        if (customThemeColors) {
+          customThemeColors.remove();
         }
-        document.documentElement.style.removeProperty('--main-color');
-        document.documentElement.style.removeProperty('--accent-color');
-        document.documentElement.style.removeProperty('--hover-color');
+
+        document.documentElement.style.removeProperty("--main-color");
+        document.documentElement.style.removeProperty("--accent-color");
+        document.documentElement.style.removeProperty("--hover-color");
+
         document.getElementById("mainColor").value = "#FFFFFF";
         document.getElementById("accentColor").value = "#FFFFFF";
         document.getElementById("hoverColor").value = "#FFFFFF";
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.message || translate("failed_reset_colors"));
       }
-      button.disabled = false;
     })
     .catch(error => {
-      showErrorMessage(translate('unknown_error'));
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    })
+    .finally(() => {
       button.disabled = false;
     });
 }
+
 
 function saveCustomColors() {
   const button = document.getElementById("save-colors");
@@ -195,7 +210,8 @@ function saveCustomColors() {
   fetch('endpoints/settings/customtheme.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ mainColor: mainColor, accentColor: accentColor, hoverColor: hoverColor })
   })
@@ -227,7 +243,8 @@ function saveCustomCss() {
   fetch('endpoints/settings/customcss.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ customCss: customCss })
   })
