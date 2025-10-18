@@ -5,6 +5,8 @@ require_once 'checksession.php';
 require_once 'checkredirect.php';
 require_once 'currency_formatter.php';
 
+require_once 'libs/csrf.php';
+
 require_once 'i18n/languages.php';
 require_once 'i18n/getlang.php';
 require_once 'i18n/' . $lang . '.php';
@@ -108,6 +110,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
     window.lang = "<?= $lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
     window.mobileNavigation = "<?= $settings['mobileNavigation'] == "true" ?>";
+    window.csrfToken = "<?= htmlspecialchars(generate_csrf_token()) ?>";
   </script>
   <style>
     <?= htmlspecialchars($customCss, ENT_QUOTES, 'UTF-8') ?>
