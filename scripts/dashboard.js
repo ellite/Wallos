@@ -9,24 +9,33 @@ document.addEventListener("DOMContentLoaded", function () {
     el.addEventListener("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
+
       const item = el.closest(".ai-recommendation-item");
       const id = item.getAttribute("data-id");
+
       fetch("endpoints/ai/delete_recommendation.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: id })
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": window.csrfToken,
+        },
+        body: JSON.stringify({ id: id }),
       })
         .then(res => res.json())
         .then(data => {
           if (data.success) {
             item.remove();
-            showSuccessMessage(translate('success'));
+            showSuccessMessage(translate("success"));
           } else {
-            showErrorMessage(data.message || "Delete failed.");
+            showErrorMessage(data.message || translate("failed_delete_ai_recommendation"));
           }
         })
-        .catch(() => showErrorMessage(translate('unknown_error')));
+        .catch(error => {
+          console.error(error);
+          showErrorMessage(translate("unknown_error"));
+        });
     });
   });
+
 });
 
