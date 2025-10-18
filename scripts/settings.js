@@ -333,60 +333,68 @@ function editCategory(categoryId) {
 
 
 function addCurrencyButton(currencyId) {
-  document.getElementById("addCurrency").disabled = true;
-  const url = 'endpoints/currency/add.php';
-  fetch(url)
+  const addButton = document.getElementById("addCurrency");
+  addButton.disabled = true;
+
+  fetch('endpoints/currency/currency.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'add',
+      csrf_token: window.csrfToken,
+    }),
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(translate('network_response_error'));
-        showErrorMessage(response.text());
       }
-      return response.text();
+      return response.json();
     })
-    .then(responseText => {
-      if (responseText !== "Error") {
-        const newCurrencyId = responseText;
-        let container = document.getElementById("currencies");
-        let div = document.createElement("div");
+    .then(responseData => {
+      if (responseData.success) {
+        const newCurrencyId = responseData.currencyId;
+        const container = document.getElementById("currencies");
+
+        const div = document.createElement("div");
         div.className = "form-group-inline";
         div.dataset.currencyid = newCurrencyId;
 
-        let inputSymbol = document.createElement("input");
+        const inputSymbol = document.createElement("input");
         inputSymbol.type = "text";
         inputSymbol.placeholder = "$";
         inputSymbol.name = "symbol";
         inputSymbol.value = "$";
         inputSymbol.classList.add("short");
 
-        let inputName = document.createElement("input");
+        const inputName = document.createElement("input");
         inputName.type = "text";
         inputName.placeholder = translate('currency');
         inputName.name = "currency";
         inputName.value = translate('currency');
 
-        let inputCode = document.createElement("input");
+        const inputCode = document.createElement("input");
         inputCode.type = "text";
         inputCode.placeholder = translate('currency_code');
         inputCode.name = "code";
         inputCode.value = "CODE";
 
-        let editLink = document.createElement("button");
-        editLink.className = "image-button medium"
+        const editLink = document.createElement("button");
+        editLink.className = "image-button medium";
         editLink.name = "save";
         editLink.onclick = function () {
           editCurrency(newCurrencyId);
         };
-
         editLink.innerHTML = editSvgContent;
         editLink.title = translate('save_member');
 
-        let deleteLink = document.createElement("button");
-        deleteLink.className = "image-button medium"
+        const deleteLink = document.createElement("button");
+        deleteLink.className = "image-button medium";
         deleteLink.name = "delete";
         deleteLink.onclick = function () {
           removeCurrency(newCurrencyId);
         };
-
         deleteLink.innerHTML = deleteSvgContent;
         deleteLink.title = translate('delete_member');
 
@@ -398,20 +406,30 @@ function addCurrencyButton(currencyId) {
 
         container.appendChild(div);
       } else {
-        // TODO: Show error
+        showErrorMessage(responseData.errorMessage || translate('failed_add_currency'));
       }
-      document.getElementById("addCurrency").disabled = false;
     })
     .catch(error => {
-      // TODO: Show error
-      document.getElementById("addCurrency").disabled = false;
+      console.error(error);
+      showErrorMessage(translate('failed_add_currency'));
+    })
+    .finally(() => {
+      addButton.disabled = false;
     });
-
 }
 
 function removeCurrency(currencyId) {
-  let url = `endpoints/currency/remove.php?currencyId=${currencyId}`;
-  fetch(url)
+  fetch('endpoints/currency/currency.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'delete',
+      currencyId: currencyId,
+      csrf_token: window.csrfToken,
+    }),
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(translate('network_response_error'));
@@ -421,56 +439,69 @@ function removeCurrency(currencyId) {
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
-        let divToRemove = document.querySelector(`[data-currencyid="${currencyId}"]`);
-        if (divToRemove) {
-          divToRemove.parentNode.removeChild(divToRemove);
-        }
+        const divToRemove = document.querySelector(`[data-currencyid="${currencyId}"]`);
+        if (divToRemove) divToRemove.remove();
       } else {
         showErrorMessage(data.message || translate('failed_remove_currency'));
       }
     })
     .catch(error => {
+      console.error(error);
       showErrorMessage(error.message || translate('failed_remove_currency'));
     });
 }
 
 function editCurrency(currencyId) {
-  var saveButton = document.querySelector(`div[data-currencyid="${currencyId}"] button[name="save"]`);
-  var inputSymbolElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="symbol"]`);
-  var inputNameElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="currency"]`);
-  var inputCodeElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="code"]`);
+  const saveButton = document.querySelector(`div[data-currencyid="${currencyId}"] button[name="save"]`);
+  const inputSymbolElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="symbol"]`);
+  const inputNameElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="currency"]`);
+  const inputCodeElement = document.querySelector(`div[data-currencyid="${currencyId}"] input[name="code"]`);
+
+  if (!inputNameElement) return;
+
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
-  if (inputNameElement) {
-    var currencyName = encodeURIComponent(inputNameElement.value);
-    var currencySymbol = encodeURIComponent(inputSymbolElement.value);
-    var currencyCode = encodeURIComponent(inputCodeElement.value);
-    var url = `endpoints/currency/edit.php?currencyId=${currencyId}&name=${currencyName}&symbol=${currencySymbol}&code=${currencyCode}`;
 
-    fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(translate('network_response_error'));
-        }
-        return response.json();
-      })
-      .then(data => {
-        if (data.success) {
-          saveButton.classList.remove("disabled");
-          saveButton.disabled = false;
-          showSuccessMessage(decodeURI(data.message));
-        } else {
-          saveButton.classList.remove("disabled");
-          saveButton.disabled = false;
-          showErrorMessage(data.message || translate('failed_save_currency'));
-        }
-      })
-      .catch(error => {
-        saveButton.classList.remove("disabled");
-        saveButton.disabled = false;
-        showErrorMessage(error.message || translate('failed_save_currency'));
-      });
-  }
+  const currencyName = inputNameElement.value;
+  const currencySymbol = inputSymbolElement.value;
+  const currencyCode = inputCodeElement.value;
+
+  fetch('endpoints/currency/currency.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'edit',
+      currencyId: currencyId,
+      name: currencyName,
+      symbol: currencySymbol,
+      code: currencyCode,
+      csrf_token: window.csrfToken,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(data => {
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message || translate('failed_save_currency'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(error.message || translate('failed_save_currency'));
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+    });
 }
 
 function togglePayment(paymentId) {
