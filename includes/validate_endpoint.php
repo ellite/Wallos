@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-$csrf = $_POST['csrf_token'] ?? '';
+$csrf = $_POST['csrf_token'] ?? ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '');
 if (!verify_csrf_token($csrf)) {
     echo json_encode(["success" => false, "errorMessage" => "Invalid CSRF token"]);
     exit;

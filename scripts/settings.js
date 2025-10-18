@@ -27,12 +27,10 @@ function saveBudget() {
   fetch('endpoints/user/budget.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({
-      budget: budget,
-      csrf_token: window.csrfToken,
-    }),
+    body: JSON.stringify({budget: budget}),
   })
     .then(response => response.json())
     .then(data => {
@@ -58,8 +56,8 @@ function addMemberButton(memberId) {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error(translate('network_response_error'));
         showErrorMessage(translate('failed_add_member'));
+        throw new Error(translate('network_response_error'));
       }
       return response.json();
     })
