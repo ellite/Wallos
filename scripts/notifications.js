@@ -24,6 +24,7 @@ function makeFetchCall(url, data, button) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRF-Token": window.csrfToken,
         },
         body: JSON.stringify(data),
     })
