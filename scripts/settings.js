@@ -29,7 +29,10 @@ function saveBudget() {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ budget: budget })
+    body: JSON.stringify({
+      budget: budget,
+      csrf_token: window.csrfToken,
+    }),
   })
     .then(response => response.json())
     .then(data => {
@@ -38,14 +41,16 @@ function saveBudget() {
       } else {
         showErrorMessage(data.message);
       }
-      button.disabled = false;
     })
     .catch(error => {
+      console.error(error);
       showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
       button.disabled = false;
     });
-
 }
+
 
 function addMemberButton(memberId) {
   document.getElementById("addMember").disabled = true;
