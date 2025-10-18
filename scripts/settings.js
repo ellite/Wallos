@@ -1015,7 +1015,8 @@ function fetch_ai_models() {
   fetch(endpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ type, api_key, ollama_host })
   })
@@ -1062,7 +1063,8 @@ function saveAiSettingsButton() {
   fetch('endpoints/ai/save_settings.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel })
   })
@@ -1096,7 +1098,8 @@ function runAiRecommendations() {
   fetch(endpoint, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     }
   })
     .then(response => response.json())
