@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.0](https://github.com/ellite/Wallos/compare/v4.4.1...v4.5.0) (2025-10-18)
+
+
+### Features
+
+* enforce CSRF protection and POST-only policy across endpoints ([#940](https://github.com/ellite/Wallos/issues/940)) ([3247ce2](https://github.com/ellite/Wallos/commit/3247ce2c8768d8e5910f74e5b8eba657b5b05cc1))
+
 ## [4.4.1](https://github.com/ellite/Wallos/compare/v4.4.0...v4.4.1) (2025-10-12)
 
 
