@@ -174,9 +174,19 @@ function editMember(memberId) {
 }
 
 function addCategoryButton(categoryId) {
-  document.getElementById("addCategory").disabled = true;
-  const url = 'endpoints/categories/category.php?action=add';
-  fetch(url)
+  const addButton = document.getElementById("addCategory");
+  addButton.disabled = true;
+
+  fetch('endpoints/categories/category.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'add',
+      csrf_token: window.csrfToken,
+    }),
+  })
     .then(response => {
       if (!response.ok) {
         showErrorMessage(translate('failed_add_category'));
@@ -186,38 +196,37 @@ function addCategoryButton(categoryId) {
     })
     .then(responseData => {
       if (responseData.success) {
-        const newCategoryId = responseData.categoryId;;
-        let container = document.getElementById("categories");
-        let row = document.createElement("div");
+        const newCategoryId = responseData.categoryId;
+        const container = document.getElementById("categories");
+
+        const row = document.createElement("div");
         row.className = "form-group-inline";
         row.dataset.categoryid = newCategoryId;
 
-        let dragIcon = document.createElement("div");
+        const dragIcon = document.createElement("div");
         dragIcon.className = "drag-icon";
 
-        let input = document.createElement("input");
+        const input = document.createElement("input");
         input.type = "text";
         input.placeholder = translate('category');
         input.name = "category";
         input.value = translate('category');
 
-        let editLink = document.createElement("button");
-        editLink.className = "image-button medium"
+        const editLink = document.createElement("button");
+        editLink.className = "image-button medium";
         editLink.name = "save";
         editLink.onclick = function () {
           editCategory(newCategoryId);
         };
-
         editLink.innerHTML = editSvgContent;
         editLink.title = translate('save_member');
 
-        let deleteLink = document.createElement("button");
-        deleteLink.className = "image-button medium"
+        const deleteLink = document.createElement("button");
+        deleteLink.className = "image-button medium";
         deleteLink.name = "delete";
         deleteLink.onclick = function () {
           removeCategory(newCategoryId);
         };
-
         deleteLink.innerHTML = deleteSvgContent;
         deleteLink.title = translate('delete_member');
 
@@ -225,23 +234,33 @@ function addCategoryButton(categoryId) {
         row.appendChild(input);
         row.appendChild(editLink);
         row.appendChild(deleteLink);
-
         container.appendChild(row);
       } else {
         showErrorMessage(responseData.errorMessage);
       }
-      document.getElementById("addCategory").disabled = false;
     })
     .catch(error => {
+      console.error(error);
       showErrorMessage(translate('failed_add_category'));
-      document.getElementById("addCategory").disabled = false;
+    })
+    .finally(() => {
+      addButton.disabled = false;
     });
-
 }
 
+
 function removeCategory(categoryId) {
-  let url = `endpoints/categories/category.php?action=delete&categoryId=${categoryId}`;
-  fetch(url)
+  fetch('endpoints/categories/category.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'delete',
+      categoryId: categoryId,
+      csrf_token: window.csrfToken,
+    }),
+  })
     .then(response => {
       if (!response.ok) {
         throw new Error(translate('network_response_error'));
@@ -250,50 +269,68 @@ function removeCategory(categoryId) {
     })
     .then(responseData => {
       if (responseData.success) {
-        let divToRemove = document.querySelector(`[data-categoryid="${categoryId}"]`);
-        if (divToRemove) {
-          divToRemove.parentNode.removeChild(divToRemove);
-        }
+        const divToRemove = document.querySelector(`[data-categoryid="${categoryId}"]`);
+        if (divToRemove) divToRemove.remove();
         showSuccessMessage(responseData.message);
       } else {
         showErrorMessage(responseData.errorMessage || translate('failed_remove_category'));
       }
     })
     .catch(error => {
+      console.error(error);
       showErrorMessage(translate('failed_remove_category'));
     });
 }
 
+
 function editCategory(categoryId) {
-  var saveButton = document.querySelector(`div[data-categoryid="${categoryId}"] button[name="save"]`);
-  var inputElement = document.querySelector(`div[data-categoryid="${categoryId}"] input[name="category"]`);
+  const saveButton = document.querySelector(`div[data-categoryid="${categoryId}"] button[name="save"]`);
+  const inputElement = document.querySelector(`div[data-categoryid="${categoryId}"] input[name="category"]`);
+
+  if (!inputElement) return;
 
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
-  if (inputElement) {
-    var categoryName = encodeURIComponent(inputElement.value);
-    var url = `endpoints/categories/category.php?action=edit&categoryId=${categoryId}&name=${categoryName}`;
 
-    fetch(url)
-      .then(response => {
-        saveButton.classList.remove("disabled");
-        if (!response.ok) {
-          showErrorMessage(translate('failed_save_category'));
-        }
-        return response.json();
-      })
-      .then(responseData => {
-        if (responseData.success) {
-          showSuccessMessage(responseData.message);
-        } else {
-          showErrorMessage(responseData.errorMessage || translate('failed_save_category'));
-        }
-      })
-      .catch(error => {
+  const categoryName = inputElement.value;
+
+  fetch('endpoints/categories/category.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      action: 'edit',
+      categoryId: categoryId,
+      name: categoryName,
+      csrf_token: window.csrfToken,
+    }),
+  })
+    .then(response => {
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+
+      if (!response.ok) {
         showErrorMessage(translate('failed_save_category'));
-      });
-  }
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      if (responseData.success) {
+        showSuccessMessage(responseData.message);
+      } else {
+        showErrorMessage(responseData.errorMessage || translate('failed_save_category'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('failed_save_category'));
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+    });
 }
+
 
 function addCurrencyButton(currencyId) {
   document.getElementById("addCurrency").disabled = true;
@@ -858,8 +895,9 @@ function saveCategorySorting() {
   categoryIds.forEach(categoryId => {
     formData.append('categoryIds[]', categoryId);
   });
-
-  fetch('endpoints/categories/sort.php', {
+  formData.append('csrf_token', window.csrfToken);
+  formData.append('action', 'sort');
+  fetch('endpoints/categories/category.php', {
     method: 'POST',
     body: formData
   })
