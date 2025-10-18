@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
+require_once '../../includes/validate_endpoint.php';
 
 if (!function_exists('trigger_deprecation')) {
     function trigger_deprecation($package, $version, $message, ...$args)
@@ -12,14 +13,13 @@ if (!function_exists('trigger_deprecation')) {
     }
 }
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
+$postData = file_get_contents("php://input");
+$data = json_decode($postData, true) ?? [];
 
-if ($_SERVER["REQUEST_METHOD"] === "GET") {
+$action = $data['action'] ?? '';
+
+if ($action === 'generate') {
+
     function base32_encode($hex)
     {
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -39,23 +39,19 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         return $base32;
     }
 
-    $data = $_GET;
-    if (isset($data['generate']) && $data['generate'] == true) {
-        $secret = base32_encode(bin2hex(random_bytes(20)));
-        $qrCodeUrl = "otpauth://totp/Wallos:" . $_SESSION['username'] . "?secret=" . $secret . "&issuer=Wallos";
-        $response = [
-            "success" => true,
-            "secret" => $secret,
-            "qrCodeUrl" => $qrCodeUrl
-        ];
-        echo json_encode($response);
-    }
+
+    $secret = base32_encode(bin2hex(random_bytes(20)));
+    $qrCodeUrl = "otpauth://totp/Wallos:" . $_SESSION['username'] . "?secret=" . $secret . "&issuer=Wallos";
+
+    echo json_encode([
+        "success" => true,
+        "secret" => $secret,
+        "qrCodeUrl" => $qrCodeUrl,
+    ]);
+    exit;
 }
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $postData = file_get_contents("php://input");
-    $data = json_decode($postData, true);
-
+if ($action === 'verify') {
     if (isset($data['totpSecret']) && $data['totpSecret'] != "" && isset($data['totpCode']) && $data['totpCode'] != "") {
         require_once __DIR__ . '/../../libs/OTPHP/FactoryInterface.php';
         require_once __DIR__ . '/../../libs/OTPHP/Factory.php';
@@ -134,8 +130,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "message" => translate('totp_code_incorrect', $i18n)
         ]));
     }
-
-
-
-
 }

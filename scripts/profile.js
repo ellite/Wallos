@@ -2,29 +2,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("userForm").addEventListener("submit", function (event) {
         event.preventDefault();
-        document.getElementById("userSubmit").disabled = true;
+        const submitButton = document.getElementById("userSubmit");
+        submitButton.disabled = true;
+
         const formData = new FormData(event.target);
+        formData.append("action", "save");
+
         fetch("endpoints/user/save_user.php", {
             method: "POST",
-            body: formData
+            headers: {
+                "X-CSRF-Token": window.csrfToken,
+            },
+            body: formData,
         })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     document.getElementById("avatar").src = document.getElementById("avatarImg").src;
-                    var newUsername = document.getElementById("username").value;
+                    const newUsername = document.getElementById("username").value;
                     document.getElementById("user").textContent = newUsername;
                     showSuccessMessage(data.message);
+
                     if (data.reload) {
                         location.reload();
                     }
                 } else {
-                    showErrorMessage(data.errorMessage);
+                    showErrorMessage(data.errorMessage || translate("failed_save_user"));
                 }
-                document.getElementById("userSubmit").disabled = false;
             })
             .catch(error => {
-                showErrorMessage(translate('unknown_error'));
+                console.error(error);
+                showErrorMessage(translate("unknown_error"));
+            })
+            .finally(() => {
+                submitButton.disabled = false;
             });
     });
 
@@ -81,6 +92,7 @@ function deleteAvatar(path) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRF-Token": window.csrfToken,
         },
         body: JSON.stringify({ avatar: path }),
     })
@@ -102,31 +114,36 @@ function deleteAvatar(path) {
 }
 
 function enableTotp() {
-    const totpSecret = document.querySelector('#totp-secret');
-    const totpSecretCode = document.querySelector('#totp-secret-code');
-    const qrCode = document.getElementById('totp-qr-code');
-    totpSecret.value = '';
-    totpSecretCode.textContent = '';
-    qrCode.innerHTML = '';
+  const totpSecret = document.querySelector("#totp-secret");
+  const totpSecretCode = document.querySelector("#totp-secret-code");
+  const qrCode = document.getElementById("totp-qr-code");
+  totpSecret.value = "";
+  totpSecretCode.textContent = "";
+  qrCode.innerHTML = "";
 
-    fetch('endpoints/user/enable_totp.php?generate=true', {
-        method: 'GET'
+  fetch("endpoints/user/enable_totp.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ action: "generate" }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        totpSecret.value = data.secret;
+        totpSecretCode.textContent = data.secret;
+        new QRCode(qrCode, data.qrCodeUrl);
+        openTotpPopup();
+      } else {
+        showErrorMessage(data.message);
+      }
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                totpSecret.value = data.secret;
-                totpSecretCode.textContent = data.secret;
-                new QRCode(qrCode, data.qrCodeUrl);
-
-                openTotpPopup();
-            } else {
-                showErrorMessage(data.message);
-            }
-        })
-        .catch(error => {
-            showErrorMessage(error);
-        });
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    });
 }
 
 function openTotpPopup() {
@@ -157,8 +174,9 @@ function submitTotp() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRF-Token": window.csrfToken,
         },
-        body: JSON.stringify({ totpCode: totpCode, totpSecret: totpSecret }),
+        body: JSON.stringify({ totpCode: totpCode, totpSecret: totpSecret, action: 'verify' }),
     })
         .then(response => response.json())
         .then(data => {
@@ -233,6 +251,7 @@ function submitDisableTotp() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRF-Token": window.csrfToken,
         },
         body: JSON.stringify({ totpCode: totpCode }),
     })
@@ -253,28 +272,33 @@ function submitDisableTotp() {
 }
 
 function regenerateApiKey() {
-    const regenerateButton = document.getElementById('regenerateApiKey');
-    regenerateButton.disabled = true;
+  const regenerateButton = document.getElementById("regenerateApiKey");
+  regenerateButton.disabled = true;
 
-    fetch('endpoints/user/regenerateapikey.php', {
-        method: 'POST',
-    })
+  fetch("endpoints/user/regenerateapikey.php", {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
+  })
     .then(response => response.json())
     .then(data => {
-        regenerateButton.disabled = false;
-        if (data.success) {
-            const newApiKey = data.apiKey;
-            document.getElementById('apikey').value = newApiKey;
-            showSuccessMessage(data.message);
-        } else {
-            showErrorMessage(data.message);
-        }
+      regenerateButton.disabled = false;
+      if (data.success) {
+        const newApiKey = data.apiKey;
+        document.getElementById("apikey").value = newApiKey;
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message || translate("failed_regenerate_api_key"));
+      }
     })
     .catch(error => {
-        regenerateButton.disabled = false;
-        showErrorMessage(error);
+      console.error(error);
+      regenerateButton.disabled = false;
+      showErrorMessage(translate("unknown_error"));
     });
 }
+
 
 function exportAsJson() {
     fetch("endpoints/subscriptions/export.php")
@@ -337,6 +361,7 @@ function deleteAccount(userId) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            "X-CSRF-Token": window.csrfToken,
         },
         body: JSON.stringify({ userId: userId }),
     })
