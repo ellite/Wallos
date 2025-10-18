@@ -51,55 +51,58 @@ function saveBudget() {
 
 
 function addMemberButton(memberId) {
-  document.getElementById("addMember").disabled = true;
-  const url = 'endpoints/household/household.php?action=add';
-  fetch(url)
+  const addButton = document.getElementById("addMember");
+  addButton.disabled = true;
+
+  fetch("endpoints/household/household.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({action: "add"}),
+  })
     .then(response => {
       if (!response.ok) {
-        showErrorMessage(translate('failed_add_member'));
-        throw new Error(translate('network_response_error'));
+        showErrorMessage(translate("failed_add_member"));
+        throw new Error(translate("network_response_error"));
       }
       return response.json();
     })
     .then(responseData => {
       if (responseData.success) {
-        const newMemberId = responseData.householdId;;
-        let container = document.getElementById("householdMembers");
-        let div = document.createElement("div");
+        const newMemberId = responseData.householdId;
+        const container = document.getElementById("householdMembers");
+
+        const div = document.createElement("div");
         div.className = "form-group-inline";
         div.dataset.memberid = newMemberId;
 
-        let input = document.createElement("input");
+        const input = document.createElement("input");
         input.type = "text";
-        input.placeholder = translate('member');
+        input.placeholder = translate("member");
         input.name = "member";
-        input.value = translate('member');
+        input.value = translate("member");
 
-        let emailInput = document.createElement("input");
+        const emailInput = document.createElement("input");
         emailInput.type = "text";
-        emailInput.placeholder = translate('email');
+        emailInput.placeholder = translate("email");
         emailInput.name = "email";
         emailInput.value = "";
 
-        let editLink = document.createElement("button");
-        editLink.className = "image-button medium"
+        const editLink = document.createElement("button");
+        editLink.className = "image-button medium";
         editLink.name = "save";
-        editLink.onclick = function () {
-          editMember(newMemberId);
-        };
-
+        editLink.onclick = () => editMember(newMemberId);
         editLink.innerHTML = editSvgContent;
-        editLink.title = translate('save_member');
+        editLink.title = translate("save_member");
 
-        let deleteLink = document.createElement("button");
-        deleteLink.className = "image-button medium"
+        const deleteLink = document.createElement("button");
+        deleteLink.className = "image-button medium";
         deleteLink.name = "delete";
-        deleteLink.onclick = function () {
-          removeMember(newMemberId);
-        };
-
+        deleteLink.onclick = () => removeMember(newMemberId);
         deleteLink.innerHTML = deleteSvgContent;
-        deleteLink.title = translate('delete_member');
+        deleteLink.title = translate("delete_member");
 
         div.appendChild(input);
         div.appendChild(emailInput);
@@ -108,73 +111,102 @@ function addMemberButton(memberId) {
 
         container.appendChild(div);
       } else {
-        showErrorMessage(responseData.errorMessage);
+        showErrorMessage(responseData.errorMessage || translate("failed_add_member"));
       }
-      document.getElementById("addMember").disabled = false;
     })
     .catch(error => {
-      showErrorMessage(translate('failed_add_member'));
-      document.getElementById("addMember").disabled = false;
+      console.error(error);
+      showErrorMessage(translate("failed_add_member"));
+    })
+    .finally(() => {
+      addButton.disabled = false;
     });
-
 }
 
 function removeMember(memberId) {
-  let url = `endpoints/household/household.php?action=delete&memberId=${memberId}`;
-  fetch(url)
+  fetch("endpoints/household/household.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({
+      action: "delete",
+      memberId: memberId,
+    }),
+  })
     .then(response => {
       if (!response.ok) {
-        throw new Error(translate('network_response_error'));
+        throw new Error(translate("network_response_error"));
       }
       return response.json();
     })
     .then(responseData => {
       if (responseData.success) {
-        let divToRemove = document.querySelector(`[data-memberid="${memberId}"]`);
-        if (divToRemove) {
-          divToRemove.parentNode.removeChild(divToRemove);
-        }
+        const divToRemove = document.querySelector(`[data-memberid="${memberId}"]`);
+        if (divToRemove) divToRemove.remove();
         showSuccessMessage(responseData.message);
       } else {
-        showErrorMessage(responseData.errorMessage || translate('failed_remove_member'));
+        showErrorMessage(responseData.errorMessage || translate("failed_remove_member"));
       }
     })
     .catch(error => {
-      showErrorMessage(translate('failed_remove_member'));
+      console.error(error);
+      showErrorMessage(translate("failed_remove_member"));
     });
 }
 
+
 function editMember(memberId) {
-  var saveButton = document.querySelector(`div[data-memberid="${memberId}"] button[name="save"]`);
-  var memberNameElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="member"]`);
-  var memberEmailElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="email"]`);
+  const saveButton = document.querySelector(`div[data-memberid="${memberId}"] button[name="save"]`);
+  const memberNameElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="member"]`);
+  const memberEmailElement = document.querySelector(`div[data-memberid="${memberId}"] input[name="email"]`);
+
+  if (!memberNameElement) return;
+
   saveButton.classList.add("disabled");
   saveButton.disabled = true;
-  if (memberNameElement) {
-    var memberName = encodeURIComponent(memberNameElement.value);
-    var memberEmail = memberEmailElement ? encodeURIComponent(memberEmailElement.value) : '';
-    var url = `endpoints/household/household.php?action=edit&memberId=${memberId}&name=${memberName}&email=${memberEmail}`;
 
-    fetch(url)
-      .then(response => {
-        saveButton.classList.remove("disabled");
-        if (!response.ok) {
-          showErrorMessage(translate('failed_save_member'));
-        }
-        return response.json();
-      })
-      .then(responseData => {
-        if (responseData.success) {
-          showSuccessMessage(responseData.message);
-        } else {
-          showErrorMessage(responseData.errorMessage || translate('failed_save_member'));
-        }
-      })
-      .catch(error => {
-        showErrorMessage(translate('failed_save_member'));
-      });
-  }
+  const memberName = memberNameElement.value;
+  const memberEmail = memberEmailElement ? memberEmailElement.value : "";
+
+  fetch("endpoints/household/household.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({
+      action: "edit",
+      memberId: memberId,
+      name: memberName,
+      email: memberEmail,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        showErrorMessage(translate("failed_save_member"));
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      if (responseData.success) {
+        showSuccessMessage(responseData.message);
+      } else {
+        showErrorMessage(responseData.errorMessage || translate("failed_save_member"));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate("failed_save_member"));
+    })
+    .finally(() => {
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+    });
 }
+
 
 function addCategoryButton(categoryId) {
   const addButton = document.getElementById("addCategory");
@@ -184,11 +216,9 @@ function addCategoryButton(categoryId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
-    body: new URLSearchParams({
-      action: 'add',
-      csrf_token: window.csrfToken,
-    }),
+    body: new URLSearchParams({action: 'add'}),
   })
     .then(response => {
       if (!response.ok) {
@@ -257,11 +287,11 @@ function removeCategory(categoryId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: new URLSearchParams({
       action: 'delete',
       categoryId: categoryId,
-      csrf_token: window.csrfToken,
     }),
   })
     .then(response => {
@@ -301,12 +331,12 @@ function editCategory(categoryId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: new URLSearchParams({
       action: 'edit',
       categoryId: categoryId,
       name: categoryName,
-      csrf_token: window.csrfToken,
     }),
   })
     .then(response => {
@@ -343,11 +373,9 @@ function addCurrencyButton(currencyId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
-    body: new URLSearchParams({
-      action: 'add',
-      csrf_token: window.csrfToken,
-    }),
+    body: new URLSearchParams({action: 'add'}),
   })
     .then(response => {
       if (!response.ok) {
@@ -426,11 +454,11 @@ function removeCurrency(currencyId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: new URLSearchParams({
       action: 'delete',
       currencyId: currencyId,
-      csrf_token: window.csrfToken,
     }),
   })
     .then(response => {
@@ -473,6 +501,7 @@ function editCurrency(currencyId) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: new URLSearchParams({
       action: 'edit',
@@ -480,7 +509,6 @@ function editCurrency(currencyId) {
       name: currencyName,
       symbol: currencySymbol,
       code: currencyCode,
-      csrf_token: window.csrfToken,
     }),
   })
     .then(response => {
@@ -828,11 +856,11 @@ function addFixerKeyButton() {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      'X-CSRF-Token': window.csrfToken,
     },
     body: new URLSearchParams({
       api_key: apiKey,
       provider: provider,
-      csrf_token: window.csrfToken,
     }),
   })
     .then(response => response.json())
@@ -846,11 +874,9 @@ function addFixerKeyButton() {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+            'X-CSRF-Token': window.csrfToken,
           },
-          body: new URLSearchParams({
-            force: "true",
-            csrf_token: window.csrfToken,
-          }),
+          body: new URLSearchParams({force: "true"}),
         }).catch(console.error);
       } else {
         showErrorMessage(data.message);
@@ -940,18 +966,17 @@ function setShowSubscriptionProgress() {
 }
 
 function saveCategorySorting() {
-  const categories = document.getElementById('categories');
-  const categoryIds = Array.from(categories.children).map(category => category.dataset.categoryid);
+  const categories = document.getElementById("categories");
+  const categoryIds = Array.from(categories.children).map(c => c.dataset.categoryid);
 
   const formData = new FormData();
-  categoryIds.forEach(categoryId => {
-    formData.append('categoryIds[]', categoryId);
-  });
-  formData.append('csrf_token', window.csrfToken);
-  formData.append('action', 'sort');
-  fetch('endpoints/categories/category.php', {
-    method: 'POST',
-    body: formData
+  categoryIds.forEach(categoryId => formData.append("categoryIds[]", categoryId));
+  formData.append("action", "sort");
+
+  fetch("endpoints/categories/category.php", {
+    method: "POST",
+    headers: {"X-CSRF-Token": window.csrfToken},
+    body: formData,
   })
     .then(response => response.json())
     .then(data => {
@@ -962,9 +987,11 @@ function saveCategorySorting() {
       }
     })
     .catch(error => {
-      showErrorMessage(translate('unknown_error'));
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
     });
 }
+
 
 var el = document.getElementById('categories');
 var sortable = Sortable.create(el, {
