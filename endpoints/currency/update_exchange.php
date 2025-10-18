@@ -1,9 +1,26 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
+require_once '../../libs/csrf.php';
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(["success" => false, "errorMessage" => "Invalid request method"]);
+    exit;
+}
+
+$csrf = $_POST['csrf_token'] ?? '';
+if (!verify_csrf_token($csrf)) {
+    echo json_encode(["success" => false, "errorMessage" => "Invalid CSRF token"]);
+    exit;
+}
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    echo json_encode(["success" => false, "message" => translate('session_expired', $i18n)]);
+    exit;
+}
 
 $shouldUpdate = true;
 
-if (isset($_GET['force']) && $_GET['force'] === "true") {
+if (isset($_POST['force']) && $_POST['force'] === "true") {
     $shouldUpdate = true;
 } else {
     $query = "SELECT date FROM last_exchange_update WHERE user_id = :userId";
@@ -108,4 +125,3 @@ if ($result) {
     echo "Exchange rates update skipped. No fixer.io api key provided";
     $apiKey = null;
 }
-?>

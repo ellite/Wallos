@@ -14,6 +14,11 @@ if (!verify_csrf_token($csrf)) {
     exit;
 }
 
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    echo json_encode(["success" => false, "message" => translate('session_expired', $i18n)]);
+    exit;
+}
+
 $action = $_POST['action'] ?? '';
 
 switch ($action) {

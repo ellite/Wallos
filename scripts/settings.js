@@ -813,36 +813,54 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function addFixerKeyButton() {
-  document.getElementById("addFixerKey").disabled = true;
+  const addButton = document.getElementById("addFixerKey");
+  addButton.disabled = true;
+
   const apiKeyInput = document.querySelector("#fixerKey");
-  apiKey = apiKeyInput.value.trim();
+  const apiKey = apiKeyInput.value.trim();
   const provider = document.querySelector("#fixerProvider").value;
   const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
+
   fetch("endpoints/currency/fixer_api_key.php", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `api_key=${encodeURIComponent(apiKey)}&provider=${encodeURIComponent(provider)}`,
+    body: new URLSearchParams({
+      api_key: apiKey,
+      provider: provider,
+      csrf_token: window.csrfToken,
+    }),
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
-        document.getElementById("addFixerKey").disabled = false;
+        addButton.disabled = false;
         convertCurrencyCheckbox.disabled = false;
-        // update currency exchange rates
-        fetch("endpoints/currency/update_exchange.php?force=true");
+
+        fetch("endpoints/currency/update_exchange.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            force: "true",
+            csrf_token: window.csrfToken,
+          }),
+        }).catch(console.error);
       } else {
         showErrorMessage(data.message);
-        document.getElementById("addFixerKey").disabled = false;
+        addButton.disabled = false;
       }
     })
     .catch(error => {
-      showErrorMessage(error);
-      document.getElementById("addFixerKey").disabled = false;
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+      addButton.disabled = false;
     });
 }
+
 
 function storeSettingsOnDB(endpoint, value) {
   fetch('endpoints/settings/' + endpoint + '.php', {
