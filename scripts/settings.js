@@ -833,7 +833,7 @@ function savePaymentMethodsSorting() {
   fetch("endpoints/payments/sort.php", {
     method: "POST",
     headers: {
-      "X-CSRF-Token": window.csrfToken, // ✅ CSRF header
+      "X-CSRF-Token": window.csrfToken,
     },
     body: formData,
   })
@@ -931,7 +931,8 @@ function storeSettingsOnDB(endpoint, value) {
   fetch('endpoints/settings/' + endpoint + '.php', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     },
     body: JSON.stringify({ "value": value })
   })
