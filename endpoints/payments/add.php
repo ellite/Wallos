@@ -3,6 +3,7 @@ error_reporting(E_ERROR | E_PARSE);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/getsettings.php';
+require_once '../../includes/validate_endpoint.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -194,13 +195,28 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name)
     return "";
 }
 
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $enabled = 1;
-        $name = validate($_POST["paymentname"]);
-        $iconUrl = validate($_POST['icon-url']);
+$enabled = 1;
+$name = validate($_POST["paymentname"]);
+$iconUrl = validate($_POST['icon-url']);
 
-        if ($name === "" || ($iconUrl === "" && empty($_FILES['paymenticon']['name']))) {
+if ($name === "" || ($iconUrl === "" && empty($_FILES['paymenticon']['name']))) {
+    $response = [
+        "success" => false,
+        "errorMessage" => translate('fill_all_fields', $i18n)
+    ];
+    echo json_encode($response);
+    exit();
+}
+
+
+$icon = "";
+
+if ($iconUrl !== "") {
+    $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $i18n, $settings);
+} else {
+    if (!empty($_FILES['paymenticon']['name'])) {
+        $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
+        if (strpos($fileType, 'image') === false) {
             $response = [
                 "success" => false,
                 "errorMessage" => translate('fill_all_fields', $i18n)
@@ -208,58 +224,40 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             echo json_encode($response);
             exit();
         }
-
-
-        $icon = "";
-
-        if ($iconUrl !== "") {
-            $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $i18n, $settings);
-        } else {
-            if (!empty($_FILES['paymenticon']['name'])) {
-                $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
-                if (strpos($fileType, 'image') === false) {
-                    $response = [
-                        "success" => false,
-                        "errorMessage" => translate('fill_all_fields', $i18n)
-                    ];
-                    echo json_encode($response);
-                    exit();
-                }
-                $icon = resizeAndUploadLogo($_FILES['paymenticon'], '../../images/uploads/logos/', $name);
-            }
-        }
-
-        // Get the maximum existing ID
-        $stmt = $db->prepare("SELECT MAX(id) as maxID FROM payment_methods");
-        $result = $stmt->execute();
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-        $maxID = $row['maxID'];
-
-        // Ensure the new ID is greater than 31
-        $newID = max($maxID + 1, 32);
-
-        // Insert the new record with the new ID
-        $sql = "INSERT INTO payment_methods (id, name, icon, enabled, user_id) VALUES (:id, :name, :icon, :enabled, :userId)";
-        $stmt = $db->prepare($sql);
-
-        $stmt->bindParam(':id', $newID, SQLITE3_INTEGER);
-        $stmt->bindParam(':name', $name, SQLITE3_TEXT);
-        $stmt->bindParam(':icon', $icon, SQLITE3_TEXT);
-        $stmt->bindParam(':enabled', $enabled, SQLITE3_INTEGER);
-        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-
-        if ($stmt->execute()) {
-            $success['success'] = true;
-            $success['message'] = translate('payment_method_added_successfuly', $i18n);
-            $json = json_encode($success);
-            header('Content-Type: application/json');
-            echo $json;
-            exit();
-        } else {
-            echo translate('error', $i18n) . ": " . $db->lastErrorMsg();
-        }
+        $icon = resizeAndUploadLogo($_FILES['paymenticon'], '../../images/uploads/logos/', $name);
     }
 }
+
+// Get the maximum existing ID
+$stmt = $db->prepare("SELECT MAX(id) as maxID FROM payment_methods");
+$result = $stmt->execute();
+$row = $result->fetchArray(SQLITE3_ASSOC);
+$maxID = $row['maxID'];
+
+// Ensure the new ID is greater than 31
+$newID = max($maxID + 1, 32);
+
+// Insert the new record with the new ID
+$sql = "INSERT INTO payment_methods (id, name, icon, enabled, user_id) VALUES (:id, :name, :icon, :enabled, :userId)";
+$stmt = $db->prepare($sql);
+
+$stmt->bindParam(':id', $newID, SQLITE3_INTEGER);
+$stmt->bindParam(':name', $name, SQLITE3_TEXT);
+$stmt->bindParam(':icon', $icon, SQLITE3_TEXT);
+$stmt->bindParam(':enabled', $enabled, SQLITE3_INTEGER);
+$stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+
+if ($stmt->execute()) {
+    $success['success'] = true;
+    $success['message'] = translate('payment_method_added_successfuly', $i18n);
+    $json = json_encode($success);
+    header('Content-Type: application/json');
+    echo $json;
+    exit();
+} else {
+    echo translate('error', $i18n) . ": " . $db->lastErrorMsg();
+}
+
 $db->close();
 
 ?>

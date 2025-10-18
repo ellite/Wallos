@@ -1,13 +1,7 @@
 <?php
 
 require_once '../../includes/connect_endpoint.php';
-
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
+require_once '../../includes/validate_endpoint.php';
 
 if (!isset($_POST['paymentId']) || !isset($_POST['name']) || $_POST['paymentId'] === '' || $_POST['name'] === '') {
     die(json_encode([

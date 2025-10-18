@@ -538,30 +538,42 @@ function editCurrency(currencyId) {
 function togglePayment(paymentId) {
   const element = document.querySelector(`div[data-paymentid="${paymentId}"]`);
 
-  if (element.dataset.inUse === 'yes') {
-    return showErrorMessage(translate('cant_disable_payment_in_use'));
+  if (element.dataset.inUse === "yes") {
+    return showErrorMessage(translate("cant_disable_payment_in_use"));
   }
 
-  const newEnabledState = element.dataset.enabled === '1' ? '0' : '1';
-  const paymentMethodName = element.querySelector('.payment-name').innerText;
+  const newEnabledState = element.dataset.enabled === "1" ? "0" : "1";
+  const paymentMethodName = element.querySelector(".payment-name").innerText;
 
-  const url = `endpoints/payments/payment.php?action=toggle&paymentId=${paymentId}&enabled=${newEnabledState}`;
-
-  fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(translate('network_response_error'));
-    }
-    return response.json();
-  }).then(data => {
-    if (data.success) {
-      element.dataset.enabled = newEnabledState;
-      showSuccessMessage(`${paymentMethodName} ${data.message}`);
-    } else {
-      showErrorMessage(data.message || translate('failed_save_payment_method'));
-    }
-  }).catch(error => {
-    showErrorMessage(error.message || translate('failed_save_payment_method'));
-  });
+  fetch("endpoints/payments/toggle.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: new URLSearchParams({
+      paymentId: paymentId,
+      enabled: newEnabledState,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        element.dataset.enabled = newEnabledState;
+        showSuccessMessage(`${paymentMethodName} ${data.message}`);
+      } else {
+        showErrorMessage(data.message || translate("failed_save_payment_method"));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(error.message || translate("failed_save_payment_method"));
+    });
 }
 
 document.body.addEventListener('click', function (e) {
@@ -595,27 +607,38 @@ document.body.addEventListener('blur', function (e) {
 
 function renamePayment(paymentId, newName) {
   const name = newName.trim();
+  if (!name) return;
+
   const formData = new FormData();
-  formData.append('paymentId', paymentId);
-  formData.append('name', name);
-  fetch('endpoints/payments/rename.php', {
-    method: 'POST',
-    body: formData
-  }).then(response => {
-    if (!response.ok) {
-      throw new Error(translate('network_response_error'));
-    }
-    return response.json();
-  }).then(data => {
-    if (data.success) {
-      showSuccessMessage(`${newName} ${data.message}`);
-    } else {
-      showErrorMessage(data.message);
-    }
-  }).catch(error => {
-    showErrorMessage(translate('unknown_error'));
-  });
+  formData.append("paymentId", paymentId);
+  formData.append("name", name);
+
+  fetch("endpoints/payments/rename.php", {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: formData,
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(`${newName} ${data.message}`);
+      } else {
+        showErrorMessage(data.message || translate("failed_save_payment_method"));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    });
 }
+
 
 document.body.addEventListener('keypress', function (e) {
   let targetElement = e.target;
@@ -741,10 +764,14 @@ function addPaymentMethod() {
 
   submitButton.disabled = true;
   const formData = new FormData(paymentMethodForm);
+  formData.append("action", "add");
 
   fetch(addPaymentMethodEndpoint, {
     method: "POST",
-    body: formData
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: formData,
   })
     .then(response => response.json())
     .then(data => {
@@ -754,22 +781,25 @@ function addPaymentMethod() {
         resetFormIcon();
         reloadPaymentMethods();
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.errorMessage || translate("failed_add_payment_method"));
       }
-      submitButton.disabled = false;
     })
     .catch(error => {
-      showErrorMessage(translate('unknown_error'));
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    })
+    .finally(() => {
       submitButton.disabled = false;
     });
-
 }
+
 
 function deletePaymentMethod(paymentId) {
   fetch(`endpoints/payments/delete.php?id=${paymentId}`, {
-    method: 'DELETE',
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+       "X-CSRF-Token": window.csrfToken,
     },
     body: JSON.stringify({ id: paymentId }),
   })
@@ -791,30 +821,36 @@ function deletePaymentMethod(paymentId) {
 }
 
 function savePaymentMethodsSorting() {
-  const paymentMethods = document.getElementById('payments-list');
-  const paymentMethodIds = Array.from(paymentMethods.children).map(paymentMethod => paymentMethod.dataset.paymentid);
+  const paymentMethods = document.getElementById("payments-list");
+  const paymentMethodIds = Array.from(paymentMethods.children).map(
+    paymentMethod => paymentMethod.dataset.paymentid
+  );
 
   const formData = new FormData();
-  paymentMethodIds.forEach(paymentMethodId => {
-    formData.append('paymentMethodIds[]', paymentMethodId);
-  });
+  paymentMethodIds.forEach(id => formData.append("paymentMethodIds[]", id));
+  formData.append("action", "sort");
 
-  fetch('endpoints/payments/sort.php', {
-    method: 'POST',
-    body: formData
+  fetch("endpoints/payments/sort.php", {
+    method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken, // ✅ CSRF header
+    },
+    body: formData,
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.errorMessage);
+        showErrorMessage(data.errorMessage || translate("failed_sort_payment_methods"));
       }
     })
     .catch(error => {
-      showErrorMessage(translate('unknown_error'));
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
     });
 }
+
 
 var el = document.getElementById('payments-list');
 var sortable = Sortable.create(el, {

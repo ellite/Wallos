@@ -1,21 +1,15 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/validate_endpoint.php';
 
-if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    die(json_encode([
-        "success" => false,
-        "message" => translate('session_expired', $i18n)
-    ]));
-}
-
-if (!isset($_GET['paymentId']) || !isset($_GET['enabled'])) {
+if (!isset($_POST['paymentId']) || !isset($_POST['enabled'])) {
     die(json_encode([
         "success" => false,
         "message" => translate('fields_missing', $i18n)
     ]));
 }
 
-$paymentId = $_GET['paymentId'];
+$paymentId = $_POST['paymentId'];
 
 $stmt = $db->prepare('SELECT COUNT(*) as count FROM subscriptions WHERE payment_method_id=:paymentId and user_id=:userId');
 $stmt->bindValue(':paymentId', $paymentId, SQLITE3_INTEGER);
@@ -31,7 +25,7 @@ if ($inUse) {
     ]));
 }
 
-$enabled = $_GET['enabled'];
+$enabled = $_POST['enabled'];
 
 $sqlUpdate = 'UPDATE payment_methods SET enabled=:enabled WHERE id=:id and user_id=:userId';
 $stmtUpdate = $db->prepare($sqlUpdate);
