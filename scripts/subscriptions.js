@@ -203,78 +203,101 @@ function handleFileSelect(event) {
 function deleteSubscription(event, id) {
   event.stopPropagation();
   event.preventDefault();
-  if (confirm(translate('confirm_delete_subscription'))) {
-    fetch(`endpoints/subscription/delete.php?id=${id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        if (response.ok) {
-          showSuccessMessage(translate('subscription_deleted'));
-          fetchSubscriptions(null, null, "delete");
-          closeAddSubscription();
-        } else {
-          showErrorMessage(translate('error_deleting_subscription'));
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+
+  if (!confirm(translate('confirm_delete_subscription'))) {
+    return;
   }
+
+  fetch("endpoints/subscription/delete.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        showSuccessMessage(translate('subscription_deleted'));
+        fetchSubscriptions(null, null, "delete");
+        closeAddSubscription();
+      } else {
+        showErrorMessage(data.message || translate('error_deleting_subscription'));
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      showErrorMessage(translate('error_deleting_subscription'));
+    });
 }
+
 
 function cloneSubscription(event, id) {
   event.stopPropagation();
   event.preventDefault();
 
-  const url = `endpoints/subscription/clone.php?id=${id}`;
-
-  fetch(url)
-    .then(response => {
+  fetch("endpoints/subscription/clone.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
       if (!response.ok) {
-        throw new Error(translate('network_response_error'));
+        throw new Error(translate("network_response_error"));
       }
       return response.json();
     })
-    .then(data => {
+    .then((data) => {
       if (data.success) {
-        const id = data.id;
-        fetchSubscriptions(id, event, "clone");
+        const newId = data.id;
+        fetchSubscriptions(newId, event, "clone");
         showSuccessMessage(decodeURI(data.message));
       } else {
-        showErrorMessage(data.message || translate('error'));
+        showErrorMessage(data.message || translate("error"));
       }
     })
-    .catch(error => {
-      showErrorMessage(error.message || translate('error'));
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
     });
 }
+
 
 function renewSubscription(event, id) {
   event.stopPropagation();
   event.preventDefault();
 
-  const url = `endpoints/subscription/renew.php?id=${id}`;
-
-  fetch(url)
-    .then(response => {
+  fetch("endpoints/subscription/renew.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
       if (!response.ok) {
-        throw new Error(translate('network_response_error'));
+        throw new Error(translate("network_response_error"));
       }
       return response.json();
     })
-    .then(data => {
+    .then((data) => {
       if (data.success) {
-        const id = data.id;
-        fetchSubscriptions(id, event, "renew");
+        const newId = data.id;
+        fetchSubscriptions(newId, event, "renew");
         showSuccessMessage(decodeURI(data.message));
       } else {
-        showErrorMessage(data.message || translate('error'));
+        showErrorMessage(data.message || translate("error"));
       }
     })
-    .catch(error => {
-      showErrorMessage(error.message || translate('error'));
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
     });
 }
+
 
 function setSearchButtonStatus() {
 
@@ -454,6 +477,9 @@ function dataURLtoFile(dataurl, filename) {
 function submitFormData(formData, submitButton, endpoint) {
   fetch(endpoint, {
     method: "POST",
+    headers: {
+      "X-CSRF-Token": window.csrfToken,
+    },
     body: formData,
   })
     .then((response) => response.json())
@@ -462,11 +488,15 @@ function submitFormData(formData, submitButton, endpoint) {
         showSuccessMessage(data.message);
         fetchSubscriptions(null, null, "add");
         closeAddSubscription();
-
+      } else {
+        showErrorMessage(data.message || translate("unknown_error"));
       }
     })
     .catch((error) => {
-      showErrorMessage(error);
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    })
+    .finally(() => {
       submitButton.disabled = false;
     });
 }

@@ -84,7 +84,8 @@ function exportCalendar(subscriptionId) {
     method: 'POST',
     body: JSON.stringify({id: subscriptionId}),
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
     }
   })
   .then(response => response.json())
@@ -100,7 +101,7 @@ function exportCalendar(subscriptionId) {
       a.click();
       window.URL.revokeObjectURL(url);
     } else {
-      console.error('Failed to download the calendar file.');
+      showErrorMessage(data.message);
     }
   })
   .catch(error => console.error('Error:', error));
