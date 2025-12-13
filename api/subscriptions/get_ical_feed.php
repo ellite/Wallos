@@ -185,8 +185,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         UID:$uid
         SUMMARY:$summary
         DESCRIPTION:$description
-        DTSTART:$dtstart
-        DTEND:$dtend
+        DTSTART;VALUE=DATE:$dtstart
+        DTEND;VALUE=DATE:$dtend
         LOCATION:$location
         STATUS:CONFIRMED
         TRANSP:OPAQUE
@@ -196,7 +196,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         TRIGGER:$alarm_trigger
         END:VALARM
         END:VEVENT
-        
+
         ICS;
     }
 

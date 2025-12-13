@@ -35,8 +35,8 @@ if ($subscription) {
     $summary = html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8');
     $description = "Price: {$subscription['currency']}{$subscription['price']}\nCategory: {$subscription['category']}\nPayment Method: {$subscription['payment_method']}\nPayer: {$subscription['payer_user']}\n\nNotes: {$subscription['notes']}";
 
-    $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd\THis\Z');
-    $dtend = (new DateTime($subscription['next_payment']))->modify('+1 hour')->format('Ymd\THis\Z');
+    $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd');
+    $dtend = (new DateTime($subscription['next_payment']))->format('Ymd');
     $location = isset($subscription['url']) ? $subscription['url'] : '';
     $alarm_trigger = '-P' . $subscription['trigger'] . 'D';
 
@@ -50,8 +50,8 @@ if ($subscription) {
         UID:$uid
         SUMMARY:$summary
         DESCRIPTION:$description
-        DTSTART:$dtstart
-        DTEND:$dtend
+        DTSTART;VALUE=DATE:$dtstart
+        DTEND;VALUE=DATE:$dtend
         LOCATION:$location
         STATUS:CONFIRMED
         TRANSP:OPAQUE
