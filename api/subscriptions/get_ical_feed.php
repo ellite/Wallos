@@ -175,6 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $uid = uniqid();
         $summary = html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8');
         $description = "Price: {$subscription['currency']}{$subscription['price']}\\nCategory: {$subscription['category']}\\nPayment Method: {$subscription['payment_method']}\\nPayer: {$subscription['payer_user']}\\nNotes: {$subscription['notes']}";
+        $dtstamp = gmdate('Ymd\THis\Z');
         $dtstart = (new DateTime($subscription['next_payment']))->format('Ymd');
         $dtend = (new DateTime($subscription['next_payment']))->format('Ymd');
         $location = isset($subscription['url']) ? $subscription['url'] : '';
@@ -183,6 +184,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $icsContent .= <<<ICS
         BEGIN:VEVENT
         UID:$uid
+        DTSTAMP:$dtstamp
         SUMMARY:$summary
         DESCRIPTION:$description
         DTSTART;VALUE=DATE:$dtstart
