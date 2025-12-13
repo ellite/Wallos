@@ -31,7 +31,7 @@ if ($subscription) {
     $subscription['price'] = number_format($subscription['price'], 2);
 
     // Create ICS from subscription information
-    $uid = uniqid();
+    $uid = 'wallos-subscription-' . $subscription['id'] . '@wallos';
     $summary = html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8');
     $description = "Price: {$subscription['currency']}{$subscription['price']}\nCategory: {$subscription['category']}\nPayment Method: {$subscription['payment_method']}\nPayer: {$subscription['payer_user']}\n\nNotes: {$subscription['notes']}";
 
