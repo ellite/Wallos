@@ -471,7 +471,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
             <option value="0"><?= translate('on_due_date', $i18n) ?></option>
             <option value="1">1 <?= translate('day_before', $i18n) ?></option>
             <?php
-            for ($i = 2; $i <= 90; $i++) {
+            for ($i = 2; $i <= 180; $i++) {
               ?>
               <option value="<?= $i ?>"><?= $i ?>   <?= translate('days_before', $i18n) ?></option>
               <?php
