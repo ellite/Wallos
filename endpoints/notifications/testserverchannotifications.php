@@ -43,7 +43,8 @@ $body = 'This is a test notification from Wallos via Serverchan.';
 
 $result = sc_send($title, $body, $sendkey);
 $info = json_decode($result, true);
-if ($info['code'] == 0) {
+$code = (is_array($info) && array_key_exists('code', $info)) ? $info['code'] : null;
+if ($code === 0) {
     echo json_encode([
         "success" => true,
         "message" => translate('notification_sent_successfuly', $i18n)
