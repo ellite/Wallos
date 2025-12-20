@@ -863,11 +863,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $response = curl_exec($ch);
                     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    curl_close($ch);
 
                     if ($response === false || $httpCode >= 400) {
-                        echo "Error sending Serverchan notifications: " . ($response === false ? curl_error($ch) : $httpCode) . "<br />";
+                        $errorMessage = $response === false ? curl_error($ch) : $httpCode;
+                        curl_close($ch);
+                        echo "Error sending Serverchan notifications: " . $errorMessage . "<br />";
                     } else {
+                        curl_close($ch);
                         echo "Serverchan Notifications sent<br />";
                     }
                 }
