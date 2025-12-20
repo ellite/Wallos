@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.1](https://github.com/ellite/Wallos/compare/v4.5.0...v4.5.1) (2025-12-20)
+
+
+### Bug Fixes
+
+* use RFC 5545 compliant date format in iCal exports ([#965](https://github.com/ellite/Wallos/issues/965)) ([b6b0abe](https://github.com/ellite/Wallos/commit/b6b0abed0d916c3ae5a31257f4c0b1a34436ad91))
+
 ## [4.5.0](https://github.com/ellite/Wallos/compare/v4.4.1...v4.5.0) (2025-10-18)
 
 
