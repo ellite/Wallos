@@ -1,5 +1,22 @@
 # Changelog
 
+## [4.6.0](https://github.com/ellite/Wallos/compare/v4.5.0...v4.6.0) (2025-12-20)
+
+
+### Features
+
+* add catalan translation ([#970](https://github.com/ellite/Wallos/issues/970)) ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+* add robots.txt to disallow indexing. ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+* add serverchan notifications. ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+* notifications for subscription can be triggered up to 180 days before payment date. ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+
+
+### Bug Fixes
+
+* use RFC 5545 compliant date format in iCal exports ([#965](https://github.com/ellite/Wallos/issues/965)) ([b6b0abe](https://github.com/ellite/Wallos/commit/b6b0abed0d916c3ae5a31257f4c0b1a34436ad91))
+* use RFC 5545 compliant date format in iCal exports. ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+* use stable UID for iCal events to prevent duplicates. ([f5746e7](https://github.com/ellite/Wallos/commit/f5746e76a5dd6bbda7d52b1a2229c02bb9fad94b))
+
 ## [4.5.0](https://github.com/ellite/Wallos/compare/v4.4.1...v4.5.0) (2025-10-18)
 
 
