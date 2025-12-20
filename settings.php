@@ -415,8 +415,8 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                             placeholder="<?= translate('smtp_address', $i18n) ?>"
                             value="<?= $notificationsEmail['smtp_address'] ?>" />
                         <input type="text" name="smtpport" id="smtpport" autocomplete="off"
-                            placeholder="<?= translate('port', $i18n) ?>"
-                            class="one-third" value="<?= $notificationsEmail['smtp_port'] ?>" />
+                            placeholder="<?= translate('port', $i18n) ?>" class="one-third"
+                            value="<?= $notificationsEmail['smtp_port'] ?>" />
                     </div>
                     <div class="form-group-inline">
                         <div>
@@ -525,8 +525,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="gotifyurl" id="gotifyurl" autocomplete="off"
-                            placeholder="<?= translate('url', $i18n) ?>"
-                            value="<?= $notificationsGotify['url'] ?>" />
+                            placeholder="<?= translate('url', $i18n) ?>" value="<?= $notificationsGotify['url'] ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="gotifytoken" id="gotifytoken" autocomplete="off"
@@ -614,98 +613,70 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
             </section>
 
             <section class="account-notifications-section">
-    <header class="account-notification-section-header" onclick="openNotificationsSettings('pushplus');">
-        <h3>
-            <i class="fa-solid fa-bell"></i>
-            <?= translate('pushplus', $i18n) ?>
-        </h3>
-    </header>
-    <div class="account-notification-section-settings" data-type="pushplus">
-        <div class="form-group-inline">
-            <input type="checkbox" id="pushplusenabled" name="pushplusenabled"
-                <?= $notificationsPushPlus['enabled'] ? "checked" : "" ?>>
-            <label for="pushplusenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
-        </div>
-        <div class="form-group-inline">
-            <input type="text" name="pushplustoken" id="pushplustoken" autocomplete="off"
-                placeholder="<?= translate('pushplus_token', $i18n) ?>"
-                value="<?= $notificationsPushPlus['token'] ? $notificationsPushPlus['token'] : '' ?>" />
-        </div>
-        <div class="buttons">
-            <input type="button" class="secondary-button thin mobile-grow"
-                value="<?= translate('test', $i18n) ?>" id="testNotificationsPushPlus"
-                onClick="testNotificationsPushPlusButton()" />
-            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
-                id="saveNotificationsPushPlus" onClick="saveNotificationsPushPlusButton()" />
-        </div>
-    </div>
-</section>
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('pushplus');">
+                    <h3>
+                        <i class="fa-solid fa-bell"></i>
+                        <?= translate('pushplus', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="pushplus">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="pushplusenabled" name="pushplusenabled"
+                            <?= $notificationsPushPlus['enabled'] ? "checked" : "" ?>>
+                        <label for="pushplusenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="pushplustoken" id="pushplustoken" autocomplete="off"
+                            placeholder="<?= translate('pushplus_token', $i18n) ?>"
+                            value="<?= $notificationsPushPlus['token'] ? $notificationsPushPlus['token'] : '' ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsPushPlus"
+                            onClick="testNotificationsPushPlusButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsPushPlus" onClick="saveNotificationsPushPlusButton()" />
+                    </div>
+                </div>
+            </section>
 
-<section class="account-notifications-section">
-<header class="account-notification-section-header" onclick="openNotificationsSettings('mattermost');">
-        <h3>
-            <i class="fa-solid fa-gauge-simple-high"></i>
-            <?= translate('mattermost', $i18n) ?>
-        </h3>
-    </header>
-    <div class="account-notification-section-settings" data-type="mattermost">
-        <div class="form-group-inline">
-            <input type="checkbox" id="mattermostenabled" name="mattermostenabled"
-                <?= $notificationsMattermost['enabled'] ? "checked" : "" ?>>
-            <label for="mattermostenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
-        </div>
-        <div class="form-group-inline">
-            <input type="text" name="mattermostwebhookurl" id="mattermostwebhookurl"
-                placeholder="<?= translate('mattermost_webhook_url', $i18n) ?>"
-                value="<?= $notificationsMattermost['webhook_url'] ? $notificationsMattermost['webhook_url'] : '' ?>" />
-        </div>
-        <div class="form-group-inline">
-            <input type="text" name="mattermostbotusername" id="mattermostbotusername"
-                placeholder="<?= translate('mattermost_bot_username', $i18n) ?>"
-                value="<?= $notificationsMattermost['bot_username'] ? $notificationsMattermost['bot_username'] : '' ?>" />
-        </div>
-        <div class="form-group-inline">
-            <input type="text" name="mattermostboticonemoji" id="mattermostboticonemoji"
-                placeholder="<?= translate('mattermost_bot_icon_emoji', $i18n) ?>"
-                value="<?= $notificationsMattermost['bot_icon_emoji'] ? $notificationsMattermost['bot_icon_emoji'] : '' ?>" />
-        </div>
-        <div class="buttons">
-            <input type="button" class="secondary-button thin mobile-grow"
-                value="<?= translate('test', $i18n) ?>" id="testNotificationsMattermost"
-                onClick="testNotificationsMattermostButton()" />
-            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
-                id="saveNotificationsMattermost" onClick="saveNotificationsMattermostButton()" />
-        </div>
-    </div>
-</section>
-
-<section class="account-notifications-section">
-    <header class="account-notification-section-header" onclick="openNotificationsSettings('serverchan');">
-        <h3>
-            <i class="fa-solid fa-paper-plane"></i>
-            <?= translate('serverchan', $i18n) ?>
-        </h3>
-    </header>
-    <div class="account-notification-section-settings" data-type="serverchan">
-        <div class="form-group-inline">
-            <input type="checkbox" id="serverchanenabled" name="serverchanenabled"
-                <?= $notificationsServerchan['enabled'] ? "checked" : "" ?>>
-            <label for="serverchanenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
-        </div>
-        <div class="form-group-inline">
-            <input type="text" name="serverchansendkey" id="serverchansendkey" autocomplete="off"
-                placeholder="<?= translate('serverchan_sendkey', $i18n) ?>"
-                value="<?= $notificationsServerchan['sendkey'] ? $notificationsServerchan['sendkey'] : '' ?>" />
-        </div>
-        <div class="buttons">
-            <input type="button" class="secondary-button thin mobile-grow"
-                value="<?= translate('test', $i18n) ?>" id="testNotificationsServerchan"
-                onClick="testNotificationsServerchanButton()" />
-            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
-                id="saveNotificationsServerchan" onClick="saveNotificationsServerchanButton()" />
-        </div>
-    </div>
-</section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('mattermost');">
+                    <h3>
+                        <i class="fa-solid fa-gauge-simple-high"></i>
+                        <?= translate('mattermost', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="mattermost">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="mattermostenabled" name="mattermostenabled"
+                            <?= $notificationsMattermost['enabled'] ? "checked" : "" ?>>
+                        <label for="mattermostenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="mattermostwebhookurl" id="mattermostwebhookurl"
+                            placeholder="<?= translate('mattermost_webhook_url', $i18n) ?>"
+                            value="<?= $notificationsMattermost['webhook_url'] ? $notificationsMattermost['webhook_url'] : '' ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="mattermostbotusername" id="mattermostbotusername"
+                            placeholder="<?= translate('mattermost_bot_username', $i18n) ?>"
+                            value="<?= $notificationsMattermost['bot_username'] ? $notificationsMattermost['bot_username'] : '' ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="mattermostboticonemoji" id="mattermostboticonemoji"
+                            placeholder="<?= translate('mattermost_bot_icon_emoji', $i18n) ?>"
+                            value="<?= $notificationsMattermost['bot_icon_emoji'] ? $notificationsMattermost['bot_icon_emoji'] : '' ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsMattermost"
+                            onClick="testNotificationsMattermostButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsMattermost" onClick="saveNotificationsMattermostButton()" />
+                    </div>
+                </div>
+            </section>
 
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('ntfy');">
@@ -743,6 +714,35 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                             id="saveNotificationsNtfy" onClick="saveNotificationsNtfyButton()" />
                     </div>
             </section>
+
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('serverchan');">
+                    <h3>
+                        <i class="fa-solid fa-angle-right"></i>
+                        <?= translate('serverchan', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="serverchan">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="serverchanenabled" name="serverchanenabled"
+                            <?= $notificationsServerchan['enabled'] ? "checked" : "" ?>>
+                        <label for="serverchanenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="serverchansendkey" id="serverchansendkey" autocomplete="off"
+                            placeholder="<?= translate('serverchan_sendkey', $i18n) ?>"
+                            value="<?= $notificationsServerchan['sendkey'] ? $notificationsServerchan['sendkey'] : '' ?>" />
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsServerchan"
+                            onClick="testNotificationsServerchanButton()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsServerchan" onClick="saveNotificationsServerchanButton()" />
+                    </div>
+                </div>
+            </section>
+
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('webhook');">
                     <h3>
@@ -938,13 +938,12 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     ?>
 
                     <div class="form-group-inline" data-currencyid="<?= $currency['id'] ?>">
-                        <input type="text" class="short" name="symbol" autocomplete="off"
-                            value="<?= $currency['symbol'] ?>" placeholder="$">
-                        <input type="text" name="currency" autocomplete="off"
-                            value="<?= $currency['name'] ?>" placeholder="Currency Name">
-                        <input type="text" name="code" autocomplete="off"
-                            value="<?= $currency['code'] ?>" placeholder="Currency Code"
-                            <?= !$canDelete ? 'disabled' : '' ?>>
+                        <input type="text" class="short" name="symbol" autocomplete="off" value="<?= $currency['symbol'] ?>"
+                            placeholder="$">
+                        <input type="text" name="currency" autocomplete="off" value="<?= $currency['name'] ?>"
+                            placeholder="Currency Name">
+                        <input type="text" name="code" autocomplete="off" value="<?= $currency['code'] ?>"
+                            placeholder="Currency Code" <?= !$canDelete ? 'disabled' : '' ?>>
                         <button class="image-button medium" onClick="editCurrency(<?= $currency['id'] ?>)" name="save"
                             title="<?= translate('save_currency', $i18n) ?>">
                             <?php include "images/siteicons/svg/save.php"; ?>
@@ -1113,7 +1112,8 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <option value=""><?= translate('select_ai_model', $i18n) ?></option>
                     <?php if (!empty($aiSettings['model'])): ?>
                         <option value="<?= htmlspecialchars($aiSettings['model']) ?>" selected>
-                            <?= htmlspecialchars($aiSettings['model']) ?></option>
+                            <?= htmlspecialchars($aiSettings['model']) ?>
+                        </option>
                     <?php endif; ?>
                 </select>
             </div>
@@ -1144,7 +1144,9 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
             <div class="settings-notes">
                 <p><i class="fa-solid fa-circle-info"></i><?= translate('ai_recommendations_info', $i18n) ?></p>
                 <p><i class="fa-solid fa-circle-info"></i><?= translate('may_take_time', $i18n) ?></p>
-                <p><i class="fa-solid fa-circle-info"></i><?= translate('recommendations_visible_on_dashboard', $i18n) ?></p>
+                <p><i
+                        class="fa-solid fa-circle-info"></i><?= translate('recommendations_visible_on_dashboard', $i18n) ?>
+                </p>
             </div>
         </div>
     </section>
