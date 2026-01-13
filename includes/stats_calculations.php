@@ -158,7 +158,9 @@ if ($result) {
 
             if ($inactive == 0) {
                 $activeSubscriptions++;
-                $totalCostPerMonth += $price;
+                if($cycle == 3) {
+                    $totalCostPerMonth += $price;
+                }
                 $memberCost[$payerId]['cost'] += $price;
                 $categoryCost[$categoryId]['cost'] += $price;
                 $paymentMethodsCount[$paymentMethodId]['count'] += 1;
