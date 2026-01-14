@@ -22,17 +22,16 @@ function getPricePerYear($cycle, $frequency, $price)
 {
     switch ($cycle) {
         case 1:
-            $numberOfPaymentsPerMonth = (365 / $frequency);
-            return $price * $numberOfPaymentsPerMonth;
+            $numberOfPaymentsPerYear = (365 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
         case 2:
-            $numberOfPaymentsPerMonth = (52.14 / $frequency);
-            return $price * $numberOfPaymentsPerMonth;
+            $numberOfPaymentsPerYear = (52.14 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
         case 3:
-            $numberOfPaymentsPerMonth = (12 / $frequency);
-            return $price * $numberOfPaymentsPerMonth;
+            $numberOfPaymentsPerYear = (12 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
         case 4:
-            $numberOfMonths = ($frequency);
-            return $price * $numberOfMonths;
+            return $price / $frequency;
     }
 }
 
