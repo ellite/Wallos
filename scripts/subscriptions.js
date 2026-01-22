@@ -43,6 +43,8 @@ function resetForm() {
   replacementSubscriptionIdSelect.value = "0";
   const replacementSubscription = document.querySelector(`#replacement_subscritpion`);
   replacementSubscription.classList.add("hide");
+  const paymentMethodLastFour = document.querySelector("#payment_method_last_four");
+  paymentMethodLastFour.value = "";
   const form = document.querySelector("#subs-form");
   form.reset();
   closeLogoSearch();
@@ -77,6 +79,8 @@ function fillEditFormFields(subscription) {
   cycleSelect.value = subscription.cycle;
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
+  const paymentMethodLastFour = document.querySelector("#payment_method_last_four");
+  paymentMethodLastFour.value = subscription.payment_method_last_four || "";
   const categorySelect = document.querySelector("#category");
   categorySelect.value = subscription.category_id;
   const payerSelect = document.querySelector("#payer_user");

@@ -224,6 +224,10 @@ $notifyDaysBefore = $_POST['notify_days_before'];
 $inactive = isset($_POST['inactive']) ? true : false;
 $cancellationDate = $_POST['cancellation_date'] ?? null;
 $replacementSubscriptionId = $_POST['replacement_subscription_id'];
+$paymentMethodLastFour = isset($_POST['payment_method_last_four']) ? preg_replace('/[^0-9]/', '', $_POST['payment_method_last_four']) : null;
+if ($paymentMethodLastFour === '') {
+    $paymentMethodLastFour = null;
+}
 
 if ($replacementSubscriptionId == 0 || $inactive == 0) {
     $replacementSubscriptionId = null;
@@ -244,37 +248,38 @@ if ($logoUrl !== "") {
 
 if (!$isEdit) {
     $sql = "INSERT INTO subscriptions (
-                        name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url, 
+                        name, logo, price, currency_id, next_payment, cycle, frequency, notes,
+                        payment_method_id, payer_user_id, category_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                        auto_renew, start_date
+                        auto_renew, start_date, payment_method_last_four
                     ) VALUES (
-                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
+                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
+                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                        :autoRenew, :startDate
+                        :autoRenew, :startDate, :paymentMethodLastFour
                     )";
 } else {
     $id = $_POST['id'];
-    $sql = "UPDATE subscriptions SET 
-                        name = :name, 
-                        price = :price, 
+    $sql = "UPDATE subscriptions SET
+                        name = :name,
+                        price = :price,
                         currency_id = :currencyId,
-                        next_payment = :nextPayment, 
+                        next_payment = :nextPayment,
                         auto_renew = :autoRenew,
                         start_date = :startDate,
-                        cycle = :cycle, 
-                        frequency = :frequency, 
-                        notes = :notes, 
+                        cycle = :cycle,
+                        frequency = :frequency,
+                        notes = :notes,
                         payment_method_id = :paymentMethodId,
-                        payer_user_id = :payerUserId, 
-                        category_id = :categoryId, 
-                        notify = :notify, 
-                        inactive = :inactive, 
-                        url = :url, 
-                        notify_days_before = :notifyDaysBefore, 
-                        cancellation_date = :cancellationDate, 
-                        replacement_subscription_id = :replacement_subscription_id";
+                        payer_user_id = :payerUserId,
+                        category_id = :categoryId,
+                        notify = :notify,
+                        inactive = :inactive,
+                        url = :url,
+                        notify_days_before = :notifyDaysBefore,
+                        cancellation_date = :cancellationDate,
+                        replacement_subscription_id = :replacement_subscription_id,
+                        payment_method_last_four = :paymentMethodLastFour";
 
     if ($logo != "") {
         $sql .= ", logo = :logo";
@@ -309,6 +314,7 @@ if ($isEdit) {
 }
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $stmt->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
+$stmt->bindParam(':paymentMethodLastFour', $paymentMethodLastFour, SQLITE3_TEXT);
 
 if ($stmt->execute()) {
     $success['status'] = "Success";
