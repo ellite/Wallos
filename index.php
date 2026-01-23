@@ -321,7 +321,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
                     <?php if (isset($monthlySubscriptionsCost)) { ?>
                         <div class="subscription-item thin">
-                            <p class="subscription-item-title"><?= translate('monthly_cost', $i18n) ?></p>
+                            <p class="subscription-item-title"><?= translate('Monthly', $i18n) ?></p>
                             <div class="subscription-item-info">
                                 <p class="subscription-item-date"><?= translate('subscriptions_count', $i18n, ['count'=>$monthlySubscriptions])?></p>
                                 <p class="subscription-item-value">
@@ -333,7 +333,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
                     <?php if (isset($yearlySubscriptionsCost)) { ?>
                         <div class="subscription-item thin">
-                            <p class="subscription-item-title"><?= translate('yearly_cost', $i18n) ?></p>
+                            <p class="subscription-item-title"><?= translate('Yearly', $i18n) ?></p>
                             <div class="subscription-item-info">
                                 <p class="subscription-item-date"><?= translate('subscriptions_count', $i18n, ['count'=>$yearlySubscriptions])?></p>
                                 <p class="subscription-item-value">
