@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "Hồ sơ",
     "dashboard" => "Bảng",
     "subscriptions" => "Đăng ký",
+    "subscriptions_count" => "{count} Đăng ký",
     "stats" => "Thống kê",
     "settings" => "Cài đặt",
     "admin" => "Quản trị viên",

@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "個人檔案",
     "dashboard" => "儀表板",
     "subscriptions" => "訂閱服務",
+    "subscriptions_count" => "{count} 訂閱服務",
     "stats" => "統計資訊",
     "settings" => "設定",
     "admin" => "管理員",

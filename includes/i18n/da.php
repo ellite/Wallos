@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "Profil",
     "dashboard" => "Dashboard",
     "subscriptions" => "Abonnementer",
+    "subscriptions_count" => "{count} Abonnementer",
     "stats" => "Statistik",
     "settings" => "Indstillinger",
     "admin" => "Admin",

@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "Προφίλ",
     "dashboard" => "Πίνακας",
     "subscriptions" => "Συνδρομές",
+    "subscriptions_count" => "{count} Συνδρομές",
     "stats" => "Στατιστικές",
     "settings" => "Ρυθμίσεις",
     "admin" => "Διαχείριση",

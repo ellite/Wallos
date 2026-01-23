@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "Profil",
     "dashboard" => "Panel",
     "subscriptions" => "Pretplate",
+    "subscriptions_count" => "{count} Pretplate",
     "stats" => "Statistike",
     "settings" => "Podešavanja",
     "admin" => "Admin",
