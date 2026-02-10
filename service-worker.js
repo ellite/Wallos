@@ -50,7 +50,7 @@ self.addEventListener('install', function (event) {
                 'scripts/i18n/fr.js',
                 'scripts/i18n/id.js',
                 'scripts/i18n/it.js',
-                'scripts/i18n/jp.js',
+                'scripts/i18n/ja.js',
                 'scripts/i18n/ko.js',
                 'scripts/i18n/nl.js',
                 'scripts/i18n/pl.js',
