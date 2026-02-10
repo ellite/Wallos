@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.6.1](https://github.com/ellite/Wallos/compare/v4.6.0...v4.6.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* vulnerabily on add subscription endpoint ([#991](https://github.com/ellite/Wallos/issues/991)) ([76a53df](https://github.com/ellite/Wallos/commit/76a53df9cb4658123b8f0b7cf1826f1ba7d1c960))
+
 ## [4.6.0](https://github.com/ellite/Wallos/compare/v4.5.0...v4.6.0) (2025-12-20)
 
 
