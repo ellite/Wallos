@@ -385,6 +385,9 @@ $i18n = [
     "create_user_automatically" => "Opret bruger automatisk",
     "disable_password_login" => "Deaktivér adgangskode-login",
     "smtp_settings" => "SMTP-indstillinger",
+    "security_settings" => "Sikkerhedsindstillinger",
+    "ssrf_protection_info" => "For at forhindre Server-Side Request Forgery (SSRF) angreb blokerer Wallos som standard webhook-notifikationer til private eller interne netværksadresser.",
+    "local_webhook_info" => "Hvis du skal sende webhooks til lokale tjenester (som Home Assistant, Gotify eller Node-RED), indtast deres IP-adresser eller værtsnavne ovenfor som en kommasepareret liste (fx <code>192.168.1.100,192.168.1.101</code>).",
     "smtp_usage_info" => "Vil blive brugt til adgangskodenulstilling og andre systemmails.",
     // Maintenance Tasks
     "maintenance_tasks" => "Vedligeholdelsesopgaver",
