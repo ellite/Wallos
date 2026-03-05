@@ -338,6 +338,33 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         </div>
     </section>
 
+    <section class="account-section">
+    <header>
+        <h2><?= translate('security_settings', $i18n) ?></h2> </header>
+    <div class="admin-form">
+        <div class="form-group-inline">
+            <input type="text" name="local_webhook_notifications_allowlist" id="local_webhook_notifications_allowlist" autocomplete="off"
+                placeholder="e.g., 192.168.1.5:8123, homeassistant.local" value="<?= htmlspecialchars($settings['local_webhook_notifications_allowlist'] ?? '', ENT_QUOTES, 'UTF-8') ?>" />
+        </div>
+        
+        <div class="buttons">
+            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                id="saveSecuritySettingsButton" onClick="saveSecuritySettingsButton()" />
+        </div>
+        
+        <div class="settings-notes">
+            <p>
+                <i class="fa-solid fa-circle-info"></i> 
+                <?= translate('ssrf_protection_info', $i18n) ?>
+            </p>
+            <p>
+                <i class="fa-solid fa-circle-info"></i>
+                <?= translate('local_webhook_info', $i18n) ?>
+            </p>
+        </div>
+    </div>
+</section>
+
     <?php
     // Get latest version from admin table
     if (!is_null($settings['latest_version'])) {
