@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 // Variables available: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}, {{subscription_days_until_payment}}, {{subscription_notes}}, {{subscription_url}}
 $fakeSubscription = [
@@ -48,6 +49,8 @@ if (
         ]));
     }
 
+    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n);
+
     // Replace placeholders in the payload with fake subscription data
     foreach ($fakeSubscription as $key => $value) {
         $placeholder = "{{" . $key . "}}";
@@ -57,46 +60,12 @@ if (
     $customheaders = json_decode($data["customheaders"], true);
     $ignore_ssl = $data["ignore_ssl"];
 
-    $host = $parsedUrl['host'] ?? '';
-    $port = $parsedUrl['port'] ?? '';
-    $ip = gethostbyname($host);
-
-    // Construct the host and IP with the port attached (if a port exists in the URL)
-    $hostWithPort = $port ? $host . ':' . $port : $host;
-    $ipWithPort = $port ? $ip . ':' . $port : $ip;
-
-    // Check if the resolved IP falls into a private or reserved range
-    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false;
-
-    if ($is_private) {
-        // Fetch the comma-separated allowlist from the admin table
-        $stmt = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
-        $result = $stmt->execute();
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-        
-        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
-        
-        // Convert the string to an array and trim any accidental whitespace
-        $allowlist = array_filter(array_map('trim', explode(',', $allowlist_str)));
-        
-        // Check if the host, IP, host:port, or ip:port is in the allowlist
-        if (!in_array($host, $allowlist) && 
-            !in_array($ip, $allowlist) && 
-            !in_array($hostWithPort, $allowlist) && 
-            !in_array($ipWithPort, $allowlist)) {
-            
-            die(json_encode([
-                "success" => false,
-                "message" => "Security Block: The target IP/Port is private and not present in the Webhook Allowlist."
-            ]));
-        }
-    }
-
     $ch = curl_init();
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requestmethod);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
     if (!empty($customheaders)) {

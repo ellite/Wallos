@@ -344,7 +344,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     <div class="admin-form">
         <div class="form-group-inline">
             <input type="text" name="local_webhook_notifications_allowlist" id="local_webhook_notifications_allowlist" autocomplete="off"
-                placeholder="e.g., 192.168.1.5, homeassistant.local" value="<?= htmlspecialchars($settings['local_webhook_notifications_allowlist'] ?? '', ENT_QUOTES, 'UTF-8') ?>" />
+                placeholder="e.g., 192.168.1.5:8123, homeassistant.local" value="<?= htmlspecialchars($settings['local_webhook_notifications_allowlist'] ?? '', ENT_QUOTES, 'UTF-8') ?>" />
         </div>
         
         <div class="buttons">
