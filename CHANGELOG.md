@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.6.2](https://github.com/ellite/Wallos/compare/v4.6.1...v4.6.2) (2026-03-05)
+
+
+### Bug Fixes
+
+* ssrf vulnerability on all test notifications endpoint ([e8a5135](https://github.com/ellite/Wallos/commit/e8a513591dbbf885966e2ef55c38622785b9060d))
+* vulnerability allowed to delete avatars from other users ([e8a5135](https://github.com/ellite/Wallos/commit/e8a513591dbbf885966e2ef55c38622785b9060d))
+* xss vulnerability on password reset page ([e8a5135](https://github.com/ellite/Wallos/commit/e8a513591dbbf885966e2ef55c38622785b9060d))
+
 ## [4.6.1](https://github.com/ellite/Wallos/compare/v4.6.0...v4.6.1) (2026-02-10)
 
 
