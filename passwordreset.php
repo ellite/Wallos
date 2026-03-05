@@ -32,6 +32,7 @@ if (isset($_COOKIE['colorTheme'])) {
 $settings = $db->querySingle("SELECT * FROM admin", true);
 if ($settings['smtp_address'] == "" || $settings['server_url'] == "") {
     header("Location: .");
+    exit();
 } else {
     $resetPasswordEnabled = true;
 }
@@ -187,8 +188,8 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                     if (!$hideForm) {
                         ?>
                         <div class="form-group">
-                            <input type="hidden" name="token" value="<?= $token ?>">
-                            <input type="hidden" name="email" value="<?= $email ?>">
+                            <input type="hidden" name="token" value="<?= htmlspecialchars($token ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                            <input type="hidden" name="email" value="<?= htmlspecialchars($email ?? '', ENT_QUOTES, 'UTF-8') ?>">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
                             <input type="password" id="password" name="password" autocomplete="new-password" required>
                         </div>
