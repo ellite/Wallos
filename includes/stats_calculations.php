@@ -18,6 +18,23 @@ function getPricePerMonth($cycle, $frequency, $price)
     }
 }
 
+function getPricePerYear($cycle, $frequency, $price)
+{
+    switch ($cycle) {
+        case 1:
+            $numberOfPaymentsPerYear = (365 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 2:
+            $numberOfPaymentsPerYear = (52.14 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 3:
+            $numberOfPaymentsPerYear = (12 / $frequency);
+            return $price * $numberOfPaymentsPerYear;
+        case 4:
+            return $price / $frequency;
+    }
+}
+
 function getPriceConverted($price, $currency, $database, $userId)
 {
     $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
@@ -84,6 +101,11 @@ $mostExpensiveSubscription = array();
 $mostExpensiveSubscription['price'] = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
+$totalCostPerYear = 0;
+$monthlySubscriptions = 0;
+$monthlySubscriptionsCost = 0;
+$yearlySubscriptions = 0;
+$yearlySubscriptionsCost = 0;
 $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
@@ -155,10 +177,20 @@ if ($result) {
             $replacementSubscriptionId = $subscription['replacement_subscription_id'];
             $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
             $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
+            $priceInYear = getPricePerYear($cycle, $frequency, $originalSubscriptionPrice);
 
             if ($inactive == 0) {
+                if($cycle != 4) {
+                    $monthlySubscriptions++;
+                    $monthlySubscriptionsCost += $price;
+                }else{
+                    $yearlySubscriptions++;
+                    $yearlySubscriptionsCost += $priceInYear;
+                }
+
                 $activeSubscriptions++;
                 $totalCostPerMonth += $price;
+                $totalCostPerYear += $priceInYear;
                 $memberCost[$payerId]['cost'] += $price;
                 $categoryCost[$categoryId]['cost'] += $price;
                 $paymentMethodsCount[$paymentMethodId]['count'] += 1;
@@ -214,7 +246,7 @@ if ($result) {
         $totalSavingsPerMonth -= $totalCostsInReplacementsPerMonth;
 
         // Calculate yearly price
-        $totalCostPerYear = $totalCostPerMonth * 12;
+        // $totalCostPerYear = $totalCostPerMonth * 12;
 
         // Calculate average subscription monthly cost
         if ($activeSubscriptions > 0) {

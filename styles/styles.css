@@ -2911,7 +2911,7 @@ input[type="radio"]:checked+label::after {
   border-radius: 16px;
   box-shadow: var(--box-shadow);
   padding: 20px;
-  width: 155px;
+  width: 170px;
   height: 145px;
   flex: 0 0 auto;
   /* prevent flex resizing */
@@ -2922,7 +2922,7 @@ input[type="radio"]:checked+label::after {
 }
 
 .dashboard-subscriptions-list>.subscription-item.thin {
-  height: 115px;
+  height: 135px;
 }
 
 .dashboard-subscriptions-list>.subscription-item .subscription-item-title {
@@ -3098,3 +3098,4 @@ input[type="radio"]:checked+label::after {
     margin: auto;
   }
 }
+

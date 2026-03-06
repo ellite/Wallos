@@ -38,6 +38,7 @@ $i18n = [
     "profile" => "个人资料",
     "dashboard" => "仪表盘",
     "subscriptions" => "订阅",
+    "subscriptions_count" => "{count} 订阅",
     "stats" => "统计",
     "settings" => "设置",
     "admin" => "管理员",
