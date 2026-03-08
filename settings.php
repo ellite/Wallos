@@ -718,7 +718,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('serverchan');">
                     <h3>
-                        <i class="fa-solid fa-angle-right"></i>
+                        <i class="fa-solid fa-code"></i>
                         <?= translate('serverchan', $i18n) ?>
                     </h3>
                 </header>

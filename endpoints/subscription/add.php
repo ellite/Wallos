@@ -26,56 +26,68 @@ function validateFileExtension($fileExtension)
 
 function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
 {
-    if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $url)) {
-        $response = [
-            "success" => false,
-            "message" => "Invalid URL format."
-        ];
-        echo json_encode($response);
-        exit();
-    }
+    $maxRedirects = 3;
+    $currentUrl = $url;
 
-    $host = parse_url($url, PHP_URL_HOST);
-    $ip = gethostbyname($host);
-    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
-        $response = [
-            "success" => false,
-            "message" => "Invalid IP Address."
-        ];
-        echo json_encode($response);
-        exit();
-    }
-
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
-
-    $imageData = curl_exec($ch);
-
-    if ($imageData !== false) {
-        $timestamp = time();
-        $fileName = $timestamp . '-' . sanitizeFilename($name) . '.png';
-        $uploadDir = '../../images/uploads/logos/';
-        $uploadFile = $uploadDir . $fileName;
-
-        if (saveLogo($imageData, $uploadFile, $name, $settings)) {
-            curl_close($ch);
-            return $fileName;
-        } else {
-            echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
-            curl_close($ch);
-            return "";
+    for ($i = 0; $i <= $maxRedirects; $i++) {
+        if (!filter_var($currentUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $currentUrl)) {
+            $response = ["success" => false, "message" => "Invalid URL format."];
+            echo json_encode($response);
+            exit();
         }
 
-    } else {
+        $parts = parse_url($currentUrl);
+        $host = $parts['host'];
+        $port = $parts['port'] ?? ($parts['scheme'] === 'https' ? 443 : 80);
+        $ip = gethostbyname($host);
+
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+            $response = ["success" => false, "message" => "Invalid IP Address."];
+            echo json_encode($response);
+            exit();
+        }
+
+        $ch = curl_init($currentUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        
+        curl_setopt($ch, CURLOPT_RESOLVE, ["$host:$port:$ip"]);
+
+        $imageData = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpCode >= 300 && $httpCode < 400) {
+            $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            curl_close($ch);
+
+            if (!$redirectUrl) {
+                break;
+            }
+
+            $currentUrl = $redirectUrl;
+            continue;
+        }
+
+        if ($imageData !== false && $httpCode === 200) {
+            $timestamp = time();
+            $fileName = $timestamp . '-' . sanitizeFilename($name) . '.png';
+            $uploadDir = '../../images/uploads/logos/';
+            $uploadFile = $uploadDir . $fileName;
+
+            if (saveLogo($imageData, $uploadFile, $name, $settings)) {
+                curl_close($ch);
+                return $fileName;
+            }
+        }
+
         echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
         curl_close($ch);
         return "";
     }
-}
 
+    return "";
+}
 
 function saveLogo($imageData, $uploadFile, $name, $settings)
 {

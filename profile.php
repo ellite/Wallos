@@ -1,5 +1,16 @@
 <?php
 require_once 'includes/header.php';
+
+// Fetch the avatars belonging to the logged-in user
+$uploadedAvatars = [];
+
+$stmt = $db->prepare("SELECT path FROM uploaded_avatars WHERE user_id = :user_id");
+$stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $uploadedAvatars[] = $row['path'];
+}
 ?>
 
 <script src="scripts/libs/sortable.min.js"></script>
@@ -29,29 +40,34 @@ require_once 'includes/header.php';
                         <input type="hidden" name="avatar" value="<?= htmlspecialchars($userData['avatar'], ENT_QUOTES, 'UTF-8') ?>" id="avatarUser" />
                         <div class="avatar-select" id="avatarSelect">
                             <div class="avatar-list">
-                                <?php foreach (scandir('images/avatars') as $index => $image): ?>
+                                <?php foreach (scandir('images/avatars') as $image): ?>
                                     <?php if (!str_starts_with($image, '.')): ?>
                                         <img src="images/avatars/<?= $image ?>" alt="<?= $image ?>" class="avatar-option"
                                             data-src="images/avatars/<?= $image ?>">
                                     <?php endif ?>
                                 <?php endforeach ?>
-                                <?php foreach (scandir('images/uploads/logos/avatars') as $index => $image): ?>
-                                    <?php if (!str_starts_with($image, '.')): ?>
-                                        <div class="avatar-container" data-src="<?= $image ?>">
-                                            <img src="images/uploads/logos/avatars/<?= $image ?>" alt="<?= $image ?>"
-                                                class="avatar-option" data-src="images/uploads/logos/avatars/<?= $image ?>">
-                                            <div class="remove-avatar" onclick="deleteAvatar('<?= $image ?>')"
-                                                title="Delete avatar">
-                                                <i class="fa-solid fa-xmark"></i>
-                                            </div>
+
+                                <?php foreach ($uploadedAvatars as $path): ?>
+                                    <?php 
+                                        $filename = basename($path); 
+                                    ?>
+                                    <div class="avatar-container" data-src="<?= $filename ?>">
+                                        <img src="<?= $path ?>" alt="<?= $filename ?>"
+                                            class="avatar-option" data-src="<?= $path ?>">
+                                        
+                                        <div class="remove-avatar" onclick="deleteAvatar('<?= $filename ?>')"
+                                            title="Delete avatar">
+                                            <i class="fa-solid fa-xmark"></i>
                                         </div>
-                                    <?php endif ?>
+                                    </div>
                                 <?php endforeach ?>
+
                                 <label for="profile_pic" class="add-avatar"
                                     title="<?= translate('upload_avatar', $i18n) ?>">
                                     <i class="fa-solid fa-arrow-up-from-bracket"></i>
                                 </label>
                             </div>
+                            
                             <input type="file" id="profile_pic" class="hidden-input" name="profile_pic"
                                 accept="image/jpeg, image/png, image/gif, image/webp"
                                 onChange="successfulUpload(this, '<?= addslashes(translate('file_type_error', $i18n)) ?>')" />
