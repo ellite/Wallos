@@ -24,20 +24,20 @@ if (!$tableCheck) {
     if ($userCount === 1) {
         // SOLO USER MIGRATION
         $userId = $db->querySingle("SELECT id FROM user LIMIT 1");
-
+        
         $avatarDir = '../../images/uploads/logos/avatars';
-
+        
         if (is_dir($avatarDir)) {
             $files = scandir($avatarDir);
-
+            
             $stmt = $db->prepare("INSERT INTO uploaded_avatars (user_id, path) VALUES (:user_id, :path)");
-
+            
             foreach ($files as $file) {
                 // Skip directories and hidden files (like .gitkeep or .htaccess)
                 if ($file !== '.' && $file !== '..' && is_file($avatarDir . '/' . $file)) {
                     // Store the path exactly as the app expects it in the database
                     $relativePath = 'images/uploads/logos/avatars/' . $file;
-
+                    
                     $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
                     $stmt->bindValue(':path', $relativePath, SQLITE3_TEXT);
                     $stmt->execute();
@@ -47,13 +47,13 @@ if (!$tableCheck) {
     } elseif ($userCount > 1) {
         // MULTI-USER MIGRATION
         $results = $db->query("SELECT id, avatar FROM user");
-
+        
         $stmt = $db->prepare("INSERT INTO uploaded_avatars (user_id, path) VALUES (:user_id, :path)");
-
+        
         while ($row = $results->fetchArray(SQLITE3_ASSOC)) {
             $userId = $row['id'];
             $avatarPath = $row['avatar'];
-
+            
             if (strpos($avatarPath, 'images/uploads/logos/avatars/') === 0) {
                 $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
                 $stmt->bindValue(':path', $avatarPath, SQLITE3_TEXT);
