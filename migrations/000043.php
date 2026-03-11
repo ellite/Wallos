@@ -1,22 +1,24 @@
 <?php
 
-/*
-* This migration adds period-based budget fields to the user table.
+/* * This migration adds a column to the admin table to store a comma-separated 
+* allowlist of hostnames and IPs that can be used in webhook notifications. 
+* This prevents SSRF attacks on internal services.
 */
 
-$defaultAnchorDate = (new DateTime('now'))->format('Y-m-d');
+// Check if the column already exists to prevent errors on multiple runs
+$query = $db->query("PRAGMA table_info(admin)");
+$columnExists = false;
 
-$periodTypeColumn = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='budget_period_type'");
-if ($periodTypeColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE user ADD COLUMN budget_period_type TEXT DEFAULT "monthly"');
+while ($row = $query->fetchArray(SQLITE3_ASSOC)) {
+    if ($row['name'] === 'local_webhook_notifications_allowlist') {
+        $columnExists = true;
+        break;
+    }
 }
 
-$anchorDateColumn = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='budget_period_anchor_date'");
-if ($anchorDateColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE user ADD COLUMN budget_period_anchor_date TEXT DEFAULT "' . $defaultAnchorDate . '"');
+if (!$columnExists) {
+    // Add the column with an empty string as the default
+    $db->exec("ALTER TABLE admin ADD COLUMN local_webhook_notifications_allowlist TEXT DEFAULT ''");
 }
-
-$db->exec("UPDATE user SET budget_period_type = 'monthly' WHERE budget_period_type IS NULL OR budget_period_type = ''");
-$db->exec("UPDATE user SET budget_period_anchor_date = '" . $defaultAnchorDate . "' WHERE budget_period_anchor_date IS NULL OR budget_period_anchor_date = '' OR budget_period_anchor_date = '1970-01-01'");
 
 ?>
