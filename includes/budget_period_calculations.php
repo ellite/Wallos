@@ -41,7 +41,7 @@ if (!function_exists('createDateAtMidnight')) {
 if (!function_exists('getDateWithClampedDay')) {
     function getDateWithClampedDay($year, $month, $day)
     {
-        $base = DateTime::createFromFormat('Y-n-j', $year . '-' . $month . '-1');
+        $base = DateTime::createFromFormat('!Y-n-j', $year . '-' . $month . '-1');
         if ($base === false) {
             $base = new DateTime('1970-01-01');
         }
@@ -49,7 +49,7 @@ if (!function_exists('getDateWithClampedDay')) {
         $lastDay = (int) $base->format('t');
         $clampedDay = min(max(1, (int) $day), $lastDay);
 
-        return DateTime::createFromFormat('Y-n-j', $year . '-' . $month . '-' . $clampedDay);
+        return DateTime::createFromFormat('!Y-n-j', $year . '-' . $month . '-' . $clampedDay);
     }
 }
 
@@ -60,7 +60,10 @@ if (!function_exists('getActiveBudgetPeriod')) {
         $anchorDate = sanitizeBudgetAnchorDate($anchorDate ?: getDefaultBudgetAnchorDate());
 
         $todayDate = createDateAtMidnight($today);
-        $anchor = new DateTime($anchorDate);
+        $anchor = DateTime::createFromFormat('!Y-m-d', $anchorDate);
+        if ($anchor === false) {
+            $anchor = new DateTime('1970-01-01');
+        }
 
         if ($periodType === 'weekly' || $periodType === 'fortnightly') {
             $periodLengthDays = $periodType === 'weekly' ? 7 : 14;
@@ -77,7 +80,7 @@ if (!function_exists('getActiveBudgetPeriod')) {
             $end = clone $start;
             $end->modify('+' . ($periodLengthDays - 1) . ' day');
         } else {
-            $anchorDay = (int) (new DateTime($anchorDate))->format('j');
+            $anchorDay = (int) $anchor->format('j');
             $currentMonthStart = getDateWithClampedDay((int) $todayDate->format('Y'), (int) $todayDate->format('n'), $anchorDay);
 
             if ($todayDate < $currentMonthStart) {
@@ -142,7 +145,7 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
             return [];
         }
 
-        $nextPayment = DateTime::createFromFormat('Y-m-d', trim($subscription['next_payment']));
+        $nextPayment = DateTime::createFromFormat('!Y-m-d', trim($subscription['next_payment']));
         if ($nextPayment === false) {
             return [];
         }
@@ -158,14 +161,25 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
             return [];
         }
 
+        if (!$autoRenew) {
+            return ($nextPayment >= $rangeStartDate && $nextPayment <= $rangeEndDate)
+                ? [clone $nextPayment]
+                : [];
+        }
+
         $interval = new DateInterval($intervalSpec);
         $current = clone $nextPayment;
         $safetyCounter = 0;
 
-        while ($current < $rangeStartDate) {
-            if (!$autoRenew) {
+        while ($current > $rangeStartDate) {
+            $current->sub($interval);
+            $safetyCounter++;
+            if ($safetyCounter > 10000) {
                 return [];
             }
+        }
+
+        while ($current < $rangeStartDate) {
             $current->add($interval);
             $safetyCounter++;
             if ($safetyCounter > 10000) {
@@ -176,10 +190,6 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
         while ($current <= $rangeEndDate) {
             if ($current >= $rangeStartDate) {
                 $occurrences[] = clone $current;
-            }
-
-            if (!$autoRenew) {
-                break;
             }
 
             $current->add($interval);

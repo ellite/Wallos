@@ -25,6 +25,57 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
     .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
     }
+
+    .period-budget-controls {
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 12px 15px;
+    }
+
+    .period-budget-controls .period-budget-field {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 180px;
+        min-width: 160px;
+        gap: 8px;
+    }
+
+    .period-budget-controls .period-budget-field label {
+        margin-bottom: 0;
+        line-height: 1.2;
+    }
+
+    .period-budget-controls .period-budget-save {
+        flex: 0 0 auto;
+    }
+
+    .period-budget-controls #budget_period_anchor_date {
+        display: block;
+        height: 50px;
+        min-height: 50px;
+    }
+
+    @media (min-width: 421px) and (max-width: 768px) {
+        .period-budget-controls .period-budget-field {
+            flex: 1 1 calc(50% - 8px);
+            min-width: 0;
+        }
+
+        .period-budget-controls .period-budget-save {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 420px) {
+        .period-budget-controls .period-budget-field {
+            flex: 1 1 100%;
+            min-width: 0;
+        }
+
+        .period-budget-controls .period-budget-save {
+            width: 100%;
+        }
+    }
 </style>
 <section class="contain settings">
 
@@ -57,17 +108,21 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
                 <input type="number" id="period_budget" name="period_budget" autocomplete="off" value="<?= $userData['period_budget'] ?? 0 ?>"
                     placeholder="Budget">
             </div>
-            <div class="form-group-inline">
-                <label for="budget_period_type"><?= translate('budget_period', $i18n) ?></label>
-                <select id="budget_period_type" name="budget_period_type">
-                    <option value="weekly" <?= $budgetPeriodType === 'weekly' ? 'selected' : '' ?>><?= translate('weekly', $i18n) ?></option>
-                    <option value="fortnightly" <?= $budgetPeriodType === 'fortnightly' ? 'selected' : '' ?>><?= translate('fortnightly', $i18n) ?></option>
-                    <option value="monthly" <?= $budgetPeriodType === 'monthly' ? 'selected' : '' ?>><?= translate('monthly', $i18n) ?></option>
-                </select>
-                <label for="budget_period_anchor_date"><?= translate('budget_anchor_date', $i18n) ?></label>
-                <input type="date" id="budget_period_anchor_date" name="budget_period_anchor_date"
-                    value="<?= htmlspecialchars($budgetPeriodAnchorDate, ENT_QUOTES, 'UTF-8') ?>">
-                <input type="submit" value="<?= translate('save', $i18n) ?>" id="savePeriodBudget" onClick="savePeriodBudget()" />
+            <div class="form-group-inline period-budget-controls">
+                <div class="period-budget-field">
+                    <label for="budget_period_type"><?= translate('budget_period', $i18n) ?></label>
+                    <select id="budget_period_type" name="budget_period_type">
+                        <option value="weekly" <?= $budgetPeriodType === 'weekly' ? 'selected' : '' ?>><?= translate('weekly', $i18n) ?></option>
+                        <option value="fortnightly" <?= $budgetPeriodType === 'fortnightly' ? 'selected' : '' ?>><?= translate('fortnightly', $i18n) ?></option>
+                        <option value="monthly" <?= $budgetPeriodType === 'monthly' ? 'selected' : '' ?>><?= translate('monthly', $i18n) ?></option>
+                    </select>
+                </div>
+                <div class="period-budget-field">
+                    <label for="budget_period_anchor_date"><?= translate('budget_anchor_date', $i18n) ?></label>
+                    <input type="date" id="budget_period_anchor_date" name="budget_period_anchor_date"
+                        value="<?= htmlspecialchars($budgetPeriodAnchorDate, ENT_QUOTES, 'UTF-8') ?>">
+                </div>
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="savePeriodBudget" class="period-budget-save" onClick="savePeriodBudget()" />
             </div>
             <div class="settings-notes">
                 <p>
