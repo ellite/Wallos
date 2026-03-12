@@ -28,7 +28,9 @@ $languages = [
     "vi" => ["name" => "Tiếng Việt", "dir" => "ltr"],
     "zh_cn" => ["name" => "简体中文", "dir" => "ltr"],
     "zh_tw" => ["name" => "繁體中文", "dir" => "ltr"],
+    "ro" => ["name" => "Română", "dir" => "ltr"],
     
 ]
 
 ?>
+
