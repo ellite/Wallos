@@ -29,6 +29,7 @@ if ($settings !== false) {
     $settings['showOriginalPrice'] = $settings['show_original_price'] ? 'true': 'false';
     $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
     $settings['showSubscriptionProgress'] = $settings['show_subscription_progress'] ? 'true': 'false';
+    $settings['week_starts_sunday'] = isset($settings['week_starts_sunday']) ? $settings['week_starts_sunday'] : 0;
 }
 
 $query = "SELECT * FROM custom_colors WHERE user_id = :userId";
