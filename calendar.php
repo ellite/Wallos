@@ -96,6 +96,28 @@ $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
 
 $yearsToLoad = $calendarYear - $currentYear + 1;
+$weekStartsSunday = !empty($settings['week_starts_sunday']);
+$weekDays = [
+  ['key' => 'mon', 'offset' => 0],
+  ['key' => 'tue', 'offset' => 1],
+  ['key' => 'wed', 'offset' => 2],
+  ['key' => 'thu', 'offset' => 3],
+  ['key' => 'fri', 'offset' => 4],
+  ['key' => 'sat', 'offset' => 5],
+  ['key' => 'sun', 'offset' => 6],
+];
+
+if ($weekStartsSunday) {
+  $weekDays = [
+    ['key' => 'sun', 'offset' => 6],
+    ['key' => 'mon', 'offset' => 0],
+    ['key' => 'tue', 'offset' => 1],
+    ['key' => 'wed', 'offset' => 2],
+    ['key' => 'thu', 'offset' => 3],
+    ['key' => 'fri', 'offset' => 4],
+    ['key' => 'sat', 'offset' => 5],
+  ];
+}
 ?>
 
 <section class="contain">
@@ -150,7 +172,10 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
     <?php
     $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $calendarMonth, $calendarYear);
     $firstDay = mktime(0, 0, 0, $calendarMonth, 1, $calendarYear);
-    $firstDayOfWeek = date('N', $firstDay) - 1; // Adjusted to make Monday (1) the first day
+    $firstDayOfWeek = date('N', $firstDay) - 1;
+    if ($weekStartsSunday) {
+      $firstDayOfWeek = ($firstDayOfWeek + 1) % 7;
+    }
     $dayOfWeek = 0;
     $day = 1;
     $days = 1;
@@ -166,18 +191,14 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
 
     <div class="calendar">
       <div class="calendar-header">
-        <div class="calendar-cell"><?= translate('mon', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('tue', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('wed', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('thu', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('fri', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('sat', $i18n) ?></div>
-        <div class="calendar-cell"><?= translate('sun', $i18n) ?></div>
+        <?php foreach ($weekDays as $weekDay) { ?>
+          <div class="calendar-cell"><?= translate($weekDay['key'], $i18n) ?></div>
+        <?php } ?>
       </div>
       <div class="calendar-body">
         <div class="week calendar-row">
           <?php
-          for ($i = 0; $i < $firstDayOfWeek; $i++) { // Fill empty cells if month doesn't start on Monday
+          for ($i = 0; $i < $firstDayOfWeek; $i++) {
             ?>
             <div class="calendar-cell empty">
               <div class="calendar-cell-header">
