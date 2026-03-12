@@ -268,6 +268,7 @@ $i18n = [
     "show_original_price" => "Also show original price when conversions or calculations are made",
     "experience" => "Experience",
     "show_subscription_progress" => "Show subscription progress",
+    "week_starts_on_sunday" => "Start week on Sunday in calendar",
     "disabled_subscriptions" => "Disabled Subscriptions",
     "hide_disabled_subscriptions" => "Hide disabled subscriptions",
     "show_disabled_subscriptions_at_the_bottom" => "Show disabled subscriptions at the bottom",

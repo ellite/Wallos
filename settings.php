@@ -1434,6 +1434,13 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <label for="showsubscriptionprogress"><?= translate('show_subscription_progress', $i18n) ?></label>
                 </div>
             </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="weekstartssunday" name="weekstartssunday"
+                        onChange="setWeekStartsSunday()" <?= !empty($settings['week_starts_sunday']) ? 'checked' : '' ?>>
+                    <label for="weekstartssunday"><?= translate('week_starts_on_sunday', $i18n) ?></label>
+                </div>
+            </div>
             <h3><?= translate('disabled_subscriptions', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
