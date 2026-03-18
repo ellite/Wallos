@@ -133,7 +133,7 @@ header .logo .logo-image svg {
 }
 
 .dropbtn:after {
-  content: " ▼";
+  content: " \25BC";
 }
 
 @media (max-width: 768px) {
