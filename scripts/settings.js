@@ -877,6 +877,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  if (document.getElementById("ai_type")) {
+    toggleAiInputs();
+  }
+
 });
 
 function addFixerKeyButton() {
@@ -1079,14 +1083,49 @@ function fetch_ai_models() {
 function toggleAiInputs() {
   const aiTypeSelect = document.getElementById("ai_type");
   const apiKeyInput = document.getElementById("ai_api_key");
+  const apiKeyToggleButton = document.getElementById("toggleAiApiKey");
+  const apiKeyToggleIcon = apiKeyToggleButton ? apiKeyToggleButton.querySelector("i") : null;
   const ollamaHostInput = document.getElementById("ai_ollama_host");
   const type = aiTypeSelect.value;
   if (type === "ollama") {
     apiKeyInput.classList.add("hidden");
+    if (apiKeyToggleButton) {
+      apiKeyToggleButton.classList.add("hidden");
+    }
+    apiKeyInput.type = "password";
+    if (apiKeyToggleIcon) {
+      apiKeyToggleIcon.classList.remove("fa-eye-slash");
+      apiKeyToggleIcon.classList.add("fa-eye");
+    }
     ollamaHostInput.classList.remove("hidden");
   } else {
     apiKeyInput.classList.remove("hidden");
+    if (apiKeyToggleButton) {
+      apiKeyToggleButton.classList.remove("hidden");
+    }
+    apiKeyInput.type = "password";
+    if (apiKeyToggleIcon) {
+      apiKeyToggleIcon.classList.remove("fa-eye-slash");
+      apiKeyToggleIcon.classList.add("fa-eye");
+    }
     ollamaHostInput.classList.add("hidden");
+  }
+}
+
+function toggleAiApiKeyVisibility() {
+  const apiKeyInput = document.getElementById("ai_api_key");
+  const apiKeyToggleButton = document.getElementById("toggleAiApiKey");
+  if (!apiKeyInput || !apiKeyToggleButton) {
+    return;
+  }
+
+  const icon = apiKeyToggleButton.querySelector("i");
+  const isPassword = apiKeyInput.type === "password";
+  apiKeyInput.type = isPassword ? "text" : "password";
+
+  if (icon) {
+    icon.classList.toggle("fa-eye", !isPassword);
+    icon.classList.toggle("fa-eye-slash", isPassword);
   }
 }
 
