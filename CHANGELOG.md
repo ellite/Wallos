@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.7.1](https://github.com/ellite/Wallos/compare/v4.7.0...v4.7.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* remove extra line on languages.php causing headers already sent ([#1019](https://github.com/ellite/Wallos/issues/1019)) ([f5c9a34](https://github.com/ellite/Wallos/commit/f5c9a3498ed2df8ae6b225fc63ce01a8ed5ce348))
+
 ## [4.7.0](https://github.com/ellite/Wallos/compare/v4.6.2...v4.7.0) (2026-03-19)
 
 
