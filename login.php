@@ -72,13 +72,14 @@ if ($adminRow['login_disabled'] == 1) {
         $settings = $result->fetchArray(SQLITE3_ASSOC);
         setcookie('colorTheme', $settings['color_theme'], [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Strict',
         ]);
 
         $cookieValue = $username . "|" . "abc123ABC" . "|" . $main_currency;
         setcookie('wallos_login', $cookieValue, [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Strict',
+            'httponly' => true,
         ]);
 
         $db->close();
@@ -198,7 +199,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     $cookieValue = $username . "|" . $token . "|" . $main_currency;
                     setcookie('wallos_login', $cookieValue, [
                         'expires' => $cookieExpire,
-                        'samesite' => 'Strict'
+                        'samesite' => 'Strict',
+                        'httponly' => true,
                     ]);
                 }
 

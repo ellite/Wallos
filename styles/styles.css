@@ -28,6 +28,7 @@ textarea {
   font-weight: 400;
 }
 
+button.hidden,
 input.hidden {
   display: none;
 }
@@ -279,6 +280,11 @@ main>.contain {
 .button-secondary.tiny {
   padding: 7px 14px;
   font-size: 12px;
+}
+
+.button.icon-button,
+.button-secondary.icon-button {
+  padding: 15px;
 }
 
 button:hover svg .main-color {
