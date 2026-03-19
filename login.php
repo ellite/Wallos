@@ -188,6 +188,17 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                 $userEmailWaitingVerification = true;
                 $loginFailed = true;
             } else {
+                if ($totpEnabled['totp_enabled'] == 1) {
+                    $_SESSION['totp_user_id'] = $userId;
+                    if ($rememberMe) {
+                        $_SESSION['pending_remember_me'] = true; // defer cookie until TOTP done
+                    }
+                    $db->close();
+                    header("Location: totp.php");
+                    exit();
+                }
+
+                // No TOTP — safe to create remember-me token now
                 if ($rememberMe) {
                     $token = bin2hex(random_bytes(32));
                     $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
@@ -202,14 +213,6 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                         'samesite' => 'Strict',
                         'httponly' => true,
                     ]);
-                }
-
-                // Send to totp page if 2fa is enabled
-                if ($totpEnabled['totp_enabled'] == 1) {
-                    $_SESSION['totp_user_id'] = $userId;
-                    $db->close();
-                    header("Location: totp.php");
-                    exit();
                 }
 
                 $_SESSION['username'] = $username;

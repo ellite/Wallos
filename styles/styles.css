@@ -3104,3 +3104,12 @@ input[type="radio"]:checked+label::after {
     margin: auto;
   }
 }
+
+.dashboard-subscriptions-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.dashboard-subscriptions-container::-webkit-scrollbar {
+    display: none;
+}
