@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.7.2](https://github.com/ellite/Wallos/compare/v4.7.1...v4.7.2) (2026-03-19)
+
+
+### Bug Fixes
+
+* password reset tokens now expire after 60 minutes ([90bb618](https://github.com/ellite/Wallos/commit/90bb6186ee4091590b6efdef824c85f2494ff2bb))
+* vulnerability would allow to bypass 2fa ([#1021](https://github.com/ellite/Wallos/issues/1021)) ([90bb618](https://github.com/ellite/Wallos/commit/90bb6186ee4091590b6efdef824c85f2494ff2bb))
+
 ## [4.7.1](https://github.com/ellite/Wallos/compare/v4.7.0...v4.7.1) (2026-03-19)
 
 
