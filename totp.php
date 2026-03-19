@@ -108,6 +108,24 @@ if (isset($_POST['one-time-code'])) {
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $user['main_currency'];
         $_SESSION['userId'] = $user['id'];
+
+        if (!empty($_SESSION['pending_remember_me'])) {
+            $token = bin2hex(random_bytes(32));
+            $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
+            $addLoginTokensStmt = $db->prepare($addLoginTokens);
+            $addLoginTokensStmt->bindParam(':userId', $user['id'], SQLITE3_INTEGER);
+            $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
+            $addLoginTokensStmt->execute();
+            $cookieExpire = time() + (30 * 24 * 60 * 60);
+            $cookieValue = $user['username'] . "|" . $token . "|" . $user['main_currency'];
+            setcookie('wallos_login', $cookieValue, [
+                'expires'  => $cookieExpire,
+                'samesite' => 'Strict',
+                'httponly' => true,
+            ]);
+            unset($_SESSION['pending_remember_me']);
+        }
+
         setcookie('language', $user['language'], [
             'expires' => $cookieExpire,
             'samesite' => 'Strict'

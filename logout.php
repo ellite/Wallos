@@ -35,5 +35,22 @@ if ($logoutOIDC && !empty($logoutUrl)) {
     exit();
 }
 
-header("Location: .");
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+  async function clearAndRedirect() {
+    if ('caches' in window) {
+      await caches.delete('pages-cache-v1');
+    }
+    sessionStorage.removeItem('sw_prefetched');
+    window.location.href = '.';
+  }
+  clearAndRedirect();
+</script>
+</head>
+<body></body>
+</html>
+<?php
 exit();
