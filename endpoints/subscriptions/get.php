@@ -172,6 +172,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
     $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
     $print[$id]['payment_method_id'] = $paymentMethodId;
+    if (isset($subscription['payment_method_last_four'])) {
+      $print[$id]['payment_method_last_four'] = $subscription['payment_method_last_four'];
+    }
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
