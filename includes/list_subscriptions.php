@@ -147,7 +147,17 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
     $currentCategory = 0;
     $currentPayerUserId = 0;
     $currentPaymentMethodId = 0;
+    $currentMonth = '';
     foreach ($subscriptions as $subscription) {
+        if ($sort == "next_payment" && isset($subscription['next_payment_raw']) && !$subscription['inactive']) {
+            $month = date('Y-m', strtotime($subscription['next_payment_raw']));
+            if ($currentMonth !== '' && $month !== $currentMonth) {
+                ?>
+                <div class="month-separator"></div>
+                <?php
+            }
+            $currentMonth = $month;
+        }
         if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
             ?>
             <div class="subscription-list-title">

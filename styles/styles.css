@@ -1826,6 +1826,15 @@ button.dark-theme-button i {
   font-weight: 500;
 }
 
+.month-separator {
+  height: 2px;
+  width: 50%;
+  background-color: var(--accent-color);
+  border-radius: 1px;
+  margin: 4px auto;
+  opacity: 0.5;
+}
+
 
 /* TOAST MESSAGE */
 
