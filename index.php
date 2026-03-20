@@ -111,7 +111,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -129,7 +129,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?>
                                 </p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
@@ -160,7 +160,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -178,7 +178,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?></p>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?></p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
                         </div>
