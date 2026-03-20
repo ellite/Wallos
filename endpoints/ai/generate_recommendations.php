@@ -2,6 +2,7 @@
 set_time_limit(300);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -80,7 +81,19 @@ if ($type == 'ollama') {
         echo json_encode($response);
         exit;
     }
+    $parsedUrl = parse_url($host);
+    if (
+        !isset($parsedUrl['scheme']) ||
+        !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+        !filter_var($host, FILTER_VALIDATE_URL)
+    ) {
+        echo json_encode(["success" => false, "message" => translate('invalid_host', $i18n)]);
+        exit;
+    }
+
+    $ssrf = validate_webhook_url_for_ssrf($host, $db, $i18n);
 } else {
+    $ssrf = null;
     $apiKey = isset($aiSettings['api_key']) ? $aiSettings['api_key'] : '';
     if (empty($apiKey)) {
         $response = [
@@ -216,6 +229,7 @@ $ch = curl_init();
 
 if ($type === 'ollama') {
     curl_setopt($ch, CURLOPT_URL, $host . '/api/generate');
+    curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(['model' => $model, 'prompt' => $prompt, 'stream' => false]));
 } else {

@@ -29,7 +29,8 @@ $_SESSION['token'] = $token;
 $cookieValue = $username . "|" . $token . "|" . $main_currency;
 setcookie('wallos_login', $cookieValue, [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Strict',
+    'httponly' => true,
 ]);
 
 // Set language cookie

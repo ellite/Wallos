@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $chatgptModelsApiUrl = 'https://api.openai.com/v1/models';
 $geminiModelsApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
@@ -59,6 +60,21 @@ if ($aiType === 'chatgpt') {
         echo json_encode($response);
         exit;
     }
+
+    // Scheme check
+    $parsedUrl = parse_url($aiOllamaHost);
+    if (
+        !isset($parsedUrl['scheme']) ||
+        !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+        !filter_var($aiOllamaHost, FILTER_VALIDATE_URL)
+    ) {
+        echo json_encode(["success" => false, "message" => translate('invalid_host', $i18n)]);
+        exit;
+    }
+
+    // SSRF check — dies automatically if private IP not in allowlist
+    $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n);
+
     $apiUrl = $aiOllamaHost . '/api/tags';
 }
 // Initialize cURL

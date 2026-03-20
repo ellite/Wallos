@@ -1,4 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
+  function updateAiRecommendationNumbers() {
+    document.querySelectorAll(".ai-recommendation-item").forEach(function (item, index) {
+      const numberSpan = item.querySelector(".ai-recommendation-header h3 > span");
+      if (numberSpan) {
+        numberSpan.textContent = `${index + 1}. `;
+      }
+    });
+  }
+
   document.querySelectorAll(".ai-recommendation-item").forEach(function (item) {
     item.addEventListener("click", function () {
       item.classList.toggle("expanded");
@@ -25,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
           if (data.success) {
             item.remove();
+            updateAiRecommendationNumbers();
             showSuccessMessage(translate("success"));
           } else {
             showErrorMessage(data.message || translate("failed_delete_ai_recommendation"));

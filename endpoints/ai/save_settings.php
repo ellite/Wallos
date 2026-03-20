@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -49,6 +50,18 @@ if (empty($aiModel)) {
 
 if ($aiType === 'ollama') {
     $aiApiKey = ''; // Ollama does not require an API key
+    $parsedUrl = parse_url($aiOllamaHost);
+    if (
+        !isset($parsedUrl['scheme']) ||
+        !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
+        !filter_var($aiOllamaHost, FILTER_VALIDATE_URL)
+    ) {
+        echo json_encode(["success" => false, "message" => translate('invalid_host', $i18n)]);
+        exit;
+    }
+
+    // SSRF check — dies automatically if private IP not in allowlist
+    validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n);
 } else {
     $aiOllamaHost = ''; // Clear Ollama host if not using Ollama
 }

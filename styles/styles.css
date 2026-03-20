@@ -28,6 +28,7 @@ textarea {
   font-weight: 400;
 }
 
+button.hidden,
 input.hidden {
   display: none;
 }
@@ -133,7 +134,7 @@ header .logo .logo-image svg {
 }
 
 .dropbtn:after {
-  content: " ▼";
+  content: " \25BC";
 }
 
 @media (max-width: 768px) {
@@ -279,6 +280,11 @@ main>.contain {
 .button-secondary.tiny {
   padding: 7px 14px;
   font-size: 12px;
+}
+
+.button.icon-button,
+.button-secondary.icon-button {
+  padding: 15px;
 }
 
 button:hover svg .main-color {
@@ -3097,4 +3103,13 @@ input[type="radio"]:checked+label::after {
   .spinner.ai-spinner {
     margin: auto;
   }
+}
+
+.dashboard-subscriptions-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.dashboard-subscriptions-container::-webkit-scrollbar {
+    display: none;
 }
