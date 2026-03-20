@@ -138,6 +138,47 @@ if (!function_exists('getSubscriptionIntervalSpec')) {
     }
 }
 
+if (!function_exists('shiftSubscriptionOccurrence')) {
+    function shiftSubscriptionOccurrence(DateTime $date, array $subscription, DateTime $anchorDate, $direction)
+    {
+        $frequency = max(1, (int) ($subscription['frequency'] ?? 1));
+        $cycle = (int) ($subscription['cycle'] ?? 0);
+        $direction = $direction < 0 ? -1 : 1;
+        $step = $direction * $frequency;
+
+        if ($cycle === 1) {
+            $shifted = clone $date;
+            $shifted->modify($step . ' day');
+            return createDateAtMidnight($shifted);
+        }
+
+        if ($cycle === 2) {
+            $shifted = clone $date;
+            $shifted->modify(($step * 7) . ' day');
+            return createDateAtMidnight($shifted);
+        }
+
+        if ($cycle === 3) {
+            $totalMonths = ((int) $date->format('Y') * 12) + ((int) $date->format('n') - 1) + $step;
+            $targetYear = (int) floor($totalMonths / 12);
+            $targetMonth = ($totalMonths % 12) + 1;
+            $anchorDay = (int) $anchorDate->format('j');
+
+            return getDateWithClampedDay($targetYear, $targetMonth, $anchorDay);
+        }
+
+        if ($cycle === 4) {
+            $targetYear = (int) $date->format('Y') + $step;
+            $anchorMonth = (int) $anchorDate->format('n');
+            $anchorDay = (int) $anchorDate->format('j');
+
+            return getDateWithClampedDay($targetYear, $anchorMonth, $anchorDay);
+        }
+
+        return null;
+    }
+}
+
 if (!function_exists('getSubscriptionOccurrencesInRange')) {
     function getSubscriptionOccurrencesInRange(array $subscription, DateTime $rangeStart, DateTime $rangeEnd)
     {
@@ -167,12 +208,14 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
                 : [];
         }
 
-        $interval = new DateInterval($intervalSpec);
         $current = clone $nextPayment;
         $safetyCounter = 0;
 
         while ($current > $rangeStartDate) {
-            $current->sub($interval);
+            $current = shiftSubscriptionOccurrence($current, $subscription, $nextPayment, -1);
+            if ($current === null) {
+                return [];
+            }
             $safetyCounter++;
             if ($safetyCounter > 10000) {
                 return [];
@@ -180,7 +223,10 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
         }
 
         while ($current < $rangeStartDate) {
-            $current->add($interval);
+            $current = shiftSubscriptionOccurrence($current, $subscription, $nextPayment, 1);
+            if ($current === null) {
+                return [];
+            }
             $safetyCounter++;
             if ($safetyCounter > 10000) {
                 return [];
@@ -192,7 +238,11 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
                 $occurrences[] = clone $current;
             }
 
-            $current->add($interval);
+            $nextOccurrence = shiftSubscriptionOccurrence($current, $subscription, $nextPayment, 1);
+            if ($nextOccurrence === null || $nextOccurrence <= $current) {
+                break;
+            }
+            $current = $nextOccurrence;
             $safetyCounter++;
             if ($safetyCounter > 10000) {
                 break;
