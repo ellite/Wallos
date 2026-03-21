@@ -47,7 +47,7 @@ if (isset($themeValue)) {
   $cookieExpire = time() + (30 * 24 * 60 * 60);
   setcookie('theme', $themeValue, [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax'
   ]);
 }
 

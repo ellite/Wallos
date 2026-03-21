@@ -55,7 +55,7 @@ if (isset($_GET['search'])) {
             'p'   => '1',
         ]);
 
-        $response = curlGet("https://duckduckgo.com/i.js?{$params}", [
+        $response = curlGet("https://duckduckgox.com/i.js?{$params}", [
             'Accept: application/json',
             'Referer: https://duckduckgo.com/',
         ]);
@@ -65,7 +65,16 @@ if (isset($_GET['search'])) {
         $data = json_decode($response, true);
         if (!isset($data['results']) || empty($data['results'])) return null;
 
-        return array_column($data['results'], 'image');
+        $out = [];
+        foreach ($data['results'] as $row) {
+            $out[] = [
+                'thumbnail' => $row['thumbnail'] ?? $row['image'] ?? null,
+                'image'     => $row['image'] ?? null,
+                'width'     => $row['width'] ?? null,
+                'height'    => $row['height'] ?? null,
+            ];
+        }
+        return $out;
     }
 
     function fetchBraveImages($query) {
@@ -101,17 +110,26 @@ if (isset($_GET['search'])) {
 
     // Try DuckDuckGo first
     $vqd = getVqdToken($searchTerm);
-    $imageUrls = $vqd ? fetchDDGImages($searchTerm, $vqd) : null;
+    $results = $vqd ? fetchDDGImages($searchTerm, $vqd) : null;
 
-    // Fall back to Brave if DDG failed at any step
-    if (!$imageUrls) {
-        $imageUrls = fetchBraveImages($searchTerm);
+    if (!$results) {
+        $braveUrls = fetchBraveImages($searchTerm);
+        if ($braveUrls) {
+            $results = array_map(function($url) {
+                return [
+                    'thumbnail' => $url,
+                    'image'     => $url,
+                    'width'     => null,
+                    'height'    => null,
+                ];
+            }, $braveUrls);
+        }
     }
 
     header('Content-Type: application/json');
 
-    if ($imageUrls) {
-        echo json_encode(['imageUrls' => $imageUrls]);
+    if ($results) {
+        echo json_encode(['results' => $results]);
     } else {
         echo json_encode(['error' => 'Failed to fetch images from both DuckDuckGo and Brave.']);
     }

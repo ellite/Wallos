@@ -9,7 +9,15 @@ require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
 
-session_start();
+$secondsInMonth = 30 * 24 * 60 * 60;
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => $secondsInMonth,             
+        'httponly' => true,          
+        'samesite' => 'Lax'          
+    ]);
+    session_start();
+}
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
     header("Location: .");

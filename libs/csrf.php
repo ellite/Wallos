@@ -1,6 +1,12 @@
 <?php
 
-if (session_status() !== PHP_SESSION_ACTIVE) {
+$secondsInMonth = 30 * 24 * 60 * 60;
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => $secondsInMonth,             
+        'httponly' => true,          
+        'samesite' => 'Lax'          
+    ]);
     session_start();
 }
 
