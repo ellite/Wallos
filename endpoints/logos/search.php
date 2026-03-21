@@ -55,7 +55,7 @@ if (isset($_GET['search'])) {
             'p'   => '1',
         ]);
 
-        $response = curlGet("https://duckduckgox.com/i.js?{$params}", [
+        $response = curlGet("https://duckduckgo.com/i.js?{$params}", [
             'Accept: application/json',
             'Referer: https://duckduckgo.com/',
         ]);
