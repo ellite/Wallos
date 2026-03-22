@@ -19,6 +19,7 @@ $languages = [
     "pl" => ["name" => "Polski", "dir" => "ltr"],
     "pt" => ["name" => "Português", "dir" => "ltr"],
     "pt_br" => ["name" => "Português Brasileiro", "dir" => "ltr"],
+    "ro" => ["name" => "Română", "dir" => "ltr"],
     "ru" => ["name" => "Русский", "dir" => "ltr"],
     "sl" => ["name" => "Slovenščina", "dir" => "ltr"],
     "sr_lat" => ["name" => "Srpski", "dir" => "ltr"],
@@ -28,7 +29,4 @@ $languages = [
     "vi" => ["name" => "Tiếng Việt", "dir" => "ltr"],
     "zh_cn" => ["name" => "简体中文", "dir" => "ltr"],
     "zh_tw" => ["name" => "繁體中文", "dir" => "ltr"],
-    
-]
-
-?>
+];

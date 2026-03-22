@@ -31,9 +31,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
 
     for ($i = 0; $i <= $maxRedirects; $i++) {
         if (!filter_var($currentUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $currentUrl)) {
-            $response = ["success" => false, "message" => "Invalid URL format."];
-            echo json_encode($response);
-            exit();
+            return ['success' => false, 'message' => 'Invalid URL format.'];
         }
 
         $parts = parse_url($currentUrl);
@@ -42,16 +40,13 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         $ip = gethostbyname($host);
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
-            $response = ["success" => false, "message" => "Invalid IP Address."];
-            echo json_encode($response);
-            exit();
+            return ['success' => false, 'message' => 'Invalid IP Address.'];
         }
 
         $ch = curl_init($currentUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        
         curl_setopt($ch, CURLOPT_RESOLVE, ["$host:$port:$ip"]);
 
         $imageData = curl_exec($ch);
@@ -72,55 +67,66 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         if ($imageData !== false && $httpCode === 200) {
             $timestamp = time();
             $fileName = $timestamp . '-' . sanitizeFilename($name) . '.png';
-            $uploadDir = '../../images/uploads/logos/';
-            $uploadFile = $uploadDir . $fileName;
+            $uploadFile = '../../images/uploads/logos/' . $fileName;
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
                 curl_close($ch);
-                return $fileName;
+                return ['success' => true, 'filename' => $fileName];
             }
         }
 
-        echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
+        $error = curl_error($ch);
         curl_close($ch);
-        return "";
+        return ['success' => false, 'message' => translate('error_fetching_image', $i18n) . ': ' . $error];
     }
 
-    return "";
+    return ['success' => false, 'message' => translate('error_fetching_image', $i18n)];
 }
 
 function saveLogo($imageData, $uploadFile, $name, $settings)
 {
     $image = imagecreatefromstring($imageData);
     $removeBackground = isset($settings['removeBackground']) && $settings['removeBackground'] === 'true';
+
     if ($image !== false) {
         $tempFile = tempnam(sys_get_temp_dir(), 'logo');
+
+        imagealphablending($image, false);
+        imagesavealpha($image, true);
         imagepng($image, $tempFile);
         imagedestroy($image);
 
         if (extension_loaded('imagick')) {
             $imagick = new Imagick($tempFile);
+
             if ($removeBackground) {
-                $fuzz = Imagick::getQuantum() * 0.1; // 10%
-                $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
+                $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_ACTIVATE);
+
+                $pixel = $imagick->getImagePixelColor(0, 0);
+                $color = $pixel->getColor();
+                if ($color['a'] > 0) {
+                    $bgColor = "rgb({$color['r']},{$color['g']},{$color['b']})";
+                    $fuzz = Imagick::getQuantum() * 0.1;
+                    $imagick->transparentPaintImage($bgColor, 0, $fuzz, false);
+                }
             }
+
             $imagick->setImageFormat('png');
             $imagick->writeImage($uploadFile);
-
             $imagick->clear();
             $imagick->destroy();
+
         } else {
-            // Alternative method if Imagick is not available
             $newImage = imagecreatefrompng($tempFile);
             if ($newImage !== false) {
+                imagealphablending($newImage, false);
+                imagesavealpha($newImage, true);
+
                 if ($removeBackground) {
-                    imagealphablending($newImage, false);
-                    imagesavealpha($newImage, true);
                     $transparent = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
-                    imagefill($newImage, 0, 0, $transparent);  // Fill the entire image with transparency
-                    imagepng($newImage, $uploadFile);
-                    imagedestroy($newImage);
+                    imagefill($newImage, 0, 0, $transparent);
                 }
+
                 imagepng($newImage, $uploadFile);
                 imagedestroy($newImage);
             } else {
@@ -128,12 +134,12 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                 return false;
             }
         }
-        unlink($tempFile);
 
+        unlink($tempFile);
         return true;
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
@@ -155,7 +161,6 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             $width = $fileInfo[0];
             $height = $fileInfo[1];
 
-            // Load the image based on its format
             if ($fileExtension === 'png') {
                 $image = imagecreatefrompng($uploadFile);
             } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
@@ -165,11 +170,9 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             } elseif ($fileExtension === 'webp') {
                 $image = imagecreatefromwebp($uploadFile);
             } else {
-                // Handle other image formats as needed
                 return "";
             }
 
-            // Enable alpha channel (transparency) for PNG images
             if ($fileExtension === 'png') {
                 imagesavealpha($image, true);
             }
@@ -231,6 +234,7 @@ $notes = validate($_POST["notes"]);
 $url = validate($_POST['url']);
 $logoUrl = validate($_POST['logo-url']);
 $logo = "";
+$logoError = "";
 $notify = isset($_POST['notifications']) ? true : false;
 $notifyDaysBefore = $_POST['notify_days_before'];
 $inactive = isset($_POST['inactive']) ? true : false;
@@ -246,7 +250,12 @@ if ($replacementSubscriptionId == 0 || $inactive == 0) {
 }
 
 if ($logoUrl !== "") {
-    $logo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings, $i18n);
+    $result = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings, $i18n);
+    if ($result['success']) {
+        $logo = $result['filename'];
+    } else {
+        $logoError = $result['message'];
+    }
 } else {
     if (!empty($_FILES['logo']['name'])) {
         $fileType = mime_content_type($_FILES['logo']['tmp_name']);
@@ -332,9 +341,11 @@ if ($stmt->execute()) {
     $success['status'] = "Success";
     $text = $isEdit ? "updated" : "added";
     $success['message'] = translate('subscription_' . $text . '_successfuly', $i18n);
-    $json = json_encode($success);
+    if ($logoError !== "") {
+        $success['logo_warning'] = $logoError;
+    }
     header('Content-Type: application/json');
-    echo $json;
+    echo json_encode($success);
     exit();
 } else {
     echo translate('error', $i18n) . ": " . $db->lastErrorMsg();

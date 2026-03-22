@@ -1093,7 +1093,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 </select>
             </div>
             <div class="form-group-inline">
-                <input type="text" id="ai_api_key" name="ai_api_key" autocomplete="off"
+                <input type="password" id="ai_api_key" name="ai_api_key" autocomplete="off"
                     class="<?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>"
                     placeholder="<?= translate('api_key', $i18n) ?>"
                     value="<?= isset($aiSettings['api_key']) ? htmlspecialchars($aiSettings['api_key']) : '' ?>" />
@@ -1101,7 +1101,9 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     class="<?= (!isset($aiSettings['type']) || $aiSettings['type'] != 'ollama') ? 'hidden' : '' ?>"
                     placeholder="<?= translate('host', $i18n) ?>"
                     value="<?= isset($aiSettings['url']) ? htmlspecialchars($aiSettings['url']) : '' ?>" />
-
+                <button type="button" id="toggleAiApiKey" class="button secondary-button icon-button <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>" onclick="toggleAiApiKeyVisibility()" aria-label="Toggle API key visibility">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
                 <button type="button" id="fetchModelsButton" class="button thin" onclick="fetch_ai_models()">
                     <?= translate('test', $i18n) ?>
                 </button>

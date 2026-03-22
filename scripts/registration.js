@@ -5,7 +5,7 @@ function setCookie(name, value, days) {
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     expires = "; expires=" + date.toUTCString();
   }
-  document.cookie = name + "=" + value + expires + "; SameSite=Strict";
+  document.cookie = name + "=" + value + expires + "; SameSite=Lax";
 }
 
 function storeFormFieldValue(fieldId) {
@@ -17,6 +17,8 @@ function storeFormFieldValue(fieldId) {
 
 function storeFormFields() {
   storeFormFieldValue('username');
+  storeFormFieldValue('firstname');
+  storeFormFieldValue('lastname');
   storeFormFieldValue('email');
   storeFormFieldValue('password');
   storeFormFieldValue('confirm_password');
@@ -32,6 +34,8 @@ function restoreFormFieldValue(fieldId) {
 
 function restoreFormFields() {
   restoreFormFieldValue('username');
+  restoreFormFieldValue('firstname');
+  restoreFormFieldValue('lastname');
   restoreFormFieldValue('email');
   restoreFormFieldValue('password');
   restoreFormFieldValue('confirm_password');
@@ -40,6 +44,8 @@ function restoreFormFields() {
 
 function removeFromStorage() {
   localStorage.removeItem('username');
+  localStorage.removeItem('firstname');
+  localStorage.removeItem('lastname');
   localStorage.removeItem('email');
   localStorage.removeItem('password');
   localStorage.removeItem('confirm_password');

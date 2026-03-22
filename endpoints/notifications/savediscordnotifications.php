@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -19,6 +20,8 @@ if (
     $webhook_url = $data["url"];
     $bot_username = $data["bot_username"];
     $bot_avatar_url = $data["bot_avatar"];
+
+    validate_webhook_url_for_ssrf($webhook_url, $db, $i18n);
 
     $query = "SELECT COUNT(*) FROM discord_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);

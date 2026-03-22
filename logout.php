@@ -1,6 +1,14 @@
 <?php
 require_once 'includes/connect.php';
-session_start();
+$secondsInMonth = 30 * 24 * 60 * 60;
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => $secondsInMonth,             
+        'httponly' => true,          
+        'samesite' => 'Lax'          
+    ]);
+    session_start();
+}
 
 $logoutOIDC = false;
 
@@ -35,5 +43,22 @@ if ($logoutOIDC && !empty($logoutUrl)) {
     exit();
 }
 
-header("Location: .");
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+  async function clearAndRedirect() {
+    if ('caches' in window) {
+      await caches.delete('pages-cache-v1');
+    }
+    sessionStorage.removeItem('sw_prefetched');
+    window.location.href = '.';
+  }
+  clearAndRedirect();
+</script>
+</head>
+<body></body>
+</html>
+<?php
 exit();
