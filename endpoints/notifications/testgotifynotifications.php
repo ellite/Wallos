@@ -65,7 +65,7 @@ if (
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false || $httpCode < 200 || $httpCode >= 300) {

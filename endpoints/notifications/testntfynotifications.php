@@ -68,7 +68,7 @@ if (
     $response = curl_exec($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false) {

@@ -33,7 +33,7 @@ if (isset($_GET['search'])) {
 
         applyProxy($ch);
         $response = curl_exec($ch);
-        curl_close($ch);
+        unset($ch);
 
         return $response ?: null;
     }
