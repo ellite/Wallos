@@ -4,7 +4,12 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
 
-$runType = $_GET['run'] ?? '';
+if (php_sapi_name() === 'cli') {
+    $runType = $argv[1] ?? 'weekly';
+} else {
+    $runType = $_GET['run'] ?? 'weekly';
+}
+
 if (!in_array($runType, ['weekly', 'monthly'])) {
     $runType = 'weekly';
 }
