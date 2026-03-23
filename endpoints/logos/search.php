@@ -33,7 +33,7 @@ if (isset($_GET['search'])) {
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         applyProxy($ch);
         $response = curl_exec($ch);
-        curl_close($ch);
+        unset($ch);
         return $response ?: null;
     }
 

@@ -93,6 +93,32 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 ?>
 
 <section class="contain dashboard">
+    <?php
+        if ($isAdmin && $settings['update_notification']) {
+            if (!is_null($settings['latest_version'])) {
+                $latestVersion = $settings['latest_version'];
+                if (version_compare($version, $latestVersion) == -1) {
+                    ?>
+                    <div class="update-banner">
+                    <?= translate('new_version_available', $i18n) ?>:
+                        <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+                        target="_blank" rel="noreferer">
+                        <?= htmlspecialchars($latestVersion) ?>
+                        </a></span>
+                    </div>
+                    <?php
+                }
+            }
+        }
+        if ($demoMode) {
+            ?>
+            <div class="demo-banner">
+            Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
+            The database will be reset every 120 minutes.
+            </div>
+            <?php
+        }
+    ?>
     <h1><?= translate('hello', $i18n) ?> <?= htmlspecialchars($first_name) ?></h1>
 
     <?php

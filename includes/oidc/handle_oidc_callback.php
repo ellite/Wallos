@@ -32,7 +32,7 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
 $response = curl_exec($ch);
-curl_close($ch);
+unset($ch);
 
 $tokenData = json_decode($response, true);
 if (!$tokenData || !isset($tokenData['access_token'])) {
@@ -47,7 +47,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer ' . $tokenData['access_token']
 ]);
 $response = curl_exec($ch);
-curl_close($ch);
+unset($ch);
 
 $userInfo = json_decode($response, true);
 if (!$userInfo || !isset($userInfo[$oidcSettings['user_identifier_field']])) {

@@ -54,7 +54,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
 
         if ($httpCode >= 300 && $httpCode < 400) {
             $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
-            curl_close($ch);
+            unset($ch);
 
             if (!$redirectUrl) {
                 break;
@@ -70,13 +70,13 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
             $uploadFile = '../../images/uploads/logos/' . $fileName;
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
-                curl_close($ch);
+                unset($ch);
                 return ['success' => true, 'filename' => $fileName];
             }
         }
 
         $error = curl_error($ch);
-        curl_close($ch);
+        unset($ch);
         return ['success' => false, 'message' => translate('error_fetching_image', $i18n) . ': ' . $error];
     }
 

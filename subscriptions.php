@@ -154,34 +154,6 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
 </style>
 
 <section class="contain">
-  <?php
-  if ($isAdmin && $settings['update_notification']) {
-    if (!is_null($settings['latest_version'])) {
-      $latestVersion = $settings['latest_version'];
-      if (version_compare($version, $latestVersion) == -1) {
-        ?>
-        <div class="update-banner">
-          <?= translate('new_version_available', $i18n) ?>:
-          <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
-              target="_blank" rel="noreferer">
-              <?= htmlspecialchars($latestVersion) ?>
-            </a></span>
-        </div>
-        <?php
-      }
-    }
-  }
-
-  if ($demoMode) {
-    ?>
-    <div class="demo-banner">
-      Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
-      The database will be reset every 120 minutes.
-    </div>
-    <?php
-  }
-  ?>
-
   <header class="<?= $headerClass ?>" id="main-actions">
     <button class="button" onClick="addSubscription()">
       <i class="fa-solid fa-circle-plus"></i>
