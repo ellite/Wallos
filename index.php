@@ -32,20 +32,31 @@ function formatDate($date, $lang = 'en')
     // Determine the date format based on whether the year matches the current year
     $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
 
-    // Validate the locale and fallback to 'en' if unsupported
-    if (!in_array($lang, ResourceBundle::getLocales(''))) {
-        $lang = 'en'; // Fallback to English
-    }
+    // Try to create an IntlDateFormatter; if it fails, fallback to 'en'
+    try {
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
 
-    // Create an IntlDateFormatter instance for the specified language
-    $formatter = new IntlDateFormatter(
-        $lang,
-        IntlDateFormatter::SHORT,
-        IntlDateFormatter::NONE,
-        null,
-        null,
-        $dateFormat
-    );
+        if (!$formatter) {
+            throw new Exception('Failed to create IntlDateFormatter with language: ' . $lang);
+        }
+    } catch (Throwable $e) {
+        $lang = 'en'; // Fallback to English on error
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
+    }
 
     // Format the date
     $formattedDate = $formatter->format(new DateTime($date));
