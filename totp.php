@@ -120,7 +120,7 @@ if (isset($_POST['one-time-code'])) {
             $cookieValue = $user['username'] . "|" . $token . "|" . $user['main_currency'];
             setcookie('wallos_login', $cookieValue, [
                 'expires'  => $cookieExpire,
-                'samesite' => 'Strict',
+                'samesite' => 'Lax',
                 'httponly' => true,
             ]);
             unset($_SESSION['pending_remember_me']);
@@ -128,13 +128,13 @@ if (isset($_POST['one-time-code'])) {
 
         setcookie('language', $user['language'], [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
 
         if (!isset($_COOKIE['sortOrder'])) {
             setcookie('sortOrder', 'next_payment', [
                 'expires' => $cookieExpire,
-                'samesite' => 'Strict'
+                'samesite' => 'Lax'
             ]);
         }
 
@@ -145,7 +145,7 @@ if (isset($_POST['one-time-code'])) {
         $settings = $result->fetchArray(SQLITE3_ASSOC);
         setcookie('colorTheme', $settings['color_theme'], [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
 
         unset($_SESSION['totp_user_id']);

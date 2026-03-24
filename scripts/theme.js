@@ -3,7 +3,7 @@ function switchTheme() {
   darkThemeCss.disabled = !darkThemeCss.disabled;
 
   const themeChoice = darkThemeCss.disabled ? 'light' : 'dark';
-  document.cookie = 'theme=' + themeValue + '; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict';
+  document.cookie = 'theme=' + themeValue + '; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax';
 
   document.body.className = themeChoice;
 
@@ -62,7 +62,7 @@ function setDarkTheme(theme) {
         lightThemeButton.classList.remove('selected');
         automaticThemeButton.classList.remove('selected');
 
-        document.cookie = `theme=${themeValue}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
+        document.cookie = `theme=${themeValue}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax`;
 
         if (theme == 0) {
           darkThemeCss.disabled = true;
@@ -80,7 +80,7 @@ function setDarkTheme(theme) {
           darkThemeCss.disabled = !prefersDarkMode;
           document.body.className = prefersDarkMode ? 'dark' : 'light';
           automaticThemeButton.classList.add('selected');
-          document.cookie = `inUseTheme=${prefersDarkMode ? 'dark' : 'light'}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
+          document.cookie = `inUseTheme=${prefersDarkMode ? 'dark' : 'light'}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax`;
         }
 
         showSuccessMessage(data.message);
@@ -131,7 +131,7 @@ function setTheme(themeColor) {
     targetLabel.classList.add('is-selected');
   }
 
-  document.cookie = `colorTheme=${themeColor}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Strict`;
+  document.cookie = `colorTheme=${themeColor}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax`;
 
   fetch('endpoints/settings/colortheme.php', {
     method: 'POST',

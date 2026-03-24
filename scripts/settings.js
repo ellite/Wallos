@@ -1152,34 +1152,39 @@ function fetch_ai_models() {
 }
 
 function toggleAiInputs() {
-  const aiTypeSelect = document.getElementById("ai_type");
+  const type = document.getElementById("ai_type").value;
   const apiKeyInput = document.getElementById("ai_api_key");
   const apiKeyToggleButton = document.getElementById("toggleAiApiKey");
-  const apiKeyToggleIcon = apiKeyToggleButton ? apiKeyToggleButton.querySelector("i") : null;
-  const ollamaHostInput = document.getElementById("ai_ollama_host");
-  const type = aiTypeSelect.value;
+  const apiKeyToggleIcon = apiKeyToggleButton?.querySelector("i");
+  const urlGroup = document.getElementById("ai_url_group");
+  const urlInput = document.getElementById("ai_ollama_host");
+  const testButtonUrl = document.getElementById("fetchModelsButton2");
+  const testButtonKey = document.getElementById("fetchModelsButton");
+
+  // Reset key visibility
+  apiKeyInput.type = "password";
+  apiKeyToggleIcon?.classList.replace("fa-eye-slash", "fa-eye");
+
   if (type === "ollama") {
     apiKeyInput.classList.add("hidden");
-    if (apiKeyToggleButton) {
-      apiKeyToggleButton.classList.add("hidden");
-    }
-    apiKeyInput.type = "password";
-    if (apiKeyToggleIcon) {
-      apiKeyToggleIcon.classList.remove("fa-eye-slash");
-      apiKeyToggleIcon.classList.add("fa-eye");
-    }
-    ollamaHostInput.classList.remove("hidden");
+    apiKeyToggleButton?.classList.add("hidden");
+    testButtonKey.classList.add("hidden");      // hide key-row Test
+    urlGroup.style.display = "";
+    urlInput.placeholder = "http://localhost:11434";
+    testButtonUrl.classList.remove("hidden");   // show url-row Test
+  } else if (type === "openai-compatible") {
+    apiKeyInput.classList.remove("hidden");
+    apiKeyToggleButton?.classList.remove("hidden");
+    testButtonKey.classList.remove("hidden");   // show key-row Test
+    urlGroup.style.display = "";
+    urlInput.placeholder = "http://localhost:11434/v1";
+    testButtonUrl.classList.add("hidden");      // hide url-row Test
   } else {
     apiKeyInput.classList.remove("hidden");
-    if (apiKeyToggleButton) {
-      apiKeyToggleButton.classList.remove("hidden");
-    }
-    apiKeyInput.type = "password";
-    if (apiKeyToggleIcon) {
-      apiKeyToggleIcon.classList.remove("fa-eye-slash");
-      apiKeyToggleIcon.classList.add("fa-eye");
-    }
-    ollamaHostInput.classList.add("hidden");
+    apiKeyToggleButton?.classList.remove("hidden");
+    testButtonKey.classList.remove("hidden");   // show key-row Test
+    urlGroup.style.display = "none";
+    testButtonUrl.classList.add("hidden");      // hidden anyway (group hidden)
   }
 }
 
@@ -1206,6 +1211,7 @@ function saveAiSettingsButton() {
   const aiApiKey = document.querySelector("#ai_api_key").value.trim();
   const aiOllamaHost = document.querySelector("#ai_ollama_host").value.trim();
   const aiModel = document.querySelector("#ai_model").value;
+  const aiRunSchedule = document.querySelector("#ai_run_schedule").value;
 
   fetch('endpoints/ai/save_settings.php', {
     method: 'POST',
@@ -1213,7 +1219,7 @@ function saveAiSettingsButton() {
       'Content-Type': 'application/json',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel })
+    body: JSON.stringify({ ai_enabled: aiEnabled, ai_type: aiType, api_key: aiApiKey, ollama_host: aiOllamaHost, model: aiModel, ai_run_schedule: aiRunSchedule })
   })
     .then(response => response.json())
     .then(data => {

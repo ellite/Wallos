@@ -81,16 +81,17 @@ if (
     // Execute the request
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false || $httpCode >= 400) {
         die(json_encode([
             "success" => false,
             "message" => translate('notification_failed', $i18n),
-            "response" => curl_error($ch)
+            "response" => $curlError ? $curlError : $response
         ]));
     } else {
         die(json_encode([

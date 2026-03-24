@@ -491,13 +491,14 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                         $response = curl_exec($ch);
-                        curl_close($ch);
 
                         if ($result === false) {
                             echo "Error sending notifications: " . curl_error($ch) . "<br />";
                         } else {
                             echo "Discord Notifications sent<br />";
                         }
+
+                        unset($ch);
                     }
                 }
             }
@@ -657,7 +658,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             echo "PushPlus API error: " . $errorMsg . "<br />";
                         }
                     }
-                    curl_close($ch);
+                    unset($ch);
                 }
             }
 
@@ -717,7 +718,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 echo "Mattermost API error: " . $errorMsg . "<br />";
                             }
                         }
-                        curl_close($ch);
+                        unset($ch);
                     }
                 }
             }
@@ -753,13 +754,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $result = curl_exec($ch);
 
-                    curl_close($ch);
-
                     if ($result === false) {
                         echo "Error sending notifications: " . curl_error($ch) . "<br />";
                     } else {
                         echo "Pushover Notifications sent<br />";
                     }
+
+                    unset($ch);
                 }
             }
 
@@ -808,13 +809,14 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         }
 
                         $response = curl_exec($ch);
-                        curl_close($ch);
 
                         if ($response === false) {
                             echo "Error sending notifications: " . curl_error($ch) . "<br />";
                         } else {
                             echo "Ntfy Notifications sent<br />";
                         }
+
+                        unset($ch);
                     }
                 }
             }
@@ -873,13 +875,14 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             // Execute the cURL request
                             $response = curl_exec($ch);
                             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                            curl_close($ch);
                 
                             if ($response === false || $httpCode >= 400) {
                                 echo "Error sending notifications: " . curl_error($ch) . "<br />";
                             } else {
                                 echo "Webhook Notification sent for subscription: " . $subscription['name'] . "<br />";
                             }
+
+                            unset($ch);
                 
                             usleep(1000000); // 1s delay between requests
                         }
@@ -929,10 +932,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     if ($response === false || $httpCode >= 400) {
                         $errorMessage = $response === false ? curl_error($ch) : $httpCode;
-                        curl_close($ch);
+                        unset($ch);
                         echo "Error sending Serverchan notifications: " . $errorMessage . "<br />";
                     } else {
-                        curl_close($ch);
+                        unset($ch);
                         echo "Serverchan Notifications sent<br />";
                     }
                 }

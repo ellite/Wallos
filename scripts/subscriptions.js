@@ -322,8 +322,8 @@ function searchLogo() {
     fetch(imageSearchUrl)
       .then(response => response.json())
       .then(data => {
-        if (data.imageUrls) {
-          displayImageResults(data.imageUrls);
+        if (data.results) {
+          displayImageResults(data.results);
         } else if (data.error) {
           console.error(data.error);
         }
@@ -342,9 +342,9 @@ function displayImageResults(imageSources) {
 
   imageSources.forEach(src => {
     const img = document.createElement("img");
-    img.src = src;
+    img.src = src.thumbnail || src.image;
     img.onclick = function () {
-      selectWebLogo(src);
+      selectWebLogo(src.thumbnail || src.image);
     };
     img.onerror = function () {
       this.parentNode.removeChild(this);
@@ -434,7 +434,7 @@ function setSortOption(sortOption) {
   const expirationDate = new Date();
   expirationDate.setDate(expirationDate.getDate() + daysToExpire);
   const cookieValue = encodeURIComponent(sortOption) + '; expires=' + expirationDate.toUTCString();
-  document.cookie = 'sortOrder=' + cookieValue + '; SameSite=Strict';
+  document.cookie = 'sortOrder=' + cookieValue + '; SameSite=Lax';
   fetchSubscriptions(null, null, "sort");
   toggleSortOptions();
 }
@@ -828,7 +828,7 @@ function swipeHintAnimation() {
       }
 
       count++;
-      document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Strict`;
+      document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax`;
     }
   }
 }
