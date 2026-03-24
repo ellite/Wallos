@@ -130,7 +130,24 @@ require_once 'includes/stats_calculations.php';
         }
         ?>
         <?php
-        if (isset($_GET['member']) || isset($_GET['category']) || isset($_GET['payment'])) {
+        if ($showVsMonthlyBudgetGraph || $showVsPeriodBudgetGraph) {
+          ?>
+          <div class="filtermenu-submenu">
+            <div class="filter-title" onClick="toggleSubMenu('budget')"><?= translate("budget_type", $i18n) ?></div>
+            <div class="filtermenu-submenu-content" id="filter-budget">
+              <?php if ($showVsMonthlyBudgetGraph) { ?>
+                <div class="filter-item <?= (isset($_GET['budget']) && $_GET['budget'] === 'monthly') ? 'selected' : '' ?>" data-budgettype="monthly"><?= translate('monthly_budget', $i18n) ?></div>
+              <?php } ?>
+              <?php if ($showVsPeriodBudgetGraph) { ?>
+                <div class="filter-item <?= (isset($_GET['budget']) && $_GET['budget'] === 'period') ? 'selected' : '' ?>" data-budgettype="period"><?= translate('period_budget', $i18n) ?></div>
+              <?php } ?>
+            </div>
+          </div>
+          <?php
+        }
+        ?>
+        <?php
+        if (isset($_GET['member']) || isset($_GET['category']) || isset($_GET['payment']) || isset($_GET['budget'])) {
           ?>
           <div class="filtermenu-submenu">
             <div class="filter-title filter-clear" onClick="clearFilters()">
@@ -180,37 +197,61 @@ require_once 'includes/stats_calculations.php';
       }
       ?>
     </div>
-    <div class="statistic">
-      <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
-      <div class="title"><?= translate('amount_due', $i18n) ?></div>
-    </div>
     <?php
-    if (isset($budgetUsed)) {
+    $showMonthlyStats = !isset($_GET['budget']) || $_GET['budget'] === 'monthly';
+    $showPeriodStats = !isset($_GET['budget']) || $_GET['budget'] === 'period';
+
+    if ($showMonthlyStats && isset($monthlyBudgetUsed)) {
       ?>
       <div class="statistic">
-        <span><?= number_format($budgetUsed, 2) ?>%</span>
-        <div class="title"><?= translate('percentage_budget_used', $i18n) ?></div>
+        <span><?= number_format($monthlyBudgetUsed, 2) ?>%</span>
+        <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
+      </div>
+      <div class="statistic">
+        <span><?= CurrencyFormatter::format($monthlyBudgetLeft, $code) ?></span>
+        <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
       </div>
       <?php
+      if (isset($monthlyOverBudgetAmount)) {
+        ?>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($monthlyOverBudgetAmount, $code) ?></span>
+          <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
+        </div>
+        <?php
+      }
     }
-    if (isset($budgetLeft)) {
+
+    if ($showPeriodStats) {
       ?>
       <div class="statistic">
-        <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
-        <div class="title"><?= translate('budget_remaining', $i18n) ?></div>
+        <span><?= CurrencyFormatter::format($amountNeededThisPeriod, $code) ?></span>
+        <div class="title"><?= translate('amount_needed_this_period', $i18n) ?></div>
       </div>
       <?php
-    }
-    if (isset($overBudgetAmount)) {
-      ?>
+      if (isset($periodBudgetUsed)) {
+        ?>
       <div class="statistic">
-        <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
-        <div class="title"><?= translate('amount_over_budget', $i18n) ?></div>
+        <span><?= number_format($periodBudgetUsed, 2) ?>%</span>
+        <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
+      </div>
+      <div class="statistic">
+        <span><?= CurrencyFormatter::format($periodBudgetLeft, $code) ?></span>
+        <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
       </div>
       <?php
+      if (isset($periodOverBudgetAmount)) {
+        ?>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($periodOverBudgetAmount, $code) ?></span>
+          <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
+        </div>
+        <?php
+      }
+      }
     }
-    if ($inactiveSubscriptions > 0) {
-      ?>
+    ?>
+    <?php if ($inactiveSubscriptions > 0) { ?>
       <div class="statistic">
         <span><?= $inactiveSubscriptions ?></span>
         <div class="title"><?= translate('inactive_subscriptions', $i18n) ?></div>
@@ -228,9 +269,11 @@ require_once 'includes/stats_calculations.php';
         </div>
         <?php
       }
-    }
-    ?>
+    } ?>
   </div>
+  <?php if ($showPeriodStats && isset($budgetPeriodLabel)) { ?>
+    <div class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></div>
+  <?php } ?>
   <?php
   $categoryDataPoints = [];
   if (isset($categoryCost)) {
@@ -272,7 +315,8 @@ require_once 'includes/stats_calculations.php';
   }
 
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
+  $showAnyBudgetGraph = ($showMonthlyStats && $showVsMonthlyBudgetGraph) || ($showPeriodStats && $showVsPeriodBudgetGraph);
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showAnyBudgetGraph) {
     ?>
     <h2><?= translate('split_views', $i18n) ?></h2>
     <div class="graphs">
@@ -325,13 +369,26 @@ require_once 'includes/stats_calculations.php';
         <?php
       }
 
-      if ($showVsBudgetGraph) {
+      if ($showMonthlyStats && $showVsMonthlyBudgetGraph) {
         ?>
         <section class="graph">
           <header>
-            <?= translate('cost_vs_budget', $i18n) ?> (<?= CurrencyFormatter::format($budget, $code) ?>)
+            <?= translate('cost_vs_monthly_budget', $i18n) ?> (<?= CurrencyFormatter::format($monthlyBudget, $code) ?>)
+            <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
           </header>
-          <canvas id="budgetVsCostChart" style="height: 370px; width: 100%;"></canvas>
+          <canvas id="monthlyBudgetVsCostChart" style="height: 370px; width: 100%;"></canvas>
+        </section>
+        <?php
+      }
+
+      if ($showPeriodStats && $showVsPeriodBudgetGraph) {
+        ?>
+        <section class="graph">
+          <header>
+            <?= translate('cost_vs_period_budget', $i18n) ?> (<?= CurrencyFormatter::format($periodBudget, $code) ?>)
+            <div class="sub-header">(<?= translate('amount_needed_this_period', $i18n) ?>)</div>
+          </header>
+          <canvas id="periodBudgetVsCostChart" style="height: 370px; width: 100%;"></canvas>
         </section>
         <?php
       }
@@ -344,7 +401,7 @@ require_once 'includes/stats_calculations.php';
 
 </section>
 <?php
-if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
+if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showAnyBudgetGraph) {
   ?>
   <script src="scripts/libs/chart.js"></script>
   <script type="text/javascript">
@@ -353,7 +410,12 @@ if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph |
       loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
       loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);
       loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showPaymentMethodsGraph ?>);
-      loadGraph("budgetVsCostChart", <?php echo json_encode($vsBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showVsBudgetGraph ?>);
+      <?php if ($showMonthlyStats && $showVsMonthlyBudgetGraph) { ?>
+      loadGraph("monthlyBudgetVsCostChart", <?php echo json_encode($vsMonthlyBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", true);
+      <?php } ?>
+      <?php if ($showPeriodStats && $showVsPeriodBudgetGraph) { ?>
+      loadGraph("periodBudgetVsCostChart", <?php echo json_encode($vsPeriodBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", true);
+      <?php } ?>
     }
   </script>
   <?php
