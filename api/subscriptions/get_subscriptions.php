@@ -3,7 +3,7 @@
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
 - member: comma-separated IDs of the members to filter (integer) default null.
-- member-email: the email of a user to filter subscriptions (string) default null. Admin only (userId == 1).
+- member_email: the email of a user to filter subscriptions (string) default null. Admin only (userId == 1).
 - category: the ID of the category to filter (integer) default null.
 - payment_method: the ID of the payment method to filter (integer) default null.
 - state: the state of the subscription to filter (boolean) default null [0 - active, 1 - inactive].
@@ -144,22 +144,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $userCurrencyId = $user['main_currency'];
 
     // -------------------------------------------------------------------------
-    // Handle member-email parameter (admin only)
+    // Handle member_email parameter (admin only)
     // -------------------------------------------------------------------------
     $targetUserId = $userId; // By default, filter on the calling user
 
-    if (isset($_REQUEST['member-email']) && $_REQUEST['member-email'] !== '') {
+    if (isset($_REQUEST['member_email']) && $_REQUEST['member_email'] !== '') {
         // Only admin (userId == 1) is allowed to use this parameter
         if ($userId != 1) {
             $response = [
                 "success" => false,
-                "title" => "Denied. Only admin can filter by member-email"
+                "title" => "Denied. Only admin can filter by member_email"
             ];
             echo json_encode($response);
             exit;
         }
 
-        $memberEmail = $_REQUEST['member-email'];
+        $memberEmail = $_REQUEST['member_email'];
 
         $sql = "SELECT id FROM user WHERE email = :email LIMIT 1";
         $stmt = $db->prepare($sql);
@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         // all-user-subscription: return all subscriptions regardless of user
         $sql = "SELECT * FROM subscriptions";
     } else {
-        // Filter by targetUserId (either the caller, or the user resolved from member-email)
+        // Filter by targetUserId (either the caller, or the user resolved from member_email)
         $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
         $params[':userId'] = $targetUserId;
     }
