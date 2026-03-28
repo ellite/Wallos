@@ -11,6 +11,7 @@ It receives the following parameters:
 - sort: the sorting method (string) default next_payment ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'].
 - convert_currency: whether to convert to the main currency (boolean) default false.
 - api_key: the API key of the user.
+ - image_base64: when set to 1, return logo as a base64 data URI (boolean) default false.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -332,12 +333,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
     }
     $subscriptionsToReturn = array();
+    $imageBase64 = isset($_REQUEST['image_base64']) && $_REQUEST['image_base64'] == 1;
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
         if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
             $subscriptionToReturn['price'] = getPriceConverted($subscription['price'], $subscription['currency_id'], $db);
         } else {
             $subscriptionToReturn['price'] = $subscription['price'];
+        }
+        if ($imageBase64 && !empty($subscription['logo'])) {
+            $logoPath = __DIR__ . '/../../images/uploads/logos/' . $subscription['logo'];
+            if (is_file($logoPath)) {
+                $logoContents = file_get_contents($logoPath);
+                if ($logoContents !== false) {
+                    $extension = strtolower(pathinfo($logoPath, PATHINFO_EXTENSION));
+                    $mime = ($extension === 'svg') ? 'image/svg+xml' : 'image/' . ($extension ?: 'png');
+                    $subscriptionToReturn['logo'] = 'data:' . $mime . ';base64,' . base64_encode($logoContents);
+                }
+            }
         }
         $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
         $subscriptionToReturn['payer_user_name'] = isset($members[$subscription['payer_user_id']]) ? $members[$subscription['payer_user_id']] : 'Unknown member';
@@ -347,7 +360,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     $response = [
         "success" => true,
-        "title" => "subscriptions",
+        "title" => "subscriptions3",
         "subscriptions" => $subscriptionsToReturn,
         "notes" => []
     ];
