@@ -35,6 +35,7 @@ $i18n = [
     "profile" => "프로필",
     "dashboard" => "대시보드",
     "subscriptions" => "구독",
+    "subscriptions_count" => "{count} 구독",
     "stats" => "통계",
     "settings" => "설정",
     "admin" => "관리자",
