@@ -61,15 +61,16 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         $uploadFile = $uploadDir . $fileName;
 
         if (saveLogo($imageData, $uploadFile, $name, $settings)) {
-            curl_close($ch);
+            unset($ch);
             return $fileName;
         } else {
-            curl_close($ch);
             echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
+            unset($ch);
             return "";
         }
     } else {
         echo translate('error_fetching_image', $i18n) . ": " . curl_error($ch);
+        unset($ch);
         return "";
     }
 }

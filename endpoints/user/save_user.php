@@ -255,6 +255,13 @@ if (
         }
         $name = $file['name'];
         $avatar = resizeAndUploadAvatar($_FILES['profile_pic'], '../../images/uploads/logos/avatars/', $name);
+
+        if ($avatar !== "") {
+            $stmt = $db->prepare("INSERT INTO uploaded_avatars (user_id, path) VALUES (:userId, :path)");
+            $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+            $stmt->bindParam(':path', $avatar, SQLITE3_TEXT);
+            $stmt->execute();
+        }
     }
 
     if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
@@ -309,7 +316,7 @@ if (
         setcookie('language', $language, [
             'path' => $root,
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
         $_SESSION['firstname'] = $firstname;
         $_SESSION['avatar'] = $avatar;

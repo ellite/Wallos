@@ -718,7 +718,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
             <section class="account-notifications-section">
                 <header class="account-notification-section-header" onclick="openNotificationsSettings('serverchan');">
                     <h3>
-                        <i class="fa-solid fa-angle-right"></i>
+                        <i class="fa-solid fa-code"></i>
                         <?= translate('serverchan', $i18n) ?>
                     </h3>
                 </header>
@@ -1090,18 +1090,28 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <option value="gemini" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'gemini') ? 'selected' : '' ?>>Gemini</option>
                     <option value="openrouter" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openrouter') ? 'selected' : '' ?>>OpenRouter</option>
                     <option value="ollama" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'selected' : '' ?>>Local Ollama</option>
+                    <option value="openai-compatible" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openai-compatible') ? 'selected' : '' ?>>OpenAI Compatible</option>
                 </select>
             </div>
+            <div class="form-group-inline" id="ai_url_group" 
+                <?= (!isset($aiSettings['type']) || !in_array($aiSettings['type'], ['ollama', 'openai-compatible'])) ? 'style="display:none"' : '' ?>>
+                <input type="text" id="ai_ollama_host" name="ai_ollama_host" autocomplete="off"
+                    placeholder="<?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openai-compatible') ? 'http://localhost:11434/v1' : 'http://localhost:11434' ?>"
+                    value="<?= isset($aiSettings['url']) ? htmlspecialchars($aiSettings['url']) : '' ?>" />
+                    <button type="button" id="fetchModelsButton2" 
+                        class="button thin <?= (!isset($aiSettings['type']) || $aiSettings['type'] != 'ollama') ? 'hidden' : '' ?>" 
+                        onclick="fetch_ai_models()">
+                        <?= translate('test', $i18n) ?>
+                    </button>
+            </div>
             <div class="form-group-inline">
-                <input type="text" id="ai_api_key" name="ai_api_key" autocomplete="off"
+                <input type="password" id="ai_api_key" name="ai_api_key" autocomplete="off"
                     class="<?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>"
                     placeholder="<?= translate('api_key', $i18n) ?>"
                     value="<?= isset($aiSettings['api_key']) ? htmlspecialchars($aiSettings['api_key']) : '' ?>" />
-                <input type="text" id="ai_ollama_host" name="ai_ollama_host" autocomplete="off"
-                    class="<?= (!isset($aiSettings['type']) || $aiSettings['type'] != 'ollama') ? 'hidden' : '' ?>"
-                    placeholder="<?= translate('host', $i18n) ?>"
-                    value="<?= isset($aiSettings['url']) ? htmlspecialchars($aiSettings['url']) : '' ?>" />
-
+                <button type="button" id="toggleAiApiKey" class="button secondary-button icon-button <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>" onclick="toggleAiApiKeyVisibility()" aria-label="Toggle API key visibility">
+                    <i class="fa-solid fa-eye"></i>
+                </button>
                 <button type="button" id="fetchModelsButton" class="button thin" onclick="fetch_ai_models()">
                     <?= translate('test', $i18n) ?>
                 </button>
@@ -1118,9 +1128,8 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 </select>
             </div>
             <div class="form-group">
-                <label for="ai_run_schedule" class="flex"><?= translate('run_schedule', $i18n) ?>: <span
-                        class="info-badge"><?= translate("coming_soon", $i18n) ?></span></span></label>
-                <select id="ai_run_schedule" name="ai_run_schedule" disabled>
+                <label for="ai_run_schedule" class="flex"><?= translate('run_schedule', $i18n) ?>:</label>
+                <select id="ai_run_schedule" name="ai_run_schedule">
                     <option value="manual" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'manual') ? 'selected' : '' ?>><?= translate('manually', $i18n) ?>
                     </option>
                     <option value="weekly" <?= (isset($aiSettings['run_schedule']) && $aiSettings['run_schedule'] == 'weekly') ? 'selected' : '' ?>><?= translate('Weekly', $i18n) ?>

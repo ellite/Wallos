@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 // Variables available: {{days_until}}, {{subscription_name}}, {{subscription_price}}, {{subscription_currency}}, {{subscription_category}}, {{subscription_date}}, {{subscription_payer}}, {{subscription_days_until_payment}}, {{subscription_notes}}, {{subscription_url}}
 $fakeSubscription = [
@@ -48,6 +49,8 @@ if (
         ]));
     }
 
+    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n);
+
     // Replace placeholders in the payload with fake subscription data
     foreach ($fakeSubscription as $key => $value) {
         $placeholder = "{{" . $key . "}}";
@@ -61,6 +64,8 @@ if (
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $requestmethod);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
     if (!empty($customheaders)) {
@@ -76,16 +81,17 @@ if (
     // Execute the request
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlError = curl_error($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false || $httpCode >= 400) {
         die(json_encode([
             "success" => false,
             "message" => translate('notification_failed', $i18n),
-            "response" => curl_error($ch)
+            "response" => $curlError ? $curlError : $response
         ]));
     } else {
         die(json_encode([

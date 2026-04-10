@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -36,6 +37,8 @@ if (
         ]));
     }
 
+    $ssrf = validate_webhook_url_for_ssrf($webhook_url, $db, $i18n);
+
     $postfields = [
         'content' => $message,
         'embeds' => [
@@ -59,6 +62,9 @@ if (
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, $webhook_url);
+
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
+    curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
@@ -70,7 +76,7 @@ if (
     $response = curl_exec($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false) {

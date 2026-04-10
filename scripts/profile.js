@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById("avatar").src = document.getElementById("avatarImg").src;
                     const newUsername = document.getElementById("username").value;
                     document.getElementById("user").textContent = newUsername;
+                    document.getElementById("profile_pic").value = "";
                     showSuccessMessage(data.message);
 
                     if (data.reload) {

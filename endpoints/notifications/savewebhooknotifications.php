@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -33,6 +34,8 @@ if (
             "message" => translate("error", $i18n)
         ]));
     }
+
+    validate_webhook_url_for_ssrf($url, $db, $i18n);
 
     $query = "SELECT COUNT(*) FROM webhook_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);

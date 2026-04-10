@@ -229,6 +229,40 @@ function saveAccountRegistrationsButton() {
     });
 }
 
+function saveSecuritySettingsButton() {
+  const button = document.getElementById('saveSecuritySettingsButton');
+  button.disabled = true;
+
+  const allowlist = document.getElementById('local_webhook_notifications_allowlist').value;
+
+  const data = {
+    local_webhook_notifications_allowlist: allowlist
+  };
+
+  fetch('endpoints/admin/savesecuritysettings.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(data)
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        button.disabled = false;
+      } else {
+        showErrorMessage(data.message);
+        button.disabled = false;
+      }
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
 function removeUser(userId) {
   const data = {
     userId: userId
