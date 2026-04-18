@@ -6,6 +6,11 @@
  * Used by Tailscale and corporate CGNAT environments.
  */
 function is_cgnat_ip($ip) {
+    // Handle IPv4-mapped IPv6 addresses (::ffff:100.64.0.1)
+    if (strpos($ip, ':') !== false) {
+        $ip = str_replace('::ffff:', '', $ip);
+    }
+
     $long = ip2long($ip);
     return $long !== false
         && $long >= ip2long('100.64.0.0')

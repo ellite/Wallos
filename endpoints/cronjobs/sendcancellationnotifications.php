@@ -318,6 +318,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             'Content-Type: application/json'
                         ]);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $response = curl_exec($ch);
                         
@@ -379,6 +380,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                         }
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $result = curl_exec($ch);
                         if ($result === false) {
@@ -522,6 +524,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                         }
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $response = curl_exec($ch);
                         
@@ -584,6 +587,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                             }
+                            curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
                 
                             // Execute the cURL request
                             $response = curl_exec($ch);

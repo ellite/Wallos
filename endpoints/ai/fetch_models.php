@@ -15,6 +15,8 @@ $aiType = isset($data["type"]) ? trim($data["type"]) : '';
 $aiApiKey = isset($data["api_key"]) ? trim($data["api_key"]) : '';
 $aiOllamaHost = isset($data["ollama_host"]) ? trim($data["ollama_host"]) : '';
 
+$ssrf = null; // Initialize to avoid errors for public API types
+
 // Validate ai-type
 if (!in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
     echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
@@ -58,7 +60,6 @@ if ($aiType === 'chatgpt') {
 
     $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n, $userId);
 
-    // API key is optional — local instances don't need one
     if (!empty($aiApiKey)) {
         $headers[] = 'Authorization: Bearer ' . $aiApiKey;
     }
@@ -92,6 +93,11 @@ $ch = curl_init($apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+
+if ($ssrf) {
+    curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
+}
+
 $response = curl_exec($ch);
 
 if (curl_errno($ch)) {
@@ -105,7 +111,6 @@ if (curl_errno($ch)) {
     $modelsData = json_decode($response, true);
 
     if ($aiType === 'gemini' && isset($modelsData['models']) && is_array($modelsData['models'])) {
-        // Normalize Gemini response
         $models = array_map(function ($model) {
             return [
                 'id'   => str_replace('models/', '', $model['name']),
@@ -115,7 +120,6 @@ if (curl_errno($ch)) {
         $response = ["success" => true, "models" => $models];
 
     } elseif (isset($modelsData['data']) && is_array($modelsData['data'])) {
-        // OpenAI format (ChatGPT, OpenRouter, OpenAI Compatible)
         $models = array_map(function ($model) {
             return [
                 'id'   => $model['id'],
@@ -125,7 +129,6 @@ if (curl_errno($ch)) {
         $response = ["success" => true, "models" => $models];
 
     } elseif (in_array($aiType, ['ollama', 'openai-compatible']) && isset($modelsData['models']) && is_array($modelsData['models'])) {
-        // Ollama native format — also a fallback for openai-compatible servers that return this shape
         $models = array_map(function ($model) {
             return [
                 'id'   => $model['name'],

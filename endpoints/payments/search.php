@@ -1,4 +1,5 @@
 <?php
+require_once '../../includes/ssrf_helper.php';
 
 if (isset($_GET['search'])) {
     function applyProxy($ch) {
@@ -16,16 +17,33 @@ if (isset($_GET['search'])) {
     function curlGet($url, $headers = []) {
         $allowedHosts = ['duckduckgo.com', 'search.brave.com'];
 
-        $host = parse_url($url, PHP_URL_HOST);
+        $parsedUrl = parse_url($url);
+        $host = $parsedUrl['host'] ?? '';
+        $port = $parsedUrl['port'] ?? ($parsedUrl['scheme'] === 'https' ? 443 : 80);
+
         if (!in_array($host, $allowedHosts, true)) {
+            return null;
+        }
+
+        $ip = gethostbyname($host);
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+                      || is_cgnat_ip($ip);
+
+        if ($is_private) {
             return null;
         }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        // For search results, we allow 2 redirects (e.g. http to https)
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 2);
+        
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
+
+        curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
         if (!empty($headers)) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
