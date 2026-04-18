@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.2](https://github.com/ellite/Wallos/compare/v4.8.1...v4.8.2) (2026-04-18)
+
+
+### Bug Fixes
+
+* logo cut on registration page ([#1040](https://github.com/ellite/Wallos/issues/1040)) ([a95aaad](https://github.com/ellite/Wallos/commit/a95aaadbcc1b32cf9e995bf0b1afecce524b4036))
+
 ## [4.8.1](https://github.com/ellite/Wallos/compare/v4.8.0...v4.8.1) (2026-04-18)
 
 
