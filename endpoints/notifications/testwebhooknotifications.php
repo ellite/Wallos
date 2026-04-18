@@ -49,7 +49,7 @@ if (
         ]));
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n, $userId);
 
     // Replace placeholders in the payload with fake subscription data
     foreach ($fakeSubscription as $key => $value) {

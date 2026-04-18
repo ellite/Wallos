@@ -93,7 +93,7 @@ foreach ($allAiSettings as $aiSettings) {
             $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid host URL'];
             continue;
         }
-        $ssrf = validate_webhook_url_for_ssrf($host, $db, []);
+        $ssrf = validate_webhook_url_for_ssrf($host, $db, [], $tempUserId);
         if ($type === 'ollama') {
             $apiKey = '';
         }

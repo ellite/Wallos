@@ -30,7 +30,7 @@ if (!isset($data["webhook_url"]) || $data["webhook_url"] == "") {
         ]));
     }
 
-    validate_webhook_url_for_ssrf($webhook_url, $db, $i18n);
+    validate_webhook_url_for_ssrf($webhook_url, $db, $i18n, $userId);
 
     $query = "SELECT COUNT(*) FROM mattermost_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);

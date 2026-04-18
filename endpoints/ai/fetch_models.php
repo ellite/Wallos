@@ -56,7 +56,7 @@ if ($aiType === 'chatgpt') {
         exit;
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n, $userId);
 
     // API key is optional — local instances don't need one
     if (!empty($aiApiKey)) {
@@ -82,7 +82,7 @@ if ($aiType === 'chatgpt') {
         exit;
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n, $userId);
 
     $apiUrl = rtrim($aiOllamaHost, '/') . '/api/tags';
 }
