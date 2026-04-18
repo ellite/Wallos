@@ -31,7 +31,6 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
     $currentUrl = $url;
 
     for ($i = 0; $i <= $maxRedirects; $i++) {
-        // Basic URL and Protocol Validation
         if (!filter_var($currentUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $currentUrl)) {
             return ['success' => false, 'message' => 'Invalid URL format.'];
         }
@@ -40,7 +39,6 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         $host = $parts['host'];
         $port = $parts['port'] ?? ($parts['scheme'] === 'https' ? 443 : 80);
         
-        // Resolve hostname to IP for validation
         $ip = gethostbyname($host);
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
@@ -58,33 +56,31 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         $imageData = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // Handle Redirects Manually
         if ($httpCode >= 300 && $httpCode < 400) {
             $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
-            curl_close($ch);
+            unset($ch);
 
             if (!$redirectUrl) {
                 break;
             }
 
             $currentUrl = $redirectUrl;
-            continue; // Loop back to validate the redirect target
+            continue; 
         }
 
-        // Process Successful Response
         if ($imageData !== false && $httpCode === 200) {
             $timestamp = time();
             $fileName = $timestamp . '-' . sanitizeFilename($name) . '.png';
             $uploadFile = $uploadDir . $fileName; // Note: Use the provided $uploadDir variable
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
-                curl_close($ch);
+                unset($ch);
                 return ['success' => true, 'filename' => $fileName];
             }
         }
 
         $error = curl_error($ch);
-        curl_close($ch);
+        unset($ch);
         return ['success' => false, 'message' => translate('error_fetching_image', $i18n) . ': ' . $error];
     }
 

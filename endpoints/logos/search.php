@@ -22,12 +22,9 @@ if (isset($_GET['search'])) {
         $host = parse_url($url, PHP_URL_HOST);
         if (!in_array($host, $allowedHosts)) return null;
 
-        // 1. Resolve and Validate the IP immediately
         $ip = gethostbyname($host);
         $port = parse_url($url, PHP_URL_PORT) ?: (parse_url($url, PHP_URL_SCHEME) === 'https' ? 443 : 80);
 
-        // 2. The Security Check: If the IP is private/internal, kill the request.
-        // This stops a hostname like "duckduckgo.com" from resolving to "127.0.0.1"
         $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
                       || is_cgnat_ip($ip);
         
@@ -44,7 +41,6 @@ if (isset($_GET['search'])) {
 
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         
-        // 3. THE FIX: Pin the connection to the IP we just verified.
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
         applyProxy($ch);

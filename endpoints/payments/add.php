@@ -31,7 +31,6 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
     $maxRedirects = 3;
 
     for ($i = 0; $i <= $maxRedirects; $i++) {
-        // 1. Basic URL Validation
         if (!filter_var($currentUrl, FILTER_VALIDATE_URL) || !preg_match('/^https?:\/\//i', $currentUrl)) {
             return ["success" => false, "message" => "Invalid URL format."];
         }
@@ -39,10 +38,8 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         $host = parse_url($currentUrl, PHP_URL_HOST);
         $port = parse_url($currentUrl, PHP_URL_PORT) ?: (parse_url($currentUrl, PHP_URL_SCHEME) === 'https' ? 443 : 80);
         
-        // 2. Resolve and Check IP (Stops DNS Rebinding)
         $ip = gethostbyname($host);
 
-        // Check against private ranges + CGNAT
         $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
                       || is_cgnat_ip($ip);
 
@@ -55,26 +52,22 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Wallos/1.0');
         
-        // IMPORTANT: We handle redirects manually in this loop
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
 
-        // 3. Pin the connection to the IP we just verified
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
         $imageData = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // Handle Redirects (301, 302, etc)
         if ($httpCode >= 300 && $httpCode < 400) {
             $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
             curl_close($ch);
             if (!$redirectUrl) break;
             
             $currentUrl = $redirectUrl;
-            continue; // Go back to the top and re-validate the new IP!
+            continue;
         }
 
-        // Handle Success (200 OK)
         if ($imageData !== false && $httpCode === 200) {
             $timestamp = time();
             $fileName = $timestamp . '-payments-' . sanitizeFilename($name) . '.png';
