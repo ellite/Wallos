@@ -37,7 +37,7 @@ if (
         ]));
     }
 
-    validate_webhook_url_for_ssrf($url, $db, $i18n);
+    validate_webhook_url_for_ssrf($url, $db, $i18n, $userId);
 
     $query = "SELECT COUNT(*) FROM ntfy_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);

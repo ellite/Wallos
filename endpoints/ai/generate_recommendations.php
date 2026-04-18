@@ -75,7 +75,7 @@ if (in_array($type, ['ollama', 'openai-compatible'])) {
         exit;
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($host, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($host, $db, $i18n, $userId);
 
     if ($type === 'ollama') {
         $apiKey = '';

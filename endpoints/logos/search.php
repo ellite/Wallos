@@ -1,4 +1,6 @@
 <?php
+require_once '../../includes/ssrf_helper.php';
+
 if (isset($_GET['search'])) {
     $searchTerm = urlencode($_GET['search'] . " logo");
 
@@ -20,17 +22,27 @@ if (isset($_GET['search'])) {
         $host = parse_url($url, PHP_URL_HOST);
         if (!in_array($host, $allowedHosts)) return null;
 
+        $ip = gethostbyname($host);
+        $port = parse_url($url, PHP_URL_PORT) ?: (parse_url($url, PHP_URL_SCHEME) === 'https' ? 443 : 80);
+
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+                      || is_cgnat_ip($ip);
+        
+        if ($is_private) return null;
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
         
-        // Explicitly disable proxy by default, then re-apply only from env (not $_SERVER)
         curl_setopt($ch, CURLOPT_PROXY, '');
         curl_setopt($ch, CURLOPT_NOPROXY, '*');
 
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        
+        curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
+
         applyProxy($ch);
         $response = curl_exec($ch);
         unset($ch);

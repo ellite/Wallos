@@ -4,6 +4,7 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/getsettings.php';
+require_once '../../includes/ssrf_helper.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -37,16 +38,19 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         $parts = parse_url($currentUrl);
         $host = $parts['host'];
         $port = $parts['port'] ?? ($parts['scheme'] === 'https' ? 443 : 80);
+        
         $ip = gethostbyname($host);
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+            || is_cgnat_ip($ip)) {
             return ['success' => false, 'message' => 'Invalid IP Address.'];
         }
 
         $ch = curl_init($currentUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // Manual handling to re-validate IPs
+        
         curl_setopt($ch, CURLOPT_RESOLVE, ["$host:$port:$ip"]);
 
         $imageData = curl_exec($ch);
@@ -61,13 +65,13 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
             }
 
             $currentUrl = $redirectUrl;
-            continue;
+            continue; 
         }
 
         if ($imageData !== false && $httpCode === 200) {
             $timestamp = time();
             $fileName = $timestamp . '-' . sanitizeFilename($name) . '.png';
-            $uploadFile = '../../images/uploads/logos/' . $fileName;
+            $uploadFile = $uploadDir . $fileName; // Note: Use the provided $uploadDir variable
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
                 unset($ch);
