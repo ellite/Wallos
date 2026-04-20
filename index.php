@@ -321,6 +321,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         </div>
                     </div>
 
+
                     <?php if (isset($totalCostPerMonth)) { ?>
                         <div class="subscription-item thin">
                             <p class="subscription-item-title"><?= translate('monthly_cost', $i18n) ?></p>
@@ -342,6 +343,32 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             </div>
                         </div>
                     <?php } ?>
+
+
+                    <?php if (isset($monthlySubscriptionsCost)) { ?>
+                        <div class="subscription-item thin">
+                            <p class="subscription-item-title"><?= translate('Monthly', $i18n) ?></p>
+                            <div class="subscription-item-info">
+                                <p class="subscription-item-date"><?= translate('subscriptions_count', $i18n, ['count'=>$monthlySubscriptions])?></p>
+                                <p class="subscription-item-value">
+                                     <?= CurrencyFormatter::format($monthlySubscriptionsCost, $currencies[$userData['main_currency']]['code']) ?>
+                                </p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <?php if (isset($yearlySubscriptionsCost)) { ?>
+                        <div class="subscription-item thin">
+                            <p class="subscription-item-title"><?= translate('Yearly', $i18n) ?></p>
+                            <div class="subscription-item-info">
+                                <p class="subscription-item-date"><?= translate('subscriptions_count', $i18n, ['count'=>$yearlySubscriptions])?></p>
+                                <p class="subscription-item-value">
+                                    <?= CurrencyFormatter::format($yearlySubscriptionsCost, $currencies[$userData['main_currency']]['code']) ?>
+                                </p>
+                            </div>
+                        </div>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>
