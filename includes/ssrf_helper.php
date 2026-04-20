@@ -6,6 +6,11 @@
  * Used by Tailscale and corporate CGNAT environments.
  */
 function is_cgnat_ip($ip) {
+    // Handle IPv4-mapped IPv6 addresses (::ffff:100.64.0.1)
+    if (strpos($ip, ':') !== false) {
+        $ip = str_replace('::ffff:', '', $ip);
+    }
+
     $long = ip2long($ip);
     return $long !== false
         && $long >= ip2long('100.64.0.0')
@@ -20,7 +25,7 @@ function is_cgnat_ip($ip) {
  * @param array $i18n The translation array
  * @return array Returns an array with ['host', 'ip', 'port'] for cURL hardening
  */
-function validate_webhook_url_for_ssrf($url, $db, $i18n) {
+function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
     $parsedUrl = parse_url($url);
     
     // Fallback if parse_url fails completely
@@ -50,6 +55,13 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n) {
     $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false || is_cgnat_ip($ip);
 
     if ($is_private) {
+        if ($userId != 1) {
+            die(json_encode([
+                "success" => false,
+                "message" => "Security Block: Standard users are not permitted to use internal network addresses."
+            ]));
+        }
+
         $stmt = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
         $result = $stmt->execute();
         $row = $result->fetchArray(SQLITE3_ASSOC);
@@ -89,7 +101,7 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n) {
  * @param SQLite3 $db The database connection
  * @return array|false
  */
-function is_url_safe_for_ssrf($url, $db) {
+function is_url_safe_for_ssrf($url, $db, $userId = null) {
     $parsedUrl = parse_url($url);
     if (!$parsedUrl || !isset($parsedUrl['host'])) return false;
 
@@ -110,6 +122,10 @@ function is_url_safe_for_ssrf($url, $db) {
                || is_cgnat_ip($ip);
 
     if ($is_private) {
+        if ($userId != 1) {
+            return false; // private and user is not admin — skip silently
+        }
+
         $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
         $result = $stmt->execute();
         $row   = $result->fetchArray(SQLITE3_ASSOC);

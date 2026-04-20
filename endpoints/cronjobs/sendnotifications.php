@@ -449,7 +449,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Discord notifications if enabled
             if ($discordNotificationsEnabled) {
-                $ssrf = is_url_safe_for_ssrf($discord['webhook_url'], $db);
+                $ssrf = is_url_safe_for_ssrf($discord['webhook_url'], $db, $userId);
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Discord webhook URL. Notifications not sent.<br />";
                 } else {
@@ -489,10 +489,11 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             'Content-Type: application/json'
                         ]);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $response = curl_exec($ch);
 
-                        if ($result === false) {
+                        if ($response === false) {
                             echo "Error sending notifications: " . curl_error($ch) . "<br />";
                         } else {
                             echo "Discord Notifications sent<br />";
@@ -505,7 +506,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Gotify notifications if enabled
             if ($gotifyNotificationsEnabled) {
-                $ssrf = is_url_safe_for_ssrf($gotify['serverUrl'], $db);
+                $ssrf = is_url_safe_for_ssrf($gotify['serverUrl'], $db, $userId);
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Gotify server URL. Notifications not sent.<br />";
                 } else {
@@ -546,6 +547,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                         }
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $result = curl_exec($ch);
                         if ($result === false) {
@@ -553,6 +555,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         } else {
                             echo "Gotify Notifications sent<br />";
                         }
+
+                        unset($ch);
                     }
                 }
             }
@@ -602,6 +606,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     } else {
                         echo "Telegram Notifications sent<br />";
                     }
+
+                    unset($ch);
                 }
             }
 
@@ -664,7 +670,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Mattermost notifications if enabled
             if ($mattermostNotificationsEnabled) {
-                $ssrf = is_url_safe_for_ssrf($mattermost['webhook_url'], $db);
+                $ssrf = is_url_safe_for_ssrf($mattermost['webhook_url'], $db, $userId);
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Mattermost webhook URL. Notifications not sent.<br />";
                 } else {
@@ -703,6 +709,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 'Content-Type: application/json'
                             ),
                         );
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $result = curl_exec($ch);
                         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -766,7 +773,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Ntfy notifications if enabled
             if ($ntfyNotificationsEnabled) {
-                $ssrf = is_url_safe_for_ssrf($ntfy['host'], $db);
+                $ssrf = is_url_safe_for_ssrf($ntfy['host'], $db, $userId);
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Ntfy host URL. Notifications not sent.<br />";
                 } else {
@@ -807,6 +814,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                         }
+                        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
 
                         $response = curl_exec($ch);
 
@@ -823,7 +831,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Webhook notifications if enabled
             if ($webhookNotificationsEnabled) {
-                $ssrf = is_url_safe_for_ssrf($webhook['url'], $db);
+                $ssrf = is_url_safe_for_ssrf($webhook['url'], $db, $userId);
                 if (!$ssrf) {
                     echo "SSRF attempt detected for webhook URL. Notifications not sent.<br />";;
                 } else {
@@ -871,6 +879,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
                                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
                             }
+                            curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
                 
                             // Execute the cURL request
                             $response = curl_exec($ch);
@@ -950,5 +959,3 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     }
 
 }
-
-?>

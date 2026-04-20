@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.8.2](https://github.com/ellite/Wallos/compare/v4.8.1...v4.8.2) (2026-04-18)
+
+
+### Bug Fixes
+
+* logo cut on registration page ([#1040](https://github.com/ellite/Wallos/issues/1040)) ([a95aaad](https://github.com/ellite/Wallos/commit/a95aaadbcc1b32cf9e995bf0b1afecce524b4036))
+
+## [4.8.1](https://github.com/ellite/Wallos/compare/v4.8.0...v4.8.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* dns rebinding vulnerability ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+* only allow to use internal urls csrf validation bypass by admin user ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+* ssrf vultenaribility on add subscription ([#1038](https://github.com/ellite/Wallos/issues/1038)) ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+
 ## [4.8.0](https://github.com/ellite/Wallos/compare/v4.7.3...v4.8.0) (2026-03-23)
 
 

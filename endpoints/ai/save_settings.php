@@ -49,7 +49,7 @@ if (in_array($aiType, ['ollama', 'openai-compatible'])) {
         exit;
     }
 
-    validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n);
+    validate_webhook_url_for_ssrf($aiOllamaHost, $db, $i18n, $userId);
 
     if ($aiType === 'ollama') {
         // Ollama never uses an API key

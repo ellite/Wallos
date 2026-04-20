@@ -21,7 +21,7 @@ if (
     $bot_username = $data["bot_username"];
     $bot_avatar_url = $data["bot_avatar"];
 
-    validate_webhook_url_for_ssrf($webhook_url, $db, $i18n);
+    validate_webhook_url_for_ssrf($webhook_url, $db, $i18n, $userId);
 
     $query = "SELECT COUNT(*) FROM discord_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);
