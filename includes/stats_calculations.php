@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/budget_period_calculations.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -82,13 +83,13 @@ $inactiveSubscriptions = 0;
 // Calculate total monthly price
 $mostExpensiveSubscription = array();
 $mostExpensiveSubscription['price'] = 0;
-$amountDueThisMonth = 0;
+$amountNeededThisPeriod = 0;
 $totalCostPerMonth = 0;
 $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id FROM subscriptions";
+$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, auto_renew FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -126,6 +127,7 @@ foreach ($params as $key => $value) {
 
 $result = $stmt->execute();
 $usesMultipleCurrencies = false;
+$subscriptions = [];
 
 if ($result) {
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -166,26 +168,6 @@ if ($result) {
                     $mostExpensiveSubscription['price'] = $price;
                     $mostExpensiveSubscription['name'] = $name;
                     $mostExpensiveSubscription['logo'] = $logo;
-                }
-
-                // Calculate ammount due this month
-                $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-                $tomorrow = new DateTime('tomorrow');
-                $endOfMonth = new DateTime('last day of this month');
-
-                if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
-                    $timesToPay = 1;
-                    $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
-                    $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                    if ($cycle == 1) {
-                        $timesToPay = $daysRemaining / $frequency;
-                    }
-                    if ($cycle == 2) {
-                        $weeksInMonth = ceil($daysInMonth / 7);
-                        $weeksRemaining = ceil($daysRemaining / 7);
-                        $timesToPay = $weeksRemaining / $frequency;
-                    }
-                    $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                 }
             } else {
                 $inactiveSubscriptions++;
@@ -229,26 +211,58 @@ if ($result) {
     }
 }
 
-$showVsBudgetGraph = false;
-$vsBudgetDataPoints = [];
+$today = new DateTime('now');
+$budgetPeriodType = sanitizeBudgetPeriodType($userData['budget_period_type'] ?? 'monthly');
+$budgetPeriodAnchorDate = sanitizeBudgetAnchorDate($userData['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
+$activeBudgetPeriod = getActiveBudgetPeriod($today, $budgetPeriodType, $budgetPeriodAnchorDate);
+$budgetPeriodStart = $activeBudgetPeriod['start'];
+$budgetPeriodEnd = $activeBudgetPeriod['end'];
+$budgetPeriodLabel = $activeBudgetPeriod['label'];
+
+$amountNeededThisPeriod = computeAmountNeededInPeriod($subscriptions, $today, $budgetPeriodEnd, $db, $userId);
+// Keep existing variable for backwards compatibility where still referenced.
+$amountDueThisMonth = $amountNeededThisPeriod;
+
+$showVsMonthlyBudgetGraph = false;
+$vsMonthlyBudgetDataPoints = [];
 if (isset($userData['budget']) && $userData['budget'] > 0) {
-    $budget = $userData['budget'];
-    $budgetLeft = $budget - $totalCostPerMonth;
-    $budgetLeft = $budgetLeft < 0 ? 0 : $budgetLeft;
-    $budgetUsed = ($totalCostPerMonth / $budget) * 100;
-    $budgetUsed = $budgetUsed > 100 ? 100 : $budgetUsed;
-    if ($totalCostPerMonth > $budget) {
-        $overBudgetAmount = $totalCostPerMonth - $budget;
+    $monthlyBudget = $userData['budget'];
+    $monthlyBudgetLeft = max(0, $monthlyBudget - $totalCostPerMonth);
+    $monthlyBudgetUsed = min(100, ($totalCostPerMonth / $monthlyBudget) * 100);
+    if ($totalCostPerMonth > $monthlyBudget) {
+        $monthlyOverBudgetAmount = $totalCostPerMonth - $monthlyBudget;
     }
-    $showVsBudgetGraph = true;
-    $vsBudgetDataPoints = [
+    $showVsMonthlyBudgetGraph = true;
+    $vsMonthlyBudgetDataPoints = [
         [
             "label" => translate('budget_remaining', $i18n),
-            "y" => $budgetLeft,
+            "y" => $monthlyBudgetLeft,
         ],
         [
-            "label" => translate('total_cost', $i18n),
+            "label" => translate('monthly_cost', $i18n),
             "y" => $totalCostPerMonth,
+        ],
+    ];
+}
+
+$showVsPeriodBudgetGraph = false;
+$vsPeriodBudgetDataPoints = [];
+if (isset($userData['period_budget']) && $userData['period_budget'] > 0) {
+    $periodBudget = $userData['period_budget'];
+    $periodBudgetLeft = max(0, $periodBudget - $amountNeededThisPeriod);
+    $periodBudgetUsed = min(100, ($amountNeededThisPeriod / $periodBudget) * 100);
+    if ($amountNeededThisPeriod > $periodBudget) {
+        $periodOverBudgetAmount = $amountNeededThisPeriod - $periodBudget;
+    }
+    $showVsPeriodBudgetGraph = true;
+    $vsPeriodBudgetDataPoints = [
+        [
+            "label" => translate('budget_remaining', $i18n),
+            "y" => $periodBudgetLeft,
+        ],
+        [
+            "label" => translate('amount_needed_this_period', $i18n),
+            "y" => $amountNeededThisPeriod,
         ],
     ];
 }
