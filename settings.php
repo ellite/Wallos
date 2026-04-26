@@ -66,12 +66,12 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 foreach ($household as $index => $member) {
                     ?>
                     <div class="form-group-inline" data-memberid="<?= $member['id'] ?>">
-                        <input type="text" name="member" autocomplete="off" value="<?= $member['name'] ?>"
+                        <input type="text" name="member" autocomplete="off" value="<?= htmlspecialchars($member['name']) ?>"
                             placeholder="Member">
                         <?php
                         if ($index !== 0) {
                             ?>
-                            <input type="text" name="email" autocomplete="off" value="<?= $member['email'] ?? "" ?>"
+                            <input type="text" name="email" autocomplete="off" value="<?= htmlspecialchars($member['email'] ?? "") ?>"
                                 placeholder="<?= translate("email", $i18n) ?>">
                             <?php
                         }
@@ -413,10 +413,10 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="smtpaddress" id="smtpaddress" autocomplete="off"
                             placeholder="<?= translate('smtp_address', $i18n) ?>"
-                            value="<?= $notificationsEmail['smtp_address'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['smtp_address']) ?>" />
                         <input type="text" name="smtpport" id="smtpport" autocomplete="off"
                             placeholder="<?= translate('port', $i18n) ?>" class="one-third"
-                            value="<?= $notificationsEmail['smtp_port'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['smtp_port']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <div>
@@ -440,23 +440,23 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="smtpusername" id="smtpusername" autocomplete="off"
                             placeholder="<?= translate('smtp_username', $i18n) ?>"
-                            value="<?= $notificationsEmail['smtp_username'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['smtp_username']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="password" name="smtppassword" id="smtppassword" autocomplete="off"
                             placeholder="<?= translate('smtp_password', $i18n) ?>"
-                            value="<?= $notificationsEmail['smtp_password'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['smtp_password']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="fromemail" id="fromemail" autocomplete="off"
                             placeholder="<?= translate('from_email', $i18n) ?>"
-                            value="<?= $notificationsEmail['from_email'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['from_email']) ?>" />
                     </div>
                     <label for="otheremails"><?= translate('send_to_other_emails', $i18n) ?></label>
                     <div class="form-group-inline">
                         <input type="text" name="otheremails" id="otheremails" autocomplete="off"
                             placeholder="<?= translate('other_emails_placeholder', $i18n) ?>"
-                            value="<?= $notificationsEmail['other_emails'] ?>" />
+                            value="<?= htmlspecialchars($notificationsEmail['other_emails']) ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -489,17 +489,17 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="discordurl" id="discordurl" autocomplete="off"
                             placeholder="<?= translate('webhook_url', $i18n) ?>"
-                            value="<?= $notificationsDiscord['webhook_url'] ?>" />
+                            value="<?= htmlspecialchars($notificationsDiscord['webhook_url']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="discordbotusername" id="discordbotusername" autocomplete="off"
                             placeholder="<?= translate('discord_bot_username', $i18n) ?>"
-                            value="<?= $notificationsDiscord['bot_username'] ?>" />
+                            value="<?= htmlspecialchars($notificationsDiscord['bot_username']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="discordbotavatar" id="discordbotavatar" autocomplete="off"
                             placeholder="<?= translate('discord_bot_avatar_url', $i18n) ?>"
-                            value="<?= $notificationsDiscord['bot_avatar'] ?>" />
+                            value="<?= htmlspecialchars($notificationsDiscord['bot_avatar']) ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -525,12 +525,12 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="gotifyurl" id="gotifyurl" autocomplete="off"
-                            placeholder="<?= translate('url', $i18n) ?>" value="<?= $notificationsGotify['url'] ?>" />
+                            placeholder="<?= translate('url', $i18n) ?>" value="<?= htmlspecialchars($notificationsGotify['url']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="gotifytoken" id="gotifytoken" autocomplete="off"
                             placeholder="<?= translate('token', $i18n) ?>"
-                            value="<?= $notificationsGotify['token'] ?>" />
+                            value="<?= htmlspecialchars($notificationsGotify['token']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="checkbox" id="gotifyignoressl" name="gotifyignoressl"
@@ -562,12 +562,12 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="pushoveruserkey" id="pushoveruserkey" autocomplete="off"
                             placeholder="<?= translate('pushover_user_key', $i18n) ?>"
-                            value="<?= $notificationsPushover['user_key'] ?>" />
+                            value="<?= htmlspecialchars($notificationsPushover['user_key']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="pushovertoken" id="pushovertoken" autocomplete="off"
                             placeholder="<?= translate('token', $i18n) ?>"
-                            value="<?= $notificationsPushover['token'] ?>" />
+                            value="<?= htmlspecialchars($notificationsPushover['token']) ?>" />
                     </div>
 
                     <div class="buttons">
@@ -595,12 +595,12 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
                             placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
-                            value="<?= $notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token'] : "" ?>" />
+                            value="<?= htmlspecialchars($notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token'] : "") ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off"
                             placeholder="<?= translate('telegram_chat_id', $i18n) ?>"
-                            value="<?= $notificationsTelegram['chat_id'] ?>" />
+                            value="<?= htmlspecialchars($notificationsTelegram['chat_id']) ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -628,7 +628,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="pushplustoken" id="pushplustoken" autocomplete="off"
                             placeholder="<?= translate('pushplus_token', $i18n) ?>"
-                            value="<?= $notificationsPushPlus['token'] ? $notificationsPushPlus['token'] : '' ?>" />
+                            value="<?= htmlspecialchars($notificationsPushPlus['token'] ? $notificationsPushPlus['token'] : '') ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -656,17 +656,17 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="mattermostwebhookurl" id="mattermostwebhookurl"
                             placeholder="<?= translate('mattermost_webhook_url', $i18n) ?>"
-                            value="<?= $notificationsMattermost['webhook_url'] ? $notificationsMattermost['webhook_url'] : '' ?>" />
+                            value="<?= htmlspecialchars($notificationsMattermost['webhook_url'] ? $notificationsMattermost['webhook_url'] : '') ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="mattermostbotusername" id="mattermostbotusername"
                             placeholder="<?= translate('mattermost_bot_username', $i18n) ?>"
-                            value="<?= $notificationsMattermost['bot_username'] ? $notificationsMattermost['bot_username'] : '' ?>" />
+                            value="<?= htmlspecialchars($notificationsMattermost['bot_username'] ? $notificationsMattermost['bot_username'] : '') ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="mattermostboticonemoji" id="mattermostboticonemoji"
                             placeholder="<?= translate('mattermost_bot_icon_emoji', $i18n) ?>"
-                            value="<?= $notificationsMattermost['bot_icon_emoji'] ? $notificationsMattermost['bot_icon_emoji'] : '' ?>" />
+                            value="<?= htmlspecialchars($notificationsMattermost['bot_icon_emoji'] ? $notificationsMattermost['bot_icon_emoji'] : '') ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -691,15 +691,15 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="ntfyhost" id="ntfyhost" autocomplete="off"
-                            placeholder="<?= translate('host', $i18n) ?>" value="<?= $notificationsNtfy['host'] ?>" />
+                            placeholder="<?= translate('host', $i18n) ?>" value="<?= htmlspecialchars($notificationsNtfy['host']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <input type="text" name="ntfytopic" id="ntfytopic" autocomplete="off"
-                            placeholder="<?= translate('topic', $i18n) ?>" value="<?= $notificationsNtfy['topic'] ?>" />
+                            placeholder="<?= translate('topic', $i18n) ?>" value="<?= htmlspecialchars($notificationsNtfy['topic']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
-                            placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsNtfy['headers'] ?></textarea>
+                            placeholder="<?= translate('custom_headers', $i18n) ?>"><?= htmlspecialchars($notificationsNtfy['headers']) ?></textarea>
                     </div>
                     <div class="form-grpup-inline">
                         <input type="checkbox" id="ntfyignoressl" name="ntfyignoressl"
@@ -731,7 +731,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="serverchansendkey" id="serverchansendkey" autocomplete="off"
                             placeholder="<?= translate('serverchan_sendkey', $i18n) ?>"
-                            value="<?= $notificationsServerchan['sendkey'] ? $notificationsServerchan['sendkey'] : '' ?>" />
+                            value="<?= htmlspecialchars($notificationsServerchan['sendkey'] ? $notificationsServerchan['sendkey'] : '') ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -770,19 +770,19 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <div class="form-group-inline">
                         <input type="text" name="webhookurl" id="webhookurl" autocomplete="off"
                             placeholder="<?= translate('webhook_url', $i18n) ?>"
-                            value="<?= $notificationsWebhook['url'] ?>" />
+                            value="<?= htmlspecialchars($notificationsWebhook['url']) ?>" />
                     </div>
                     <div class="form-group-inline">
                         <textarea class="thin" name="webhookcustomheaders" id="webhookcustomheaders"
-                            placeholder="<?= translate('custom_headers', $i18n) ?>"><?= $notificationsWebhook['headers'] ?></textarea>
+                            placeholder="<?= translate('custom_headers', $i18n) ?>"><?= htmlspecialchars($notificationsWebhook['headers']) ?></textarea>
                     </div>
                     <div class="form-group-inline">
                         <textarea name="webhookpayload" id="webhookpayload"
-                            placeholder="<?= translate('payment_notifications_payload', $i18n) ?>"><?= $notificationsWebhook['payload'] ?></textarea>
+                            placeholder="<?= translate('payment_notifications_payload', $i18n) ?>"><?= htmlspecialchars($notificationsWebhook['payload']) ?></textarea>
                     </div>
                     <div class="form-group-inline">
                         <textarea name="webhookcancelationpayload" id="webhookcancelationpayload"
-                            placeholder="<?= translate('cancelation_notification_payload', $i18n) ?>"><?= $notificationsWebhook['cancelation_payload'] ?></textarea>
+                            placeholder="<?= translate('cancelation_notification_payload', $i18n) ?>"><?= htmlspecialchars($notificationsWebhook['cancelation_payload']) ?></textarea>
                     </div>
                     <div class="form-group-inline">
                         <input type="checkbox" id="webhookignoressl" name="webhookignoressl"
@@ -849,7 +849,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                         ?>
                         <div class="form-group-inline" data-categoryid="<?= $category['id'] ?>">
                             <div class=" drag-icon"><i class="fa-solid fa-grip-vertical"></i></div>
-                            <input type="text" name="category" autocomplete="off" value="<?= $category['name'] ?>"
+                            <input type="text" name="category" autocomplete="off" value="<?= htmlspecialchars($category['name']) ?>"
                                 placeholder="Category">
                             <button class="image-button medium" onClick="editCategory(<?= $category['id'] ?>)" name="save"
                                 title="<?= translate('save_category', $i18n) ?>">
@@ -938,11 +938,11 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     ?>
 
                     <div class="form-group-inline" data-currencyid="<?= $currency['id'] ?>">
-                        <input type="text" class="short" name="symbol" autocomplete="off" value="<?= $currency['symbol'] ?>"
+                        <input type="text" class="short" name="symbol" autocomplete="off" value="<?= htmlspecialchars($currency['symbol']) ?>"
                             placeholder="$">
-                        <input type="text" name="currency" autocomplete="off" value="<?= $currency['name'] ?>"
+                        <input type="text" name="currency" autocomplete="off" value="<?= htmlspecialchars($currency['name']) ?>"
                             placeholder="Currency Name">
-                        <input type="text" name="code" autocomplete="off" value="<?= $currency['code'] ?>"
+                        <input type="text" name="code" autocomplete="off" value="<?= htmlspecialchars($currency['code']) ?>"
                             placeholder="Currency Code" <?= !$canDelete ? 'disabled' : '' ?>>
                         <button class="image-button medium" onClick="editCurrency(<?= $currency['id'] ?>)" name="save"
                             title="<?= translate('save_currency', $i18n) ?>">
@@ -1023,7 +1023,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         </header>
         <div class="account-fixer">
             <div class="form-group">
-                <input type="text" name="fixer-key" id="fixerKey" autocomplete="off" value="<?= $apiKey ?>"
+                <input type="text" name="fixer-key" id="fixerKey" autocomplete="off" value="<?= htmlspecialchars($apiKey) ?>"
                     placeholder="<?= translate('api_key', $i18n) ?>" <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
             </div>
             <div class="form-group">
@@ -1202,7 +1202,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     </div>
                     <img src="<?= $paymentIconFolder . $payment['icon'] ?>" alt="Logo" />
                     <span class="payment-name" contenteditable="true"
-                        title="<?= translate("rename_payment_method", $i18n) ?>"><?= $payment['name'] ?></span>
+                        title="<?= translate("rename_payment_method", $i18n) ?>"><?= htmlspecialchars($payment['name']) ?></span>
                     <?php
                     if (!$inUse) {
                         ?>
