@@ -94,7 +94,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             ?>
             <div class="form-group">
                 <label for="serverUrl"><?= translate('server_url', $i18n) ?></label>
-                <input type="text" id="serverUrl" autocomplete="off" value="<?= $settings['server_url'] ?>" />
+                <input type="text" id="serverUrl" autocomplete="off" value="<?= htmlspecialchars($settings['server_url']) ?>" />
             </div>
             <div class="settings-notes">
                 <p>
@@ -148,13 +148,13 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                                 <div class="user-list-icon">
                                     <i class="fa-solid <?= $userIcon ?>"></i>
                                 </div>
-                                <?= $user['username'] ?>
+                                <?= htmlspecialchars($user['username']) ?>
                             </div>
                             <div title="<?= translate('email', $i18n) ?>">
                                 <div class="user-list-icon">
                                     <i class="fa-solid fa-envelope"></i>
                                 </div>
-                                <a href="mailto:<?= $user['email'] ?>"><?= $user['email'] ?></a>
+                                <a href="mailto:<?= htmlspecialchars($user['email']) ?>"><?= htmlspecialchars($user['email']) ?></a>
                             </div>
                         </div>
                         <div>
@@ -221,47 +221,47 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="form-group">
                 <input type="text" id="oidcName" placeholder="Provider Name" autocomplete="off"
-                    value="<?= $oidcSettings['name'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['name']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcClientId" placeholder="Client ID" autocomplete="off"
-                    value="<?= $oidcSettings['client_id'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['client_id']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcClientSecret" placeholder="Client Secret" autocomplete="off"
-                    value="<?= $oidcSettings['client_secret'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['client_secret']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcAuthUrl" placeholder="Auth URL" autocomplete="off"
-                    value="<?= $oidcSettings['authorization_url'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['authorization_url']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcTokenUrl" placeholder="Token URL" autocomplete="off"
-                    value="<?= $oidcSettings['token_url'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['token_url']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcUserInfoUrl" placeholder="User Info URL" autocomplete="off"
-                    value="<?= $oidcSettings['user_info_url'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['user_info_url']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcRedirectUrl" placeholder="Redirect URL" autocomplete="off"
-                    value="<?= $oidcSettings['redirect_url'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['redirect_url']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcLogoutUrl" placeholder="Logout URL" autocomplete="off"
-                    value="<?= $oidcSettings['logout_url'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['logout_url']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcUserIdentifierField" placeholder="User Identifier Field" autocomplete="off"
-                    value="<?= $oidcSettings['user_identifier_field'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['user_identifier_field']) ?>" />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcScopes" placeholder="Scopes" autocomplete="off"
-                    value="<?= $oidcSettings['scopes'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['scopes']) ?>" />
             </div>
             <div class="form-group">
                 <input type="hidden" id="oidcAuthStyle" placeholder="Auth Style" autocomplete="off"
-                    value="<?= $oidcSettings['auth_style'] ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['auth_style']) ?>" />
             </div>
             <div class="form-group-inline">
                 <input type="checkbox" id="oidcAutoCreateUser" <?= $oidcSettings['auto_create_user'] ? 'checked' : '' ?> />
@@ -287,9 +287,9 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         <div class="admin-form">
             <div class="form-group-inline">
                 <input type="text" name="smtpaddress" id="smtpaddress" autocomplete="off"
-                    placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= $settings['smtp_address'] ?>" />
+                    placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_address']) ?>" />
                 <input type="text" name="smtpport" id="smtpport" autocomplete="off"
-                    placeholder="<?= translate('port', $i18n) ?>" class="one-third" value="<?= $settings['smtp_port'] ?>" />
+                    placeholder="<?= translate('port', $i18n) ?>" class="one-third" value="<?= htmlspecialchars($settings['smtp_port']) ?>" />
             </div>
             <div class="form-group-inline">
                 <div>
@@ -310,15 +310,15 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="form-group-inline">
                 <input type="text" name="smtpusername" id="smtpusername" autocomplete="off"
-                    placeholder="<?= translate('smtp_username', $i18n) ?>" value="<?= $settings['smtp_username'] ?>" />
+                    placeholder="<?= translate('smtp_username', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_username']) ?>" />
             </div>
             <div class="form-group-inline">
                 <input type="password" name="smtppassword" id="smtppassword" autocomplete="off"
-                    placeholder="<?= translate('smtp_password', $i18n) ?>" value="<?= $settings['smtp_password'] ?>" />
+                    placeholder="<?= translate('smtp_password', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_password']) ?>" />
             </div>
             <div class="form-group-inline">
                 <input type="text" name="fromemail" id="fromemail" autocomplete="off"
-                    placeholder="<?= translate('from_email', $i18n) ?>" value="<?= $settings['from_email'] ?>" />
+                    placeholder="<?= translate('from_email', $i18n) ?>" value="<?= htmlspecialchars($settings['from_email']) ?>" />
             </div>
             <div class="buttons">
                 <input type="button" class="secondary-button thin mobile-grow" value="<?= translate('test', $i18n) ?>"
