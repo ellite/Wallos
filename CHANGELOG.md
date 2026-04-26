@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.8.3](https://github.com/ellite/Wallos/compare/v4.8.2...v4.8.3) (2026-04-26)
+
+
+### Bug Fixes
+
+* cases on private endpoints where self-xss was possible ([#1045](https://github.com/ellite/Wallos/issues/1045)) ([d4725f3](https://github.com/ellite/Wallos/commit/d4725f36bd967e7dbd622982cdfccbf8567673e2))
+
 ## [4.8.2](https://github.com/ellite/Wallos/compare/v4.8.1...v4.8.2) (2026-04-18)
 
 
