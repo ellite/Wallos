@@ -330,6 +330,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         title="<?= translate('paid_by', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/payment.php"; ?><?= $members[$subscription['payer_user_id']]['name'] ?></span>
                     <span class="category"
                         title="<?= translate('category', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/category.php"; ?><?= $categories[$subscription['category_id']]['name'] ?></span>
+                        <?php if (!empty($subscription['payment_method_last_four'])): ?>
+                        <span class="last-four-digits"
+                            title="<?= translate('last_four_digits', $i18n) ?>"><img src="<?= $subscription['payment_method_icon'] ?>" />****<?= htmlspecialchars($subscription['payment_method_last_four']) ?></span>
+                        <?php endif; ?>
                     <?php
                     if ($subscription['url'] != "") {
                         $url = $subscription['url'];

@@ -33,6 +33,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['notify_days_before'] = $row['notify_days_before'];
             $subscriptionData['cancellation_date'] = $row['cancellation_date'];
             $subscriptionData['replacement_subscription_id'] = $row['replacement_subscription_id'];
+            $subscriptionData['payment_method_last_four'] = $row['payment_method_last_four'];
 
             $subscriptionJson = json_encode($subscriptionData);
             header('Content-Type: application/json');

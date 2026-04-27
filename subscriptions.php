@@ -224,6 +224,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $print[$id]['url'] = $subscription['url'];
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
+      $print[$id]['payment_method_last_four'] = $subscription['payment_method_last_four'];
 
       if (isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true' && $currencyId != $mainCurrencyId) {
         $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
@@ -400,6 +401,15 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
           </select>
         </div>
         <div class="split50">
+          <label for="payment_method_last_four"><?= translate('last_four_digits', $i18n) ?></label>
+          <input type="text" id="payment_method_last_four" name="payment_method_last_four" maxlength="4" pattern="\d{0,4}" placeholder="<?= translate('last_four_digits_placeholder', $i18n) ?>" autocomplete="off">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="inline">
+        <div class="split50">
           <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
           <select id="payer_user" name="payer_user_id">
             <?php
@@ -411,22 +421,21 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
             ?>
           </select>
         </div>
+        <div class="split50">
+          <label for="category"><?= translate('category', $i18n) ?></label>
+          <select id="category" name="category_id">
+            <?php
+            foreach ($categories as $category) {
+              ?>
+              <option value="<?= $category['id'] ?>">
+                <?= $category['name'] ?>
+              </option>
+              <?php
+            }
+            ?>
+          </select>
+        </div>
       </div>
-    </div>
-
-    <div class="form-group">
-      <label for="category"><?= translate('category', $i18n) ?></label>
-      <select id="category" name="category_id">
-        <?php
-        foreach ($categories as $category) {
-          ?>
-          <option value="<?= $category['id'] ?>">
-            <?= $category['name'] ?>
-          </option>
-          <?php
-        }
-        ?>
-      </select>
     </div>
 
     <div class="form-group-inline grow">
