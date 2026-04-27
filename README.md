@@ -7,13 +7,13 @@
 
   <p>Wallos: Open-Source Personal Subscription Tracker</p>
 
-  [![Stars](https://img.shields.io/github/stars/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos)
-  [![Docker](https://img.shields.io/docker/pulls/bellamy/wallos?style=flat-square)](https://hub.docker.com/r/bellamy/wallos)
-  [![GitHub contributors](https://img.shields.io/github/contributors/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos/graphs/contributors)
-  [![GitHub Sponsors](https://img.shields.io/github/sponsors/ellite?style=flat-square)](https://github.com/sponsors/ellite)
-  [![Discord](https://img.shields.io/discord/1237073478910214235?logo=discord&style=flat-square)](https://discord.gg/anex9GUrPW)
-</div>
+[![Stars](https://img.shields.io/github/stars/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos)
+[![Docker](https://img.shields.io/docker/pulls/bellamy/wallos?style=flat-square)](https://hub.docker.com/r/bellamy/wallos)
+[![GitHub contributors](https://img.shields.io/github/contributors/ellite/Wallos?style=flat-square)](https://github.com/ellite/Wallos/graphs/contributors)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/ellite?style=flat-square)](https://github.com/sponsors/ellite)
+[![Discord](https://img.shields.io/discord/1237073478910214235?logo=discord&style=flat-square)](https://discord.gg/anex9GUrPW)
 
+</div>
 
 ## Table of Contents
 
@@ -55,7 +55,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Logo Search: Wallos can search the web for the logo of your subscriptions if you don't have them available for upload.
 - Mobile view: Wallos on the go.
 - Statistics: Another perspective into your spendings.
-- Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
+- Notifications: Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
 - OIDC with OAuth
 - AI Recommendations with ChatGPT, Gemini or Local Ollama
@@ -67,7 +67,7 @@ The database is reset every 2 hours.
 To access the demo use the following credentials:
 
 ```python
-Username: demo  
+Username: demo
 Password: demo
 ```
 
@@ -81,16 +81,16 @@ See instructions to run Wallos below.
 
 - NGINX or APACHE websever running
 - PHP 8.3 with the following modules enabled:
-    - curl
-    - dom
-    - gd
-    - imagick
-    - intl
-    - openssl
-    - sqlite3
-    - zip
-    - mbstring
-    - fpm
+  - curl
+  - dom
+  - gd
+  - imagick
+  - intl
+  - openssl
+  - sqlite3
+  - zip
+  - mbstring
+  - fpm
 
 #### Docker
 
@@ -156,12 +156,16 @@ services:
       - "8282:80/tcp"
     environment:
       TZ: 'America/Toronto'
-    # Volumes store your data between container upgrades
+    # Use absolute host paths for persistence in long-lived deployments.
     volumes:
-      - './db:/var/www/html/db'
-      - './logos:/var/www/html/images/uploads/logos'
+      - '/srv/wallos/db:/var/www/html/db'
+      - '/srv/wallos/logos:/var/www/html/images/uploads/logos'
     restart: unless-stopped
 ```
+
+The SQLite database is stored in `/var/www/html/db` and uploaded logos/avatars are stored in `/var/www/html/images/uploads/logos` inside the container.
+
+If you prefer relative bind mounts such as `./db` and `./logos`, keep in mind that they are resolved on the Docker host from the Compose project directory. When you deploy through a stack manager, a remote context, or any workflow that changes the project directory between deployments, Wallos can start with a fresh empty data directory because Docker is mounting a different host path than before. Portainer stacks are one common example of this behavior. For long-lived deployments, absolute host paths like `/srv/wallos/db` and `/srv/wallos/logos` are safer.
 
 Disable healthcheck (optional, e.g., for Docker <25 or faster startup reporting):
 
@@ -175,8 +179,8 @@ services:
     environment:
       TZ: 'America/Toronto'
     volumes:
-      - './db:/var/www/html/db'
-      - './logos:/var/www/html/images/uploads/logos'
+      - '/srv/wallos/db:/var/www/html/db'
+      - '/srv/wallos/logos:/var/www/html/images/uploads/logos'
     restart: unless-stopped
     healthcheck:
       test: ["NONE"]
@@ -188,7 +192,7 @@ Just open the browser and open `ip:port` of the machine running wallos.
 On the first time you run wallos a user account must be created.  
 Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.  
 Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.  
-If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.  
+If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.
 
 ## Screenshots
 
@@ -229,6 +233,7 @@ I welcome contributions from the community and look forward to working with you 
 ### Translations
 
 If you want to contribute with a translation of wallos:
+
 - Add your language code to `includes/i18n/languages.php` in the format `"en" => ["name" => "English", "dir" => "ltr"],`. Please use the original language name and not the english translation.
 - Create a copy of the file `includes/i18n/en.php` and rename it to the language code you used above. Example: pt.php for "pt" => ["name" => "Português", "dir" => "ltr"],.
 - Translate all the values on the language file to the new language. (Incomplete translations will not be accepted).
@@ -250,4 +255,3 @@ I strongly believe in the importance of open source software and the collaborati
 - The author: [henrique.pt](https://henrique.pt)
 - Wallos Landingpage: [wallosapp.com](https://wallosapp.com)
 - Join the conversation: [Discord Server](https://discord.gg/anex9GUrPW)
-
