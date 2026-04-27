@@ -5,3 +5,5 @@
 .DS_Store
 .idea/
 .vscode/
+/logos/*
+docker-compose.dev.yaml

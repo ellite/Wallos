@@ -9,18 +9,26 @@ if (isset($_COOKIE['language'])) {
     }
 }
 
-function translate($text, $translations)
+function translate($text, $translations, $variables = [])
 {
     if (array_key_exists($text, $translations)) {
-        return $translations[$text];
+        $translation = $translations[$text];
     } else {
         require 'en.php';
-        if (array_key_exists($text, $i18n)) {
-            return $i18n[$text];
+        if (isset($i18n[$text])) {
+            $translation = $i18n[$text];
         } else {
             return "[i18n String Missing]";
         }
     }
+
+    if (!empty($variables)) {
+        foreach ($variables as $key => $value) {
+            $translation = str_replace([':' . $key, '{' . $key . '}'], $value, $translation);
+        }
+    }
+
+    return $translation;
 }
 
 ?>
