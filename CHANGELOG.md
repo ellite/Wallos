@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.8.4](https://github.com/ellite/Wallos/compare/v4.8.3...v4.8.4) (2026-04-27)
+
+
+### Bug Fixes
+
+* improve date formatting with IntlDateFormatter fallback (b2c565f) ([#1048](https://github.com/ellite/Wallos/issues/1048)) ([8d43623](https://github.com/ellite/Wallos/commit/8d43623da9c27d32c30a219fec84a4724f62c38b))
+* missing year for subscription next payment display (ca5823d) ([8d43623](https://github.com/ellite/Wallos/commit/8d43623da9c27d32c30a219fec84a4724f62c38b))
+
 ## [4.8.3](https://github.com/ellite/Wallos/compare/v4.8.2...v4.8.3) (2026-04-26)
 
 
