@@ -1650,7 +1650,10 @@ button.dark-theme-button i {
   .subscription-form,
   .subscription-modal {
     width: 100%;
-    max-height: 100vh;
+    max-height: calc(100vh - 70px);
+    max-height: calc(100dvh - 70px);
+    top: 0;
+    transform: translateX(-50%);
   }
 
   .subscription-form .buttons input {
