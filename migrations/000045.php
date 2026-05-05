@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 
 /*
@@ -14,3 +15,9 @@ $db->exec('UPDATE notification_settings
            WHERE period_summary_at_period_start IS NULL');
 
 ?>
+=======
+<?php
+// This migration corrects the Japanese language code from 'jp' to 'ja' in the user table.
+
+$db->exec("UPDATE user SET language = 'ja' WHERE language = 'jp'");
+>>>>>>> upstream/main

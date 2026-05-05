@@ -32,20 +32,31 @@ function formatDate($date, $lang = 'en')
     // Determine the date format based on whether the year matches the current year
     $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
 
-    // Validate the locale and fallback to 'en' if unsupported
-    if (!in_array($lang, ResourceBundle::getLocales(''))) {
-        $lang = 'en'; // Fallback to English
-    }
+    // Try to create an IntlDateFormatter; if it fails, fallback to 'en'
+    try {
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
 
-    // Create an IntlDateFormatter instance for the specified language
-    $formatter = new IntlDateFormatter(
-        $lang,
-        IntlDateFormatter::SHORT,
-        IntlDateFormatter::NONE,
-        null,
-        null,
-        $dateFormat
-    );
+        if (!$formatter) {
+            throw new Exception('Failed to create IntlDateFormatter with language: ' . $lang);
+        }
+    } catch (Throwable $e) {
+        $lang = 'en'; // Fallback to English on error
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
+    }
 
     // Format the date
     $formattedDate = $formatter->format(new DateTime($date));
@@ -137,7 +148,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -155,7 +166,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?>
                                 </p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
@@ -186,7 +197,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -204,7 +215,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?></p>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?></p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
                         </div>
