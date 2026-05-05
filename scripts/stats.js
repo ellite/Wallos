@@ -170,6 +170,19 @@ document.querySelectorAll('.filter-item').forEach(function(item) {
 
         newUrl += urlParams.toString();
         window.location.href = newUrl;
+    } else if (this.hasAttribute('data-budgettype')) {
+        const budgetType = this.getAttribute('data-budgettype');
+        const urlParams = new URLSearchParams(window.location.search);
+        let newUrl = 'stats.php?';
+
+        if (urlParams.get('budget') === budgetType) {
+            urlParams.delete('budget');
+        } else {
+            urlParams.set('budget', budgetType);
+        }
+
+        newUrl += urlParams.toString();
+        window.location.href = newUrl;
     }
   });
 });
