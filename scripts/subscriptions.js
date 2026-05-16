@@ -832,16 +832,22 @@ function expandActions(event, subscriptionId) {
   allActions.forEach((openAction) => {
     if (openAction !== actions) {
       openAction.classList.remove('is-open');
+      openAction.classList.remove('open-above');
     }
   });
 
   // Toggle the clicked actions
   actions.classList.toggle('is-open');
 
-  // Update currentActions
   if (actions.classList.contains('is-open')) {
+    actions.classList.remove('open-above');
+    const rect = actions.getBoundingClientRect();
+    if (rect.bottom > window.innerHeight) {
+      actions.classList.add('open-above');
+    }
     currentActions = actions;
   } else {
+    actions.classList.remove('open-above');
     currentActions = null;
   }
 }

@@ -506,6 +506,11 @@ button.mobile-action-renew {
   display: flex;
 }
 
+.subscription-main .actions.open-above {
+  top: auto;
+  bottom: 100%;
+}
+
 .subscription-main .actions>li {
   display: flex;
   align-items: center;
