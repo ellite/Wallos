@@ -2,11 +2,19 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/oidc_settings.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
 $oidcEnabled = isset($data['oidcEnabled']) ? $data['oidcEnabled'] : 0;
+
+if (wallos_has_oidc_env_value('OIDC_ENABLED')) {
+    die(json_encode([
+        "success" => false,
+        "message" => "OIDC enablement is managed by the OIDC_ENABLED environment variable."
+    ]));
+}
 
 $stmt = $db->prepare('UPDATE admin SET oidc_oauth_enabled = :oidcEnabled WHERE id = 1');
 $stmt->bindParam(':oidcEnabled', $oidcEnabled, SQLITE3_INTEGER);
