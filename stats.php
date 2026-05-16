@@ -244,6 +244,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($categoryDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
   $memberDataPoints = [];
@@ -259,6 +260,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($memberDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showMemberCostGraph = count($memberDataPoints) > 1;
 
   $paymentMethodDataPoints = [];
@@ -271,6 +273,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($paymentMethodDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
   if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
     ?>
