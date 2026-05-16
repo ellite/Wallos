@@ -6,6 +6,23 @@ services:
       - "8282:80/tcp"
     environment:
       TZ: 'America/Toronto'
+      # Optional OIDC environment variables
+      # OIDC_ENABLED: "true"
+      # OIDC_PROVIDER_NAME: "Authelia"
+      # OIDC_CLIENT_ID: "wallos"
+      # OIDC_CLIENT_SECRET: "replace-me"
+      # OIDC_CLIENT_SECRET_FILE: "/run/secrets/wallos_oidc_secret"
+      # OIDC_ISSUER: "https://auth.example.com"
+      # OIDC_AUTH_URL: "https://auth.example.com/oauth2/authorize"
+      # OIDC_TOKEN_URL: "https://auth.example.com/oauth2/token"
+      # OIDC_USERINFO_URL: "https://auth.example.com/oauth2/userinfo"
+      # OIDC_REDIRECT_URL: "https://wallos.example.com/index.php"
+      # OIDC_LOGOUT_URL: "https://auth.example.com/logout"
+      # OIDC_USER_IDENTIFIER: "sub"
+      # OIDC_SCOPES: "openid email profile"
+      # OIDC_AUTO_CREATE_USER: "true"
+      # OIDC_DISABLE_PASSWORD_LOGIN: "false"
+    # Volumes store your data between container upgrades
     # Volumes store your data between container upgrades
     volumes:
       - './db:/var/www/html/db'
