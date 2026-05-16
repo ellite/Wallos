@@ -765,7 +765,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         curl_setopt($ch, CURLOPT_URL, $ntfyHost . '/' . $ntfyTopic);
                         curl_setopt($ch, CURLOPT_POST, 1);
                         curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
-                        curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
+                        $ntfyHeaders = array_merge(['Content-Type: text/plain; charset=utf-8'], $customheaders);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, $ntfyHeaders);
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
                         if ($ntfy['ignore_ssl']) {

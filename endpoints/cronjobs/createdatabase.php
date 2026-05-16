@@ -126,7 +126,8 @@ if (!file_exists($databaseFile)) {
     (1, 1, 'Daily'),
     (2, 7, 'Weekly'),
     (3, 30, 'Monthly'),
-    (4, 365, 'Yearly')");
+    (4, 365, 'Yearly'),
+    (5, 0, 'One-time')");
 
     $db->exec("INSERT INTO frequencies (id, name) VALUES
     (1, 1),

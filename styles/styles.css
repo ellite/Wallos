@@ -506,6 +506,11 @@ button.mobile-action-renew {
   display: flex;
 }
 
+.subscription-main .actions.open-above {
+  top: auto;
+  bottom: 100%;
+}
+
 .subscription-main .actions>li {
   display: flex;
   align-items: center;
@@ -524,8 +529,19 @@ button.mobile-action-renew {
   background-color: #f9f9f9;
 }
 
+.subscription-main .actions>li.delete:hover {
+  background-color: #fff5f5;
+}
+
+.subscription-main .actions>li.delete:hover>i {
+  color: #e53e3e;
+}
+
 .subscription-main .actions>li>i {
   color: var(--main-color);
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
 }
 
 .subscription-main .actions>li:hover>i {
@@ -544,6 +560,7 @@ button.mobile-action-renew {
 .subscription-notes {
   display: none;
   flex-direction: row;
+  align-items: center;
   padding: 6px 5px;
   overflow: hidden;
 }
@@ -553,10 +570,12 @@ button.mobile-action-renew {
   height: 32px;
 }
 
-.subscription-secondary svg,
-.subscription-notes svg {
+.subscription-secondary i,
+.subscription-notes i {
+  font-size: 19px;
+  color: var(--main-color);
   width: 20px;
-  height: 20px;
+  text-align: center;
 }
 
 .subscription-main>span,
@@ -1052,9 +1071,18 @@ header #avatar {
 }
 
 .image-button>i {
-  color: var(--hover-color);
-  font-size: 28px;
+  color: var(--main-color);
+  font-size: 18px;
   padding: 2px;
+}
+
+.image-button:hover>i {
+  color: var(--hover-color);
+}
+
+.image-button.disabled>i {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .image-button>svg {
@@ -1086,6 +1114,11 @@ header #avatar {
   width: 32px;
   height: 32px;
   object-fit: contain;
+}
+
+#logo-search-button>i,
+#icon-search-button>i {
+  font-size: 26px;
 }
 
 .payments-list {
@@ -1703,13 +1736,15 @@ button.dark-theme-button i {
 }
 
 .icon-preview:after {
-  content: "Upload Icon";
+  content: "\f093";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   color: var(--main-color);
-  font-size: 16px;
+  font-size: 22px;
   text-align: center;
 }
 
@@ -2358,6 +2393,7 @@ button.dark-theme-button i {
   flex-direction: row;
   flex-grow: 1;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .user-list .user-list-row {
@@ -2380,7 +2416,7 @@ button.dark-theme-button i {
   display: flex;
   flex-basis: 50%;
   gap: 12px;
-  align-items: baseline;
+  align-items: center;
 }
 
 .user-list a {
@@ -2393,8 +2429,10 @@ button.dark-theme-button i {
 }
 
 .user-list .user-list-icon {
-  width: 16px;
+  width: 22px;
   text-align: center;
+  font-size: 16px;
+  color: var(--main-color);
 }
 
 .calendar-nav {

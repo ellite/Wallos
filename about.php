@@ -84,16 +84,6 @@ if (!is_null($settings['latest_version'])) {
         </header>
         <div class="credits-list">
             <div>
-                <h3><?= translate('icons', $i18n) ?></h3>
-                <span>
-                    https://www.streamlinehq.com/freebies/plump-flat-free
-                    <a href="https://www.streamlinehq.com/freebies/plump-flat-free" target="_blank"
-                        title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
-                </span>
-            </div>
-            <div>
                 <h3><?= translate('payment_icons', $i18n) ?></h3>
                 <span>
                     https://www.figma.com/file/5IMW8JfoXfB5GRlPNdTyeg/Credit-Cards-and-Payment-Methods-Icons-(Community)

@@ -6,7 +6,7 @@ $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
     $db->exec("ALTER TABLE settings ADD COLUMN color_theme TEXT DEFAULT 'blue'");
-    $db->exec('UPDATE settings SET `color_theme` = "blue"');
+    $db->exec("UPDATE settings SET `color_theme` = 'blue'");
 }
 
 // This migrations adds custom_colors table to the database, so the user can set custom accent colors to the application

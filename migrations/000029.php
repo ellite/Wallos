@@ -14,6 +14,6 @@ $users = $db->query('SELECT * FROM user');
 while ($user = $users->fetchArray(SQLITE3_ASSOC)) {
     if (empty($user['api_key'])) {
         $apiKey = bin2hex(random_bytes(32));
-        $db->exec('UPDATE user SET api_key = "' . $apiKey . '" WHERE id = ' . $user['id']);
+        $db->exec("UPDATE user SET api_key = '" . $apiKey . "' WHERE id = " . $user['id']);
     }
 }

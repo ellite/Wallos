@@ -47,13 +47,11 @@ require_once 'includes/stats_calculations.php';
             <div class="filtermenu-submenu-content" id="filter-member">
               <?php
               foreach ($members as $member) {
-                if ($member['count'] == 0) {
+                $isSelected = isset($_GET['member']) && in_array($member['id'], array_map('intval', explode(',', $_GET['member'])));
+                if (($menuMemberCounts[$member['id']] ?? 0) == 0 && !$isSelected) {
                   continue;
                 }
-                $selectedClass = '';
-                if (isset($_GET['member']) && $_GET['member'] == $member['id']) {
-                  $selectedClass = 'selected';
-                }
+                $selectedClass = $isSelected ? 'selected' : '';
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?>
                 </div>
@@ -77,20 +75,17 @@ require_once 'includes/stats_calculations.php';
             <div class="filtermenu-submenu-content" id="filter-category">
               <?php
               foreach ($categories as $category) {
-                if ($category['count'] > 0) {
-                  if ($category['name'] == "No category") {
-                    $category['name'] = translate("no_category", $i18n);
-                  }
-                  $selectedClass = '';
-                  if (isset($_GET['category']) && $_GET['category'] == $category['id']) {
-                    $selectedClass = 'selected';
-                  }
-                  ?>
-                  <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                    <?= $category['name'] ?>
-                  </div>
-                  <?php
+                $isSelected = isset($_GET['category']) && in_array($category['id'], array_map('intval', explode(',', $_GET['category'])));
+                if (($menuCategoryCounts[$category['id']] ?? 0) == 0 && !$isSelected) {
+                  continue;
                 }
+                $categoryName = $category['name'] == "No category" ? translate("no_category", $i18n) : $category['name'];
+                $selectedClass = $isSelected ? 'selected' : '';
+                ?>
+                <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
+                  <?= $categoryName ?>
+                </div>
+                <?php
               }
               ?>
             </div>
@@ -110,13 +105,11 @@ require_once 'includes/stats_calculations.php';
             <div class="filtermenu-submenu-content" id="filter-payment">
               <?php
               foreach ($paymentMethods as $payment) {
-                if ($payment['count'] == 0) {
+                $isSelected = isset($_GET['payment']) && in_array($payment['id'], array_map('intval', explode(',', $_GET['payment'])));
+                if (($menuPaymentCounts[$payment['id']] ?? 0) == 0 && !$isSelected) {
                   continue;
                 }
-                $selectedClass = '';
-                if (isset($_GET['payment']) && $_GET['payment'] == $payment['id']) {
-                  $selectedClass = 'selected';
-                }
+                $selectedClass = $isSelected ? 'selected' : '';
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
                   <?= $payment['name'] ?>
@@ -244,6 +237,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($categoryDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showCategoryCostGraph = count($categoryDataPoints) > 1;
 
   $memberDataPoints = [];
@@ -259,6 +253,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($memberDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showMemberCostGraph = count($memberDataPoints) > 1;
 
   $paymentMethodDataPoints = [];
@@ -271,6 +266,7 @@ require_once 'includes/stats_calculations.php';
     }
   }
 
+  usort($paymentMethodDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
   if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
     ?>
