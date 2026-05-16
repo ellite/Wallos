@@ -16,6 +16,7 @@ function wallos_get_oidc_defaults()
         'auth_style' => 'auto',
         'auto_create_user' => 0,
         'password_login_disabled' => 0,
+        'require_email_verified' => 1,
     ];
 }
 
@@ -72,6 +73,9 @@ function wallos_get_db_oidc_settings($db)
         unset($row['id']);
         $settings = array_merge($settings, $row);
     }
+
+    // Column added via ALTER TABLE may return NULL for existing rows in SQLite
+    $settings['require_email_verified'] = $settings['require_email_verified'] ?? 1;
 
     return $settings;
 }
