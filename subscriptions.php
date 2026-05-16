@@ -194,6 +194,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       'MMM d, yyyy'
     );
 
+    $print = [];
     foreach ($subscriptions as $subscription) {
       if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
         continue;
