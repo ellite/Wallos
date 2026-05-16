@@ -13,11 +13,17 @@ function getBillingCycle($cycle, $frequency, $i18n)
             return $frequency == 1 ? translate('Monthly', $i18n) : $frequency . " " . translate('months', $i18n);
         case 4:
             return $frequency == 1 ? translate('Yearly', $i18n) : $frequency . " " . translate('years', $i18n);
+        case 5:
+            return translate('One-time', $i18n);
     }
 }
 
 function getSubscriptionProgress($cycle, $frequency, $next_payment)
 {
+    if ($cycle === 5) {
+        return 0;
+    }
+
     $nextPaymentDate = new DateTime($next_payment);
     $currentDate = new DateTime('now');
 
@@ -61,6 +67,8 @@ function getPricePerMonth($cycle, $frequency, $price)
         case 4:
             $numberOfMonths = (12 * $frequency);
             return $price / $numberOfMonths;
+        case 5:
+            return 0;
     }
 }
 
@@ -155,10 +163,22 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
         }
     }
 
+    // One-time purchases always go to the bottom regardless of sort order
+    usort($subscriptions, fn($a, $b) => ($a['one_time'] ? 1 : 0) - ($b['one_time'] ? 1 : 0));
+
     $currentCategory = 0;
     $currentPayerUserId = 0;
     $currentPaymentMethodId = 0;
+    $oneTimeSectionShown = false;
     foreach ($subscriptions as $subscription) {
+        if ($subscription['one_time'] && !$oneTimeSectionShown) {
+            ?>
+            <div class="subscription-list-title">
+                <?= translate('lifetime_purchases', $i18n) ?>
+            </div>
+            <?php
+            $oneTimeSectionShown = true;
+        }
         if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
             ?>
             <div class="subscription-list-title">
@@ -205,7 +225,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         Delete
                     </button>
                     <?php
-                    if ($subscription['auto_renew'] != 1) {
+                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
                         ?>
                         <button class="mobile-action-renew" onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
                             <?php include $imagePath . "images/siteicons/svg/mobile-menu/renew.php"; ?>
@@ -254,12 +274,14 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
                     <span class="cycle"
-                        title="<?= $subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n) ?>">
+                        title="<?= $subscription['one_time'] ? $subscription['billing_cycle'] : ($subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n)) ?>">
                         <?php
-                        if ($subscription['auto_renew']) {
-                            include $imagePath . "images/siteicons/svg/automatic.php";
-                        } else {
-                            include $imagePath . "images/siteicons/svg/manual.php";
+                        if (!$subscription['one_time']) {
+                            if ($subscription['auto_renew']) {
+                                include $imagePath . "images/siteicons/svg/automatic.php";
+                            } else {
+                                include $imagePath . "images/siteicons/svg/manual.php";
+                            }
                         }
                         ?>
                         <?= $subscription['billing_cycle'] ?>
@@ -311,7 +333,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             <?= translate('clone', $i18n) ?>
                         </li>
                         <?php
-                        if ($subscription['auto_renew'] != 1) {
+                        if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
                             ?>
                             <li class="renew" title="<?= translate('renew', $i18n) ?>"
                                 onClick="renewSubscription(event, <?= $subscription['id'] ?>)">

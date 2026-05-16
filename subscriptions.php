@@ -206,6 +206,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       $cycle = $subscription['cycle'];
       $frequency = $subscription['frequency'];
       $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
+      $print[$id]['one_time'] = ($cycle == 5);
       $paymentMethodId = $subscription['payment_method_id'];
       $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
       $currencyId = $subscription['currency_id'];
@@ -346,7 +347,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
             </select>
           </div>
         </div>
-        <div class="split33">
+        <div class="split33" id="auto-renew-group">
           <label><?= translate('auto_renewal', $i18n) ?></label>
           <div class="inline height50">
             <input type="checkbox" id="auto_renew" name="auto_renew" checked>
@@ -371,7 +372,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         </button>
         <div class="split50">
           <label for="next_payment" class="split-label">
-            <?= translate('next_payment', $i18n) ?>
+            <span id="next-payment-label-recurring"><?= translate('next_payment', $i18n) ?></span>
+            <span id="next-payment-label-onetime" style="display:none"><?= translate('payment_date', $i18n) ?></span>
             <div id="autofill-next-payment-button" class="autofill-next-payment hideOnDesktop"
               title="<?= translate('calculate_next_payment_date', $i18n) ?>" onClick="autoFillNextPaymentDate(event)">
               <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -430,12 +432,12 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       </select>
     </div>
 
-    <div class="form-group-inline grow">
+    <div class="form-group-inline grow" id="notifications-group">
       <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">
       <label for="notifications" class="grow"><?= translate('enable_notifications', $i18n) ?></label>
     </div>
 
-    <div class="form-group">
+    <div class="form-group" id="notify-days-cancellation-group">
       <div class="inline">
         <div class="split66 mobile-split-50">
           <label for="notify_days_before"><?= translate('notify_me', $i18n) ?></label>

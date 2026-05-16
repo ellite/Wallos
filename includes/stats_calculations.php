@@ -15,6 +15,8 @@ function getPricePerMonth($cycle, $frequency, $price)
         case 4:
             $numberOfMonths = (12 * $frequency);
             return $price / $numberOfMonths;
+        case 5:
+            return 0;
     }
 }
 
@@ -157,35 +159,39 @@ if ($result) {
             $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
 
             if ($inactive == 0) {
-                $activeSubscriptions++;
+                if ($cycle != 5) {
+                    $activeSubscriptions++;
+                    $paymentMethodsCount[$paymentMethodId]['count'] += 1;
+                }
                 $totalCostPerMonth += $price;
                 $memberCost[$payerId]['cost'] += $price;
                 $categoryCost[$categoryId]['cost'] += $price;
-                $paymentMethodsCount[$paymentMethodId]['count'] += 1;
                 if ($price > $mostExpensiveSubscription['price']) {
                     $mostExpensiveSubscription['price'] = $price;
                     $mostExpensiveSubscription['name'] = $name;
                     $mostExpensiveSubscription['logo'] = $logo;
                 }
 
-                // Calculate ammount due this month
-                $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-                $tomorrow = new DateTime('tomorrow');
-                $endOfMonth = new DateTime('last day of this month');
+                if ($cycle != 5) {
+                    // Calculate ammount due this month
+                    $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
+                    $tomorrow = new DateTime('tomorrow');
+                    $endOfMonth = new DateTime('last day of this month');
 
-                if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
-                    $timesToPay = 1;
-                    $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
-                    $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                    if ($cycle == 1) {
-                        $timesToPay = $daysRemaining / $frequency;
+                    if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
+                        $timesToPay = 1;
+                        $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
+                        $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
+                        if ($cycle == 1) {
+                            $timesToPay = $daysRemaining / $frequency;
+                        }
+                        if ($cycle == 2) {
+                            $weeksInMonth = ceil($daysInMonth / 7);
+                            $weeksRemaining = ceil($daysRemaining / 7);
+                            $timesToPay = $weeksRemaining / $frequency;
+                        }
+                        $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                     }
-                    if ($cycle == 2) {
-                        $weeksInMonth = ceil($daysInMonth / 7);
-                        $weeksRemaining = ceil($daysRemaining / 7);
-                        $timesToPay = $weeksRemaining / $frequency;
-                    }
-                    $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                 }
             } else {
                 $inactiveSubscriptions++;

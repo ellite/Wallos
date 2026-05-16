@@ -45,6 +45,7 @@ function resetForm() {
   replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
+  toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
   deleteButton.style = 'display: none';
@@ -75,6 +76,7 @@ function fillEditFormFields(subscription) {
   frequencySelect.value = subscription.frequency;
   const cycleSelect = document.querySelector("#cycle");
   cycleSelect.value = subscription.cycle;
+  toggleOneTimeCycleUI(subscription.cycle == 5);
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
   const categorySelect = document.querySelector("#category");
@@ -502,6 +504,15 @@ function submitFormData(formData, submitButton, endpoint) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  const cycleSelectEl = document.querySelector("#cycle");
+  if (cycleSelectEl) {
+    cycleSelectEl.addEventListener("change", function () {
+      toggleOneTimeCycleUI(this.value === "5");
+    });
+  }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
   const subscriptionForm = document.querySelector("#subs-form");
   const submitButton = document.querySelector("#save-button");
   const endpoint = "endpoints/subscription/add.php";
@@ -510,6 +521,17 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     submitButton.disabled = true;
+
+    const cycleVal = document.querySelector("#cycle")?.value;
+    if (cycleVal === "5") {
+      const freq = document.querySelector("#frequency");
+      if (freq) freq.value = 1;
+      const cancellationDate = document.querySelector("#cancellation_date");
+      if (cancellationDate) cancellationDate.value = "";
+      const notifyDays = document.querySelector("#notify_days_before");
+      if (notifyDays) notifyDays.value = -1;
+    }
+
     const formData = new FormData(subscriptionForm);
 
     const fileInput = document.querySelector("#logo");
@@ -830,6 +852,40 @@ function swipeHintAnimation() {
       count++;
       document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax`;
     }
+  }
+}
+
+function toggleOneTimeCycleUI(isOneTime) {
+  const frequencySelect = document.querySelector("#frequency");
+  const autoRenewGroup = document.querySelector("#auto-renew-group");
+  const autoRenewCheckbox = document.querySelector("#auto_renew");
+  const autofillDesktop = document.querySelector("#autofill-next-payment-button.hideOnMobile");
+  const labelRecurring = document.querySelector("#next-payment-label-recurring");
+  const labelOnetime = document.querySelector("#next-payment-label-onetime");
+  const notificationsGroup = document.querySelector("#notifications-group");
+  const notifyDaysCancellationGroup = document.querySelector("#notify-days-cancellation-group");
+  const notificationsCheckbox = document.querySelector("#notifications");
+
+  if (isOneTime) {
+    if (frequencySelect) frequencySelect.style.display = 'none';
+    if (autoRenewGroup) autoRenewGroup.style.display = 'none';
+    if (autoRenewCheckbox) { autoRenewCheckbox.checked = false; autoRenewCheckbox.disabled = true; }
+    if (autofillDesktop) autofillDesktop.style.display = 'none';
+    if (labelRecurring) labelRecurring.style.display = 'none';
+    if (labelOnetime) labelOnetime.style.display = '';
+    if (notificationsGroup) notificationsGroup.style.display = 'none';
+    if (notifyDaysCancellationGroup) notifyDaysCancellationGroup.style.display = 'none';
+    if (notificationsCheckbox) { notificationsCheckbox.checked = false; notificationsCheckbox.disabled = true; }
+  } else {
+    if (frequencySelect) frequencySelect.style.display = '';
+    if (autoRenewGroup) autoRenewGroup.style.display = '';
+    if (autoRenewCheckbox) autoRenewCheckbox.disabled = false;
+    if (autofillDesktop) autofillDesktop.style.display = '';
+    if (labelRecurring) labelRecurring.style.display = '';
+    if (labelOnetime) labelOnetime.style.display = 'none';
+    if (notificationsGroup) notificationsGroup.style.display = '';
+    if (notifyDaysCancellationGroup) notifyDaysCancellationGroup.style.display = '';
+    if (notificationsCheckbox) notificationsCheckbox.disabled = false;
   }
 }
 
