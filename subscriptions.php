@@ -293,7 +293,7 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
       <input type="hidden" id="logo-url" name="logo-url">
       <div id="logo-search-button" class="image-button medium disabled" title="<?= translate('search_logo', $i18n) ?>"
         onClick="searchLogo()">
-        <?php include "images/siteicons/svg/websearch.php"; ?>
+        <i class="fa-solid fa-magnifying-glass"></i>
       </div>
       <input type="hidden" id="id" name="id">
       <div id="logo-search-results" class="logo-search">

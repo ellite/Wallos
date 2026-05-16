@@ -140,7 +140,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             <div class="user-list">
                 <?php
                 foreach ($users as $user) {
-                    $userIcon = $user['id'] == 1 ? 'fa-user-tie' : 'fa-id-badge';
+                    $userIcon = $user['id'] == 1 ? 'fa-user-shield' : 'fa-user';
                     ?>
                     <div class="form-group-inline" data-userid="<?= $user['id'] ?>">
                         <div class="user-list-row">
@@ -152,7 +152,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                             </div>
                             <div title="<?= translate('email', $i18n) ?>">
                                 <div class="user-list-icon">
-                                    <i class="fa-solid fa-envelope"></i>
+                                    <i class="fa-solid fa-at"></i>
                                 </div>
                                 <a href="mailto:<?= htmlspecialchars($user['email']) ?>"><?= htmlspecialchars($user['email']) ?></a>
                             </div>
@@ -163,14 +163,14 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                                 ?>
                                 <button class="image-button medium" onClick="removeUser(<?= $user['id'] ?>)"
                                     title="<?= translate('delete_user', $i18n) ?>">
-                                    <?php include "images/siteicons/svg/delete.php"; ?>
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 <?php
                             } else {
                                 ?>
                                 <button class="image-button medium disabled" disabled
                                     title="<?= translate('delete_user', $i18n) ?>">
-                                    <?php include "images/siteicons/svg/delete.php"; ?>
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 <?php
                             }
