@@ -114,6 +114,15 @@
     </div>
   </div>
 
+  <div class="filtermenu-submenu">
+    <div class="filter-title" onClick="toggleSubMenu('notification')"><?= translate("notifications", $i18n) ?></div>
+    <div class="filtermenu-submenu-content" id="filter-notification">
+      <div class="filter-item capitalize" data-notificationtype="reminder"><?= translate("reminder", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="cancellation"><?= translate("cancellation", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="none"><?= translate("none", $i18n) ?></div>
+    </div>
+  </div>
+
   <div class="filtermenu-submenu hide" id="clear-filters">
     <div class="filter-title filter-clear" onClick="clearFilters()">
       <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>

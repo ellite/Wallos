@@ -96,6 +96,23 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  if (isset($_GET['notifications']) && $_GET['notifications'] !== "") {
+    $notifTypes = array_filter(explode(',', $_GET['notifications']), fn($t) => in_array($t, ['reminder', 'cancellation', 'none']));
+    $notifConditions = [];
+    foreach ($notifTypes as $type) {
+      if ($type === 'reminder') {
+        $notifConditions[] = "notify = 1";
+      } elseif ($type === 'cancellation') {
+        $notifConditions[] = "(cancellation_date IS NOT NULL AND cancellation_date != '')";
+      } elseif ($type === 'none') {
+        $notifConditions[] = "(notify = 0 AND (cancellation_date IS NULL OR cancellation_date = ''))";
+      }
+    }
+    if (!empty($notifConditions)) {
+      $sql .= " AND (" . implode(' OR ', $notifConditions) . ")";
+    }
+  }
+
   if (isset($_COOKIE['sortOrder']) && $_COOKIE['sortOrder'] != "") {
     $sort = $_COOKIE['sortOrder'];
   }

@@ -390,6 +390,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['renewalType'] !== "") {
     getSubscriptions += getSubscriptions.includes("?") ? `&renewalType=${activeFilters['renewalType']}` : `?renewalType=${activeFilters['renewalType']}`;
   }
+  if (activeFilters['notifications'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&notifications=${activeFilters['notifications']}` : `?notifications=${activeFilters['notifications']}`;
+  }
 
   fetch(getSubscriptions)
     .then(response => response.text())
@@ -660,6 +663,7 @@ activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
 activeFilters['renewalType'] = "";
+activeFilters['notifications'] = [];
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -765,11 +769,21 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         });
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-notificationtype')) {
+      const notifType = this.getAttribute('data-notificationtype');
+      if (activeFilters['notifications'].includes(notifType)) {
+        const idx = activeFilters['notifications'].indexOf(notifType);
+        activeFilters['notifications'].splice(idx, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['notifications'].push(notifType);
+        this.classList.add('selected');
+      }
     }
 
     if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
-       activeFilters['payments'].length > 0 || activeFilters['state'] !== "" || 
-       activeFilters['renewalType'] !== "") {
+       activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
+       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0) {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -787,7 +801,8 @@ function clearFilters() {
   activeFilters['payments'] = [];
   activeFilters['state'] = "";
   activeFilters['renewalType'] = "";
-  
+  activeFilters['notifications'] = [];
+
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
   });
