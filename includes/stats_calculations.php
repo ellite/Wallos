@@ -79,6 +79,31 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
   $memberCost[$memberId]['name'] = $row['name'];
 }
 
+// Unfiltered counts for filter menu display (so non-selected items remain visible when a filter is active)
+$stmt = $db->prepare("SELECT category_id, COUNT(*) as cnt FROM subscriptions WHERE user_id = :userId GROUP BY category_id");
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$r = $stmt->execute();
+$menuCategoryCounts = [];
+while ($row = $r->fetchArray(SQLITE3_ASSOC)) {
+    $menuCategoryCounts[$row['category_id']] = $row['cnt'];
+}
+
+$stmt = $db->prepare("SELECT payer_user_id, COUNT(*) as cnt FROM subscriptions WHERE user_id = :userId GROUP BY payer_user_id");
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$r = $stmt->execute();
+$menuMemberCounts = [];
+while ($row = $r->fetchArray(SQLITE3_ASSOC)) {
+    $menuMemberCounts[$row['payer_user_id']] = $row['cnt'];
+}
+
+$stmt = $db->prepare("SELECT payment_method_id, COUNT(*) as cnt FROM subscriptions WHERE user_id = :userId AND inactive = 0 GROUP BY payment_method_id");
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$r = $stmt->execute();
+$menuPaymentCounts = [];
+while ($row = $r->fetchArray(SQLITE3_ASSOC)) {
+    $menuPaymentCounts[$row['payment_method_id']] = $row['cnt'];
+}
+
 $activeSubscriptions = 0;
 $inactiveSubscriptions = 0;
 // Calculate total monthly price
@@ -94,22 +119,34 @@ $query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment,
 $conditions = [];
 $params = [];
 
-if (isset($_GET['member'])) {
-    $conditions[] = "payer_user_id = :member";
-    $params[':member'] = $_GET['member'];
-    $statsSubtitleParts[] = $members[$_GET['member']]['name'];
+if (isset($_GET['member']) && $_GET['member'] !== '') {
+    $memberIds = array_map('intval', explode(',', $_GET['member']));
+    $conditions[] = "payer_user_id IN (" . implode(',', $memberIds) . ")";
+    foreach ($memberIds as $mid) {
+        if (isset($members[$mid])) {
+            $statsSubtitleParts[] = $members[$mid]['name'];
+        }
+    }
 }
 
-if (isset($_GET['category'])) {
-    $conditions[] = "category_id = :category";
-    $params[':category'] = $_GET['category'];
-    $statsSubtitleParts[] = $categories[$_GET['category']]['name'] == "No category" ? translate("no_category", $i18n) : $categories[$_GET['category']]['name'];
+if (isset($_GET['category']) && $_GET['category'] !== '') {
+    $categoryIds = array_map('intval', explode(',', $_GET['category']));
+    $conditions[] = "category_id IN (" . implode(',', $categoryIds) . ")";
+    foreach ($categoryIds as $cid) {
+        if (isset($categories[$cid])) {
+            $statsSubtitleParts[] = $categories[$cid]['name'] == "No category" ? translate("no_category", $i18n) : $categories[$cid]['name'];
+        }
+    }
 }
 
-if (isset($_GET['payment'])) {
-    $conditions[] = "payment_method_id = :payment";
-    $params[':payment'] = $_GET['payment'];
-    $statsSubtitleParts[] = $paymentMethodsCount[$_GET['payment']]['name'];
+if (isset($_GET['payment']) && $_GET['payment'] !== '') {
+    $paymentIds = array_map('intval', explode(',', $_GET['payment']));
+    $conditions[] = "payment_method_id IN (" . implode(',', $paymentIds) . ")";
+    foreach ($paymentIds as $pid) {
+        if (isset($paymentMethodsCount[$pid])) {
+            $statsSubtitleParts[] = $paymentMethodsCount[$pid]['name'];
+        }
+    }
 }
 
 $conditions[] = "user_id = :userId";
