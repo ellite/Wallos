@@ -19,6 +19,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/oidc_settings.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -74,6 +75,15 @@ if (!in_array($disable, ['0', '1'], true)) {
         'success' => false,
         'title' => 'Invalid parameter',
         'message' => 'Parameter "disable" must be "0" or "1".'
+    ]);
+    exit;
+}
+
+if (wallos_has_oidc_env_value('OIDC_DISABLE_PASSWORD_LOGIN')) {
+    echo json_encode([
+        'success' => false,
+        'title' => 'Managed by environment',
+        'message' => 'Password login is managed by the OIDC_DISABLE_PASSWORD_LOGIN environment variable.'
     ]);
     exit;
 }

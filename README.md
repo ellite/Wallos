@@ -209,6 +209,27 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ## OIDC
 
 OIDC can be enabled on the Admin page and can be used with providers that support OAuth.
+Wallos can also resolve OIDC settings declaratively from environment variables. When an `OIDC_*` variable is set, it overrides the corresponding database value at runtime without rewriting the database.
+
+If `OIDC_ISSUER` is set, Wallos will fetch `/.well-known/openid-configuration` at runtime and use discovery for the authorization, token, and user info endpoints unless a more specific endpoint variable is also set.
+
+| Environment Variable | UI Equivalent |
+| --- | --- |
+| `OIDC_ENABLED` | `Enable OIDC/OAuth` |
+| `OIDC_PROVIDER_NAME` | `Provider Name` |
+| `OIDC_CLIENT_ID` | `Client ID` |
+| `OIDC_CLIENT_SECRET` | `Client Secret` |
+| `OIDC_CLIENT_SECRET_FILE` | `Client Secret` |
+| `OIDC_ISSUER` | No direct UI field |
+| `OIDC_AUTH_URL` | `Auth URL` |
+| `OIDC_TOKEN_URL` | `Token URL` |
+| `OIDC_USERINFO_URL` | `User Info URL` |
+| `OIDC_REDIRECT_URL` | `Redirect URL` |
+| `OIDC_LOGOUT_URL` | `Logout URL` |
+| `OIDC_USER_IDENTIFIER` | `User Identifier Field` |
+| `OIDC_SCOPES` | `Scopes` |
+| `OIDC_AUTO_CREATE_USER` | `Create user automatically` |
+| `OIDC_DISABLE_PASSWORD_LOGIN` | `Disable password login` |
 
 ## API Documentation
 

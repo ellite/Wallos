@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../oidc_settings.php';
+
 function generate_username_from_email($email)
 {
     if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -10,10 +12,13 @@ function generate_username_from_email($email)
     return $username;
 }
 
-// get OIDC settings
-$stmt = $db->prepare('SELECT * FROM oauth_settings WHERE id = 1');
-$result = $stmt->execute();
-$oidcSettings = $result->fetchArray(SQLITE3_ASSOC);
+$oidcConfiguration = wallos_get_effective_oidc_configuration($db);
+if ($oidcConfiguration['enabled'] !== 1 || !$oidcConfiguration['is_configured']) {
+    header("Location: login.php?error=oidc_user_not_found");
+    exit();
+}
+
+$oidcSettings = $oidcConfiguration['settings'];
 
 $tokenUrl = $oidcSettings['token_url'];
 $redirectUri = $oidcSettings['redirect_url'];

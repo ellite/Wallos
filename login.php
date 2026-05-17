@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
+require_once 'includes/oidc_settings.php';
 
 require_once 'includes/i18n/languages.php';
 require_once 'includes/i18n/getlang.php';
@@ -117,50 +118,39 @@ if (isset($_COOKIE['colorTheme'])) {
     $colorTheme = $_COOKIE['colorTheme'];
 }
 
-// Check if OIDC is Enabled
+// Check if OIDC is enabled and resolve any environment overrides.
 $password_login_disabled = false;
 $oidcEnabled = false;
-$oidcQuery = "SELECT oidc_oauth_enabled FROM admin";
-$oidcResult = $db->query($oidcQuery);
-$oidcRow = $oidcResult->fetchArray(SQLITE3_ASSOC);
-if ($oidcRow) {
-    $oidcEnabled = $oidcRow['oidc_oauth_enabled'] == 1;
-    if ($oidcEnabled) {
-        // Fetch OIDC settings
-        $oidcSettingsQuery = "SELECT * FROM oauth_settings WHERE id = 1";
-        $oidcSettingsResult = $db->query($oidcSettingsQuery);
-        $oidcSettings = $oidcSettingsResult->fetchArray(SQLITE3_ASSOC);
-        if (!$oidcSettings) {
-            $oidcEnabled = false;
-        } else {
-            $oidc_name = $oidcSettings['name'] ?? '';
-            $password_login_disabled = $oidcSettings['password_login_disabled'] == 1;
+$oidcConfiguration = wallos_get_effective_oidc_configuration($db);
+$oidcEnabled = $oidcConfiguration['enabled'] == 1 && $oidcConfiguration['is_configured'];
+if ($oidcEnabled) {
+    $oidcSettings = $oidcConfiguration['settings'];
+    $oidc_name = $oidcSettings['name'] ?? '';
+    $password_login_disabled = (int) $oidcSettings['password_login_disabled'] === 1;
 
-            // Generate a CSRF-protecting state string
-            $secondsInMonth = 30 * 24 * 60 * 60;
-            if (session_status() === PHP_SESSION_NONE) {
-                session_set_cookie_params([
-                    'lifetime' => $secondsInMonth,             
-                    'httponly' => true,          
-                    'samesite' => 'Lax'          
-                ]);
-                session_start();
-            }
-            $state = bin2hex(random_bytes(16));
-            $_SESSION['oidc_state'] = $state;
-
-            // Build the OIDC authorization URL
-            $params = http_build_query([
-                'response_type' => 'code',
-                'client_id' => $oidcSettings['client_id'],
-                'redirect_uri' => $oidcSettings['redirect_url'],
-                'scope' => $oidcSettings['scopes'],
-                'state' => $state,
-            ]);
-
-            $oidc_auth_url = rtrim($oidcSettings['authorization_url'], '?') . '?' . $params;
-        }
+    // Generate a CSRF-protecting state string
+    $secondsInMonth = 30 * 24 * 60 * 60;
+    if (session_status() === PHP_SESSION_NONE) {
+        session_set_cookie_params([
+            'lifetime' => $secondsInMonth,
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+        session_start();
     }
+    $state = bin2hex(random_bytes(16));
+    $_SESSION['oidc_state'] = $state;
+
+    // Build the OIDC authorization URL
+    $params = http_build_query([
+        'response_type' => 'code',
+        'client_id' => $oidcSettings['client_id'],
+        'redirect_uri' => $oidcSettings['redirect_url'],
+        'scope' => $oidcSettings['scopes'],
+        'state' => $state,
+    ]);
+
+    $oidc_auth_url = rtrim($oidcSettings['authorization_url'], '?') . '?' . $params;
 }
 
 $loginFailed = false;
