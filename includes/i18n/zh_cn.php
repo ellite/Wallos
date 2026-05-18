@@ -457,6 +457,15 @@ $i18n = [
 
     // TOTP Page
     "insert_totp_code" => "请输入 TOTP 代码",
+    // 批量操作
+    "bulk_actions" => "批量操作",
+    "select_all" => "全选",
+    "selected" => "已选",
+    "select_action" => "选择操作...",
+    "enable_notifications" => "启用通知",
+    "disable_notifications" => "关闭通知",
+    "set_notification_timing" => "设置通知时间",
+    "apply" => "应用",
 
 ];
 

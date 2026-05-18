@@ -694,15 +694,29 @@ button.mobile-action-renew {
 .bulk-select-all-label {
   display: flex;
   align-items: center;
+  gap: 6px;
   cursor: pointer;
+}
+
+.bulk-select-all-text {
+  font-size: 14px;
+}
+
+.bulk-divider {
+  color: var(--border-color);
+  margin: 0 4px;
 }
 
 .bulk-select-all-label input[type="checkbox"],
 .subscription-bulk-checkbox input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  opacity: 1 !important;
+  position: static !important;
+  width: 18px !important;
+  height: 18px !important;
   cursor: pointer;
   accent-color: var(--main-color);
+  margin: 0;
+  flex-shrink: 0;
 }
 
 .bulk-toolbar select {

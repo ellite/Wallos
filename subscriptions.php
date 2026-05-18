@@ -192,7 +192,9 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
     <div class="bulk-toolbar-left">
       <label class="bulk-select-all-label" title="<?= translate('select_all', $i18n) ?>">
         <input type="checkbox" id="bulk-select-all" onChange="bulkToggleSelectAll(this)">
+        <span class="bulk-select-all-text"><?= translate('select_all', $i18n) ?></span>
       </label>
+      <span class="bulk-divider">|</span>
       <span id="bulk-selected-count">0 <?= translate('selected', $i18n) ?></span>
     </div>
     <div class="bulk-toolbar-right">
