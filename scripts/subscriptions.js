@@ -979,3 +979,97 @@ window.addEventListener('load', () => {
     swipeHintAnimation();
   }
 });
+
+// ── Bulk Actions ──────────────────────────────────────────────────────────────
+
+let bulkModeActive = false;
+
+function toggleBulkMode() {
+  if (bulkModeActive) {
+    exitBulkMode();
+  } else {
+    enterBulkMode();
+  }
+}
+
+function enterBulkMode() {
+  bulkModeActive = true;
+  document.getElementById('subscriptions').classList.add('bulk-mode');
+  document.getElementById('bulk-toolbar').classList.add('visible');
+  document.getElementById('bulk-mode-btn').classList.add('active');
+}
+
+function exitBulkMode() {
+  bulkModeActive = false;
+  document.getElementById('subscriptions').classList.remove('bulk-mode');
+  document.getElementById('bulk-toolbar').classList.remove('visible');
+  document.getElementById('bulk-mode-btn').classList.remove('active');
+  document.querySelectorAll('.sub-select-checkbox').forEach(cb => { cb.checked = false; });
+  document.getElementById('bulk-select-all').checked = false;
+  document.getElementById('bulk-action-select').value = '';
+  document.getElementById('bulk-notify-days-select').classList.add('hidden');
+  updateBulkSelectedCount();
+}
+
+function updateBulkSelectedCount() {
+  const count = document.querySelectorAll('.sub-select-checkbox:checked').length;
+  const total = document.querySelectorAll('.sub-select-checkbox').length;
+  document.getElementById('bulk-selected-count').textContent = count + ' ' + translate('selected');
+  document.getElementById('bulk-select-all').checked = total > 0 && count === total;
+  document.getElementById('bulk-select-all').indeterminate = count > 0 && count < total;
+}
+
+function bulkToggleSelectAll(checkbox) {
+  document.querySelectorAll('.sub-select-checkbox').forEach(cb => { cb.checked = checkbox.checked; });
+  updateBulkSelectedCount();
+}
+
+function onBulkActionChange() {
+  const action = document.getElementById('bulk-action-select').value;
+  document.getElementById('bulk-notify-days-select').classList.toggle('hidden', action !== 'set_notify_days');
+}
+
+function applyBulkAction() {
+  const ids = Array.from(document.querySelectorAll('.sub-select-checkbox:checked')).map(cb => parseInt(cb.value));
+  if (ids.length === 0) {
+    showErrorMessage(translate('no_subscriptions_selected'));
+    return;
+  }
+
+  const action = document.getElementById('bulk-action-select').value;
+  if (!action) {
+    showErrorMessage(translate('select_action'));
+    return;
+  }
+
+  if (action === 'delete') {
+    if (!confirm(translate('confirm_bulk_delete').replace('{count}', ids.length))) return;
+  }
+
+  const body = { ids, action };
+  if (action === 'set_notify_days') {
+    body.value = parseInt(document.getElementById('bulk-notify-days-select').value);
+  }
+
+  fetch('endpoints/subscriptions/bulk_update.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(body),
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(translate('bulk_action_success').replace('{count}', data.count));
+        exitBulkMode();
+        fetchSubscriptions(null, null, 'bulk_update');
+      } else {
+        showErrorMessage(data.message || translate('error_bulk_action'));
+      }
+    })
+    .catch(() => {
+      showErrorMessage(translate('error_bulk_action'));
+    });
+}

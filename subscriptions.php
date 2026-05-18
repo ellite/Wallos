@@ -181,8 +181,41 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         </button>
         <?php include 'includes/sort_options.php'; ?>
       </div>
+
+      <button class="button secondary-button" id="bulk-mode-btn" title="<?= translate('bulk_actions', $i18n) ?>" onClick="toggleBulkMode()">
+        <i class="fa-solid fa-list-check"></i>
+      </button>
     </div>
   </header>
+
+  <div class="bulk-toolbar" id="bulk-toolbar">
+    <div class="bulk-toolbar-left">
+      <label class="bulk-select-all-label" title="<?= translate('select_all', $i18n) ?>">
+        <input type="checkbox" id="bulk-select-all" onChange="bulkToggleSelectAll(this)">
+      </label>
+      <span id="bulk-selected-count">0 <?= translate('selected', $i18n) ?></span>
+    </div>
+    <div class="bulk-toolbar-right">
+      <select id="bulk-action-select" onChange="onBulkActionChange()">
+        <option value=""><?= translate('select_action', $i18n) ?></option>
+        <option value="enable_notify"><?= translate('enable_notifications', $i18n) ?></option>
+        <option value="disable_notify"><?= translate('disable_notifications', $i18n) ?></option>
+        <option value="set_notify_days"><?= translate('set_notification_timing', $i18n) ?></option>
+        <option value="delete"><?= translate('delete', $i18n) ?></option>
+      </select>
+      <select id="bulk-notify-days-select" class="hidden">
+        <option value="-1"><?= translate('default_value_from_settings', $i18n) ?></option>
+        <option value="0"><?= translate('on_due_date', $i18n) ?></option>
+        <option value="1">1 <?= translate('day_before', $i18n) ?></option>
+        <?php for ($i = 2; $i <= 180; $i++): ?>
+          <option value="<?= $i ?>"><?= $i ?> <?= translate('days_before', $i18n) ?></option>
+        <?php endfor; ?>
+      </select>
+      <button class="button" id="bulk-apply-btn" onClick="applyBulkAction()"><?= translate('apply', $i18n) ?></button>
+      <button class="button secondary-button" onClick="exitBulkMode()"><?= translate('cancel', $i18n) ?></button>
+    </div>
+  </div>
+
   <div class="subscriptions" id="subscriptions">
     <?php
     $formatter = new IntlDateFormatter(
