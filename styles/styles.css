@@ -3151,3 +3151,43 @@ input[type="radio"]:checked+label::after {
 .dashboard-subscriptions-container::-webkit-scrollbar {
     display: none;
 }
+/* ── Calendar Price & Name ─────────────────────────────────────────────────── */
+
+.calendar .cal-name {
+  min-width: 0;
+}
+
+.calendar .cal-price {
+  font-size: 10px;
+  opacity: 0.7;
+  text-align: center;
+  cursor: pointer;
+  padding: 1px 4px 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .calendar .calendar-subscription-title {
+    padding: 3px 3px;
+    gap: 3px;
+    font-size: 11px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .calendar .cal-renewal-icon,
+  .calendar .cal-renewal-icon svg {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .calendar .cal-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+}
