@@ -253,11 +253,14 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                           }
                           ?>
                           <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                            <?php if ($subscription['auto_renew']): ?>
-                              <i class="fa-solid fa-rotate cal-renewal-icon auto" title="<?= translate('automatically_renews', $i18n) ?>"></i>
-                            <?php else: ?>
-                              <i class="fa-solid fa-hand-point-right cal-renewal-icon manual" title="<?= translate('manual_renewal', $i18n) ?>"></i>
-                            <?php endif; ?>
+                            <span class="cal-renewal-icon <?= $subscription['auto_renew'] ? 'auto' : 'manual' ?>"
+                                  title="<?= $subscription['auto_renew'] ? translate('automatically_renews', $i18n) : translate('manual_renewal', $i18n) ?>">
+                              <?php if ($subscription['auto_renew']): ?>
+                                <?php include "images/siteicons/svg/automatic.php"; ?>
+                              <?php else: ?>
+                                <?php include "images/siteicons/svg/manual.php"; ?>
+                              <?php endif; ?>
+                            </span>
                             <?= htmlspecialchars($subscription['name']) ?>
                           </div>
                           <?php
