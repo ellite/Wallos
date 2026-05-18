@@ -3,6 +3,15 @@ let scrollTopBeforeOpening = 0;
 const shouldScroll = window.innerWidth <= 768;
 
 function toggleOpenSubscription(subId) {
+  if (bulkModeActive) {
+    const container = document.querySelector('.subscription[data-id="' + subId + '"]').closest('.subscription-container');
+    const checkbox = container.querySelector('.sub-select-checkbox');
+    if (checkbox) {
+      checkbox.checked = !checkbox.checked;
+      updateBulkSelectedCount();
+    }
+    return;
+  }
   const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
   subscriptionElement.classList.toggle('is-open');
 }
@@ -1014,9 +1023,10 @@ function exitBulkMode() {
 function updateBulkSelectedCount() {
   const count = document.querySelectorAll('.sub-select-checkbox:checked').length;
   const total = document.querySelectorAll('.sub-select-checkbox').length;
-  document.getElementById('bulk-selected-count').textContent = count + ' ' + translate('selected');
+  document.getElementById('bulk-selected-count').textContent = translate('selected') + ' ' + count + ' / ' + total;
   document.getElementById('bulk-select-all').checked = total > 0 && count === total;
   document.getElementById('bulk-select-all').indeterminate = count > 0 && count < total;
+  document.getElementById('bulk-apply-btn').disabled = count === 0;
 }
 
 function bulkToggleSelectAll(checkbox) {
