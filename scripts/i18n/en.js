@@ -39,11 +39,25 @@ let i18n = {
   this_will_delete_all_data: "This will delete all your data and can't be undone. Continue?",
   success: "Success",
   copied_to_clipboard: "Copied to clipboard",
-  // Calendar 
+  // Calendar
   price: "Price",
   category: "Category",
   paid_by: "Paid by",
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+  // Bulk actions
+  bulk_actions: "Bulk actions",
+  select_all: "Select all",
+  selected: "selected",
+  select_action: "Select action...",
+  enable_notifications: "Enable notifications",
+  disable_notifications: "Disable notifications",
+  set_notification_timing: "Set notification timing",
+  apply: "Apply",
+  cancel: "Cancel",
+  no_subscriptions_selected: "No subscriptions selected",
+  confirm_bulk_delete: "Delete {count} subscription(s)? This cannot be undone.",
+  bulk_action_success: "{count} subscription(s) updated",
+  error_bulk_action: "Error performing bulk action",
 }

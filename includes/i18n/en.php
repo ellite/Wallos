@@ -436,6 +436,16 @@ $i18n = [
     "over_budget_warning" => "You're over budget",
     // TOTP Page
     "insert_totp_code" => "Insert TOTP code",
+    // Bulk actions
+    "bulk_actions" => "Bulk actions",
+    "select_all" => "Select all",
+    "selected" => "selected",
+    "select_action" => "Select action...",
+    "enable_notifications" => "Enable notifications",
+    "disable_notifications" => "Disable notifications",
+    "set_notification_timing" => "Set notification timing",
+    "apply" => "Apply",
+    "cancel" => "Cancel",
 
 
 ];
