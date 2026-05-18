@@ -763,6 +763,14 @@ button.mobile-action-renew {
   border-radius: 16px;
 }
 
+#subscriptions.bulk-mode .subscription {
+  cursor: pointer;
+}
+
+#subscriptions.bulk-mode .subscription:hover {
+  opacity: 0.85;
+}
+
 @media (max-width: 768px) {
   .bulk-toolbar {
     flex-direction: column;
