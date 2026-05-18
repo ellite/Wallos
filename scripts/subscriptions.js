@@ -980,3 +980,36 @@ window.addEventListener('load', () => {
     swipeHintAnimation();
   }
 });
+
+function toggleSubscriptionNotify(event, subId, currentNotify) {
+  event.stopPropagation();
+  const span = event.currentTarget;
+  const icon = span.querySelector('i');
+  const newNotify = currentNotify ? 0 : 1;
+
+  icon.className = newNotify ? 'fa-solid fa-bell notify-on' : 'fa-solid fa-bell-slash notify-off';
+  span.title = newNotify ? translate('disable_notifications') : translate('enable_notifications');
+  span.onclick = (e) => toggleSubscriptionNotify(e, subId, newNotify);
+
+  fetch('endpoints/subscriptions/toggle_notify.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ id: subId }),
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (!data.success) {
+        icon.className = currentNotify ? 'fa-solid fa-bell notify-on' : 'fa-solid fa-bell-slash notify-off';
+        span.title = currentNotify ? translate('disable_notifications') : translate('enable_notifications');
+        span.onclick = (e) => toggleSubscriptionNotify(e, subId, currentNotify);
+      }
+    })
+    .catch(() => {
+      icon.className = currentNotify ? 'fa-solid fa-bell notify-on' : 'fa-solid fa-bell-slash notify-off';
+      span.title = currentNotify ? translate('disable_notifications') : translate('enable_notifications');
+      span.onclick = (e) => toggleSubscriptionNotify(e, subId, currentNotify);
+    });
+}

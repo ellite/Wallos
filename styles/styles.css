@@ -668,6 +668,16 @@ button.mobile-action-renew {
   font-size: 15px;
 }
 
+.subscription .notify-status.notify-toggle {
+  cursor: pointer;
+  border-radius: 6px;
+  transition: opacity 0.15s;
+}
+
+.subscription .notify-status.notify-toggle:hover {
+  opacity: 0.65;
+}
+
 .subscription .price {
   flex-basis: 8%;
   justify-content: center;

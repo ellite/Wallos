@@ -305,7 +305,9 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         <img src="<?= $subscription['payment_method_icon'] ?>"
                             title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
                     </span>
-                    <span class="notify-status" title="<?= $subscription['notify'] ? 'Notifications enabled' : 'Notifications disabled' ?>">
+                    <span class="notify-status notify-toggle"
+                          onClick="toggleSubscriptionNotify(event, <?= $subscription['id'] ?>, <?= $subscription['notify'] ? 1 : 0 ?>)"
+                          title="<?= $subscription['notify'] ? translate('disable_notifications', $i18n) : translate('enable_notifications', $i18n) ?>">
                         <?php if ($subscription['notify']): ?>
                             <i class="fa-solid fa-bell notify-on"></i>
                         <?php else: ?>
