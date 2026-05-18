@@ -46,6 +46,9 @@ let i18n = {
     payment_method: "支付方式",
     notes: "备注",
     export: "导出",
+    renewal_type: "续费类型",
+    automatically_renews: "自动续费",
+    manual_renewal: "手动续费",
     // 批量操作
     bulk_actions: "批量操作",
     select_all: "全选",
@@ -54,6 +57,8 @@ let i18n = {
     enable_notifications: "启用通知",
     disable_notifications: "关闭通知",
     set_notification_timing: "设置通知时间",
+    set_category: "设置分类",
+    set_payment_method: "设置付款方式",
     apply: "应用",
     cancel: "取消",
     no_subscriptions_selected: "请先选择订阅",

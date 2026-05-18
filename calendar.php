@@ -71,6 +71,38 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 $currenciesInUse = array_unique($currenciesInUse);
+
+$calCurrencies = [];
+$stmtCur = $db->prepare("SELECT id, symbol FROM currencies WHERE user_id = :userId");
+$stmtCur->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$resCur = $stmtCur->execute();
+while ($rowCur = $resCur->fetchArray(SQLITE3_ASSOC)) {
+  $calCurrencies[$rowCur['id']] = $rowCur['symbol'];
+}
+
+$calMembers = [];
+$stmtMem = $db->prepare("SELECT id, name FROM household WHERE user_id = :userId");
+$stmtMem->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$resMem = $stmtMem->execute();
+while ($rowMem = $resMem->fetchArray(SQLITE3_ASSOC)) {
+  $calMembers[$rowMem['id']] = $rowMem['name'];
+}
+
+$calCategories = [];
+$stmtCat = $db->prepare("SELECT id, name FROM categories WHERE user_id = :userId");
+$stmtCat->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$resCat = $stmtCat->execute();
+while ($rowCat = $resCat->fetchArray(SQLITE3_ASSOC)) {
+  $calCategories[$rowCat['id']] = $rowCat['name'];
+}
+
+$calPaymentMethods = [];
+$stmtPm = $db->prepare("SELECT id, name FROM payment_methods WHERE user_id = :userId AND enabled = 1");
+$stmtPm->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$resPm = $stmtPm->execute();
+while ($rowPm = $resPm->fetchArray(SQLITE3_ASSOC)) {
+  $calPaymentMethods[$rowPm['id']] = $rowPm['name'];
+}
 $usesMultipleCurrencies = count($currenciesInUse) > 1;
 
 $showCantConverErrorMessage = false;
@@ -207,8 +239,9 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                       if (date('Y-m', $nextPaymentDate) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) && date('d', $nextPaymentDate) == $day) {
                         ?>
                         <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                          <?= htmlspecialchars($subscription['name']) ?>
+                          <span class="cal-name"><?= htmlspecialchars($subscription['name']) ?></span>
                         </div>
+                        <div class="cal-price" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)"><?= ($calCurrencies[$subscription['currency_id']] ?? '') . number_format($subscription['price'], 2) ?></div>
                         <?php
                       }
                       continue;
@@ -261,8 +294,9 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                                 <?php include "images/siteicons/svg/manual.php"; ?>
                               <?php endif; ?>
                             </span>
-                            <?= htmlspecialchars($subscription['name']) ?>
+                            <span class="cal-name"><?= htmlspecialchars($subscription['name']) ?></span>
                           </div>
+                          <div class="cal-price" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)"><?= ($calCurrencies[$subscription['currency_id']] ?? '') . number_format($subscription['price'], 2) ?></div>
                           <?php
                         }
                       }
@@ -300,8 +334,9 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                     if (date('Y-m', $nextPaymentDate) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) && date('d', $nextPaymentDate) == $day) {
                       ?>
                       <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                        <?= htmlspecialchars($subscription['name']) ?>
+                        <span class="cal-name"><?= htmlspecialchars($subscription['name']) ?></span>
                       </div>
+                      <div class="cal-price" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)"><?= ($calCurrencies[$subscription['currency_id']] ?? '') . number_format($subscription['price'], 2) ?></div>
                       <?php
                     }
                     continue;
@@ -354,8 +389,9 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                               <?php include "images/siteicons/svg/manual.php"; ?>
                             <?php endif; ?>
                           </span>
-                          <?= htmlspecialchars($subscription['name']) ?>
+                          <span class="cal-name"><?= htmlspecialchars($subscription['name']) ?></span>
                         </div>
+                        <div class="cal-price" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)"><?= ($calCurrencies[$subscription['currency_id']] ?? '') . number_format($subscription['price'], 2) ?></div>
                         <?php
                       }
                     }
@@ -426,6 +462,23 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
   </div>
 </div>
 
+<script>
+window.calendarSubscriptions = {};
+<?php foreach ($subscriptions as $sub): ?>
+window.calendarSubscriptions[<?= $sub['id'] ?>] = {
+  id: <?= $sub['id'] ?>,
+  name: <?= json_encode($sub['name']) ?>,
+  logo: <?= json_encode($sub['logo'] ?? '') ?>,
+  price: <?= json_encode(number_format($sub['price'], 2)) ?>,
+  currency: <?= json_encode($calCurrencies[$sub['currency_id']] ?? '') ?>,
+  category: <?= json_encode($calCategories[$sub['category_id']] ?? '') ?>,
+  payer_user: <?= json_encode($calMembers[$sub['payer_user_id']] ?? '') ?>,
+  payment_method: <?= json_encode($calPaymentMethods[$sub['payment_method_id']] ?? '') ?>,
+  notes: <?= json_encode($sub['notes'] ?? '') ?>,
+  auto_renew: <?= isset($sub['auto_renew']) ? (int)$sub['auto_renew'] : 'null' ?>
+};
+<?php endforeach; ?>
+</script>
 <script src="scripts/calendar.js?<?= $version ?>"></script>
 <?php
 require_once 'includes/footer.php';

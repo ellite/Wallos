@@ -1018,6 +1018,8 @@ function exitBulkMode() {
   document.getElementById('bulk-select-all').checked = false;
   document.getElementById('bulk-action-select').value = '';
   document.getElementById('bulk-notify-days-select').classList.add('hidden');
+  document.getElementById('bulk-category-select').classList.add('hidden');
+  document.getElementById('bulk-payment-select').classList.add('hidden');
   updateBulkSelectedCount();
 }
 
@@ -1038,6 +1040,8 @@ function bulkToggleSelectAll(checkbox) {
 function onBulkActionChange() {
   const action = document.getElementById('bulk-action-select').value;
   document.getElementById('bulk-notify-days-select').classList.toggle('hidden', action !== 'set_notify_days');
+  document.getElementById('bulk-category-select').classList.toggle('hidden', action !== 'set_category');
+  document.getElementById('bulk-payment-select').classList.toggle('hidden', action !== 'set_payment_method');
 }
 
 function applyBulkAction() {
@@ -1060,6 +1064,10 @@ function applyBulkAction() {
   const body = { ids, action };
   if (action === 'set_notify_days') {
     body.value = parseInt(document.getElementById('bulk-notify-days-select').value);
+  } else if (action === 'set_category') {
+    body.value = parseInt(document.getElementById('bulk-category-select').value);
+  } else if (action === 'set_payment_method') {
+    body.value = parseInt(document.getElementById('bulk-payment-select').value);
   }
 
   fetch('endpoints/subscriptions/bulk_update.php', {
@@ -1082,5 +1090,57 @@ function applyBulkAction() {
     })
     .catch(() => {
       showErrorMessage(translate('error_bulk_action'));
+    });
+}
+
+function toggleSubscriptionNotify(event, subId, currentNotify) {
+  event.stopPropagation();
+  const span = event.currentTarget;
+  const icon = span.querySelector('i');
+  const newNotify = currentNotify ? 0 : 1;
+
+  // 乐观更新：立即更新图标
+  if (newNotify) {
+    icon.className = 'fa-solid fa-bell notify-on';
+    span.title = translate('disable_notifications');
+  } else {
+    icon.className = 'fa-solid fa-bell-slash notify-off';
+    span.title = translate('enable_notifications');
+  }
+  span.onclick = (e) => toggleSubscriptionNotify(e, subId, newNotify);
+
+  fetch('endpoints/subscriptions/toggle_notify.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ id: subId }),
+  })
+    .then(r => r.json())
+    .then(data => {
+      if (!data.success) {
+        // 回滚
+        if (currentNotify) {
+          icon.className = 'fa-solid fa-bell notify-on';
+          span.title = translate('disable_notifications');
+        } else {
+          icon.className = 'fa-solid fa-bell-slash notify-off';
+          span.title = translate('enable_notifications');
+        }
+        span.onclick = (e) => toggleSubscriptionNotify(e, subId, currentNotify);
+      }
+    })
+    .catch(e => {
+      console.error('toggleNotify error:', e);
+      // 回滚
+      if (currentNotify) {
+        icon.className = 'fa-solid fa-bell notify-on';
+        span.title = translate('disable_notifications');
+      } else {
+        icon.className = 'fa-solid fa-bell-slash notify-off';
+        span.title = translate('enable_notifications');
+      }
+      span.onclick = (e) => toggleSubscriptionNotify(e, subId, currentNotify);
     });
 }

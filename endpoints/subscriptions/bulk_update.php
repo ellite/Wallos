@@ -59,6 +59,46 @@ switch ($action) {
         $stmt->execute();
         break;
 
+    case 'set_category':
+        $value = intval($data['value'] ?? 0);
+        if ($value <= 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid category ID']);
+            exit;
+        }
+        $catCheck = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
+        $catCheck->bindValue(':id', $value, SQLITE3_INTEGER);
+        $catCheck->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        if (!$catCheck->execute()->fetchArray(SQLITE3_ASSOC)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid category']);
+            exit;
+        }
+        $sql = "UPDATE subscriptions SET category_id = :value WHERE id IN ($idList) AND user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':value', $value, SQLITE3_INTEGER);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->execute();
+        break;
+
+    case 'set_payment_method':
+        $value = intval($data['value'] ?? 0);
+        if ($value <= 0) {
+            echo json_encode(['success' => false, 'message' => 'Invalid payment method ID']);
+            exit;
+        }
+        $pmCheck = $db->prepare("SELECT id FROM payment_methods WHERE id = :id AND user_id = :userId AND enabled = 1");
+        $pmCheck->bindValue(':id', $value, SQLITE3_INTEGER);
+        $pmCheck->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        if (!$pmCheck->execute()->fetchArray(SQLITE3_ASSOC)) {
+            echo json_encode(['success' => false, 'message' => 'Invalid payment method']);
+            exit;
+        }
+        $sql = "UPDATE subscriptions SET payment_method_id = :value WHERE id IN ($idList) AND user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':value', $value, SQLITE3_INTEGER);
+        $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->execute();
+        break;
+
     case 'delete':
         $sql = "DELETE FROM subscriptions WHERE id IN ($idList) AND user_id = :userId";
         $stmt = $db->prepare($sql);

@@ -46,6 +46,9 @@ let i18n = {
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+  renewal_type: "Renewal type",
+  automatically_renews: "Automatically renews",
+  manual_renewal: "Manual renewal",
   // Bulk actions
   bulk_actions: "Bulk actions",
   select_all: "Select all",
@@ -54,6 +57,8 @@ let i18n = {
   enable_notifications: "Enable notifications",
   disable_notifications: "Disable notifications",
   set_notification_timing: "Set notification timing",
+  set_category: "Set category",
+  set_payment_method: "Set payment method",
   apply: "Apply",
   cancel: "Cancel",
   no_subscriptions_selected: "No subscriptions selected",

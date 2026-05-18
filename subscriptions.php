@@ -203,6 +203,8 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <option value="enable_notify"><?= translate('enable_notifications', $i18n) ?></option>
         <option value="disable_notify"><?= translate('disable_notifications', $i18n) ?></option>
         <option value="set_notify_days"><?= translate('set_notification_timing', $i18n) ?></option>
+        <option value="set_category"><?= translate('set_category', $i18n) ?></option>
+        <option value="set_payment_method"><?= translate('set_payment_method', $i18n) ?></option>
         <option value="delete"><?= translate('delete', $i18n) ?></option>
       </select>
       <select id="bulk-notify-days-select" class="hidden">
@@ -212,6 +214,16 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <?php for ($i = 2; $i <= 180; $i++): ?>
           <option value="<?= $i ?>"><?= $i ?> <?= translate('days_before', $i18n) ?></option>
         <?php endfor; ?>
+      </select>
+      <select id="bulk-category-select" class="hidden">
+        <?php foreach ($categories as $cat): ?>
+          <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+        <?php endforeach; ?>
+      </select>
+      <select id="bulk-payment-select" class="hidden">
+        <?php foreach ($payment_methods as $pm): ?>
+          <option value="<?= $pm['id'] ?>"><?= htmlspecialchars($pm['name']) ?></option>
+        <?php endforeach; ?>
       </select>
       <button class="button" id="bulk-apply-btn" onClick="applyBulkAction()"><?= translate('apply', $i18n) ?></button>
       <button class="button secondary-button" onClick="exitBulkMode()"><?= translate('cancel', $i18n) ?></button>

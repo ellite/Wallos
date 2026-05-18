@@ -27,45 +27,53 @@ function closeSubscriptionModal() {
     modal.classList.remove('is-open');
 }
 
-function openSubscriptionModal(subscriptionId) {
+function renderSubscriptionModal(subscription) {
     const modal = document.getElementById('subscriptionModal');
     const modalContent = document.getElementById('subscriptionModalContent');
+    const html = `
+      <div class="modal-header">
+          <h3>${subscription.name}</h3>
+          <span class="fa-solid fa-xmark close-modal" onclick="closeSubscriptionModal()"></span>
+      </div>
+      <div class="modal-body">
+          ${subscription.logo ? `<div class="subscription-logo">
+          <img src="images/uploads/logos/${subscription.logo}" alt="${subscription.name}">
+          </div>` : ''}
+          <div class="subscription-info">
+          ${subscription.price ? `<p><strong>${translate('price')}:</strong> ${subscription.currency}${subscription.price}</p>` : ''}
+          ${subscription.category ? `<p><strong>${translate('category')}:</strong> ${subscription.category}</p>` : ''}
+          ${subscription.payer_user ? `<p><strong>${translate('paid_by')}:</strong> ${subscription.payer_user}</p>` : ''}
+          ${subscription.payment_method ? `<p><strong>${translate('payment_method')}:</strong> ${subscription.payment_method}</p>` : ''}
+          ${subscription.notes ? `<p><strong>${translate('notes')}:</strong> ${subscription.notes}</p>` : ''}
+          ${subscription.auto_renew !== undefined && subscription.auto_renew !== null ? `<p><strong>${translate('renewal_type')}:</strong> ${subscription.auto_renew ? translate('automatically_renews') : translate('manual_renewal')}</p>` : ''}
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button class="button tiny" onclick="exportCalendar(${subscription.id})">${translate('export')}</button>
+      </div>`;
+    modalContent.innerHTML = html;
+    modal.classList.add('is-open');
+}
 
+function openSubscriptionModal(subscriptionId) {
+    if (window.calendarSubscriptions && window.calendarSubscriptions[subscriptionId]) {
+        renderSubscriptionModal(window.calendarSubscriptions[subscriptionId]);
+        return;
+    }
+
+    const modal = document.getElementById('subscriptionModal');
+    const modalContent = document.getElementById('subscriptionModalContent');
     modalContent.innerHTML = '';
 
     fetch('endpoints/subscription/getcalendar.php', {
         method: 'POST',
         body: JSON.stringify({id: subscriptionId}),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       })
       .then(response => response.json())
       .then(data => {
         if (data.success && data.data) {
-          const subscription = data.data;
-          const html = `
-            <div class="modal-header">
-                <h3>${subscription.name}</h3>
-                <span class="fa-solid fa-xmark close-modal" onclick="closeSubscriptionModal()"></span>
-            </div>
-            <div class="modal-body">
-                ${subscription.logo ? `<div class="subscription-logo">
-                <img src="images/uploads/logos/${subscription.logo}" alt="${subscription.name}">
-                </div>` : ''}
-                <div class="subscription-info">
-                ${subscription.price ? `<p><strong>${translate('price')}:</strong> ${subscription.currency}${subscription.price}</p>` : ''}
-                ${subscription.category ? `<p><strong>${translate('category')}:</strong> ${subscription.category}</p>` : ''}
-                ${subscription.payer_user ? `<p><strong>${translate('paid_by')}:</strong> ${subscription.payer_user}</p>` : ''}
-                ${subscription.payment_method ? `<p><strong>${translate('payment_method')}:</strong> ${subscription.payment_method}</p>` : ''}
-                ${subscription.notes ? `<p><strong>${translate('notes')}:</strong> ${subscription.notes}</p>` : ''}
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="button tiny" onclick="exportCalendar(${subscription.id})">${translate('export')}</button>
-            </div>`;
-          modalContent.innerHTML = html;
-          modal.classList.add('is-open');
+          renderSubscriptionModal(data.data);
         } else {
           console.error(data.message);
         }

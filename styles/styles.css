@@ -658,6 +658,16 @@ button.mobile-action-renew {
   flex-shrink: 0;
 }
 
+.subscription .notify-status.notify-toggle {
+  cursor: pointer;
+  border-radius: 6px;
+  transition: opacity 0.15s;
+}
+
+.subscription .notify-status.notify-toggle:hover {
+  opacity: 0.65;
+}
+
 /* ── Bulk Actions ─────────────────────────────────────────────────────────── */
 
 .bulk-toolbar {
@@ -689,6 +699,12 @@ button.mobile-action-renew {
   align-items: center;
   gap: 8px;
   flex-shrink: 0;
+}
+
+.bulk-toolbar-right .button {
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding: 10px 16px;
 }
 
 .bulk-toolbar select {
@@ -2714,6 +2730,45 @@ button.dark-theme-button i {
 
 .calendar .cal-renewal-icon.manual {
   color: #f0a500;
+}
+
+.calendar .cal-name {
+  min-width: 0;
+}
+
+.calendar .cal-price {
+  font-size: 10px;
+  opacity: 0.7;
+  text-align: center;
+  cursor: pointer;
+  padding: 1px 4px 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .calendar .calendar-subscription-title {
+    padding: 3px 3px;
+    gap: 3px;
+    font-size: 11px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .calendar .cal-renewal-icon,
+  .calendar .cal-renewal-icon svg {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .calendar .cal-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
 }
 
 .calendar .day {
