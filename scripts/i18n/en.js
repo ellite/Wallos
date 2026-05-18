@@ -46,4 +46,7 @@ let i18n = {
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+  renewal_type: "Renewal type",
+  automatically_renews: "Automatically renews",
+  manual_renewal: "Manual renewal",
 }

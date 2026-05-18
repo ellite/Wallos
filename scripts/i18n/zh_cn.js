@@ -46,4 +46,7 @@ let i18n = {
     payment_method: "支付方式",
     notes: "备注",
     export: "导出",
+    renewal_type: "续费类型",
+    automatically_renews: "自动续费",
+    manual_renewal: "手动续费",
 };

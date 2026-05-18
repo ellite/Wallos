@@ -59,6 +59,7 @@ function openSubscriptionModal(subscriptionId) {
                 ${subscription.payer_user ? `<p><strong>${translate('paid_by')}:</strong> ${subscription.payer_user}</p>` : ''}
                 ${subscription.payment_method ? `<p><strong>${translate('payment_method')}:</strong> ${subscription.payment_method}</p>` : ''}
                 ${subscription.notes ? `<p><strong>${translate('notes')}:</strong> ${subscription.notes}</p>` : ''}
+                ${subscription.auto_renew !== undefined && subscription.auto_renew !== null ? `<p><strong>${translate('renewal_type')}:</strong> ${subscription.auto_renew ? translate('automatically_renews') : translate('manual_renewal')}</p>` : ''}
                 </div>
             </div>
             <div class="modal-footer">
