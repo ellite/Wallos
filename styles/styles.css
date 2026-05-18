@@ -2542,8 +2542,17 @@ button.dark-theme-button i {
 }
 
 .calendar .cal-renewal-icon {
-  font-size: 11px;
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar .cal-renewal-icon svg {
+  width: 14px !important;
+  height: 14px !important;
 }
 
 .calendar .cal-renewal-icon.auto {
