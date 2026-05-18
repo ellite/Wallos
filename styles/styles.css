@@ -2529,13 +2529,29 @@ button.dark-theme-button i {
 .calendar .calendar-subscription-title {
   border: 1px solid var(--main-color);
   border-radius: 8px;
-  padding: 4px 2px;
+  padding: 4px 6px;
   cursor: pointer;
   box-sizing: border-box;
   white-space: normal;
   overflow-wrap: break-word;
   word-wrap: break-word;
   user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.calendar .cal-renewal-icon {
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.calendar .cal-renewal-icon.auto {
+  color: var(--main-color);
+}
+
+.calendar .cal-renewal-icon.manual {
+  color: #f0a500;
 }
 
 .calendar .day {
