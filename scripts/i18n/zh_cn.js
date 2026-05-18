@@ -46,4 +46,18 @@ let i18n = {
     payment_method: "支付方式",
     notes: "备注",
     export: "导出",
+    // 批量操作
+    bulk_actions: "批量操作",
+    select_all: "全选",
+    selected: "已选",
+    select_action: "选择操作...",
+    enable_notifications: "启用通知",
+    disable_notifications: "关闭通知",
+    set_notification_timing: "设置通知时间",
+    apply: "应用",
+    cancel: "取消",
+    no_subscriptions_selected: "请先选择订阅",
+    confirm_bulk_delete: "确定删除 {count} 个订阅？此操作不可撤销。",
+    bulk_action_success: "已更新 {count} 个订阅",
+    error_bulk_action: "批量操作失败，请重试",
 };
