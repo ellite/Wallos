@@ -650,6 +650,24 @@ button.mobile-action-renew {
 
 }
 
+.subscription .notify-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  flex-shrink: 0;
+}
+
+.subscription .notify-status .notify-on {
+  color: var(--main-color);
+  font-size: 15px;
+}
+
+.subscription .notify-status .notify-off {
+  color: #bbb;
+  font-size: 15px;
+}
+
 .subscription .price {
   flex-basis: 8%;
   justify-content: center;

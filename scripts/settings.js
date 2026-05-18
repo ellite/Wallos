@@ -1006,6 +1006,20 @@ function setShowSubscriptionProgress() {
   storeSettingsOnDB('subscription_progress', value);
 }
 
+function setDefaultAutoRenew() {
+  const checkbox = document.querySelector("#defaultautorenew");
+  const value = checkbox.checked;
+  window.defaultAutoRenew = value;
+  storeSettingsOnDB('default_auto_renew', value);
+}
+
+function setDefaultNotifications() {
+  const checkbox = document.querySelector("#defaultnotifications");
+  const value = checkbox.checked;
+  window.defaultNotifications = value;
+  storeSettingsOnDB('default_notifications', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById("categories");
   const categoryIds = Array.from(categories.children).map(c => c.dataset.categoryid);

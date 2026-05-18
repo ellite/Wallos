@@ -110,6 +110,8 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
     window.lang = "<?= $lang ?>";
     window.colorTheme = "<?= $colorTheme ?>";
     window.mobileNavigation = "<?= $settings['mobileNavigation'] == "true" ?>";
+    window.defaultAutoRenew = <?= ($settings['defaultAutoRenew'] ?? 'true') === 'true' ? 'true' : 'false' ?>;
+    window.defaultNotifications = <?= ($settings['defaultNotifications'] ?? 'true') === 'true' ? 'true' : 'false' ?>;
     window.csrfToken = "<?= htmlspecialchars(generate_csrf_token()) ?>";
   </script>
   <style>

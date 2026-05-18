@@ -1474,6 +1474,21 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     <label for="removebackground"><?= translate('remove_background', $i18n) ?></label>
                 </div>
             </div>
+            <h3><?= translate('new_subscription_defaults', $i18n) ?></h3>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="defaultautorenew" name="defaultautorenew"
+                        onChange="setDefaultAutoRenew()" <?= ($settings['default_auto_renew'] ?? 1) ? 'checked' : '' ?>>
+                    <label for="defaultautorenew"><?= translate('default_auto_renew', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="defaultnotifications" name="defaultnotifications"
+                        onChange="setDefaultNotifications()" <?= ($settings['default_notifications'] ?? 1) ? 'checked' : '' ?>>
+                    <label for="defaultnotifications"><?= translate('default_notifications', $i18n) ?></label>
+                </div>
+            </div>
         </div>
         <div class="settings-notes">
             <p>

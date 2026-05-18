@@ -29,6 +29,8 @@ if ($settings !== false) {
     $settings['showOriginalPrice'] = $settings['show_original_price'] ? 'true': 'false';
     $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
     $settings['showSubscriptionProgress'] = $settings['show_subscription_progress'] ? 'true': 'false';
+    $settings['defaultAutoRenew'] = isset($settings['default_auto_renew']) ? ($settings['default_auto_renew'] ? 'true' : 'false') : 'true';
+    $settings['defaultNotifications'] = isset($settings['default_notifications']) ? ($settings['default_notifications'] ? 'true' : 'false') : 'true';
 }
 
 $query = "SELECT * FROM custom_colors WHERE user_id = :userId";
