@@ -670,7 +670,6 @@ button.mobile-action-renew {
   background-color: var(--box-background-color);
   box-shadow: var(--box-shadow);
   border-radius: 12px;
-  flex-wrap: wrap;
 }
 
 .bulk-toolbar.visible {
@@ -682,13 +681,18 @@ button.mobile-action-renew {
   align-items: center;
   gap: 10px;
   font-size: 15px;
+  flex-shrink: 0;
 }
 
 .bulk-toolbar-right {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.bulk-toolbar select {
+  max-width: 180px;
 }
 
 .bulk-select-all-label {
@@ -778,8 +782,12 @@ button.mobile-action-renew {
   }
   .bulk-toolbar-right {
     width: 100%;
+    flex-wrap: wrap;
   }
-  .bulk-toolbar-right select,
+  .bulk-toolbar select {
+    max-width: none;
+    flex: 1;
+  }
   .bulk-toolbar-right .button {
     flex: 1;
   }
