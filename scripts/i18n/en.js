@@ -60,4 +60,6 @@ let i18n = {
   confirm_bulk_delete: "Delete {count} subscription(s)? This cannot be undone.",
   bulk_action_success: "{count} subscription(s) updated",
   error_bulk_action: "Error performing bulk action",
+  set_category: "Set category",
+  set_payment_method: "Set payment method",
 }

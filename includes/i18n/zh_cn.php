@@ -462,6 +462,8 @@ $i18n = [
     "enable_notifications" => "启用通知",
     "disable_notifications" => "关闭通知",
     "set_notification_timing" => "设置通知时间",
+    "set_category" => "设置分类",
+    "set_payment_method" => "设置付款方式",
     "apply" => "应用",
 
 ];

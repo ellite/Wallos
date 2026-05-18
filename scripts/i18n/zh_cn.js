@@ -60,4 +60,6 @@ let i18n = {
     confirm_bulk_delete: "确定删除 {count} 个订阅？此操作不可撤销。",
     bulk_action_success: "已更新 {count} 个订阅",
     error_bulk_action: "批量操作失败，请重试",
+    set_category: "设置分类",
+    set_payment_method: "设置付款方式",
 };

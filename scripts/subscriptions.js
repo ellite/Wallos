@@ -1017,6 +1017,8 @@ function exitBulkMode() {
   document.getElementById('bulk-select-all').checked = false;
   document.getElementById('bulk-action-select').value = '';
   document.getElementById('bulk-notify-days-select').classList.add('hidden');
+  document.getElementById('bulk-category-select').classList.add('hidden');
+  document.getElementById('bulk-payment-select').classList.add('hidden');
   updateBulkSelectedCount();
 }
 
@@ -1037,6 +1039,8 @@ function bulkToggleSelectAll(checkbox) {
 function onBulkActionChange() {
   const action = document.getElementById('bulk-action-select').value;
   document.getElementById('bulk-notify-days-select').classList.toggle('hidden', action !== 'set_notify_days');
+  document.getElementById('bulk-category-select').classList.toggle('hidden', action !== 'set_category');
+  document.getElementById('bulk-payment-select').classList.toggle('hidden', action !== 'set_payment_method');
 }
 
 function applyBulkAction() {
@@ -1059,6 +1063,10 @@ function applyBulkAction() {
   const body = { ids, action };
   if (action === 'set_notify_days') {
     body.value = parseInt(document.getElementById('bulk-notify-days-select').value);
+  } else if (action === 'set_category') {
+    body.value = parseInt(document.getElementById('bulk-category-select').value);
+  } else if (action === 'set_payment_method') {
+    body.value = parseInt(document.getElementById('bulk-payment-select').value);
   }
 
   fetch('endpoints/subscriptions/bulk_update.php', {

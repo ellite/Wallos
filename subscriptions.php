@@ -203,7 +203,19 @@ $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden
         <option value="enable_notify"><?= translate('enable_notifications', $i18n) ?></option>
         <option value="disable_notify"><?= translate('disable_notifications', $i18n) ?></option>
         <option value="set_notify_days"><?= translate('set_notification_timing', $i18n) ?></option>
+        <option value="set_category"><?= translate('set_category', $i18n) ?></option>
+        <option value="set_payment_method"><?= translate('set_payment_method', $i18n) ?></option>
         <option value="delete"><?= translate('delete', $i18n) ?></option>
+      </select>
+      <select id="bulk-category-select" class="hidden">
+        <?php foreach ($categories as $cat): ?>
+          <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+        <?php endforeach; ?>
+      </select>
+      <select id="bulk-payment-select" class="hidden">
+        <?php foreach ($payment_methods as $pm): ?>
+          <option value="<?= $pm['id'] ?>"><?= htmlspecialchars($pm['name']) ?></option>
+        <?php endforeach; ?>
       </select>
       <select id="bulk-notify-days-select" class="hidden">
         <option value="-1"><?= translate('default_value_from_settings', $i18n) ?></option>
