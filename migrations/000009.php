@@ -6,5 +6,5 @@ $columnQuery = $db->query("SELECT * FROM pragma_table_info('household') where na
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
-    $db->exec('ALTER TABLE household ADD COLUMN email TEXT DEFAULT ""');
+    $db->exec("ALTER TABLE household ADD COLUMN email TEXT DEFAULT ''");
 }

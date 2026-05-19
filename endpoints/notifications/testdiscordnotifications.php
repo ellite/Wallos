@@ -37,7 +37,7 @@ if (
         ]));
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($webhook_url, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($webhook_url, $db, $i18n, $userId);
 
     $postfields = [
         'content' => $message,
@@ -76,7 +76,7 @@ if (
     $response = curl_exec($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false) {

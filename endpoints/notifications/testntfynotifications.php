@@ -43,7 +43,7 @@ if (
         ]));
     }
 
-    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n);
+    $ssrf = validate_webhook_url_for_ssrf($url, $db, $i18n, $userId);
 
     // Set the message parameters
     $message = translate('test_notification', $i18n);
@@ -68,7 +68,7 @@ if (
     $response = curl_exec($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false) {

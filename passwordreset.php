@@ -9,7 +9,15 @@ require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
 
-session_start();
+$secondsInMonth = 30 * 24 * 60 * 60;
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => $secondsInMonth,             
+        'httponly' => true,          
+        'samesite' => 'Lax'          
+    ]);
+    session_start();
+}
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $db->close();
     header("Location: .");
@@ -72,7 +80,7 @@ if (isset($_GET['token']) && $_GET['token'] != "" && isset($_GET['email']) && $_
     $resetMode = true;
     $token = $_GET['token'];
     $email = $_GET['email'];
-    $matchCount = "SELECT COUNT(*) FROM password_resets WHERE token = :token and email = :email";
+    $matchCount = "SELECT COUNT(*) FROM password_resets WHERE token = :token AND email = :email AND created_at > datetime('now', '-1 hour')";
     $stmt = $db->prepare($matchCount);
     $stmt->bindValue(':token', $token, SQLITE3_TEXT);
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
@@ -90,7 +98,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     $confirmPassword = $_POST['confirm_password'];
     $token = $_POST['token'];
     $email = $_POST['email'];
-    $resetQuery = "SELECT * FROM password_resets WHERE token = :token AND email = :email";
+    $resetQuery = "SELECT * FROM password_resets WHERE token = :token AND email = :email AND created_at > datetime('now', '-1 hour')";
     $stmt = $db->prepare($resetQuery);
     $stmt->bindValue(':token', $token, SQLITE3_TEXT);
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
@@ -104,8 +112,14 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
         
         if ($password == $confirmPassword) {
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            $db->exec("UPDATE user SET password = '$passwordHash' WHERE id = " . $user['id']);
-            $db->exec("DELETE FROM password_resets WHERE token = '$token'");
+            $stmt = $db->prepare("UPDATE user SET password = :password WHERE id = :id");
+            $stmt->bindValue(':password', $passwordHash, SQLITE3_TEXT);
+            $stmt->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+            $stmt->execute();
+
+            $stmt = $db->prepare("DELETE FROM password_resets WHERE token = :token");
+            $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+            $stmt->execute();
             $hasSuccessMessage = true;
             $hideForm = true;
         } else {

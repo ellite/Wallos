@@ -31,7 +31,7 @@ RUN rm -rf /var/www/html/nginx.conf && \
 COPY cronjobs /etc/cron.d/cronjobs
 
 # Convert the line endings, allow read access to the cron file, and create cron log folder
-RUN dos2unix /etc/cron.d/cronjobs && \
+RUN dos2unix /etc/cron.d/cronjobs /var/www/html/startup.sh && \
     chmod 0644 /etc/cron.d/cronjobs && \
     /usr/bin/crontab /etc/cron.d/cronjobs && \
     mkdir /var/log/cron && \

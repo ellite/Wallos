@@ -108,15 +108,33 @@ if (isset($_POST['one-time-code'])) {
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $user['main_currency'];
         $_SESSION['userId'] = $user['id'];
+
+        if (!empty($_SESSION['pending_remember_me'])) {
+            $token = bin2hex(random_bytes(32));
+            $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";
+            $addLoginTokensStmt = $db->prepare($addLoginTokens);
+            $addLoginTokensStmt->bindParam(':userId', $user['id'], SQLITE3_INTEGER);
+            $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
+            $addLoginTokensStmt->execute();
+            $cookieExpire = time() + (30 * 24 * 60 * 60);
+            $cookieValue = $user['username'] . "|" . $token . "|" . $user['main_currency'];
+            setcookie('wallos_login', $cookieValue, [
+                'expires'  => $cookieExpire,
+                'samesite' => 'Lax',
+                'httponly' => true,
+            ]);
+            unset($_SESSION['pending_remember_me']);
+        }
+
         setcookie('language', $user['language'], [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
 
         if (!isset($_COOKIE['sortOrder'])) {
             setcookie('sortOrder', 'next_payment', [
                 'expires' => $cookieExpire,
-                'samesite' => 'Strict'
+                'samesite' => 'Lax'
             ]);
         }
 
@@ -127,7 +145,7 @@ if (isset($_POST['one-time-code'])) {
         $settings = $result->fetchArray(SQLITE3_ASSOC);
         setcookie('colorTheme', $settings['color_theme'], [
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
 
         unset($_SESSION['totp_user_id']);

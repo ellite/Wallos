@@ -316,7 +316,7 @@ if (
         setcookie('language', $language, [
             'path' => $root,
             'expires' => $cookieExpire,
-            'samesite' => 'Strict'
+            'samesite' => 'Lax'
         ]);
         $_SESSION['firstname'] = $firstname;
         $_SESSION['avatar'] = $avatar;

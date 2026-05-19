@@ -29,20 +29,21 @@ $_SESSION['token'] = $token;
 $cookieValue = $username . "|" . $token . "|" . $main_currency;
 setcookie('wallos_login', $cookieValue, [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax',
+    'httponly' => true,
 ]);
 
 // Set language cookie
 setcookie('language', $language, [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax'
 ]);
 
 // Set sort order default
 if (!isset($_COOKIE['sortOrder'])) {
     setcookie('sortOrder', 'next_payment', [
         'expires' => $cookieExpire,
-        'samesite' => 'Strict'
+        'samesite' => 'Lax'
     ]);
 }
 
@@ -54,7 +55,7 @@ $result = $stmt->execute();
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 setcookie('colorTheme', $settings['color_theme'], [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax'
 ]);
 
 // Done

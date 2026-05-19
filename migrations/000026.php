@@ -6,7 +6,7 @@ $columnQuery = $db->query("SELECT * FROM pragma_table_info('email_notifications'
 $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
-    $db->exec('ALTER TABLE email_notifications ADD COLUMN other_emails TEXT DEFAULT "";');
+    $db->exec("ALTER TABLE email_notifications ADD COLUMN other_emails TEXT DEFAULT ''");
 }
 
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') where name='show_original_price'");

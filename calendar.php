@@ -199,8 +199,20 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                   <?php
                   foreach ($subscriptions as $subscription) {
                     $nextPaymentDate = strtotime($subscription['next_payment']);
-                    $cycle = $subscription['cycle']; // Integer from 1 to 4
+                    $cycle = $subscription['cycle'];
                     $frequency = $subscription['frequency'];
+
+                    if ($cycle == 5) {
+                      // One-time purchase: only show on its exact payment date
+                      if (date('Y-m', $nextPaymentDate) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) && date('d', $nextPaymentDate) == $day) {
+                        ?>
+                        <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
+                          <?= htmlspecialchars($subscription['name']) ?>
+                        </div>
+                        <?php
+                      }
+                      continue;
+                    }
 
                     $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
 
@@ -219,7 +231,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                         $incrementString = "+{$frequency} years";
                         break;
                       default:
-                        $incrementString = "+{$frequency} months"; // Default case, if needed
+                        $incrementString = "+{$frequency} months";
                     }
 
                     // Calculate the start of the month
@@ -272,8 +284,20 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                 <?php
                 foreach ($subscriptions as $subscription) {
                   $nextPaymentDate = strtotime($subscription['next_payment']);
-                  $cycle = $subscription['cycle']; // Integer from 1 to 4
+                  $cycle = $subscription['cycle'];
                   $frequency = $subscription['frequency'];
+
+                  if ($cycle == 5) {
+                    // One-time purchase: only show on its exact payment date
+                    if (date('Y-m', $nextPaymentDate) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT) && date('d', $nextPaymentDate) == $day) {
+                      ?>
+                      <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
+                        <?= htmlspecialchars($subscription['name']) ?>
+                      </div>
+                      <?php
+                    }
+                    continue;
+                  }
 
                   $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
 
@@ -292,7 +316,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                       $incrementString = "+{$frequency} years";
                       break;
                     default:
-                      $incrementString = "+{$frequency} months"; // Default case, if needed
+                      $incrementString = "+{$frequency} months";
                   }
 
                   // Calculate the start of the month
@@ -314,7 +338,7 @@ $yearsToLoad = $calendarYear - $currentYear + 1;
                         }
                         ?>
                         <div class="calendar-subscription-title" onClick="openSubscriptionModal(<?= $subscription['id'] ?>)">
-                          <?= $subscription['name'] ?>
+                          <?= htmlspecialchars($subscription['name']) ?>
                         </div>
                         <?php
                       }

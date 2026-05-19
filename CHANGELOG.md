@@ -1,5 +1,113 @@
 # Changelog
 
+## [4.9.0](https://github.com/ellite/Wallos/compare/v4.8.4...v4.9.0) (2026-05-16)
+
+
+### Features
+
+* allow multiple filters on the settings page ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* filter by notification status ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* lifetime subscriptions ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* rework icons ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* sort graphs on the statistics page by usage ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+
+
+### Bug Fixes
+
+* don't use mbstring ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* migrations using double quotes ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* ntfy notifications with strange chars ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* null array on empty subscription list ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* open 3 dot menu abone for the subscriptions at the bottom ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+
+## [4.8.4](https://github.com/ellite/Wallos/compare/v4.8.3...v4.8.4) (2026-04-27)
+
+
+### Bug Fixes
+
+* improve date formatting with IntlDateFormatter fallback (b2c565f) ([#1048](https://github.com/ellite/Wallos/issues/1048)) ([8d43623](https://github.com/ellite/Wallos/commit/8d43623da9c27d32c30a219fec84a4724f62c38b))
+* missing year for subscription next payment display (ca5823d) ([8d43623](https://github.com/ellite/Wallos/commit/8d43623da9c27d32c30a219fec84a4724f62c38b))
+
+## [4.8.3](https://github.com/ellite/Wallos/compare/v4.8.2...v4.8.3) (2026-04-26)
+
+
+### Bug Fixes
+
+* cases on private endpoints where self-xss was possible ([#1045](https://github.com/ellite/Wallos/issues/1045)) ([d4725f3](https://github.com/ellite/Wallos/commit/d4725f36bd967e7dbd622982cdfccbf8567673e2))
+
+## [4.8.2](https://github.com/ellite/Wallos/compare/v4.8.1...v4.8.2) (2026-04-18)
+
+
+### Bug Fixes
+
+* logo cut on registration page ([#1040](https://github.com/ellite/Wallos/issues/1040)) ([a95aaad](https://github.com/ellite/Wallos/commit/a95aaadbcc1b32cf9e995bf0b1afecce524b4036))
+
+## [4.8.1](https://github.com/ellite/Wallos/compare/v4.8.0...v4.8.1) (2026-04-18)
+
+
+### Bug Fixes
+
+* dns rebinding vulnerability ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+* only allow to use internal urls csrf validation bypass by admin user ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+* ssrf vultenaribility on add subscription ([#1038](https://github.com/ellite/Wallos/issues/1038)) ([e79f28b](https://github.com/ellite/Wallos/commit/e79f28be6be0435fbc93563fb3c0e62206b48e85))
+
+## [4.8.0](https://github.com/ellite/Wallos/compare/v4.7.3...v4.8.0) (2026-03-23)
+
+
+### Features
+
+* add openai compatible host for ai recommendations ([99c30e7](https://github.com/ellite/Wallos/commit/99c30e70c8018697ea36babe5e063b3693956600))
+* enable ai recommendations at a schedule ([99c30e7](https://github.com/ellite/Wallos/commit/99c30e70c8018697ea36babe5e063b3693956600))
+* move update banner to the dashboard ([99c30e7](https://github.com/ellite/Wallos/commit/99c30e70c8018697ea36babe5e063b3693956600))
+
+
+### Bug Fixes
+
+* handle some ai responses that come in a different format ([99c30e7](https://github.com/ellite/Wallos/commit/99c30e70c8018697ea36babe5e063b3693956600))
+
+## [4.7.3](https://github.com/ellite/Wallos/compare/v4.7.2...v4.7.3) (2026-03-21)
+
+
+### Bug Fixes
+
+* image search failing to save ([4fd87c3](https://github.com/ellite/Wallos/commit/4fd87c30144ae9cc38a68d4c3a30df181f8e1827))
+* session expiration on pwa on android ([#1023](https://github.com/ellite/Wallos/issues/1023)) ([4fd87c3](https://github.com/ellite/Wallos/commit/4fd87c30144ae9cc38a68d4c3a30df181f8e1827))
+
+## [4.7.2](https://github.com/ellite/Wallos/compare/v4.7.1...v4.7.2) (2026-03-19)
+
+
+### Bug Fixes
+
+* password reset tokens now expire after 60 minutes ([90bb618](https://github.com/ellite/Wallos/commit/90bb6186ee4091590b6efdef824c85f2494ff2bb))
+* vulnerability would allow to bypass 2fa ([#1021](https://github.com/ellite/Wallos/issues/1021)) ([90bb618](https://github.com/ellite/Wallos/commit/90bb6186ee4091590b6efdef824c85f2494ff2bb))
+
+## [4.7.1](https://github.com/ellite/Wallos/compare/v4.7.0...v4.7.1) (2026-03-19)
+
+
+### Bug Fixes
+
+* remove extra line on languages.php causing headers already sent ([#1019](https://github.com/ellite/Wallos/issues/1019)) ([f5c9a34](https://github.com/ellite/Wallos/commit/f5c9a3498ed2df8ae6b225fc63ce01a8ed5ce348))
+
+## [4.7.0](https://github.com/ellite/Wallos/compare/v4.6.2...v4.7.0) (2026-03-19)
+
+
+### Features
+
+* add romanian translations ([#1017](https://github.com/ellite/Wallos/issues/1017)) ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* mask ai api key on the settings page ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+
+
+### Bug Fixes
+
+* ai recommendation numbering when deleting a recommendation ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* calendar ocurrences to respect subscriptions start date ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* logo search ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* retain first and last name when switching language during registration ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* set login cookie to httponly ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* ssrf vulnerability on several endpoints ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* unicode character on the css file ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+* xss vulnerability on payment method rename endpoint ([e87387f](https://github.com/ellite/Wallos/commit/e87387f0ebb540cd33e6dfda7181db9db650ecef))
+
 ## [4.6.2](https://github.com/ellite/Wallos/compare/v4.6.1...v4.6.2) (2026-03-05)
 
 

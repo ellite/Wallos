@@ -4,7 +4,7 @@ body, html {
     padding: 0;
     background-color: #f5f5f5;
     font-size: 14px;
-    height: 100%;
+    min-height: 100%;
 }
 
 .content {
@@ -12,7 +12,9 @@ body, html {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    min-height: 100vh;
+    padding: 20px 0;
+    box-sizing: border-box;
 }
 
 .container {
@@ -35,11 +37,6 @@ body, html {
     }
 }
 
-@media (max-height: 768px) {
-    .content {
-        height: auto;
-    }
-}
 
 .container > header {
     text-align: center;

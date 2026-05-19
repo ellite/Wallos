@@ -45,7 +45,7 @@ if (!isset($data["token"]) || $data["token"] == "") {
     $curlError = curl_error($ch);
 
     // Close the cURL session
-    curl_close($ch);
+    unset($ch);
 
     // Check if the message was sent successfully
     if ($response === false) {

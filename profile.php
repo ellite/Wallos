@@ -42,20 +42,20 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             <div class="avatar-list">
                                 <?php foreach (scandir('images/avatars') as $image): ?>
                                     <?php if (!str_starts_with($image, '.')): ?>
-                                        <img src="images/avatars/<?= $image ?>" alt="<?= $image ?>" class="avatar-option"
-                                            data-src="images/avatars/<?= $image ?>">
+                                        <img src="images/avatars/<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($image) ?>" class="avatar-option"
+                                            data-src="images/avatars/<?= htmlspecialchars($image) ?>">
                                     <?php endif ?>
                                 <?php endforeach ?>
 
                                 <?php foreach ($uploadedAvatars as $path): ?>
-                                    <?php 
-                                        $filename = basename($path); 
+                                    <?php
+                                        $filename = basename($path);
                                     ?>
-                                    <div class="avatar-container" data-src="<?= $filename ?>">
-                                        <img src="<?= $path ?>" alt="<?= $filename ?>"
-                                            class="avatar-option" data-src="<?= $path ?>">
-                                        
-                                        <div class="remove-avatar" onclick="deleteAvatar('<?= $filename ?>')"
+                                    <div class="avatar-container" data-src="<?= htmlspecialchars($filename) ?>">
+                                        <img src="<?= htmlspecialchars($path) ?>" alt="<?= htmlspecialchars($filename) ?>"
+                                            class="avatar-option" data-src="<?= htmlspecialchars($path) ?>">
+
+                                        <div class="remove-avatar" onclick="deleteAvatar(<?= json_encode($filename, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)"
                                             title="Delete avatar">
                                             <i class="fa-solid fa-xmark"></i>
                                         </div>
@@ -76,23 +76,23 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <div class="grow">
                         <div class="form-group">
                             <label for="username"><?= translate('username', $i18n) ?>:</label>
-                            <input type="text" id="username" name="username" value="<?= $userData['username'] ?>"
+                            <input type="text" id="username" name="username" value="<?= htmlspecialchars($userData['username']) ?>"
                                 disabled>
                         </div>
                         <div class="form-group">
                             <label for="firstname"><?= translate('firstname', $i18n) ?>:</label>
                             <input type="text" id="firstname" name="firstname" autocomplete="given-name"
-                                value="<?= $userData['firstname'] ?>">
+                                value="<?= htmlspecialchars($userData['firstname']) ?>">
                         </div>
                         <div class="form-group">
                             <label for="lastname"><?= translate('lastname', $i18n) ?>:</label>
                             <input type="text" id="lastname" name="lastname" autocomplete="family-name"
-                                value="<?= $userData['lastname'] ?>">
+                                value="<?= htmlspecialchars($userData['lastname']) ?>">
                         </div>
                         <div class="form-group">
                             <label for="email"><?= translate('email', $i18n) ?>:</label>
                             <input type="email" id="email" name="email" autocomplete="email"
-                                value="<?= $userData['email'] ?>" required>
+                                value="<?= htmlspecialchars($userData['email']) ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
@@ -127,7 +127,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                         $userData['currency_symbol'] = $currency['symbol'];
                                     }
                                     ?>
-                                    <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= $currency['name'] ?></option>
+                                    <option value="<?= $currency['id'] ?>" <?= $selected ?>><?= htmlspecialchars($currency['name']) ?></option>
                                     <?php
                                 }
                                 ?>
@@ -269,7 +269,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         </header>
         <div class="account-api-key">
             <div class="form-group-inline">
-                <input type="text" id="apikey" name="apikey" value="<?= $userData['api_key'] ?>" placeholder="API Key" readonly>
+                <input type="text" id="apikey" name="apikey" value="<?= htmlspecialchars($userData['api_key']) ?>" placeholder="API Key" readonly>
                 <input type="submit" value="<?= translate('regenerate', $i18n) ?>" id="regenerateApiKey" onClick="regenerateApiKey()" />
             </div>
             <div class="settings-notes">

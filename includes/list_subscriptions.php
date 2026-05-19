@@ -13,11 +13,17 @@ function getBillingCycle($cycle, $frequency, $i18n)
             return $frequency == 1 ? translate('Monthly', $i18n) : $frequency . " " . translate('months', $i18n);
         case 4:
             return $frequency == 1 ? translate('Yearly', $i18n) : $frequency . " " . translate('years', $i18n);
+        case 5:
+            return translate('One-time', $i18n);
     }
 }
 
 function getSubscriptionProgress($cycle, $frequency, $next_payment)
 {
+    if ($cycle === 5) {
+        return 0;
+    }
+
     $nextPaymentDate = new DateTime($next_payment);
     $currentDate = new DateTime('now');
 
@@ -61,6 +67,8 @@ function getPricePerMonth($cycle, $frequency, $price)
         case 4:
             $numberOfMonths = (12 * $frequency);
             return $price / $numberOfMonths;
+        case 5:
+            return 0;
     }
 }
 
@@ -110,20 +118,31 @@ function formatDate($date, $lang = 'en')
     // Determine the date format based on whether the year matches the current year
     $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
 
-    // Validate the locale and fallback to 'en' if unsupported
-    if (!in_array($lang, ResourceBundle::getLocales(''))) {
-        $lang = 'en'; // Fallback to English
-    }
+    // Try to create an IntlDateFormatter; if it fails, fallback to 'en'
+    try {
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
 
-    // Create an IntlDateFormatter instance for the specified language
-    $formatter = new IntlDateFormatter(
-        $lang,
-        IntlDateFormatter::SHORT,
-        IntlDateFormatter::NONE,
-        null,
-        null,
-        $dateFormat
-    );
+        if (!$formatter) {
+            throw new Exception('Failed to create IntlDateFormatter with language: ' . $lang);
+        }
+    } catch (Throwable $e) {
+        $lang = 'en'; // Fallback to English on error
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
+    }
 
     // Format the date
     $formattedDate = $formatter->format(new DateTime($date));
@@ -143,6 +162,9 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             });
         }
     }
+
+    // One-time purchases always go to the bottom regardless of sort order
+    usort($subscriptions, fn($a, $b) => ($a['one_time'] ? 1 : 0) - ($b['one_time'] ? 1 : 0));
 
     $currentCategory = 0;
     $currentPayerUserId = 0;
@@ -204,7 +226,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         Delete
                     </button>
                     <?php
-                    if ($subscription['auto_renew'] != 1) {
+                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
                         ?>
                         <button class="mobile-action-renew" onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
                             <?php include $imagePath . "images/siteicons/svg/mobile-menu/renew.php"; ?>
@@ -253,12 +275,14 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </span>
                     <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
                     <span class="cycle"
-                        title="<?= $subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n) ?>">
+                        title="<?= $subscription['one_time'] ? $subscription['billing_cycle'] : ($subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n)) ?>">
                         <?php
-                        if ($subscription['auto_renew']) {
-                            include $imagePath . "images/siteicons/svg/automatic.php";
-                        } else {
-                            include $imagePath . "images/siteicons/svg/manual.php";
+                        if (!$subscription['one_time']) {
+                            if ($subscription['auto_renew']) {
+                                include $imagePath . "images/siteicons/svg/automatic.php";
+                            } else {
+                                include $imagePath . "images/siteicons/svg/manual.php";
+                            }
                         }
                         ?>
                         <?= $subscription['billing_cycle'] ?>
@@ -296,25 +320,25 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <ul class="actions">
                         <li class="edit" title="<?= translate('edit_subscription', $i18n) ?>"
                             onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
-                            <?php include $imagePath . "images/siteicons/svg/edit.php"; ?>
+                            <i class="fa-solid fa-pen-to-square"></i>
                             <?= translate('edit_subscription', $i18n) ?>
                         </li>
                         <li class="delete" title="<?= translate('delete', $i18n) ?>"
                             onClick="deleteSubscription(event, <?= $subscription['id'] ?>)">
-                            <?php include $imagePath . "images/siteicons/svg/delete.php"; ?>
+                            <i class="fa-solid fa-trash-can"></i>
                             <?= translate('delete', $i18n) ?>
                         </li>
                         <li class="clone" title="<?= translate('clone', $i18n) ?>"
                             onClick="cloneSubscription(event, <?= $subscription['id'] ?>)">
-                            <?php include $imagePath . "images/siteicons/svg/clone.php"; ?>
+                            <i class="fa-solid fa-copy"></i>
                             <?= translate('clone', $i18n) ?>
                         </li>
                         <?php
-                        if ($subscription['auto_renew'] != 1) {
+                        if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
                             ?>
                             <li class="renew" title="<?= translate('renew', $i18n) ?>"
                                 onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
-                                <?php include $imagePath . "images/siteicons/svg/renew.php"; ?>
+                                <i class="fa-solid fa-rotate-right"></i>
                                 <?= translate('renew', $i18n) ?>
                             </li>
                             <?php
@@ -324,11 +348,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 </div>
                 <div class="subscription-secondary">
                     <span
-                        class="name"><?php include $imagePath . "images/siteicons/svg/subscription.php"; ?><?= $subscription['name'] ?></span>
+                        class="name"><i class="fa-solid fa-tag"></i><?= $subscription['name'] ?></span>
                     <span class="payer_user"
-                        title="<?= translate('paid_by', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/payment.php"; ?><?= $members[$subscription['payer_user_id']]['name'] ?></span>
+                        title="<?= translate('paid_by', $i18n) ?>"><i class="fa-solid fa-wallet"></i><?= $members[$subscription['payer_user_id']]['name'] ?></span>
                     <span class="category"
-                        title="<?= translate('category', $i18n) ?>"><?php include $imagePath . "images/siteicons/svg/category.php"; ?><?= $categories[$subscription['category_id']]['name'] ?></span>
+                        title="<?= translate('category', $i18n) ?>"><i class="fa-solid fa-layer-group"></i><?= $categories[$subscription['category_id']]['name'] ?></span>
                     <?php
                     if ($subscription['url'] != "") {
                         $url = $subscription['url'];
@@ -337,7 +361,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                         <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"
-                                rel="noreferrer"><?php include $imagePath . "images/siteicons/svg/web.php"; ?></a></span>
+                                rel="noreferrer"><i class="fa-solid fa-globe"></i></a></span>
                         <?php
                     }
                     ?>
@@ -347,7 +371,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     ?>
                     <div class="subscription-notes">
                         <span class="notes">
-                            <?php include $imagePath . "images/siteicons/svg/notes.php"; ?>
+                            <i class="fa-solid fa-note-sticky"></i>
                             <?= $subscription['notes'] ?>
                         </span>
                     </div>

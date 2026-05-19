@@ -32,20 +32,31 @@ function formatDate($date, $lang = 'en')
     // Determine the date format based on whether the year matches the current year
     $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
 
-    // Validate the locale and fallback to 'en' if unsupported
-    if (!in_array($lang, ResourceBundle::getLocales(''))) {
-        $lang = 'en'; // Fallback to English
-    }
+    // Try to create an IntlDateFormatter; if it fails, fallback to 'en'
+    try {
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
 
-    // Create an IntlDateFormatter instance for the specified language
-    $formatter = new IntlDateFormatter(
-        $lang,
-        IntlDateFormatter::SHORT,
-        IntlDateFormatter::NONE,
-        null,
-        null,
-        $dateFormat
-    );
+        if (!$formatter) {
+            throw new Exception('Failed to create IntlDateFormatter with language: ' . $lang);
+        }
+    } catch (Throwable $e) {
+        $lang = 'en'; // Fallback to English on error
+        $formatter = new IntlDateFormatter(
+            $lang,
+            IntlDateFormatter::SHORT,
+            IntlDateFormatter::NONE,
+            null,
+            null,
+            $dateFormat
+        );
+    }
 
     // Format the date
     $formattedDate = $formatter->format(new DateTime($date));
@@ -61,7 +72,7 @@ $user = $result->fetchArray(SQLITE3_ASSOC);
 $first_name = $user['firstname'] ?? $user['username'] ?? '';
 
 // Fetch the next 3 enabled subscriptions up for payment
-$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 ORDER BY next_payment ASC LIMIT 3");
+$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC LIMIT 3");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $upcomingSubscriptions = [];
@@ -70,7 +81,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 // Fetch enabled subscriptions with manual renewal that are overdue
-$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 ORDER BY next_payment ASC");
+$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $overdueSubscriptions = [];
@@ -93,6 +104,32 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 ?>
 
 <section class="contain dashboard">
+    <?php
+        if ($isAdmin && $settings['update_notification']) {
+            if (!is_null($settings['latest_version'])) {
+                $latestVersion = $settings['latest_version'];
+                if (version_compare($version, $latestVersion) == -1) {
+                    ?>
+                    <div class="update-banner">
+                    <?= translate('new_version_available', $i18n) ?>:
+                        <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+                        target="_blank" rel="noreferer">
+                        <?= htmlspecialchars($latestVersion) ?>
+                        </a></span>
+                    </div>
+                    <?php
+                }
+            }
+        }
+        if ($demoMode) {
+            ?>
+            <div class="demo-banner">
+            Running in <b>Demo Mode</b>, certain actions and settings are disabled.<br>
+            The database will be reset every 120 minutes.
+            </div>
+            <?php
+        }
+    ?>
     <h1><?= translate('hello', $i18n) ?> <?= htmlspecialchars($first_name) ?></h1>
 
     <?php
@@ -111,7 +148,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -129,7 +166,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?>
                                 </p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
@@ -160,7 +197,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
-                        $subscriptionDisplayNextPayment = date('F j', strtotime($subscriptionNextPayment));
+                        $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
@@ -178,7 +215,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             }
                             ?>
                             <div class="subscription-item-info">
-                                <p class="subscription-item-date"> <?= formatDate($subscriptionDisplayNextPayment, $lang) ?></p>
+                                <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?></p>
                                 <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
                             </div>
                         </div>

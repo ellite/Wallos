@@ -47,7 +47,7 @@ if (isset($themeValue)) {
   $cookieExpire = time() + (30 * 24 * 60 * 60);
   setcookie('theme', $themeValue, [
     'expires' => $cookieExpire,
-    'samesite' => 'Strict'
+    'samesite' => 'Lax'
   ]);
 }
 
@@ -151,6 +151,14 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
   ?>
   <script type="text/javascript" src="scripts/i18n/<?= $lang ?>.js?<?= $version ?>"></script>
   <script type="text/javascript" src="scripts/i18n/getlang.js?<?= $version ?>"></script>
+  <script>
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      if (!sessionStorage.getItem('sw_prefetched')) {
+        navigator.serviceWorker.controller.postMessage({ type: 'PREFETCH_PAGES' });
+        sessionStorage.setItem('sw_prefetched', '1');
+      }
+    }
+  </script>
 </head>
 
 <body class="<?= $theme ?> <?= $languages[$lang]['dir'] ?> <?= $mobileNavigation ?>">
