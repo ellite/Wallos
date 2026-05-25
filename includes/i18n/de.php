@@ -142,6 +142,8 @@ $i18n = [
     "household_split" => "Haushalt",
     "payment_method_split" => "Zahlungsmethode",
     "total_cost_trend" => "Kostenentwicklung",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Kosten vs. Budget",
     // About page
     "about_and_credits" => "Informationen und Danksagungen",

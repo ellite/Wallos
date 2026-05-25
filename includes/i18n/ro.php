@@ -142,6 +142,8 @@ $i18n = [
     "household_split" => "După membrii familiei",
     "payment_method_split" => "După metoda de plată",
     "total_cost_trend" => "Evoluția costului total",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Costuri vs Buget",
     // About page
     "about_and_credits" => "Despre și merite",

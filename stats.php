@@ -268,11 +268,23 @@ require_once 'includes/stats_calculations.php';
 
   usort($paymentMethodDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
-  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
+  if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph || $showMonthlyForecastGraph) {
     ?>
     <h2><?= translate('split_views', $i18n) ?></h2>
     <div class="graphs">
       <?php
+
+      if ($showMonthlyForecastGraph) {
+        ?>
+        <section class="graph x2">
+          <header>
+            <?= translate('monthly_payment_forecast', $i18n) ?>
+            <div class="sub-header">(<?= translate('next_12_months', $i18n) ?>)</div>
+          </header>
+          <canvas id="monthlyForecastChart" style="height: 370px; width: 100%; max-height: 370px;"></canvas>
+        </section>
+        <?php
+      }
 
       if ($showTotalMonthlyCostGraph) {
         ?>
@@ -340,11 +352,12 @@ require_once 'includes/stats_calculations.php';
 
 </section>
 <?php
-if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
+if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph || $showMonthlyForecastGraph) {
   ?>
   <script src="scripts/libs/chart.js"></script>
   <script type="text/javascript">
     window.onload = function () {
+      loadLineGraph("monthlyForecastChart", <?php echo json_encode($monthlyForecastDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMonthlyForecastGraph ?>);
       loadLineGraph("totalMonthlyCostChart", <?php echo json_encode($totalMonthlyCostDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", "<?= $showTotalMonthlyCostGraph ?>");
       loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ?>);
       loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ?>);

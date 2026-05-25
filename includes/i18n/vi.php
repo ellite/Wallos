@@ -142,6 +142,8 @@ $i18n = [
     "household_split" => "Phân chia theo hộ gia đình",
     "payment_method_split" => "Phân chia theo phương thức thanh toán",
     "total_cost_trend" => "Xu hướng chi phí tổng cộng",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Chi phí so với ngân sách",
     //  About page
     "about_and_credits" => "Giới thiệu và cảm ơn",

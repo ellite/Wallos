@@ -142,6 +142,8 @@ $i18n = [
     "household_split" => "Divisió per Membres Familiars",
     "payment_method_split" => "Divisió per Mètode de Pagament",
     "total_cost_trend" => "Tendència del Cost Total",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Cost vs Pressupost",
     // About page
     "about_and_credits" => "Quant a i Crèdits",

@@ -149,6 +149,8 @@ $i18n = [
     "household_split" => "家庭视图",
     "payment_method_split" => "支付方式视图",
     "total_cost_trend" => "总费用趋势",
+    "monthly_payment_forecast" => "未来支出预测",
+    "next_12_months" => "未来12个月",
     "cost_vs_budget" => "费用与预算",
 
     // 关于页面

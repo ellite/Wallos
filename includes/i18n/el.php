@@ -140,6 +140,8 @@ $i18n = [
     "household_split" => "Διαχωρισμός νοικοκυριού",
     "payment_method_split" => "Διαχωρισμός τρόπου πληρωμής",
     "total_cost_trend" => "Τάση συνολικού κόστους",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Κόστος έναντι προϋπολογισμού",
     // About page
     "about_and_credits" => "Σχετικά και Credits",

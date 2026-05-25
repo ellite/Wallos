@@ -322,4 +322,67 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 $showTotalMonthlyCostGraph = count($totalMonthlyCostDataPoints) > 1;
 
+// Monthly payment forecast for next 12 months
+$forecastMonths = 12;
+$forecastStart = new DateTime('first day of this month');
+$forecastEnd = clone $forecastStart;
+$forecastEnd->modify('+12 months');
+
+$monthlyForecastBuckets = [];
+for ($i = 0; $i < $forecastMonths; $i++) {
+    $d = clone $forecastStart;
+    $d->modify("+{$i} months");
+    $monthlyForecastBuckets[$i] = ['label' => $d->format('Y-m'), 'cost' => 0.0];
+}
+
+if (isset($subscriptions)) {
+    foreach ($subscriptions as $subscription) {
+        if ($subscription['inactive'] != 0 || $subscription['cycle'] == 5) continue;
+        $frequency = max(1, (int)$subscription['frequency']);
+        $cycle = (int)$subscription['cycle'];
+        $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+
+        $payDate = DateTime::createFromFormat('Y-m-d', trim($subscription['next_payment']));
+        if (!$payDate) continue;
+
+        // Advance past dates to next upcoming occurrence
+        $guard = 0;
+        while ($payDate < $forecastStart && $guard++ < 500) {
+            switch ($cycle) {
+                case 1: $payDate->modify("+{$frequency} days"); break;
+                case 2: $payDate->modify("+{$frequency} weeks"); break;
+                case 3: $payDate->modify("+{$frequency} months"); break;
+                case 4: $payDate->modify("+{$frequency} years"); break;
+                default: break 2;
+            }
+        }
+
+        // Walk forward and assign payments to month buckets
+        $guard = 0;
+        while ($payDate < $forecastEnd && $guard++ < 500) {
+            $monthIndex = ($payDate->format('Y') - $forecastStart->format('Y')) * 12
+                        + ((int)$payDate->format('n') - (int)$forecastStart->format('n'));
+            if ($monthIndex >= 0 && $monthIndex < $forecastMonths) {
+                $monthlyForecastBuckets[$monthIndex]['cost'] += $convertedPrice;
+            }
+            switch ($cycle) {
+                case 1: $payDate->modify("+{$frequency} days"); break;
+                case 2: $payDate->modify("+{$frequency} weeks"); break;
+                case 3: $payDate->modify("+{$frequency} months"); break;
+                case 4: $payDate->modify("+{$frequency} years"); break;
+                default: break 2;
+            }
+        }
+    }
+}
+
+$monthlyForecastDataPoints = [];
+foreach ($monthlyForecastBuckets as $bucket) {
+    $monthlyForecastDataPoints[] = [
+        'label' => $bucket['label'],
+        'y' => round($bucket['cost'], 2),
+    ];
+}
+$showMonthlyForecastGraph = !empty(array_filter($monthlyForecastDataPoints, fn($p) => $p['y'] > 0));
+
 ?>

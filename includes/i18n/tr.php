@@ -142,6 +142,8 @@ $i18n = [
     "household_split" => "Hane Bölümü",
     "payment_method_split" => "Ödeme Yöntemi Bölümü",
     "total_cost_trend" => "Toplam Maliyet Eğilimi",
+    "monthly_payment_forecast" => "Monthly Payment Forecast",
+    "next_12_months" => "Next 12 Months",
     "cost_vs_budget" => "Bütçe ile Maliyet",
     // About page
     "about_and_credits" => "Hakkında ve Teşekkürler",
