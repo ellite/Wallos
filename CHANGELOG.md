@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.2](https://github.com/ellite/Wallos/compare/v4.9.1...v4.9.2) (2026-05-27)
+
+
+### Bug Fixes
+
+* build ([#1067](https://github.com/ellite/Wallos/issues/1067)) ([ee62138](https://github.com/ellite/Wallos/commit/ee621382e3722949640b53378b0808b5b4a8f768))
+
 ## [4.9.1](https://github.com/ellite/Wallos/compare/v4.9.0...v4.9.1) (2026-05-27)
 
 
