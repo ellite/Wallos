@@ -26,8 +26,10 @@ if (isset($_POST['force']) && $_POST['force'] === "true") {
     }
 }
 
-$query = "SELECT api_key, provider FROM fixer";
-$result = $db->query($query);
+$query = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";
+$stmt = $db->prepare($query);
+$stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
 
 if ($result) {
     $row = $result->fetchArray(SQLITE3_ASSOC);

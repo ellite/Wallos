@@ -236,9 +236,10 @@ if ($result) {
 
                 // Check if it has a replacement subscription and if it was not already counted
                 if ($replacementSubscriptionId && !in_array($replacementSubscriptionId, $replacementSubscriptions)) {
-                    $query = "SELECT price, currency_id, cycle, frequency FROM subscriptions WHERE id = :replacementSubscriptionId";
+                    $query = "SELECT price, currency_id, cycle, frequency FROM subscriptions WHERE id = :replacementSubscriptionId AND user_id = :userId";
                     $stmt = $db->prepare($query);
                     $stmt->bindValue(':replacementSubscriptionId', $replacementSubscriptionId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $replacementSubscription = $result->fetchArray(SQLITE3_ASSOC);
                     if ($replacementSubscription) {

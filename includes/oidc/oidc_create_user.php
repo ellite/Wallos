@@ -15,8 +15,8 @@ $password = bin2hex(random_bytes(16)); // 32-character random password
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
 // Insert user
-$query = "INSERT INTO user (username, email, oidc_sub, main_currency, avatar, language, budget, firstname, lastname, password)
-          VALUES (:username, :email, :oidc_sub, :main_currency, :avatar, :language, :budget, :firstname, :lastname, :password)";
+$query = "INSERT INTO user (username, email, oidc_sub, main_currency, avatar, language, budget, firstname, lastname, password, api_key)
+          VALUES (:username, :email, :oidc_sub, :main_currency, :avatar, :language, :budget, :firstname, :lastname, :password, :api_key)";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':username', $username, SQLITE3_TEXT);
 $stmt->bindValue(':email', $email, SQLITE3_TEXT);
@@ -28,6 +28,7 @@ $stmt->bindValue(':budget', $budget, SQLITE3_INTEGER);
 $stmt->bindValue(':firstname', $firstname, SQLITE3_TEXT);
 $stmt->bindValue(':lastname', $lastname, SQLITE3_TEXT);
 $stmt->bindValue(':password', $hashedPassword, SQLITE3_TEXT);
+$stmt->bindValue(':api_key', bin2hex(random_bytes(32)), SQLITE3_TEXT);
 
 if (!$stmt->execute()) {
     die("Failed to create user");

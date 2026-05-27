@@ -199,7 +199,7 @@ if (isset($_POST['username'])) {
     $requireValidation = false;
 
     if ($hasErrors == false) {
-        $query = "INSERT INTO user (username, firstname, lastname, email, password, main_currency, avatar, language, budget) VALUES (:username, :firstname, :lastname, :email, :password, :main_currency, :avatar, :language, :budget)";
+        $query = "INSERT INTO user (username, firstname, lastname, email, password, main_currency, avatar, language, budget, api_key) VALUES (:username, :firstname, :lastname, :email, :password, :main_currency, :avatar, :language, :budget, :api_key)";
         $stmt = $db->prepare($query);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
@@ -211,6 +211,7 @@ if (isset($_POST['username'])) {
         $stmt->bindValue(':avatar', $avatar, SQLITE3_TEXT);
         $stmt->bindValue(':language', $language, SQLITE3_TEXT);
         $stmt->bindValue(':budget', 0, SQLITE3_INTEGER);
+        $stmt->bindValue(':api_key', bin2hex(random_bytes(32)), SQLITE3_TEXT);
         $result = $stmt->execute();
 
         if ($result) {
