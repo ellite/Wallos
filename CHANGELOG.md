@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.9.1](https://github.com/ellite/Wallos/compare/v4.9.0...v4.9.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* cross-user data isolation issues ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+* ensure a user always has an api key generated ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+* null pointer on subscription with price 0 ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+
 ## [4.9.0](https://github.com/ellite/Wallos/compare/v4.8.4...v4.9.0) (2026-05-16)
 
 
