@@ -146,7 +146,7 @@ $stmt->bindValue(':id', $currency, SQLITE3_TEXT);
 $row = $stmt->execute();
 $main_currency = $row->fetchArray()['code'];
 
-$query = "INSERT INTO user (username, email, password, main_currency, avatar, language, budget) VALUES (:username, :email, :password, :main_currency, :avatar, :language, :budget)";
+$query = "INSERT INTO user (username, email, password, main_currency, avatar, language, budget, api_key) VALUES (:username, :email, :password, :main_currency, :avatar, :language, :budget, :api_key)";
 $stmt = $db->prepare($query);
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $stmt->bindValue(':username', $username, SQLITE3_TEXT);
@@ -156,6 +156,7 @@ $stmt->bindValue(':main_currency', 1, SQLITE3_TEXT);
 $stmt->bindValue(':avatar', $avatar, SQLITE3_TEXT);
 $stmt->bindValue(':language', $language, SQLITE3_TEXT);
 $stmt->bindValue(':budget', 0, SQLITE3_INTEGER);
+$stmt->bindValue(':api_key', bin2hex(random_bytes(32)), SQLITE3_TEXT);
 $result = $stmt->execute();
 
 if ($result) {

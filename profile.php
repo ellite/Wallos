@@ -269,7 +269,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         </header>
         <div class="account-api-key">
             <div class="form-group-inline">
-                <input type="text" id="apikey" name="apikey" value="<?= htmlspecialchars($userData['api_key']) ?>" placeholder="API Key" readonly>
+                <input type="text" id="apikey" name="apikey" value="<?= htmlspecialchars($userData['api_key'] ?? '') ?>" placeholder="API Key" readonly>
                 <input type="submit" value="<?= translate('regenerate', $i18n) ?>" id="regenerateApiKey" onClick="regenerateApiKey()" />
             </div>
             <div class="settings-notes">
