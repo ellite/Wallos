@@ -78,20 +78,20 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                         ?>
                         <button class="image-button medium" onClick="editMember(<?= $member['id'] ?>)" name="save"
                             title="<?= translate('save_member', $i18n) ?>">
-                            <?php include "images/siteicons/svg/save.php"; ?>
+                            <i class="fa-solid fa-check"></i>
                         </button>
                         <?php
                         if ($index !== 0) {
                             ?>
                             <button class="image-button medium" onClick="removeMember(<?= $member['id'] ?>)"
                                 title="<?= translate('delete_member', $i18n) ?>">
-                                <?php include "images/siteicons/svg/delete.php"; ?>
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <?php
                         } else {
                             ?>
                             <button class="image-button medium disabled" title="<?= translate('cant_delete_member', $i18n) ?>">
-                                <?php include "images/siteicons/svg/delete.php"; ?>
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <?php
                         }
@@ -853,21 +853,21 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                                 placeholder="Category">
                             <button class="image-button medium" onClick="editCategory(<?= $category['id'] ?>)" name="save"
                                 title="<?= translate('save_category', $i18n) ?>">
-                                <?php include "images/siteicons/svg/save.php"; ?>
+                                <i class="fa-solid fa-check"></i>
                             </button>
                             <?php
                             if ($canDelete) {
                                 ?>
                                 <button class="image-button medium" onClick="removeCategory(<?= $category['id'] ?>)"
                                     title="<?= translate('delete_category', $i18n) ?>">
-                                    <?php include "images/siteicons/svg/delete.php"; ?>
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 <?php
                             } else {
                                 ?>
                                 <button class="image-button medium disabled"
                                     title="<?= translate('cant_delete_category_in_use', $i18n) ?>">
-                                    <?php include "images/siteicons/svg/delete.php"; ?>
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 <?php
                             }
@@ -946,21 +946,21 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                             placeholder="Currency Code" <?= !$canDelete ? 'disabled' : '' ?>>
                         <button class="image-button medium" onClick="editCurrency(<?= $currency['id'] ?>)" name="save"
                             title="<?= translate('save_currency', $i18n) ?>">
-                            <?php include "images/siteicons/svg/save.php"; ?>
+                            <i class="fa-solid fa-check"></i>
                         </button>
                         <?php
                         if ($canDelete) {
                             ?>
                             <button class="image-button medium" onClick="removeCurrency(<?= $currency['id'] ?>)"
                                 title="<?= translate('delete_currency', $i18n) ?>">
-                                <?php include "images/siteicons/svg/delete.php"; ?>
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <?php
                         } else {
                             $cantDeleteMessage = $isMainCurrency ? translate('cant_delete_main_currency', $i18n) : translate('cant_delete_currency_in_use', $i18n);
                             ?>
                             <button class="image-button medium disabled" title="<?= $cantDeleteMessage ?>">
-                                <?php include "images/siteicons/svg/delete.php"; ?>
+                                <i class="fa-solid fa-trash-can"></i>
                             </button>
                             <?php
                         }
@@ -1245,7 +1245,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                         <input type="hidden" id="icon-url" name="icon-url">
                         <div id="icon-search-button" class="image-button medium disabled"
                             title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
-                            <?php include "images/siteicons/svg/websearch.php"; ?>
+                            <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
                         <div id="icon-search-results" class="icon-search">
                             <header>

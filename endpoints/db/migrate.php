@@ -20,7 +20,7 @@ try {
 $completedMigrations = [];
 
 $migrationTableExists = $db
-    ->query('SELECT name FROM sqlite_master WHERE type="table" AND name="migrations"')
+    ->query("SELECT name FROM sqlite_master WHERE type='table' AND name='migrations'")
     ->fetchArray(SQLITE3_ASSOC) !== false;
 
 if ($migrationTableExists) {
