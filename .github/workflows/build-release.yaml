@@ -18,9 +18,15 @@ env:
   IMAGE_NAME: ${{ vars.DOCKERHUB_TAG }}
   # For release-please, see available types at https://github.com/google-github-actions/release-please-action/tree/v4/?tab=readme-ov-file#release-types-supported
   PROJECT_TYPE: simple
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tags: ${{ steps.tags.outputs.tags }}
+      meta_labels: ${{ steps.meta.outputs.labels }}
+      meta_json: ${{ steps.meta.outputs.json }}
     steps:
       - uses: actions/checkout@v4
       - id: rp
@@ -28,18 +34,6 @@ jobs:
         uses: google-github-actions/release-please-action@v4
         with:
           release-type: ${{ env.PROJECT_TYPE }}
-      - name: Log into registry ${{ env.REGISTRY }}
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ env.REGISTRY_USERNAME }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Prepare tags for Docker meta
         id: tags
         env:
@@ -68,26 +62,104 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             ghcr.io/ellite/wallos
           tags: ${{ steps.tags.outputs.tags }}
+
+  build:
+    runs-on: ubuntu-latest
+    needs: release
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+          - linux/arm/v7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       # necessary for multi-platform images
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       # necessary for multi-platform images
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build and push
-        uses: docker/build-push-action@v5
+      - name: Build and push by digest
+        id: build
+        uses: docker/build-push-action@v6
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-      - name: Send notification to Discord
+          platforms: ${{ matrix.platform }}
+          labels: ${{ needs.release.outputs.meta_labels }}
+          outputs: type=image,"name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},ghcr.io/ellite/wallos",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+          # Scope cache per platform to prevent architecture-mismatched layers
+          cache-from: type=gha,scope=${{ github.workflow }}-${{ matrix.platform }}
+          cache-to: type=gha,mode=max,scope=${{ github.workflow }}-${{ matrix.platform }}
+      - name: Export digest
         if: github.event_name != 'pull_request'
+        run: |
+          mkdir -p /tmp/digests
+          digest="${{ steps.build.outputs.digest }}"
+          touch "/tmp/digests/${digest#sha256:}"
+      - name: Upload digest
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ matrix.platform == 'linux/amd64' && 'amd64' || matrix.platform == 'linux/arm64' && 'arm64' || 'armv7' }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    runs-on: ubuntu-latest
+    needs: [release, build]
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp/digests
+          pattern: digests-*
+          merge-multiple: true
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ env.REGISTRY_USERNAME }}
+          password: ${{ env.REGISTRY_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Create manifest list and push to Docker Hub
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create \
+            $(jq -cr '.tags | map(select(startswith("${{ env.REGISTRY }}")) | "-t " + .) | join(" ")' <<< '${{ needs.release.outputs.meta_json }}') \
+            $(printf '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@sha256:%s ' *)
+      - name: Create manifest list and push to GHCR
+        working-directory: /tmp/digests
+        run: |
+          docker buildx imagetools create \
+            $(jq -cr '.tags | map(select(startswith("ghcr.io")) | "-t " + .) | join(" ")' <<< '${{ needs.release.outputs.meta_json }}') \
+            $(printf 'ghcr.io/ellite/wallos@sha256:%s ' *)
+      - name: Send notification to Discord
+        if: needs.release.outputs.release_created == 'true'
         uses: Ilshidur/action-discord@master
         with:
-          args: "A new release has been created: ${{ steps.meta.outputs.tags }}"
+          args: "A new release has been created: ${{ needs.release.outputs.tags }}"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
