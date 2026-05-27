@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.3](https://github.com/ellite/Wallos/compare/v4.9.2...v4.9.3) (2026-05-27)
+
+
+### Bug Fixes
+
+* bump version ([#1069](https://github.com/ellite/Wallos/issues/1069)) ([fb96250](https://github.com/ellite/Wallos/commit/fb96250429f7b420b0f388503d6aecf73daca6d4))
+
 ## [4.9.2](https://github.com/ellite/Wallos/compare/v4.9.1...v4.9.2) (2026-05-27)
 
 
