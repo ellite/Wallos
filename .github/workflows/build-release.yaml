@@ -166,6 +166,6 @@ jobs:
         if: needs.release.outputs.release_created == 'true'
         uses: Ilshidur/action-discord@master
         with:
-          args: "A new release has been created: ${{ needs.release.outputs.tag_patterns }}"
+          args: "A new release has been created: ${{ steps.meta.outputs.version }}"
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
