@@ -19,6 +19,6 @@ final class CurrencyFormatter
 
     public static function format($amount, $currency)
     {
-        return self::getInstance()->formatCurrency($amount, $currency);
+        return self::getInstance()->formatCurrency((float) $amount, $currency);
     }
 }
