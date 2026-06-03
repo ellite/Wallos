@@ -249,6 +249,16 @@ if ($replacementSubscriptionId == 0 || $inactive == 0) {
     $replacementSubscriptionId = null;
 }
 
+if ($replacementSubscriptionId !== null) {
+    $ownerCheck = $db->prepare("SELECT id FROM subscriptions WHERE id = :id AND user_id = :userId");
+    $ownerCheck->bindParam(':id', $replacementSubscriptionId, SQLITE3_INTEGER);
+    $ownerCheck->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $ownerResult = $ownerCheck->execute();
+    if (!$ownerResult || !$ownerResult->fetchArray()) {
+        $replacementSubscriptionId = null;
+    }
+}
+
 if ($logoUrl !== "") {
     $result = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings, $i18n);
     if ($result['success']) {

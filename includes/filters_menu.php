@@ -110,6 +110,16 @@
     <div class="filtermenu-submenu-content" id="filter-renewal_type">
       <div class="filter-item capitalize" data-renewaltype="1"><?= translate("auto_renewal", $i18n) ?></div>
       <div class="filter-item capitalize" data-renewaltype="0"><?= translate("manual_renewal", $i18n) ?></div>
+      <div class="filter-item capitalize" data-renewaltype="onetime"><?= translate("One-time", $i18n) ?></div>
+    </div>
+  </div>
+
+  <div class="filtermenu-submenu">
+    <div class="filter-title" onClick="toggleSubMenu('notification')"><?= translate("notifications", $i18n) ?></div>
+    <div class="filtermenu-submenu-content" id="filter-notification">
+      <div class="filter-item capitalize" data-notificationtype="reminder"><?= translate("reminder", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="cancellation"><?= translate("cancellation", $i18n) ?></div>
+      <div class="filter-item capitalize" data-notificationtype="none"><?= translate("none", $i18n) ?></div>
     </div>
   </div>
 

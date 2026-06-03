@@ -8,12 +8,12 @@ $tableQuery = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND 
 $tableExists = $tableQuery->fetchArray(SQLITE3_ASSOC);
 
 if (!$tableExists) {
-    $db->exec('CREATE TABLE serverchan_notifications (
+    $db->exec("CREATE TABLE serverchan_notifications (
         enabled BOOLEAN DEFAULT 0,
-        sendkey TEXT DEFAULT "",
+        sendkey TEXT DEFAULT '',
         user_id INTEGER,
         FOREIGN KEY (user_id) REFERENCES user(id)
-    )');
+    )");
 }
 
 ?>

@@ -1,15 +1,16 @@
 <?php
 
 /*
-* This migration adds period_budget column to support separate period-based budgets.
+* This migration adds a notification setting to send a payment period summary at period start.
 */
 
-$periodBudgetColumn = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='period_budget'");
-if ($periodBudgetColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE user ADD COLUMN period_budget REAL DEFAULT 0');
+$columnQuery = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
+if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
+    $db->exec('ALTER TABLE notification_settings ADD COLUMN period_summary_at_period_start INTEGER DEFAULT 0');
 }
 
-// Seed period_budget from existing budget for existing users
-$db->exec("UPDATE user SET period_budget = budget WHERE (period_budget IS NULL OR period_budget = 0) AND budget > 0");
+$db->exec('UPDATE notification_settings
+           SET period_summary_at_period_start = 0
+           WHERE period_summary_at_period_start IS NULL');
 
 ?>

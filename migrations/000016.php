@@ -5,36 +5,36 @@
 * Existing values on the notifications table will be split and migrated to the new tables.
 */
 
-$db->exec('CREATE TABLE IF NOT EXISTS telegram_notifications (
+$db->exec("CREATE TABLE IF NOT EXISTS telegram_notifications (
     enabled BOOLEAN DEFAULT 0,
-    bot_token TEXT DEFAULT "",
-    chat_id TEXT DEFAULT ""
-)');
+    bot_token TEXT DEFAULT '',
+    chat_id TEXT DEFAULT ''
+)");
 
-$db->exec('CREATE TABLE IF NOT EXISTS webhook_notifications (
+$db->exec("CREATE TABLE IF NOT EXISTS webhook_notifications (
     enabled BOOLEAN DEFAULT 0,
-    headers TEXT DEFAULT "",
-    url TEXT DEFAULT "",
-    request_method TEXT DEFAULT "POST",
-    payload TEXT DEFAULT "",
-    iterator TEXT DEFAULT ""
-)');
+    headers TEXT DEFAULT '',
+    url TEXT DEFAULT '',
+    request_method TEXT DEFAULT 'POST',
+    payload TEXT DEFAULT '',
+    iterator TEXT DEFAULT ''
+)");
 
-$db->exec('CREATE TABLE IF NOT EXISTS gotify_notifications (
+$db->exec("CREATE TABLE IF NOT EXISTS gotify_notifications (
     enabled BOOLEAN DEFAULT 0,
-    url TEXT DEFAULT "",
-    token TEXT DEFAULT ""
-)');
+    url TEXT DEFAULT '',
+    token TEXT DEFAULT ''
+)");
 
-$db->exec('CREATE TABLE IF NOT EXISTS email_notifications (
+$db->exec("CREATE TABLE IF NOT EXISTS email_notifications (
     enabled BOOLEAN DEFAULT 0,
-    smtp_address TEXT DEFAULT "",
+    smtp_address TEXT DEFAULT '',
     smtp_port INTEGER DEFAULT 587,
-    smtp_username TEXT DEFAULT "",
-    smtp_password TEXT DEFAULT "",
-    from_email TEXT DEFAULT "",
-    encryption TEXT DEFAULT "tls"
-)');
+    smtp_username TEXT DEFAULT '',
+    smtp_password TEXT DEFAULT '',
+    from_email TEXT DEFAULT '',
+    encryption TEXT DEFAULT 'tls'
+)");
 
 $db->exec('CREATE TABLE IF NOT EXISTS notification_settings (
     days INTEGER DEFAULT 0

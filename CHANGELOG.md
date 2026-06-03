@@ -1,5 +1,48 @@
 # Changelog
 
+## [4.9.3](https://github.com/ellite/Wallos/compare/v4.9.2...v4.9.3) (2026-05-27)
+
+
+### Bug Fixes
+
+* bump version ([#1069](https://github.com/ellite/Wallos/issues/1069)) ([fb96250](https://github.com/ellite/Wallos/commit/fb96250429f7b420b0f388503d6aecf73daca6d4))
+
+## [4.9.2](https://github.com/ellite/Wallos/compare/v4.9.1...v4.9.2) (2026-05-27)
+
+
+### Bug Fixes
+
+* build ([#1067](https://github.com/ellite/Wallos/issues/1067)) ([ee62138](https://github.com/ellite/Wallos/commit/ee621382e3722949640b53378b0808b5b4a8f768))
+
+## [4.9.1](https://github.com/ellite/Wallos/compare/v4.9.0...v4.9.1) (2026-05-27)
+
+
+### Bug Fixes
+
+* cross-user data isolation issues ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+* ensure a user always has an api key generated ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+* null pointer on subscription with price 0 ([e276147](https://github.com/ellite/Wallos/commit/e276147cab1fd6b1e8e200d94f9200caa9a0376f))
+
+## [4.9.0](https://github.com/ellite/Wallos/compare/v4.8.4...v4.9.0) (2026-05-16)
+
+
+### Features
+
+* allow multiple filters on the settings page ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* filter by notification status ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* lifetime subscriptions ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* rework icons ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* sort graphs on the statistics page by usage ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+
+
+### Bug Fixes
+
+* don't use mbstring ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* migrations using double quotes ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* ntfy notifications with strange chars ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* null array on empty subscription list ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+* open 3 dot menu abone for the subscriptions at the bottom ([0fef959](https://github.com/ellite/Wallos/commit/0fef9597ef9eadce725128e454cbd60ec051391d))
+
 ## [4.8.4](https://github.com/ellite/Wallos/compare/v4.8.3...v4.8.4) (2026-04-27)
 
 
