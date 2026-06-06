@@ -23,4 +23,4 @@ if (PHP_SAPI !== 'cli') {
     }
 }
 
-require_once '../../includes/run_migrations.php';
+require_once __DIR__ . '/../../includes/run_migrations.php';
