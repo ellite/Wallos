@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $db = new SQLite3('../../db/wallos.db');
                 $db->busyTimeout(5000);
                 ob_start();
-                require_once '../../includes/run_migrations.php';
+                require_once __DIR__ . '/../../includes/run_migrations.php';
                 ob_end_clean();
 
                 echo json_encode([
