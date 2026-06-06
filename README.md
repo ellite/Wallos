@@ -102,7 +102,7 @@ See instructions to run Wallos below.
 
 1. Download or clone this repo and move the files into your web root - usually `/var/www/html`
 2. Rename `/db/wallos.empty.db` to `/db/wallos.db`
-3. Run `http://domain.example/endpoints/db/migrate.php` on your browser
+3. Open the app in your browser — migrations run automatically on the registration page
 4. Add the following scripts to your cronjobs with `crontab -e`
 
 ```bash
@@ -124,7 +124,10 @@ See instructions to run Wallos below.
 
 1. Re-download the repo and move the files into the correct folder or do `git pull` (if you used git clone before)
 2. Check the [Prerequisites](#baremetal) and install / enable the missing ones, if any.
-3. Run `http://domain.example/endpoints/db/migrate.php`
+3. Run http://domain.example/endpoints/db/migrate.php if you are logged in, or via CLI run:
+```bash
+php /var/www/html/endpoints/db/migrate.php
+```
 
 #### Docker
 

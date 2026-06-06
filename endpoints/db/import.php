@@ -20,7 +20,6 @@ if ($storedToken === '' || !hash_equals($storedToken, $submittedToken)) {
     ]));
 }
 
-
 function emptyRestoreFolder() {
     $files = new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator('../../.tmp', RecursiveDirectoryIterator::SKIP_DOTS),
@@ -109,6 +108,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (file_exists($setupTokenFile)) {
                     unlink($setupTokenFile);
                 }
+
+                $db = new SQLite3('../../db/wallos.db');
+                $db->busyTimeout(5000);
+                ob_start();
+                require_once '../../includes/run_migrations.php';
+                ob_end_clean();
 
                 echo json_encode([
                     "success" => true,

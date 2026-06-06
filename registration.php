@@ -1,6 +1,9 @@
 <?php
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
+ob_start();
+require_once 'includes/run_migrations.php';
+ob_end_clean();
 
 require_once 'includes/i18n/languages.php';
 require_once 'includes/i18n/getlang.php';

@@ -58,15 +58,6 @@ function changeLanguage(selectedLanguage) {
   location.reload();
 }
 
-function runDatabaseMigration() {
-  let url = "endpoints/db/migrate.php";
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(translate('network_response_error'));
-      }
-    });
-}
 
 function showErrorMessage(message) {
   const toast = document.querySelector(".toast#errorToast");
@@ -171,14 +162,9 @@ function restoreDB() {
       if (data.success) {
         closeRestoreModal();
         showSuccessMessage(data.message);
-        fetch('endpoints/db/migrate.php')
-          .then(response => response.text())
-          .then(() => {
+        setTimeout(() => {
             window.location.href = 'logout.php';
-          })
-          .catch(error => {
-            window.location.href = 'logout.php';
-          });
+        }, 1500);
       } else {
         showErrorMessage(data.message);
       }
@@ -210,7 +196,6 @@ function enableGoToLoginButton() {
 window.onload = function () {
   restoreFormFields();
   removeFromStorage();
-  runDatabaseMigration();
   checkThemeNeedsUpdate();
   enableGoToLoginButton();
 };
