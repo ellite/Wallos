@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.9.5](https://github.com/ellite/Wallos/compare/v4.9.4...v4.9.5) (2026-06-06)
+
+
+### Bug Fixes
+
+* container startup ([#1077](https://github.com/ellite/Wallos/issues/1077)) ([b33d2cb](https://github.com/ellite/Wallos/commit/b33d2cb29350fd512af337e8831e87510edd680b))
+
 ## [4.9.4](https://github.com/ellite/Wallos/compare/v4.9.3...v4.9.4) (2026-06-06)
 
 
