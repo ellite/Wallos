@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.9.4](https://github.com/ellite/Wallos/compare/v4.9.3...v4.9.4) (2026-06-06)
+
+
+### Bug Fixes
+
+* restrict migrate.php to CLI and admin session ([85bba48](https://github.com/ellite/Wallos/commit/85bba489f20e00af7dd42593804092a1d33286bb))
+* secure unauthenticated db restore endpoint with a setup token ([85bba48](https://github.com/ellite/Wallos/commit/85bba489f20e00af7dd42593804092a1d33286bb))
+* validate oidc state parameter to prevent csrf login attack  ([85bba48](https://github.com/ellite/Wallos/commit/85bba489f20e00af7dd42593804092a1d33286bb))
+
 ## [4.9.3](https://github.com/ellite/Wallos/compare/v4.9.2...v4.9.3) (2026-05-27)
 
 
