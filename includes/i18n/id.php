@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Pendaftaran gagal, silakan coba lagi.",
     "register" => "Daftar",
     "restore_database" => "Pulihkan Database",
+    "setup_token" => "Token Pengaturan",
+    "restore_database_info" => "Token pengaturan diperlukan untuk memulihkan cadangan. Ambil menggunakan salah satu metode di bawah ini:",
+    "setup_token_docker" => "Docker: jalankan docker logs &lt;container-name&gt; dan cari \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: baca file db/setup_token.db di server",
+    "select_backup_file" => "Pilih File Cadangan",
     // Login Page
     "please_login" => "Silakan masuk",
     "stay_logged_in" => "Tetap masuk (30 hari)",

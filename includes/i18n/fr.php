@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "L'inscription a échoué, veuillez réessayer.",
     "register" => "S'inscrire",
     "restore_database" => "Restaurer la base de données",
+    "setup_token" => "Jeton de configuration",
+    "restore_database_info" => "Un jeton de configuration est requis pour restaurer une sauvegarde. Récupérez-le en utilisant l'une des méthodes ci-dessous :",
+    "setup_token_docker" => "Docker : exécutez docker logs &lt;container-name&gt; et recherchez \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal : lisez le fichier db/setup_token.db sur le serveur",
+    "select_backup_file" => "Sélectionner le fichier de sauvegarde",
     // Page de connexion
     "please_login" => "Veuillez vous connecter",
     "stay_logged_in" => "Rester connecté (30 jours)",

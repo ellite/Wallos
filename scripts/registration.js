@@ -131,21 +131,36 @@ function showSuccessMessage(message) {
 }
 
 
+function openRestoreModal() {
+  document.getElementById('restoreModalBackdrop').classList.add('is-open');
+}
+
+function closeRestoreModal() {
+  document.getElementById('restoreModalBackdrop').classList.remove('is-open');
+}
+
 function openRestoreDBFileSelect() {
   document.getElementById('restoreDBFile').click();
 };
+
+function onRestoreFileSelected() {
+  const input = document.getElementById('restoreDBFile');
+  const label = document.getElementById('restoreFileName');
+  label.textContent = input.files[0] ? input.files[0].name : '';
+}
 
 function restoreDB() {
   const input = document.getElementById('restoreDBFile');
   const file = input.files[0];
 
   if (!file) {
-    console.error('No file selected');
+    showErrorMessage('No file selected');
     return;
   }
 
   const formData = new FormData();
   formData.append('file', file);
+  formData.append('setup_token', document.getElementById('setupToken').value.trim());
 
   fetch('endpoints/db/import.php', {
     method: 'POST',
@@ -154,6 +169,7 @@ function restoreDB() {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
+        closeRestoreModal();
         showSuccessMessage(data.message);
         fetch('endpoints/db/migrate.php')
           .then(response => response.text())

@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Đăng ký thất bại, vui lòng thử lại.",
     "register" => "Đăng ký",
     "restore_database" => "Khôi phục cơ sở dữ liệu",
+    "setup_token" => "Mã thiết lập",
+    "restore_database_info" => "Cần có mã thiết lập để khôi phục bản sao lưu. Lấy mã bằng một trong các phương pháp sau:",
+    "setup_token_docker" => "Docker: chạy docker logs &lt;container-name&gt; và tìm \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: đọc tệp db/setup_token.db trên máy chủ",
+    "select_backup_file" => "Chọn tệp sao lưu",
     // Login Page
     "please_login" => "Vui lòng đăng nhập",
     "stay_logged_in" => "Giữ đăng nhập (30 ngày)",
