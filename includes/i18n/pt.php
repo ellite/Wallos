@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "O registo falhou. Tente novamente",
     "register" => "Registar",
     "restore_database" => "Restaurar base de dados",
+    "setup_token" => "Token de configuração",
+    "restore_database_info" => "É necessário um token de configuração para restaurar uma cópia de segurança. Obtenha-o utilizando um dos métodos abaixo:",
+    "setup_token_docker" => "Docker: execute docker logs &lt;container-name&gt; e procure por \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: leia o ficheiro db/setup_token.db no servidor",
+    "select_backup_file" => "Selecionar ficheiro de cópia de segurança",
     // Login Page
     "please_login" => "Por favor inicie sessão",
     "stay_logged_in" => "Manter sessão (30 dias)",

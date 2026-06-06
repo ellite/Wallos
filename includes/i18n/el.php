@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Η εγγραφή απέτυχε, παρακαλώ προσπάθησε ξανά.",
     "register" => "Εγγραφή",
     "restore_database" => "Επαναφορά βάσης δεδομένων",
+    "setup_token" => "Κωδικός εγκατάστασης",
+    "restore_database_info" => "Απαιτείται κωδικός εγκατάστασης για την επαναφορά αντιγράφου ασφαλείας. Ανακτήστε τον χρησιμοποιώντας μία από τις παρακάτω μεθόδους:",
+    "setup_token_docker" => "Docker: εκτελέστε docker logs &lt;container-name&gt; και αναζητήστε \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: διαβάστε το αρχείο db/setup_token.db στον διακομιστή",
+    "select_backup_file" => "Επιλογή αρχείου αντιγράφου ασφαλείας",
     // Login Page
     "please_login" => "Παρακαλώ συνδέσου",
     "stay_logged_in" => "Μείνε συνδεδεμένος (30 ημέρες)",

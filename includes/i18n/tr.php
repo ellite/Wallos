@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Kayıt başarısız, lütfen tekrar deneyin.",
     "register" => "Kayıt Ol",
     "restore_database" => "Veritabanını geri yükle",
+    "setup_token" => "Kurulum belirteci",
+    "restore_database_info" => "Bir yedeklemeyi geri yüklemek için kurulum belirteci gereklidir. Aşağıdaki yöntemlerden biriyle alın:",
+    "setup_token_docker" => "Docker: docker logs &lt;container-name&gt; komutunu çalıştırın ve \"Setup token for database restore\" ifadesini arayın",
+    "setup_token_file" => "Bare metal: sunucudaki db/setup_token.db dosyasını okuyun",
+    "select_backup_file" => "Yedek dosyası seç",
     // Login Page
     "please_login" => "Lütfen giriş yapın",
     "stay_logged_in" => "Oturumu açık tut (30 gün)",

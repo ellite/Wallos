@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Registrierung fehlgeschlagen, bitte erneut versuchen.",
     "register" => "Registrieren",
     "restore_database" => "Datenbank wiederherstellen",
+    "setup_token" => "Einrichtungstoken",
+    "restore_database_info" => "Zum Wiederherstellen einer Sicherung ist ein Einrichtungstoken erforderlich. Rufen Sie ihn mit einer der folgenden Methoden ab:",
+    "setup_token_docker" => "Docker: Führen Sie docker logs &lt;container-name&gt; aus und suchen Sie nach \"Setup token for database restore\"",
+    "setup_token_file" => "Bare Metal: Lesen Sie die Datei db/setup_token.db auf dem Server",
+    "select_backup_file" => "Sicherungsdatei auswählen",
     // Login Page
     "please_login" => "Bitte einloggen",
     "stay_logged_in" => "Angemeldet bleiben (30 Tage)",

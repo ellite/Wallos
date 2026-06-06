@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Registreringen mislykkedes, prøv igen.",
     "register" => "Registrer",
     "restore_database" => "Gendan database",
+    "setup_token" => "Opsætningstoken",
+    "restore_database_info" => "Et opsætningstoken er nødvendigt for at gendanne en sikkerhedskopi. Hent det ved hjælp af en af metoderne nedenfor:",
+    "setup_token_docker" => "Docker: kør docker logs &lt;container-name&gt; og søg efter \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: læs filen db/setup_token.db på serveren",
+    "select_backup_file" => "Vælg sikkerhedskopifil",
     // Login Page
     "please_login" => "Log venligst ind",
     "stay_logged_in" => "Forbliv logget ind (30 dage)",

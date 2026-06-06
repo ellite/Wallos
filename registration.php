@@ -1,6 +1,9 @@
 <?php
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
+ob_start();
+require_once 'includes/run_migrations.php';
+ob_end_clean();
 
 require_once 'includes/i18n/languages.php';
 require_once 'includes/i18n/getlang.php';
@@ -28,6 +31,13 @@ $stmt = $db->prepare('SELECT COUNT(*) as userCount FROM user');
 $result = $stmt->execute();
 $userCountResult = $result->fetchArray(SQLITE3_ASSOC);
 $userCount = $userCountResult['userCount'];
+
+if ($userCount == 0) {
+    $setupTokenFile = __DIR__ . '/db/setup_token.db';
+    if (!file_exists($setupTokenFile)) {
+        file_put_contents($setupTokenFile, bin2hex(random_bytes(32)));
+    }
+}
 
 if ($userCount > 0) {
     $stmt = $db->prepare('SELECT * FROM admin');
@@ -452,9 +462,7 @@ if (isset($_POST['username'])) {
                 ?>
                 <div class="separator">
                     <input type="button" class="secondary-button" value="<?= translate('restore_database', $i18n) ?>"
-                        id="restoreDB" onClick="openRestoreDBFileSelect()" />
-                    <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="restoreDB()"
-                        accept=".zip">
+                        onClick="openRestoreModal()" />
                 </div>
                 <?php
             } else {
@@ -467,6 +475,35 @@ if (isset($_POST['username'])) {
             ?>
         </section>
     </div>
+    <?php if ($userCount == 0) { ?>
+    <div id="restoreModalBackdrop" class="modal-backdrop" onclick="closeRestoreModal()">
+        <div id="restoreModal" class="subscription-modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3><?= translate('restore_database', $i18n) ?></h3>
+                <span class="fa-solid fa-xmark close-modal" onclick="closeRestoreModal()"></span>
+            </div>
+            <div class="modal-body">
+                <p><?= translate('restore_database_info', $i18n) ?></p>
+                <ul>
+                    <li><?= translate('setup_token_docker', $i18n) ?></li>
+                    <li><?= translate('setup_token_file', $i18n) ?></li>
+                </ul>
+                <div class="form-group">
+                    <input type="text" id="setupToken" placeholder="<?= translate('setup_token', $i18n) ?>" autocomplete="off">
+                </div>
+                <div class="form-group">
+                    <input type="button" class="secondary-button" value="<?= translate('select_backup_file', $i18n) ?>"
+                        onClick="openRestoreDBFileSelect()" />
+                    <input type="file" name="restoreDBFile" id="restoreDBFile" style="display: none;" onChange="onRestoreFileSelected()" accept=".zip">
+                    <span id="restoreFileName" style="font-size: 14px; margin-left: 8px;"></span>
+                </div>
+                <div class="form-group">
+                    <input type="button" value="<?= translate('restore_database', $i18n) ?>" onClick="restoreDB()" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
     <?php
     require_once 'includes/footer.php';
     ?>
