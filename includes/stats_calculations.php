@@ -185,7 +185,6 @@ if ($result) {
             if ($currency != $userData['main_currency']) {
                 $usesMultipleCurrencies = true;
             }
-            $next_payment = $subscription['next_payment'];
             $payerId = $subscription['payer_user_id'];
             $members[$payerId]['count'] += 1;
             $categoryId = $subscription['category_id'];
@@ -209,27 +208,6 @@ if ($result) {
                     $mostExpensiveSubscription['price'] = $price;
                     $mostExpensiveSubscription['name'] = $name;
                     $mostExpensiveSubscription['logo'] = $logo;
-                }
-                if ($cycle != 5) {
-                    // Calculate ammount due this month
-                    $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-                    $tomorrow = new DateTime('tomorrow');
-                    $endOfMonth = new DateTime('last day of this month');
-
-                    if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
-                        $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
-                        $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                        if ($cycle == 1) {
-                            $timesToPay = $daysRemaining / $frequency;
-                        }
-                        if ($cycle == 2) {
-                            $weeksInMonth = ceil($daysInMonth / 7);
-                            $weeksRemaining = ceil($daysRemaining / 7);
-                            $timesToPay = $weeksRemaining / $frequency;
-                        }
-                        $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
-                    }
                 }
             } else {
                 $inactiveSubscriptions++;
