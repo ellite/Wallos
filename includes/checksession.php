@@ -15,6 +15,12 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
     $code = $_GET['code'];
     $state = $_GET['state'];
 
+    if (!isset($_SESSION['oidc_state']) || !hash_equals($_SESSION['oidc_state'], $state)) {
+        header("Location: login.php");
+        exit();
+    }
+    unset($_SESSION['oidc_state']);
+
     require_once 'includes/oidc/handle_oidc_callback.php';
 
 } else {

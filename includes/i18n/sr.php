@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Регистрација није успела, покушајте поново.",
     "register" => "Региструј се",
     "restore_database" => "Врати базу података",
+    "setup_token" => "Токен за подешавање",
+    "restore_database_info" => "За враћање резервне копије потребан је токен за подешавање. Преузмите га помоћу једне од метода испод:",
+    "setup_token_docker" => "Docker: покрените docker logs &lt;container-name&gt; и потражите \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: прочитајте датотеку db/setup_token.db на серверу",
+    "select_backup_file" => "Изаберите датотеку резервне копије",
     // Страница за пријаву
     "please_login" => "Молимо вас да се пријавите",
     "stay_logged_in" => "Остани пријављен (30 дана)",

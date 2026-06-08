@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "A regisztráció sikertelen, kérjük, próbálja újra.", 
     "register" => "Regisztráció", 
     "restore_database" => "Adatbázis visszaállítása", 
+    "setup_token" => "Beállítási token",
+    "restore_database_info" => "Az adatbázis visszaállításához beállítási token szükséges. Szerezze be az alábbi módszerek egyikével:",
+    "setup_token_docker" => "Docker: futtassa a docker logs &lt;container-name&gt; parancsot, és keresse a \"Setup token for database restore\" szöveget",
+    "setup_token_file" => "Bare metal: olvassa el a db/setup_token.db fájlt a szerveren",
+    "select_backup_file" => "Mentési fájl kiválasztása",
     // Login Page 
     "please_login" => "Kérjük, jelentkezzen be", 
     "stay_logged_in" => "Maradjon bejelentkezve (30 nap)", 

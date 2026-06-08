@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "登録に失敗しました。もう一度お試しください。",
     "register" => "登録する",
     "restore_database" => "データベースをリストア",
+    "setup_token" => "セットアップトークン",
+    "restore_database_info" => "バックアップを復元するにはセットアップトークンが必要です。以下のいずれかの方法で取得してください：",
+    "setup_token_docker" => "Docker: docker logs &lt;container-name&gt; を実行し、「Setup token for database restore」を探してください",
+    "setup_token_file" => "ベアメタル: サーバー上の db/setup_token.db ファイルを読み取ってください",
+    "select_backup_file" => "バックアップファイルを選択",
     // Login Page
     "please_login" => "ログインしてください",
     "stay_logged_in" => "ログインしたままにする (30日)",

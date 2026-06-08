@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "회원가입 실패. 다시 시도해 주세요.",
     "register" => "회원가입",
     "restore_database" => "데이터베이스 복구",
+    "setup_token" => "설정 토큰",
+    "restore_database_info" => "백업을 복원하려면 설정 토큰이 필요합니다. 아래 방법 중 하나를 사용하여 가져오세요:",
+    "setup_token_docker" => "Docker: docker logs &lt;container-name&gt; 를 실행하고 \"Setup token for database restore\" 를 찾으세요",
+    "setup_token_file" => "베어 메탈: 서버의 db/setup_token.db 파일을 읽으세요",
+    "select_backup_file" => "백업 파일 선택",
     // Login Page
     "please_login" => "로그인 해 주세요.",
     "stay_logged_in" => "로그인 유지 (30일)",

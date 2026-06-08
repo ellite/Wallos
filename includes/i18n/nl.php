@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Registratie mislukt, probeer het opnieuw",
     "register" => "Registreren",
     "restore_database" => "Database herstellen",
+    "setup_token" => "Installatietoken",
+    "restore_database_info" => "Een installatietoken is vereist om een back-up te herstellen. Haal het op via een van de onderstaande methoden:",
+    "setup_token_docker" => "Docker: voer docker logs &lt;container-name&gt; uit en zoek naar \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: lees het bestand db/setup_token.db op de server",
+    "select_backup_file" => "Back-upbestand selecteren",
     // Login Page
     "please_login" => "Login",
     "stay_logged_in" => "Ingelogd blijven (30 dagen)",

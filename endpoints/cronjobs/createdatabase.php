@@ -231,7 +231,10 @@ if (!file_exists($databaseFile)) {
     (30, 'VeriFone', 'verifone.png'),
     (31, 'WebMoney', 'webmoney.png')");
 
+    $setupToken = bin2hex(random_bytes(32));
+    file_put_contents(__DIR__ . '/../../db/setup_token.db', $setupToken);
     echo "Database created.\n";
+    echo "Setup token for database restore: " . $setupToken . "\n";
 } else {
     echo "Database already exist. Checking for upgrades...\n";
 

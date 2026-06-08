@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "Registracija ni uspela, poskusite znova.",
     "register" => "Registrirajte se",
     "restore_database" => "Obnovi bazo podatkov",
+    "setup_token" => "Nastavitveni žeton",
+    "restore_database_info" => "Za obnovitev varnostne kopije je potreben nastavitveni žeton. Pridobite ga z eno od spodnjih metod:",
+    "setup_token_docker" => "Docker: zaženite docker logs &lt;container-name&gt; in poiščite \"Setup token for database restore\"",
+    "setup_token_file" => "Bare metal: preberite datoteko db/setup_token.db na strežniku",
+    "select_backup_file" => "Izberi datoteko varnostne kopije",
     // Login Page
     "please_login" => "Prosim prijavite se",
     "stay_logged_in" => "Ostanite prijavljeni (30 dni)",

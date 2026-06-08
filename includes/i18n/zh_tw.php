@@ -17,6 +17,11 @@ $i18n = [
     "registration_failed" => "註冊失敗，請再試一次。",
     "register" => "註冊",
     "restore_database" => "還原資料庫",
+    "setup_token" => "設定令牌",
+    "restore_database_info" => "還原備份需要設定令牌。請使用以下方法之一取得：",
+    "setup_token_docker" => "Docker：執行 docker logs &lt;container-name&gt; 並尋找 \"Setup token for database restore\"",
+    "setup_token_file" => "裸機：在伺服器上讀取檔案 db/setup_token.db",
+    "select_backup_file" => "選擇備份檔案",
     // 登入頁面
     "please_login" => "請先登入",
     "stay_logged_in" => "保持登入狀態（30 天）",

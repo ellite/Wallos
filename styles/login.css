@@ -177,7 +177,6 @@ input[type="checkbox"] {
 .error {
     display: block;
     color: var(--error-color);
-    margin-bottom: 20px;
 }
 
 .error-box,
@@ -242,6 +241,7 @@ input[type="checkbox"] {
     transform: translateX(calc(100% + 30px));
     transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
     box-sizing: border-box;
+    z-index: 200;
   }
   
   @media (max-width: 768px) {
@@ -318,7 +318,6 @@ input[type="checkbox"] {
     left: 0;
     height: 3px;
     width: 100%;
-  
   }
   
   .toast .progress:before {
@@ -349,3 +348,61 @@ input[type="checkbox"] {
   }
   
   /* TOAST END */
+
+/* RESTORE MODAL */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-backdrop.is-open {
+  display: flex;
+}
+
+.subscription-modal {
+  background-color: var(--box-background-color);
+  padding: 22px;
+  border: 1px solid var(--box-border-color);
+  border-radius: 16px;
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 500px;
+  max-height: calc(100vh - 34px);
+  overflow-y: auto;
+}
+
+.subscription-modal h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--main-color);
+  padding-bottom: 15px;
+}
+
+.subscription-modal .modal-header {
+  position: relative;
+}
+
+.subscription-modal .close-modal {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  padding: 5px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.subscription-modal p,
+.subscription-modal ul {
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.subscription-modal .form-group {
+  margin-top: 12px;
+}
+/* RESTORE MODAL END */
