@@ -151,7 +151,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   if ($sort != "next_payment") {
-    $orderByClauses[] = "next_payment ASC";
+    $orderByClauses[] = "name ASC";
   }
 
   $sql .= " ORDER BY " . implode(", ", $orderByClauses);
