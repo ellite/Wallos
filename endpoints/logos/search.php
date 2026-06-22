@@ -9,11 +9,15 @@ if (isset($_GET['search'])) {
             ?: getenv('HTTPS_PROXY')
             ?: getenv('http_proxy')
             ?: getenv('HTTP_PROXY')
+            ?: getenv('all_proxy')
+            ?: getenv('ALL_PROXY')
             ?: null;
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            return true;
         }
+        return false;
     }
 
 
@@ -36,14 +40,14 @@ if (isset($_GET['search'])) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
         
-        curl_setopt($ch, CURLOPT_PROXY, '');
-        curl_setopt($ch, CURLOPT_NOPROXY, '*');
-
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        
+
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
-        applyProxy($ch);
+        if (!applyProxy($ch)) {
+            curl_setopt($ch, CURLOPT_PROXY, '');
+            curl_setopt($ch, CURLOPT_NOPROXY, '*');
+        }
         $response = curl_exec($ch);
         unset($ch);
         return $response ?: null;
