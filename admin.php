@@ -31,8 +31,12 @@ if ($oidcSettings === false) {
         'scopes' => 'openid email profile',
         'auth_style' => 'auto',
         'auto_create_user' => 0,
-        'password_login_disabled' => 0
+        'password_login_disabled' => 0,
+        'require_email_verified' => 1
     ];
+} else {
+    // Column added via ALTER TABLE may return NULL for existing rows in SQLite
+    $oidcSettings['require_email_verified'] = $oidcSettings['require_email_verified'] ?? 1;
 }
 
 // get user accounts
@@ -271,6 +275,11 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 <input type="checkbox" id="oidcPasswordLoginDisabled"
                     <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?> />
                 <label for="oidcPasswordLoginDisabled"><?= translate('disable_password_login', $i18n) ?></label>
+            </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="oidcRequireEmailVerified"
+                    <?= $oidcSettings['require_email_verified'] ? 'checked' : '' ?> />
+                <label for="oidcRequireEmailVerified"><?= translate('require_email_verified_linking', $i18n) ?></label>
             </div>
             <div class="buttons">
                 <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"

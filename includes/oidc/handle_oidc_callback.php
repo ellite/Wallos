@@ -76,6 +76,14 @@ if ($userData) {
         exit();
     }
 
+    // Require email_verified when the setting is enabled (default on).
+    // Prevents account takeover by an attacker who presents an unverified email
+    // matching an existing local account at a permissive or attacker-controlled IdP.
+    if ($oidcSettings['require_email_verified'] && ($userInfo['email_verified'] ?? false) !== true) {
+        header("Location: login.php?error=oidc_email_not_verified");
+        exit();
+    }
+
     $stmt = $db->prepare('SELECT * FROM user WHERE email = :email');
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
     $result = $stmt->execute();

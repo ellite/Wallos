@@ -19,6 +19,7 @@ $oidcScopes = isset($data['oidcScopes']) ? trim($data['oidcScopes']) : '';
 $oidcAuthStyle = isset($data['oidcAuthStyle']) ? trim($data['oidcAuthStyle']) : '';
 $oidcAutoCreateUser = isset($data['oidcAutoCreateUser']) ? (int) $data['oidcAutoCreateUser'] : 0;
 $oidcPasswordLoginDisabled = isset($data['oidcPasswordLoginDisabled']) ? (int) $data['oidcPasswordLoginDisabled'] : 0;
+$oidcRequireEmailVerified = isset($data['oidcRequireEmailVerified']) ? (int) $data['oidcRequireEmailVerified'] : 1;
 
 $checkStmt = $db->prepare('SELECT COUNT(*) as count FROM oauth_settings WHERE id = 1');
 $result = $checkStmt->execute();
@@ -39,14 +40,15 @@ if ($row['count'] > 0) {
             scopes = :oidcScopes, 
             auth_style = :oidcAuthStyle,
             auto_create_user = :oidcAutoCreateUser,
-            password_login_disabled = :oidcPasswordLoginDisabled
+            password_login_disabled = :oidcPasswordLoginDisabled,
+            require_email_verified = :oidcRequireEmailVerified
             WHERE id = 1');
 } else {
     // Insert new row
     $stmt = $db->prepare('INSERT INTO oauth_settings (
-            id, name, client_id, client_secret, authorization_url, token_url, user_info_url, redirect_url, logout_url, user_identifier_field, scopes, auth_style, auto_create_user, password_login_disabled
+            id, name, client_id, client_secret, authorization_url, token_url, user_info_url, redirect_url, logout_url, user_identifier_field, scopes, auth_style, auto_create_user, password_login_disabled, require_email_verified
         ) VALUES (
-            1, :oidcName, :oidcClientId, :oidcClientSecret, :oidcAuthUrl, :oidcTokenUrl, :oidcUserInfoUrl, :oidcRedirectUrl, :oidcLogoutUrl, :oidcUserIdentifierField, :oidcScopes, :oidcAuthStyle, :oidcAutoCreateUser, :oidcPasswordLoginDisabled 
+            1, :oidcName, :oidcClientId, :oidcClientSecret, :oidcAuthUrl, :oidcTokenUrl, :oidcUserInfoUrl, :oidcRedirectUrl, :oidcLogoutUrl, :oidcUserIdentifierField, :oidcScopes, :oidcAuthStyle, :oidcAutoCreateUser, :oidcPasswordLoginDisabled, :oidcRequireEmailVerified
         )');
 }
 
@@ -63,6 +65,7 @@ $stmt->bindParam(':oidcScopes', $oidcScopes, SQLITE3_TEXT);
 $stmt->bindParam(':oidcAuthStyle', $oidcAuthStyle, SQLITE3_TEXT);
 $stmt->bindParam(':oidcAutoCreateUser', $oidcAutoCreateUser, SQLITE3_INTEGER);
 $stmt->bindParam(':oidcPasswordLoginDisabled', $oidcPasswordLoginDisabled, SQLITE3_INTEGER);
+$stmt->bindParam(':oidcRequireEmailVerified', $oidcRequireEmailVerified, SQLITE3_INTEGER);
 $stmt->execute();
 
 if ($db->changes() > 0) {
