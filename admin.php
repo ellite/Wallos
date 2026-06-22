@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/header.php';
+require_once 'includes/oidc_settings.php';
 
 if ($isAdmin != 1) {
     header('Location: index.php');
@@ -11,28 +12,14 @@ $stmt = $db->prepare('SELECT * FROM admin');
 $result = $stmt->execute();
 $settings = $result->fetchArray(SQLITE3_ASSOC);
 
-// get OIDC settings
-$stmt = $db->prepare('SELECT * FROM oauth_settings WHERE id = 1');
-$result = $stmt->execute();
-$oidcSettings = $result->fetchArray(SQLITE3_ASSOC);
+$oidcConfiguration = wallos_get_effective_oidc_configuration($db);
+$oidcSettings = $oidcConfiguration['settings'];
+$oidcManagedFields = $oidcConfiguration['managed_fields'];
+$oidcNotes = $oidcConfiguration['notes'];
 
-if ($oidcSettings === false) {
-    // Table is empty or no row with id=1, set defaults
-    $oidcSettings = [
-        'name' => '',
-        'client_id' => '',
-        'client_secret' => '',
-        'authorization_url' => '',
-        'token_url' => '',
-        'user_info_url' => '',
-        'redirect_url' => '',
-        'logout_url' => '',
-        'user_identifier_field' => 'sub',
-        'scopes' => 'openid email profile',
-        'auth_style' => 'auto',
-        'auto_create_user' => 0,
-        'password_login_disabled' => 0
-    ];
+function oidc_input_attrs($field, $managedFields)
+{
+    return isset($managedFields[$field]) ? 'disabled data-managed-by="' . htmlspecialchars($managedFields[$field]) . '"' : '';
 }
 
 // get user accounts
@@ -215,63 +202,82 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         </header>
         <div class="admin-form">
             <div class="form-group-inline">
-                <input type="checkbox" id="oidcEnabled" <?= $settings['oidc_oauth_enabled'] ? 'checked' : '' ?>
+                <input type="checkbox" id="oidcEnabled" <?= $oidcConfiguration['enabled'] ? 'checked' : '' ?>
+                    <?= oidc_input_attrs('enabled', $oidcManagedFields) ?>
                     onchange="toggleOidcEnabled()" />
                 <label for="oidcEnabled"><?= translate('oidc_oauth_enabled', $i18n) ?></label>
             </div>
             <div class="form-group">
                 <input type="text" id="oidcName" placeholder="Provider Name" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['name']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['name']) ?>" <?= oidc_input_attrs('name', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcClientId" placeholder="Client ID" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['client_id']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['client_id']) ?>" <?= oidc_input_attrs('client_id', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcClientSecret" placeholder="Client Secret" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['client_secret']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['client_secret']) ?>" <?= oidc_input_attrs('client_secret', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcAuthUrl" placeholder="Auth URL" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['authorization_url']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['authorization_url']) ?>" <?= oidc_input_attrs('authorization_url', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcTokenUrl" placeholder="Token URL" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['token_url']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['token_url']) ?>" <?= oidc_input_attrs('token_url', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcUserInfoUrl" placeholder="User Info URL" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['user_info_url']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['user_info_url']) ?>" <?= oidc_input_attrs('user_info_url', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcRedirectUrl" placeholder="Redirect URL" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['redirect_url']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['redirect_url']) ?>" <?= oidc_input_attrs('redirect_url', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcLogoutUrl" placeholder="Logout URL" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['logout_url']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['logout_url']) ?>" <?= oidc_input_attrs('logout_url', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcUserIdentifierField" placeholder="User Identifier Field" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['user_identifier_field']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['user_identifier_field']) ?>" <?= oidc_input_attrs('user_identifier_field', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="text" id="oidcScopes" placeholder="Scopes" autocomplete="off"
-                    value="<?= htmlspecialchars($oidcSettings['scopes']) ?>" />
+                    value="<?= htmlspecialchars($oidcSettings['scopes']) ?>" <?= oidc_input_attrs('scopes', $oidcManagedFields) ?> />
             </div>
             <div class="form-group">
                 <input type="hidden" id="oidcAuthStyle" placeholder="Auth Style" autocomplete="off"
                     value="<?= htmlspecialchars($oidcSettings['auth_style']) ?>" />
             </div>
             <div class="form-group-inline">
-                <input type="checkbox" id="oidcAutoCreateUser" <?= $oidcSettings['auto_create_user'] ? 'checked' : '' ?> />
+                <input type="checkbox" id="oidcAutoCreateUser" <?= $oidcSettings['auto_create_user'] ? 'checked' : '' ?>
+                    <?= oidc_input_attrs('auto_create_user', $oidcManagedFields) ?> />
                 <label for="oidcAutoCreateUser"><?= translate('create_user_automatically', $i18n) ?></label>
             </div>
             <div class="form-group-inline">
                 <input type="checkbox" id="oidcPasswordLoginDisabled"
-                    <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?> />
+                    <?= $oidcSettings['password_login_disabled'] ? 'checked' : '' ?>
+                    <?= oidc_input_attrs('password_login_disabled', $oidcManagedFields) ?> />
                 <label for="oidcPasswordLoginDisabled"><?= translate('disable_password_login', $i18n) ?></label>
             </div>
+            <?php if (!empty($oidcManagedFields) || !empty($oidcNotes)): ?>
+                <div class="settings-notes">
+                    <?php if (!empty($oidcManagedFields)): ?>
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            OIDC fields managed by environment variables are shown here but cannot be edited in the UI.
+                        </p>
+                    <?php endif; ?>
+                    <?php foreach ($oidcNotes as $oidcNote): ?>
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= htmlspecialchars($oidcNote) ?>
+                        </p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
             <div class="buttons">
                 <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                     id="saveOidcSettingsButton" onClick="saveOidcSettingsButton()" />
