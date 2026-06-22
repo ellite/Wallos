@@ -26,6 +26,19 @@ if (isset($_FILES['file'])) {
 
         $zip = new ZipArchive();
         if ($zip->open($fileDestination) === true) {
+            // Validate all entries before extracting — ZipArchive::extractTo() does not
+            // guarantee protection against path traversal (Zip Slip).
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $entry = str_replace('\\', '/', $zip->getNameIndex($i));
+                if ($entry[0] === '/' || in_array('..', explode('/', $entry), true)) {
+                    $zip->close();
+                    emptyRestoreFolder();
+                    die(json_encode([
+                        "success" => false,
+                        "message" => "Invalid backup file: unsafe file path detected."
+                    ]));
+                }
+            }
             $zip->extractTo('../../.tmp/restore/');
             $zip->close();
         } else {
