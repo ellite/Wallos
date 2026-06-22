@@ -5,9 +5,13 @@ services:
     ports:
       - "8282:80/tcp"
     environment:
-      TZ: 'America/Toronto'
-    # Volumes store your data between container upgrades
+      TZ: "America/Toronto"
+    # Volumes store your data between container upgrades.
+    # Relative host paths are resolved from the Docker/Compose project directory.
+    # In stack managers or remote deployments (for example Portainer), prefer
+    # absolute host paths to avoid accidentally mounting a fresh empty db/ or
+    # logos/ directory on redeploy.
     volumes:
-      - './db:/var/www/html/db'
-      - './logos:/var/www/html/images/uploads/logos'
+      - "./db:/var/www/html/db"
+      - "./logos:/var/www/html/images/uploads/logos"
     restart: unless-stopped
