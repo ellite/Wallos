@@ -301,7 +301,7 @@ if (!$password_login_disabled) {
 
 if (isset($_GET['error'])) {
     $oidcError = $_GET['error'];
-    if (in_array($oidcError, ["oidc_user_not_found", "oidc_invalid_state", "oidc_email_not_verified"], true)) {
+    if (in_array($oidcError, ["oidc_user_not_found", "oidc_invalid_state", "oidc_email_not_verified", "oidc_invalid_config"], true)) {
         $loginFailed = true;
         $oidcEmailNotVerified = $oidcError === "oidc_email_not_verified";
     }

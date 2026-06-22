@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -20,6 +21,20 @@ $oidcAuthStyle = isset($data['oidcAuthStyle']) ? trim($data['oidcAuthStyle']) : 
 $oidcAutoCreateUser = isset($data['oidcAutoCreateUser']) ? (int) $data['oidcAutoCreateUser'] : 0;
 $oidcPasswordLoginDisabled = isset($data['oidcPasswordLoginDisabled']) ? (int) $data['oidcPasswordLoginDisabled'] : 0;
 $oidcRequireEmailVerified = isset($data['oidcRequireEmailVerified']) ? (int) $data['oidcRequireEmailVerified'] : 1;
+
+if ($oidcTokenUrl && validate_oidc_endpoint_url($oidcTokenUrl) === false) {
+    die(json_encode([
+        "success" => false,
+        "message" => "Security Error: Token URL must not target link-local or loopback addresses."
+    ]));
+}
+
+if ($oidcUserInfoUrl && validate_oidc_endpoint_url($oidcUserInfoUrl) === false) {
+    die(json_encode([
+        "success" => false,
+        "message" => "Security Error: User Info URL must not target link-local or loopback addresses."
+    ]));
+}
 
 $checkStmt = $db->prepare('SELECT COUNT(*) as count FROM oauth_settings WHERE id = 1');
 $result = $checkStmt->execute();

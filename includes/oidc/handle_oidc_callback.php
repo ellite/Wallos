@@ -10,6 +10,8 @@ function generate_username_from_email($email)
     return $username;
 }
 
+require_once __DIR__ . '/../ssrf_helper.php';
+
 // get OIDC settings
 $stmt = $db->prepare('SELECT * FROM oauth_settings WHERE id = 1');
 $result = $stmt->execute();
@@ -17,6 +19,12 @@ $oidcSettings = $result->fetchArray(SQLITE3_ASSOC);
 
 $tokenUrl = $oidcSettings['token_url'];
 $redirectUri = $oidcSettings['redirect_url'];
+
+$tokenUrlInfo = validate_oidc_endpoint_url($tokenUrl);
+if ($tokenUrlInfo === false) {
+    header("Location: login.php?error=oidc_invalid_config");
+    exit();
+}
 
 $postFields = [
     'grant_type' => 'authorization_code',
@@ -31,6 +39,7 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
+curl_setopt($ch, CURLOPT_RESOLVE, ["{$tokenUrlInfo['host']}:{$tokenUrlInfo['port']}:{$tokenUrlInfo['ip']}"]);
 $response = curl_exec($ch);
 unset($ch);
 
@@ -41,11 +50,18 @@ if (!$tokenData || !isset($tokenData['access_token'])) {
 
 $userInfoUrl = $oidcSettings['user_info_url'];
 
+$userInfoUrlInfo = validate_oidc_endpoint_url($userInfoUrl);
+if ($userInfoUrlInfo === false) {
+    header("Location: login.php?error=oidc_invalid_config");
+    exit();
+}
+
 $ch = curl_init($userInfoUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer ' . $tokenData['access_token']
 ]);
+curl_setopt($ch, CURLOPT_RESOLVE, ["{$userInfoUrlInfo['host']}:{$userInfoUrlInfo['port']}:{$userInfoUrlInfo['ip']}"]);
 $response = curl_exec($ch);
 unset($ch);
 
