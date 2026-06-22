@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.9.6](https://github.com/ellite/Wallos/compare/v4.9.5...v4.9.6) (2026-06-22)
+
+
+### Bug Fixes
+
+* account takeover via email-based account linking ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+* harden oidc state validation and session rotation ([#1071](https://github.com/ellite/Wallos/issues/1071)) ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+* missing fields when cloning a subscription ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+* ssrf via oidc token/userInfo url configuration ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+* ssrf via test email notification ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+* zip slip path traversal in database restore writes files to webroot ([b75f13d](https://github.com/ellite/Wallos/commit/b75f13d0ffa3ed7e77e8e79e4b9fd3fc528c98d3))
+
 ## [4.9.5](https://github.com/ellite/Wallos/compare/v4.9.4...v4.9.5) (2026-06-06)
 
 
