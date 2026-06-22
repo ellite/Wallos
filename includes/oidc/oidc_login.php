@@ -9,6 +9,7 @@ $username = $userData['username'];
 $language = $userData['language'];
 $main_currency = $userData['main_currency'];
 
+session_regenerate_id(true);
 $_SESSION['username'] = $username;
 $_SESSION['loggedin'] = true;
 $_SESSION['main_currency'] = $main_currency;

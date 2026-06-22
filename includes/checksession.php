@@ -14,6 +14,21 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
     // This request is coming from the OIDC login flow
     $code = $_GET['code'];
     $state = $_GET['state'];
+    $expectedState = $_SESSION['oidc_state'] ?? null;
+
+    if (
+        !is_string($code) || $code === '' ||
+        !is_string($state) || $state === '' ||
+        !is_string($expectedState) || $expectedState === '' ||
+        !hash_equals($expectedState, $state)
+    ) {
+        unset($_SESSION['oidc_state']);
+        $db->close();
+        header("Location: login.php?error=oidc_invalid_state");
+        exit();
+    }
+
+    unset($_SESSION['oidc_state']);
 
     if (!isset($_SESSION['oidc_state']) || !hash_equals($_SESSION['oidc_state'], $state)) {
         header("Location: login.php");
@@ -88,6 +103,7 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
                 $row = $result->fetchArray(SQLITE3_ASSOC);
 
                 if ($row != false) {
+                    session_regenerate_id(true);
                     $_SESSION['username'] = $username;
                     $_SESSION['token'] = $token;
                     $_SESSION['loggedin'] = true;

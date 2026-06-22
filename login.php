@@ -58,6 +58,7 @@ if ($adminRow['login_disabled'] == 1) {
         $username = $row['username'];
         $language = $row['language'];
 
+        session_regenerate_id(true);
         $_SESSION['username'] = $username;
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $main_currency;
@@ -229,6 +230,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     ]);
                 }
 
+                session_regenerate_id(true);
                 $_SESSION['username'] = $username;
                 $_SESSION['loggedin'] = true;
                 $_SESSION['main_currency'] = $main_currency;
@@ -296,7 +298,7 @@ if (!$password_login_disabled) {
 }
 
 
-if (isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
+if (isset($_GET['error']) && in_array($_GET['error'], ["oidc_user_not_found", "oidc_invalid_state"], true)) {
     $loginFailed = true;
 }
 

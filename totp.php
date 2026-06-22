@@ -104,6 +104,7 @@ if (isset($_POST['one-time-code'])) {
         $result = $stmt->execute();
         $user = $result->fetchArray(SQLITE3_ASSOC);
 
+        session_regenerate_id(true);
         $_SESSION['username'] = $user['username'];
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $user['main_currency'];
