@@ -22,14 +22,14 @@ $oidcAutoCreateUser = isset($data['oidcAutoCreateUser']) ? (int) $data['oidcAuto
 $oidcPasswordLoginDisabled = isset($data['oidcPasswordLoginDisabled']) ? (int) $data['oidcPasswordLoginDisabled'] : 0;
 $oidcRequireEmailVerified = isset($data['oidcRequireEmailVerified']) ? (int) $data['oidcRequireEmailVerified'] : 1;
 
-if ($oidcTokenUrl && validate_oidc_endpoint_url($oidcTokenUrl) === false) {
+if ($oidcTokenUrl && validate_oidc_endpoint_url($oidcTokenUrl, $db) === false) {
     die(json_encode([
         "success" => false,
         "message" => "Security Error: Token URL must not target link-local or loopback addresses."
     ]));
 }
 
-if ($oidcUserInfoUrl && validate_oidc_endpoint_url($oidcUserInfoUrl) === false) {
+if ($oidcUserInfoUrl && validate_oidc_endpoint_url($oidcUserInfoUrl, $db) === false) {
     die(json_encode([
         "success" => false,
         "message" => "Security Error: User Info URL must not target link-local or loopback addresses."

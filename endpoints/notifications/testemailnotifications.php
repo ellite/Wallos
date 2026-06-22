@@ -5,7 +5,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once '../../includes/connect_endpoint.php';
-require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -32,7 +33,21 @@ if (
     require '../../libs/PHPMailer/Exception.php';
 
     $smtpAddress = $data["smtpaddress"];
-    $smtpPort = $data["smtpport"];
+    $smtpPort = (int) $data["smtpport"];
+
+    if (!validate_smtp_host($smtpAddress, $smtpPort, $db)) {
+        die(json_encode([
+            "success" => false,
+            "message" => "Security Error: SMTP host must not target link-local or loopback addresses."
+        ]));
+    }
+
+    if ($smtpPort < 1 || $smtpPort > 65535) {
+        die(json_encode([
+            "success" => false,
+            "message" => translate('fill_all_fields', $i18n)
+        ]));
+    }
     $smtpUsername = $data["smtpusername"];
     $smtpPassword = $data["smtppassword"];
     $fromEmail = $data["fromemail"] ? $data['fromemail'] : "wallos@wallosapp.com";

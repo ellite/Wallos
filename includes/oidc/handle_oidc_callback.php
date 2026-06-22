@@ -20,7 +20,7 @@ $oidcSettings = $result->fetchArray(SQLITE3_ASSOC);
 $tokenUrl = $oidcSettings['token_url'];
 $redirectUri = $oidcSettings['redirect_url'];
 
-$tokenUrlInfo = validate_oidc_endpoint_url($tokenUrl);
+$tokenUrlInfo = validate_oidc_endpoint_url($tokenUrl, $db);
 if ($tokenUrlInfo === false) {
     header("Location: login.php?error=oidc_invalid_config");
     exit();
@@ -50,7 +50,7 @@ if (!$tokenData || !isset($tokenData['access_token'])) {
 
 $userInfoUrl = $oidcSettings['user_info_url'];
 
-$userInfoUrlInfo = validate_oidc_endpoint_url($userInfoUrl);
+$userInfoUrlInfo = validate_oidc_endpoint_url($userInfoUrl, $db);
 if ($userInfoUrlInfo === false) {
     header("Location: login.php?error=oidc_invalid_config");
     exit();

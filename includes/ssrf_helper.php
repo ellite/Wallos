@@ -92,15 +92,58 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
 }
 
 /**
- * Validates an OIDC endpoint URL (token_url, user_info_url) against SSRF.
- * Blocks link-local (169.254.x.x — cloud IMDS on AWS/Azure/GCP) and loopback.
- * RFC-1918 private ranges are intentionally allowed for self-hosted IdPs
- * (Authentik, Keycloak, etc.) running on a local network.
+ * Validates an SMTP hostname against SSRF.
+ * Private/reserved IPs (RFC-1918, link-local, loopback, CGNAT) are only
+ * allowed if the host or IP appears in the admin Security Settings allowlist
  *
- * @param string $url
+ * @param string  $host Hostname or IP
+ * @param int     $port SMTP port (used for allowlist host:port matching)
+ * @param SQLite3 $db
+ * @return bool
+ */
+function validate_smtp_host($host, $port, $db) {
+    $ip = gethostbyname($host);
+
+    // DNS failure — gethostbyname returns the input unchanged on failure
+    if ($ip === $host && filter_var($host, FILTER_VALIDATE_IP) === false) return false;
+
+    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+               || is_cgnat_ip($ip);
+
+    if ($is_private) {
+        $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
+        $result = $stmt->execute();
+        $row   = $result->fetchArray(SQLITE3_ASSOC);
+
+        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
+        $allowlist     = array_filter(array_map('trim', explode(',', $allowlist_str)));
+
+        $hostWithPort = $host . ':' . $port;
+        $ipWithPort   = $ip   . ':' . $port;
+
+        if (
+            !in_array($host,         $allowlist) &&
+            !in_array($ip,           $allowlist) &&
+            !in_array($hostWithPort, $allowlist) &&
+            !in_array($ipWithPort,   $allowlist)
+        ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/**
+ * Validates an OIDC endpoint URL (token_url, user_info_url) against SSRF.
+ * Private/reserved IPs (RFC-1918, link-local, loopback, CGNAT) are only
+ * allowed if the host or IP appears in the admin Security Settings allowlist,
+ *
+ * @param string  $url
+ * @param SQLite3 $db
  * @return array|false ['host', 'ip', 'port'] on success, false on failure
  */
-function validate_oidc_endpoint_url($url) {
+function validate_oidc_endpoint_url($url, $db) {
     $parsed = parse_url($url);
     if (!$parsed || !isset($parsed['host'])) return false;
 
@@ -114,13 +157,31 @@ function validate_oidc_endpoint_url($url) {
     // DNS failure — gethostbyname returns the input unchanged on failure
     if ($ip === $host && filter_var($host, FILTER_VALIDATE_IP) === false) return false;
 
-    // Block link-local: 169.254.0.0/16 (AWS/Azure/GCP IMDS, APIPA)
-    if (strncmp($ip, '169.254.', 8) === 0) return false;
-
-    // Block loopback: 127.0.0.0/8 and ::1
-    if (strncmp($ip, '127.', 4) === 0 || $ip === '::1') return false;
-
     $targetPort = $port ?: ($scheme === 'https' ? 443 : 80);
+
+    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+               || is_cgnat_ip($ip);
+
+    if ($is_private) {
+        $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
+        $result = $stmt->execute();
+        $row   = $result->fetchArray(SQLITE3_ASSOC);
+
+        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
+        $allowlist     = array_filter(array_map('trim', explode(',', $allowlist_str)));
+
+        $hostWithPort = $host . ':' . $targetPort;
+        $ipWithPort   = $ip   . ':' . $targetPort;
+
+        if (
+            !in_array($host,         $allowlist) &&
+            !in_array($ip,           $allowlist) &&
+            !in_array($hostWithPort, $allowlist) &&
+            !in_array($ipWithPort,   $allowlist)
+        ) {
+            return false;
+        }
+    }
 
     return [
         'host' => $host,
