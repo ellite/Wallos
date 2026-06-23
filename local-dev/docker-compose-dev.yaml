@@ -1,0 +1,15 @@
+services:
+  wallos:
+    container_name: wallos-dev
+    image: wallos-local:latest
+    build:
+      context: ../
+    ports:
+      - "8282:80/tcp"
+    environment:
+      TZ: 'Europe/Paris'
+    # Volumes store your data between container upgrades
+    volumes:
+      - './db:/var/www/html/db'
+      - './images/uploads/logos:/var/www/html/images/uploads/logos'
+    restart: unless-stopped

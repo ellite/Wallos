@@ -3,6 +3,7 @@
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
 - member: comma-separated IDs of the members to filter (integer) default null.
+- member_email: the email of a user to filter subscriptions (string) default null. Admin only (userId == 1).
 - category: the ID of the category to filter (integer) default null.
 - payment_method: the ID of the payment method to filter (integer) default null.
 - state: the state of the subscription to filter (boolean) default null [0 - active, 1 - inactive].
@@ -10,6 +11,7 @@ It receives the following parameters:
 - sort: the sorting method (string) default next_payment ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'].
 - convert_currency: whether to convert to the main currency (boolean) default false.
 - api_key: the API key of the user.
+ - image_base64: when set to 1, return logo as a base64 data URI (boolean) default false.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -142,6 +144,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $userId = $user['id'];
     $userCurrencyId = $user['main_currency'];
 
+    // -------------------------------------------------------------------------
+    // Handle member_email parameter (admin only)
+    // -------------------------------------------------------------------------
+    $targetUserId = $userId; // By default, filter on the calling user
+
+    if (isset($_REQUEST['member_email']) && $_REQUEST['member_email'] !== '') {
+        // Only admin (userId == 1) is allowed to use this parameter
+        if ($userId != 1) {
+            $response = [
+                "success" => false,
+                "title" => "Denied. Only admin can filter by member_email"
+            ];
+            echo json_encode($response);
+            exit;
+        }
+
+        $memberEmail = $_REQUEST['member_email'];
+
+        $sql = "SELECT id FROM user WHERE email = :email LIMIT 1";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':email', $memberEmail);
+        $result = $stmt->execute();
+        $targetUser = $result->fetchArray(SQLITE3_ASSOC);
+
+        if (!$targetUser) {
+            $response = [
+                "success" => false,
+                "title" => "No user found with the provided email"
+            ];
+            echo json_encode($response);
+            exit;
+        }
+
+        $targetUserId = $targetUser['id'];
+    }
+    // -------------------------------------------------------------------------
+
     $allUserSubscription = isset($_REQUEST['all-user-subscription']) ? $_REQUEST['all-user-subscription'] : null;
     if ($allUserSubscription == 1 && $userId != 1) {
         $response = [
@@ -217,10 +256,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     // Construction of the main SQL Query
     $params = [];
     if ($allUserSubscription == 1 && $userId == 1) {
+        // all-user-subscription: return all subscriptions regardless of user
         $sql = "SELECT * FROM subscriptions";
     } else {
+        // Filter by targetUserId (either the caller, or the user resolved from member_email)
         $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
-        $params[':userId'] = $userId;
+        $params[':userId'] = $targetUserId;
     }
 
     if (isset($_REQUEST['member'])) {
@@ -292,12 +333,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
     }
     $subscriptionsToReturn = array();
+    $imageBase64 = isset($_REQUEST['image_base64']) && $_REQUEST['image_base64'] == 1;
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
         if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
             $subscriptionToReturn['price'] = getPriceConverted($subscription['price'], $subscription['currency_id'], $db);
         } else {
             $subscriptionToReturn['price'] = $subscription['price'];
+        }
+        if ($imageBase64 && !empty($subscription['logo'])) {
+            $logoPath = __DIR__ . '/../../images/uploads/logos/' . $subscription['logo'];
+            if (is_file($logoPath)) {
+                $logoContents = file_get_contents($logoPath);
+                if ($logoContents !== false) {
+                    $extension = strtolower(pathinfo($logoPath, PATHINFO_EXTENSION));
+                    $mime = ($extension === 'svg') ? 'image/svg+xml' : 'image/' . ($extension ?: 'png');
+                    $subscriptionToReturn['logo'] = 'data:' . $mime . ';base64,' . base64_encode($logoContents);
+                }
+            }
         }
         $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
         $subscriptionToReturn['payer_user_name'] = isset($members[$subscription['payer_user_id']]) ? $members[$subscription['payer_user_id']] : 'Unknown member';
@@ -307,7 +360,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     $response = [
         "success" => true,
-        "title" => "subscriptions",
+        "title" => "subscriptions3",
         "subscriptions" => $subscriptionsToReturn,
         "notes" => []
     ];
