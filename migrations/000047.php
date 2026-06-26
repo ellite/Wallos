@@ -1,16 +1,15 @@
 <?php
+// Adds require_email_verified to oauth_settings.
+// When enabled (default), account linking by email is only allowed when the
+// IdP marks email_verified = true, preventing account takeover via unverified emails.
 
-/*
-* This migration adds a notification setting to send a payment period summary at period start.
-*/
+$columnQuery = $db->query("SELECT * FROM pragma_table_info('oauth_settings') WHERE name='require_email_verified'");
+$columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
-$columnQuery = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
-if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE notification_settings ADD COLUMN period_summary_at_period_start INTEGER DEFAULT 0');
+if ($columnRequired) {
+    $db->exec("ALTER TABLE oauth_settings ADD COLUMN require_email_verified INTEGER DEFAULT 1");
 }
 
-$db->exec('UPDATE notification_settings
-           SET period_summary_at_period_start = 0
-           WHERE period_summary_at_period_start IS NULL');
-
-?>
+// SQLite does not physically store ALTER TABLE defaults in existing rows, so
+// PHP's SQLite3 extension may return NULL for them. Backfill explicitly.
+$db->exec("UPDATE oauth_settings SET require_email_verified = 1 WHERE require_email_verified IS NULL");

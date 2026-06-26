@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -19,6 +20,21 @@ $oidcScopes = isset($data['oidcScopes']) ? trim($data['oidcScopes']) : '';
 $oidcAuthStyle = isset($data['oidcAuthStyle']) ? trim($data['oidcAuthStyle']) : '';
 $oidcAutoCreateUser = isset($data['oidcAutoCreateUser']) ? (int) $data['oidcAutoCreateUser'] : 0;
 $oidcPasswordLoginDisabled = isset($data['oidcPasswordLoginDisabled']) ? (int) $data['oidcPasswordLoginDisabled'] : 0;
+$oidcRequireEmailVerified = isset($data['oidcRequireEmailVerified']) ? (int) $data['oidcRequireEmailVerified'] : 1;
+
+if ($oidcTokenUrl && validate_oidc_endpoint_url($oidcTokenUrl, $db) === false) {
+    die(json_encode([
+        "success" => false,
+        "message" => "Security Error: Token URL must not target link-local or loopback addresses."
+    ]));
+}
+
+if ($oidcUserInfoUrl && validate_oidc_endpoint_url($oidcUserInfoUrl, $db) === false) {
+    die(json_encode([
+        "success" => false,
+        "message" => "Security Error: User Info URL must not target link-local or loopback addresses."
+    ]));
+}
 
 $checkStmt = $db->prepare('SELECT COUNT(*) as count FROM oauth_settings WHERE id = 1');
 $result = $checkStmt->execute();
@@ -39,14 +55,15 @@ if ($row['count'] > 0) {
             scopes = :oidcScopes, 
             auth_style = :oidcAuthStyle,
             auto_create_user = :oidcAutoCreateUser,
-            password_login_disabled = :oidcPasswordLoginDisabled
+            password_login_disabled = :oidcPasswordLoginDisabled,
+            require_email_verified = :oidcRequireEmailVerified
             WHERE id = 1');
 } else {
     // Insert new row
     $stmt = $db->prepare('INSERT INTO oauth_settings (
-            id, name, client_id, client_secret, authorization_url, token_url, user_info_url, redirect_url, logout_url, user_identifier_field, scopes, auth_style, auto_create_user, password_login_disabled
+            id, name, client_id, client_secret, authorization_url, token_url, user_info_url, redirect_url, logout_url, user_identifier_field, scopes, auth_style, auto_create_user, password_login_disabled, require_email_verified
         ) VALUES (
-            1, :oidcName, :oidcClientId, :oidcClientSecret, :oidcAuthUrl, :oidcTokenUrl, :oidcUserInfoUrl, :oidcRedirectUrl, :oidcLogoutUrl, :oidcUserIdentifierField, :oidcScopes, :oidcAuthStyle, :oidcAutoCreateUser, :oidcPasswordLoginDisabled 
+            1, :oidcName, :oidcClientId, :oidcClientSecret, :oidcAuthUrl, :oidcTokenUrl, :oidcUserInfoUrl, :oidcRedirectUrl, :oidcLogoutUrl, :oidcUserIdentifierField, :oidcScopes, :oidcAuthStyle, :oidcAutoCreateUser, :oidcPasswordLoginDisabled, :oidcRequireEmailVerified
         )');
 }
 
@@ -63,6 +80,7 @@ $stmt->bindParam(':oidcScopes', $oidcScopes, SQLITE3_TEXT);
 $stmt->bindParam(':oidcAuthStyle', $oidcAuthStyle, SQLITE3_TEXT);
 $stmt->bindParam(':oidcAutoCreateUser', $oidcAutoCreateUser, SQLITE3_INTEGER);
 $stmt->bindParam(':oidcPasswordLoginDisabled', $oidcPasswordLoginDisabled, SQLITE3_INTEGER);
+$stmt->bindParam(':oidcRequireEmailVerified', $oidcRequireEmailVerified, SQLITE3_INTEGER);
 $stmt->execute();
 
 if ($db->changes() > 0) {

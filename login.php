@@ -58,6 +58,7 @@ if ($adminRow['login_disabled'] == 1) {
         $username = $row['username'];
         $language = $row['language'];
 
+        session_regenerate_id(true);
         $_SESSION['username'] = $username;
         $_SESSION['loggedin'] = true;
         $_SESSION['main_currency'] = $main_currency;
@@ -166,6 +167,7 @@ if ($oidcRow) {
 $loginFailed = false;
 $hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
 $userEmailWaitingVerification = false;
+$oidcEmailNotVerified = false;
 if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -229,6 +231,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
                     ]);
                 }
 
+                session_regenerate_id(true);
                 $_SESSION['username'] = $username;
                 $_SESSION['loggedin'] = true;
                 $_SESSION['main_currency'] = $main_currency;
@@ -296,8 +299,12 @@ if (!$password_login_disabled) {
 }
 
 
-if (isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
-    $loginFailed = true;
+if (isset($_GET['error'])) {
+    $oidcError = $_GET['error'];
+    if (in_array($oidcError, ["oidc_user_not_found", "oidc_invalid_state", "oidc_email_not_verified", "oidc_invalid_config"], true)) {
+        $loginFailed = true;
+        $oidcEmailNotVerified = $oidcError === "oidc_email_not_verified";
+    }
 }
 
 ?>
@@ -392,6 +399,10 @@ if (isset($_GET['error']) && $_GET['error'] == "oidc_user_not_found") {
                             <li><i
                                     class="fa-solid fa-triangle-exclamation"></i><?= translate('user_email_waiting_verification', $i18n) ?>
                             </li>
+                            <?php
+                        } elseif ($oidcEmailNotVerified) {
+                            ?>
+                            <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('oidc_email_not_verified', $i18n) ?></li>
                             <?php
                         } else {
                             ?>

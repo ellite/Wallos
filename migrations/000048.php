@@ -1,22 +1,16 @@
 <?php
 
 /*
-* This migration adds period-based budget fields to the user table.
+* This migration adds a notification setting to send a payment period summary at period start.
 */
 
-$defaultAnchorDate = (new DateTime('now'))->format('Y-m-d');
-
-$periodTypeColumn = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='budget_period_type'");
-if ($periodTypeColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE user ADD COLUMN budget_period_type TEXT DEFAULT "monthly"');
+$columnQuery = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
+if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
+    $db->exec('ALTER TABLE notification_settings ADD COLUMN period_summary_at_period_start INTEGER DEFAULT 0');
 }
 
-$anchorDateColumn = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='budget_period_anchor_date'");
-if ($anchorDateColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE user ADD COLUMN budget_period_anchor_date TEXT DEFAULT "' . $defaultAnchorDate . '"');
-}
-
-$db->exec("UPDATE user SET budget_period_type = 'monthly' WHERE budget_period_type IS NULL OR budget_period_type = ''");
-$db->exec("UPDATE user SET budget_period_anchor_date = '" . $defaultAnchorDate . "' WHERE budget_period_anchor_date IS NULL OR budget_period_anchor_date = '' OR budget_period_anchor_date = '1970-01-01'");
+$db->exec('UPDATE notification_settings
+           SET period_summary_at_period_start = 0
+           WHERE period_summary_at_period_start IS NULL');
 
 ?>
