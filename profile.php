@@ -4,12 +4,18 @@ require_once 'includes/header.php';
 // Fetch the avatars belonging to the logged-in user
 $uploadedAvatars = [];
 
-$stmt = $db->prepare("SELECT path FROM uploaded_avatars WHERE user_id = :user_id");
-$stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-$result = $stmt->execute();
+// Keep profile page functional even if avatar migration has not run yet.
+$uploadedAvatarsTableExists = $db->querySingle("SELECT name FROM sqlite_master WHERE type='table' AND name='uploaded_avatars'");
+if ($uploadedAvatarsTableExists) {
+    $stmt = $db->prepare("SELECT path FROM uploaded_avatars WHERE user_id = :user_id");
+    if ($stmt !== false) {
+        $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
 
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $uploadedAvatars[] = $row['path'];
+        while ($result && ($row = $result->fetchArray(SQLITE3_ASSOC))) {
+            $uploadedAvatars[] = $row['path'];
+        }
+    }
 }
 ?>
 

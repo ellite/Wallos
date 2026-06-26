@@ -152,6 +152,13 @@ document.querySelectorAll('.filter-item').forEach(function(item) {
         const idx = current.indexOf(paymentId);
         if (idx !== -1) { current.splice(idx, 1); } else { current.push(paymentId); }
         current.length ? urlParams.set('payment', current.join(',')) : urlParams.delete('payment');
+    } else if (this.hasAttribute('data-budgettype')) {
+        const budgetType = this.getAttribute('data-budgettype');
+        if (urlParams.get('budget') === budgetType) {
+            urlParams.delete('budget');
+        } else {
+            urlParams.set('budget', budgetType);
+        }
     }
 
     newUrl += urlParams.toString();

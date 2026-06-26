@@ -14,6 +14,14 @@ if (!isset($data["days"]) || $data['days'] == "") {
     echo json_encode($response);
 } else {
     $days = $data["days"];
+    $periodSummaryAtPeriodStart = isset($data["period_summary_at_period_start"]) ? (int) $data["period_summary_at_period_start"] : 0;
+
+    $hasPeriodSummaryColumn = false;
+    $columnResult = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
+    if ($columnResult && $columnResult->fetchArray(SQLITE3_ASSOC)) {
+        $hasPeriodSummaryColumn = true;
+    }
+
     $query = "SELECT COUNT(*) FROM notification_settings WHERE user_id = :userId";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
@@ -29,14 +37,28 @@ if (!isset($data["days"]) || $data['days'] == "") {
         $row = $result->fetchArray();
         $count = $row[0];
         if ($count == 0) {
-            $query = "INSERT INTO notification_settings (days, user_id)
-                              VALUES (:days, :userId)";
+            if ($hasPeriodSummaryColumn) {
+                $query = "INSERT INTO notification_settings (days, period_summary_at_period_start, user_id)
+                                  VALUES (:days, :periodSummaryAtPeriodStart, :userId)";
+            } else {
+                $query = "INSERT INTO notification_settings (days, user_id)
+                                  VALUES (:days, :userId)";
+            }
         } else {
-            $query = "UPDATE notification_settings SET days = :days WHERE user_id = :userId";
+            if ($hasPeriodSummaryColumn) {
+                $query = "UPDATE notification_settings
+                          SET days = :days, period_summary_at_period_start = :periodSummaryAtPeriodStart
+                          WHERE user_id = :userId";
+            } else {
+                $query = "UPDATE notification_settings SET days = :days WHERE user_id = :userId";
+            }
         }
 
         $stmt = $db->prepare($query);
         $stmt->bindValue(':days', $days, SQLITE3_INTEGER);
+        if ($hasPeriodSummaryColumn) {
+            $stmt->bindValue(':periodSummaryAtPeriodStart', $periodSummaryAtPeriodStart, SQLITE3_INTEGER);
+        }
         $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {
