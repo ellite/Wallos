@@ -21,6 +21,7 @@ if (empty($smtpAddress) || empty($smtpPort)) {
     ]));
 }
 
+$smtpPortInt = (int) $smtpPort;
 if (!validate_smtp_host($smtpAddress, $smtpPortInt, $db)) {
     die(json_encode([
         "success" => false,
@@ -28,7 +29,6 @@ if (!validate_smtp_host($smtpAddress, $smtpPortInt, $db)) {
     ]));
 }
 
-$smtpPortInt = (int) $smtpPort;
 if ($smtpPortInt < 1 || $smtpPortInt > 65535) {
     die(json_encode([
         "success" => false,
