@@ -281,7 +281,7 @@ require_once 'includes/stats_calculations.php';
             <?= translate('total_cost_trend', $i18n) ?>
             <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
           </header>
-          <canvas id="totalMonthlyCostChart" style="height: 370px; width: 100%; max-height: 370px;"></canvas>
+          <div id="totalMonthlyCostChart" style="width: 100%;"></div>
         </section>
         <?php
       }
@@ -293,7 +293,7 @@ require_once 'includes/stats_calculations.php';
             <?= translate('household_split', $i18n) ?>
             <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
           </header>
-          <canvas id="memberSplitChart"></canvas>
+          <div id="memberSplitChart" style="width: 100%;"></div>
         </section>
         <?php
       }
@@ -305,7 +305,7 @@ require_once 'includes/stats_calculations.php';
             <?= translate('category_split', $i18n) ?>
             <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
           </header>
-          <canvas id="categorySplitChart" style="height: 370px; width: 100%;"></canvas>
+          <div id="categorySplitChart" style="width: 100%;"></div>
         </section>
         <?php
       }
@@ -316,7 +316,7 @@ require_once 'includes/stats_calculations.php';
           <header>
             <?= translate('payment_method_split', $i18n) ?>
           </header>
-          <canvas id="paymentMethidSplitChart" style="height: 370px; width: 100%;"></canvas>
+          <div id="paymentMethidSplitChart" style="width: 100%;"></div>
         </section>
         <?php
       }
@@ -327,7 +327,7 @@ require_once 'includes/stats_calculations.php';
           <header>
             <?= translate('cost_vs_budget', $i18n) ?> (<?= CurrencyFormatter::format($budget, $code) ?>)
           </header>
-          <canvas id="budgetVsCostChart" style="height: 370px; width: 100%;"></canvas>
+          <div id="budgetVsCostChart" style="width: 100%;"></div>
         </section>
         <?php
       }
@@ -342,7 +342,7 @@ require_once 'includes/stats_calculations.php';
 <?php
 if ($showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph) {
   ?>
-  <script src="scripts/libs/chart.js"></script>
+  <script src="scripts/libs/apexcharts.min.js"></script>
   <script type="text/javascript">
     window.onload = function () {
       loadLineGraph("totalMonthlyCostChart", <?php echo json_encode($totalMonthlyCostDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", "<?= $showTotalMonthlyCostGraph ?>");

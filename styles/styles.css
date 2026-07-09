@@ -2079,6 +2079,45 @@ button.dark-theme-button i {
   box-sizing: border-box;
 }
 
+.graph-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 14px;
+  padding: 4px 16px 12px;
+  font-size: 13px;
+}
+
+.graph-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: 13px;
+  color: var(--text-color);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.graph-legend-item:hover {
+  background-color: rgba(var(--main-color-rgb), 0.06);
+}
+
+.graph-legend-item--off {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.graph-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .graph>header {
   font-size: 18px;
   font-weight: 500;
