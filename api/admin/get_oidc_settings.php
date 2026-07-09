@@ -36,6 +36,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/oidc_settings.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -82,20 +83,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         exit;
     }
 
-    $sql = "SELECT * FROM 'oauth_settings' WHERE id = 1";
-    $stmt = $db->prepare($sql);
-    $result = $stmt->execute();
-    $oidc_settings = $result->fetchArray(SQLITE3_ASSOC);
-
-    if ($oidc_settings) {
-        unset($oidc_settings['id']);
-    }
+    $oidcConfiguration = wallos_get_effective_oidc_configuration($db);
+    $oidc_settings = $oidcConfiguration['settings'];
 
     $response = [
         "success" => true,
         "title" => "oidc_settings",
         "oidc_settings" => $oidc_settings,
-        "notes" => []
+        "oidc_enabled" => $oidcConfiguration['enabled'],
+        "managed_fields" => $oidcConfiguration['managed_fields'],
+        "notes" => $oidcConfiguration['notes']
     ];
 
     echo json_encode($response);
