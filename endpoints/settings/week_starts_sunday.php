@@ -6,14 +6,14 @@ require_once '../../includes/validate_endpoint.php';
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
-$week_starts_sunday = $data['value'];
-
-if (!isset($week_starts_sunday) || !is_bool($week_starts_sunday)) {
+if (!isset($data['value']) || !is_bool($data['value'])) {
     die(json_encode([
         "success" => false,
         "message" => translate("error", $i18n)
     ]));
 }
+
+$week_starts_sunday = $data['value'] ? 1 : 0;
 
 $stmt = $db->prepare('UPDATE settings SET week_starts_sunday = :week_starts_sunday WHERE user_id = :userId');
 $stmt->bindParam(':week_starts_sunday', $week_starts_sunday, SQLITE3_INTEGER);
