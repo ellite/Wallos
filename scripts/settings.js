@@ -1006,6 +1006,13 @@ function setShowSubscriptionProgress() {
   storeSettingsOnDB('subscription_progress', value);
 }
 
+function setWeekStartsSunday() {
+  const weekStartsSundayCheckbox = document.querySelector("#weekstartssunday");
+  const value = weekStartsSundayCheckbox.checked;
+
+  storeSettingsOnDB('week_starts_sunday', value);
+}
+
 function saveCategorySorting() {
   const categories = document.getElementById("categories");
   const categoryIds = Array.from(categories.children).map(c => c.dataset.categoryid);
