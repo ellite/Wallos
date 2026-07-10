@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Ignorar login. Se você executar o servidor somente em uma rede local, sem acesso externo, poderá desativar o login. Isso fará o login automático do usuário administrador.",
     "disable_login_info2" => "Só é possível ativar essa configuração se o registro de usuário estiver desativado e não houver mais do que a conta de usuário administrador.",
     "max_users_info" => "0 para ilimitado",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Gerenciamento de usuários",
     "delete_user" => "Excluir usuário",
     "delete_user_info" => "Excluir um usuário também excluirá todas as assinaturas e dados associados",

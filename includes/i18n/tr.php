@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Girişi atlayın. Sunucunuzu yalnızca yerel bir ağ üzerinde, harici erişim olmadan çalıştırıyorsanız, oturum açmayı devre dışı bırakabilirsiniz. Bu, yönetici kullanıcıyı otomatik olarak oturum açacaktır.",
     "disable_login_info2" => "Bu ayarı yalnızca kullanıcı kaydı kapalıysa ve yönetici kullanıcı hesabından başka kullanıcı yoksa etkinleştirebilirsiniz.",
     "max_users_info" => "0 veya boş bırakıldığında sınırsız kullanıcı sayısı",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Kullanıcı Yönetimi",
     "delete_user" => "Kullanıcıyı Sil",
     "delete_user_info" => "Bir kullanıcının silinmesi aynı zamanda tüm aboneliklerinin ve ayarlarının da silinmesine neden olur.",

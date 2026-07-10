@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Bejelentkezés megkerülése. Ha szerverét csak helyi hálózaton, külső hozzáférés nélkül üzemelteti, letilthatja a bejelentkezést. Ez automatikusan bejelentkezteti az admin felhasználót.", 
     "disable_login_info2" => "Ezt a beállítást csak akkor engedélyezheti, ha a felhasználói regisztráció le van tiltva, és nincs több fiók az admin felhasználónál.", 
     "max_users_info" => "A 0 korlátlant jelent", 
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Felhasználókezelés", 
     "delete_user" => "Felhasználó törlése", 
     "delete_user_info" => "Egy felhasználó törlésével az összes előfizetése és beállítása is törlődik.", 

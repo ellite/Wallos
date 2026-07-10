@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Omgå login. Hvis din server kun kører på et lokalt netværk uden ekstern adgang, kan du deaktivere login. Dette logger automatisk admin-brugeren ind.",
     "disable_login_info2" => "Du kan kun aktivere denne indstilling, hvis brugerregistrering er deaktiveret, og der ikke er mere end én (admin) brugerkonto.",
     "max_users_info" => "0 betyder ubegrænset",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Brugeradministration",
     "delete_user" => "Slet bruger",
     "delete_user_info" => "Sletning af en bruger vil også slette alle deres abonnementer og indstillinger.",

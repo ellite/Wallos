@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Anmeldung umgehen. Wenn Sie Ihren Server nur in einem lokalen Netzwerk betreiben, ohne Zugriff von außen, können Sie die Anmeldung deaktivieren. Dadurch wird automatisch der Admin-Benutzer angemeldet.",
     "disable_login_info2" => "Sie können diese Einstellung nur aktivieren, wenn die Benutzerregistrierung ausgeschaltet ist und es nicht mehr als ein Admin-Benutzerkonto gibt.",
     "max_users_info" => "0 für unbegrenzte Anzahl an Benutzern",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Benutzerverwaltung",
     "delete_user" => "Benutzer löschen",
     "delete_user_info" => "Durch das Löschen eines Benutzers werden auch alle seine Abonnements und Einstellungen gelöscht.",

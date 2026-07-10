@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Ultrapassar o início de sessão. Se o seu servidor funciona apenas numa rede local, sem acesso externo, pode desativar o início de sessão. Isto irá iniciar automaticamente a sessão do utilizador administrador.",
     "disable_login_info2" => "Só pode ativar esta definição se o registo de utilizadores estiver desativado e se não houver mais do que a conta de utilizador administrador.",
     "max_users_info" => "0 para ilimitado",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Gestão de Utilizadores",
     "delete_user" => "Apagar Utilizador",
     "delete_user_info" => "Apagar utilizador irá remover todas as suas subscrições e dados associados.",

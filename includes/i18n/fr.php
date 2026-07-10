@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Contourner le login. Si vous utilisez votre serveur sur un réseau local uniquement, sans accès externe, vous pouvez désactiver le login. L'utilisateur admin se connectera automatiquement.",
     "disable_login_info2" => "Vous ne pouvez activer ce paramètre que si l'enregistrement des utilisateurs est désactivé et qu'il n'y a pas d'autre compte utilisateur que celui de l'administrateur.",
     "max_users_info" => "0 signifie un nombre illimité d'utilisateurs",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Gestion des utilisateurs",
     "delete_user" => "Supprimer l'utilisateur",
     "delete_user_info" => "La suppression d'un utilisateur supprimera également tous ses abonnements et paramètres.",

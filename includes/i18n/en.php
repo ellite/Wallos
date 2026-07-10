@@ -388,6 +388,7 @@ $i18n = [
     "disable_login_info" => "Bypass login. If you run your server on a local network only, without external access you can disable the login. This will automatically login the admin user.",
     "disable_login_info2" => "You can only enable this setting if user registration is disabled and there are no more than the admin user account.",
     "max_users_info" => "0 means unlimited",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "User Management",
     "delete_user" => "Delete User",
     "delete_user_info" => "Deleting a user will also delete all their subscriptions and settings.",

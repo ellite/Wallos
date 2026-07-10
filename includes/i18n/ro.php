@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Omite autentificarea. Dacă rulezi serverul într-o rețea locală, fără acces extern, poți dezactiva autentificarea. Acest lucru va autentifica automat utilizatorul administrator.",
     "disable_login_info2" => "Poți activa această setare numai dacă înregistrarea utilizatorilor este dezactivată și nu există alt cont decât cel de administrator.",
     "max_users_info" => "0 înseamnă nelimitat",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Management utilizatori",
     "delete_user" => "Șterge utilizator",
     "delete_user_info" => "Ștergerea unui utilizator va șterge implicit toate abonamentele și setările acestuia.",

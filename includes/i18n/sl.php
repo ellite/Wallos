@@ -379,6 +379,7 @@ $i18n = [
     "disable_login_info" => "Obidite prijavo. Če strežnik uporabljate samo v lokalnem omrežju brez zunanjega dostopa, lahko onemogočite prijavo. Tako se bo samodejno prijavil uporabnik administrator.",
     "disable_login_info2" => "To nastavitev lahko omogočite le, če je registracija uporabnikov izklopljena in če ni več uporabniških računov, razen uporabniškega računa upravitelja.",
     "max_users_info" => "0 pomeni neomejeno",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Upravljanje uporabnikov",
     "delete_user" => "Izbriši uporabnika",
     "delete_user_info" => "Če izbrišete uporabnika, boste izbrisali tudi vse njegove naročnine in nastavitve.",

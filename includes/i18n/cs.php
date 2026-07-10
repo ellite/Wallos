@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Obejít přihlášení. Pokud provozujete server pouze v místní síti bez přístupu zvenčí, můžete přihlášení zakázat. Tím se automaticky přihlásí uživatel administrátor.",
     "disable_login_info2" => "Toto nastavení můžete povolit pouze v případě, že je registrace uživatelů zakázána a že existuje pouze uživatelský účet administrátora.",
     "max_users_info" => "0 znamená neomezeně",
+    "max_users_info2" => "By enabling user registrations, the setting to disable login will be unavailable.",
     "user_management" => "Správa uživatelů",
     "delete_user" => "Odstranit uživatele",
     "delete_user_info" => "Odstraněním uživatele se odstraní také všechna jeho předplatná a nastavení.",
