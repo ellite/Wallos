@@ -202,6 +202,9 @@ if ($weekStartsSunday) {
 
     foreach ($subscriptions as $subscription) {
       $nextPaymentDate = strtotime($subscription['next_payment']);
+      $subscriptionStartDate = !empty($subscription['start_date'])
+        ? strtotime($subscription['start_date'])
+        : $nextPaymentDate;
       $cycle = $subscription['cycle'];
       $frequency = $subscription['frequency'];
 
@@ -239,6 +242,9 @@ if ($weekStartsSunday) {
       }
 
       for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
+        if ($date < $subscriptionStartDate) {
+          continue;
+        }
         if (date('Y-m', $date) == $monthKey) {
           $registerPayment($date, $subscription);
         }
