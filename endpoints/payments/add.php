@@ -102,6 +102,11 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                 $fuzz = Imagick::getQuantum() * 0.1; // 10%
                 $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
             }
+            // Crop/trim transparent margins (with 2px transparent padding added back to avoid touching the borders)
+            $imagick->trimImage(0);
+            $imagick->setImagePage(0, 0, 0, 0);
+            $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
+
             $imagick->setImageFormat('png');
             $imagick->writeImage($uploadFile);
 
@@ -111,13 +116,14 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
             // Alternative method if Imagick is not available
             $newImage = imagecreatefrompng($tempFile);
             if ($removeBackground) {
-                imagealphablending($newImage, false);
-                imagesavealpha($newImage, true);
-                $transparent = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
-                imagefill($newImage, 0, 0, $transparent);  // Fill the entire image with transparency
-                imagepng($newImage, $uploadFile);
-                imagedestroy($newImage);
+                require_once __DIR__ . '/../../includes/gd_background_removal.php';
+                // Match the Imagick branch: paint out the same near-white background with ~10% fuzz
+                gdRemoveBackgroundColor($newImage, 247, 247, 247);
             }
+            // Crop/trim transparent margins
+            require_once __DIR__ . '/../../includes/gd_background_removal.php';
+            $newImage = gdCropTransparent($newImage, 2);
+
             imagepng($newImage, $uploadFile);
             imagedestroy($newImage);
         }
@@ -166,6 +172,12 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name)
             if ($fileExtension === 'png') {
                 imagesavealpha($image, true);
             }
+
+            // Crop/trim transparent margins (ensure we update dimensions after cropping)
+            require_once __DIR__ . '/../../includes/gd_background_removal.php';
+            $image = gdCropTransparent($image, 2);
+            $width = imagesx($image);
+            $height = imagesy($image);
 
             $newWidth = $width;
             $newHeight = $height;

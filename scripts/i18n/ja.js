@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "支払い方法",
   notes: "メモ",
   export: "エクスポート",
+  no_results_found: "結果が見つかりません",
 }

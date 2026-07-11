@@ -1,12 +1,6 @@
 let isSortOptionsOpen = false;
 let scrollTopBeforeOpening = 0;
 const shouldScroll = window.innerWidth <= 768;
-
-function toggleOpenSubscription(subId) {
-  const subscriptionElement = document.querySelector('.subscription[data-id="' + subId + '"]');
-  subscriptionElement.classList.toggle('is-open');
-}
-
 function toggleSortOptions() {
   const sortOptions = document.querySelector("#sort-options");
   sortOptions.classList.toggle("is-open");
@@ -224,6 +218,7 @@ function deleteSubscription(event, id) {
         showSuccessMessage(translate('subscription_deleted'));
         fetchSubscriptions(null, null, "delete");
         closeAddSubscription();
+        closeSubscriptionDetails();
       } else {
         showErrorMessage(data.message || translate('error_deleting_subscription'));
       }
@@ -317,30 +312,75 @@ function setSearchButtonStatus() {
 function searchLogo() {
   const nameInput = document.querySelector("#name");
   const searchTerm = nameInput.value.trim();
-  if (searchTerm !== "") {
-    const logoSearchPopup = document.querySelector("#logo-search-results");
-    logoSearchPopup.classList.add("is-open");
-    const imageSearchUrl = `endpoints/logos/search.php?search=${searchTerm}`;
-    fetch(imageSearchUrl)
+  if (searchTerm === "") {
+    nameInput.focus();
+    return;
+  }
+
+  const logoSearchPopup = document.querySelector("#logo-search-results");
+  const logoResults = document.querySelector("#logo-search-images");
+  const logoSearchBackdrop = document.querySelector("#logo-search-backdrop");
+  logoSearchPopup.classList.add("is-open");
+  if (logoSearchBackdrop) {
+    logoSearchBackdrop.classList.add("is-open");
+  }
+  const logoSearchTitle = document.querySelector("#logo-search-title");
+  if (logoSearchTitle) {
+    const baseTitle = logoSearchTitle.dataset.title;
+    logoSearchTitle.textContent = `${baseTitle}: ${searchTerm}`;
+  }
+
+  // One section per source, queried in parallel and filled as each response lands
+  const sources = [
+    { label: 'selfh.st', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=selfhst` },
+    { label: 'Dashboard Icons', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=dashboardicons` },
+    { label: 'DuckDuckGo', url: `endpoints/logos/search.php?search=${searchTerm}&source=duckduckgo` },
+    { label: 'Brave', url: `endpoints/logos/search.php?search=${searchTerm}&source=brave` },
+  ];
+
+  // Google requires user-provided API credentials; the section only exists when configured
+  if (logoSearchPopup.dataset.googleSearch) {
+    sources.unshift({ label: 'Google', url: `endpoints/logos/google_search.php?search=${searchTerm}` });
+  }
+
+  logoResults.innerHTML = "";
+
+  sources.forEach(source => {
+    const section = document.createElement("div");
+    section.className = "logo-search-section";
+
+    const title = document.createElement("h4");
+    title.textContent = source.label;
+    section.appendChild(title);
+
+    const resultsContainer = document.createElement("div");
+    resultsContainer.className = "logo-search-section-results";
+    section.appendChild(resultsContainer);
+
+    logoResults.appendChild(section);
+    showSearchState(resultsContainer, 'loading');
+
+    fetch(source.url)
       .then(response => response.json())
       .then(data => {
-        if (data.results) {
-          displayImageResults(data.results);
+        if (data.results && data.results.length > 0) {
+          displayImageResults(data.results, resultsContainer);
         } else if (data.error) {
-          console.error(data.error);
+          console.error(source.label, data.error);
+          showSearchState(resultsContainer, 'error');
+        } else {
+          showSearchState(resultsContainer, 'empty');
         }
       })
       .catch(error => {
-        console.error(translate('error_fetching_image_results'), error);
+        console.error(translate('error_fetching_image_results'), source.label, error);
+        showSearchState(resultsContainer, 'error');
       });
-  } else {
-    nameInput.focus();
-  }
+  });
 }
 
-function displayImageResults(imageSources) {
-  const logoResults = document.querySelector("#logo-search-images");
-  logoResults.innerHTML = "";
+function displayImageResults(imageSources, container) {
+  container.innerHTML = "";
 
   imageSources.forEach(src => {
     const img = document.createElement("img");
@@ -351,7 +391,7 @@ function displayImageResults(imageSources) {
     img.onerror = function () {
       this.parentNode.removeChild(this);
     };
-    logoResults.appendChild(img);
+    container.appendChild(img);
   });
 }
 
@@ -367,6 +407,14 @@ function selectWebLogo(url) {
 function closeLogoSearch() {
   const logoSearchPopup = document.querySelector("#logo-search-results");
   logoSearchPopup.classList.remove("is-open");
+  const logoSearchBackdrop = document.querySelector("#logo-search-backdrop");
+  if (logoSearchBackdrop) {
+    logoSearchBackdrop.classList.remove("is-open");
+  }
+  const logoSearchTitle = document.querySelector("#logo-search-title");
+  if (logoSearchTitle) {
+    logoSearchTitle.textContent = logoSearchTitle.dataset.title;
+  }
   const logoResults = document.querySelector("#logo-search-images");
   logoResults.innerHTML = "";
 }
@@ -419,10 +467,28 @@ function fetchSubscriptions(id, event, initiator) {
           }, 1000);
         }
       }
+      searchSubscriptions();
     })
     .catch(error => {
       console.error(translate('error_reloading_subscription'), error);
     });
+}
+
+function setSubscriptionsView(view) {
+  const subscriptionsContainer = document.querySelector("#subscriptions");
+  subscriptionsContainer.classList.toggle("grid-view", view === "grid");
+  document.querySelectorAll('.subscription').forEach((card) => {
+    card.classList.remove('flipped');
+    card.style.transform = '';
+    card.style.transition = '';
+    card.style.zIndex = '';
+  });
+  document.querySelector("#view-list-button").classList.toggle("selected", view !== "grid");
+  document.querySelector("#view-grid-button").classList.toggle("selected", view === "grid");
+
+  const expirationDate = new Date();
+  expirationDate.setFullYear(expirationDate.getFullYear() + 1);
+  document.cookie = "subscriptionsView=" + view + "; expires=" + expirationDate.toUTCString() + "; SameSite=Lax";
 }
 
 function setSortOption(sortOption) {
@@ -591,7 +657,15 @@ function clearSearch() {
   const searchInput = document.querySelector("#search");
 
   searchInput.value = "";
+  searchInput.parentElement.classList.remove("mobile-expanded");
   searchSubscriptions();
+}
+
+function toggleMobileSearch() {
+  const searchContainer = document.querySelector(".top-actions .search");
+
+  searchContainer.classList.add("mobile-expanded");
+  document.querySelector("#search").focus();
 }
 
 function closeSubMenus() {
@@ -615,12 +689,14 @@ function setSwipeElements() {
       const maxTranslateX = element.classList.contains('manual') ? -240 : -180;
 
       element.addEventListener('touchstart', (e) => {
+        if (element.closest('.subscriptions.grid-view')) return; // no swipe actions in grid view
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
         element.style.transition = ''; // Remove transition for smooth dragging
       });
 
       element.addEventListener('touchmove', (e) => {
+        if (element.closest('.subscriptions.grid-view')) return;
         currentX = e.touches[0].clientX;
         currentY = e.touches[0].clientY;
 
@@ -640,6 +716,7 @@ function setSwipeElements() {
       });
 
       element.addEventListener('touchend', () => {
+        if (element.closest('.subscriptions.grid-view')) return;
         // Check the final swipe position to determine snap behavior
         if (translateX < maxTranslateX / 2) {
           // If more than halfway to the left, snap fully open
@@ -821,10 +898,29 @@ document.addEventListener('click', function (event) {
   }
 });
 
+function unflipCard(subscriptionId) {
+  const card = document.querySelector(`.subscription[data-id="${subscriptionId}"]`);
+  if (card) {
+    card.classList.remove('flipped');
+  }
+}
+
 function expandActions(event, subscriptionId) {
   event.stopPropagation();
   event.preventDefault();
   const subscriptionDiv = document.querySelector(`.subscription[data-id="${subscriptionId}"]`);
+
+  // Grid view: flip the card over instead of opening the dropdown
+  if (subscriptionDiv.closest('.subscriptions.grid-view')) {
+    document.querySelectorAll('.subscription.flipped').forEach((card) => {
+      if (card !== subscriptionDiv) {
+        card.classList.remove('flipped');
+      }
+    });
+    subscriptionDiv.classList.toggle('flipped');
+    return;
+  }
+
   const actions = subscriptionDiv.querySelector('.actions');
 
   // Close all other open actions
@@ -853,27 +949,33 @@ function expandActions(event, subscriptionId) {
 }
 
 function swipeHintAnimation() {
-  if (window.mobileNavigation && window.matchMedia('(max-width: 768px)').matches) {
-    const maxAnimations = 3;
-    const cookieName = 'swipeHintCount';
-
-    let count = parseInt(getCookie(cookieName)) || 0;
-    if (count < maxAnimations) {
-      const firstElement = document.querySelector('.subscription');
-      if (firstElement) {
-        firstElement.style.transition = 'transform 0.3s ease';
-        firstElement.style.transform = 'translateX(-80px)';
-
-        setTimeout(() => {
-          firstElement.style.transform = 'translateX(0px)';
-          firstElement.style.zIndex = '1';
-        }, 600);
-      }
-
-      count++;
-      document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax`;
-    }
+  // The swipe hint only exists in list view: no swipe actions in grid view.
+  if (!window.mobileNavigation || !window.matchMedia('(max-width: 768px)').matches) {
+    return;
   }
+
+  const firstElement = document.querySelector('.subscription');
+  if (!firstElement || firstElement.closest('.subscriptions.grid-view')) {
+    return;
+  }
+
+  const maxAnimations = 3;
+  const cookieName = 'swipeHintCount';
+  let count = parseInt(getCookie(cookieName)) || 0;
+  if (count >= maxAnimations) {
+    return;
+  }
+
+  firstElement.style.transition = 'transform 0.3s ease';
+  firstElement.style.transform = 'translateX(-80px)';
+
+  setTimeout(() => {
+    firstElement.style.transform = 'translateX(0px)';
+    firstElement.style.zIndex = '1';
+  }, 600);
+
+  count++;
+  document.cookie = `${cookieName}=${count}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/; SameSite=Lax`;
 }
 
 function toggleOneTimeCycleUI(isOneTime) {

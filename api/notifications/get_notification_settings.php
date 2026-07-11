@@ -15,6 +15,8 @@ Example response:
   "success": true,
   "title": "notification_settings",
   "notification_settings": {
+    "id": 1,
+    "days": 1,
     "email_notifications": {
       "enabled": 1,
       "smtp_address": "smtp.example.com",
@@ -25,11 +27,44 @@ Example response:
       "encryption": "tls",
       "other_emails": "other@example.com"
     },
+    "discord_notifications": {
+      "enabled": 1,
+      "webhook_url": "https://discord.com/api/webhooks/..."
+    },
+    "gotify_notifications": {
+      "enabled": 1,
+      "host": "https://gotify.example.com",
+      "token": "********",
+      "priority": 5
+    },
     "ntfy_notifications": {
       "enabled": 0,
       "host": "http://notify.example.com",
       "topic": "example_topic",
+      "headers": "********",
+      "priority": 3
+    },
+    "pushover_notifications": {
+      "enabled": 1,
+      "token": "********",
+      "user_key": "userkey123",
+      "title": "Wallos",
+      "priority": 0,
+      "sound": "pushover"
+    },
+    "telegram_notifications": {
+      "enabled": 1,
+      "bot_token": "********",
+      "chat_id": "12345678"
+    },
+    "webhook_notifications": {
+      "enabled": 1,
+      "url": "https://example.com/webhook",
       "headers": "********"
+    },
+    "serverchan_notifications": {
+      "enabled": 1,
+      "sendkey": "********"
     }
   },
   "notes": []

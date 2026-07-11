@@ -1,5 +1,27 @@
 let isDropdownOpen = false;
 
+// Shared loading/empty/error states for the logo & payment icon search popups
+function showSearchState(container, state) {
+  if (state === 'loading') {
+    container.innerHTML = '<div class="search-state"><i class="fa-solid fa-spinner fa-spin"></i></div>';
+    return;
+  }
+
+  const isError = state === 'error';
+  const icon = isError ? 'fa-circle-exclamation' : 'fa-magnifying-glass';
+  const message = isError
+    ? translate('error_fetching_image_results').replace(/:\s*$/, '')
+    : translate('no_results_found');
+
+  const stateElement = document.createElement('div');
+  stateElement.className = 'search-state' + (isError ? ' error' : '');
+  stateElement.innerHTML = `<i class="fa-solid ${icon}"></i>`;
+  stateElement.appendChild(document.createTextNode(message));
+
+  container.innerHTML = '';
+  container.appendChild(stateElement);
+}
+
 function toggleDropdown() {
   const dropdown = document.querySelector('.dropdown');
   dropdown.classList.toggle('is-open');
@@ -85,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.cookie = `inUseTheme=${themePreference}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax`;
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-    themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#222222' : '#FFFFFF');
+    themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#12151C' : '#FFFFFF');
   }
 
   document.addEventListener('mousedown', function (event) {

@@ -2,6 +2,8 @@
 
 $i18n = [
     // Registration page
+    "auth_tagline" => "Know where your money goes.",
+    "auth_tagline_sub" => "Track your subscriptions, see your spending, and never miss a renewal.",
     "create_account" => "You need to create an account before you're able to login",
     "username" => "Username",
     "password" => "Password",
@@ -148,6 +150,27 @@ $i18n = [
     "payment_method_split" => "Payment Method Split",
     "total_cost_trend" => "Total Cost Trend",
     "cost_vs_budget" => "Cost vs Budget",
+    "overview" => "Overview",
+    "trends_and_forecast" => "Trends & Forecast",
+    "history_and_lifetime" => "History & Lifetime",
+    "cost_per_day" => "Cost per Day",
+    "median_monthly_cost" => "Median Monthly Subscription Cost",
+    "cheapest_subscription" => "Cheapest Subscription Cost",
+    "vs_last_month" => "vs Last Month",
+    "heaviest_month" => "Heaviest Upcoming Month",
+    "months_over_budget" => "Months Over Budget (Next 12)",
+    "manual_renewals" => "Manual Renewals",
+    "all_time_spend" => "All-Time Spend (est.)",
+    "oldest_subscription" => "Oldest Subscription (Years)",
+    "average_subscription_age" => "Average Subscription Age (Years)",
+    "projected_cost" => "Projected Cost (Next 12 Months)",
+    "lifetime_spend" => "Lifetime Spend (Top 10, est.)",
+    "billing_cycle_split" => "Billing Cycle Split",
+    "currency_split" => "Currency Split",
+    "price_distribution" => "Price Distribution",
+    "subscriptions_count" => "Subscriptions",
+    "new_subscriptions_per_year" => "New Subscriptions per Year",
+    "estimated_from_current_prices" => "Estimated from current prices",
     // About page
     "about_and_credits" => "About and Credits",
     "credits" => "Credits",
@@ -232,6 +255,7 @@ $i18n = [
     "topic" => "Topic",
     "ignore_ssl_errors" => "Ignore SSL Errors",
     "categories" => "Categories",
+    "translate_categories" => "Translate with AI",
     "save_category" => "Save Category",
     "delete_category" => "Delete Category",
     "cant_delete_category_in_use" => "Can't delete category in use in subscription",
@@ -318,6 +342,8 @@ $i18n = [
     "delete_account_info" => "Deleting your account will also delete all your subscriptions and settings.",
     // Filters menu
     "filter" => "Filter",
+    "list_view" => "List view",
+    "grid_view" => "Grid view",
     "clear" => "Clear",
     // Toast
     "success" => "Success",
@@ -443,6 +469,11 @@ $i18n = [
     "insert_totp_code" => "Insert TOTP code",
 
 
+    "no_account_yet" => "Don't have an account yet?",
+    "already_have_account" => "Already have an account?",
+    "google_search_info" => "Adds Google image results (via SerpAPI) as an additional source in the subscription logo search. Create a free SerpAPI account and paste your API key here.",
+    "monthly_searches_used" => "Searches used this month",
+    "monthly_requests_used" => "API requests used this month",
 ];
 
 

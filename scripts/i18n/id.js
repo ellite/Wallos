@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Metode pembayaran",
   notes: "Catatan",
   export: "Ekspor",
+  no_results_found: "Tidak ada hasil ditemukan",
 }

@@ -165,7 +165,7 @@ if (isset($_POST['one-time-code'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color" />
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#12151C" ?>" id="theme-color" />
     <meta name="apple-mobile-web-app-title" content="Wallos">
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
@@ -187,10 +187,25 @@ if (isset($_POST['one-time-code'])) {
         window.color_theme = "<?= $colorTheme ?>";
     </script>
     <script type="text/javascript" src="scripts/login.js?<?= $version ?>"></script>
+    <script type="text/javascript" src="scripts/auth-theme.js?<?= $version ?>"></script>
 </head>
 
 <body class="<?= $languages[$lang]['dir'] ?>">
-    <div class="content">
+    <button type="button" class="theme-toggle" id="theme-toggle" title="<?= translate('theme', $i18n) ?>"
+        aria-label="<?= translate('theme', $i18n) ?>">
+        <i class="fa-solid <?= $theme == "dark" ? "fa-sun" : "fa-moon" ?>"></i>
+    </button>
+    <div class="content auth-split">
+        <aside class="auth-brand" aria-hidden="true">
+            <div class="auth-brand-logo">
+                <?php include "images/siteicons/svg/logo.php"; ?>
+            </div>
+            <div class="auth-brand-text">
+                <h1><?= translate('auth_tagline', $i18n) ?></h1>
+                <p><?= translate('auth_tagline_sub', $i18n) ?></p>
+            </div>
+            <div class="auth-brand-footer">Wallos &mdash; Subscription Tracker</div>
+        </aside>
         <section class="container">
             <header>
                 <div class="logo-image" title="Wallos - Subscription Tracker">
@@ -225,4 +240,4 @@ if (isset($_POST['one-time-code'])) {
     </div>
 </body>
 
-</html>
+</html>

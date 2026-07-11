@@ -78,6 +78,20 @@ function loadLineGraph(container, dataPoints, currency, run) {
         ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
         : new Intl.NumberFormat(navigator.language).format(val);
 
+    // Mark the 12-month high and low so the extremes read at a glance
+    const values = dataPoints.map(p => p.y);
+    const discreteMarkers = [];
+    if (values.length > 2) {
+        const maxIndex = values.indexOf(Math.max(...values));
+        const minIndex = values.indexOf(Math.min(...values));
+        if (maxIndex !== minIndex) {
+            discreteMarkers.push(
+                { seriesIndex: 0, dataPointIndex: maxIndex, size: 5, fillColor: t.main, strokeColor: t.dark ? '#171B23' : '#FFFFFF' },
+                { seriesIndex: 0, dataPointIndex: minIndex, size: 5, fillColor: t.main, strokeColor: t.dark ? '#171B23' : '#FFFFFF' }
+            );
+        }
+    }
+
     const chart = new ApexCharts(document.getElementById(container), {
         chart: {
             type: 'area',
@@ -105,6 +119,126 @@ function loadLineGraph(container, dataPoints, currency, run) {
             type: 'gradient',
             gradient: { opacityFrom: 0.35, opacityTo: 0.0 },
         },
+        markers: { size: 0, discrete: discreteMarkers, hover: { size: 5 } },
+        grid: { borderColor: t.border },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+        legend: { show: false },
+    });
+    chart.render();
+}
+
+function loadBarGraph(container, dataPoints, currency, run, thresholdLine) {
+    if (!run) return;
+
+    const t = _chartTheme();
+    const cs = getComputedStyle(document.documentElement);
+    const errorColor = cs.getPropertyValue('--error-color').trim() || '#EF4444';
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    const annotations = {};
+    if (thresholdLine !== null && thresholdLine !== undefined) {
+        annotations.yaxis = [{
+            y: thresholdLine,
+            borderColor: errorColor,
+            strokeDashArray: 5,
+            label: {
+                text: fmt(thresholdLine),
+                position: 'left',
+                textAnchor: 'start',
+                style: {
+                    color: errorColor,
+                    background: 'transparent',
+                    fontFamily: t.font,
+                },
+            },
+        }];
+    }
+
+    const chart = new ApexCharts(document.getElementById(container), {
+        chart: {
+            type: 'bar',
+            height: 320,
+            background: 'transparent',
+            fontFamily: t.font,
+            toolbar: { show: false },
+            zoom: { enabled: false },
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
+        xaxis: {
+            categories: dataPoints.map(p => p.label),
+            labels: { style: { fontFamily: t.font } },
+        },
+        yaxis: {
+            labels: {
+                formatter: fmt,
+                style: { fontFamily: t.font },
+            },
+        },
+        colors: [t.main],
+        plotOptions: {
+            bar: {
+                columnWidth: '55%',
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+            },
+        },
+        dataLabels: { enabled: false },
+        annotations: annotations,
+        grid: { borderColor: t.border },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+        legend: { show: false },
+    });
+    chart.render();
+}
+
+function loadHorizontalBarGraph(container, dataPoints, currency, run) {
+    if (!run) return;
+
+    const t = _chartTheme();
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    const chart = new ApexCharts(document.getElementById(container), {
+        chart: {
+            type: 'bar',
+            height: Math.max(200, dataPoints.length * 36 + 60),
+            background: 'transparent',
+            fontFamily: t.font,
+            toolbar: { show: false },
+            zoom: { enabled: false },
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
+        xaxis: {
+            categories: dataPoints.map(p => p.label),
+            labels: {
+                formatter: fmt,
+                style: { fontFamily: t.font },
+            },
+        },
+        yaxis: {
+            labels: { style: { fontFamily: t.font } },
+        },
+        colors: [t.main],
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                barHeight: '55%',
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+            },
+        },
+        dataLabels: { enabled: false },
         grid: { borderColor: t.border },
         tooltip: {
             style: { fontFamily: t.font },

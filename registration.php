@@ -327,7 +327,7 @@ if (isset($_POST['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#222222" ?>" id="theme-color" />
+    <meta name="theme-color" content="<?= $theme == "light" ? "#FFFFFF" : "#12151C" ?>" id="theme-color" />
     <meta name="apple-mobile-web-app-title" content="Wallos">
     <title>Wallos - Subscription Tracker</title>
     <link rel="icon" type="image/png" href="images/icon/favicon.ico" sizes="16x16">
@@ -349,11 +349,27 @@ if (isset($_POST['username'])) {
         window.colorTheme = "<?= $colorTheme ?>";
     </script>
     <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
+    <script type="text/javascript" src="scripts/auth-theme.js?<?= $version ?>"></script>
+    <script type="text/javascript" src="scripts/password-toggle.js?<?= $version ?>"></script>
 </head>
 
 <body class="<?= $languages[$lang]['dir'] ?>">
-    <div class="content">
-        <section class="container">
+    <button type="button" class="theme-toggle" id="theme-toggle" title="<?= translate('theme', $i18n) ?>"
+        aria-label="<?= translate('theme', $i18n) ?>">
+        <i class="fa-solid <?= $theme == "dark" ? "fa-sun" : "fa-moon" ?>"></i>
+    </button>
+    <div class="content auth-split">
+        <aside class="auth-brand" aria-hidden="true">
+            <div class="auth-brand-logo">
+                <?php include "images/siteicons/svg/logo.php"; ?>
+            </div>
+            <div class="auth-brand-text">
+                <h1><?= translate('auth_tagline', $i18n) ?></h1>
+                <p><?= translate('auth_tagline_sub', $i18n) ?></p>
+            </div>
+            <div class="auth-brand-footer">Wallos &mdash; Subscription Tracker</div>
+        </aside>
+        <section class="container wide">
             <header>
                 <div class="logo-image" title="Wallos - Subscription Tracker">
                     <?php include "images/siteicons/svg/logo.php"; ?>
@@ -362,7 +378,7 @@ if (isset($_POST['username'])) {
                     <?= translate('create_account', $i18n) ?>
                 </p>
             </header>
-            <form action="registration.php" method="post">
+            <form action="registration.php" method="post" class="registration-form">
                 <div class="form-group">
                     <label for="username"><?= translate('username', $i18n) ?>:</label>
                     <input type="text" id="username" name="username" autocomplete="username" required>
@@ -467,8 +483,9 @@ if (isset($_POST['username'])) {
                 <?php
             } else {
                 ?>
-                <div class="separator">
-                    <input id="goToLoginButton" type="button" class="secondary-button" value="<?= translate('login', $i18n) ?>">
+                <div class="login-form-link account-switch">
+                    <span><?= translate('already_have_account', $i18n) ?></span>
+                    <a href="login.php"><?= translate('login', $i18n) ?></a>
                 </div>
                 <?php
             }

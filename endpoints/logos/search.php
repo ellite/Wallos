@@ -99,32 +99,54 @@ if (isset($_GET['search'])) {
 
     if (!$html) return null;
 
-    $doc = new DOMDocument();
-    @$doc->loadHTML($html);
+    // Brave renders results client-side now, so there are no <img> tags to parse.
+    // The image proxy URLs are still embedded in the page's JS payload.
+    if (!preg_match_all('~https://imgs\.search\.brave\.com/[A-Za-z0-9_-]+/rs:fit:[0-9:]+/[^"\'\\\\\s]+~', $html, $matches)) {
+        return null;
+    }
 
     $imageUrls = [];
-    $imgTags = $doc->getElementsByTagName('img');
-    foreach ($imgTags as $imgTag) {
-        $src = $imgTag->getAttribute('src');
-        $class = $imgTag->getAttribute('class');
-
-        if (str_contains($class, 'favicon') || str_contains($class, 'logo')) continue;
-        if (!filter_var($src, FILTER_VALIDATE_URL)) continue;
-        if (str_contains($src, 'cdn.search.brave.com')) continue;  // filter Brave UI assets
-
+    foreach (array_unique($matches[0]) as $src) {
+        // Skip favicon-sized proxy entries (rs:fit:WIDTH:HEIGHT:...)
+        if (preg_match('~/rs:fit:(\d+):(\d+)~', $src, $fit)) {
+            $largestSide = max((int) $fit[1], (int) $fit[2]);
+            if ($largestSide > 0 && $largestSide <= 64) {
+                continue;
+            }
+        }
         $imageUrls[] = $src;
     }
+
+    $imageUrls = array_slice($imageUrls, 0, 30);
 
     return !empty($imageUrls) ? $imageUrls : null;
 }
 
     // --- Main flow ---
 
-    // Try DuckDuckGo first
-    $vqd = getVqdToken($searchTerm);
-    $results = $vqd ? fetchDDGImages($searchTerm, $vqd) : null;
+    // source=duckduckgo or source=brave queries a single engine (used by the
+    // parallel search sections); without it the original fallback chain runs.
+    $source = $_GET['source'] ?? 'all';
 
-    if (!$results) {
+    header('Content-Type: application/json');
+
+    // Cache successful responses: repeat searches are common while filling the
+    // form, and both engines rate-limit aggressively (Brave after ~2 requests).
+    $cacheFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR
+        . 'wallos-logo-search-' . md5($source . '|' . strtolower(urldecode($searchTerm))) . '.json';
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < 3600) {
+        echo file_get_contents($cacheFile);
+        exit;
+    }
+
+    $results = null;
+
+    if ($source === 'duckduckgo' || $source === 'all') {
+        $vqd = getVqdToken($searchTerm);
+        $results = $vqd ? fetchDDGImages($searchTerm, $vqd) : null;
+    }
+
+    if (!$results && ($source === 'brave' || $source === 'all')) {
         $braveUrls = fetchBraveImages($searchTerm);
         if ($braveUrls) {
             $results = array_map(function($url) {
@@ -138,10 +160,14 @@ if (isset($_GET['search'])) {
         }
     }
 
-    header('Content-Type: application/json');
-
     if ($results) {
-        echo json_encode(['results' => $results]);
+        $payload = json_encode(['results' => $results]);
+        file_put_contents($cacheFile, $payload);
+        echo $payload;
+    } elseif ($source === 'brave') {
+        echo json_encode(['error' => 'Brave returned no results or rate-limited the request. Try again in a minute.']);
+    } elseif ($source === 'duckduckgo') {
+        echo json_encode(['error' => 'DuckDuckGo returned no results or rate-limited the request.']);
     } else {
         echo json_encode(['error' => 'Failed to fetch images from both DuckDuckGo and Brave.']);
     }

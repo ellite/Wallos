@@ -94,10 +94,10 @@ if (!is_null($settings['latest_version'])) {
                 </span>
             </div>
             <div>
-                <h3>Chart.js</h3>
+                <h3>ApexCharts</h3>
                 <span>
-                    https://www.chartjs.org/
-                    <a href="https://www.chartjs.org/" target="_blank" title="<?= translate('external_url', $i18n) ?>"
+                    https://apexcharts.com/
+                    <a href="https://apexcharts.com/" target="_blank" title="<?= translate('external_url', $i18n) ?>"
                         rel="noreferrer">
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>

@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Mètode de pagment",
   notes: "Notes",
   export: "Exportar",
+  no_results_found: "No s'han trobat resultats",
 }

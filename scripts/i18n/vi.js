@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Phương thức thanh toán",
   notes: "Ghi chú",
   export: "Xuất",
+  no_results_found: "Không tìm thấy kết quả",
 }

@@ -1,36 +1,44 @@
 :root {
-    --main-color: #007BFF;
-    --main-color-rgb: 0, 123, 255;
-    --accent-color: #8FBFFA;
-    --accent-color-rgb: 143, 191, 250;
-    --hover-color: #0056B3;
-    --hover-color-rgb: 0, 86, 179;
-    --error-color: #F45A40;
-    --error-color-rgb: 244, 90, 64;
-    --success-color: #188823;
-    --success-color-rgb: 24, 136, 35;
-    --background-color: #F5F5F5;
-    --background-color-rgb: 245, 245, 245;
+    --main-color: #2563EB;
+    --main-color-rgb: 37, 99, 235;
+    --accent-color: #93C5FD;
+    --accent-color-rgb: 147, 197, 253;
+    --hover-color: #1D4ED8;
+    --hover-color-rgb: 29, 78, 216;
+    --error-color: #EF4444;
+    --error-color-rgb: 239, 68, 68;
+    --success-color: #16A34A;
+    --success-color-rgb: 22, 163, 74;
+    --warning-color: #B45309;
+    --warning-color-rgb: 180, 83, 9;
+    --background-color: #F2F4F8;
+    --background-color-rgb: 242, 244, 248;
     --header-background-color: #FFFFFF;
     --header-background-color-rgb: 255, 255, 255;
     --box-background-color: #FFFFFF;
     --box-background-color-rgb: 255, 255, 255;
-    --box-border-color: #EEEEEE;
-    --box-border-color-rgb: 238, 238, 238;
-    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    --text-color: #202020;
-    --text-color-rgb: 32, 32, 32;
+    --box-border-color: #E7EAF0;
+    --box-border-color-rgb: 231, 234, 240;
+    --box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px -18px rgba(15, 23, 42, 0.18);
+    --text-color: #1C2434;
+    --text-color-rgb: 28, 36, 52;
     --text-color-inverted: #FFFFFF;
     --text-color-inverted-rgb: 255, 255, 255;
     --input-background-color: #FFFFFF;
     --input-background-color-rgb: 255, 255, 255;
-    --input-border-color: #CCCCCC;
-    --input-border-color-rgb: 204, 204, 204;
-    --input-disabled-background-color: #F5F5F5;
-    --input-disabled-background-color-rgb: 245, 245, 245;
-    --input-disabled-border-color: #F5F5F5;
-    --input-disabled-border-color-rgb: 245, 245, 245;
-    --negative-box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    --input-border-color: #D7DCE5;
+    --input-border-color-rgb: 215, 220, 229;
+    --input-disabled-background-color: #F2F4F8;
+    --input-disabled-background-color-rgb: 242, 244, 248;
+    --input-disabled-border-color: #E7EAF0;
+    --input-disabled-border-color-rgb: 231, 234, 240;
+    --negative-box-shadow: 0 -2px 8px rgba(15, 23, 42, 0.06);
+    --surface-hover: #F3F5F9;
+    --surface-hover-rgb: 243, 245, 249;
+    --text-muted: #64748B;
+    --text-muted-rgb: 100, 116, 139;
+    --shadow-pop: 0 2px 6px rgba(15, 23, 42, 0.08), 0 16px 40px -16px rgba(15, 23, 42, 0.28);
+    --focus-ring: 0 0 0 3px rgba(var(--main-color-rgb), 0.18);
 }
 
 svg .main-color {
@@ -42,5 +50,5 @@ svg .accent-color {
 }
 
 svg .text-color {
-    fill: #202020;
+    fill: #1C2434;
 }

@@ -101,11 +101,11 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="settings-notes">
                 <p>
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                     <?= translate('disable_login_info', $i18n) ?>
                 </p>
                 <p>
-                    <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                     <?= translate('disable_login_info2', $i18n) ?>
                 </p>
             </div>
