@@ -502,7 +502,6 @@ input[type="checkbox"]:checked+label::after {
 
 .subscription-modal h3 {
   margin-top: 0;
-  border-bottom: 1px solid var(--main-color);
   padding-bottom: 15px;
 }
 
@@ -529,9 +528,6 @@ input[type="checkbox"]:checked+label::after {
   margin-top: 12px;
 }
 /* RESTORE MODAL END */
-/* ==================================================== */
-/* Wallos v5 — desktop split layout for auth pages      */
-/* ==================================================== */
 
 .auth-brand {
     display: none;
