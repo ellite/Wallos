@@ -3,15 +3,24 @@ require_once '../../includes/ssrf_helper.php';
 
 if (isset($_GET['search'])) {
     function applyProxy($ch) {
+        // Only the lowercase POSIX-style proxy env vars are honored here.
+        // The uppercase HTTP_PROXY/HTTPS_PROXY/ALL_PROXY variants must never
+        // be trusted: under common nginx+php-fpm setups, a client-supplied
+        // "Proxy:" request header is forwarded as the HTTP_PROXY environment
+        // variable (the "httpoxy" vulnerability class), which would let any
+        // caller of this endpoint redirect the outbound request through an
+        // attacker-controlled proxy and bypass the IP-pinning/private-IP
+        // checks below.
         $proxy = getenv('https_proxy')
-            ?: getenv('HTTPS_PROXY')
             ?: getenv('http_proxy')
-            ?: getenv('HTTP_PROXY')
+            ?: getenv('all_proxy')
             ?: null;
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            return true;
         }
+        return false;
     }
 
     function curlGet($url, $headers = []) {
@@ -48,7 +57,10 @@ if (isset($_GET['search'])) {
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         }
 
-        applyProxy($ch);
+        if (!applyProxy($ch)) {
+            curl_setopt($ch, CURLOPT_PROXY, '');
+            curl_setopt($ch, CURLOPT_NOPROXY, '*');
+        }
         $response = curl_exec($ch);
         unset($ch);
 
