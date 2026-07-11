@@ -199,6 +199,12 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 
 ![Screenshot](screenshots/wallos-subscriptions-dark.png)
 
+![Screenshot](screenshots/wallos-subscriptions-popup.png)
+
+![Screenshot](screenshots/wallos-dashboard-light.png)
+
+![Screenshot](screenshots/wallos-dashboard-dark.png)
+
 ![Screenshot](screenshots/wallos-stats.png)
 
 ![Screenshot](screenshots/wallos-calendar.png)
@@ -206,6 +212,8 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-form.png)
 
 ![Screenshot](screenshots/wallos-subscriptions-mobile-light.png) ![Screenshot](screenshots/wallos-subscriptions-mobile-dark.png)
+
+![Screenshot](screenshots/wallos-subscriptions-mobile-sheet.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
 
