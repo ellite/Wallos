@@ -84,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $title = date('F Y', strtotime($year . '-' . $month . '-01'));
     $monthlyCost = 0;
     $notes = [];
+    $currencies = [];
 
     $sql = "SELECT * FROM subscriptions WHERE user_id = :userId AND inactive = 0";
     $stmt = $db->prepare($sql);
@@ -105,7 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':userId', $userId);
             $result = $stmt->execute();
-            $currencies = [];
             while ($currency = $result->fetchArray(SQLITE3_ASSOC)) {
                 $currencies[$currency['id']] = $currency['rate'];
             }
@@ -149,7 +149,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         for ($date = $startDate; $date <= strtotime("+1 month", $startOfMonth); $date = strtotime($incrementString, $date)) {
             if (date('Y-m', $date) == $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT)) {
                 $price = $subscription['price'];
-                if ($userCurrencyId !== $subscription['currency_id']) {
+                if (
+                    $userCurrencyId !== $subscription['currency_id']
+                    && $canConvertCurrency
+                    && isset($currencies[$userCurrencyId], $currencies[$subscription['currency_id']])
+                    && (float)$currencies[$subscription['currency_id']] !== 0.0
+                ) {
                     $price *= $currencies[$userCurrencyId] / $currencies[$subscription['currency_id']];
                 }
                 $monthlyCost += $price;
