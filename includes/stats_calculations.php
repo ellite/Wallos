@@ -212,12 +212,12 @@ if ($result) {
                 if ($cycle != 5) {
                     // Calculate ammount due this month
                     $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-                    $tomorrow = new DateTime('tomorrow');
+                    $todayVal = new DateTime('today');
                     $endOfMonth = new DateTime('last day of this month');
 
-                    if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
+                    if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
                         $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
+                        $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
                         $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
                         if ($cycle == 1) {
                             $timesToPay = $daysRemaining / $frequency;

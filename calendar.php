@@ -195,7 +195,7 @@ if ($weekStartsSunday) {
       $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
       $totalCostThisMonth += $convertedPrice;
       $numberOfSubscriptionsToPayThisMonth++;
-      if ($date > $today) {
+      if ($date >= $today) {
         $amountDueThisMonth += $convertedPrice;
       }
     };
