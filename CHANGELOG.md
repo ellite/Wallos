@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.10.0](https://github.com/ellite/Wallos/compare/v4.9.6...v4.10.0) (2026-07-11)
+
+
+### Features
+
+* Allow setting beginning of week as Sunday in calendar ([#1010](https://github.com/ellite/Wallos/issues/1010)) ([f01685e](https://github.com/ellite/Wallos/commit/f01685e0eb36690e3ecdcf2f029cae29764e3389))
+
 ## [4.9.6](https://github.com/ellite/Wallos/compare/v4.9.5...v4.9.6) (2026-06-22)
 
 
