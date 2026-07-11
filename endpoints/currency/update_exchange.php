@@ -64,6 +64,29 @@ if ($result) {
                 ]
             ]);
             $response = file_get_contents($api_url, false, $context);
+
+            // Piggyback on this request to record the monthly quota apilayer
+            // reports in its response headers (shown on the settings page).
+            if (isset($http_response_header)) {
+                $usageLimit = null;
+                $usageRemaining = null;
+                foreach ($http_response_header as $header) {
+                    if (stripos($header, 'x-ratelimit-limit-month:') === 0) {
+                        $usageLimit = (int) trim(substr($header, strlen('x-ratelimit-limit-month:')));
+                    } elseif (stripos($header, 'x-ratelimit-remaining-month:') === 0) {
+                        $usageRemaining = (int) trim(substr($header, strlen('x-ratelimit-remaining-month:')));
+                    }
+                }
+                if ($usageLimit !== null && $usageRemaining !== null
+                    && $db->querySingle("SELECT COUNT(*) FROM pragma_table_info('fixer') WHERE name='usage_used'") > 0) {
+                    $usageStmt = $db->prepare("UPDATE fixer SET usage_used = :used, usage_limit = :limit, usage_updated_at = :updatedAt WHERE user_id = :userId");
+                    $usageStmt->bindValue(':used', $usageLimit - $usageRemaining, SQLITE3_INTEGER);
+                    $usageStmt->bindValue(':limit', $usageLimit, SQLITE3_INTEGER);
+                    $usageStmt->bindValue(':updatedAt', date('Y-m-d H:i:s'), SQLITE3_TEXT);
+                    $usageStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $usageStmt->execute();
+                }
+            }
         } else {
             $api_url = "http://data.fixer.io/api/latest?access_key=" . $apiKey . "&base=EUR&symbols=" . $codes;
             $response = file_get_contents($api_url);

@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Platební metoda",
   notes: "Poznámky",
   export: "Exportovat",
+  no_results_found: "Nebyly nalezeny žádné výsledky",
 }

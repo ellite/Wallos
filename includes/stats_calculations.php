@@ -115,7 +115,7 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id FROM subscriptions";
+$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -212,12 +212,12 @@ if ($result) {
                 if ($cycle != 5) {
                     // Calculate ammount due this month
                     $nextPaymentDate = DateTime::createFromFormat('Y-m-d', trim($next_payment));
-                    $tomorrow = new DateTime('tomorrow');
+                    $todayVal = new DateTime('today');
                     $endOfMonth = new DateTime('last day of this month');
 
-                    if ($nextPaymentDate >= $tomorrow && $nextPaymentDate <= $endOfMonth) {
+                    if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
                         $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($tomorrow)->days + 1;
+                        $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
                         $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
                         if ($cycle == 1) {
                             $timesToPay = $daysRemaining / $frequency;

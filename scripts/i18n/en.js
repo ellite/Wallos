@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Payment method",
   notes: "Notes",
   export: "Export",
+  no_results_found: "No results found",
 }

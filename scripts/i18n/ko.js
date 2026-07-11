@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "결제 수단",
   notes: "메모",
   export: "내보내기",
+  no_results_found: "결과를 찾을 수 없습니다",
 };

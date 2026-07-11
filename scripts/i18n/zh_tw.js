@@ -46,4 +46,5 @@ let i18n = {
     payment_method: "支付方式",
     notes: "備註",
     export: "匯出",
+  no_results_found: "找不到結果",
 };

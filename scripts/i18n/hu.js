@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Fizetési mód",
   notes: "Jegyzetek",
   export: "Exportálás",
+  no_results_found: "Nincs találat",
 }

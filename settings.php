@@ -15,7 +15,6 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
 ?>
 
 <script src="scripts/libs/sortable.min.js"></script>
-<script src="scripts/libs/qrcode.min.js"></script>
 <style>
     .logo-preview:after {
         content: '<?= translate('upload_logo', $i18n) ?>';
@@ -824,6 +823,20 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
     }
     ?>
 
+    <?php
+    $sql = "SELECT * FROM ai_settings WHERE user_id = :userId LIMIT 1";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $aiSettings = [];
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $aiSettings = $row;
+    }
+
+    $canTranslateCategories = !empty($aiSettings['enabled']) && !empty($aiSettings['model']) && $lang != 'en';
+    ?>
+
     <section class="account-section">
         <header>
             <h2><?= translate('categories', $i18n) ?></h2>
@@ -881,6 +894,17 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
             <div class="buttons">
                 <input type="submit" value="<?= translate('add', $i18n) ?>" id="addCategory"
                     onClick="addCategoryButton()" class="thin mobile-grow" />
+                <?php
+                if ($canTranslateCategories) {
+                    ?>
+                    <button type="button" class="button secondary-button thin mobile-grow" id="translateCategories"
+                        onClick="translateCategories()">
+                        <i class="fa-solid fa-language"></i>
+                        <?= translate('translate_categories', $i18n) ?>
+                    </button>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     </section>
@@ -1037,6 +1061,15 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="addFixerKey"
                     onClick="addFixerKeyButton()" class="thin mobile-grow" />
             </div>
+            <div class="api-usage" id="fixerUsage" style="display: none;">
+                <div class="api-usage-label">
+                    <span><?= translate('monthly_requests_used', $i18n) ?></span>
+                    <span id="fixerUsageCount"></span>
+                </div>
+                <div class="api-usage-track">
+                    <span class="api-usage-fill" id="fixerUsageFill"></span>
+                </div>
+            </div>
             <div class="settings-notes">
                 <p><i class="fa-solid fa-circle-info"></i><?= translate('fixer_info', $i18n) ?></p>
                 <p><?= translate('get_key', $i18n) ?>:
@@ -1063,16 +1096,58 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
     </section>
 
     <?php
-    $sql = "SELECT * FROM ai_settings WHERE user_id = :userId LIMIT 1";
-    $stmt = $db->prepare($sql);
-    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
-    $aiSettings = [];
-    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $aiSettings = $row;
+    $googleSearchApiKey = "";
+    if ($db->querySingle("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='google_search'") > 0) {
+        $sql = "SELECT api_key FROM google_search WHERE user_id = :userId";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+        if ($result && ($row = $result->fetchArray(SQLITE3_ASSOC))) {
+            $googleSearchApiKey = $row['api_key'];
+        }
     }
     ?>
+
+    <section class="account-section">
+        <header>
+            <h2>Google Search (SerpAPI)</h2>
+        </header>
+        <div class="account-google-search">
+            <div class="form-group">
+                <input type="text" name="google-search-key" id="googleSearchKey" autocomplete="off"
+                    value="<?= htmlspecialchars($googleSearchApiKey) ?>" placeholder="<?= translate('api_key', $i18n) ?>"
+                    <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="<?= translate('save', $i18n) ?>" id="saveGoogleSearch"
+                    onClick="saveGoogleSearchButton()" class="thin mobile-grow" />
+            </div>
+            <div class="api-usage" id="googleSearchUsage" style="display: none;">
+                <div class="api-usage-label">
+                    <span><?= translate('monthly_searches_used', $i18n) ?></span>
+                    <span id="googleSearchUsageCount"></span>
+                </div>
+                <div class="api-usage-track">
+                    <span class="api-usage-fill" id="googleSearchUsageFill"></span>
+                </div>
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('google_search_info', $i18n) ?>
+                </p>
+                <p><?= translate('get_key', $i18n) ?>:
+                    <span>
+                        https://serpapi.com/
+                        <a href="https://serpapi.com/users/sign_up?plan=free" title="SerpAPI"
+                            target="_blank" rel="noreferrer">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </section>
 
     <section class="account-section">
         <header>
@@ -1109,9 +1184,6 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                     class="<?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>"
                     placeholder="<?= translate('api_key', $i18n) ?>"
                     value="<?= isset($aiSettings['api_key']) ? htmlspecialchars($aiSettings['api_key']) : '' ?>" />
-                <button type="button" id="toggleAiApiKey" class="button secondary-button icon-button <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'hidden' : '' ?>" onclick="toggleAiApiKeyVisibility()" aria-label="Toggle API key visibility">
-                    <i class="fa-solid fa-eye"></i>
-                </button>
                 <button type="button" id="fetchModelsButton" class="button thin" onclick="fetch_ai_models()">
                     <?= translate('test', $i18n) ?>
                 </button>
@@ -1247,9 +1319,15 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                             title="<?= translate('search_logo', $i18n) ?>" onClick="searchPaymentIcon()">
                             <i class="fa-solid fa-magnifying-glass"></i>
                         </div>
+                        <div class="icon-search-backdrop" id="icon-search-backdrop" onClick="closeIconSearch()"></div>
                         <div id="icon-search-results" class="icon-search">
+                            <button type="button" class="close-icon-search" onClick="closeIconSearch()" title="<?= translate('cancel', $i18n) ?>">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
                             <header>
-                                <span class="fa-solid fa-xmark close-icon-search" onClick="closeIconSearch()"></span>
+                                <h3 id="icon-search-title" data-title="<?= translate('web_search', $i18n) ?>">
+                                    <?= translate('web_search', $i18n) ?>
+                                </h3>
                             </header>
                             <div id="icon-search-images"></div>
                         </div>

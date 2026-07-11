@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Μέθοδος πληρωμής",
   notes: "Σημειώσεις",
   export: "Εξαγωγή",
+  no_results_found: "Δεν βρέθηκαν αποτελέσματα",
 }

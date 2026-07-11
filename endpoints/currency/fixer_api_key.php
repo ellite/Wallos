@@ -24,6 +24,19 @@ if ($provider == 1) {
     $response = file_get_contents($testKeyUrl);
 }
 
+// apilayer reports the monthly quota in its response headers; keep it for the settings usage bar
+$usageLimit = null;
+$usageRemaining = null;
+if ($provider == 1 && isset($http_response_header)) {
+    foreach ($http_response_header as $header) {
+        if (stripos($header, 'x-ratelimit-limit-month:') === 0) {
+            $usageLimit = (int) trim(substr($header, strlen('x-ratelimit-limit-month:')));
+        } elseif (stripos($header, 'x-ratelimit-remaining-month:') === 0) {
+            $usageRemaining = (int) trim(substr($header, strlen('x-ratelimit-remaining-month:')));
+        }
+    }
+}
+
 $apiData = json_decode($response, true);
 if ($apiData['success'] && $apiData['success'] == 1) {
     if (!empty($newApiKey)) {
@@ -34,6 +47,15 @@ if ($apiData['success'] && $apiData['success'] == 1) {
         $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
         if ($result) {
+            if ($usageLimit !== null && $usageRemaining !== null
+                && $db->querySingle("SELECT COUNT(*) FROM pragma_table_info('fixer') WHERE name='usage_used'") > 0) {
+                $usageStmt = $db->prepare("UPDATE fixer SET usage_used = :used, usage_limit = :limit, usage_updated_at = :updatedAt WHERE user_id = :userId");
+                $usageStmt->bindValue(':used', $usageLimit - $usageRemaining, SQLITE3_INTEGER);
+                $usageStmt->bindValue(':limit', $usageLimit, SQLITE3_INTEGER);
+                $usageStmt->bindValue(':updatedAt', date('Y-m-d H:i:s'), SQLITE3_TEXT);
+                $usageStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                $usageStmt->execute();
+            }
             echo json_encode(["success" => true, "message" => translate('api_key_saved', $i18n)]);
         } else {
             $response = [

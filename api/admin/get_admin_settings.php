@@ -2,7 +2,7 @@
 /*
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
-- api_key: the API key of the user.
+- api_key: the API key of the user (must be user ID 1 / admin).
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -27,7 +27,9 @@ Example response:
     "encryption": "tls",
     "login_disabled": 0,
     "latest_version": "v1.0.0",
-    "update_notification": 1
+    "update_notification": 1,
+    "oidc_oauth_enabled": 0,
+    "local_webhook_notifications_allowlist": "localhost,127.0.0.1"
   },
   "notes": []
 }

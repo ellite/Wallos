@@ -1,19 +1,19 @@
 body {
-    background-color: #303030;
-    color: #E0E0E0;
+    background-color: #0F1218;
+    color: #E4E8F1;
 }
 
 svg .text-color {
-    fill: #E0E0E0;
+    fill: #E4E8F1;
 }
 
 .container {
-    background-color: #222;
-    border: 1px solid #333;
-    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+    background-color: #171B23;
+    border: 1px solid #262C38;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -18px rgba(0, 0, 0, 0.55);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 899px) {
     .container {
         background-color: transparent;
         border: none;
@@ -23,16 +23,57 @@ svg .text-color {
 
 input[type="text"],
 input[type="email"],
-input[type="password"], 
-input[type="checkbox"],
-select {   
-    background-color: #555;
-    border: 1px solid #666;
-    color: #E0E0E0;
+input[type="password"],
+select {
+    background-color: #1F2530;
+    border: 1px solid #38404F;
+    color: #E4E8F1;
+}
+
+input[type="checkbox"]+label::before {
+    background-color: #1F2530;
+    border-color: #38404F;
+}
+
+.password-field .password-toggle {
+    color: #8B94A7;
 }
 
 input[type="text"]::placeholder,
 input[type="email"]::placeholder,
 input[type="password"]::placeholder {
-    color: #BBB;
+    color: #7E8797;
+}
+
+input {
+    color-scheme: dark;
+}
+
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%238B94A7' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+input[type="button"].secondary-button,
+button.button.secondary-button,
+a.button.secondary-button {
+    background-color: #171B23;
+    border-color: #38404F;
+}
+
+input[type="button"].secondary-button:hover,
+button.button.secondary-button:hover,
+a.button.secondary-button:hover {
+    background-color: #1F2530;
+    border-color: var(--main-color);
+}
+
+.theme-toggle {
+    background-color: #1F2530;
+    border-color: #38404F;
+    color: #8B94A7;
+}
+
+.theme-toggle:hover {
+    color: var(--main-color);
+    border-color: var(--main-color);
 }

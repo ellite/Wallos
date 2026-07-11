@@ -300,77 +300,82 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Email notifications if enabled
             if ($emailNotificationsEnabled) {
-
-                $stmt = $db->prepare('SELECT * FROM user WHERE id = :user_id');
-                $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-                $result = $stmt->execute();
-                $defaultUser = $result->fetchArray(SQLITE3_ASSOC);
-                $defaultEmail = $defaultUser['email'];
-                $defaultName = $defaultUser['username'];
-
-                foreach ($notify as $userId => $perUser) {
-                    $message = "The following subscriptions are up for renewal:\n";
-
-                    foreach ($perUser as $subscription) {
-                        $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
-                    }
-
-                    $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
-
-                    $mail = new PHPMailer(true);
-                    $mail->CharSet = "UTF-8";
-                    $mail->isSMTP();
-
-                    $mail->Host = $email['smtpAddress'];
-                    $mail->SMTPAuth = $smtpAuth;
-
-                    if ($smtpAuth) {
-                        $mail->Username = $email['smtpUsername'];
-                        $mail->Password = $email['smtpPassword'];
-                    }
-
-                    if ($email['encryption'] != "none") {
-                        $mail->SMTPSecure = $email['encryption'];
-                    } else {
-                        $mail->SMTPSecure = false;
-                        $mail->SMTPAutoTLS = false;
-                    }
-
-                    $mail->Port = $email['smtpPort'];
-
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                // Re-validate at send time: a save-time check alone is bypassable via
+                // DNS rebinding between when the host was saved and when the cron fires.
+                if (!validate_smtp_host($email['smtpAddress'], (int) $email['smtpPort'], $db)) {
+                    echo "SSRF attempt detected for SMTP host. Email notifications not sent.<br />";
+                } else {
+                    $stmt = $db->prepare('SELECT * FROM user WHERE id = :user_id');
+                    $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
-                    $user = $result->fetchArray(SQLITE3_ASSOC);
+                    $defaultUser = $result->fetchArray(SQLITE3_ASSOC);
+                    $defaultEmail = $defaultUser['email'];
+                    $defaultName = $defaultUser['username'];
 
-                    $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
-                    $name = !empty($user['name']) ? $user['name'] : $defaultName;
+                    foreach ($notify as $userId => $perUser) {
+                        $message = "The following subscriptions are up for renewal:\n";
 
-                    $mail->setFrom($email['fromEmail'], 'Wallos App');
-                    $mail->addAddress($emailaddress, $name);
-
-                    if (!empty($email['otherEmails'])) {
-                        $list = explode(';', $email['otherEmails']);
-
-                        // Avoid duplicate emails
-                        $list = array_unique($list);
-                        $list = array_filter($list, function ($value) use ($emailaddress) {
-                            return $value !== $emailaddress;
-                        });
-
-                        foreach ($list as $value) {
-                            $mail->addCC(trim($value));
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
                         }
-                    }
 
-                    $mail->Subject = 'Wallos Notification';
-                    $mail->Body = $message;
+                        $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
 
-                    if ($mail->send()) {
-                        echo "Email Notifications sent<br />";
-                    } else {
-                        echo "Error sending notifications: " . $mail->ErrorInfo . "<br />";
+                        $mail = new PHPMailer(true);
+                        $mail->CharSet = "UTF-8";
+                        $mail->isSMTP();
+
+                        $mail->Host = $email['smtpAddress'];
+                        $mail->SMTPAuth = $smtpAuth;
+
+                        if ($smtpAuth) {
+                            $mail->Username = $email['smtpUsername'];
+                            $mail->Password = $email['smtpPassword'];
+                        }
+
+                        if ($email['encryption'] != "none") {
+                            $mail->SMTPSecure = $email['encryption'];
+                        } else {
+                            $mail->SMTPSecure = false;
+                            $mail->SMTPAutoTLS = false;
+                        }
+
+                        $mail->Port = $email['smtpPort'];
+
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $result = $stmt->execute();
+                        $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
+                        $name = !empty($user['name']) ? $user['name'] : $defaultName;
+
+                        $mail->setFrom($email['fromEmail'], 'Wallos App');
+                        $mail->addAddress($emailaddress, $name);
+
+                        if (!empty($email['otherEmails'])) {
+                            $list = explode(';', $email['otherEmails']);
+
+                            // Avoid duplicate emails
+                            $list = array_unique($list);
+                            $list = array_filter($list, function ($value) use ($emailaddress) {
+                                return $value !== $emailaddress;
+                            });
+
+                            foreach ($list as $value) {
+                                $mail->addCC(trim($value));
+                            }
+                        }
+
+                        $mail->Subject = 'Wallos Notification';
+                        $mail->Body = $message;
+
+                        if ($mail->send()) {
+                            echo "Email Notifications sent<br />";
+                        } else {
+                            echo "Error sending notifications: " . $mail->ErrorInfo . "<br />";
+                        }
                     }
                 }
             }

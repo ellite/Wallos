@@ -115,6 +115,11 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                 }
             }
 
+            // Crop/trim transparent margins (with 2px transparent padding added back to avoid touching the borders)
+            $imagick->trimImage(0);
+            $imagick->setImagePage(0, 0, 0, 0);
+            $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
+
             $imagick->setImageFormat('png');
             $imagick->writeImage($uploadFile);
             $imagick->clear();
@@ -127,9 +132,23 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                 imagesavealpha($newImage, true);
 
                 if ($removeBackground) {
-                    $transparent = imagecolorallocatealpha($newImage, 0, 0, 0, 127);
-                    imagefill($newImage, 0, 0, $transparent);
+                    require_once __DIR__ . '/../../includes/gd_background_removal.php';
+                    // On palette images imagecolorat() returns palette indexes, not RGB values
+                    if (!imageistruecolor($newImage)) {
+                        imagepalettetotruecolor($newImage);
+                        imagealphablending($newImage, false);
+                        imagesavealpha($newImage, true);
+                    }
+                    // Match the Imagick branch: paint out the corner color with ~10% fuzz
+                    $corner = imagecolorat($newImage, 0, 0);
+                    if ((($corner >> 24) & 0x7F) !== 127) {
+                        gdRemoveBackgroundColor($newImage, ($corner >> 16) & 0xFF, ($corner >> 8) & 0xFF, $corner & 0xFF);
+                    }
                 }
+
+                // Crop/trim transparent margins
+                require_once __DIR__ . '/../../includes/gd_background_removal.php';
+                $newImage = gdCropTransparent($newImage, 2);
 
                 imagepng($newImage, $uploadFile);
                 imagedestroy($newImage);
@@ -180,6 +199,12 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             if ($fileExtension === 'png') {
                 imagesavealpha($image, true);
             }
+
+            // Crop/trim transparent margins (ensure we update dimensions after cropping)
+            require_once __DIR__ . '/../../includes/gd_background_removal.php';
+            $image = gdCropTransparent($image, 2);
+            $width = imagesx($image);
+            $height = imagesy($image);
 
             $newWidth = $width;
             $newHeight = $height;

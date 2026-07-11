@@ -180,16 +180,7 @@ function checkThemeNeedsUpdate() {
     darkThemeCss.disabled = themePreference === 'light';
     document.body.className = themePreference;
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
-    themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#222222' : '#FFFFFF');
-  }
-}
-
-function enableGoToLoginButton() {
-  const goToLoginButton = document.getElementById('goToLoginButton');
-  if (goToLoginButton) {
-    goToLoginButton.addEventListener('click', function () {
-      window.location.href = 'login.php';
-    });
+    themeColorMetaTag.setAttribute('content', themePreference === 'dark' ? '#12151C' : '#FFFFFF');
   }
 }
 
@@ -197,5 +188,4 @@ window.onload = function () {
   restoreFormFields();
   removeFromStorage();
   checkThemeNeedsUpdate();
-  enableGoToLoginButton();
 };

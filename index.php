@@ -152,7 +152,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
-                        <div class="subscription-item">
+                        <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                             <?php
                             if (empty($subscription['logo'])) {
                                 ?>
@@ -201,7 +201,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
 
                         ?>
-                        <div class="subscription-item">
+                        <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                             <?php
                             if (empty($subscription['logo'])) {
                                 ?>
@@ -396,6 +396,18 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
 </section>
 
+<?php
+// Get all subscriptions for user details lookup
+$query = 'SELECT * FROM subscriptions WHERE user_id = :userId';
+$stmt = $db->prepare($query);
+$stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$subscriptions = [];
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    $subscriptions[] = $row;
+}
+require_once 'includes/subscription_details_popup.php';
+?>
 
 <script src="scripts/dashboard.js?<?= $version ?>"></script>
 

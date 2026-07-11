@@ -1,92 +1,252 @@
-function loadGraph(container, dataPoints, currency, run) {
-    if (run) {
-        var ctx = document.getElementById(container).getContext('2d');
+const CHART_PALETTE = ['#008FFB','#00E396','#FEB019','#FF4560','#775DD0','#546E7A','#26a69a','#D10CE8'];
 
-        var chart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                datasets: [{
-                    data: dataPoints.map(point => point.y),
-                }],
-                labels: dataPoints.map(point => {
-                    if (currency) {
-                        return `${point.label} (${new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(point.y)})`;
-                    } else {
-                        return `${point.label} (${new Intl.NumberFormat(navigator.language).format(point.y)})`;
-                    }
-                }),
-            },
-            options: {
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                },
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'top',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = " ";
-                                if (currency) {
-                                    label += new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(context.raw);
-                                } else {
-                                    label += new Intl.NumberFormat(navigator.language).format(context.raw);
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                }
-            },
-        });
+function _chartTheme() {
+    const cs = getComputedStyle(document.documentElement);
+    const main   = cs.getPropertyValue('--main-color').trim()   || '#007BFF';
+    const text   = cs.getPropertyValue('--text-color').trim()   || '#202020';
+    const border = cs.getPropertyValue('--box-border-color').trim() || '#E8E8E8';
+    const dark   = document.body.classList.contains('dark');
+    const font   = "Barlow, 'Helvetica Neue', Helvetica, sans-serif";
+    return { main, text, border, dark, font };
+}
+
+function loadGraph(container, dataPoints, currency, run) {
+    if (!run) return;
+
+    const t = _chartTheme();
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    const hidden = new Array(dataPoints.length).fill(false);
+
+    function activeSubset() {
+        const pts = dataPoints.filter((_, i) => !hidden[i]);
+        return {
+            series: pts.map(p => p.y),
+            labels:  pts.map(p => `${p.label} (${fmt(p.y)})`),
+            colors: CHART_PALETTE.filter((_, i) => !hidden[i]).slice(0, pts.length),
+        };
     }
+
+    const el = document.getElementById(container);
+
+    const chart = new ApexCharts(el, {
+        chart: {
+            type: 'donut',
+            height: 320,
+            background: 'transparent',
+            fontFamily: t.font,
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        ...activeSubset(),
+        legend: { show: false },
+        dataLabels: {
+            style: { fontFamily: t.font, fontSize: '12px' },
+            dropShadow: { enabled: false },
+        },
+        plotOptions: { pie: { donut: { size: '55%' } } },
+        stroke: { width: 0 },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+    });
+    chart.render();
+
+    const legend = document.createElement('div');
+    legend.className = 'graph-legend';
+    dataPoints.forEach((p, i) => {
+        const item = document.createElement('button');
+        item.className = 'graph-legend-item';
+        item.innerHTML = `<span class="graph-legend-dot" style="background:${CHART_PALETTE[i % CHART_PALETTE.length]}"></span>${p.label} (${fmt(p.y)})`;
+        item.addEventListener('click', () => {
+            hidden[i] = !hidden[i];
+            item.classList.toggle('graph-legend-item--off', hidden[i]);
+            chart.updateOptions(activeSubset());
+        });
+        legend.appendChild(item);
+    });
+    el.after(legend);
 }
 
 function loadLineGraph(container, dataPoints, currency, run) {
-    if (run) {
-        var ctx = document.getElementById(container).getContext('2d');
+    if (!run) return;
 
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: [{
-                    label: '',
-                    data: dataPoints.map(point => point.y),
-                }],
-                labels: dataPoints.map(point => {
-                    return `${point.label}`;
-                }),
-            },
-            options: {
-                animation: {
-                    animateRotate: true,
-                    animateScale: true,
-                },
-                scales: {
-                    y: {
-                        beginAtZero: false,
-                        ticks: {
-                            callback: function(value, index, values) {
-                                if (currency) {
-                                    return new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(value);
-                                } else {
-                                    return new Intl.NumberFormat(navigator.language).format(value);
-                                }
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
+    const t = _chartTheme();
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    // Mark the 12-month high and low so the extremes read at a glance
+    const values = dataPoints.map(p => p.y);
+    const discreteMarkers = [];
+    if (values.length > 2) {
+        const maxIndex = values.indexOf(Math.max(...values));
+        const minIndex = values.indexOf(Math.min(...values));
+        if (maxIndex !== minIndex) {
+            discreteMarkers.push(
+                { seriesIndex: 0, dataPointIndex: maxIndex, size: 5, fillColor: t.main, strokeColor: t.dark ? '#171B23' : '#FFFFFF' },
+                { seriesIndex: 0, dataPointIndex: minIndex, size: 5, fillColor: t.main, strokeColor: t.dark ? '#171B23' : '#FFFFFF' }
+            );
+        }
     }
+
+    const chart = new ApexCharts(document.getElementById(container), {
+        chart: {
+            type: 'area',
+            height: 370,
+            background: 'transparent',
+            fontFamily: t.font,
+            toolbar: { show: false },
+            zoom: { enabled: false },
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
+        xaxis: {
+            categories: dataPoints.map(p => p.label),
+            labels: { style: { fontFamily: t.font, colors: t.text } },
+        },
+        yaxis: {
+            labels: {
+                formatter: fmt,
+                style: { fontFamily: t.font, colors: t.text },
+            },
+        },
+        colors: [t.main],
+        stroke: { curve: 'smooth', width: 2 },
+        fill: {
+            type: 'gradient',
+            gradient: { opacityFrom: 0.35, opacityTo: 0.0 },
+        },
+        markers: { size: 0, discrete: discreteMarkers, hover: { size: 5 } },
+        grid: { borderColor: t.border },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+        legend: { show: false },
+    });
+    chart.render();
+}
+
+function loadBarGraph(container, dataPoints, currency, run, thresholdLine) {
+    if (!run) return;
+
+    const t = _chartTheme();
+    const cs = getComputedStyle(document.documentElement);
+    const errorColor = cs.getPropertyValue('--error-color').trim() || '#EF4444';
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    const annotations = {};
+    if (thresholdLine !== null && thresholdLine !== undefined) {
+        annotations.yaxis = [{
+            y: thresholdLine,
+            borderColor: errorColor,
+            strokeDashArray: 5,
+            label: {
+                text: fmt(thresholdLine),
+                position: 'left',
+                textAnchor: 'start',
+                style: {
+                    color: errorColor,
+                    background: 'transparent',
+                    fontFamily: t.font,
+                },
+            },
+        }];
+    }
+
+    const chart = new ApexCharts(document.getElementById(container), {
+        chart: {
+            type: 'bar',
+            height: 320,
+            background: 'transparent',
+            fontFamily: t.font,
+            toolbar: { show: false },
+            zoom: { enabled: false },
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
+        xaxis: {
+            categories: dataPoints.map(p => p.label),
+            labels: { style: { fontFamily: t.font, colors: t.text } },
+        },
+        yaxis: {
+            labels: {
+                formatter: fmt,
+                style: { fontFamily: t.font, colors: t.text },
+            },
+        },
+        colors: [t.main],
+        plotOptions: {
+            bar: {
+                columnWidth: '55%',
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+            },
+        },
+        dataLabels: { enabled: false },
+        annotations: annotations,
+        grid: { borderColor: t.border },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+        legend: { show: false },
+    });
+    chart.render();
+}
+
+function loadHorizontalBarGraph(container, dataPoints, currency, run) {
+    if (!run) return;
+
+    const t = _chartTheme();
+    const fmt = val => currency
+        ? new Intl.NumberFormat(navigator.language, { style: 'currency', currency }).format(val)
+        : new Intl.NumberFormat(navigator.language).format(val);
+
+    const chart = new ApexCharts(document.getElementById(container), {
+        chart: {
+            type: 'bar',
+            height: Math.max(200, dataPoints.length * 36 + 60),
+            background: 'transparent',
+            fontFamily: t.font,
+            toolbar: { show: false },
+            zoom: { enabled: false },
+        },
+        theme: { mode: t.dark ? 'dark' : 'light' },
+        series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
+        xaxis: {
+            categories: dataPoints.map(p => p.label),
+            labels: {
+                formatter: fmt,
+                style: { fontFamily: t.font, colors: t.text },
+            },
+        },
+        yaxis: {
+            labels: { style: { fontFamily: t.font, colors: t.text } },
+        },
+        colors: [t.main],
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                barHeight: '55%',
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+            },
+        },
+        dataLabels: { enabled: false },
+        grid: { borderColor: t.border },
+        tooltip: {
+            style: { fontFamily: t.font },
+            y: { formatter: fmt },
+        },
+        legend: { show: false },
+    });
+    chart.render();
 }
 
 

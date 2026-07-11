@@ -46,4 +46,5 @@ let i18n = {
   payment_method: "Метод плаћања",
   notes: "Белешке",
   export: "Извоз",
+  no_results_found: "Нема резултата",
 }

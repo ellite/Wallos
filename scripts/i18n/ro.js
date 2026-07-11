@@ -46,4 +46,5 @@ let i18n = {
   payment_method: ",Metoda de plată",
   notes: "Notițe",
   export: "Export",
+  no_results_found: "Nu s-au găsit rezultate",
 }

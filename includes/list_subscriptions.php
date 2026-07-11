@@ -258,7 +258,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             ?>
 
             <div class="subscription<?= $subscriptionExtraClasses ?>"
-                onClick="toggleOpenSubscription(<?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
+                onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
                     <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
@@ -345,41 +345,42 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         ?>
                     </ul>
                 </div>
-                <div class="subscription-secondary">
-                    <span
-                        class="name"><i class="fa-solid fa-tag"></i><?= $subscription['name'] ?></span>
-                    <span class="payer_user"
-                        title="<?= translate('paid_by', $i18n) ?>"><i class="fa-solid fa-wallet"></i><?= $members[$subscription['payer_user_id']]['name'] ?></span>
-                    <span class="category"
-                        title="<?= translate('category', $i18n) ?>"><i class="fa-solid fa-layer-group"></i><?= $categories[$subscription['category_id']]['name'] ?></span>
+                <div class="subscription-back" aria-hidden="true">
+                    <button type="button" class="subscription-back-close"
+                        onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
+                        title="<?= translate('cancel', $i18n) ?>">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <button type="button" class="back-action"
+                        onClick="unflipCard(<?= $subscription['id'] ?>); openEditSubscription(event, <?= $subscription['id'] ?>)">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <?= translate('edit_subscription', $i18n) ?>
+                    </button>
+                    <button type="button" class="back-action"
+                        onClick="unflipCard(<?= $subscription['id'] ?>); cloneSubscription(event, <?= $subscription['id'] ?>)">
+                        <i class="fa-solid fa-copy"></i>
+                        <?= translate('clone', $i18n) ?>
+                    </button>
                     <?php
-                    if ($subscription['url'] != "") {
-                        $url = $subscription['url'];
-                        if (!preg_match('/^https?:\/\//', $url)) {
-                            $url = "https://" . $url;
-                        }
+                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
                         ?>
-                        <span class="url" title="<?= translate('external_url', $i18n) ?>"><a href="<?= $url ?>" target="_blank"
-                                rel="noreferrer"><i class="fa-solid fa-globe"></i></a></span>
+                        <button type="button" class="back-action"
+                            onClick="unflipCard(<?= $subscription['id'] ?>); renewSubscription(event, <?= $subscription['id'] ?>)">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <?= translate('renew', $i18n) ?>
+                        </button>
                         <?php
                     }
                     ?>
+                    <button type="button" class="back-action delete"
+                        onClick="unflipCard(<?= $subscription['id'] ?>); deleteSubscription(event, <?= $subscription['id'] ?>)">
+                        <i class="fa-solid fa-trash-can"></i>
+                        <?= translate('delete', $i18n) ?>
+                    </button>
                 </div>
-                <?php
-                if ($subscription['notes'] != "") {
-                    ?>
-                    <div class="subscription-notes">
-                        <span class="notes">
-                            <i class="fa-solid fa-note-sticky"></i>
-                            <?= $subscription['notes'] ?>
-                        </span>
-                    </div>
-                    <?php
-                }
-                ?>
             </div>
             <?php
-            if ($showSubscriptionProgress === 'true') {
+            if ($showSubscriptionProgress === 'true' && !$subscription['inactive']) {
                 $progress = $subscription['progress'] > 100 ? 100 : $subscription['progress'];
                 ?>
                 <div class="subscription-progress-container">

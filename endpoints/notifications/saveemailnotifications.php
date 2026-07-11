@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -26,6 +27,13 @@ if (
     $smtpPassword = $data["smtppassword"];
     $fromEmail = $data["fromemail"];
     $otherEmails = $data["otheremails"];
+
+    if (!validate_smtp_host($smtpAddress, (int) $smtpPort, $db)) {
+        die(json_encode([
+            "success" => false,
+            "message" => "Security Error: SMTP host must not target link-local or loopback addresses."
+        ]));
+    }
 
     $query = "SELECT COUNT(*) FROM email_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);
