@@ -5,15 +5,24 @@ if (isset($_GET['search'])) {
     $searchTerm = urlencode($_GET['search'] . " logo");
 
     function applyProxy($ch) {
+        // Only the lowercase POSIX-style proxy env vars are honored here.
+        // The uppercase HTTP_PROXY/HTTPS_PROXY/ALL_PROXY variants must never
+        // be trusted: under common nginx+php-fpm setups, a client-supplied
+        // "Proxy:" request header is forwarded as the HTTP_PROXY environment
+        // variable (the "httpoxy" vulnerability class), which would let any
+        // caller of this endpoint redirect the outbound request through an
+        // attacker-controlled proxy and bypass the IP-pinning/private-IP
+        // checks below.
         $proxy = getenv('https_proxy')
-            ?: getenv('HTTPS_PROXY')
             ?: getenv('http_proxy')
-            ?: getenv('HTTP_PROXY')
+            ?: getenv('all_proxy')
             ?: null;
 
         if ($proxy) {
             curl_setopt($ch, CURLOPT_PROXY, $proxy);
+            return true;
         }
+        return false;
     }
 
 
@@ -36,14 +45,14 @@ if (isset($_GET['search'])) {
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
         
-        curl_setopt($ch, CURLOPT_PROXY, '');
-        curl_setopt($ch, CURLOPT_NOPROXY, '*');
-
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        
+
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
-        applyProxy($ch);
+        if (!applyProxy($ch)) {
+            curl_setopt($ch, CURLOPT_PROXY, '');
+            curl_setopt($ch, CURLOPT_NOPROXY, '*');
+        }
         $response = curl_exec($ch);
         unset($ch);
         return $response ?: null;
