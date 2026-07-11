@@ -220,7 +220,10 @@ if ($weekStartsSunday) {
                   <?php
                   foreach ($subscriptions as $subscription) {
                     $nextPaymentDate = strtotime($subscription['next_payment']);
-                    $cycle = $subscription['cycle'];
+                    $subscriptionStartDate = !empty($subscription['start_date'])
+                      ? strtotime($subscription['start_date'])
+                      : $nextPaymentDate;
+                    $cycle = $subscription['cycle']; // Integer from 1 to 4
                     $frequency = $subscription['frequency'];
 
                     if ($cycle == 5) {
@@ -265,6 +268,9 @@ if ($weekStartsSunday) {
                     }
 
                     for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
+                      if ($date < $subscriptionStartDate) {
+                        continue;
+                      }
                       if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                         if (date('d', $date) == $day) {
                           $totalCostThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
@@ -305,7 +311,10 @@ if ($weekStartsSunday) {
                 <?php
                 foreach ($subscriptions as $subscription) {
                   $nextPaymentDate = strtotime($subscription['next_payment']);
-                  $cycle = $subscription['cycle'];
+                  $subscriptionStartDate = !empty($subscription['start_date'])
+                    ? strtotime($subscription['start_date'])
+                    : $nextPaymentDate;
+                  $cycle = $subscription['cycle']; // Integer from 1 to 4
                   $frequency = $subscription['frequency'];
 
                   if ($cycle == 5) {
@@ -350,6 +359,9 @@ if ($weekStartsSunday) {
                   }
 
                   for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
+                    if ($date < $subscriptionStartDate) {
+                      continue;
+                    }
                     if (date('Y-m', $date) == $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT)) {
                       if (date('d', $date) == $day) {
                         $totalCostThisMonth += getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
