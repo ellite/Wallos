@@ -403,6 +403,7 @@ $i18n = [
     "disable_login_info" => "Bypassare il login. Se si gestisce il server solo su una rete locale, senza accesso esterno, è possibile disabilitare il login. In questo modo, l'utente amministratore effettuerà automaticamente il login.",
     "disable_login_info2" => "Questa impostazione può essere attivata solo se la registrazione degli utenti è disattivata e non ci sono più account utente oltre a quello dell'amministratore.",
     "max_users_info" => "Impostare a 0 per un numero illimitato di utenti",
+    "registrations_disable_login_info" => "Abilitando le registrazioni degli utenti, l'impostazione per disabilitare il login non sarà disponibile.",
     "user_management" => "Gestione utenti",
     "delete_user" => "Elimina utente",
     "delete_user_info" => "L'eliminazione di un utente eliminerà anche tutte le sue iscrizioni e impostazioni.",

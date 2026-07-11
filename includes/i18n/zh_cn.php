@@ -404,6 +404,7 @@ $i18n = [
     "disable_login_info" => "旁路登录。如果服务器只在本地网络上运行，没有外部访问，则可以禁用登录。这会自动登录管理员用户。",
     "disable_login_info2" => "只有在用户注册关闭且用户账户数不超过管理员账户时，才能启用此设置。",
     "max_users_info" => "设置为 0 以无限制用户数",
+    "registrations_disable_login_info" => "启用用户注册后，禁用登录的设置将不可用。",
     "user_management" => "用户管理",
     "delete_user" => "删除用户",
     "delete_user_info" => "删除用户也会删除其所有订阅和设置。",

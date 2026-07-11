@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Bỏ qua đăng nhập. Nếu bạn chạy máy chủ của mình trên mạng cục bộ mà không có quyền truy cập từ bên ngoài, bạn có thể vô hiệu hóa đăng nhập. Điều này sẽ tự động đăng nhập người dùng quản trị.",
     "disable_login_info2" => "Bạn chỉ có thể bật cài đặt này nếu việc đăng ký người dùng bị vô hiệu hóa và không có tài khoản người dùng nào ngoài tài khoản quản trị viên.",
     "max_users_info" => "0 có nghĩa là không giới hạn",
+    "registrations_disable_login_info" => "Khi bật đăng ký người dùng, tùy chọn vô hiệu hóa đăng nhập sẽ không khả dụng.",
     "user_management" => "Quản lý người dùng",
     "delete_user" => "Xóa người dùng",
     "delete_user_info" => "Xóa một người dùng cũng sẽ xóa tất cả các đăng ký và cài đặt của họ.",

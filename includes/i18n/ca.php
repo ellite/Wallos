@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Ometre l'inici de sessió. Si executes el teu servidor en una xarxa local, sense accés extern, pots desactivar l'inici de sessió. Això farà que s'iniciï automàticament la sessió de l'usuari administrador.",
     "disable_login_info2" => "Només pots activar aquesta opció si el registre d'usuaris està desactivat i només hi ha el compte de l'usuari administrador.",
     "max_users_info" => "0 per il·limitat",
+    "registrations_disable_login_info" => "En activar els registres d'usuaris, l'opció per desactivar l'inici de sessió no estarà disponible.",
     "user_management" => "Gestió d'Usuaris",
     "delete_user" => "Eliminar Usuari",
     "delete_user_info" => "Al eliminar un usuari també s'eliminen totes les seves subscripcions i configuracions.",

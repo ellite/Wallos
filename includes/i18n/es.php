@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Omitir el inicio de sesión. Si ejecuta su servidor sólo en una red local, sin acceso externo, puede desactivar el inicio de sesión. Esto iniciará automáticamente la sesión del usuario administrador.",
     "disable_login_info2" => "Sólo puede activar esta configuración si el registro de usuarios está desactivado y no hay más que la cuenta de usuario admin.",
     "max_users_info" => "0 para ilimitado",
+    "registrations_disable_login_info" => "Al activar los registros de usuarios, la opción para desactivar el inicio de sesión no estará disponible.",
     "user_management" => "Gestión de Usuarios",
     "delete_user" => "Eliminar Usuario",
     "delete_user_info" => "Al eliminar un usuario, también se eliminarán todas sus suscripciones y configuraciones.",

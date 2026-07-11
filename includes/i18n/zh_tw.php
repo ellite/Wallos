@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "略過登入。如果您的伺服器只在區域網路中執行且無外部存取，可以停用登入。這將自動以管理員身分登入。",
     "disable_login_info2" => "只有在停用使用者註冊且使用者數不超過管理員帳號時，才能啟用此設定。",
     "max_users_info" => "0 表示無限制",
+    "registrations_disable_login_info" => "啟用使用者註冊後，停用登入的設定將無法使用。",
     "user_management" => "使用者管理",
     "delete_user" => "刪除使用者",
     "delete_user_info" => "刪除使用者也會刪除其所有訂閱和設定。",

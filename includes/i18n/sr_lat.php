@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Zaobiđite prijavu. Ako svoj server pokrećete samo na lokalnoj mreži, bez spoljnog pristupa možete da onemogućite prijavu. Ovo će automatski prijaviti korisnika administratora.",
     "disable_login_info2" => "Ovo podešavanje se može omogućiti samo ako je registracija korisnika zatvorena i broj korisničkih naloga ne prelazi administratorske naloge.",
     "max_users_info" => "0 za neograničen broj korisnika",
+    "registrations_disable_login_info" => "Omogućavanjem registracije korisnika, podešavanje za onemogućavanje prijave neće biti dostupno.",
     "user_management" => "Upravljanje korisnicima",
     "delete_user" => "Izbriši korisnika",
     "delete_user_info" => "Brisanjem korisnika izbrisaće se i sve njegove pretplate i podešavanja.",

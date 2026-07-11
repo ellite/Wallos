@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Lewati masuk. Jika Anda menjalankan server Anda di jaringan lokal saja, tanpa akses eksternal Anda dapat menonaktifkan proses masuk. Ini akan secara otomatis memasukkan pengguna admin.",
     "disable_login_info2" => "Anda hanya dapat mengaktifkan pengaturan ini jika pendaftaran pengguna dinonaktifkan dan tidak ada lebih dari akun pengguna admin.",
     "max_users_info" => "0 berarti tidak terbatas",
+    "registrations_disable_login_info" => "Dengan mengaktifkan pendaftaran pengguna, pengaturan untuk menonaktifkan proses masuk tidak akan tersedia.",
     "user_management" => "Manajemen Pengguna",
     "delete_user" => "Hapus Pengguna",
     "delete_user_info" => "Menghapus pengguna juga akan menghapus semua langganan dan pengaturan mereka.",

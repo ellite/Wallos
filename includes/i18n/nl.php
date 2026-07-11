@@ -387,6 +387,7 @@ $i18n = [
     "disable_login_info" => "Login overslaan. Als je server alleen in een lokaal netwerk draait, zonder externe toegang, kun je het inloggen uitschakelen. Dit zal automatisch de beheerder inloggen.",
     "disable_login_info2" => "Je kunt deze instelling alleen inschakelen als gebruikersregistratie is uitgeschakeld en er niet meer dan het beheerdersaccount is.",
     "max_users_info" => "0 betekent onbeperkt",
+    "registrations_disable_login_info" => "Door gebruikersregistraties in te schakelen, is de instelling om inloggen uit te schakelen niet beschikbaar.",
     "user_management" => "Gebruikersbeheer",
     "delete_user" => "Gebruiker verwijderen",
     "delete_user_info" => "Het verwijderen van een gebruiker zal ook al hun abonnementen en instellingen verwijderen.",

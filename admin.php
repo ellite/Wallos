@@ -57,7 +57,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 </p>
                 <p>
                     <i class="fa-solid fa-circle-info"></i>
-                    By enabling user registrations, the setting to disable login will be unavailable.
+                    <?= translate('registrations_disable_login_info', $i18n) ?>
                 </p>
             </div>
             <div class="form-group-inline">

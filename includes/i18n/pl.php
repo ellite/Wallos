@@ -386,6 +386,7 @@ $i18n = [
     "disable_login_info" => "Obejście logowania. Jeśli serwer działa tylko w sieci lokalnej, bez dostępu z zewnątrz, można wyłączyć logowanie. Spowoduje to automatyczne zalogowanie użytkownika admin.",
     "disable_login_info2" => "To ustawienie można włączyć tylko wtedy, gdy rejestracja użytkowników jest wyłączona i nie ma więcej niż konto administratora.",
     "max_users_info" => "Jeśli ustawisz 0, nie będzie limitu użytkowników.",
+    "registrations_disable_login_info" => "Po włączeniu rejestracji użytkowników opcja wyłączenia logowania będzie niedostępna.",
     "user_management" => "Zarządzanie użytkownikami",
     "delete_user" => "Usuń użytkownika",
     "delete_user_info" => "Usunięcie użytkownika spowoduje również usunięcie wszystkich jego subskrypcji i ustawień.",
