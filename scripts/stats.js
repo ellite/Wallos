@@ -5,7 +5,7 @@ function _chartTheme() {
     const main   = cs.getPropertyValue('--main-color').trim()   || '#007BFF';
     const text   = cs.getPropertyValue('--text-color').trim()   || '#202020';
     const border = cs.getPropertyValue('--box-border-color').trim() || '#E8E8E8';
-    const dark   = text.toLowerCase() === '#e0e0e0';
+    const dark   = document.body.classList.contains('dark');
     const font   = "Barlow, 'Helvetica Neue', Helvetica, sans-serif";
     return { main, text, border, dark, font };
 }
@@ -105,12 +105,12 @@ function loadLineGraph(container, dataPoints, currency, run) {
         series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
         xaxis: {
             categories: dataPoints.map(p => p.label),
-            labels: { style: { fontFamily: t.font } },
+            labels: { style: { fontFamily: t.font, colors: t.text } },
         },
         yaxis: {
             labels: {
                 formatter: fmt,
-                style: { fontFamily: t.font },
+                style: { fontFamily: t.font, colors: t.text },
             },
         },
         colors: [t.main],
@@ -172,12 +172,12 @@ function loadBarGraph(container, dataPoints, currency, run, thresholdLine) {
         series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
         xaxis: {
             categories: dataPoints.map(p => p.label),
-            labels: { style: { fontFamily: t.font } },
+            labels: { style: { fontFamily: t.font, colors: t.text } },
         },
         yaxis: {
             labels: {
                 formatter: fmt,
-                style: { fontFamily: t.font },
+                style: { fontFamily: t.font, colors: t.text },
             },
         },
         colors: [t.main],
@@ -223,11 +223,11 @@ function loadHorizontalBarGraph(container, dataPoints, currency, run) {
             categories: dataPoints.map(p => p.label),
             labels: {
                 formatter: fmt,
-                style: { fontFamily: t.font },
+                style: { fontFamily: t.font, colors: t.text },
             },
         },
         yaxis: {
-            labels: { style: { fontFamily: t.font } },
+            labels: { style: { fontFamily: t.font, colors: t.text } },
         },
         colors: [t.main],
         plotOptions: {
