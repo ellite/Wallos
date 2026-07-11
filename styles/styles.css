@@ -3289,6 +3289,7 @@ input[type="radio"]:checked+label::after {
   max-width: 100%;
   height: 42px;
   object-fit: contain;
+  object-position: left center;
 }
 
 .dashboard-subscriptions-list>.subscription-item .subscription-item-date {
