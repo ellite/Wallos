@@ -285,6 +285,7 @@ $i18n = [
     "experimental_settings" => "Pengaturan Eksperimental",
     "remove_background" => "Coba hapus latar belakang logo dari pencarian gambar",
     "use_mobile_navigation_bar" => "Gunakan bilah navigasi seluler",
+    "remove_background_info" => "Ini juga menghasilkan versi kedua logo dengan warna yang disesuaikan, agar tetap terbaca saat Anda beralih antara tema terang dan gelap.",
     "experimental_info" => "Pengaturan eksperimental mungkin tidak akan berfungsi dengan sempurna.",
     "payment_methods" => "Metode Pembayaran",
     "payment_methods_info" => "Klik metode pembayaran untuk menonaktifkan / mengaktifkannya.",

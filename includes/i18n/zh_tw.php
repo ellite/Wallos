@@ -285,6 +285,7 @@ $i18n = [
     "experimental_settings" => "實驗性功能",
     "remove_background" => "嘗試從圖片搜尋中移除搜尋結果的背景",
     "use_mobile_navigation_bar" => "使用行動版導覽列",
+    "remove_background_info" => "這也會產生第二個重新上色的標誌版本，讓您在淺色與深色主題之間切換時仍保持清晰可辨。",
     "experimental_info" => "實驗性功能可能無法完美運作。",
     "payment_methods" => "付款方式",
     "payment_methods_info" => "點選付款方式以停用/啟用。",

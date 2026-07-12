@@ -284,6 +284,7 @@ $i18n = [
     "experimental_settings" => "Paramètres expérimentaux",
     "remove_background" => "Tenter de supprimer l'arrière-plan des logos de la recherche d'images",
     "use_mobile_navigation_bar" => "Utiliser la barre de navigation mobile",
+    "remove_background_info" => "Cela génère également une seconde version, recolorée, du logo afin qu'il reste lisible lors du passage du thème clair au thème sombre.",
     "experimental_info" => "Les paramètres expérimentaux ne fonctionneront probablement pas parfaitement.",
     "payment_methods" => "Méthodes de paiement",
     "payment_methods_info" => "Cliquez sur une méthode de paiement pour la désactiver / l'activer.",

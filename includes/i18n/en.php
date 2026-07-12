@@ -310,6 +310,7 @@ $i18n = [
     "experimental_settings" => "Experimental Settings",
     "remove_background" => "Attempt to remove background of logos from image search",
     "use_mobile_navigation_bar" => "Use mobile navigation bar",
+    "remove_background_info" => "This also generates a second, recolored version of the logo so it stays legible when you switch between light and dark theme.",
     "experimental_info" => "Experimental settings will probably not work perfectly.",
     "payment_methods" => "Payment Methods",
     "payment_methods_info" => "Click a payment method to disable / enable it.",

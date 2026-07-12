@@ -285,6 +285,7 @@ $i18n = [
     "experimental_settings" => "実験的な設定",
     "remove_background" => "画像検索からロゴの背景を削除する",
     "use_mobile_navigation_bar" => "モバイルナビゲーションバーを使用する",
+    "remove_background_info" => "これにより、ライトテーマとダークテーマを切り替えても読みやすいように、色を調整したロゴの2つ目のバージョンも生成されます。",
     "experimental_info" => "実験的な設定は、おそらく完全には機能しません。",
     "payment_methods" => "支払い方法",
     "payment_methods_info" => "支払い方法をクリックして無効/有効を切り替えます。",

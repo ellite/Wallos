@@ -290,6 +290,7 @@ $i18n = [
     "experimental_settings" => 'Impostazioni sperimentali',
     "remove_background" => 'Prova a rimuovere lo sfondo dei loghi dalla ricerca delle immagini',
     "use_mobile_navigation_bar" => "Utilizza la barra di navigazione mobile",
+    "remove_background_info" => 'Questo genera anche una seconda versione, ricolorata, del logo in modo che rimanga leggibile quando passi dal tema chiaro a quello scuro.',
     "experimental_info" => 'Le impostazioni sperimentali potrebbero non funzioneranno perfettamente.',
     "payment_methods" => 'Metodi di pagamento',
     "payment_methods_info" => 'Fai clic su un metodo di pagamento per abilitarlo/disabilitarlo.',

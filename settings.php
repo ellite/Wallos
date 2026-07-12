@@ -1563,6 +1563,10 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
+                <?= translate('remove_background_info', $i18n) ?>
+            </p>
+            <p>
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 <?= translate('experimental_info', $i18n) ?>
             </p>
         </div>

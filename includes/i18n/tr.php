@@ -284,6 +284,7 @@ $i18n = [
     "experimental_settings" => "Deneysel Ayarlar",
     "remove_background" => "Görsel aramadan logoların arka planını kaldırmayı deneyin",
     "use_mobile_navigation_bar" => "Mobil cihazlarda gezinme çubuğunu kullan",
+    "remove_background_info" => "Bu ayrıca, açık ve koyu tema arasında geçiş yaptığınızda okunabilir kalması için logonun yeniden renklendirilmiş ikinci bir sürümünü de oluşturur.",
     "experimental_info" => "Deneysel ayarlar muhtemelen mükemmel çalışmayacak.",
     "payment_methods" => "Ödeme Yöntemleri",
     "payment_methods_info" => "Bir ödeme yöntemini devre dışı bırakmak / etkinleştirmek için tıklayın.",

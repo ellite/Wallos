@@ -285,6 +285,7 @@ $i18n = [
     "experimental_settings" => "Configuracions Experimentals",
     "remove_background" => "Intentar eliminar el fons dels logotips quan es fa la cerca d'imatges",
     "use_mobile_navigation_bar" => "Utilitzar la barra de navegació mòbil",
+    "remove_background_info" => "Això també genera una segona versió, amb els colors ajustats, del logotip perquè es mantingui llegible en canviar entre el tema clar i el fosc.",
     "experimental_info" => "És possible que les configuracions experimentals no funcionin perfectament.",
     "payment_methods" => "Mètodes de Pagament",
     "payment_methods_info" => "Fes clic en un mètode de pagament per desactivar-lo/activar-lo.",
