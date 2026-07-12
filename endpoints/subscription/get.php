@@ -43,6 +43,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else {
         echo translate('error', $i18n);
     }
+} else {
+    http_response_code(401);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => translate('session_expired', $i18n)]);
 }
 $db->close();
 ?>

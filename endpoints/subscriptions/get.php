@@ -257,6 +257,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     </div>
     <?php
   }
+} else {
+  http_response_code(401);
+  ?>
+  <p class="no-matching-subscriptions"><?= translate('session_expired', $i18n) ?></p>
+  <?php
 }
 
 $db->close();
