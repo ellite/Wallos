@@ -1,5 +1,17 @@
 # Changelog
 
+## [5.1.0](https://github.com/ellite/Wallos/compare/v5.0.0...v5.1.0) (2026-07-12)
+
+
+### Features
+
+* create dark and light theme versions of the logos when removing background ([8d22f04](https://github.com/ellite/Wallos/commit/8d22f0435372c8874fcc2f42733230cdb2674167))
+
+
+### Bug Fixes
+
+* ajax calls after session expired ([8d22f04](https://github.com/ellite/Wallos/commit/8d22f0435372c8874fcc2f42733230cdb2674167))
+
 ## [5.0.0](https://github.com/ellite/Wallos/compare/v4.9.6...v5.0.0) (2026-07-11)
 
 
