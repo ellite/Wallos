@@ -84,7 +84,6 @@ See instructions to run Wallos below.
     - curl
     - dom
     - gd
-    - imagick
     - intl
     - openssl
     - sqlite3

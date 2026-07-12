@@ -190,54 +190,31 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
         imagepng($image, $tempFile);
         imagedestroy($image);
 
-        if (extension_loaded('imagick')) {
-            $imagick = new Imagick($tempFile);
+        $newImage = imagecreatefrompng($tempFile);
+        if ($newImage !== false) {
+            imagealphablending($newImage, false);
+            imagesavealpha($newImage, true);
 
             if ($removeBackground) {
-                $imagick->setImageAlphaChannel(Imagick::ALPHACHANNEL_ACTIVATE);
-                $pixel = $imagick->getImagePixelColor(0, 0);
-                $color = $pixel->getColor();
-                if ($color['a'] > 0) {
-                    $bgColor = "rgb({$color['r']},{$color['g']},{$color['b']})";
-                    $fuzz = Imagick::getQuantum() * 0.1;
-                    $imagick->transparentPaintImage($bgColor, 0, $fuzz, false);
-                }
-            }
-
-            $imagick->trimImage(0);
-            $imagick->setImagePage(0, 0, 0, 0);
-            $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
-            $imagick->setImageFormat('png');
-            $imagick->writeImage($uploadFile);
-            $imagick->clear();
-            $imagick->destroy();
-        } else {
-            $newImage = imagecreatefrompng($tempFile);
-            if ($newImage !== false) {
-                imagealphablending($newImage, false);
-                imagesavealpha($newImage, true);
-
-                if ($removeBackground) {
-                    require_once __DIR__ . '/../../includes/gd_background_removal.php';
-                    if (!imageistruecolor($newImage)) {
-                        imagepalettetotruecolor($newImage);
-                        imagealphablending($newImage, false);
-                        imagesavealpha($newImage, true);
-                    }
-                    $corner = imagecolorat($newImage, 0, 0);
-                    if ((($corner >> 24) & 0x7F) !== 127) {
-                        gdRemoveBackgroundColor($newImage, ($corner >> 16) & 0xFF, ($corner >> 8) & 0xFF, $corner & 0xFF);
-                    }
-                }
-
                 require_once __DIR__ . '/../../includes/gd_background_removal.php';
-                $newImage = gdCropTransparent($newImage, 2);
-                imagepng($newImage, $uploadFile);
-                imagedestroy($newImage);
-            } else {
-                unlink($tempFile);
-                return false;
+                if (!imageistruecolor($newImage)) {
+                    imagepalettetotruecolor($newImage);
+                    imagealphablending($newImage, false);
+                    imagesavealpha($newImage, true);
+                }
+                $corner = imagecolorat($newImage, 0, 0);
+                if ((($corner >> 24) & 0x7F) !== 127) {
+                    gdRemoveBackgroundColor($newImage, ($corner >> 16) & 0xFF, ($corner >> 8) & 0xFF, $corner & 0xFF);
+                }
             }
+
+            require_once __DIR__ . '/../../includes/gd_background_removal.php';
+            $newImage = gdCropTransparent($newImage, 2);
+            imagepng($newImage, $uploadFile);
+            imagedestroy($newImage);
+        } else {
+            unlink($tempFile);
+            return false;
         }
 
         unlink($tempFile);

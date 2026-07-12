@@ -285,6 +285,7 @@ $i18n = [
     "experimental_settings" => "Experimentální nastavení",
     "remove_background" => "Pokusit se odstranit pozadí log z vyhledávání obrázků",
     "use_mobile_navigation_bar" => "Použít mobilní navigační panel",
+    "remove_background_info" => "Tím se také vytvoří druhá, přebarvená verze loga, aby zůstalo čitelné při přepínání mezi světlým a tmavým motivem.",
     "experimental_info" => "Experimentální nastavení pravděpodobně nebude fungovat dokonale.",
     "payment_methods" => "Platební metody",
     "payment_methods_info" => "Kliknutím na platební metodu ji zakážete nebo povolíte.",

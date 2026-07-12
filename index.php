@@ -2,6 +2,7 @@
 
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
+require_once 'includes/logo_theme_variant.php';
 
 function formatPrice($price, $currencyCode, $currencies)
 {
@@ -72,7 +73,7 @@ $user = $result->fetchArray(SQLITE3_ASSOC);
 $first_name = $user['firstname'] ?? $user['username'] ?? '';
 
 // Fetch the next 3 enabled subscriptions up for payment
-$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC LIMIT 3");
+$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC LIMIT 3");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $upcomingSubscriptions = [];
@@ -81,7 +82,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 
 // Fetch enabled subscriptions with manual renewal that are overdue
-$stmt = $db->prepare("SELECT id, logo, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
+$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $overdueSubscriptions = [];
@@ -143,7 +144,6 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <?php
 
                     foreach ($overdueSubscriptions as $subscription) {
-                        $subscriptionLogo = "images/uploads/logos/" . $subscription['logo'];
                         $subscriptionName = htmlspecialchars($subscription['name']);
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
@@ -159,10 +159,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 <p class="subscription-item-title"><?= $subscriptionName ?></p>
                                 <?php
                             } else {
-                                ?>
-                                <img src="<?= $subscriptionLogo ?>" alt="<?= $subscriptionName ?> logo"
-                                    class="subscription-item-logo" title="<?= $subscriptionName ?>">
-                                <?php
+                                $subscriptionLogoSrc = "images/uploads/logos/" . $subscription['logo'];
+                                $subscriptionLogoVariantSrc = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
+                                echo renderThemedLogoImg($subscriptionLogoSrc, $subscriptionLogoVariantSrc, $subscription['logo_text_color'] ?? null, 'subscription-item-logo', 'alt="' . $subscriptionName . ' logo" title="' . $subscriptionName . '"');
                             }
                             ?>
                             <div class="subscription-item-info">
@@ -192,7 +191,6 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <?php
                 } else {
                     foreach ($upcomingSubscriptions as $subscription) {
-                        $subscriptionLogo = "images/uploads/logos/" . $subscription['logo'];
                         $subscriptionName = htmlspecialchars($subscription['name']);
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
@@ -208,10 +206,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 <p class="subscription-item-title"><?= $subscriptionName ?></p>
                                 <?php
                             } else {
-                                ?>
-                                <img src="<?= $subscriptionLogo ?>" alt="<?= $subscriptionName ?> logo"
-                                    class="subscription-item-logo" title="<?= $subscriptionName ?>">
-                                <?php
+                                $subscriptionLogoSrc = "images/uploads/logos/" . $subscription['logo'];
+                                $subscriptionLogoVariantSrc = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
+                                echo renderThemedLogoImg($subscriptionLogoSrc, $subscriptionLogoVariantSrc, $subscription['logo_text_color'] ?? null, 'subscription-item-logo', 'alt="' . $subscriptionName . ' logo" title="' . $subscriptionName . '"');
                             }
                             ?>
                             <div class="subscription-item-info">

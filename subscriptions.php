@@ -2,6 +2,7 @@
 
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
+require_once 'includes/logo_theme_variant.php';
 
 include_once 'includes/list_subscriptions.php';
 
@@ -219,6 +220,8 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $id = $subscription['id'];
       $print[$id]['id'] = $id;
       $print[$id]['logo'] = $subscription['logo'] != "" ? "images/uploads/logos/" . $subscription['logo'] : "";
+      $print[$id]['logo_text_color'] = $subscription['logo_text_color'] ?? null;
+      $print[$id]['logo_variant'] = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
       $print[$id]['name'] = $subscription['name'];
       $cycle = $subscription['cycle'];
       $frequency = $subscription['frequency'];

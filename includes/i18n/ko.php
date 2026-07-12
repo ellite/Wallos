@@ -284,6 +284,7 @@ $i18n = [
     "experimental_settings" => "실험적 설정",
     "remove_background" => "로고 이미지 검색에서 배경 삭제",
     "use_mobile_navigation_bar" => "모바일 네비게이션 바 사용",
+    "remove_background_info" => "이렇게 하면 라이트 테마와 다크 테마를 전환해도 로고가 잘 보이도록 색상을 조정한 두 번째 버전도 생성됩니다.",
     "experimental_info" => "실험적 설정은 제대로 작동하지 않을 수 있습니다.",
     "payment_methods" => "결제 수단",
     "payment_methods_info" => "결제 수단을 클릭하여 활성화/비활성화 할 수 있습니다.",

@@ -284,6 +284,7 @@ $i18n = [
     "experimental_settings" => "Eksperimentalna podešavanja",
     "remove_background" => "Pokušajte ukloniti pozadinu logotipa sa pretrage slika",
     "use_mobile_navigation_bar" => "Koristi navigacionu traku za mobilne uređaje",
+    "remove_background_info" => "Ovo takođe pravi drugu, prekrojenu verziju logotipa, kako bi ostao čitljiv prilikom prelaska između svetle i tamne teme.",
     "experimental_info" => "Eksperimentalna podešavanja verovatno neće savršeno funkcionisati.",
     "payment_methods" => "Načini plaćanja",
     "payment_methods_info" => "Kliknite na način plaćanja da biste ga onemogućili / omogućili.",
