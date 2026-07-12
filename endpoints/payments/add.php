@@ -96,49 +96,18 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
         imagepng($image, $tempFile);
         imagedestroy($image);
 
-        if (extension_loaded('imagick')) {
-            $imagick = new Imagick($tempFile);
-            if ($removeBackground) {
-                $fuzz = Imagick::getQuantum() * 0.1; // 10%
-                $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
-            }
-            // Crop/trim transparent margins (with 2px transparent padding added back to avoid touching the borders)
-            $imagick->trimImage(0);
-
-            // If the background color was too close to the foreground,
-            // transparentPaintImage() can wipe out the entire image; trimImage()
-            // then collapses it to ~1x1px. Rather than ship a near-empty logo,
-            // fall back to the original (without background removal) and just
-            // trim whatever transparent margins it already had.
-            if ($imagick->getImageWidth() <= 4 || $imagick->getImageHeight() <= 4) {
-                $imagick->clear();
-                $imagick = new Imagick($tempFile);
-                $imagick->trimImage(0);
-            }
-
-            $imagick->setImagePage(0, 0, 0, 0);
-            $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
-
-            $imagick->setImageFormat('png');
-            $imagick->writeImage($uploadFile);
-
-            $imagick->clear();
-            $imagick->destroy();
-        } else {
-            // Alternative method if Imagick is not available
-            $newImage = imagecreatefrompng($tempFile);
-            if ($removeBackground) {
-                require_once __DIR__ . '/../../includes/gd_background_removal.php';
-                // Match the Imagick branch: paint out the same near-white background with ~10% fuzz
-                gdRemoveBackgroundColor($newImage, 247, 247, 247);
-            }
-            // Crop/trim transparent margins
+        $newImage = imagecreatefrompng($tempFile);
+        if ($removeBackground) {
             require_once __DIR__ . '/../../includes/gd_background_removal.php';
-            $newImage = gdCropTransparent($newImage, 2);
-
-            imagepng($newImage, $uploadFile);
-            imagedestroy($newImage);
+            // Paint out the near-white background with ~10% fuzz
+            gdRemoveBackgroundColor($newImage, 247, 247, 247);
         }
+        // Crop/trim transparent margins
+        require_once __DIR__ . '/../../includes/gd_background_removal.php';
+        $newImage = gdCropTransparent($newImage, 2);
+
+        imagepng($newImage, $uploadFile);
+        imagedestroy($newImage);
         unlink($tempFile);
 
         return true;
