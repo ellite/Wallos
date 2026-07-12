@@ -5,6 +5,7 @@ require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/logo_theme_variant.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -117,6 +118,18 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
 
             // Crop/trim transparent margins (with 2px transparent padding added back to avoid touching the borders)
             $imagick->trimImage(0);
+
+            // If the sampled background color was too close to the foreground,
+            // transparentPaintImage() can wipe out the entire image; trimImage()
+            // then collapses it to ~1x1px. Rather than ship a near-empty logo,
+            // fall back to the original (without background removal) and just
+            // trim whatever transparent margins it already had.
+            if ($imagick->getImageWidth() <= 4 || $imagick->getImageHeight() <= 4) {
+                $imagick->clear();
+                $imagick = new Imagick($tempFile);
+                $imagick->trimImage(0);
+            }
+
             $imagick->setImagePage(0, 0, 0, 0);
             $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
 
@@ -302,17 +315,49 @@ if ($logoUrl !== "") {
     }
 }
 
+$logoTextColor = null;
+$logoVariant = null;
+$removeBackgroundEnabled = isset($settings['removeBackground']) && $settings['removeBackground'] === 'true';
+
+// Themed variant generation piggybacks on the same "remove background"
+// setting: both only make sense for logos we're already reprocessing, and
+// this avoids running pixel classification on every single upload.
+if ($logo !== "" && $removeBackgroundEnabled) {
+    $logoExtension = strtolower(pathinfo($logo, PATHINFO_EXTENSION));
+    $logoPath = '../../images/uploads/logos/' . $logo;
+
+    if ($logoExtension === 'png' || $logoExtension === 'webp') {
+        $sourceImage = $logoExtension === 'png' ? imagecreatefrompng($logoPath) : imagecreatefromwebp($logoPath);
+
+        if ($sourceImage !== false) {
+            imagealphablending($sourceImage, false);
+            imagesavealpha($sourceImage, true);
+
+            $logoTextColor = classifyLogoTextColor($sourceImage);
+
+            if ($logoTextColor !== null) {
+                $variantImage = generateThemedLogoVariant($sourceImage);
+                $logoVariant = pathinfo($logo, PATHINFO_FILENAME) . '-variant.png';
+                imagepng($variantImage, '../../images/uploads/logos/' . $logoVariant);
+                imagedestroy($variantImage);
+            }
+
+            imagedestroy($sourceImage);
+        }
+    }
+}
+
 if (!$isEdit) {
     $sql = "INSERT INTO subscriptions (
-                        name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url, 
+                        name, logo, price, currency_id, next_payment, cycle, frequency, notes,
+                        payment_method_id, payer_user_id, category_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                        auto_renew, start_date
+                        auto_renew, start_date, logo_text_color, logo_variant
                     ) VALUES (
-                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
+                        :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
+                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                        :autoRenew, :startDate
+                        :autoRenew, :startDate, :logoTextColor, :logoVariant
                     )";
 } else {
     $id = $_POST['id'];
@@ -337,7 +382,7 @@ if (!$isEdit) {
                         replacement_subscription_id = :replacement_subscription_id";
 
     if ($logo != "") {
-        $sql .= ", logo = :logo";
+        $sql .= ", logo = :logo, logo_text_color = :logoTextColor, logo_variant = :logoVariant";
     }
 
     $sql .= " WHERE id = :id AND user_id = :userId";
@@ -347,6 +392,8 @@ $stmt = $db->prepare($sql);
 $stmt->bindParam(':name', $name, SQLITE3_TEXT);
 if ($logo != "") {
     $stmt->bindParam(':logo', $logo, SQLITE3_TEXT);
+    $stmt->bindParam(':logoTextColor', $logoTextColor, SQLITE3_TEXT);
+    $stmt->bindParam(':logoVariant', $logoVariant, SQLITE3_TEXT);
 }
 $stmt->bindParam(':price', $price, SQLITE3_FLOAT);
 $stmt->bindParam(':currencyId', $currencyId, SQLITE3_INTEGER);

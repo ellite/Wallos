@@ -733,6 +733,27 @@ button.mobile-action-renew {
   height: 42px;
 }
 
+/* Themed logo swap: some logos have plain black/white text that becomes
+   unreadable on the opposite theme. When a subscription has a themed
+   variant, both images are rendered (data-native-theme = the theme the
+   *original* already reads well on) and this shows only the one matching
+   the current theme -- reacting instantly to a live theme toggle, since it
+   keys off the body.dark/body.light class set in theme.js/common.js rather
+   than requiring a page reload. */
+img.logo-theme-variant {
+  display: none;
+}
+
+body.dark img.logo-theme-original[data-native-theme="light"],
+body.light img.logo-theme-original[data-native-theme="dark"] {
+  display: none;
+}
+
+body.dark img.logo-theme-variant[data-native-theme="light"],
+body.light img.logo-theme-variant[data-native-theme="dark"] {
+  display: revert;
+}
+
 .subscription .name {
   flex-basis: 25%;
   font-weight: 600;

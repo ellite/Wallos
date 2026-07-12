@@ -176,6 +176,18 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
                 $imagick->transparentPaintImage("rgb(247, 247, 247)", 0, $fuzz, false);
             }
             $imagick->trimImage(0);
+
+            // If the background color was too close to the foreground,
+            // transparentPaintImage() can wipe out the entire image; trimImage()
+            // then collapses it to ~1x1px. Rather than ship a near-empty logo,
+            // fall back to the original (without background removal) and just
+            // trim whatever transparent margins it already had.
+            if ($imagick->getImageWidth() <= 4 || $imagick->getImageHeight() <= 4) {
+                $imagick->clear();
+                $imagick = new Imagick($tempFile);
+                $imagick->trimImage(0);
+            }
+
             $imagick->setImagePage(0, 0, 0, 0);
             $imagick->borderImage(new ImagickPixel('transparent'), 2, 2);
             $imagick->setImageFormat('png');

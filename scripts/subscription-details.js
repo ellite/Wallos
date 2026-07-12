@@ -93,10 +93,32 @@ function renderSubscriptionDetails(subscription) {
   const logoContainer = document.querySelector('#details-logo');
   logoContainer.innerHTML = "";
   if (subscription.logo) {
-    const img = document.createElement('img');
-    img.src = "images/uploads/logos/" + subscription.logo;
-    img.alt = "";
-    logoContainer.appendChild(img);
+    // When a themed variant exists, render both images; CSS (see
+    // .logo-theme-original/.logo-theme-variant in styles.css) shows only the
+    // one matching the current theme, so it updates instantly even if the
+    // user toggles theme while the popup is open.
+    if (subscription.logo_text_color && subscription.logo_variant) {
+      const nativeTheme = subscription.logo_text_color === 'dark' ? 'light' : 'dark';
+
+      const original = document.createElement('img');
+      original.src = "images/uploads/logos/" + subscription.logo;
+      original.alt = "";
+      original.className = "logo-theme-original";
+      original.dataset.nativeTheme = nativeTheme;
+      logoContainer.appendChild(original);
+
+      const variant = document.createElement('img');
+      variant.src = "images/uploads/logos/" + subscription.logo_variant;
+      variant.alt = "";
+      variant.className = "logo-theme-variant";
+      variant.dataset.nativeTheme = nativeTheme;
+      logoContainer.appendChild(variant);
+    } else {
+      const img = document.createElement('img');
+      img.src = "images/uploads/logos/" + subscription.logo;
+      img.alt = "";
+      logoContainer.appendChild(img);
+    }
   } else {
     const fallback = document.createElement('span');
     fallback.className = 'details-logo-fallback';
