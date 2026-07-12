@@ -48,9 +48,13 @@ function saveNotifications() {
     const button = document.getElementById("saveNotifications");
     button.disabled = true;
     const days = document.querySelector('#days').value;
+    const periodSummaryAtPeriodStart = document.getElementById("period_summary_at_period_start").checked ? 1 : 0;
 
     const url = 'endpoints/notifications/savenotificationsettings.php';
-    const data = { days: days };
+    const data = {
+        days: days,
+        period_summary_at_period_start: periodSummaryAtPeriodStart,
+    };
 
     makeFetchCall(url, data, button);
 }

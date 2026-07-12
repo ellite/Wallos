@@ -180,11 +180,16 @@ require_once 'includes/stats_extra_calculations.php';
   usort($paymentMethodDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
   $showPaymentMethodsGraph = count($paymentMethodDataPoints) > 1;
 
-  $showAnyGraph = $showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph || $showVsBudgetGraph
+  $showMonthlyStats = !isset($_GET['budget']) || $_GET['budget'] === 'monthly';
+  $showPeriodStats = !isset($_GET['budget']) || $_GET['budget'] === 'period';
+
+  $showAnyGraph = $showCategoryCostGraph || $showMemberCostGraph || $showPaymentMethodsGraph || $showTotalMonthlyCostGraph
+    || ($showMonthlyStats && $showVsMonthlyBudgetGraph) || ($showPeriodStats && $showVsPeriodBudgetGraph)
     || $showProjectionGraph || $showLifetimeGraph || $showCycleGraph || $showCurrencyGraph || $showHistogramGraph || $showYearlyNewGraph;
 
   $showTrendsSection = $showTotalMonthlyCostGraph || $showProjectionGraph || $monthOverMonthDelta !== null;
-  $showBudgetSection = isset($budgetUsed) || isset($budgetLeft) || isset($overBudgetAmount) || $showVsBudgetGraph;
+  $showBudgetSection = ($showMonthlyStats && (isset($monthlyBudgetUsed) || isset($monthlyBudgetLeft) || isset($monthlyOverBudgetAmount) || $showVsMonthlyBudgetGraph))
+    || ($showPeriodStats && (isset($amountNeededThisPeriod) || isset($periodBudgetUsed) || isset($periodBudgetLeft) || isset($periodOverBudgetAmount) || $showVsPeriodBudgetGraph));
   $showSplitSection = $showMemberCostGraph || $showCategoryCostGraph || $showPaymentMethodsGraph || $showCycleGraph || $showCurrencyGraph || $showHistogramGraph;
   $showHistorySection = $totalLifetimeSpend > 0 || $oldestSubscription !== null || $averageSubscriptionAge !== null || $showLifetimeGraph || $showYearlyNewGraph;
   ?>
@@ -362,44 +367,84 @@ require_once 'includes/stats_extra_calculations.php';
     ?>
     <section class="stats-section">
       <h2><?= translate('budget', $i18n) ?></h2>
+      <?php if ($showPeriodStats && isset($budgetPeriodLabel)) { ?>
+        <div class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></div>
+      <?php } ?>
       <div class="statistics">
         <?php
-        if (isset($budgetUsed)) {
+        if ($showMonthlyStats && isset($monthlyBudgetUsed)) {
           ?>
           <div class="statistic">
-            <span><?= number_format($budgetUsed, 2) ?>%</span>
-            <div class="title"><?= translate('percentage_budget_used', $i18n) ?></div>
+            <span><?= number_format($monthlyBudgetUsed, 2) ?>%</span>
+            <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($monthlyBudgetLeft, $code) ?></span>
+            <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
           </div>
           <?php
+          if (isset($monthlyOverBudgetAmount)) {
+            ?>
+            <div class="statistic">
+              <span><?= CurrencyFormatter::format($monthlyOverBudgetAmount, $code) ?></span>
+              <div class="title"><?= translate('monthly_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
+            </div>
+            <?php
+          }
         }
-        if (isset($budgetLeft)) {
+
+        if ($showPeriodStats) {
           ?>
           <div class="statistic">
-            <span><?= CurrencyFormatter::format($budgetLeft, $code) ?></span>
-            <div class="title"><?= translate('budget_remaining', $i18n) ?></div>
+            <span><?= CurrencyFormatter::format($amountNeededThisPeriod, $code) ?></span>
+            <div class="title"><?= translate('amount_needed_this_period', $i18n) ?></div>
           </div>
           <?php
-        }
-        if (isset($overBudgetAmount)) {
-          ?>
-          <div class="statistic">
-            <span><?= CurrencyFormatter::format($overBudgetAmount, $code) ?></span>
-            <div class="title"><?= translate('amount_over_budget', $i18n) ?></div>
-          </div>
-          <?php
+          if (isset($periodBudgetUsed)) {
+            ?>
+            <div class="statistic">
+              <span><?= number_format($periodBudgetUsed, 2) ?>%</span>
+              <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
+            </div>
+            <div class="statistic">
+              <span><?= CurrencyFormatter::format($periodBudgetLeft, $code) ?></span>
+              <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
+            </div>
+            <?php
+            if (isset($periodOverBudgetAmount)) {
+              ?>
+              <div class="statistic">
+                <span><?= CurrencyFormatter::format($periodOverBudgetAmount, $code) ?></span>
+                <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
+              </div>
+              <?php
+            }
+          }
         }
         ?>
       </div>
       <?php
-      if ($showVsBudgetGraph) {
+      if (($showMonthlyStats && $showVsMonthlyBudgetGraph) || ($showPeriodStats && $showVsPeriodBudgetGraph)) {
         ?>
         <div class="graphs">
-          <section class="graph">
-            <header>
-              <?= translate('cost_vs_budget', $i18n) ?> (<?= CurrencyFormatter::format($budget, $code) ?>)
-            </header>
-            <div id="budgetVsCostChart" style="width: 100%;"></div>
-          </section>
+          <?php if ($showMonthlyStats && $showVsMonthlyBudgetGraph) { ?>
+            <section class="graph">
+              <header>
+                <?= translate('cost_vs_monthly_budget', $i18n) ?> (<?= CurrencyFormatter::format($monthlyBudget, $code) ?>)
+                <div class="sub-header">(<?= translate('monthly_cost', $i18n) ?>)</div>
+              </header>
+              <div id="monthlyBudgetVsCostChart" style="width: 100%;"></div>
+            </section>
+          <?php } ?>
+          <?php if ($showPeriodStats && $showVsPeriodBudgetGraph) { ?>
+            <section class="graph">
+              <header>
+                <?= translate('cost_vs_period_budget', $i18n) ?> (<?= CurrencyFormatter::format($periodBudget, $code) ?>)
+                <div class="sub-header">(<?= translate('amount_needed_this_period', $i18n) ?>)</div>
+              </header>
+              <div id="periodBudgetVsCostChart" style="width: 100%;"></div>
+            </section>
+          <?php } ?>
         </div>
         <?php
       }
@@ -612,7 +657,12 @@ if ($showAnyGraph) {
       loadGraph("categorySplitChart", <?php echo json_encode($categoryDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCategoryCostGraph ? 1 : 0 ?>);
       loadGraph("memberSplitChart", <?php echo json_encode($memberDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showMemberCostGraph ? 1 : 0 ?>);
       loadGraph("paymentMethidSplitChart", <?php echo json_encode($paymentMethodDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showPaymentMethodsGraph ? 1 : 0 ?>);
-      loadGraph("budgetVsCostChart", <?php echo json_encode($vsBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showVsBudgetGraph ? 1 : 0 ?>);
+      <?php if ($showMonthlyStats && $showVsMonthlyBudgetGraph) { ?>
+      loadGraph("monthlyBudgetVsCostChart", <?php echo json_encode($vsMonthlyBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", 1);
+      <?php } ?>
+      <?php if ($showPeriodStats && $showVsPeriodBudgetGraph) { ?>
+      loadGraph("periodBudgetVsCostChart", <?php echo json_encode($vsPeriodBudgetDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", 1);
+      <?php } ?>
       loadGraph("cycleSplitChart", <?php echo json_encode($cycleDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCycleGraph ? 1 : 0 ?>);
       loadGraph("currencySplitChart", <?php echo json_encode($currencyDataPoints, JSON_NUMERIC_CHECK); ?>, "<?= $code ?>", <?= $showCurrencyGraph ? 1 : 0 ?>);
       loadBarGraph("priceHistogramChart", <?php echo json_encode($histogramDataPoints, JSON_NUMERIC_CHECK); ?>, "", <?= $showHistogramGraph ? 1 : 0 ?>, null);

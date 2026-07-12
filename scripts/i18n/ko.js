@@ -46,5 +46,8 @@ let i18n = {
   payment_method: "결제 수단",
   notes: "메모",
   export: "내보내기",
+  invalid_budget: "Budget must be a non-negative number",
+  invalid_budget_period: "Invalid budget period selected",
+  invalid_budget_anchor_date: "Anchor date must be a valid date",
   no_results_found: "결과를 찾을 수 없습니다",
 };

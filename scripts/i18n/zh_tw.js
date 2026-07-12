@@ -46,5 +46,8 @@ let i18n = {
     payment_method: "支付方式",
     notes: "備註",
     export: "匯出",
+  invalid_budget: "Budget must be a non-negative number",
+  invalid_budget_period: "Invalid budget period selected",
+  invalid_budget_anchor_date: "Anchor date must be a valid date",
   no_results_found: "找不到結果",
 };

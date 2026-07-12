@@ -1,11 +1,17 @@
 const saveIconContent = '<i class="fa-solid fa-check"></i>';
 const deleteIconContent = '<i class="fa-solid fa-trash-can"></i>';
 
-function saveBudget() {
-  const button = document.getElementById("saveBudget");
+function saveMonthlyBudget() {
+  const button = document.getElementById("saveMonthlyBudget");
   button.disabled = true;
 
-  const budget = document.getElementById("budget").value;
+  const budget = Number(document.getElementById("monthly_budget").value || 0);
+
+  if (Number.isNaN(budget) || budget < 0) {
+    showErrorMessage(translate("invalid_budget"));
+    button.disabled = false;
+    return;
+  }
 
   fetch('endpoints/user/budget.php', {
     method: 'POST',
@@ -13,7 +19,72 @@ function saveBudget() {
       'Content-Type': 'application/json',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({budget: budget}),
+    body: JSON.stringify({ monthly_budget: budget }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
+      button.disabled = false;
+    });
+}
+
+function savePeriodBudget() {
+  const button = document.getElementById("savePeriodBudget");
+  button.disabled = true;
+
+  const budget = Number(document.getElementById("period_budget").value || 0);
+  const budgetPeriodType = document.getElementById("budget_period_type").value;
+  const budgetPeriodAnchorDateInput = document.getElementById("budget_period_anchor_date");
+  let budgetPeriodAnchorDate = budgetPeriodAnchorDateInput.value;
+  const validPeriodTypes = ["weekly", "fortnightly", "monthly"];
+
+  if (!budgetPeriodAnchorDate || budgetPeriodAnchorDate === "1970-01-01") {
+    const today = new Date();
+    const month = `${today.getMonth() + 1}`.padStart(2, "0");
+    const day = `${today.getDate()}`.padStart(2, "0");
+    budgetPeriodAnchorDate = `${today.getFullYear()}-${month}-${day}`;
+    budgetPeriodAnchorDateInput.value = budgetPeriodAnchorDate;
+  }
+
+  if (Number.isNaN(budget) || budget < 0) {
+    showErrorMessage(translate("invalid_budget"));
+    button.disabled = false;
+    return;
+  }
+
+  if (!validPeriodTypes.includes(budgetPeriodType)) {
+    showErrorMessage(translate("invalid_budget_period"));
+    button.disabled = false;
+    return;
+  }
+
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(budgetPeriodAnchorDate)) {
+    showErrorMessage(translate("invalid_budget_anchor_date"));
+    button.disabled = false;
+    return;
+  }
+
+  fetch('endpoints/user/budget.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({
+      period_budget: budget,
+      budget_period_type: budgetPeriodType,
+      budget_period_anchor_date: budgetPeriodAnchorDate,
+    }),
   })
     .then(response => response.json())
     .then(data => {
