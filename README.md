@@ -197,6 +197,9 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 
 ![Screenshot](screenshots/wallos-subscriptions-light.png)
 
+<details>
+<summary>See more screenshots</summary>
+
 ![Screenshot](screenshots/wallos-subscriptions-dark.png)
 
 ![Screenshot](screenshots/wallos-subscriptions-popup.png)
@@ -216,6 +219,8 @@ If you want to trigger an Update of the exchange rates, change your main currenc
 ![Screenshot](screenshots/wallos-subscriptions-mobile-sheet.png)
 
 ![Screenshot](screenshots/wallos-dashboard-mobile-light.png) ![Screenshot](screenshots/wallos-dashboard-mobile-dark.png)
+
+</details>
 
 ## OIDC
 
