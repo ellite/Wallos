@@ -325,6 +325,10 @@ function searchLogo() {
   if (logoSearchBackdrop) {
     logoSearchBackdrop.classList.add("is-open");
   }
+  const subscriptionForm = document.querySelector("#subscription-form");
+  if (subscriptionForm) {
+    subscriptionForm.classList.add("scroll-locked");
+  }
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {
     const baseTitle = logoSearchTitle.dataset.title;
@@ -426,6 +430,10 @@ function closeLogoSearch() {
   const logoSearchBackdrop = document.querySelector("#logo-search-backdrop");
   if (logoSearchBackdrop) {
     logoSearchBackdrop.classList.remove("is-open");
+  }
+  const subscriptionForm = document.querySelector("#subscription-form");
+  if (subscriptionForm) {
+    subscriptionForm.classList.remove("scroll-locked");
   }
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {
