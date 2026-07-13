@@ -296,6 +296,7 @@ $i18n = [
     "experimental_settings" => "Configuraciones Experimentales",
     "remove_background" => "Intentar quitar el fondo de los logotipos de la búsqueda de imágenes",
     "use_mobile_navigation_bar" => "Usar barra de navegación móvil",
+    "remove_background_info" => "Esto también genera una segunda versión del logotipo, con los colores ajustados, para que siga siendo legible al cambiar entre el tema claro y el oscuro.",
     "experimental_info" => "Las configuraciones experimentales probablemente no funcionarán perfectamente.",
     "payment_methods" => "Métodos de Pago",
     "payment_methods_info" => "Haz clic en un método de pago para deshabilitarlo/habilitarlo.",

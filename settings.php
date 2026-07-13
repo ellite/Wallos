@@ -1663,6 +1663,10 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
+                <?= translate('remove_background_info', $i18n) ?>
+            </p>
+            <p>
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
                 <?= translate('experimental_info', $i18n) ?>
             </p>
         </div>

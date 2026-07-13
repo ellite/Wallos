@@ -297,6 +297,7 @@ $i18n = [
     "experimental_settings" => "Setări experimentale",
     "remove_background" => "Încearcă să elimini fundalul logo-urilor din căutarea de imagini",
     "use_mobile_navigation_bar" => "Folosește bara de navigare mobilă",
+    "remove_background_info" => "Aceasta generează și o a doua versiune, recolorată, a logo-ului, astfel încât să rămână lizibil atunci când comuți între tema deschisă și cea întunecată.",
     "experimental_info" => "Setările experimentale probabil nu vor funcționa perfect.",
     "payment_methods" => "Metode de plată",
     "payment_methods_info" => "Faceți clic pe o metodă de plată pentru a o dezactiva/activa.",

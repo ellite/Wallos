@@ -1,8 +1,7 @@
 <?php
 /*
-  GD fallback equivalent of Imagick::transparentPaintImage() with fuzz:
-  makes every pixel within the tolerance of the given color fully transparent.
-  Used by the logo/icon upload endpoints when the imagick extension is missing.
+  Makes every pixel within the tolerance of the given color fully transparent.
+  Used by the logo/icon upload endpoints for background removal.
 */
 function gdRemoveBackgroundColor($image, $backgroundRed, $backgroundGreen, $backgroundBlue, $fuzz = 0.1)
 {
@@ -45,8 +44,24 @@ function gdCropTransparent($image, $padding = 2)
         imagepalettetotruecolor($image);
     }
 
+    // imagecrop() (called below) doesn't reliably preserve the alpha channel
+    // on images that went through imagepalettetotruecolor() at any point --
+    // even once imageistruecolor() reports true and imagecolorat() reads
+    // back the correct alpha, imagecrop() can still flatten transparent
+    // pixels to opaque black. Re-copying onto a freshly created truecolor+
+    // alpha canvas unconditionally sidesteps this, since a "genuinely native"
+    // truecolor image doesn't have the issue.
     $width = imagesx($image);
     $height = imagesy($image);
+    $fixed = imagecreatetruecolor($width, $height);
+    imagealphablending($fixed, false);
+    imagesavealpha($fixed, true);
+    $transparent = imagecolorallocatealpha($fixed, 0, 0, 0, 127);
+    imagefill($fixed, 0, 0, $transparent);
+    imagealphablending($fixed, false);
+    imagecopy($fixed, $image, 0, 0, 0, 0, $width, $height);
+    imagedestroy($image);
+    $image = $fixed;
 
     $top = null;
     $bottom = null;

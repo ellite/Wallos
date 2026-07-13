@@ -297,6 +297,7 @@ $i18n = [
     "experimental_settings" => "Cài đặt thử nghiệm",
     "remove_background" => "Cố gắng loại bỏ nền của logo từ tìm kiếm hình ảnh",
     "use_mobile_navigation_bar" => "Sử dụng thanh điều hướng di động",
+    "remove_background_info" => "Điều này cũng tạo ra phiên bản thứ hai của logo với màu sắc được điều chỉnh, để logo vẫn rõ ràng khi bạn chuyển đổi giữa giao diện sáng và tối.",
     "experimental_info" => "Cài đặt thử nghiệm có thể không hoạt động hoàn hảo.",
     "payment_methods" => "Phương thức thanh toán",
     "payment_methods_info" => "Nhấp vào phương thức thanh toán để vô hiệu hóa / bật nó.",

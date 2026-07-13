@@ -296,6 +296,7 @@ $i18n = [
     "experimental_settings" => "Experimentelle Einstellungen",
     "remove_background" => "Versuchen den Hintergrund von Logos aus der Bildersuche zu entfernen",
     "use_mobile_navigation_bar" => "Mobile Navigationsleiste verwenden",
+    "remove_background_info" => "Dadurch wird außerdem eine zweite, umgefärbte Version des Logos erstellt, damit es beim Wechsel zwischen hellem und dunklem Design lesbar bleibt.",
     "experimental_info" => "Experimentelle Einstellungen funktionieren möglicherweise nicht perfekt.",
     "payment_methods" => "Zahlungsmethoden",
     "payment_methods_info" => "Zahlungsmethode zum (de-)aktivieren anklicken.",

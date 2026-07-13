@@ -296,6 +296,7 @@ $i18n = [
     "experimental_settings" => "Ustawienia eksperymentalne",
     "remove_background" => "Próba usunięcia tła logo z wyszukiwania obrazów",
     "use_mobile_navigation_bar" => "Użyj paska nawigacyjnego na urządzeniach mobilnych",
+    "remove_background_info" => "Spowoduje to również utworzenie drugiej, przekolorowanej wersji logo, aby pozostało czytelne po przełączeniu między jasnym a ciemnym motywem.",
     "experimental_info" => "Ustawienia eksperymentalne prawdopodobnie nie będą działać idealnie.",
     "payment_methods" => "Metody płatności",
     "payment_methods_info" => "Kliknij metodę płatności, aby ją wyłączyć/włączyć..",

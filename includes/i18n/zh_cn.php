@@ -304,6 +304,7 @@ $i18n = [
     "experimental_settings" => "实验性设置",
     "remove_background" => "尝试从图片搜索中移除标志的背景",
     "use_mobile_navigation_bar" => "使用移动导航栏",
+    "remove_background_info" => "这还会生成一个重新配色的第二版本徽标，以便在浅色和深色主题之间切换时仍然清晰可辨。",
     "experimental_info" => "实验性设置，可能存在问题。",
     "payment_methods" => "支付方式",
     "payment_methods_info" => "点击支付方式以禁用/启用。",

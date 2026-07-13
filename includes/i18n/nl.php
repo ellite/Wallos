@@ -297,6 +297,7 @@ $i18n = [
     "experimental_settings" => "Experimentele instellingen",
     "remove_background" => "Probeer achtergrond van logo's uit afbeelding zoekresultaten te verwijderen",
     "use_mobile_navigation_bar" => "Gebruik mobiele navigatiebalk",
+    "remove_background_info" => "Dit genereert ook een tweede, herkleurde versie van het logo, zodat het leesbaar blijft wanneer je wisselt tussen het lichte en donkere thema.",
     "experimental_info" => "Experimentele instellingen werken waarschijnlijk niet perfect.",
     "payment_methods" => "Betaalmethoden",
     "payment_methods_info" => "Klik op een betaalmethode om deze uit/in te schakelen.",

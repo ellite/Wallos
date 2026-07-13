@@ -16,6 +16,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['id'] = $subscriptionId;
             $subscriptionData['name'] = htmlspecialchars_decode($row['name'] ?? "");
             $subscriptionData['logo'] = $row['logo'];
+            $subscriptionData['logo_text_color'] = $row['logo_text_color'];
+            $subscriptionData['logo_variant'] = $row['logo_variant'];
             $subscriptionData['price'] = $row['price'];
             $subscriptionData['currency_id'] = $row['currency_id'];
             $subscriptionData['auto_renew'] = $row['auto_renew'];
@@ -43,6 +45,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     } else {
         echo translate('error', $i18n);
     }
+} else {
+    http_response_code(401);
+    header('Content-Type: application/json');
+    echo json_encode(['error' => translate('session_expired', $i18n)]);
 }
 $db->close();
 ?>

@@ -93,7 +93,6 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <?= translate('server_url_password_reset', $i18n) ?>
                 </p>
             </div>
-            <hr>
             <div class="form-group-inline">
                 <input type="checkbox" id="disableLogin" <?= $settings['login_disabled'] ? 'checked' : '' ?>
                     <?= $loginDisabledAllowed ? '' : 'disabled' ?> />

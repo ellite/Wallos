@@ -264,9 +264,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
                         <?php
                         if ($hasLogo) {
-                            ?>
-                            <img src="<?= $subscription['logo'] ?>">
-                            <?php
+                            echo renderThemedLogoImg($subscription['logo'], $subscription['logo_variant'] ?? null, $subscription['logo_text_color'] ?? null);
                         } else {
                             include $imagePath . "images/siteicons/svg/logo.php";
                         }

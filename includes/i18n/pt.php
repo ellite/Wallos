@@ -296,6 +296,7 @@ $i18n = [
     "experimental_settings" => "Definições Experimentais",
     "remove_background" => "Tentar remover o fundo dos logos na pesquisa de imagem",
     "use_mobile_navigation_bar" => "Usar barra de navegação móvel",
+    "remove_background_info" => "Isto também gera uma segunda versão do logótipo, com as cores ajustadas, para que se mantenha legível ao alternar entre o tema claro e o escuro.",
     "experimental_info" => "Definições experimentais provavelmente não funcionarão correctamente.",
     "payment_methods" => "Métodos de Pagamento",
     "payment_methods_info" => "Clique num método de pagamento para o activar / desactivar.",

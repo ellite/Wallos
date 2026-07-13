@@ -297,6 +297,7 @@ $i18n = [
     "experimental_settings" => "Eksperimentelle indstillinger",
     "remove_background" => "Forsøg at fjerne baggrund på logoer ved billedsøgning",
     "use_mobile_navigation_bar" => "Brug mobil navigationsbjælke",
+    "remove_background_info" => "Dette genererer også en anden, omfarvet version af logoet, så det forbliver læsbart, når du skifter mellem lyst og mørkt tema.",
     "experimental_info" => "Eksperimentelle indstillinger fungerer sandsynligvis ikke perfekt.",
     "payment_methods" => "Betalingsmetoder",
     "payment_methods_info" => "Klik på en betalingsmetode for at deaktivere / aktivere den.",
