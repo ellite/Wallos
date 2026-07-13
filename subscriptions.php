@@ -338,6 +338,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             <?= translate('web_search', $i18n) ?>
           </h3>
         </header>
+        <div id="logo-search-nav" class="logo-search-nav"></div>
         <div id="logo-search-images"></div>
       </div>
     </div>
