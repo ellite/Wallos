@@ -1650,7 +1650,7 @@ textarea.thin {
 
 .logo-search-backdrop,
 .icon-search-backdrop {
-  display: none;
+  display: block;
   position: fixed;
   left: 0;
   top: 0;
@@ -1659,11 +1659,16 @@ textarea.thin {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(3px);
   z-index: 21;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .logo-search-backdrop.is-open,
 .icon-search-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
 }
 
 .logo-search,
@@ -3725,17 +3730,22 @@ body.details-open {
 }
 
 .details-backdrop {
-  display: none;
+  display: block;
   position: fixed;
   inset: 0;
   background-color: rgba(10, 14, 22, 0.45);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   z-index: 19;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .details-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
 }
 
 .subscription-details {
@@ -3997,17 +4007,34 @@ body.details-open {
   .subscription-details,
   .logo-search,
   .icon-search {
+    display: block;
     left: 0px;
     right: 0px;
     top: auto;
     bottom: 0px;
-    transform: none;
+    transform: translateY(100%);
+    visibility: hidden;
     width: 100%;
     max-width: none;
     max-height: 70dvh;
     border-radius: 20px 20px 0px 0px;
     border-bottom: none;
     padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.32s;
+  }
+
+  .logo-search,
+  .icon-search {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subscription-details.is-open,
+  .logo-search.is-open,
+  .icon-search.is-open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .mobile-navigation .subscription-details {
