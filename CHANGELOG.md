@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.2.0](https://github.com/ellite/Wallos/compare/v5.1.1...v5.2.0) (2026-07-14)
+
+
+### Features
+
+* add new logo themed versions generation to add subscription api endpoint ([921fcfd](https://github.com/ellite/Wallos/commit/921fcfd1598d5efcaca584f2ad4df652735399f3))
+* better navigation inside logo search ([921fcfd](https://github.com/ellite/Wallos/commit/921fcfd1598d5efcaca584f2ad4df652735399f3))
+* bottom sheet slide up animation ([921fcfd](https://github.com/ellite/Wallos/commit/921fcfd1598d5efcaca584f2ad4df652735399f3))
+* improve menu navigation on grid mode ([921fcfd](https://github.com/ellite/Wallos/commit/921fcfd1598d5efcaca584f2ad4df652735399f3))
+
+
+### Bug Fixes
+
+* syntax error on nl.js translation file ([921fcfd](https://github.com/ellite/Wallos/commit/921fcfd1598d5efcaca584f2ad4df652735399f3))
+
 ## [5.1.1](https://github.com/ellite/Wallos/compare/v5.1.0...v5.1.1) (2026-07-12)
 
 
