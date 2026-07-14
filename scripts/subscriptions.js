@@ -319,10 +319,15 @@ function searchLogo() {
 
   const logoSearchPopup = document.querySelector("#logo-search-results");
   const logoResults = document.querySelector("#logo-search-images");
+  const logoNav = document.querySelector("#logo-search-nav");
   const logoSearchBackdrop = document.querySelector("#logo-search-backdrop");
   logoSearchPopup.classList.add("is-open");
   if (logoSearchBackdrop) {
     logoSearchBackdrop.classList.add("is-open");
+  }
+  const subscriptionForm = document.querySelector("#subscription-form");
+  if (subscriptionForm) {
+    subscriptionForm.classList.add("scroll-locked");
   }
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {
@@ -344,6 +349,9 @@ function searchLogo() {
   }
 
   logoResults.innerHTML = "";
+  if (logoNav) {
+    logoNav.innerHTML = "";
+  }
 
   sources.forEach(source => {
     const section = document.createElement("div");
@@ -359,6 +367,18 @@ function searchLogo() {
 
     logoResults.appendChild(section);
     showSearchState(resultsContainer, 'loading');
+
+    if (logoNav) {
+      const navItem = document.createElement("button");
+      navItem.type = "button";
+      navItem.className = "logo-search-nav-item";
+      navItem.textContent = source.label;
+      navItem.onclick = function () {
+        const targetTop = section.getBoundingClientRect().top - logoResults.getBoundingClientRect().top + logoResults.scrollTop;
+        logoResults.scrollTo({ top: targetTop, behavior: 'smooth' });
+      };
+      logoNav.appendChild(navItem);
+    }
 
     fetch(source.url)
       .then(response => response.json())
@@ -410,6 +430,10 @@ function closeLogoSearch() {
   const logoSearchBackdrop = document.querySelector("#logo-search-backdrop");
   if (logoSearchBackdrop) {
     logoSearchBackdrop.classList.remove("is-open");
+  }
+  const subscriptionForm = document.querySelector("#subscription-form");
+  if (subscriptionForm) {
+    subscriptionForm.classList.remove("scroll-locked");
   }
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {

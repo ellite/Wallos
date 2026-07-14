@@ -47,6 +47,7 @@ error_reporting(E_ERROR | E_PARSE);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/logo_theme_variant.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -100,6 +101,8 @@ if (!$action || !in_array($action, ['add', 'edit', 'delete'], true)) {
 
 // Load user settings now that user is authenticated
 require_once '../../includes/getsettings.php';
+
+$removeBackgroundEnabled = isset($settings['removeBackground']) && $settings['removeBackground'] === 'true';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -307,6 +310,42 @@ function validateDate($date, $format = 'Y-m-d') {
     return $d && $d->format($format) === $date;
 }
 
+// Themed variant generation piggybacks on the same "remove background"
+// setting: both only make sense for logos we're already reprocessing, and
+// this avoids running pixel classification on every single upload.
+function generateLogoThemeVariant($logo, $removeBackgroundEnabled)
+{
+    $logoTextColor = null;
+    $logoVariant = null;
+
+    if ($logo !== "" && $removeBackgroundEnabled) {
+        $logoExtension = strtolower(pathinfo($logo, PATHINFO_EXTENSION));
+        $logoPath = '../../images/uploads/logos/' . $logo;
+
+        if ($logoExtension === 'png' || $logoExtension === 'webp') {
+            $sourceImage = $logoExtension === 'png' ? imagecreatefrompng($logoPath) : imagecreatefromwebp($logoPath);
+
+            if ($sourceImage !== false) {
+                imagealphablending($sourceImage, false);
+                imagesavealpha($sourceImage, true);
+
+                $logoTextColor = classifyLogoTextColor($sourceImage);
+
+                if ($logoTextColor !== null) {
+                    $variantImage = generateThemedLogoVariant($sourceImage);
+                    $logoVariant = pathinfo($logo, PATHINFO_FILENAME) . '-variant.png';
+                    imagepng($variantImage, '../../images/uploads/logos/' . $logoVariant);
+                    imagedestroy($variantImage);
+                }
+
+                imagedestroy($sourceImage);
+            }
+        }
+    }
+
+    return [$logoTextColor, $logoVariant];
+}
+
 switch ($action) {
     case 'add':
         $name = $_POST['name'] ?? null;
@@ -488,21 +527,25 @@ switch ($action) {
             }
         }
 
+        [$logoTextColor, $logoVariant] = generateLogoThemeVariant($logo, $removeBackgroundEnabled);
+
         // Insert
         $sqlInsert = "INSERT INTO subscriptions (
-                            name, logo, price, currency_id, next_payment, cycle, frequency, notes, 
-                            payment_method_id, payer_user_id, category_id, notify, inactive, url, 
+                            name, logo, price, currency_id, next_payment, cycle, frequency, notes,
+                            payment_method_id, payer_user_id, category_id, notify, inactive, url,
                             notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                            auto_renew, start_date
+                            auto_renew, start_date, logo_text_color, logo_variant
                         ) VALUES (
-                            :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes, 
-                            :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url, 
+                            :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
+                            :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                             :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                            :autoRenew, :startDate
+                            :autoRenew, :startDate, :logoTextColor, :logoVariant
                         )";
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $name, SQLITE3_TEXT);
         $stmtInsert->bindParam(':logo', $logo, SQLITE3_TEXT);
+        $stmtInsert->bindParam(':logoTextColor', $logoTextColor, SQLITE3_TEXT);
+        $stmtInsert->bindParam(':logoVariant', $logoVariant, SQLITE3_TEXT);
         $stmtInsert->bindParam(':price', $price, SQLITE3_FLOAT);
         $stmtInsert->bindParam(':currencyId', $currencyId, SQLITE3_INTEGER);
         $stmtInsert->bindParam(':nextPayment', $nextPayment, SQLITE3_TEXT);
@@ -759,45 +802,58 @@ switch ($action) {
 
         // Process Logo
         $logo = $subscription['logo'];
+        $logoTextColor = $subscription['logo_text_color'];
+        $logoVariant = $subscription['logo_variant'];
+        $logoChanged = false;
         $logoUrl = $_POST['logo_url'] ?? $_POST['logo-url'] ?? '';
         if ($logoUrl !== "") {
             $resLogo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings);
             if ($resLogo['success']) {
                 $logo = $resLogo['filename'];
+                $logoChanged = true;
             }
         } elseif (!empty($_FILES['logo']['name'])) {
             $fileType = mime_content_type($_FILES['logo']['tmp_name']);
             if (strpos($fileType, 'image') !== false) {
                 $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
+                $logoChanged = true;
             }
         }
 
+        if ($logoChanged) {
+            [$logoTextColor, $logoVariant] = generateLogoThemeVariant($logo, $removeBackgroundEnabled);
+        }
+
         // Update
-        $sqlUpdate = "UPDATE subscriptions SET 
-                            name = :name, 
+        $sqlUpdate = "UPDATE subscriptions SET
+                            name = :name,
                             logo = :logo,
-                            price = :price, 
+                            logo_text_color = :logoTextColor,
+                            logo_variant = :logoVariant,
+                            price = :price,
                             currency_id = :currencyId,
-                            next_payment = :nextPayment, 
+                            next_payment = :nextPayment,
                             auto_renew = :autoRenew,
                             start_date = :startDate,
-                            cycle = :cycle, 
-                            frequency = :frequency, 
-                            notes = :notes, 
+                            cycle = :cycle,
+                            frequency = :frequency,
+                            notes = :notes,
                             payment_method_id = :paymentMethodId,
-                            payer_user_id = :payerUserId, 
-                            category_id = :categoryId, 
-                            notify = :notify, 
-                            inactive = :inactive, 
-                            url = :url, 
-                            notify_days_before = :notifyDaysBefore, 
-                            cancellation_date = :cancellationDate, 
+                            payer_user_id = :payerUserId,
+                            category_id = :categoryId,
+                            notify = :notify,
+                            inactive = :inactive,
+                            url = :url,
+                            notify_days_before = :notifyDaysBefore,
+                            cancellation_date = :cancellationDate,
                             replacement_subscription_id = :replacement_subscription_id
                        WHERE id = :id AND user_id = :userId";
-        
+
         $stmtUpdate = $db->prepare($sqlUpdate);
         $stmtUpdate->bindParam(':name', $name, SQLITE3_TEXT);
         $stmtUpdate->bindParam(':logo', $logo, SQLITE3_TEXT);
+        $stmtUpdate->bindParam(':logoTextColor', $logoTextColor, SQLITE3_TEXT);
+        $stmtUpdate->bindParam(':logoVariant', $logoVariant, SQLITE3_TEXT);
         $stmtUpdate->bindParam(':price', $price, SQLITE3_FLOAT);
         $stmtUpdate->bindParam(':currencyId', $currencyId, SQLITE3_INTEGER);
         $stmtUpdate->bindParam(':nextPayment', $nextPayment, SQLITE3_TEXT);
