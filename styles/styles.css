@@ -1650,7 +1650,7 @@ textarea.thin {
 
 .logo-search-backdrop,
 .icon-search-backdrop {
-  display: none;
+  display: block;
   position: fixed;
   left: 0;
   top: 0;
@@ -1659,11 +1659,16 @@ textarea.thin {
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(3px);
   z-index: 21;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .logo-search-backdrop.is-open,
 .icon-search-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
 }
 
 .logo-search,
@@ -1764,13 +1769,38 @@ textarea.thin {
   display: none;
 }
 
+.logo-search-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+  flex-shrink: 0;
+}
+
+.logo-search-nav-item {
+  border: 1px solid var(--input-border-color);
+  background-color: var(--input-background-color);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.logo-search-nav-item:hover {
+  color: var(--text-color);
+  border-color: var(--main-color);
+}
+
 .logo-search-section>h4 {
   margin: 0px 0px 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-color);
 }
 
 .logo-search-section-results {
@@ -1896,11 +1926,22 @@ button.dark-theme-button i {
   overflow-y: auto;
   width: 90%;
   display: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.subscription-form::-webkit-scrollbar,
+.subscription-modal::-webkit-scrollbar {
+  display: none;
 }
 
 .subscription-form.is-open,
 .subscription-modal.is-open {
   display: block;
+}
+
+.subscription-form.scroll-locked {
+  overflow: hidden;
 }
 
 .subscription-form h3,
@@ -3689,17 +3730,22 @@ body.details-open {
 }
 
 .details-backdrop {
-  display: none;
+  display: block;
   position: fixed;
   inset: 0;
   background-color: rgba(10, 14, 22, 0.45);
   -webkit-backdrop-filter: blur(3px);
   backdrop-filter: blur(3px);
   z-index: 19;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0s linear 0.25s;
 }
 
 .details-backdrop.is-open {
-  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.25s ease;
 }
 
 .subscription-details {
@@ -3961,17 +4007,34 @@ body.details-open {
   .subscription-details,
   .logo-search,
   .icon-search {
+    display: block;
     left: 0px;
     right: 0px;
     top: auto;
     bottom: 0px;
-    transform: none;
+    transform: translateY(100%);
+    visibility: hidden;
     width: 100%;
     max-width: none;
     max-height: 70dvh;
     border-radius: 20px 20px 0px 0px;
     border-bottom: none;
     padding: 22px 20px calc(22px + env(safe-area-inset-bottom));
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1), visibility 0s linear 0.32s;
+  }
+
+  .logo-search,
+  .icon-search {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subscription-details.is-open,
+  .logo-search.is-open,
+  .icon-search.is-open {
+    transform: translateY(0);
+    visibility: visible;
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .mobile-navigation .subscription-details {
@@ -4019,7 +4082,7 @@ body.details-open {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2px;
+  gap: 6px;
   position: absolute;
   inset: 0;
   transform: rotateY(180deg);
@@ -4027,7 +4090,7 @@ body.details-open {
   backface-visibility: hidden;
   background-color: var(--box-background-color);
   border-radius: inherit;
-  padding: 14px 12px;
+  padding: 12px 10px;
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -4046,14 +4109,14 @@ body.details-open {
   align-items: center;
   gap: 10px;
   width: 100%;
-  border: none;
-  background-color: transparent;
+  border: 1px solid var(--input-border-color);
+  background-color: var(--input-background-color);
   color: var(--text-color);
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   text-align: start;
-  padding: 10px 12px;
+  padding: 8px 12px;
   border-radius: 8px;
   cursor: pointer;
   box-sizing: border-box;
@@ -4061,17 +4124,19 @@ body.details-open {
 
 .subscription-back .back-action:hover {
   background-color: var(--surface-hover);
+  border-color: var(--main-color);
 }
 
 .subscription-back .back-action>i {
   color: var(--main-color);
-  font-size: 14px;
+  font-size: 15px;
   width: 18px;
   text-align: center;
 }
 
 .subscription-back .back-action.delete:hover {
   background-color: rgba(var(--error-color-rgb), 0.1);
+  border-color: var(--error-color);
 }
 
 .subscription-back .back-action.delete:hover>i {
@@ -4109,13 +4174,18 @@ body.details-open {
 
 @media (max-width: 768px) {
   .subscriptions.grid-view .subscription-back {
-    padding: 10px 8px;
+    padding: 8px;
+    gap: 4px;
   }
 
   .subscription-back .back-action {
-    font-size: 13px;
-    padding: 7px 10px;
+    font-size: 14px;
+    padding: 6px 10px;
     gap: 8px;
+  }
+
+  .subscription-back .back-action>i {
+    font-size: 14px;
   }
 }
 

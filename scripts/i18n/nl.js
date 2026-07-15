@@ -45,7 +45,7 @@ let i18n = {
   paid_by: "Betaald door",
   payment_method: "Betaalmethode",
   notes: "Notities",
-  export: "Exporteren"
+  export: "Exporteren",
   invalid_budget: "Budget must be a non-negative number",
   invalid_budget_period: "Invalid budget period selected",
   invalid_budget_anchor_date: "Anchor date must be a valid date",
