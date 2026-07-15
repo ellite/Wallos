@@ -164,7 +164,7 @@ jobs:
             $(printf 'ghcr.io/ellite/wallos@sha256:%s ' *)
       - name: Send notification to Discord
         if: needs.release.outputs.release_created == 'true'
-        uses: Ilshidur/action-discord@master
+        uses: Ilshidur/action-discord@d2594079a10f1d6739ee50a2471f0ca57418b554 # v0.4.0 (pin @master to a full commit SHA)
         with:
           args: "A new release has been created: ${{ steps.meta.outputs.version }}"
         env:
