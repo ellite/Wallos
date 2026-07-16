@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Google 이미지 결과(SerpAPI 경유)를 로고 검색의 추가 소스로 더합니다. 무료 SerpAPI 계정을 만들고 API 키를 여기에 붙여넣으세요.",
     "monthly_searches_used" => "이번 달 사용한 검색 수",
     "monthly_requests_used" => "이번 달 사용한 API 요청 수",
+    "repeat_until_paid" => "결제까지 매일 알림 반복",
+    "repeat_until_paid_info" => "활성화되면 구독을 결제 완료로 표시할 때까지 알림 날짜부터 매일 알림이 전송됩니다.",
+    "telegram_message_template" => "메시지 템플릿",
+    "telegram_template_placeholders_info" => "자리표시자: {name} - 이름, {price} - 가격, {next_payment} - 날짜, {days_left} - 남은 일수, {url} - 웹사이트, {category} - 카테고리, {notes} - 메모. HTML 지원: <b>굵게</b>",
 ];
 
 

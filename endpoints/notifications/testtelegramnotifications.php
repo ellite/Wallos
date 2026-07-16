@@ -18,6 +18,19 @@ if (
     // Set the message parameters
     $title = translate('wallos_notification', $i18n);
     $message = translate('test_notification', $i18n);
+    
+    // Use custom template if provided
+    if (isset($data["message_template"]) && !empty($data["message_template"])) {
+        $template = $data["message_template"];
+        $template = str_replace('{name}', 'Test Subscription', $template);
+        $template = str_replace('{price}', '100 ₽', $template);
+        $template = str_replace('{next_payment}', date('Y-m-d', strtotime('+7 days')), $template);
+        $template = str_replace('{days_left}', '7 days', $template);
+        $template = str_replace('{url}', 'https://example.com', $template);
+        $template = str_replace('{category}', 'Test', $template);
+        $template = str_replace('{notes}', 'Test notification', $template);
+        $message = $template;
+    }
 
     $botToken = $data["bottoken"];
     $chatId = $data["chatid"];
@@ -27,10 +40,14 @@ if (
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $botToken . "/sendMessage");
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
+    $postFields = [
         'chat_id' => $chatId,
         'text' => $message,
-    ]));
+    ];
+    if (isset($data["message_template"]) && !empty($data["message_template"])) {
+        $postFields['parse_mode'] = 'HTML';
+    }
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
     // Execute the request

@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Додаје резултате Google слика (преко SerpAPI) као додатни извор при претрази логотипа. Направите бесплатан SerpAPI налог и налепите овде свој API кључ.",
     "monthly_searches_used" => "Искоришћене претраге овог месеца",
     "monthly_requests_used" => "Искоришћени API захтеви овог месеца",
+    "repeat_until_paid" => "Понављај обавештења дневно до плаћања",
+    "repeat_until_paid_info" => "Када је омогућено, обавештења ће се слати сваког дана од датума подсетника док не означите претплату као плаћену.",
+    "telegram_message_template" => "Шаблон поруке",
+    "telegram_template_placeholders_info" => "Плејсхолдери: {name} - име, {price} - цена, {next_payment} - датум, {days_left} - дана до, {url} - веб сајт, {category} - категорија, {notes} - белешке. Подржава HTML: <b>подебљано</b>",
 ];
 
 

@@ -29,14 +29,16 @@ if (!isset($data["days"]) || $data['days'] == "") {
         $row = $result->fetchArray();
         $count = $row[0];
         if ($count == 0) {
-            $query = "INSERT INTO notification_settings (days, user_id)
-                              VALUES (:days, :userId)";
+            $query = "INSERT INTO notification_settings (days, repeat_until_paid, user_id)
+                              VALUES (:days, :repeatUntilPaid, :userId)";
         } else {
-            $query = "UPDATE notification_settings SET days = :days WHERE user_id = :userId";
+            $query = "UPDATE notification_settings SET days = :days, repeat_until_paid = :repeatUntilPaid WHERE user_id = :userId";
         }
 
         $stmt = $db->prepare($query);
+        $repeatUntilPaid = isset($data["repeat_until_paid"]) && $data["repeat_until_paid"] == "true" ? 1 : 0;
         $stmt->bindValue(':days', $days, SQLITE3_INTEGER);
+        $stmt->bindValue(':repeatUntilPaid', $repeatUntilPaid, SQLITE3_INTEGER);
         $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {

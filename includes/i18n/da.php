@@ -475,5 +475,10 @@ $i18n = [
     "google_search_info" => "Tilføjer Google-billedresultater (via SerpAPI) som ekstra kilde i logosøgningen. Opret en gratis SerpAPI-konto, og indsæt din API-nøgle her.",
     "monthly_searches_used" => "Søgninger brugt denne måned",
     "monthly_requests_used" => "API-forespørgsler brugt denne måned",
-];
+
+    "repeat_until_paid" => "Gentag notifikationer dagligt indtil betalt",
+    "repeat_until_paid_info" => "Når aktiveret, sendes notifikationer hver dag fra påmindelsesdatoen, indtil du markerer abonnementet som betalt.",
+    "telegram_message_template" => "Besked skabelon",
+    "telegram_template_placeholders_info" => "Pladsholdere: {name} - navn, {price} - pris, {next_payment} - dato, {days_left} - dage tilbage, {url} - hjemmeside, {category} - kategori, {notes} - noter. Understøtter HTML: <b>fed</b>",
+]
 ?>

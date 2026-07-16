@@ -476,7 +476,12 @@ $i18n = [
     "google_search_info" => "A Google képtalálatait (SerpAPI-n keresztül) további forrásként adja hozzá a logókereséshez. Hozz létre egy ingyenes SerpAPI-fiókot, és illeszd be ide az API-kulcsodat.",
     "monthly_searches_used" => "Ebben a hónapban felhasznált keresések",
     "monthly_requests_used" => "Ebben a hónapban felhasznált API-kérések",
-]; 
+
+    "repeat_until_paid" => "Értesítések napi ismétlése a fizetésig",
+    "repeat_until_paid_info" => "Bekapcsoláskor az értesítések minden nap elküldésre kerülnek az emlékeztető dátumtól kezdve, amíg meg nem jelöli az előfizetést fizetettként.",
+    "telegram_message_template" => "Üzenet sablon",
+    "telegram_template_placeholders_info" => "Helyőrzők: {name} - név, {price} - ár, {next_payment} - dátum, {days_left} - hátralévő napok, {url} - weboldal, {category} - kategória, {notes} - jegyzetek. Támogatja a HTML-t: <b>félkövér</b>",
+] 
  
  
 ?>

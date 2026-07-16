@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Google görsel sonuçlarını (SerpAPI üzerinden) logo aramasına ek kaynak olarak ekler. Ücretsiz bir SerpAPI hesabı oluşturun ve API anahtarınızı buraya yapıştırın.",
     "monthly_searches_used" => "Bu ay kullanılan aramalar",
     "monthly_requests_used" => "Bu ay kullanılan API istekleri",
+    "repeat_until_paid" => "Ödeme yapılana kadar bildirimleri günlük tekrarla",
+    "repeat_until_paid_info" => "Etkinleştirildiğinde, aboneliği ödenmiş olarak işaretleyene kadar hatırlatma tarihinden itibaren her gün bildirim gönderilir.",
+    "telegram_message_template" => "Mesaj şablonu",
+    "telegram_template_placeholders_info" => "Yer tutucular: {name} - ad, {price} - fiyat, {next_payment} - tarih, {days_left} - kalan gün, {url} - web sitesi, {category} - kategori, {notes} - notlar. HTML destekler: <b>kalın</b>",
 ];
 
 

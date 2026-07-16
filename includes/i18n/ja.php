@@ -477,6 +477,10 @@ $i18n = [
     "google_search_info" => "Google画像検索の結果（SerpAPI経由）をロゴ検索の追加ソースとして加えます。無料のSerpAPIアカウントを作成し、APIキーをここに貼り付けてください。",
     "monthly_searches_used" => "今月の使用済み検索回数",
     "monthly_requests_used" => "今月の使用済みAPIリクエスト数",
+    "repeat_until_paid" => "支払いまで毎日通知を繰り返す",
+    "repeat_until_paid_info" => "有効にすると、サブスクリプションを支払済みとしてマークするまで、リマインダー日から毎日通知が送信されます。",
+    "telegram_message_template" => "メッセージテンプレート",
+    "telegram_template_placeholders_info" => "プレースホルダー: {name} - 名前, {price} - 価格, {next_payment} - 日付, {days_left} - 残り日数, {url} - URL, {category} - カテゴリ, {notes} - メモ。HTML対応: <b>太字</b>",
 ];
 
 

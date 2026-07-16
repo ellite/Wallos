@@ -475,6 +475,11 @@ $i18n = [
     "google_search_info" => "Thêm kết quả hình ảnh Google (qua SerpAPI) làm nguồn bổ sung khi tìm logo. Tạo tài khoản SerpAPI miễn phí và dán khóa API của bạn vào đây.",
     "monthly_searches_used" => "Số lượt tìm kiếm đã dùng trong tháng",
     "monthly_requests_used" => "Số yêu cầu API đã dùng trong tháng",
-];
+
+    "repeat_until_paid" => "Lặp lại thông báo hàng ngày cho đến khi thanh toán",
+    "repeat_until_paid_info" => "Khi được bật, thông báo sẽ được gửi mỗi ngày từ ngày nhắc nhở cho đến khi bạn đánh dấu đăng ký là đã thanh toán.",
+    "telegram_message_template" => "Mẫu tin nhắn",
+    "telegram_template_placeholders_info" => "Trình giữ chỗ: {name} - tên, {price} - giá, {next_payment} - ngày, {days_left} - ngày còn lại, {url} - trang web, {category} - danh mục, {notes} - ghi chú. Hỗ trợ HTML: <b>đậm</b>",
+]
 
 ?>

@@ -130,6 +130,10 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notifications['days'] = 1;
     }
 
+    if (!isset($notifications['repeat_until_paid'])) {
+        $notifications['repeat_until_paid'] = 0;
+    }
+
     // Email notifications
     $sql = "SELECT * FROM email_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -213,6 +217,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsTelegram['enabled'] = $row['enabled'];
         $notificationsTelegram['bot_token'] = $row['bot_token'];
         $notificationsTelegram['chat_id'] = $row['chat_id'];
+        $notificationsTelegram['message_template'] = $row['message_template'] ?? '';
         $rowCount++;
     }
 
@@ -220,6 +225,7 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
         $notificationsTelegram['enabled'] = 0;
         $notificationsTelegram['bot_token'] = "";
         $notificationsTelegram['chat_id'] = "";
+        $notificationsTelegram['message_template'] = '';
     }
 
 
@@ -393,6 +399,14 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                         }
                         ?>
                     </select>
+                </div>
+                <div class="form-group-inline">
+                    <input type="checkbox" id="repeat_until_paid" name="repeat_until_paid"
+                        <?= $notifications['repeat_until_paid'] ? "checked" : "" ?>>
+                    <label for="repeat_until_paid"><?= translate('repeat_until_paid', $i18n) ?></label>
+                    <i class="fa-solid fa-circle-info" style="margin-left:6px;cursor:help" title="<?= translate('repeat_until_paid_info', $i18n) ?>"></i>
+                </div>
+                <div class="form-group-inline">
                     <input type="submit" class="thin" value="<?= translate('save', $i18n) ?>" id="saveNotifications"
                         onClick="saveNotifications()" />
                 </div>
@@ -600,6 +614,18 @@ $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
                         <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off"
                             placeholder="<?= translate('telegram_chat_id', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsTelegram['chat_id']) ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <label class="capitalize"><?= translate('telegram_message_template', $i18n) ?></label>
+                    </div>
+                    <div class="form-group-inline">
+                        <textarea name="telegrammessagetemplate" id="telegrammessagetemplate" rows="6" style="width:100%;font-family:monospace;font-size:13px;box-sizing:border-box"
+                            placeholder="🚨 {name}&#10;💵 {price}&#10;📅 {next_payment}&#10;🔥 {days_left}"
+                        ><?= htmlspecialchars($notificationsTelegram['message_template'] ?? '') ?></textarea>
+                    </div>
+                    <div class="form-group-inline" style="margin-top:4px;width:100%">
+                        <i class="fa-solid fa-circle-info" style="flex-shrink:0;margin-right:6px;margin-top:2px"></i>
+                        <span style="font-size:13px;color:#666;line-height:1.4"><?= translate('telegram_template_placeholders_info', $i18n) ?></span>
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"

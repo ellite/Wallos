@@ -48,9 +48,13 @@ function saveNotifications() {
     const button = document.getElementById("saveNotifications");
     button.disabled = true;
     const days = document.querySelector('#days').value;
+    const repeatUntilPaid = document.getElementById('repeat_until_paid').checked;
 
     const url = 'endpoints/notifications/savenotificationsettings.php';
-    const data = { days: days };
+    const data = { 
+        days: days,
+        repeat_until_paid: repeatUntilPaid 
+    };
 
     makeFetchCall(url, data, button);
 }
@@ -160,11 +164,13 @@ function saveNotificationsTelegramButton() {
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const chat_id = document.getElementById("telegramchatid").value;
     const bot_token = document.getElementById("telegrambottoken").value;
+    const message_template = document.getElementById("telegrammessagetemplate").value;
   
     const data = {
       enabled: enabled,
       chat_id: chat_id,
-      bot_token: bot_token
+      bot_token: bot_token,
+      message_template: message_template
     };
 
     makeFetchCall('endpoints/notifications/savetelegramnotifications.php', data, button);
@@ -177,11 +183,13 @@ function testNotificationsTelegramButton() {
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const bottoken = document.getElementById("telegrambottoken").value;
     const chatid = document.getElementById("telegramchatid").value;
+    const message_template = document.getElementById("telegrammessagetemplate").value;
   
     const data = {
       enabled: enabled,
       bottoken: bottoken,
-      chatid: chatid
+      chatid: chatid,
+      message_template: message_template
     };
 
     makeFetchCall('endpoints/notifications/testtelegramnotifications.php', data, button);

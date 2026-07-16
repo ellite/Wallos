@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Voegt Google-afbeeldingsresultaten (via SerpAPI) toe als extra bron bij het zoeken naar logo's. Maak een gratis SerpAPI-account en plak hier je API-sleutel.",
     "monthly_searches_used" => "Zoekopdrachten gebruikt deze maand",
     "monthly_requests_used" => "API-verzoeken gebruikt deze maand",
+    "repeat_until_paid" => "Herhaal meldingen dagelijks tot betaling",
+    "repeat_until_paid_info" => "Wanneer ingeschakeld, worden er dagelijks meldingen verzonden vanaf de herinneringsdatum totdat u het abonnement als betaald markeert.",
+    "telegram_message_template" => "Berichtsjabloon",
+    "telegram_template_placeholders_info" => "Plaatshouders: {name} - naam, {price} - prijs, {next_payment} - datum, {days_left} - dagen tot, {url} - website, {category} - categorie, {notes} - notities. Ondersteunt HTML: <b>vet</b>",
 ];
 
 

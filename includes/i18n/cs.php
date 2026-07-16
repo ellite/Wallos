@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Přidá výsledky obrázků Google (přes SerpAPI) jako další zdroj při vyhledávání log. Vytvořte si bezplatný účet SerpAPI a vložte sem svůj API klíč.",
     "monthly_searches_used" => "Vyhledávání použitá tento měsíc",
     "monthly_requests_used" => "API požadavky použité tento měsíc",
+    "repeat_until_paid" => "Opakovat upozornění denně až do zaplacení",
+    "repeat_until_paid_info" => "Po zapnutí budou upozornění odesílána každý den od data připomenutí, dokud neoznačíte předplatné jako zaplacené.",
+    "telegram_message_template" => "Šablona zprávy",
+    "telegram_template_placeholders_info" => "Zástupné symboly: {name} - název, {price} - cena, {next_payment} - datum, {days_left} - dní zbývá, {url} - web, {category} - kategorie, {notes} - poznámky. Podporuje HTML: <b>tučné</b>",
 ];
 
 

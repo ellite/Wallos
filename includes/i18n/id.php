@@ -474,6 +474,11 @@ $i18n = [
     "google_search_info" => "Menambahkan hasil gambar Google (melalui SerpAPI) sebagai sumber tambahan dalam pencarian logo. Buat akun SerpAPI gratis dan tempel kunci API Anda di sini.",
     "monthly_searches_used" => "Pencarian yang digunakan bulan ini",
     "monthly_requests_used" => "Permintaan API yang digunakan bulan ini",
-];
+
+    "repeat_until_paid" => "Ulangi notifikasi setiap hari hingga dibayar",
+    "repeat_until_paid_info" => "Saat diaktifkan, notifikasi akan dikirim setiap hari mulai dari tanggal pengingat hingga Anda menandai langganan sebagai dibayar.",
+    "telegram_message_template" => "Template pesan",
+    "telegram_template_placeholders_info" => "Placeholder: {name} - nama, {price} - harga, {next_payment} - tanggal, {days_left} - hari lagi, {url} - situs web, {category} - kategori, {notes} - catatan. Mendukung HTML: <b>tebal</b>",
+]
 
 ?>

@@ -57,6 +57,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     }
 
     $days = 1;
+    $repeatUntilPaid = false;
     $emailNotificationsEnabled = false;
     $gotifyNotificationsEnabled = false;
     $telegramNotificationsEnabled = false;
@@ -69,7 +70,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $serverchanNotificationsEnabled = false;
 
     // Get notification settings (how many days before the subscription ends should the notification be sent)
-    $query = "SELECT days FROM notification_settings WHERE user_id = :userId";
+    $query = "SELECT days, repeat_until_paid FROM notification_settings WHERE user_id = :userId";
     $stmt = $db->prepare($query);
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     $result = $stmt->execute();
@@ -276,7 +277,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $difference += 1;
             }
 
-            if ($difference === $daysToCompare && $nextPaymentDate->format('Y-m-d') >= $currentDate->format('Y-m-d')) {
+            if (($repeatUntilPaid ? $difference <= $daysToCompare : $difference === $daysToCompare) && $nextPaymentDate->format('Y-m-d') >= $currentDate->format('Y-m-d')) {
                 echo "Subscription: " . $rowSubscription['name'] . "<br />";
                 echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
                 echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
@@ -506,6 +507,16 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Telegram notifications if enabled
             if ($telegramNotificationsEnabled) {
+                // Load Telegram notification settings (including message template)
+                $telegramTemplate = '';
+                $tgStmt = $db->prepare('SELECT * FROM telegram_notifications WHERE user_id = :userId');
+                $tgStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                $tgResult = $tgStmt->execute();
+                $tgRow = $tgResult->fetchArray(SQLITE3_ASSOC);
+                if ($tgRow && isset($tgRow['message_template']) && !empty($tgRow['message_template'])) {
+                    $telegramTemplate = $tgRow['message_template'];
+                }
+                
                 foreach ($notify as $userId => $perUser) {
                     // Get name of user from household table
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
@@ -513,20 +524,34 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
+                    // Build notification message - use template if available
+                    if (!empty($telegramTemplate)) {
+                        $message = '';
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $subMessage = $telegramTemplate;
+                            $subMessage = str_replace('{name}', htmlspecialchars($subscription['name'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{price}', htmlspecialchars($subscription['formatted_price'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{next_payment}', htmlspecialchars($subscription['next_payment'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{days_left}', htmlspecialchars($dayText, ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{url}', htmlspecialchars($subscription['url'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{category}', htmlspecialchars($subscription['category_name'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{notes}', htmlspecialchars($subscription['notes'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $message .= $subMessage . "\n\n";
+                        }
                     } else {
-                        $message = "The following subscriptions are up for renewal:\n";
+                        $message = "" . $user['name'] . ", the following subscriptions are up for renewal:\n";
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                        }
                     }
 
-                    foreach ($perUser as $subscription) {
-                        $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
-                    }
-
+                    $parseMode = !empty($telegramTemplate) ? 'HTML' : '';
                     $data = array(
                         'chat_id' => $telegram['chatId'],
-                        'text' => mb_convert_encoding($message, 'UTF-8', 'auto')
+                        'text' => mb_convert_encoding($message, 'UTF-8', 'auto'),
+                        'parse_mode' => $parseMode
                     );
 
                     $data_string = json_encode($data);
@@ -696,15 +721,27 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
+                    // Build notification message - use template if available
+                    if (!empty($telegramTemplate)) {
+                        $message = '';
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $subMessage = $telegramTemplate;
+                            $subMessage = str_replace('{name}', htmlspecialchars($subscription['name'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{price}', htmlspecialchars($subscription['formatted_price'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{next_payment}', htmlspecialchars($subscription['next_payment'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{days_left}', htmlspecialchars($dayText, ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{url}', htmlspecialchars($subscription['url'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{category}', htmlspecialchars($subscription['category_name'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{notes}', htmlspecialchars($subscription['notes'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $message .= $subMessage . "\n\n";
+                        }
                     } else {
-                        $message = "The following subscriptions are up for renewal:\n";
-                    }
-
-                    foreach ($perUser as $subscription) {
-                        $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                        $message = "" . $user['name'] . ", the following subscriptions are up for renewal:\n";
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                        }
                     }
 
                     $ch = curl_init();
@@ -873,15 +910,27 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
                     $title = 'Wallos Notification';
-                    if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for renewal:\n";
+                    // Build notification message - use template if available
+                    if (!empty($telegramTemplate)) {
+                        $message = '';
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $subMessage = $telegramTemplate;
+                            $subMessage = str_replace('{name}', htmlspecialchars($subscription['name'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{price}', htmlspecialchars($subscription['formatted_price'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{next_payment}', htmlspecialchars($subscription['next_payment'], ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{days_left}', htmlspecialchars($dayText, ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{url}', htmlspecialchars($subscription['url'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{category}', htmlspecialchars($subscription['category_name'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $subMessage = str_replace('{notes}', htmlspecialchars($subscription['notes'] ?? '', ENT_QUOTES, 'UTF-8'), $subMessage);
+                            $message .= $subMessage . "\n\n";
+                        }
                     } else {
-                        $message = "The following subscriptions are up for renewal:\n";
-                    }
-
-                    foreach ($perUser as $subscription) {
-                        $dayText = getDaysText($subscription['days']);
-                        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                        $message = "" . $user['name'] . ", the following subscriptions are up for renewal:\n";
+                        foreach ($perUser as $subscription) {
+                            $dayText = getDaysText($subscription['days']);
+                            $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+                        }
                     }
 
                     // Build Serverchan request

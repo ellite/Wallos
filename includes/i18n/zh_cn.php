@@ -497,6 +497,11 @@ $i18n = [
     "google_search_info" => "将Google图片结果（通过SerpAPI）添加为Logo搜索的额外来源。创建免费的SerpAPI账户并在此粘贴您的API密钥。",
     "monthly_searches_used" => "本月已用搜索次数",
     "monthly_requests_used" => "本月已用API请求数",
-];
+
+    "repeat_until_paid" => "每天重复通知直到付款",
+    "repeat_until_paid_info" => "启用后，将从提醒日期开始每天发送通知，直到您将订阅标记为已付款。",
+    "telegram_message_template" => "消息模板",
+    "telegram_template_placeholders_info" => "占位符: {name} - 名称, {price} - 价格, {next_payment} - 日期, {days_left} - 剩余天数, {url} - 网站, {category} - 类别, {notes} - 备注。支持HTML: <b>粗体</b>",
+]
 
 ?>

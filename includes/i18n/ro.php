@@ -476,6 +476,10 @@ $i18n = [
     "google_search_info" => "Adaugă rezultatele de imagini Google (prin SerpAPI) ca sursă suplimentară în căutarea de logo-uri. Creați un cont SerpAPI gratuit și lipiți aici cheia API.",
     "monthly_searches_used" => "Căutări utilizate luna aceasta",
     "monthly_requests_used" => "Cereri API utilizate luna aceasta",
+    "repeat_until_paid" => "Repetați notificările zilnic până la plată",
+    "repeat_until_paid_info" => "Când este activat, notificările vor fi trimise în fiecare zi de la data mementoului până când marcați abonamentul ca plătit.",
+    "telegram_message_template" => "Șablon mesaj",
+    "telegram_template_placeholders_info" => "Placeholder: {name} - nume, {price} - preț, {next_payment} - dată, {days_left} - zile rămase, {url} - site web, {category} - categorie, {notes} - note. Suportă HTML: <b>bold</b>",
 ];
 
 

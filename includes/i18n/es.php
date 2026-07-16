@@ -475,6 +475,10 @@ $i18n = [
     "google_search_info" => "Añade resultados de imágenes de Google (a través de SerpAPI) como fuente adicional en la búsqueda de logotipos. Cree una cuenta gratuita de SerpAPI y pegue aquí su clave API.",
     "monthly_searches_used" => "Búsquedas utilizadas este mes",
     "monthly_requests_used" => "Solicitudes de API utilizadas este mes",
+    "repeat_until_paid" => "Repetir notificaciones diariamente hasta pagar",
+    "repeat_until_paid_info" => "Cuando esté activado, se enviarán notificaciones todos los días desde la fecha de recordatorio hasta que marques la suscripción como pagada.",
+    "telegram_message_template" => "Plantilla de mensaje",
+    "telegram_template_placeholders_info" => "Placeholders: {name} - nombre, {price} - precio, {next_payment} - fecha, {days_left} - días hasta, {url} - sitio web, {category} - categoría, {notes} - notas. Soporta HTML: <b>negrita</b>",
 ];
 
 
