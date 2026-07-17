@@ -245,6 +245,7 @@ If `OIDC_ISSUER` is set, Wallos will fetch `/.well-known/openid-configuration` a
 | `OIDC_SCOPES` | `Scopes` |
 | `OIDC_AUTO_CREATE_USER` | `Create user automatically` |
 | `OIDC_DISABLE_PASSWORD_LOGIN` | `Disable password login` |
+| `OIDC_REQUIRE_EMAIL_VERIFIED` | `Require verified email for account linking` |
 
 ## API Documentation
 
