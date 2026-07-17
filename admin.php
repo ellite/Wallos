@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/header.php';
 require_once 'includes/oidc_settings.php';
+require_once 'includes/ssrf_helper.php';
 
 if ($isAdmin != 1) {
     header('Location: index.php');
@@ -16,6 +17,9 @@ $oidcConfiguration = wallos_get_effective_oidc_configuration($db);
 $oidcSettings = $oidcConfiguration['settings'];
 $oidcManagedFields = $oidcConfiguration['managed_fields'];
 $oidcNotes = $oidcConfiguration['notes'];
+
+$ssrfConfiguration = wallos_get_effective_ssrf_allowlist($db);
+$ssrfManagedFields = $ssrfConfiguration['is_managed'] ? ['allowlist' => 'SSRF_ALLOWLIST'] : [];
 
 function oidc_input_attrs($field, $managedFields)
 {
@@ -354,23 +358,29 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     <div class="admin-form">
         <div class="form-group-inline">
             <input type="text" name="local_webhook_notifications_allowlist" id="local_webhook_notifications_allowlist" autocomplete="off"
-                placeholder="e.g., 192.168.1.5:8123, homeassistant.local" value="<?= htmlspecialchars($settings['local_webhook_notifications_allowlist'] ?? '', ENT_QUOTES, 'UTF-8') ?>" />
+                placeholder="e.g., 192.168.1.5:8123, homeassistant.local" value="<?= htmlspecialchars($ssrfConfiguration['raw'], ENT_QUOTES, 'UTF-8') ?>" <?= oidc_input_attrs('allowlist', $ssrfManagedFields) ?> />
         </div>
-        
+
         <div class="buttons">
             <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                 id="saveSecuritySettingsButton" onClick="saveSecuritySettingsButton()" />
         </div>
-        
+
         <div class="settings-notes">
             <p>
-                <i class="fa-solid fa-circle-info"></i> 
+                <i class="fa-solid fa-circle-info"></i>
                 <?= translate('ssrf_protection_info', $i18n) ?>
             </p>
             <p>
                 <i class="fa-solid fa-circle-info"></i>
                 <?= translate('local_webhook_info', $i18n) ?>
             </p>
+            <?php if ($ssrfConfiguration['is_managed']): ?>
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('ssrf_allowlist_env_managed', $i18n) ?>
+                </p>
+            <?php endif; ?>
         </div>
     </div>
 </section>

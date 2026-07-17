@@ -1,5 +1,51 @@
 <?php
 
+function wallos_get_ssrf_allowlist_env_value()
+{
+    $value = getenv('SSRF_ALLOWLIST');
+    if ($value !== false) {
+        return $value;
+    }
+
+    if (array_key_exists('SSRF_ALLOWLIST', $_ENV)) {
+        return $_ENV['SSRF_ALLOWLIST'];
+    }
+
+    if (array_key_exists('SSRF_ALLOWLIST', $_SERVER)) {
+        return $_SERVER['SSRF_ALLOWLIST'];
+    }
+
+    return null;
+}
+
+/**
+ * Returns the effective SSRF allowlist: SSRF_ALLOWLIST env var if set (full
+ * override, same semantics as the OIDC_* env vars), otherwise the DB-stored
+ * local_webhook_notifications_allowlist value.
+ *
+ * @param SQLite3 $db
+ * @return array{allowlist: string[], raw: string, is_managed: bool}
+ */
+function wallos_get_effective_ssrf_allowlist($db)
+{
+    $stmt = $db->prepare('SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1');
+    $result = $stmt->execute();
+    $row = $result ? $result->fetchArray(SQLITE3_ASSOC) : false;
+    $dbValue = $row ? $row['local_webhook_notifications_allowlist'] : '';
+
+    $envValue = wallos_get_ssrf_allowlist_env_value();
+    $isManaged = $envValue !== null && trim((string) $envValue) !== '';
+    $rawValue = $isManaged ? $envValue : $dbValue;
+
+    $allowlist = array_filter(array_map('trim', explode(',', (string) $rawValue)));
+
+    return [
+        'allowlist' => $allowlist,
+        'raw' => (string) $rawValue,
+        'is_managed' => $isManaged,
+    ];
+}
+
 /**
  * Checks if an IP falls in the RFC 6598 Carrier-Grade NAT range (100.64.0.0/10).
  * PHP's FILTER_FLAG_NO_PRIV_RANGE does not cover this range.
@@ -62,18 +108,13 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
             ]));
         }
 
-        $stmt = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
-        $result = $stmt->execute();
-        $row = $result->fetchArray(SQLITE3_ASSOC);
-        
-        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
-        $allowlist = array_filter(array_map('trim', explode(',', $allowlist_str)));
-        
-        if (!in_array($urlHost, $allowlist) && 
-            !in_array($ip, $allowlist) && 
-            !in_array($hostWithPort, $allowlist) && 
+        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
+
+        if (!in_array($urlHost, $allowlist) &&
+            !in_array($ip, $allowlist) &&
+            !in_array($hostWithPort, $allowlist) &&
             !in_array($ipWithPort, $allowlist)) {
-            
+
             die(json_encode([
                 "success" => false,
                 "message" => "Security Block: The target IP/Port is private and not present in the Webhook Allowlist."
@@ -111,12 +152,7 @@ function validate_smtp_host($host, $port, $db) {
                || is_cgnat_ip($ip);
 
     if ($is_private) {
-        $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
-        $result = $stmt->execute();
-        $row   = $result->fetchArray(SQLITE3_ASSOC);
-
-        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
-        $allowlist     = array_filter(array_map('trim', explode(',', $allowlist_str)));
+        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
 
         $hostWithPort = $host . ':' . $port;
         $ipWithPort   = $ip   . ':' . $port;
@@ -163,12 +199,7 @@ function validate_oidc_endpoint_url($url, $db) {
                || is_cgnat_ip($ip);
 
     if ($is_private) {
-        $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
-        $result = $stmt->execute();
-        $row   = $result->fetchArray(SQLITE3_ASSOC);
-
-        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
-        $allowlist     = array_filter(array_map('trim', explode(',', $allowlist_str)));
+        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
 
         $hostWithPort = $host . ':' . $targetPort;
         $ipWithPort   = $ip   . ':' . $targetPort;
@@ -225,12 +256,7 @@ function is_url_safe_for_ssrf($url, $db, $userId = null) {
             return false; // private and user is not admin — skip silently
         }
 
-        $stmt  = $db->prepare("SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1");
-        $result = $stmt->execute();
-        $row   = $result->fetchArray(SQLITE3_ASSOC);
-
-        $allowlist_str = $row ? $row['local_webhook_notifications_allowlist'] : '';
-        $allowlist     = array_filter(array_map('trim', explode(',', $allowlist_str)));
+        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
 
         if (
             !in_array($urlHost, $allowlist) &&
