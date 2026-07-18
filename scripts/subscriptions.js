@@ -445,12 +445,6 @@ function fetchLogoSearchSource(url, retry = true) {
         throw new Error("Invalid JSON response");
       }
     })
-    .then(data => {
-      if (data.error && retry) {
-        return fetchLogoSearchSource(url, false);
-      }
-      return data;
-    })
     .catch(error => {
       if (retry) {
         return fetchLogoSearchSource(url, false);
