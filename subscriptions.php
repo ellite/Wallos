@@ -338,15 +338,17 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             <?= translate('web_search', $i18n) ?>
           </h3>
         </header>
-        <div class="logo-search-query">
-          <input type="text" id="logo-search-query" autocomplete="off" inputmode="search"
-            placeholder="<?= translate('search_logo', $i18n) ?>"
-            aria-label="<?= translate('search_logo', $i18n) ?>">
-          <button type="button" onClick="submitLogoSearch()" title="<?= translate('search', $i18n) ?>">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
+        <div class="logo-search-controls">
+          <div class="logo-search-query">
+            <input type="text" id="logo-search-query" autocomplete="off" inputmode="search"
+              placeholder="<?= translate('search_logo', $i18n) ?>"
+              aria-label="<?= translate('search_logo', $i18n) ?>">
+            <button type="button" id="logo-search-submit" title="<?= translate('search', $i18n) ?>">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div id="logo-search-nav" class="logo-search-nav"></div>
         </div>
-        <div id="logo-search-nav" class="logo-search-nav"></div>
         <div id="logo-search-images"></div>
       </div>
     </div>
@@ -559,7 +561,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
 </section>
 
 <?php require_once 'includes/subscription_details_popup.php'; ?>
-<script src="scripts/subscriptions.js?<?= $version ?>"></script>
+<script src="scripts/subscriptions.js?<?= $version ?>&logo-search=4"></script>
 <?php
 if (isset($_GET['add'])) {
   ?>

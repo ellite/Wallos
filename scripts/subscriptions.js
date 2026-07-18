@@ -332,12 +332,6 @@ function searchLogo() {
 
   const queryInput = document.querySelector("#logo-search-query");
   queryInput.value = searchTerm;
-  queryInput.onkeydown = function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      submitLogoSearch();
-    }
-  };
 
   runLogoSearch(searchTerm);
 }
@@ -351,6 +345,19 @@ function submitLogoSearch() {
   }
 
   runLogoSearch(searchTerm);
+}
+
+const logoSearchQueryInput = document.querySelector("#logo-search-query");
+const logoSearchSubmitButton = document.querySelector("#logo-search-submit");
+
+if (logoSearchQueryInput && logoSearchSubmitButton) {
+  logoSearchSubmitButton.addEventListener("click", submitLogoSearch);
+  logoSearchQueryInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitLogoSearch();
+    }
+  });
 }
 
 function runLogoSearch(searchTerm) {
@@ -462,7 +469,7 @@ function displayImageResults(imageSources, container) {
     img.onclick = function () {
       const selectedUrl = getSupportedLogoUrl(src);
       if (selectedUrl) {
-        selectWebLogo(selectedUrl);
+        selectWebLogo(selectedUrl, img.src);
       }
     };
     img.onerror = function () {
@@ -487,11 +494,11 @@ function getSupportedLogoUrl(source) {
   return source.thumbnail || "";
 }
 
-function selectWebLogo(url) {
+function selectWebLogo(url, previewUrl = url) {
   closeLogoSearch();
   const logoPreview = document.querySelector("#form-logo");
   const logoUrl = document.querySelector("#logo-url");
-  logoPreview.src = url;
+  logoPreview.src = previewUrl;
   logoPreview.style.display = 'block';
   logoUrl.value = url;
 }
