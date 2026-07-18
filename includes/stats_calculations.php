@@ -283,6 +283,13 @@ $budgetPeriodStart = $activeBudgetPeriod['start'];
 $budgetPeriodEnd = $activeBudgetPeriod['end'];
 $budgetPeriodLabel = $activeBudgetPeriod['label'];
 
+// A monthly period whose anchor lands on the calendar month's boundaries is
+// identical to the plain monthly budget, so there's nothing distinct to show.
+$calendarMonthStart = new DateTime($today->format('Y-m-01'));
+$calendarMonthEnd = new DateTime($today->format('Y-m-t'));
+$periodDiffersFromCalendarMonth = $budgetPeriodStart->format('Y-m-d') !== $calendarMonthStart->format('Y-m-d')
+    || $budgetPeriodEnd->format('Y-m-d') !== $calendarMonthEnd->format('Y-m-d');
+
 $amountNeededThisPeriod = computeAmountNeededInPeriod($subscriptions ?? [], $today, $budgetPeriodEnd, $db, $userId);
 
 $showVsMonthlyBudgetGraph = false;
@@ -314,7 +321,7 @@ if (isset($userData['budget']) && $userData['budget'] > 0) {
 
 $showVsPeriodBudgetGraph = false;
 $vsPeriodBudgetDataPoints = [];
-if (isset($userData['period_budget']) && $userData['period_budget'] > 0) {
+if ($periodDiffersFromCalendarMonth && isset($userData['period_budget']) && $userData['period_budget'] > 0) {
     $periodBudget = $userData['period_budget'];
     $periodBudgetLeft = max(0, $periodBudget - $amountNeededThisPeriod);
     $periodBudgetUsed = min(100, ($amountNeededThisPeriod / $periodBudget) * 100);
