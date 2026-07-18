@@ -84,6 +84,8 @@ if (isset($subscriptions)) {
                     'price' => $monthlyPrice,
                     'name' => $subscription['name'],
                     'logo' => $subscription['logo'],
+                    'logo_text_color' => $subscription['logo_text_color'] ?? null,
+                    'logo_variant' => $subscription['logo_variant'] ?? null,
                 ];
             }
 
@@ -125,6 +127,8 @@ if (isset($subscriptions)) {
                         'years' => $ageYears,
                         'name' => $subscription['name'],
                         'logo' => $subscription['logo'],
+                        'logo_text_color' => $subscription['logo_text_color'] ?? null,
+                        'logo_variant' => $subscription['logo_variant'] ?? null,
                     ];
                 }
             }

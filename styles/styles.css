@@ -2604,6 +2604,11 @@ button.dark-theme-button i {
   background-position: center left 10px;
 }
 
+.rtl .filtermenu-content .filter-item.selected::after {
+  right: auto;
+  left: 14px;
+}
+
 .filtermenu-content .filter-title.filter-clear {
   color: var(--hover-color);
   font-weight: normal;

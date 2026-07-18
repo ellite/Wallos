@@ -268,6 +268,9 @@ $i18n = [
     "manually" => "Manuelt",
     "coming_soon" => "Kommer snart",
     "invalid_host" => "Ugyldig vært",
+    "ai_provider_error" => "AI-udbyderfejl",
+    "ai_invalid_response" => "AI-udbyderen returnerede et ugyldigt svar.",
+    "ai_invalid_json_response" => "AI-svaret indeholdt ikke gyldige anbefalinger.",
     "ai_recommendations_info" => "AI anbefalinger genereres baseret på dine abonnementer og husstandsmedlemmer.",
     "may_take_time" => "Afhængigt af udbyderen, modellen og antallet af abonnementer kan genereringen af anbefalinger tage noget tid.",
     "recommendations_visible_on_dashboard" => "Anbefalinger vil være synlige på instrumentbrættet.",
@@ -416,6 +419,7 @@ $i18n = [
     "security_settings" => "Sikkerhedsindstillinger",
     "ssrf_protection_info" => "For at forhindre Server-Side Request Forgery (SSRF) angreb blokerer Wallos som standard webhook-notifikationer til private eller interne netværksadresser.",
     "local_webhook_info" => "Hvis du skal sende webhooks til lokale tjenester (som Home Assistant, Gotify eller Node-RED), indtast deres IP-adresser eller værtsnavne ovenfor som en kommasepareret liste (fx <code>192.168.1.100,192.168.1.101</code>).",
+    "ssrf_allowlist_env_managed" => "Administreres af miljøvariablen SSRF_ALLOWLIST.",
     "smtp_usage_info" => "Vil blive brugt til adgangskodenulstilling og andre systemmails.",
     // Maintenance Tasks
     "maintenance_tasks" => "Vedligeholdelsesopgaver",

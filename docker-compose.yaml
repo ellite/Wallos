@@ -23,6 +23,8 @@ services:
       # OIDC_AUTO_CREATE_USER: "true"
       # OIDC_DISABLE_PASSWORD_LOGIN: "false"
       # OIDC_REQUIRE_EMAIL_VERIFIED: "true"
+      # Optional SSRF allowlist (overrides the Security Settings allowlist in the Admin UI)
+      # SSRF_ALLOWLIST: "auth.example.com,192.168.1.100:8123"
     # Volumes store your data between container upgrades
     volumes:
       - './db:/var/www/html/db'

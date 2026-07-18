@@ -116,7 +116,7 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
+$query = "SELECT name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -209,6 +209,8 @@ if ($result) {
                     $mostExpensiveSubscription['price'] = $price;
                     $mostExpensiveSubscription['name'] = $name;
                     $mostExpensiveSubscription['logo'] = $logo;
+                    $mostExpensiveSubscription['logo_text_color'] = $subscription['logo_text_color'] ?? null;
+                    $mostExpensiveSubscription['logo_variant'] = $subscription['logo_variant'] ?? null;
                 }
 
                 if ($cycle != 5) {

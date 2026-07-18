@@ -1,6 +1,0 @@
-/* RTL-only layout corrections. This stylesheet is loaded only for RTL languages. */
-
-.filtermenu-content .filter-item.selected::after {
-  right: auto;
-  left: 14px;
-}
