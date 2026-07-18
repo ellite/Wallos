@@ -409,8 +409,7 @@ function runLogoSearch(searchTerm) {
       logoNav.appendChild(navItem);
     }
 
-    fetch(source.url)
-      .then(response => response.json())
+    fetchLogoSearchSource(source.url)
       .then(data => {
         if (data.results && data.results.length > 0) {
           displayImageResults(data.results, resultsContainer);
@@ -428,6 +427,32 @@ function runLogoSearch(searchTerm) {
   });
 }
 
+function fetchLogoSearchSource(url, retry = true) {
+  return fetch(url, {
+    cache: "no-store",
+    headers: { "Accept": "application/json" },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(body => {
+      try {
+        return JSON.parse(body);
+      } catch (error) {
+        throw new Error("Invalid JSON response");
+      }
+    })
+    .catch(error => {
+      if (retry) {
+        return fetchLogoSearchSource(url, false);
+      }
+      throw error;
+    });
+}
+
 function displayImageResults(imageSources, container) {
   container.innerHTML = "";
 
@@ -435,15 +460,31 @@ function displayImageResults(imageSources, container) {
     const img = document.createElement("img");
     img.src = src.thumbnail || src.image;
     img.onclick = function () {
-      // Display the lightweight thumbnail, but save the original source image.
-      // Search-engine thumbnails are often converted to opaque JPEG/WebP files.
-      selectWebLogo(src.image || src.thumbnail);
+      const selectedUrl = getSupportedLogoUrl(src);
+      if (selectedUrl) {
+        selectWebLogo(selectedUrl);
+      }
     };
     img.onerror = function () {
       this.parentNode.removeChild(this);
     };
     container.appendChild(img);
   });
+}
+
+function getSupportedLogoUrl(source) {
+  if (source.image) {
+    try {
+      const imagePath = new URL(source.image, window.location.href).pathname.toLowerCase();
+      if (/\.(png|jpe?g|gif|webp)$/.test(imagePath)) {
+        return source.image;
+      }
+    } catch (error) {
+      // Fall through to the raster thumbnail for malformed source URLs.
+    }
+  }
+
+  return source.thumbnail || "";
 }
 
 function selectWebLogo(url) {

@@ -112,6 +112,11 @@ if (isset($_GET['search'])) {
         return array_merge($pngResults, $otherResults);
     }
 
+    function searchDDGImages($query) {
+        $vqd = getVqdToken($query);
+        return $vqd ? fetchDDGImages($query, $vqd) : null;
+    }
+
     function fetchBraveImages($query) {
     $url = "https://search.brave.com/images?q={$query}";
     $html = curlGet($url, [
@@ -165,9 +170,23 @@ if (isset($_GET['search'])) {
     $results = null;
 
     if ($source === 'duckduckgo' || $source === 'all') {
-        $duckDuckGoSearchTerm = urlencode(urldecode($searchTerm) . ' filetype:png');
-        $vqd = getVqdToken($duckDuckGoSearchTerm);
-        $results = $vqd ? fetchDDGImages($duckDuckGoSearchTerm, $vqd) : null;
+        // Prefer transparent PNG sources, but never let the stricter query
+        // break logo search entirely when DuckDuckGo rejects or limits it.
+        $pngSearchTerm = urlencode(urldecode($searchTerm) . ' filetype:png');
+        $results = searchDDGImages($pngSearchTerm);
+        if (!$results) {
+            $results = searchDDGImages($searchTerm);
+        }
+
+        if ($results) {
+            usort($results, function ($a, $b) {
+                $extension = function ($result) {
+                    $path = parse_url($result['image'] ?? '', PHP_URL_PATH) ?? '';
+                    return strtolower(pathinfo($path, PATHINFO_EXTENSION));
+                };
+                return ($extension($b) === 'png') <=> ($extension($a) === 'png');
+            });
+        }
     }
 
     if (!$results && ($source === 'brave' || $source === 'all')) {
