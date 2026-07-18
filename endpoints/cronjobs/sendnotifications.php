@@ -53,13 +53,13 @@ function formatPrice($price, $currencyCode, $currencySymbol)
     return $formattedPrice;
 }
 
-function buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendSummaryWhenNoRenewals)
+function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includePeriodSummary)
 {
-    if (empty($perUser) && !$sendSummaryWhenNoRenewals) {
+    if (empty($perUser) && !$includePeriodSummary) {
         return "";
     }
 
-    if (empty($perUser) && $sendSummaryWhenNoRenewals) {
+    if (empty($perUser)) {
         return ($name ? $name . ", " : "") . $periodSummaryLine . "\n";
     }
 
@@ -74,7 +74,11 @@ function buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendSumm
         $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
     }
 
-    return $message . "\n" . $periodSummaryLine . "\n";
+    if ($includePeriodSummary) {
+        $message .= "\n" . $periodSummaryLine . "\n";
+    }
+
+    return $message;
 }
 
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
