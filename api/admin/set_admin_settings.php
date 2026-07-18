@@ -181,6 +181,10 @@ $columnsMap = [
     'local_webhook_notifications_allowlist' => SQLITE3_TEXT
 ];
 
+if (wallos_get_effective_ssrf_allowlist($db)['is_managed']) {
+    unset($columnsMap['local_webhook_notifications_allowlist']);
+}
+
 foreach ($columnsMap as $postKey => $dataType) {
     if (isset($_POST[$postKey])) {
         $fields[] = "$postKey = :$postKey";

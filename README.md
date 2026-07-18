@@ -247,6 +247,12 @@ If `OIDC_ISSUER` is set, Wallos will fetch `/.well-known/openid-configuration` a
 | `OIDC_DISABLE_PASSWORD_LOGIN` | `Disable password login` |
 | `OIDC_REQUIRE_EMAIL_VERIFIED` | `Require verified email for account linking` |
 
+### SSRF allowlist
+
+Wallos blocks webhook, SMTP, and OIDC endpoint URLs that resolve to private/link-local/loopback addresses unless the host is present in the Security Settings allowlist. Normally that allowlist is edited through the Admin UI, which requires a manual login before OIDC can be used against an identity provider on a private address (e.g. a self-hosted IdP at `auth.example.com`).
+
+Setting the `SSRF_ALLOWLIST` environment variable overrides the database value entirely (same full-override semantics as the `OIDC_*` variables above), so the allowlist can be provisioned on first boot with no manual UI step. It accepts a comma-separated list of hosts/IPs, optionally with a port (e.g. `SSRF_ALLOWLIST=auth.example.com,192.168.1.100:8123`). While set, the Security Settings field in the Admin UI is shown but disabled.
+
 ## API Documentation
 
 Wallos provides a comprehensive API that allows you to interact with the application programmatically. The API documentation is available at [https://api.wallosapp.com/](https://api.wallosapp.com/).
