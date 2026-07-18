@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'static-cache-v3';
+const STATIC_CACHE = 'static-cache-v4';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v1';
 
@@ -240,10 +240,20 @@ self.addEventListener('fetch', function (event) {
         return;
     }
 
-    // Static assets: cache-first (they only change on deploy)
+    // Static assets: network-first so a newly deployed HTML page never runs
+    // with an older cached JavaScript or stylesheet. Keep the cache for offline
+    // use only.
     if (staticAssets.some(asset => url.pathname.endsWith(asset))) {
         event.respondWith(
-            caches.match(request).then(response => response || fetch(request))
+            fetch(request).then(networkResponse => {
+                if (networkResponse.ok) {
+                    const responseClone = networkResponse.clone();
+                    caches.open(STATIC_CACHE).then(cache => {
+                        cache.put(request, responseClone);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => caches.match(request))
         );
         return;
     }

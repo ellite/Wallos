@@ -1780,41 +1780,43 @@ textarea.thin {
 }
 
 .logo-search-query {
-  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
   margin: 0 0 12px;
   flex-shrink: 0;
 }
 
 .logo-search-query>input {
-  width: 100%;
+  min-width: 0;
+  flex-grow: 1;
   height: 50px;
-  padding-right: 52px;
 }
 
 .logo-search-query>button {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
   padding: 0;
-  border: 0;
-  border-radius: 7px;
-  background-color: transparent;
-  color: var(--text-muted);
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  background-color: var(--input-background-color);
+  color: var(--text-color);
   font-size: 16px;
   cursor: pointer;
-  transition: color 0.15s, background-color 0.15s;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
 }
 
 .logo-search-query>button:hover {
   background-color: rgba(var(--main-color-rgb), 0.12);
+  border-color: var(--main-color);
   color: var(--main-color);
 }
 
 .logo-search-query>button:focus-visible {
-  outline: 2px solid rgba(var(--main-color-rgb), 0.6);
-  outline-offset: -2px;
+  outline: none;
+  border-color: var(--main-color);
+  box-shadow: var(--focus-ring);
 }
 
 .logo-search-nav-item {
