@@ -1697,6 +1697,10 @@ textarea.thin {
   max-height: 380px;
 }
 
+.logo-search {
+  max-width: 385px;
+}
+
 .logo-search.is-open,
 .icon-search.is-open {
   display: flex;
