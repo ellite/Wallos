@@ -256,7 +256,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
         <?php } ?>
 
-        <?php if (isset($monthlyBudget) && $monthlyBudget > 0) { ?>
+        <?php if (isset($totalCostPerMonth)) { ?>
             <div class="budget-subscriptions">
                 <h2><?= translate('monthly_budget', $i18n) ?></h2>
                 <div class="dashboard-subscriptions-container">
@@ -269,41 +269,43 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </p>
                             </div>
                         </div>
-                        <div class="subscription-item thin">
-                            <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
-                            <div class="subscription-item-info">
-                                <p class="subscription-item-value">
-                                    <?= formatPrice($monthlyBudget, $currencies[$userData['main_currency']]['code'], $currencies) ?>
-                                </p>
-                            </div>
-                        </div>
-                        <?php if (isset($monthlyBudgetUsed)) { ?>
+                        <?php if (isset($monthlyBudget) && $monthlyBudget > 0) { ?>
                             <div class="subscription-item thin">
-                                <p class="subscription-item-title"><?= translate("budget_used", $i18n) ?></p>
+                                <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                                 <div class="subscription-item-info">
                                     <p class="subscription-item-value">
-                                        <?= number_format($monthlyBudgetUsed, 2) ?>%
+                                        <?= formatPrice($monthlyBudget, $currencies[$userData['main_currency']]['code'], $currencies) ?>
                                     </p>
                                 </div>
                             </div>
-                        <?php } ?>
-                        <div class="subscription-item thin">
-                            <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
-                            <div class="subscription-item-info">
-                                <p class="subscription-item-value">
-                                    <?= formatPrice($monthlyBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies) ?>
-                                </p>
-                            </div>
-                        </div>
-                        <?php if (isset($monthlyOverBudgetAmount) && $monthlyOverBudgetAmount > 0) { ?>
+                            <?php if (isset($monthlyBudgetUsed)) { ?>
+                                <div class="subscription-item thin">
+                                    <p class="subscription-item-title"><?= translate("budget_used", $i18n) ?></p>
+                                    <div class="subscription-item-info">
+                                        <p class="subscription-item-value">
+                                            <?= number_format($monthlyBudgetUsed, 2) ?>%
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <div class="subscription-item thin">
-                                <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>
+                                <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                                 <div class="subscription-item-info">
                                     <p class="subscription-item-value">
-                                        <?= formatPrice($monthlyOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                        <?= formatPrice($monthlyBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies) ?>
                                     </p>
                                 </div>
                             </div>
+                            <?php if (isset($monthlyOverBudgetAmount) && $monthlyOverBudgetAmount > 0) { ?>
+                                <div class="subscription-item thin">
+                                    <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>
+                                    <div class="subscription-item-info">
+                                        <p class="subscription-item-value">
+                                            <?= formatPrice($monthlyOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         <?php } ?>
                     </div>
                 </div>
