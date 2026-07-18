@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.3.0](https://github.com/ellite/Wallos/compare/v5.2.0...v5.3.0) (2026-07-18)
+
+
+### Features
+
+* add payment-period budgeting ([4b8fbe5](https://github.com/ellite/Wallos/commit/4b8fbe578c8a27ba668db5feaeb005f5718519f4))
+
 ## [5.2.0](https://github.com/ellite/Wallos/compare/v5.1.1...v5.2.0) (2026-07-14)
 
 
