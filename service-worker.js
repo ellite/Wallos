@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'static-cache-v2';
+const STATIC_CACHE = 'static-cache-v3';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v1';
 
@@ -216,6 +216,14 @@ self.addEventListener('fetch', function (event) {
 
     // Never intercept non-GET requests (POST, etc.)
     if (request.method !== 'GET') return;
+
+    // Search endpoints must always return their current JSON response. Falling
+    // back to a cached PHP page (especially with ignoreSearch) makes the client
+    // try to parse HTML or another query's data as JSON.
+    if (url.pathname.includes('/endpoints/logos/')) {
+        event.respondWith(fetch(request));
+        return;
+    }
 
     // Logo images: cache-first, populate on first load
     if (url.pathname.includes('images/uploads/logos')) {

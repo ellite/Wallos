@@ -409,8 +409,7 @@ function runLogoSearch(searchTerm) {
       logoNav.appendChild(navItem);
     }
 
-    fetch(source.url)
-      .then(response => response.json())
+    fetchLogoSearchSource(source.url)
       .then(data => {
         if (data.results && data.results.length > 0) {
           displayImageResults(data.results, resultsContainer);
@@ -428,6 +427,38 @@ function runLogoSearch(searchTerm) {
   });
 }
 
+function fetchLogoSearchSource(url, retry = true) {
+  return fetch(url, {
+    cache: "no-store",
+    headers: { "Accept": "application/json" },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(body => {
+      try {
+        return JSON.parse(body);
+      } catch (error) {
+        throw new Error("Invalid JSON response");
+      }
+    })
+    .then(data => {
+      if (data.error && retry) {
+        return fetchLogoSearchSource(url, false);
+      }
+      return data;
+    })
+    .catch(error => {
+      if (retry) {
+        return fetchLogoSearchSource(url, false);
+      }
+      throw error;
+    });
+}
+
 function displayImageResults(imageSources, container) {
   container.innerHTML = "";
 
@@ -435,7 +466,7 @@ function displayImageResults(imageSources, container) {
     const img = document.createElement("img");
     img.src = src.thumbnail || src.image;
     img.onclick = function () {
-      selectWebLogo(src.thumbnail || src.image);
+      selectWebLogo(src.image || src.thumbnail);
     };
     img.onerror = function () {
       this.parentNode.removeChild(this);
