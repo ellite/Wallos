@@ -67,6 +67,9 @@ if (isset($_GET['search'])) {
     }
 
     function fetchDDGImages($query, $vqd) {
+        // Ask DuckDuckGo specifically for transparent PNGs. The transparent
+        // colour filter alone can still return JPEG/WebP thumbnails or source
+        // images with an opaque background.
         $params = http_build_query([
             'l'   => 'us-en',
             'o'   => 'json',
@@ -86,16 +89,27 @@ if (isset($_GET['search'])) {
         $data = json_decode($response, true);
         if (!isset($data['results']) || empty($data['results'])) return null;
 
-        $out = [];
+        $pngResults = [];
+        $otherResults = [];
         foreach ($data['results'] as $row) {
-            $out[] = [
+            $result = [
                 'thumbnail' => $row['thumbnail'] ?? $row['image'] ?? null,
                 'image'     => $row['image'] ?? null,
                 'width'     => $row['width'] ?? null,
                 'height'    => $row['height'] ?? null,
             ];
+
+            $imagePath = parse_url($result['image'] ?? '', PHP_URL_PATH) ?? '';
+            if (strtolower(pathinfo($imagePath, PATHINFO_EXTENSION)) === 'png') {
+                $pngResults[] = $result;
+            } else {
+                $otherResults[] = $result;
+            }
         }
-        return $out;
+
+        // Keep DuckDuckGo's relevance order within each group, but always put
+        // confirmed PNG source URLs first.
+        return array_merge($pngResults, $otherResults);
     }
 
     function searchDDGImages($query) {
@@ -147,7 +161,7 @@ if (isset($_GET['search'])) {
     // Cache successful responses: repeat searches are common while filling the
     // form, and both engines rate-limit aggressively (Brave after ~2 requests).
     $cacheFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR
-        . 'wallos-logo-search-' . md5($source . '|' . strtolower(urldecode($searchTerm))) . '.json';
+        . 'wallos-logo-search-v2-' . md5($source . '|' . strtolower(urldecode($searchTerm))) . '.json';
     if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < 3600) {
         echo file_get_contents($cacheFile);
         exit;

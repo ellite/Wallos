@@ -466,6 +466,8 @@ function displayImageResults(imageSources, container) {
     const img = document.createElement("img");
     img.src = src.thumbnail || src.image;
     img.onclick = function () {
+      // Display the lightweight thumbnail, but save the original source image.
+      // Search-engine thumbnails are often converted to opaque JPEG/WebP files.
       selectWebLogo(src.image || src.thumbnail);
     };
     img.onerror = function () {
