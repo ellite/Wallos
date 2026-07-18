@@ -1698,7 +1698,11 @@ textarea.thin {
 }
 
 .logo-search {
-  max-width: 385px;
+  max-width: 386px;
+}
+
+.logo-search>header {
+  padding-right: 32px;
 }
 
 .logo-search.is-open,
