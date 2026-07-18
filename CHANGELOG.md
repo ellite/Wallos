@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.1](https://github.com/ellite/Wallos/compare/v5.4.0...v5.4.1) (2026-07-18)
+
+
+### Bug Fixes
+
+* bump version ([#1131](https://github.com/ellite/Wallos/issues/1131)) ([18dd08b](https://github.com/ellite/Wallos/commit/18dd08bd80a85b4f21fc30b25f04172af07f2e13))
+
 ## [5.4.0](https://github.com/ellite/Wallos/compare/v5.3.0...v5.4.0) (2026-07-18)
 
 
