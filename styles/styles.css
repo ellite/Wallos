@@ -1780,7 +1780,7 @@ textarea.thin {
 }
 
 .logo-search-controls {
-  width: max-content;
+  width: 100%;
   max-width: 100%;
   flex-shrink: 0;
 }
