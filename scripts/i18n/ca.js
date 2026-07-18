@@ -46,5 +46,8 @@ let i18n = {
   payment_method: "Mètode de pagment",
   notes: "Notes",
   export: "Exportar",
+  invalid_budget: "El pressupost ha de ser un número no negatiu",
+  invalid_budget_period: "Període de pressupost seleccionat no vàlid",
+  invalid_budget_anchor_date: "La data d'ancoratge ha de ser una data vàlida",
   no_results_found: "No s'han trobat resultats",
 }

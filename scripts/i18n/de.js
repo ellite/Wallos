@@ -48,5 +48,8 @@ let i18n = {
   payment_method: "Zahlungsmethode",
   notes: "Notizen",
   export: "Exportieren",
+  invalid_budget: "Das Budget muss eine nicht negative Zahl sein",
+  invalid_budget_period: "Ungültiger Budgetzeitraum ausgewählt",
+  invalid_budget_anchor_date: "Das Ankerdatum muss ein gültiges Datum sein",
   no_results_found: "Keine Ergebnisse gefunden",
 }

@@ -46,5 +46,8 @@ let i18n = {
   payment_method: "Phương thức thanh toán",
   notes: "Ghi chú",
   export: "Xuất",
+  invalid_budget: "Ngân sách phải là số không âm",
+  invalid_budget_period: "Kỳ ngân sách đã chọn không hợp lệ",
+  invalid_budget_anchor_date: "Ngày mốc phải là ngày hợp lệ",
   no_results_found: "Không tìm thấy kết quả",
 }
