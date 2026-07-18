@@ -338,6 +338,14 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             <?= translate('web_search', $i18n) ?>
           </h3>
         </header>
+        <div class="logo-search-query">
+          <input type="search" id="logo-search-query" autocomplete="off"
+            placeholder="<?= translate('search_logo', $i18n) ?>"
+            aria-label="<?= translate('search_logo', $i18n) ?>">
+          <button type="button" onClick="submitLogoSearch()" title="<?= translate('search', $i18n) ?>">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
         <div id="logo-search-nav" class="logo-search-nav"></div>
         <div id="logo-search-images"></div>
       </div>
