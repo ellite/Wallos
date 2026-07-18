@@ -58,6 +58,8 @@ if (
     curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
 
     if ($ignore_ssl) {
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/header.php';
+require_once 'includes/logo_theme_variant.php';
 
 
 // Get code of main currency to display on statistics
@@ -228,10 +229,11 @@ require_once 'includes/stats_extra_calculations.php';
         <div class="title"><?= translate('most_expensive', $i18n) ?></div>
         <?php
         if (isset($mostExpensiveSubscription['logo']) && $mostExpensiveSubscription['logo'] != '') {
+          $mostExpensiveLogoSrc = "images/uploads/logos/" . $mostExpensiveSubscription['logo'];
+          $mostExpensiveLogoVariantSrc = !empty($mostExpensiveSubscription['logo_variant']) ? "images/uploads/logos/" . $mostExpensiveSubscription['logo_variant'] : null;
           ?>
           <div class="subtitle">
-            <img src="images/uploads/logos/<?= $mostExpensiveSubscription['logo'] ?>"
-              alt="<?= $mostExpensiveSubscription['name'] ?>" title="<?= $mostExpensiveSubscription['name'] ?>" />
+            <?= renderThemedLogoImg($mostExpensiveLogoSrc, $mostExpensiveLogoVariantSrc, $mostExpensiveSubscription['logo_text_color'] ?? null, '', 'alt="' . $mostExpensiveSubscription['name'] . '" title="' . $mostExpensiveSubscription['name'] . '"') ?>
           </div>
           <?php
         } else if (isset($mostExpensiveSubscription['name']) && $mostExpensiveSubscription['name'] != '') {
@@ -249,10 +251,11 @@ require_once 'includes/stats_extra_calculations.php';
           <div class="title"><?= translate('cheapest_subscription', $i18n) ?></div>
           <?php
           if (!empty($cheapestSubscription['logo'])) {
+            $cheapestLogoSrc = "images/uploads/logos/" . $cheapestSubscription['logo'];
+            $cheapestLogoVariantSrc = !empty($cheapestSubscription['logo_variant']) ? "images/uploads/logos/" . $cheapestSubscription['logo_variant'] : null;
             ?>
             <div class="subtitle">
-              <img src="images/uploads/logos/<?= $cheapestSubscription['logo'] ?>" alt="<?= $cheapestSubscription['name'] ?>"
-                title="<?= $cheapestSubscription['name'] ?>" />
+              <?= renderThemedLogoImg($cheapestLogoSrc, $cheapestLogoVariantSrc, $cheapestSubscription['logo_text_color'] ?? null, '', 'alt="' . $cheapestSubscription['name'] . '" title="' . $cheapestSubscription['name'] . '"') ?>
             </div>
             <?php
           } else if (!empty($cheapestSubscription['name'])) {
@@ -553,10 +556,11 @@ require_once 'includes/stats_extra_calculations.php';
               <div class="title"><?= translate('oldest_subscription', $i18n) ?></div>
               <?php
               if (!empty($oldestSubscription['logo'])) {
+                $oldestLogoSrc = "images/uploads/logos/" . $oldestSubscription['logo'];
+                $oldestLogoVariantSrc = !empty($oldestSubscription['logo_variant']) ? "images/uploads/logos/" . $oldestSubscription['logo_variant'] : null;
                 ?>
                 <div class="subtitle">
-                  <img src="images/uploads/logos/<?= $oldestSubscription['logo'] ?>" alt="<?= $oldestSubscription['name'] ?>"
-                    title="<?= $oldestSubscription['name'] ?>" />
+                  <?= renderThemedLogoImg($oldestLogoSrc, $oldestLogoVariantSrc, $oldestSubscription['logo_text_color'] ?? null, '', 'alt="' . $oldestSubscription['name'] . '" title="' . $oldestSubscription['name'] . '"') ?>
                 </div>
                 <?php
               } else if (!empty($oldestSubscription['name'])) {

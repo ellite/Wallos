@@ -454,7 +454,10 @@ function fetchLogoSearchSource(url, retry = true) {
     })
     .catch(error => {
       if (retry) {
-        return fetchLogoSearchSource(url, false);
+        // Wait a moment before retrying: sources like Brave rate-limit
+        // aggressively, and retrying instantly just repeats the failure.
+        return new Promise(resolve => setTimeout(resolve, 600))
+          .then(() => fetchLogoSearchSource(url, false));
       }
       throw error;
     });

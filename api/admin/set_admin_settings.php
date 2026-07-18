@@ -33,6 +33,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/oidc_settings.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -183,6 +184,10 @@ $columnsMap = [
 
 if (wallos_get_effective_ssrf_allowlist($db)['is_managed']) {
     unset($columnsMap['local_webhook_notifications_allowlist']);
+}
+
+if (isset(wallos_get_effective_oidc_configuration($db)['managed_fields']['enabled'])) {
+    unset($columnsMap['oidc_oauth_enabled']);
 }
 
 foreach ($columnsMap as $postKey => $dataType) {

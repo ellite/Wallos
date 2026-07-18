@@ -40,6 +40,7 @@ if ($rows) {
 
         $mail = new PHPMailer(true);
         $mail->isSMTP();
+        $mail->Timeout = 15;
         $mail->Host = $smtpAddress;
         $mail->SMTPAuth = $smtpAuth;
         if ($smtpAuth) {

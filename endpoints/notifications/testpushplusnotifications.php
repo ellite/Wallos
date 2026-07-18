@@ -36,7 +36,8 @@ if (!isset($data["token"]) || $data["token"] == "") {
         CURLOPT_HTTPHEADER => [
             'Content-Type: application/json'
         ],
-        CURLOPT_TIMEOUT => 10
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_CONNECTTIMEOUT => 5
     ]);
 
     // Execute the request

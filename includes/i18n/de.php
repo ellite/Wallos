@@ -419,6 +419,7 @@ $i18n = [
     "security_settings" => "Sicherheitseinstellungen",
     "ssrf_protection_info" => "Um Server-Side Request Forgery (SSRF)-Angriffe zu verhindern, blockiert Wallos standardmäßig Webhook-Benachrichtigungen an private oder interne Netzwerkadressen.",
     "local_webhook_info" => "Wenn Sie Webhooks an lokale Dienste (z. B. Home Assistant, Gotify oder Node-RED) senden müssen, geben Sie deren IP-Adressen oder Hostnamen oben als durch Kommas getrennte Liste ein (z. B. <code>192.168.1.100,192.168.1.101</code>).",
+    "ssrf_allowlist_env_managed" => "Wird durch die Umgebungsvariable SSRF_ALLOWLIST verwaltet.",
     "maintenance_tasks" => "Wartungsaufgaben",
     "orphaned_logos" => "Verwaiste Logos",
     "update" => "Update",

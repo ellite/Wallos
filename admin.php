@@ -398,7 +398,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     // find unused upload logos
 
     // Get all logos in the subscriptions table
-    $query = 'SELECT logo FROM subscriptions';
+    $query = 'SELECT logo, logo_variant FROM subscriptions';
     $stmt = $db->prepare($query);
     $result = $stmt->execute();
 
@@ -406,6 +406,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     $logosOnDB = [];
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $logosOnDB[] = $row['logo'];
+        $logosOnDB[] = $row['logo_variant'];
     }
 
     // Get all logos in the payment_methods table

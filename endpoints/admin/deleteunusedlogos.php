@@ -3,13 +3,14 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
 
-$query = 'SELECT logo FROM subscriptions';
+$query = 'SELECT logo, logo_variant FROM subscriptions';
 $stmt = $db->prepare($query);
 $result = $stmt->execute();
 
 $logosOnDB = [];
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $logosOnDB[] = $row['logo'];
+    $logosOnDB[] = $row['logo_variant'];
 }
 
 $logosOnDB = array_unique($logosOnDB);
@@ -39,9 +40,9 @@ foreach ($uploadFiles as $file) {
 // Find and delete unused logos
 $count = 0;
 foreach ($logosOnDisk as $disk) {
-    foreach ($logosOnDB as $db) {
-        $found = false;
-        if ($disk['logo'] == $db) {
+    $found = false;
+    foreach ($logosOnDB as $dbLogo) {
+        if ($disk['logo'] == $dbLogo) {
             $found = true;
             break;
         }
