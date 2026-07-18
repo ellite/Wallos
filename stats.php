@@ -189,7 +189,7 @@ require_once 'includes/stats_extra_calculations.php';
 
   $showTrendsSection = $showTotalMonthlyCostGraph || $showProjectionGraph || $monthOverMonthDelta !== null;
   $showBudgetSection = ($showMonthlyStats && (isset($monthlyBudgetUsed) || isset($monthlyBudgetLeft) || isset($monthlyOverBudgetAmount) || $showVsMonthlyBudgetGraph))
-    || ($showPeriodStats && (isset($amountNeededThisPeriod) || isset($periodBudgetUsed) || isset($periodBudgetLeft) || isset($periodOverBudgetAmount) || $showVsPeriodBudgetGraph));
+    || ($showPeriodStats && (isset($periodBudgetUsed) || isset($periodBudgetLeft) || isset($periodOverBudgetAmount) || $showVsPeriodBudgetGraph));
   $showSplitSection = $showMemberCostGraph || $showCategoryCostGraph || $showPaymentMethodsGraph || $showCycleGraph || $showCurrencyGraph || $showHistogramGraph;
   $showHistorySection = $totalLifetimeSpend > 0 || $oldestSubscription !== null || $averageSubscriptionAge !== null || $showLifetimeGraph || $showYearlyNewGraph;
   ?>
@@ -367,9 +367,6 @@ require_once 'includes/stats_extra_calculations.php';
     ?>
     <section class="stats-section">
       <h2><?= translate('budget', $i18n) ?></h2>
-      <?php if ($showPeriodStats && isset($budgetPeriodLabel)) { ?>
-        <div class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></div>
-      <?php } ?>
       <div class="statistics">
         <?php
         if ($showMonthlyStats && isset($monthlyBudgetUsed)) {
@@ -393,32 +390,33 @@ require_once 'includes/stats_extra_calculations.php';
           }
         }
 
-        if ($showPeriodStats) {
+        if ($showPeriodStats && isset($periodBudgetUsed)) {
+          $periodRangeLabel = htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8');
           ?>
           <div class="statistic">
             <span><?= CurrencyFormatter::format($amountNeededThisPeriod, $code) ?></span>
             <div class="title"><?= translate('amount_needed_this_period', $i18n) ?></div>
+            <div class="period-range"><?= $periodRangeLabel ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= number_format($periodBudgetUsed, 2) ?>%</span>
+            <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
+            <div class="period-range"><?= $periodRangeLabel ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($periodBudgetLeft, $code) ?></span>
+            <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
+            <div class="period-range"><?= $periodRangeLabel ?></div>
           </div>
           <?php
-          if (isset($periodBudgetUsed)) {
+          if (isset($periodOverBudgetAmount)) {
             ?>
             <div class="statistic">
-              <span><?= number_format($periodBudgetUsed, 2) ?>%</span>
-              <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('percentage_budget_used', $i18n) ?></div>
-            </div>
-            <div class="statistic">
-              <span><?= CurrencyFormatter::format($periodBudgetLeft, $code) ?></span>
-              <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('budget_remaining', $i18n) ?></div>
+              <span><?= CurrencyFormatter::format($periodOverBudgetAmount, $code) ?></span>
+              <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
+              <div class="period-range"><?= $periodRangeLabel ?></div>
             </div>
             <?php
-            if (isset($periodOverBudgetAmount)) {
-              ?>
-              <div class="statistic">
-                <span><?= CurrencyFormatter::format($periodOverBudgetAmount, $code) ?></span>
-                <div class="title"><?= translate('period_budget', $i18n) ?> - <?= translate('amount_over_budget', $i18n) ?></div>
-              </div>
-              <?php
-            }
           }
         }
         ?>
