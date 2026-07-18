@@ -25,7 +25,7 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
     }
 
     $nextPaymentDate = new DateTime($next_payment);
-    $currentDate = new DateTime('now');
+    $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
 
     $paymentCycleDays = 30; // Default to monthly
     if ($cycle === 1) {
@@ -38,16 +38,25 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
         $paymentCycleDays = 365 * $frequency;
     }
 
-    $lastPaymentDate = clone $nextPaymentDate;
-    $lastPaymentDate->modify("-$paymentCycleDays days");
-
-    $totalCycleDays = $lastPaymentDate->diff($nextPaymentDate)->days;
-    $daysSinceLastPayment = $lastPaymentDate->diff($currentDate)->days;
-
-    $subscriptionProgress = 0;
-    if ($totalCycleDays > 0) {
-        $subscriptionProgress = ($daysSinceLastPayment / $totalCycleDays) * 100;
+    if ($paymentCycleDays <= 0) {
+        return 0;
     }
+
+    // next_payment can be many cycles away from today (a stale value, or
+    // several missed renewal runs), so we can't always assume it's within a
+    // single cycle of "now". Walk back however many whole cycles are needed
+    // so the window we measure progress against is the one that actually
+    // contains today.
+    $daysUntilNextPayment = $currentDate->diff($nextPaymentDate)->days;
+    $cyclesBack = $currentDate <= $nextPaymentDate
+        ? max(1, (int) ceil($daysUntilNextPayment / $paymentCycleDays))
+        : 1;
+
+    $lastPaymentDate = clone $nextPaymentDate;
+    $lastPaymentDate->modify('-' . ($cyclesBack * $paymentCycleDays) . ' days');
+
+    $daysSinceLastPayment = $lastPaymentDate->diff($currentDate)->days;
+    $subscriptionProgress = ($daysSinceLastPayment / $paymentCycleDays) * 100;
 
     return floor($subscriptionProgress);
 }
