@@ -329,6 +329,34 @@ function searchLogo() {
   if (subscriptionForm) {
     subscriptionForm.classList.add("scroll-locked");
   }
+
+  const queryInput = document.querySelector("#logo-search-query");
+  queryInput.value = searchTerm;
+  queryInput.onkeydown = function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitLogoSearch();
+    }
+  };
+
+  runLogoSearch(searchTerm);
+}
+
+function submitLogoSearch() {
+  const queryInput = document.querySelector("#logo-search-query");
+  const searchTerm = queryInput.value.trim();
+  if (searchTerm === "") {
+    queryInput.focus();
+    return;
+  }
+
+  runLogoSearch(searchTerm);
+}
+
+function runLogoSearch(searchTerm) {
+  const logoSearchPopup = document.querySelector("#logo-search-results");
+  const logoResults = document.querySelector("#logo-search-images");
+  const logoNav = document.querySelector("#logo-search-nav");
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {
     const baseTitle = logoSearchTitle.dataset.title;
@@ -336,16 +364,17 @@ function searchLogo() {
   }
 
   // One section per source, queried in parallel and filled as each response lands
+  const encodedSearchTerm = encodeURIComponent(searchTerm);
   const sources = [
-    { label: 'selfh.st', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=selfhst` },
-    { label: 'Dashboard Icons', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=dashboardicons` },
-    { label: 'DuckDuckGo', url: `endpoints/logos/search.php?search=${searchTerm}&source=duckduckgo` },
-    { label: 'Brave', url: `endpoints/logos/search.php?search=${searchTerm}&source=brave` },
+    { label: 'selfh.st', url: `endpoints/logos/icon_search.php?search=${encodedSearchTerm}&source=selfhst` },
+    { label: 'Dashboard Icons', url: `endpoints/logos/icon_search.php?search=${encodedSearchTerm}&source=dashboardicons` },
+    { label: 'DuckDuckGo', url: `endpoints/logos/search.php?search=${encodedSearchTerm}&source=duckduckgo` },
+    { label: 'Brave', url: `endpoints/logos/search.php?search=${encodedSearchTerm}&source=brave` },
   ];
 
   // Google requires user-provided API credentials; the section only exists when configured
   if (logoSearchPopup.dataset.googleSearch) {
-    sources.unshift({ label: 'Google', url: `endpoints/logos/google_search.php?search=${searchTerm}` });
+    sources.unshift({ label: 'Google', url: `endpoints/logos/google_search.php?search=${encodedSearchTerm}` });
   }
 
   logoResults.innerHTML = "";
