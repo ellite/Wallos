@@ -30,7 +30,8 @@ function sc_send($text, $desp = '', $key = '') {
     $opts = array('http' => array(
         'method'  => 'POST',
         'header'  => 'Content-type: application/x-www-form-urlencoded',
-        'content' => $postdata
+        'content' => $postdata,
+        'timeout' => 15
     ));
 
     $context = stream_context_create($opts);

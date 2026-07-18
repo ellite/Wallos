@@ -55,6 +55,7 @@ if (
     $mail = new PHPMailer(true);
     $mail->CharSet = "UTF-8";
     $mail->isSMTP();
+    $mail->Timeout = 15;
 
     $mail->Host = $smtpAddress;
     $mail->SMTPAuth = $smtpAuth;
