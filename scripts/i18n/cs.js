@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Platební metoda",
   notes: "Poznámky",
   export: "Exportovat",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Rozpočet musí být nezáporné číslo",
+  invalid_budget_period: "Vybrané rozpočtové období je neplatné",
+  invalid_budget_anchor_date: "Počáteční datum musí být platné datum",
   no_results_found: "Nebyly nalezeny žádné výsledky",
 }

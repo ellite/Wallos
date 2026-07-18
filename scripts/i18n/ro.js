@@ -46,8 +46,8 @@ let i18n = {
   payment_method: ",Metoda de plată",
   notes: "Notițe",
   export: "Export",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Bugetul trebuie să fie un număr nenegativ",
+  invalid_budget_period: "Perioadă de buget selectată nevalidă",
+  invalid_budget_anchor_date: "Data de referință trebuie să fie o dată validă",
   no_results_found: "Nu s-au găsit rezultate",
 }

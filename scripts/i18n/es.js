@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Método de pago",
   notes: "Notas",
   export: "Exportar",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "El presupuesto debe ser un número no negativo",
+  invalid_budget_period: "Periodo de presupuesto seleccionado no válido",
+  invalid_budget_anchor_date: "La fecha de referencia debe ser una fecha válida",
   no_results_found: "No se encontraron resultados",
 }

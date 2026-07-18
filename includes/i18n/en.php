@@ -212,6 +212,7 @@ $i18n = [
     "cost_vs_period_budget" => "Cost vs Period Budget",
     "send_period_summary_at_period_start" => "Send summary at start of each payment period",
     "amount_for_pay_period" => "Amount for Pay Period",
+    "remaining" => "Remaining",
     "amount_needed_this_period" => "Amount needed this period",
     "current_period" => "Current period",
     "budget_info" => "Monthly budget is used to calculate statistics",

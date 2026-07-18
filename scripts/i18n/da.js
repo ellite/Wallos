@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Betalingsmetode",
   notes: "Noter",
   export: "Eksportér",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Budgettet skal være et ikke-negativt tal",
+  invalid_budget_period: "Ugyldig budgetperiode valgt",
+  invalid_budget_anchor_date: "Startdatoen skal være en gyldig dato",
   no_results_found: "Ingen resultater fundet",
 }

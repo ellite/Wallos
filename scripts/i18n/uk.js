@@ -46,8 +46,8 @@ let i18n = {
     payment_method: "Спосіб оплати",
     notes: "Примітки",
     export: "Експорт",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Бюджет має бути невід'ємним числом",
+  invalid_budget_period: "Вибрано недійсний бюджетний період",
+  invalid_budget_anchor_date: "Дата відліку має бути дійсною датою",
   no_results_found: "Нічого не знайдено",
 }

@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Μέθοδος πληρωμής",
   notes: "Σημειώσεις",
   export: "Εξαγωγή",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Ο προϋπολογισμός πρέπει να είναι μη αρνητικός αριθμός",
+  invalid_budget_period: "Επιλέχθηκε μη έγκυρη περίοδος προϋπολογισμού",
+  invalid_budget_anchor_date: "Η ημερομηνία αναφοράς πρέπει να είναι έγκυρη ημερομηνία",
   no_results_found: "Δεν βρέθηκαν αποτελέσματα",
 }

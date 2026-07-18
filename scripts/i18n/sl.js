@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Način plačila",
   notes: "Opombe",
   export: "Izvozi",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Proračun mora biti nenegativno število",
+  invalid_budget_period: "Izbrano neveljavno proračunsko obdobje",
+  invalid_budget_anchor_date: "Izhodiščni datum mora biti veljaven datum",
   no_results_found: "Ni najdenih rezultatov",
 }

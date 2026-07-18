@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Metode pembayaran",
   notes: "Catatan",
   export: "Ekspor",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Anggaran harus berupa angka non-negatif",
+  invalid_budget_period: "Periode anggaran yang dipilih tidak valid",
+  invalid_budget_anchor_date: "Tanggal acuan harus berupa tanggal yang valid",
   no_results_found: "Tidak ada hasil ditemukan",
 }

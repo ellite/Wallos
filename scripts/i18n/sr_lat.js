@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Način plaćanja",
   notes: "Beleške",
   export: "Izvezi",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "Budžet mora biti ne-negativan broj",
+  invalid_budget_period: "Izabran je nevažeći period budžeta",
+  invalid_budget_anchor_date: "Referentni datum mora biti važeći datum",
   no_results_found: "Nema rezultata",
 }

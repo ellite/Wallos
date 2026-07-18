@@ -46,8 +46,8 @@ let i18n = {
   payment_method: "Fizetési mód",
   notes: "Jegyzetek",
   export: "Exportálás",
-  invalid_budget: "Budget must be a non-negative number",
-  invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget: "A költségvetésnek nem negatív számnak kell lennie",
+  invalid_budget_period: "Érvénytelen költségvetési időszak lett kiválasztva",
+  invalid_budget_anchor_date: "A kezdő dátumnak érvényes dátumnak kell lennie",
   no_results_found: "Nincs találat",
 }
