@@ -169,11 +169,38 @@ if (isset($recommendations['recommendations']) && is_array($recommendations['rec
 }
 
 if (is_array($recommendations)) {
-    $recommendations = array_values(array_filter($recommendations, function ($rec) {
-        return is_array($rec)
-            && trim((string) ($rec['title'] ?? '')) !== ''
-            && trim((string) ($rec['description'] ?? '')) !== '';
-    }));
+    $normalizedRecommendations = [];
+
+    foreach ($recommendations as $rec) {
+        if (!is_array($rec)) {
+            continue;
+        }
+
+        $title = $rec['title'] ?? null;
+        $description = $rec['description'] ?? null;
+        $savings = $rec['savings'] ?? '';
+
+        if (!is_scalar($title) || !is_scalar($description)
+            || ($savings !== null && !is_scalar($savings))) {
+            continue;
+        }
+
+        $title = trim((string) $title);
+        $description = trim((string) $description);
+        $savings = $savings === null ? '' : trim((string) $savings);
+
+        if ($title === '' || $description === '') {
+            continue;
+        }
+
+        $normalizedRecommendations[] = [
+            'title' => $title,
+            'description' => $description,
+            'savings' => $savings,
+        ];
+    }
+
+    $recommendations = $normalizedRecommendations;
 }
 
 if (!empty($recommendations)) {

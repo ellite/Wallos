@@ -310,11 +310,11 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
             'curl_code' => $curlErrorNumber,
             'http_status' => $httpCode,
         ]);
-        unset($ch);
+        curl_close($ch);
         return ["success" => false, "message" => $curlError];
     }
 
-    unset($ch);
+    curl_close($ch);
 
     $replyData = ai_decode_provider_response($reply);
 
@@ -346,7 +346,10 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
             $message .= ' (HTTP ' . $httpCode . ')';
         }
         if ($providerMessage !== null && $providerMessage !== '') {
-            $message .= ': ' . mb_substr($providerMessage, 0, 500);
+            $providerMessage = function_exists('mb_substr')
+                ? mb_substr($providerMessage, 0, 500)
+                : substr($providerMessage, 0, 500);
+            $message .= ': ' . $providerMessage;
         }
 
         return ["success" => false, "message" => $message];
