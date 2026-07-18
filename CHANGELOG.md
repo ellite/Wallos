@@ -1,5 +1,26 @@
 # Changelog
 
+## [5.4.0](https://github.com/ellite/Wallos/compare/v5.3.0...v5.4.0) (2026-07-18)
+
+
+### Features
+
+* add Arabic localization ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* add manual logo search box and png prioritization ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* add OIDC_REQUIRE_EMAIL_VERIFIED environment variable and SSRF_ALLOWLIST environment variable ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+
+
+### Bug Fixes
+
+* ai recommendations not handling varied provider responses ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* deleting orphaned logos not taking into account themed variants ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* email notification test rejecting non-admin users ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* notification test/send requests hanging on unreachable hosts ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* pin discord notification action to a commit sha ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* progress bar showing 100% when next payment is more than one cycle away ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* service worker caching stale logo search results and broken images as logos ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+* stats page not using themed logo variants ([aff3ed0](https://github.com/ellite/Wallos/commit/aff3ed06b154a6b9bca6d0777f5935b5f9e8dd59))
+
 ## [5.3.0](https://github.com/ellite/Wallos/compare/v5.2.0...v5.3.0) (2026-07-18)
 
 
