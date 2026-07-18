@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require_once '../../includes/connect_endpoint.php';
-require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
