@@ -26,7 +26,7 @@ function saveMonthlyBudget() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.message || translate('unknown_error'));
       }
     })
     .catch(error => {
