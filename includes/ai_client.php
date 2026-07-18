@@ -15,6 +15,66 @@ function ai_load_settings($db, $userId)
     return $aiSettings ?: null;
 }
 
+function ai_log_failure($type, $userId, $reason, $context = [])
+{
+    $details = [
+        'provider=' . ($type ?: 'unknown'),
+        'user_id=' . (int) $userId,
+        'reason=' . $reason,
+    ];
+
+    foreach ($context as $key => $value) {
+        if ($value !== null && $value !== '') {
+            $details[] = $key . '=' . preg_replace('/[\r\n\s]+/', ' ', (string) $value);
+        }
+    }
+
+    error_log('[Wallos AI] ' . implode(' ', $details));
+}
+
+function ai_get_provider_error($replyData)
+{
+    if (!is_array($replyData)) {
+        return [null, null, null];
+    }
+
+    $error = $replyData['error'] ?? null;
+
+    if (is_string($error) && trim($error) !== '') {
+        return [trim($error), null, null];
+    }
+
+    if (is_array($error)) {
+        return [
+            isset($error['message']) && is_string($error['message']) ? trim($error['message']) : null,
+            $error['code'] ?? null,
+            $error['correlation_id'] ?? null,
+        ];
+    }
+
+    return [null, null, null];
+}
+
+function ai_get_text_content($content)
+{
+    if (is_string($content)) {
+        return $content;
+    }
+
+    if (!is_array($content)) {
+        return null;
+    }
+
+    $text = [];
+    foreach ($content as $part) {
+        if (is_array($part) && isset($part['text']) && is_string($part['text'])) {
+            $text[] = $part['text'];
+        }
+    }
+
+    return $text ? implode('', $text) : null;
+}
+
 /*
   Validates the settings and runs one completion request against the configured provider.
   Returns ["success" => true, "content" => string]
@@ -127,18 +187,62 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
 
     $reply = curl_exec($ch);
 
-    if (curl_errno($ch)) {
-        return ["success" => false, "message" => curl_error($ch)];
+    $curlErrorNumber = curl_errno($ch);
+    $curlError = $curlErrorNumber ? curl_error($ch) : '';
+    $httpCode = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+
+    if ($curlErrorNumber) {
+        ai_log_failure($type, $userId, 'curl_error', [
+            'curl_code' => $curlErrorNumber,
+            'http_status' => $httpCode,
+        ]);
+        unset($ch);
+        return ["success" => false, "message" => $curlError];
     }
 
     unset($ch);
 
     $replyData = json_decode($reply, true);
+
+    if (!is_array($replyData)) {
+        ai_log_failure($type, $userId, 'invalid_provider_json', [
+            'http_status' => $httpCode,
+            'response_length' => is_string($reply) ? strlen($reply) : 0,
+            'json_error' => json_last_error_msg(),
+        ]);
+        return ["success" => false, "message" => translate('ai_invalid_response', $i18n)];
+    }
+
+    [$providerMessage, $providerCode, $correlationId] = ai_get_provider_error($replyData);
+
+    if (($httpCode < 200 || $httpCode >= 300) && $providerMessage === null) {
+        $fallbackMessage = $replyData['message'] ?? null;
+        $providerMessage = is_string($fallbackMessage) ? trim($fallbackMessage) : null;
+    }
+
+    if ($httpCode < 200 || $httpCode >= 300 || $providerMessage !== null) {
+        ai_log_failure($type, $userId, 'provider_error', [
+            'http_status' => $httpCode,
+            'provider_code' => $providerCode,
+            'correlation_id' => $correlationId,
+        ]);
+
+        $message = translate('ai_provider_error', $i18n);
+        if ($httpCode > 0) {
+            $message .= ' (HTTP ' . $httpCode . ')';
+        }
+        if ($providerMessage !== null && $providerMessage !== '') {
+            $message .= ': ' . mb_substr($providerMessage, 0, 500);
+        }
+
+        return ["success" => false, "message" => $message];
+    }
+
     $content = null;
 
     if (in_array($type, ['chatgpt', 'openrouter', 'openai-compatible'])
         && isset($replyData['choices'][0]['message']['content'])) {
-        $content = $replyData['choices'][0]['message']['content'];
+        $content = ai_get_text_content($replyData['choices'][0]['message']['content']);
     } elseif ($type === 'gemini'
         && isset($replyData['candidates'][0]['content']['parts'][0]['text'])) {
         $content = $replyData['candidates'][0]['content']['parts'][0]['text'];
@@ -147,7 +251,11 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
     }
 
     if ($content === null) {
-        return ["success" => false, "message" => translate('error', $i18n)];
+        ai_log_failure($type, $userId, 'missing_completion_content', [
+            'http_status' => $httpCode,
+            'finish_reason' => $replyData['choices'][0]['finish_reason'] ?? null,
+        ]);
+        return ["success" => false, "message" => translate('ai_invalid_response', $i18n)];
     }
 
     return ["success" => true, "content" => $content];
@@ -159,8 +267,23 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
 */
 function ai_extract_json($content)
 {
-    $content = preg_replace('/^```json\s*|\s*```$/m', '', $content);
-    $content = preg_replace('/^```\s*|\s*```$/m', '', $content);
+    $content = trim($content);
+    $content = preg_replace('/^```(?:json)?\s*/i', '', $content);
+    $content = preg_replace('/\s*```$/', '', $content);
 
-    return json_decode(trim($content), true);
+    $decoded = json_decode(trim($content), true);
+    if (json_last_error() === JSON_ERROR_NONE) {
+        return $decoded;
+    }
+
+    // Some compatible models add a short explanation despite the prompt.
+    // Extract the outermost JSON array without accepting unrelated prose.
+    $arrayStart = strpos($content, '[');
+    $arrayEnd = strrpos($content, ']');
+
+    if ($arrayStart === false || $arrayEnd === false || $arrayEnd <= $arrayStart) {
+        return null;
+    }
+
+    return json_decode(substr($content, $arrayStart, $arrayEnd - $arrayStart + 1), true);
 }

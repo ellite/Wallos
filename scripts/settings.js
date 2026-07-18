@@ -20,7 +20,7 @@ function saveBudget() {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.message || translate('unknown_error'));
       }
     })
     .catch(error => {
@@ -1293,7 +1293,22 @@ function runAiRecommendations() {
       'X-CSRF-Token': window.csrfToken,
     }
   })
-    .then(response => response.json())
+    .then(async response => {
+      const responseText = await response.text();
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch (error) {
+        throw new Error(`${translate('network_response_error')} (HTTP ${response.status})`);
+      }
+
+      if (!response.ok && !data.message) {
+        throw new Error(`${translate('network_response_error')} (HTTP ${response.status})`);
+      }
+
+      return data;
+    })
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
@@ -1302,7 +1317,7 @@ function runAiRecommendations() {
       }
     })
     .catch(error => {
-      showErrorMessage(translate('unknown_error'));
+      showErrorMessage(error.message || translate('unknown_error'));
     })
     .finally(() => {
       button.classList.remove("hidden");

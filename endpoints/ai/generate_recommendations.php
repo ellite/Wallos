@@ -164,7 +164,19 @@ if (!$aiResult['success']) {
 
 $recommendations = ai_extract_json($aiResult['content']);
 
+if (isset($recommendations['recommendations']) && is_array($recommendations['recommendations'])) {
+    $recommendations = $recommendations['recommendations'];
+}
+
 if (is_array($recommendations)) {
+    $recommendations = array_values(array_filter($recommendations, function ($rec) {
+        return is_array($rec)
+            && trim((string) ($rec['title'] ?? '')) !== ''
+            && trim((string) ($rec['description'] ?? '')) !== '';
+    }));
+}
+
+if (!empty($recommendations)) {
     // Clear old recommendations
     $stmt = $db->prepare("DELETE FROM ai_recommendations WHERE user_id = :user_id");
     $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
@@ -193,9 +205,14 @@ if (is_array($recommendations)) {
     exit;
 }
 
+$jsonError = json_last_error_msg();
+ai_log_failure($aiSettings['type'] ?? '', $userId, 'invalid_completion_json', [
+    'response_length' => strlen($aiResult['content']),
+    'json_error' => $jsonError,
+]);
 echo json_encode([
     "success"    => false,
-    "message"    => translate('error', $i18n),
-    "json_error" => json_last_error_msg(),
+    "message"    => translate('ai_invalid_json_response', $i18n),
+    "json_error" => $jsonError,
 ]);
 exit;
