@@ -46,5 +46,8 @@ let i18n = {
   payment_method: "支払い方法",
   notes: "メモ",
   export: "エクスポート",
+  invalid_budget: "予算は0以上の数値である必要があります",
+  invalid_budget_period: "選択した予算期間が無効です",
+  invalid_budget_anchor_date: "基準日は有効な日付である必要があります",
   no_results_found: "結果が見つかりません",
 }

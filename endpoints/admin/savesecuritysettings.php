@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/ssrf_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -10,6 +11,14 @@ if (!isset($data['local_webhook_notifications_allowlist'])) {
     echo json_encode([
         "success" => false,
         "message" => translate('error', $i18n)
+    ]);
+    die();
+}
+
+if (wallos_get_effective_ssrf_allowlist($db)['is_managed']) {
+    echo json_encode([
+        "success" => false,
+        "message" => translate('ssrf_allowlist_env_managed', $i18n)
     ]);
     die();
 }

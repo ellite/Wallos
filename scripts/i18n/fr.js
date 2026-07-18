@@ -46,5 +46,8 @@ let i18n = {
     payment_method: "Méthode de paiement",
     notes: "Notes",
     export: "Exporter",
+  invalid_budget: "Le budget doit être un nombre non négatif",
+  invalid_budget_period: "Période de budget sélectionnée invalide",
+  invalid_budget_anchor_date: "La date de référence doit être une date valide",
   no_results_found: "Aucun résultat trouvé",
 };

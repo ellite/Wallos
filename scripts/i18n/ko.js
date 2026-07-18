@@ -46,5 +46,8 @@ let i18n = {
   payment_method: "결제 수단",
   notes: "메모",
   export: "내보내기",
+  invalid_budget: "예산은 0 이상의 숫자여야 합니다",
+  invalid_budget_period: "선택한 예산 기간이 유효하지 않습니다",
+  invalid_budget_anchor_date: "기준 날짜는 유효한 날짜여야 합니다",
   no_results_found: "결과를 찾을 수 없습니다",
 };

@@ -46,5 +46,8 @@ let i18n = {
     payment_method: "支付方式",
     notes: "备注",
     export: "导出",
+  invalid_budget: "预算必须为非负数",
+  invalid_budget_period: "所选预算周期无效",
+  invalid_budget_anchor_date: "起始日期必须是有效日期",
   no_results_found: "未找到结果",
 };

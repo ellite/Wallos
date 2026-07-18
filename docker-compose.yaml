@@ -22,6 +22,7 @@ services:
       # OIDC_SCOPES: "openid email profile"
       # OIDC_AUTO_CREATE_USER: "true"
       # OIDC_DISABLE_PASSWORD_LOGIN: "false"
+      # OIDC_REQUIRE_EMAIL_VERIFIED: "true"
     # Volumes store your data between container upgrades
     volumes:
       - './db:/var/www/html/db'

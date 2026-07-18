@@ -2378,6 +2378,14 @@ button.dark-theme-button i {
   text-align: center;
 }
 
+.statistic>.period-range {
+  margin-top: 5px;
+  font-size: 13px;
+  color: var(--text-color);
+  opacity: 0.6;
+  text-align: center;
+}
+
 .statistic>.subtitle {
   font-size: 25px;
   color: var(--accent-color);
