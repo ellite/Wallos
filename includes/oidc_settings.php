@@ -177,6 +177,16 @@ function wallos_get_effective_oidc_configuration($db)
         }
     }
 
+    if (wallos_has_oidc_env_value('OIDC_REQUIRE_EMAIL_VERIFIED')) {
+        $parsedValue = wallos_parse_oidc_boolean(wallos_get_oidc_env_value('OIDC_REQUIRE_EMAIL_VERIFIED'));
+        if ($parsedValue !== null) {
+            $settings['require_email_verified'] = $parsedValue;
+            $managedFields['require_email_verified'] = 'OIDC_REQUIRE_EMAIL_VERIFIED';
+        } else {
+            $notes[] = 'Ignoring invalid boolean value in OIDC_REQUIRE_EMAIL_VERIFIED.';
+        }
+    }
+
     if (wallos_has_oidc_env_value('OIDC_ISSUER')) {
         $issuer = (string) wallos_get_oidc_env_value('OIDC_ISSUER');
         $managedFields['issuer'] = 'OIDC_ISSUER';

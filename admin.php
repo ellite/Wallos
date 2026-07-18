@@ -263,7 +263,8 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
             </div>
             <div class="form-group-inline">
                 <input type="checkbox" id="oidcRequireEmailVerified"
-                    <?= $oidcSettings['require_email_verified'] ? 'checked' : '' ?> />
+                    <?= $oidcSettings['require_email_verified'] ? 'checked' : '' ?>
+                    <?= oidc_input_attrs('require_email_verified', $oidcManagedFields) ?> />
                 <label for="oidcRequireEmailVerified"><?= translate('require_email_verified_linking', $i18n) ?></label>
             </div>
             <?php if (!empty($oidcManagedFields) || !empty($oidcNotes)): ?>
