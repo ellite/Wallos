@@ -329,6 +329,41 @@ function searchLogo() {
   if (subscriptionForm) {
     subscriptionForm.classList.add("scroll-locked");
   }
+
+  const queryInput = document.querySelector("#logo-search-query");
+  queryInput.value = searchTerm;
+
+  runLogoSearch(searchTerm);
+}
+
+function submitLogoSearch() {
+  const queryInput = document.querySelector("#logo-search-query");
+  const searchTerm = queryInput.value.trim();
+  if (searchTerm === "") {
+    queryInput.focus();
+    return;
+  }
+
+  runLogoSearch(searchTerm);
+}
+
+const logoSearchQueryInput = document.querySelector("#logo-search-query");
+const logoSearchSubmitButton = document.querySelector("#logo-search-submit");
+
+if (logoSearchQueryInput && logoSearchSubmitButton) {
+  logoSearchSubmitButton.addEventListener("click", submitLogoSearch);
+  logoSearchQueryInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitLogoSearch();
+    }
+  });
+}
+
+function runLogoSearch(searchTerm) {
+  const logoSearchPopup = document.querySelector("#logo-search-results");
+  const logoResults = document.querySelector("#logo-search-images");
+  const logoNav = document.querySelector("#logo-search-nav");
   const logoSearchTitle = document.querySelector("#logo-search-title");
   if (logoSearchTitle) {
     const baseTitle = logoSearchTitle.dataset.title;
@@ -336,16 +371,17 @@ function searchLogo() {
   }
 
   // One section per source, queried in parallel and filled as each response lands
+  const encodedSearchTerm = encodeURIComponent(searchTerm);
   const sources = [
-    { label: 'selfh.st', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=selfhst` },
-    { label: 'Dashboard Icons', url: `endpoints/logos/icon_search.php?search=${searchTerm}&source=dashboardicons` },
-    { label: 'DuckDuckGo', url: `endpoints/logos/search.php?search=${searchTerm}&source=duckduckgo` },
-    { label: 'Brave', url: `endpoints/logos/search.php?search=${searchTerm}&source=brave` },
+    { label: 'selfh.st', url: `endpoints/logos/icon_search.php?search=${encodedSearchTerm}&source=selfhst` },
+    { label: 'Dashboard Icons', url: `endpoints/logos/icon_search.php?search=${encodedSearchTerm}&source=dashboardicons` },
+    { label: 'DuckDuckGo', url: `endpoints/logos/search.php?search=${encodedSearchTerm}&source=duckduckgo` },
+    { label: 'Brave', url: `endpoints/logos/search.php?search=${encodedSearchTerm}&source=brave` },
   ];
 
   // Google requires user-provided API credentials; the section only exists when configured
   if (logoSearchPopup.dataset.googleSearch) {
-    sources.unshift({ label: 'Google', url: `endpoints/logos/google_search.php?search=${searchTerm}` });
+    sources.unshift({ label: 'Google', url: `endpoints/logos/google_search.php?search=${encodedSearchTerm}` });
   }
 
   logoResults.innerHTML = "";
@@ -380,8 +416,7 @@ function searchLogo() {
       logoNav.appendChild(navItem);
     }
 
-    fetch(source.url)
-      .then(response => response.json())
+    fetchLogoSearchSource(source.url)
       .then(data => {
         if (data.results && data.results.length > 0) {
           displayImageResults(data.results, resultsContainer);
@@ -399,6 +434,32 @@ function searchLogo() {
   });
 }
 
+function fetchLogoSearchSource(url, retry = true) {
+  return fetch(url, {
+    cache: "no-store",
+    headers: { "Accept": "application/json" },
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(body => {
+      try {
+        return JSON.parse(body);
+      } catch (error) {
+        throw new Error("Invalid JSON response");
+      }
+    })
+    .catch(error => {
+      if (retry) {
+        return fetchLogoSearchSource(url, false);
+      }
+      throw error;
+    });
+}
+
 function displayImageResults(imageSources, container) {
   container.innerHTML = "";
 
@@ -406,7 +467,10 @@ function displayImageResults(imageSources, container) {
     const img = document.createElement("img");
     img.src = src.thumbnail || src.image;
     img.onclick = function () {
-      selectWebLogo(src.thumbnail || src.image);
+      const selectedUrl = getSupportedLogoUrl(src);
+      if (selectedUrl) {
+        selectWebLogo(selectedUrl, img.src);
+      }
     };
     img.onerror = function () {
       this.parentNode.removeChild(this);
@@ -415,11 +479,26 @@ function displayImageResults(imageSources, container) {
   });
 }
 
-function selectWebLogo(url) {
+function getSupportedLogoUrl(source) {
+  if (source.image) {
+    try {
+      const imagePath = new URL(source.image, window.location.href).pathname.toLowerCase();
+      if (/\.(png|jpe?g|gif|webp)$/.test(imagePath)) {
+        return source.image;
+      }
+    } catch (error) {
+      // Fall through to the raster thumbnail for malformed source URLs.
+    }
+  }
+
+  return source.thumbnail || "";
+}
+
+function selectWebLogo(url, previewUrl = url) {
   closeLogoSearch();
   const logoPreview = document.querySelector("#form-logo");
   const logoUrl = document.querySelector("#logo-url");
-  logoPreview.src = url;
+  logoPreview.src = previewUrl;
   logoPreview.style.display = 'block';
   logoUrl.value = url;
 }

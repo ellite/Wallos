@@ -1440,6 +1440,7 @@ input {
 }
 
 input[type="text"],
+input[type="search"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
@@ -1459,6 +1460,7 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="search"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
@@ -1695,6 +1697,14 @@ textarea.thin {
   max-height: 380px;
 }
 
+.logo-search {
+  max-width: 386px;
+}
+
+.logo-search>header {
+  padding-right: 32px;
+}
+
 .logo-search.is-open,
 .icon-search.is-open {
   display: flex;
@@ -1769,12 +1779,59 @@ textarea.thin {
   display: none;
 }
 
+.logo-search-controls {
+  width: 100%;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
 .logo-search-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
   margin: 0 0 12px;
   flex-shrink: 0;
+}
+
+.logo-search-query {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  margin: 0 0 12px;
+}
+
+.logo-search-query>input {
+  width: 0;
+  min-width: 0;
+  flex-grow: 1;
+  height: 50px;
+}
+
+.logo-search-query>button {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  background-color: var(--input-background-color);
+  color: var(--text-color);
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+
+.logo-search-query>button:hover {
+  background-color: rgba(var(--main-color-rgb), 0.12);
+  border-color: var(--main-color);
+  color: var(--main-color);
+}
+
+.logo-search-query>button:focus-visible {
+  outline: none;
+  border-color: var(--main-color);
+  box-shadow: var(--focus-ring);
 }
 
 .logo-search-nav-item {

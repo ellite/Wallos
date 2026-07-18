@@ -1,6 +1,6 @@
-const STATIC_CACHE = 'static-cache-v2';
+const STATIC_CACHE = 'static-cache-v3';
 const PAGES_CACHE = 'pages-cache-v1';
-const LOGOS_CACHE = 'logos-cache-v1';
+const LOGOS_CACHE = 'logos-cache-v2';
 
 const staticAssets = [
     'manifest.json',
@@ -217,15 +217,29 @@ self.addEventListener('fetch', function (event) {
     // Never intercept non-GET requests (POST, etc.)
     if (request.method !== 'GET') return;
 
-    // Logo images: cache-first, populate on first load
+    // Search endpoints must always return their current JSON response. Falling
+    // back to a cached PHP page (especially with ignoreSearch) makes the client
+    // try to parse HTML or another query's data as JSON.
+    if (url.pathname.includes('/endpoints/logos/')) {
+        event.respondWith(fetch(request));
+        return;
+    }
+
+    // Logo images: use cache-first, but cache only successful image responses.
+    // This prevents temporary 404/HTML responses from becoming permanent
+    // broken images. Bumping LOGOS_CACHE removes previously poisoned entries.
     if (url.pathname.includes('images/uploads/logos')) {
         event.respondWith(
             caches.match(request).then(response => {
                 return response || fetch(request).then(networkResponse => {
-                    return caches.open(LOGOS_CACHE).then(cache => {
-                        cache.put(request, networkResponse.clone());
-                        return networkResponse;
-                    });
+                    const contentType = networkResponse.headers.get('content-type') || '';
+                    if (networkResponse.ok && contentType.startsWith('image/')) {
+                        return caches.open(LOGOS_CACHE).then(cache => {
+                            cache.put(request, networkResponse.clone());
+                            return networkResponse;
+                        });
+                    }
+                    return networkResponse;
                 });
             })
         );
