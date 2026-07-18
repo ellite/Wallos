@@ -460,15 +460,31 @@ function displayImageResults(imageSources, container) {
     const img = document.createElement("img");
     img.src = src.thumbnail || src.image;
     img.onclick = function () {
-      // Display the lightweight thumbnail, but save the original source image.
-      // Search-engine thumbnails are often converted to opaque JPEG/WebP files.
-      selectWebLogo(src.image || src.thumbnail);
+      const selectedUrl = getSupportedLogoUrl(src);
+      if (selectedUrl) {
+        selectWebLogo(selectedUrl);
+      }
     };
     img.onerror = function () {
       this.parentNode.removeChild(this);
     };
     container.appendChild(img);
   });
+}
+
+function getSupportedLogoUrl(source) {
+  if (source.image) {
+    try {
+      const imagePath = new URL(source.image, window.location.href).pathname.toLowerCase();
+      if (/\.(png|jpe?g|gif|webp)$/.test(imagePath)) {
+        return source.image;
+      }
+    } catch (error) {
+      // Fall through to the raster thumbnail for malformed source URLs.
+    }
+  }
+
+  return source.thumbnail || "";
 }
 
 function selectWebLogo(url) {
