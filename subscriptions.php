@@ -561,7 +561,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
 </section>
 
 <?php require_once 'includes/subscription_details_popup.php'; ?>
-<script src="scripts/subscriptions.js?<?= $version ?>&logo-search=3"></script>
+<script src="scripts/subscriptions.js?<?= $version ?>&logo-search=4"></script>
 <?php
 if (isset($_GET['add'])) {
   ?>

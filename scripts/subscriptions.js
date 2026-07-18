@@ -469,7 +469,7 @@ function displayImageResults(imageSources, container) {
     img.onclick = function () {
       const selectedUrl = getSupportedLogoUrl(src);
       if (selectedUrl) {
-        selectWebLogo(selectedUrl);
+        selectWebLogo(selectedUrl, img.src);
       }
     };
     img.onerror = function () {
@@ -494,11 +494,11 @@ function getSupportedLogoUrl(source) {
   return source.thumbnail || "";
 }
 
-function selectWebLogo(url) {
+function selectWebLogo(url, previewUrl = url) {
   closeLogoSearch();
   const logoPreview = document.querySelector("#form-logo");
   const logoUrl = document.querySelector("#logo-url");
-  logoPreview.src = url;
+  logoPreview.src = previewUrl;
   logoPreview.style.display = 'block';
   logoUrl.value = url;
 }
