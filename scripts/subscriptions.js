@@ -332,12 +332,6 @@ function searchLogo() {
 
   const queryInput = document.querySelector("#logo-search-query");
   queryInput.value = searchTerm;
-  queryInput.onkeydown = function (event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      submitLogoSearch();
-    }
-  };
 
   runLogoSearch(searchTerm);
 }
@@ -351,6 +345,19 @@ function submitLogoSearch() {
   }
 
   runLogoSearch(searchTerm);
+}
+
+const logoSearchQueryInput = document.querySelector("#logo-search-query");
+const logoSearchSubmitButton = document.querySelector("#logo-search-submit");
+
+if (logoSearchQueryInput && logoSearchSubmitButton) {
+  logoSearchSubmitButton.addEventListener("click", submitLogoSearch);
+  logoSearchQueryInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      submitLogoSearch();
+    }
+  });
 }
 
 function runLogoSearch(searchTerm) {

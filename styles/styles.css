@@ -1771,6 +1771,12 @@ textarea.thin {
   display: none;
 }
 
+.logo-search-controls {
+  width: max-content;
+  max-width: 100%;
+  flex-shrink: 0;
+}
+
 .logo-search-nav {
   display: flex;
   flex-wrap: wrap;
@@ -1783,11 +1789,12 @@ textarea.thin {
   display: flex;
   align-items: stretch;
   gap: 8px;
+  width: 100%;
   margin: 0 0 12px;
-  flex-shrink: 0;
 }
 
 .logo-search-query>input {
+  width: 0;
   min-width: 0;
   flex-grow: 1;
   height: 50px;
