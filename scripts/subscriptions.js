@@ -46,11 +46,22 @@ function resetForm() {
   deleteButton.removeAttribute("onClick");
 }
 
+// Picks the logo filename that reads well on the theme currently in use,
+// falling back to the original when there's no themed variant for it.
+function logoFilenameForCurrentTheme(subscription) {
+  if (!subscription.logo_text_color || !subscription.logo_variant) {
+    return subscription.logo;
+  }
+  const nativeTheme = subscription.logo_text_color === 'dark' ? 'light' : 'dark';
+  const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+  return currentTheme === nativeTheme ? subscription.logo : subscription.logo_variant;
+}
+
 function fillEditFormFields(subscription) {
   const formTitle = document.querySelector("#form-title");
   formTitle.textContent = translate('edit_subscription');
   const logo = document.querySelector("#form-logo");
-  const logoFile = subscription.logo !== null ? "images/uploads/logos/" + subscription.logo : "";
+  const logoFile = subscription.logo !== null ? "images/uploads/logos/" + logoFilenameForCurrentTheme(subscription) : "";
   if (logoFile) {
     logo.src = logoFile;
     logo.style = 'display: block';
@@ -584,7 +595,7 @@ function setSubscriptionsView(view) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   subscriptionsContainer.classList.toggle("grid-view", view === "grid");
   document.querySelectorAll('.subscription').forEach((card) => {
-    card.classList.remove('flipped');
+    setCardFlipped(card, false);
     card.style.transform = '';
     card.style.transition = '';
     card.style.zIndex = '';
@@ -1004,10 +1015,27 @@ document.addEventListener('click', function (event) {
   }
 });
 
+// A flipped card shows its back face via a CSS 3D transform while the front
+// stays in the DOM (and vice versa when unflipped) -- backface-visibility
+// only hides a face visually, it doesn't remove it from the tab order. The
+// `inert` attribute is what actually keeps focus (and assistive tech) out of
+// whichever face is currently turned away from the user.
+function setCardFlipped(card, flipped) {
+  card.classList.toggle('flipped', flipped);
+  const back = card.querySelector('.subscription-back');
+  const front = card.querySelector('.subscription-main');
+  if (back) {
+    back.inert = !flipped;
+  }
+  if (front) {
+    front.inert = flipped;
+  }
+}
+
 function unflipCard(subscriptionId) {
   const card = document.querySelector(`.subscription[data-id="${subscriptionId}"]`);
   if (card) {
-    card.classList.remove('flipped');
+    setCardFlipped(card, false);
   }
 }
 
@@ -1020,10 +1048,10 @@ function expandActions(event, subscriptionId) {
   if (subscriptionDiv.closest('.subscriptions.grid-view')) {
     document.querySelectorAll('.subscription.flipped').forEach((card) => {
       if (card !== subscriptionDiv) {
-        card.classList.remove('flipped');
+        setCardFlipped(card, false);
       }
     });
-    subscriptionDiv.classList.toggle('flipped');
+    setCardFlipped(subscriptionDiv, !subscriptionDiv.classList.contains('flipped'));
     return;
   }
 
