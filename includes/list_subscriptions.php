@@ -352,7 +352,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         ?>
                     </ul>
                 </div>
-                <div class="subscription-back" aria-hidden="true">
+                <div class="subscription-back" inert>
                     <button type="button" class="subscription-back-close"
                         onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
                         title="<?= translate('cancel', $i18n) ?>">
