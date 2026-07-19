@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.2](https://github.com/ellite/Wallos/compare/v5.4.1...v5.4.2) (2026-07-19)
+
+
+### Bug Fixes
+
+* use themed version of the logo on edit subscription page ([#1133](https://github.com/ellite/Wallos/issues/1133)) ([e913511](https://github.com/ellite/Wallos/commit/e9135115d0e238f78c5561ecb00c9e36acb63dd6))
+
 ## [5.4.1](https://github.com/ellite/Wallos/compare/v5.4.0...v5.4.1) (2026-07-18)
 
 
