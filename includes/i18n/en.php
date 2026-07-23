@@ -107,6 +107,9 @@ $i18n = [
     "no_matching_subscriptions" => "No matching subscriptions",
     "clone" => "Clone",
     "renew" => "Renew",
+    "mark_as_paid" => "Mark as Paid",
+    "mark_as_unpaid" => "Mark as Unpaid",
+    "paid" => "Paid",
     "calculate_next_payment_date" => "Calculate Next Payment Date",
     // Subscription form
     "add_subscription" => "Add subscription",
