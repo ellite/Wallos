@@ -307,6 +307,69 @@ function renewSubscription(event, id) {
 }
 
 
+function markAsPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/mark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "mark_paid");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+function unmarkPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/unmark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "unmark_paid");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+
 function setSearchButtonStatus() {
 
   const nameInput = document.querySelector("#name");
