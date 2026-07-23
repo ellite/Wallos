@@ -36,7 +36,7 @@ let i18n = {
   error_saving_notification_data: "알림 데이터 저장 중 오류가 발생했습니다.",
   error_sending_notification: "알림 전송 중 오류가 발생했습니다.",
   delete_account_confirmation: "계정을 삭제하시겠습니까?",
-  this_will_delete_all_data: "모든 데이터가 삭제되며 이는 복구할 수 없습니다. 계속하시겠습니까?",
+  this_will_delete_all_data: "모든 데이터가 삭제되며 복구할 수 없습니다. 계속하시겠습니까?",
   success: "성공",
   copied_to_clipboard: "클립보드에 복사되었습니다.",
   // Calendar 
