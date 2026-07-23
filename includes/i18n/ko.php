@@ -31,7 +31,7 @@ $i18n = [
     "login_with" => "다음으로 로그인",
     "or" => "또는",
     "login_failed" => "입력한 정보가 올바르지 않습니다.",
-    "registration_successful" => "계정이 생성되었습니다.",
+    "registration_successful" => "회원가입이 완료되었습니다.",
     "user_email_waiting_verification" => "이메일 인증이 필요합니다. 메일함을 확인해 주세요.",
     // Password Reset Page
     "forgot_password" => "비밀번호를 잊으셨나요?",
