@@ -38,7 +38,7 @@ let i18n = {
   delete_account_confirmation: "계정을 삭제하시겠습니까?",
   this_will_delete_all_data: "모든 데이터가 삭제되며 이는 복구할 수 없습니다. 계속하시겠습니까?",
   success: "성공",
-  copied_to_clipboard: "클립보드에 복사됨",
+  copied_to_clipboard: "클립보드에 복사되었습니다.",
   // Calendar 
   price: "가격",
   category: "카테고리",
@@ -47,7 +47,7 @@ let i18n = {
   notes: "메모",
   export: "내보내기",
   no_results_found: "결과 없음",
-  invalid_budget: "예산은 0 이상의 숫자여야 합니다.",
-  invalid_budget_period: "유효하지 않은 예산 기간입니다.",
+  invalid_budget: "0 이상의 숫자여야 합니다.",
+  invalid_budget_period: "유효하지 않은 기간입니다.",
   invalid_budget_anchor_date: "기준일은 유효한 날짜여야 합니다.",
 }
