@@ -123,6 +123,14 @@
     </div>
   </div>
 
+  <div class="filtermenu-submenu">
+    <div class="filter-title" onClick="toggleSubMenu('paid_status')"><?= translate("payment_status", $i18n) ?></div>
+    <div class="filtermenu-submenu-content" id="filter-paid_status">
+      <div class="filter-item capitalize" data-paidstatus="paid"><?= translate("paid", $i18n) ?></div>
+      <div class="filter-item capitalize" data-paidstatus="unpaid"><?= translate("unpaid", $i18n) ?></div>
+    </div>
+  </div>
+
   <div class="filtermenu-submenu hide" id="clear-filters">
     <div class="filter-title filter-clear" onClick="clearFilters()">
       <i class="fa-solid fa-times-circle"></i> <?= translate("clear", $i18n) ?>

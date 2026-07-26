@@ -621,6 +621,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['notifications'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&notifications=${activeFilters['notifications']}` : `?notifications=${activeFilters['notifications']}`;
   }
+  if (activeFilters['paidStatus'] !== "") {
+    getSubscriptions += getSubscriptions.includes("?") ? `&paidStatus=${activeFilters['paidStatus']}` : `?paidStatus=${activeFilters['paidStatus']}`;
+  }
 
   fetch(getSubscriptions)
     .then(response => response.text())
@@ -921,6 +924,7 @@ activeFilters['payments'] = [];
 activeFilters['state'] = "";
 activeFilters['renewalType'] = "";
 activeFilters['notifications'] = [];
+activeFilters['paidStatus'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -1026,6 +1030,18 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         });
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-paidstatus')) {
+      const paidStatus = this.getAttribute('data-paidstatus');
+      if (activeFilters['paidStatus'] === paidStatus) {
+        activeFilters['paidStatus'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['paidStatus'] = paidStatus;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-notificationtype')) {
       const notifType = this.getAttribute('data-notificationtype');
       if (activeFilters['notifications'].includes(notifType)) {
@@ -1040,7 +1056,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
 
     if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
        activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
-       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0) {
+       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0 ||
+       activeFilters['paidStatus'] !== "") {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -1059,6 +1076,7 @@ function clearFilters() {
   activeFilters['state'] = "";
   activeFilters['renewalType'] = "";
   activeFilters['notifications'] = [];
+  activeFilters['paidStatus'] = "";
 
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');

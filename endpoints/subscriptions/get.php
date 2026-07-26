@@ -172,8 +172,19 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  $paidStatusFilter = isset($_GET['paidStatus']) && in_array($_GET['paidStatus'], ['paid', 'unpaid']) ? $_GET['paidStatus'] : '';
+
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
+      continue;
+    }
+    $cycle = $subscription['cycle'];
+    $frequency = $subscription['frequency'];
+    $paidThisCycle = isPaidThisCycle($subscription['paid_at'] ?? null, $cycle, $frequency, $subscription['next_payment']);
+    if ($paidStatusFilter === 'paid' && !$paidThisCycle) {
+      continue;
+    }
+    if ($paidStatusFilter === 'unpaid' && $paidThisCycle) {
       continue;
     }
     $id = $subscription['id'];
@@ -182,8 +193,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['logo_text_color'] = $subscription['logo_text_color'] ?? null;
     $print[$id]['logo_variant'] = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
     $print[$id]['name'] = $subscription['name'] ?? "";
-    $cycle = $subscription['cycle'];
-    $frequency = $subscription['frequency'];
     $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
     $print[$id]['one_time'] = ($cycle == 5);
     $paymentMethodId = $subscription['payment_method_id'];
@@ -202,7 +211,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
-    $print[$id]['paid_this_cycle'] = isPaidThisCycle($subscription['paid_at'] ?? null, $cycle, $frequency, $subscription['next_payment']);
+    $print[$id]['paid_this_cycle'] = $paidThisCycle;
     $print[$id]['url'] = $subscription['url'] ?? "";
     $print[$id]['notes'] = $subscription['notes'] ?? "";
     $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
