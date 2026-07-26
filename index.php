@@ -72,22 +72,69 @@ $result = $stmt->execute();
 $user = $result->fetchArray(SQLITE3_ASSOC);
 $first_name = $user['firstname'] ?? $user['username'] ?? '';
 
-// Fetch the next 3 enabled subscriptions up for payment
-$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC LIMIT 3");
+// Duplicated from includes/list_subscriptions.php (can't require_once due to formatPrice/formatDate collisions)
+function getPaymentCycleDays($cycle, $frequency)
+{
+    switch ($cycle) {
+        case 1: return 1 * $frequency;
+        case 2: return 7 * $frequency;
+        case 3: return 30 * $frequency;
+        case 4: return 365 * $frequency;
+        default: return 0;
+    }
+}
+
+function isPaidThisCycle($paidAt, $cycle, $frequency, $nextPayment)
+{
+    if (!$paidAt || $cycle === 5) {
+        return false;
+    }
+
+    $paidDate = new DateTime($paidAt);
+    $nextPaymentDate = new DateTime($nextPayment);
+    $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
+    $paymentCycleDays = getPaymentCycleDays($cycle, $frequency);
+
+    if ($paymentCycleDays <= 0) {
+        return false;
+    }
+
+    if ($currentDate > $nextPaymentDate) {
+        $cycleEnd = clone $nextPaymentDate;
+        $cycleEnd->modify('+' . $paymentCycleDays . ' days');
+        return $paidDate >= $nextPaymentDate && $paidDate <= $cycleEnd;
+    }
+
+    $daysUntilNextPayment = $currentDate->diff($nextPaymentDate)->days;
+    $cyclesBack = max(1, (int) ceil($daysUntilNextPayment / $paymentCycleDays));
+
+    $cycleStart = clone $nextPaymentDate;
+    $cycleStart->modify('-' . ($cyclesBack * $paymentCycleDays) . ' days');
+
+    return $paidDate >= $cycleStart && $paidDate <= $nextPaymentDate;
+}
+
+// Fetch the next enabled subscriptions up for payment (excluding already-paid ones)
+$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, cycle, frequency, paid_at FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $upcomingSubscriptions = [];
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $upcomingSubscriptions[] = $row;
+    if (!isPaidThisCycle($row['paid_at'] ?? null, $row['cycle'], $row['frequency'], $row['next_payment'])) {
+        $upcomingSubscriptions[] = $row;
+        if (count($upcomingSubscriptions) >= 3) break;
+    }
 }
 
-// Fetch enabled subscriptions with manual renewal that are overdue
-$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
+// Fetch enabled subscriptions with manual renewal that are overdue (excluding already-paid ones)
+$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew, cycle, frequency, paid_at FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $overdueSubscriptions = [];
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $overdueSubscriptions[] = $row;
+    if (!isPaidThisCycle($row['paid_at'] ?? null, $row['cycle'], $row['frequency'], $row['next_payment'])) {
+        $overdueSubscriptions[] = $row;
+    }
 }
 $hasOverdueSubscriptions = !empty($overdueSubscriptions);
 

@@ -27,16 +27,7 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
     $nextPaymentDate = new DateTime($next_payment);
     $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
 
-    $paymentCycleDays = 30; // Default to monthly
-    if ($cycle === 1) {
-        $paymentCycleDays = 1 * $frequency;
-    } else if ($cycle === 2) {
-        $paymentCycleDays = 7 * $frequency;
-    } else if ($cycle === 3) {
-        $paymentCycleDays = 30 * $frequency;
-    } else if ($cycle === 4) {
-        $paymentCycleDays = 365 * $frequency;
-    }
+    $paymentCycleDays = getPaymentCycleDays($cycle, $frequency);
 
     if ($paymentCycleDays <= 0) {
         return 0;
@@ -59,6 +50,49 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
     $subscriptionProgress = ($daysSinceLastPayment / $paymentCycleDays) * 100;
 
     return floor($subscriptionProgress);
+}
+
+function getPaymentCycleDays($cycle, $frequency)
+{
+    switch ($cycle) {
+        case 1: return 1 * $frequency;
+        case 2: return 7 * $frequency;
+        case 3: return 30 * $frequency;
+        case 4: return 365 * $frequency;
+        default: return 0;
+    }
+}
+
+function isPaidThisCycle($paidAt, $cycle, $frequency, $nextPayment)
+{
+    if (!$paidAt || $cycle === 5) {
+        return false;
+    }
+
+    $paidDate = new DateTime($paidAt);
+    $nextPaymentDate = new DateTime($nextPayment);
+    $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
+    $paymentCycleDays = getPaymentCycleDays($cycle, $frequency);
+
+    if ($paymentCycleDays <= 0) {
+        return false;
+    }
+
+    if ($currentDate > $nextPaymentDate) {
+        // Overdue: the cycle window runs forward from next_payment
+        $cycleEnd = clone $nextPaymentDate;
+        $cycleEnd->modify('+' . $paymentCycleDays . ' days');
+        return $paidDate >= $nextPaymentDate && $paidDate <= $cycleEnd;
+    }
+
+    // Normal: walk back from next_payment to find the cycle containing today
+    $daysUntilNextPayment = $currentDate->diff($nextPaymentDate)->days;
+    $cyclesBack = max(1, (int) ceil($daysUntilNextPayment / $paymentCycleDays));
+
+    $cycleStart = clone $nextPaymentDate;
+    $cycleStart->modify('-' . ($cyclesBack * $paymentCycleDays) . ' days');
+
+    return $paidDate >= $cycleStart && $paidDate <= $nextPaymentDate;
 }
 
 function getPricePerMonth($cycle, $frequency, $price)
@@ -242,6 +276,14 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         </button>
                         <?php
                     }
+                    if (!$subscription['one_time'] && !$subscription['inactive'] && empty($subscription['paid_this_cycle'])) {
+                        ?>
+                        <button class="mobile-action-paid" onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <?= translate('mark_as_paid', $i18n) ?>
+                        </button>
+                        <?php
+                    }
                     ?>
                     <button class="mobile-action-edit" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <?php include $imagePath . "images/siteicons/svg/mobile-menu/edit.php"; ?>
@@ -257,6 +299,9 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             }
             if ($subscription['auto_renew'] != 1) {
                 $subscriptionExtraClasses .= " manual";
+            }
+            if (!empty($subscription['paid_this_cycle'])) {
+                $subscriptionExtraClasses .= " paid";
             }
 
             $hasLogo = false;
@@ -349,6 +394,25 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             </li>
                             <?php
                         }
+                        if (!$subscription['one_time'] && !$subscription['inactive']) {
+                            if (empty($subscription['paid_this_cycle'])) {
+                            ?>
+                            <li class="mark-paid" title="<?= translate('mark_as_paid', $i18n) ?>"
+                                onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <?= translate('mark_as_paid', $i18n) ?>
+                            </li>
+                            <?php
+                            } else {
+                            ?>
+                            <li class="mark-paid" title="<?= translate('mark_as_unpaid', $i18n) ?>"
+                                onClick="unmarkPaid(event, <?= $subscription['id'] ?>)">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                                <?= translate('mark_as_unpaid', $i18n) ?>
+                            </li>
+                            <?php
+                            }
+                        }
                         ?>
                     </ul>
                 </div>
@@ -375,6 +439,15 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             onClick="unflipCard(<?= $subscription['id'] ?>); renewSubscription(event, <?= $subscription['id'] ?>)">
                             <i class="fa-solid fa-rotate-right"></i>
                             <?= translate('renew', $i18n) ?>
+                        </button>
+                        <?php
+                    }
+                    if (!$subscription['one_time'] && !$subscription['inactive'] && empty($subscription['paid_this_cycle'])) {
+                        ?>
+                        <button type="button" class="back-action"
+                            onClick="unflipCard(<?= $subscription['id'] ?>); markAsPaid(event, <?= $subscription['id'] ?>)">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <?= translate('mark_as_paid', $i18n) ?>
                         </button>
                         <?php
                     }

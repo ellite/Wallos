@@ -307,6 +307,69 @@ function renewSubscription(event, id) {
 }
 
 
+function markAsPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/mark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "mark_paid");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+function unmarkPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/unmark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "unmark_paid");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+
 function setSearchButtonStatus() {
 
   const nameInput = document.querySelector("#name");
@@ -557,6 +620,9 @@ function fetchSubscriptions(id, event, initiator) {
   }
   if (activeFilters['notifications'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&notifications=${activeFilters['notifications']}` : `?notifications=${activeFilters['notifications']}`;
+  }
+  if (activeFilters['paidStatus'] !== "") {
+    getSubscriptions += getSubscriptions.includes("?") ? `&paidStatus=${activeFilters['paidStatus']}` : `?paidStatus=${activeFilters['paidStatus']}`;
   }
 
   fetch(getSubscriptions)
@@ -858,6 +924,7 @@ activeFilters['payments'] = [];
 activeFilters['state'] = "";
 activeFilters['renewalType'] = "";
 activeFilters['notifications'] = [];
+activeFilters['paidStatus'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -963,6 +1030,18 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         });
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-paidstatus')) {
+      const paidStatus = this.getAttribute('data-paidstatus');
+      if (activeFilters['paidStatus'] === paidStatus) {
+        activeFilters['paidStatus'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['paidStatus'] = paidStatus;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-notificationtype')) {
       const notifType = this.getAttribute('data-notificationtype');
       if (activeFilters['notifications'].includes(notifType)) {
@@ -977,7 +1056,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
 
     if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
        activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
-       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0) {
+       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0 ||
+       activeFilters['paidStatus'] !== "") {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -996,6 +1076,7 @@ function clearFilters() {
   activeFilters['state'] = "";
   activeFilters['renewalType'] = "";
   activeFilters['notifications'] = [];
+  activeFilters['paidStatus'] = "";
 
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');

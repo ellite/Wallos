@@ -78,6 +78,30 @@ function detailsProgressPercentage(subscription) {
   return Math.min(100, Math.max(0, Math.floor(progress)));
 }
 
+function detailsIsPaidThisCycle(subscription) {
+  if (!subscription.paid_at || Number(subscription.cycle) === 5) {
+    return false;
+  }
+  const cycleDays = { 1: 1, 2: 7, 3: 30, 4: 365 }[subscription.cycle];
+  if (!cycleDays) {
+    return false;
+  }
+  const totalDays = cycleDays * subscription.frequency;
+  const paidDate = new Date(subscription.paid_at + "T00:00:00");
+  const nextPayment = new Date(subscription.next_payment + "T00:00:00");
+  const today = new Date(new Date().toISOString().split("T")[0] + "T00:00:00");
+
+  if (today > nextPayment) {
+    const cycleEnd = new Date(nextPayment.getTime() + totalDays * 86400000);
+    return paidDate >= nextPayment && paidDate <= cycleEnd;
+  }
+
+  const daysUntil = Math.ceil((nextPayment - today) / 86400000);
+  const cyclesBack = Math.max(1, Math.ceil(daysUntil / totalDays));
+  const cycleStart = new Date(nextPayment.getTime() - cyclesBack * totalDays * 86400000);
+  return paidDate >= cycleStart && paidDate <= nextPayment;
+}
+
 function detailsAddChip(container, text, style) {
   const chip = document.createElement('span');
   chip.className = 'details-chip' + (style ? ' ' + style : '');
@@ -133,6 +157,9 @@ function renderSubscriptionDetails(subscription) {
   const isOneTime = Number(subscription.cycle) === 5;
   if (subscription.inactive) {
     detailsAddChip(chips, strings.inactive, 'warn');
+  }
+  if (!isOneTime && !subscription.inactive && detailsIsPaidThisCycle(subscription)) {
+    detailsAddChip(chips, strings.paid || 'Paid', 'ok');
   }
   if (isOneTime) {
     detailsAddChip(chips, strings.one_time, 'muted');
@@ -214,6 +241,31 @@ function renderSubscriptionDetails(subscription) {
     urlButton.href = /^https?:\/\//.test(subscription.url) ? subscription.url : "https://" + subscription.url;
   } else {
     urlButton.classList.add('hide');
+  }
+
+  const markPaidButton = document.querySelector('#details-mark-paid-button');
+  const unmarkPaidButton = document.querySelector('#details-unmark-paid-button');
+  const canTogglePaid = !isOneTime && !subscription.inactive;
+  const paidThisCycle = detailsIsPaidThisCycle(subscription);
+
+  if (canTogglePaid && !paidThisCycle) {
+    markPaidButton.classList.remove('hide');
+    markPaidButton.onclick = function (e) {
+      markAsPaid(e, subscription.id);
+      closeSubscriptionDetails();
+    };
+  } else {
+    markPaidButton.classList.add('hide');
+  }
+
+  if (canTogglePaid && paidThisCycle) {
+    unmarkPaidButton.classList.remove('hide');
+    unmarkPaidButton.onclick = function (e) {
+      unmarkPaid(e, subscription.id);
+      closeSubscriptionDetails();
+    };
+  } else {
+    unmarkPaidButton.classList.add('hide');
   }
 
   document.querySelector('#details-export-button').onclick = function () {
