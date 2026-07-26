@@ -110,6 +110,8 @@ $i18n = [
     "mark_as_paid" => "Mark as Paid",
     "mark_as_unpaid" => "Mark as Unpaid",
     "paid" => "Paid",
+    "unpaid" => "Unpaid",
+    "payment_status" => "Payment Status",
     "calculate_next_payment_date" => "Calculate Next Payment Date",
     // Subscription form
     "add_subscription" => "Add subscription",

@@ -550,6 +550,10 @@ button.mobile-action-renew {
   background-color: #188823;
 }
 
+button.mobile-action-paid {
+  background-color: #188823;
+}
+
 .subscription-container>.mobile-actions>button>svg {
   width: 25px;
   height: 25px;
@@ -610,6 +614,18 @@ button.mobile-action-renew {
 
 .subscription.inactive .payment_method img {
   opacity: 0.4;
+}
+
+.subscription.paid {
+  border-left: 3px solid var(--success-color);
+}
+
+.subscription-main .actions>li.mark-paid:hover {
+  color: var(--success-color);
+}
+
+.subscription-main .actions>li.mark-paid:hover>i {
+  color: var(--success-color);
 }
 
 .subscription-main {
