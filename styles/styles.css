@@ -4432,10 +4432,6 @@ body.details-open {
   }
 }
 
-.subscription.in-folder {
-  border-left: 4px solid var(--folder-color);
-}
-
 .folder-filter-dot {
   display: inline-block;
   width: 10px;
