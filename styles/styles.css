@@ -4318,49 +4318,118 @@ body.details-open {
 }
 
 /* Folders ("pockets") */
-.folder-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
+.folder-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
-.folder-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--box-border-color);
-  background-color: var(--box-background-color);
-  box-shadow: var(--box-shadow);
+.folder-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin-top: 12px;
+  padding: 16px 16px 14px;
+  border-radius: 4px 14px 14px 14px;
+  border: 1px solid color-mix(in srgb, var(--folder-color) 35%, var(--box-border-color));
+  background: linear-gradient(
+    color-mix(in srgb, var(--folder-color) 16%, var(--box-background-color)),
+    color-mix(in srgb, var(--folder-color) 8%, var(--box-background-color))
+  );
   color: var(--text-color);
   font-family: inherit;
-  font-size: 14px;
+  text-align: left;
   cursor: pointer;
-  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
-.folder-chip i {
+/* The folder tab */
+.folder-card::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -1px;
+  width: 45%;
+  min-width: 60px;
+  height: 12px;
+  border-radius: 8px 12px 0 0;
+  border: 1px solid color-mix(in srgb, var(--folder-color) 35%, var(--box-border-color));
+  border-bottom: none;
+  background: color-mix(in srgb, var(--folder-color) 45%, var(--box-background-color));
+}
+
+.folder-card:hover {
+  border-color: var(--folder-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--folder-color) 60%, transparent);
+}
+
+.folder-card.selected {
+  border-color: var(--folder-color);
+  background: linear-gradient(
+    color-mix(in srgb, var(--folder-color) 32%, var(--box-background-color)),
+    color-mix(in srgb, var(--folder-color) 18%, var(--box-background-color))
+  );
+  box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--folder-color) 60%, transparent);
+}
+
+.folder-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.folder-card-name {
+  font-weight: 600;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-card-check {
   color: var(--folder-color);
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
-.folder-chip:hover {
-  border-color: var(--folder-color);
+.folder-card.selected .folder-card-check {
+  opacity: 1;
 }
 
-.folder-chip.selected {
-  border-color: var(--folder-color);
-  background-color: color-mix(in srgb, var(--folder-color) 14%, var(--box-background-color));
-}
-
-.folder-chip-name {
-  font-weight: 500;
-}
-
-.folder-chip-count {
-  font-size: 12px;
+.folder-card-meta {
+  font-size: 13px;
   opacity: 0.7;
+  text-transform: lowercase;
+}
+
+.folder-card-total {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--folder-color) 65%, var(--text-color));
+}
+
+.folder-card-total-period {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+  .folder-cards {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px 12px;
+  }
+
+  .folder-card {
+    padding: 12px 12px 10px;
+  }
 }
 
 .subscription.in-folder {

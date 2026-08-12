@@ -148,6 +148,14 @@ foreach ($subscriptions as $subscription) {
   $folderId = $subscription['folder_id'] ?? null;
   if ($folderId !== null && isset($folders[$folderId])) {
     $folders[$folderId]['count']++;
+    if (!$subscription['inactive']) {
+      $folderPrice = floatval($subscription['price']);
+      if ($subscription['currency_id'] != $mainCurrencyId) {
+        $folderPrice = getPriceConverted($folderPrice, $subscription['currency_id'], $db);
+      }
+      $folders[$folderId]['monthly_total'] = ($folders[$folderId]['monthly_total'] ?? 0)
+        + getPricePerMonth($subscription['cycle'], $subscription['frequency'], $folderPrice);
+    }
   }
 }
 
@@ -221,7 +229,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
   <?php
   if (count($folders) > 0) {
     ?>
-    <div class="folder-chips" id="folder-chips">
+    <div class="folder-cards" id="folder-cards">
       <?php
       foreach ($folders as $folder) {
         $selectedClass = '';
@@ -231,12 +239,19 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             $selectedClass = ' selected';
           }
         }
+        $folderMonthlyTotal = $folder['monthly_total'] ?? 0;
         ?>
-        <button type="button" class="folder-chip<?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>"
+        <button type="button" class="folder-card<?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>"
           style="--folder-color: <?= htmlspecialchars($folder['color']) ?>">
-          <i class="fa-solid fa-folder"></i>
-          <span class="folder-chip-name"><?= $folder['name'] ?></span>
-          <span class="folder-chip-count"><?= $folder['count'] ?></span>
+          <span class="folder-card-header">
+            <span class="folder-card-name"><?= $folder['name'] ?></span>
+            <span class="folder-card-check"><i class="fa-solid fa-circle-check"></i></span>
+          </span>
+          <span class="folder-card-meta"><?= $folder['count'] ?> <?= translate('subscriptions', $i18n) ?></span>
+          <span class="folder-card-total">
+            <?= formatPrice($folderMonthlyTotal, $currencies[$mainCurrencyId]['code'], $currencies) ?>
+            <span class="folder-card-total-period">/ <?= translate('per_month', $i18n) ?></span>
+          </span>
         </button>
         <?php
       }

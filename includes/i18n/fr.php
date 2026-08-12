@@ -506,6 +506,7 @@ $i18n = [
     "failed_add_folder" => "Échec de l'ajout du dossier",
     "failed_edit_folder" => "Échec de l'enregistrement du dossier",
     "failed_remove_folder" => "Échec de la suppression du dossier",
+    "per_month" => "mois",
     "folders_explanation" => "Regroupez vos abonnements dans des dossiers colorés, comme des poches de paiements, et filtrez-les en un clic sur la page des abonnements.",
 ];
 

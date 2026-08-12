@@ -937,9 +937,9 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         activeFilters['folders'].push(folderId);
         this.classList.add('selected');
       }
-      const folderChip = document.querySelector(`.folder-chip[data-folderid="${folderId}"]`);
-      if (folderChip) {
-        folderChip.classList.toggle('selected', this.classList.contains('selected'));
+      const folderCard = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+      if (folderCard) {
+        folderCard.classList.toggle('selected', this.classList.contains('selected'));
       }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
@@ -1013,7 +1013,7 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
 // The folder chips above the list mirror the folder entries of the filter
 // menu: clicking a chip just clicks its menu counterpart so all the filter
 // bookkeeping lives in one place.
-document.querySelectorAll('.folder-chip').forEach(function (chip) {
+document.querySelectorAll('.folder-card').forEach(function (chip) {
   chip.addEventListener('click', function () {
     const folderId = this.getAttribute('data-folderid');
     const menuItem = document.querySelector(`.filter-item[data-folderid="${folderId}"]`);
@@ -1037,7 +1037,7 @@ function clearFilters() {
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
   });
-  document.querySelectorAll('.folder-chip').forEach(function (chip) {
+  document.querySelectorAll('.folder-card').forEach(function (chip) {
     chip.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');

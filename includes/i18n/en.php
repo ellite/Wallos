@@ -506,6 +506,7 @@ $i18n = [
     "failed_add_folder" => "Failed to add folder",
     "failed_edit_folder" => "Failed to save folder",
     "failed_remove_folder" => "Failed to remove folder",
+    "per_month" => "month",
     "folders_explanation" => "Group your subscriptions into colored folders, like pockets of payments, and filter them in one tap on the subscriptions page.",
 ];
 
