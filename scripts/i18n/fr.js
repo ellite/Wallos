@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "Période de budget sélectionnée invalide",
   invalid_budget_anchor_date: "La date de référence doit être une date valide",
   no_results_found: "Aucun résultat trouvé",
+  // Folders
+  folder: "Dossier",
+  folder_color: "Couleur du dossier",
+  save_folder: "Enregistrer le dossier",
+  delete_folder: "Supprimer le dossier",
+  failed_add_folder: "Échec de l'ajout du dossier",
+  failed_save_folder: "Échec de l'enregistrement du dossier",
+  failed_remove_folder: "Échec de la suppression du dossier",
 };

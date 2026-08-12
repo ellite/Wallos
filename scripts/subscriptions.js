@@ -86,6 +86,10 @@ function fillEditFormFields(subscription) {
   paymentSelect.value = subscription.payment_method_id;
   const categorySelect = document.querySelector("#category");
   categorySelect.value = subscription.category_id;
+  const folderSelect = document.querySelector("#folder");
+  if (folderSelect) {
+    folderSelect.value = subscription.folder_id ?? 0;
+  }
   const payerSelect = document.querySelector("#payer_user");
   payerSelect.value = subscription.payer_user_id;
 
@@ -543,6 +547,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['categories'].length > 0) {
     getSubscriptions += `?categories=${activeFilters['categories']}`;
   }
+  if (activeFilters['folders'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&folders=${activeFilters['folders']}` : `?folders=${activeFilters['folders']}`;
+  }
   if (activeFilters['members'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&members=${activeFilters['members']}` : `?members=${activeFilters['members']}`;
   }
@@ -853,6 +860,7 @@ function setSwipeElements() {
 
 const activeFilters = [];
 activeFilters['categories'] = [];
+activeFilters['folders'] = [];
 activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
@@ -919,6 +927,20 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         activeFilters['categories'].push(categoryId);
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-folderid')) {
+      const folderId = this.getAttribute('data-folderid');
+      if (activeFilters['folders'].includes(folderId)) {
+        const folderIndex = activeFilters['folders'].indexOf(folderId);
+        activeFilters['folders'].splice(folderIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['folders'].push(folderId);
+        this.classList.add('selected');
+      }
+      const folderCard = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+      if (folderCard) {
+        folderCard.classList.toggle('selected', this.classList.contains('selected'));
+      }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
       if (activeFilters['members'].includes(memberId)) {
@@ -975,7 +997,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     }
 
-    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
+    if (activeFilters['categories'].length > 0 || activeFilters['folders'].length > 0 ||
+       activeFilters['members'].length > 0 ||
        activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
        activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0) {
       document.querySelector('#clear-filters').classList.remove('hide');
@@ -987,10 +1010,24 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
   });
 });
 
+// The folder chips above the list mirror the folder entries of the filter
+// menu: clicking a chip just clicks its menu counterpart so all the filter
+// bookkeeping lives in one place.
+document.querySelectorAll('.folder-card').forEach(function (chip) {
+  chip.addEventListener('click', function () {
+    const folderId = this.getAttribute('data-folderid');
+    const menuItem = document.querySelector(`.filter-item[data-folderid="${folderId}"]`);
+    if (menuItem) {
+      menuItem.click();
+    }
+  });
+});
+
 function clearFilters() {
   const searchInput = document.querySelector("#search");
   searchInput.value = "";
   activeFilters['categories'] = [];
+  activeFilters['folders'] = [];
   activeFilters['members'] = [];
   activeFilters['payments'] = [];
   activeFilters['state'] = "";
@@ -999,6 +1036,9 @@ function clearFilters() {
 
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
+  });
+  document.querySelectorAll('.folder-card').forEach(function (chip) {
+    chip.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');
   fetchSubscriptions(null, null, "clearfilters");

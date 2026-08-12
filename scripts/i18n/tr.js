@@ -50,6 +50,14 @@ let i18n = {
   invalid_budget_period: "Geçersiz bütçe dönemi seçildi",
   invalid_budget_anchor_date: "Referans tarih geçerli bir tarih olmalıdır",
   no_results_found: "Sonuç bulunamadı",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }
 
 

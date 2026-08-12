@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "선택한 예산 기간이 유효하지 않습니다",
   invalid_budget_anchor_date: "기준 날짜는 유효한 날짜여야 합니다",
   no_results_found: "결과를 찾을 수 없습니다",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 };
