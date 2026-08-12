@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "Izabran je nevažeći period budžeta",
   invalid_budget_anchor_date: "Referentni datum mora biti važeći datum",
   no_results_found: "Nema rezultata",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

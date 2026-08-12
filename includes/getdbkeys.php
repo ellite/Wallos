@@ -43,6 +43,17 @@
         $categories[$categoryId]['count'] = 0;
     }
 
+    $folders = array();
+    $query = "SELECT * FROM folders WHERE user_id = :userId ORDER BY `order` ASC";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $folderId = $row['id'];
+        $folders[$folderId] = $row;
+        $folders[$folderId]['count'] = 0;
+    }
+
     $cycles = array();
     $query = "SELECT * FROM cycles";
     $result = $db->query($query);

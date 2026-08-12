@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "Perioadă de buget selectată nevalidă",
   invalid_budget_anchor_date: "Data de referință trebuie să fie o dată validă",
   no_results_found: "Nu s-au găsit rezultate",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

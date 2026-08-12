@@ -233,6 +233,19 @@ $startDate = $_POST["start_date"];
 $paymentMethodId = $_POST["payment_method_id"];
 $payerUserId = $_POST["payer_user_id"];
 $categoryId = $_POST['category_id'];
+$folderId = isset($_POST['folder_id']) && $_POST['folder_id'] != "" ? intval($_POST['folder_id']) : null;
+if ($folderId === 0) {
+    $folderId = null;
+}
+if ($folderId !== null) {
+    $folderCheck = $db->prepare("SELECT id FROM folders WHERE id = :id AND user_id = :userId");
+    $folderCheck->bindParam(':id', $folderId, SQLITE3_INTEGER);
+    $folderCheck->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $folderResult = $folderCheck->execute();
+    if (!$folderResult || !$folderResult->fetchArray()) {
+        $folderId = null;
+    }
+}
 $notes = validate($_POST["notes"]);
 $url = validate($_POST['url']);
 $logoUrl = validate($_POST['logo-url']);
@@ -311,12 +324,12 @@ if ($logo !== "" && $removeBackgroundEnabled) {
 if (!$isEdit) {
     $sql = "INSERT INTO subscriptions (
                         name, logo, price, currency_id, next_payment, cycle, frequency, notes,
-                        payment_method_id, payer_user_id, category_id, notify, inactive, url,
+                        payment_method_id, payer_user_id, category_id, folder_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
                         auto_renew, start_date, logo_text_color, logo_variant
                     ) VALUES (
                         :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
-                        :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
+                        :paymentMethodId, :payerUserId, :categoryId, :folderId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
                         :autoRenew, :startDate, :logoTextColor, :logoVariant
                     )";
@@ -334,8 +347,9 @@ if (!$isEdit) {
                         notes = :notes, 
                         payment_method_id = :paymentMethodId,
                         payer_user_id = :payerUserId, 
-                        category_id = :categoryId, 
-                        notify = :notify, 
+                        category_id = :categoryId,
+                        folder_id = :folderId,
+                        notify = :notify,
                         inactive = :inactive, 
                         url = :url, 
                         notify_days_before = :notifyDaysBefore, 
@@ -367,6 +381,7 @@ $stmt->bindParam(':notes', $notes, SQLITE3_TEXT);
 $stmt->bindParam(':paymentMethodId', $paymentMethodId, SQLITE3_INTEGER);
 $stmt->bindParam(':payerUserId', $payerUserId, SQLITE3_INTEGER);
 $stmt->bindParam(':categoryId', $categoryId, SQLITE3_INTEGER);
+$stmt->bindParam(':folderId', $folderId, SQLITE3_INTEGER);
 $stmt->bindParam(':notify', $notify, SQLITE3_INTEGER);
 $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
 $stmt->bindParam(':url', $url, SQLITE3_TEXT);

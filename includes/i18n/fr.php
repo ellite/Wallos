@@ -493,6 +493,20 @@ $i18n = [
     "google_search_info" => "Ajoute les résultats d'images Google (via SerpAPI) comme source supplémentaire dans la recherche de logos. Créez un compte SerpAPI gratuit et collez ici votre clé API.",
     "monthly_searches_used" => "Recherches utilisées ce mois-ci",
     "monthly_requests_used" => "Requêtes API utilisées ce mois-ci",
+
+    // Folders
+    "folders" => "Dossiers",
+    "folder" => "Dossier",
+    "no_folder" => "Sans dossier",
+    "folder_color" => "Couleur du dossier",
+    "save_folder" => "Enregistrer le dossier",
+    "delete_folder" => "Supprimer le dossier",
+    "folder_saved" => "Dossier enregistré",
+    "folder_removed" => "Dossier supprimé",
+    "failed_add_folder" => "Échec de l'ajout du dossier",
+    "failed_edit_folder" => "Échec de l'enregistrement du dossier",
+    "failed_remove_folder" => "Échec de la suppression du dossier",
+    "folders_explanation" => "Regroupez vos abonnements dans des dossiers colorés, comme des poches de paiements, et filtrez-les en un clic sur la page des abonnements.",
 ];
 
 

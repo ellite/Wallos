@@ -157,6 +157,21 @@ function renderSubscriptionDetails(subscription) {
   document.querySelector('#details-next-payment').textContent = detailsFormatDate(subscription.next_payment);
   document.querySelector('#details-start-date').textContent = detailsFormatDate(subscription.start_date) || strings.none;
   document.querySelector('#details-category').textContent = lookups.categories[subscription.category_id] || strings.none;
+
+  const folder = lookups.folders ? lookups.folders[subscription.folder_id] : null;
+  const folderItem = document.querySelector('#details-folder-item');
+  if (folder) {
+    folderItem.classList.remove('hide');
+    const folderValue = document.querySelector('#details-folder');
+    folderValue.innerHTML = "";
+    const folderDot = document.createElement('span');
+    folderDot.className = 'folder-filter-dot';
+    folderDot.style.backgroundColor = folder.color;
+    folderValue.appendChild(folderDot);
+    folderValue.appendChild(document.createTextNode(folder.name));
+  } else {
+    folderItem.classList.add('hide');
+  }
   document.querySelector('#details-payer').textContent = lookups.members[subscription.payer_user_id] || strings.none;
 
   const paymentMethod = lookups.paymentMethods[subscription.payment_method_id];
