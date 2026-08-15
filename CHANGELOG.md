@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.4.3](https://github.com/ellite/Wallos/compare/v5.4.2...v5.4.3) (2026-08-15)
+
+
+### Bug Fixes
+
+* **security:** block IPv6 transition addresses in SSRF guard ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** rate limit totp verification ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** stream database backups instead of writing them to the web root ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** unsafe zip extraction during db restore ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+
 ## [5.4.2](https://github.com/ellite/Wallos/compare/v5.4.1...v5.4.2) (2026-07-19)
 
 
