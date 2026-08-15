@@ -44,6 +44,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $zip = new ZipArchive();
             if ($zip->open($fileDestination) === true) {
+                // Validate every entry before extracting. ZipArchive::extractTo()
+                // offers no protection against path traversal (Zip Slip) and would
+                // happily write executable PHP into this web-accessible directory.
+                // A backup only ever contains wallos.db and image files under logos/,
+                // so anything else is rejected outright.
+                $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+                for ($i = 0; $i < $zip->numFiles; $i++) {
+                    $entry = str_replace('\\', '/', $zip->getNameIndex($i));
+
+                    if ($entry === '' || $entry[0] === '/' || in_array('..', explode('/', $entry), true)) {
+                        $zip->close();
+                        emptyRestoreFolder();
+                        die(json_encode([
+                            "success" => false,
+                            "message" => "Invalid backup file: unsafe file path detected."
+                        ]));
+                    }
+
+                    // Directory entries are fine; they carry no content.
+                    if (substr($entry, -1) === '/') {
+                        continue;
+                    }
+
+                    $isDatabase = ($entry === 'wallos.db');
+                    $isLogo = (strpos($entry, 'logos/') === 0)
+                        && in_array(strtolower(pathinfo($entry, PATHINFO_EXTENSION)), $allowedExtensions, true);
+
+                    if (!$isDatabase && !$isLogo) {
+                        $zip->close();
+                        emptyRestoreFolder();
+                        die(json_encode([
+                            "success" => false,
+                            "message" => "Invalid backup file: unexpected file detected."
+                        ]));
+                    }
+                }
                 $zip->extractTo('../../.tmp/restore/');
                 $zip->close();
             } else {
