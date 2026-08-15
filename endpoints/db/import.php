@@ -45,11 +45,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $zip = new ZipArchive();
             if ($zip->open($fileDestination) === true) {
                 // Validate every entry before extracting. ZipArchive::extractTo()
-                // offers no protection against path traversal (Zip Slip) and would
-                // happily write executable PHP into this web-accessible directory.
-                // A backup only ever contains wallos.db and image files under logos/,
-                // so anything else is rejected outright.
-                $allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'webp'];
+                // offers no protection against path traversal (Zip Slip), and the
+                // extraction target sits under the web root, so a crafted archive
+                // could otherwise drop an executable script here (RCE).
+                // Extensions the web server may execute if extracted into a
+                // servable path. .tmp/ is denied at the nginx layer as the primary
+                // control; this is defense in depth for other deployments (Apache).
+                $blockedExtensions = [
+                    'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'pht',
+                    'phps', 'phar', 'shtml', 'cgi', 'pl', 'py', 'sh',
+                    'htaccess', 'htpasswd'
+                ];
                 for ($i = 0; $i < $zip->numFiles; $i++) {
                     $entry = str_replace('\\', '/', $zip->getNameIndex($i));
 
@@ -62,21 +68,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ]));
                     }
 
-                    // Directory entries are fine; they carry no content.
-                    if (substr($entry, -1) === '/') {
-                        continue;
-                    }
-
-                    $isDatabase = ($entry === 'wallos.db');
-                    $isLogo = (strpos($entry, 'logos/') === 0)
-                        && in_array(strtolower(pathinfo($entry, PATHINFO_EXTENSION)), $allowedExtensions, true);
-
-                    if (!$isDatabase && !$isLogo) {
+                    if (in_array(strtolower(pathinfo($entry, PATHINFO_EXTENSION)), $blockedExtensions, true)) {
                         $zip->close();
                         emptyRestoreFolder();
                         die(json_encode([
                             "success" => false,
-                            "message" => "Invalid backup file: unexpected file detected."
+                            "message" => "Invalid backup file: disallowed file type detected."
                         ]));
                     }
                 }
