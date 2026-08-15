@@ -102,28 +102,33 @@ function backupDB() {
       "X-CSRF-Token": window.csrfToken,
     },
   })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        const link = document.createElement("a");
-        const filename = data.file;
-        link.href = ".tmp/" + filename;
-
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const hours = String(date.getHours()).padStart(2, "0");
-        const minutes = String(date.getMinutes()).padStart(2, "0");
-        const timestamp = `${year}${month}${day}-${hours}${minutes}`;
-        link.download = `Wallos-Backup-${timestamp}.zip`;
-
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
+    .then(async response => {
+      const contentType = response.headers.get("content-type") || "";
+      // Success streams the zip; any failure returns a JSON error body.
+      if (!response.ok || !contentType.includes("application/zip")) {
+        const data = await response.json().catch(() => ({}));
         showErrorMessage(data.message || translate("backup_failed"));
+        return;
       }
+
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      const timestamp = `${year}${month}${day}-${hours}${minutes}`;
+      link.download = `Wallos-Backup-${timestamp}.zip`;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     })
     .catch(error => {
       console.error(error);
