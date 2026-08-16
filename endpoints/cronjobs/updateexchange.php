@@ -73,10 +73,13 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
                     } else {
                         $exchangeRate = $rate / $mainCurrencyToEUR;
                     }
-                    $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code";
+                    // Every user has their own currency rows, converted against their own
+                    // main currency, so the write must be scoped to the user being refreshed.
+                    $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code AND user_id = :userId";
                     $updateStmt = $db->prepare($updateQuery);
                     $updateStmt->bindParam(':rate', $exchangeRate, SQLITE3_TEXT);
                     $updateStmt->bindParam(':code', $currencyCode, SQLITE3_TEXT);
+                    $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
                     $updateResult = $updateStmt->execute();
 
                     if (!$updateResult) {
