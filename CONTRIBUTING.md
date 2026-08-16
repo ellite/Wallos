@@ -26,6 +26,18 @@ We welcome contributions from the community and look forward to working with you
 
 4.  **Make your changes:** Implement your feature or bug fix.
 5.  **Test your changes:** Ensure that your changes work as expected.
+
+    Wallos has a small test suite in `tests/`. It needs no Composer or local PHP
+    installation — it runs in a throwaway container:
+
+    ```bash
+    dev/test.sh             # all cases
+    dev/test.sh currency    # only cases matching "currency"
+    ```
+
+    Use `CONTAINER_ENGINE=docker dev/test.sh` if you prefer Docker over Podman.
+    Tests build the real schema by running `createdatabase.php` and the
+    migration chain, so they exercise the schema the application produces.
 6.  **Commit your changes:** Commit your changes with a clear and concise message:
 
     ```bash
