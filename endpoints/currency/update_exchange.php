@@ -97,34 +97,54 @@ if ($result) {
         $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];
 
         if ($apiData !== null && isset($apiData['rates'])) {
+            // The rates and the refresh date are one unit of work: a failure
+            // halfway through would otherwise leave some rows converted against
+            // the new base and some against the old one.
+            $db->exec('BEGIN');
+
+            $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code AND user_id = :userId";
+            $updateStmt = $db->prepare($updateQuery);
+            $updateFailed = false;
+
             foreach ($apiData['rates'] as $currencyCode => $rate) {
                 if ($currencyCode === $mainCurrencyCode) {
                     $exchangeRate = 1.0;
                 } else {
                     $exchangeRate = $rate / $mainCurrencyToEUR;
                 }
-                $updateQuery = "UPDATE currencies SET rate = :rate WHERE code = :code AND user_id = :userId";
-                $updateStmt = $db->prepare($updateQuery);
-                $updateStmt->bindParam(':rate', $exchangeRate, SQLITE3_TEXT);
-                $updateStmt->bindParam(':code', $currencyCode, SQLITE3_TEXT);
-                $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+
+                $updateStmt->bindValue(':rate', $exchangeRate, SQLITE3_TEXT);
+                $updateStmt->bindValue(':code', $currencyCode, SQLITE3_TEXT);
+                $updateStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
                 $updateResult = $updateStmt->execute();
+                $updateStmt->reset();
 
                 if (!$updateResult) {
                     echo "Error updating rate for currency: $currencyCode";
+                    $updateFailed = true;
+                    break;
                 }
             }
-            $currentDate = new DateTime();
-            $formattedDate = $currentDate->format('Y-m-d');
 
-            $updateQuery = "UPDATE last_exchange_update SET date = :formattedDate WHERE user_id = :userId";
-            $updateStmt = $db->prepare($updateQuery);
-            $updateStmt->bindParam(':formattedDate', $formattedDate, SQLITE3_TEXT);
-            $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-            $updateResult = $updateStmt->execute();
+            if ($updateFailed) {
+                $db->exec('ROLLBACK');
+                $db->close();
+                echo "Exchange rates update rolled back.";
+            } else {
+                $currentDate = new DateTime();
+                $formattedDate = $currentDate->format('Y-m-d');
 
-            $db->close();
-            echo "Rates updated successfully!";
+                $updateQuery = "UPDATE last_exchange_update SET date = :formattedDate WHERE user_id = :userId";
+                $updateStmt = $db->prepare($updateQuery);
+                $updateStmt->bindParam(':formattedDate', $formattedDate, SQLITE3_TEXT);
+                $updateStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+                $updateResult = $updateStmt->execute();
+
+                $db->exec('COMMIT');
+
+                $db->close();
+                echo "Rates updated successfully!";
+            }
         }
     } else {
         echo "Exchange rates update skipped. No fixer.io api key provided";
