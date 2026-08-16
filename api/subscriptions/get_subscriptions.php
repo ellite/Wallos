@@ -93,6 +93,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/currency_rates.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -110,17 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     function getPriceConverted($price, $currency, $database)
     {
-        $query = "SELECT rate FROM currencies WHERE id = :currency";
-        $stmt = $database->prepare($query);
-        $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-        $result = $stmt->execute();
-        $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-        if ($exchangeRate === false) {
-            return $price;
-        } else {
-            $fromRate = $exchangeRate['rate'];
-            return $price / $fromRate;
-        }
+        return wallos_convert_price($price, $currency, $database);
     }
 
     // Get user from API key

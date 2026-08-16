@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/budget_period_calculations.php';
+require_once __DIR__ . '/currency_rates.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -23,19 +24,7 @@ function getPricePerMonth($cycle, $frequency, $price)
 
 function getPriceConverted($price, $currency, $database, $userId)
 {
-    $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
-    $stmt = $database->prepare($query);
-    $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
-    $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-    if ($exchangeRate === false) {
-        return $price;
-    } else {
-        $fromRate = $exchangeRate['rate'];
-        return $price / $fromRate;
-    }
+    return wallos_convert_price($price, $currency, $database, $userId);
 }
 
 // Get categories
