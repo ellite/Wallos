@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/currency_rates.php';
+
 if (!function_exists('sanitizeBudgetPeriodType')) {
     function sanitizeBudgetPeriodType($periodType)
     {
@@ -256,18 +258,7 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
 if (!function_exists('convertPriceToMainCurrency')) {
     function convertPriceToMainCurrency($price, $currencyId, SQLite3 $database, $userId)
     {
-        $query = "SELECT rate FROM currencies WHERE id = :currencyId AND user_id = :userId";
-        $stmt = $database->prepare($query);
-        $stmt->bindValue(':currencyId', $currencyId, SQLITE3_INTEGER);
-        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-        $result = $stmt->execute();
-        $exchangeRate = $result ? $result->fetchArray(SQLITE3_ASSOC) : false;
-
-        if ($exchangeRate === false || empty($exchangeRate['rate'])) {
-            return (float) $price;
-        }
-
-        return (float) $price / (float) $exchangeRate['rate'];
+        return wallos_convert_price($price, $currencyId, $database, $userId);
     }
 }
 
