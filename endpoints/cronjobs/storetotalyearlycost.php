@@ -1,6 +1,7 @@
 <?php
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
+require_once __DIR__ . '/../../includes/currency_rates.php';
 
 require 'settimezone.php';
 
@@ -32,19 +33,7 @@ function getPricePerMonth($cycle, $frequency, $price)
 
 function getPriceConverted($price, $currency, $database, $userId)
 {
-  $query = "SELECT rate FROM currencies WHERE id = :currency AND user_id = :userId";
-  $stmt = $database->prepare($query);
-  $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-  $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-  $result = $stmt->execute();
-
-  $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-  if ($exchangeRate === false) {
-    return $price;
-  } else {
-    $fromRate = $exchangeRate['rate'];
-    return $price / $fromRate;
-  }
+  return wallos_convert_price($price, $currency, $database, $userId);
 }
 
 // Get all users

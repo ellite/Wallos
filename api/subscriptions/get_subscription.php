@@ -47,6 +47,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/currency_rates.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -138,16 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $canConvertCurrency = !empty($lastExchangeUpdate['date']);
 
         if ($canConvertCurrency) {
-            $currSql = "SELECT rate FROM currencies WHERE id = :currencyId AND user_id = :userId";
-            $currStmt = $db->prepare($currSql);
-            $currStmt->bindValue(':currencyId', $subscription['currency_id'], SQLITE3_INTEGER);
-            $currStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $currResult = $currStmt->execute();
-            $subCurrency = $currResult->fetchArray(SQLITE3_ASSOC);
-
-            if ($subCurrency) {
-                $subscription['price'] = $subscription['price'] / $subCurrency['rate'];
-            }
+            $subscription['price'] = wallos_convert_price(
+                $subscription['price'],
+                $subscription['currency_id'],
+                $db,
+                $userId
+            );
         }
     }
 
