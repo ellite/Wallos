@@ -55,7 +55,7 @@ if (isset($_POST['one-time-code'])) {
     $maxTotpAttempts = 5;
     $totpLockoutSeconds = 30;
 
-    $statement = $db->prepare('SELECT totp_secret, backup_codes, failed_attempts, lockout_until FROM totp WHERE user_id = :id');
+    $statement = $db->prepare('SELECT totp_secret, backup_codes, failed_attempts, lockout_until, last_totp_used FROM totp WHERE user_id = :id');
     $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
     $result = $statement->execute();
     $row = $result->fetchArray(SQLITE3_ASSOC);
@@ -135,16 +135,24 @@ if (isset($_POST['one-time-code'])) {
                 $statement = $db->prepare('UPDATE totp SET backup_codes = :backup_codes WHERE user_id = :id');
                 $statement->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
                 $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
-                $statement->execute();
 
-                $valid = true;
+                // A backup code is single-use, so it counts only once it has
+                // actually been struck off. Honouring one whose removal failed
+                // would leave it usable indefinitely.
+                $valid = $statement->execute() !== false;
             }
         } else {
             // Record the matched time-step so the same code cannot be reused.
             $statement = $db->prepare('UPDATE totp SET last_totp_used = :last_totp_used WHERE user_id = :id');
             $statement->bindValue(':last_totp_used', $matchedStep, SQLITE3_INTEGER);
             $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
-            $statement->execute();
+
+            // The login still proceeds if this cannot be stored — the code was
+            // genuine — but the replay window is then unguarded, so say so.
+            if ($statement->execute() === false) {
+                error_log('Wallos: could not record the used TOTP step for user '
+                    . (int) $_SESSION['totp_user_id'] . '; this code stays replayable until it expires');
+            }
         }
 
         // Update brute-force counters based on the result of this attempt.
