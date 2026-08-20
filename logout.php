@@ -22,13 +22,26 @@ if (isset($_SESSION['from_oidc']) && $_SESSION['from_oidc'] === true) {
 }
 
 // get token from cookie to remove from DB
+//
+// $userId is not assigned anywhere in this file, so the statement bound null
+// and "user_id = null" matched no row: every logout left a usable remember-me
+// token behind, and the next request signed the browser straight back in. On a
+// shared machine that is the whole point of logging out.
+//
+// The token identifies the row on its own — it is 32 random bytes and the
+// credential itself — so scoping the delete by user adds nothing and was the
+// only reason this failed. The result is checked because a delete that could
+// not run and a token that was not there are different outcomes.
 if (isset($_SESSION['token'])) {
     $token = $_SESSION['token'];
-    $sql = "DELETE FROM login_tokens WHERE token = :token AND user_id = :userId";
+    $sql = "DELETE FROM login_tokens WHERE token = :token";
     $stmt = $db->prepare($sql);
     $stmt->bindParam(':token', $token, SQLITE3_TEXT);
-    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $stmt->execute();
+
+    if ($stmt->execute() === false) {
+        error_log('Wallos: could not revoke the login token on logout; '
+            . 'any browser still holding the cookie stays signed in');
+    }
 }
 $_SESSION = array();
 session_destroy();
