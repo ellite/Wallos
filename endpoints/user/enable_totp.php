@@ -41,7 +41,7 @@ if ($action === 'generate') {
 
 
     $secret = base32_encode(bin2hex(random_bytes(20)));
-    $qrCodeUrl = "otpauth://totp/Wallos:" . $_SESSION['username'] . "?secret=" . $secret . "&issuer=Wallos";
+    $qrCodeUrl = "otpauth://totp/Wallos:" . rawurlencode($_SESSION['username']) . "?secret=" . $secret . "&issuer=Wallos";
 
     echo json_encode([
         "success" => true,
