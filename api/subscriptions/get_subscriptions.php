@@ -217,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     // Construction of the main SQL Query
     $params = [];
     if ($allUserSubscription == 1 && $userId == 1) {
-        $sql = "SELECT * FROM subscriptions";
+        $sql = "SELECT * FROM subscriptions WHERE 1 = 1";
     } else {
         $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
         $params[':userId'] = $userId;
