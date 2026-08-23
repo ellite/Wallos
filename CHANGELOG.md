@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.5](https://github.com/ellite/Wallos/compare/v5.4.4...v5.4.5) (2026-08-23)
+
+
+### Bug Fixes
+
+* scope currency rate updates to the user being refreshed ([#1175](https://github.com/ellite/Wallos/issues/1175)) ([267f057](https://github.com/ellite/Wallos/commit/267f057bec332f29cb19e9478f20f0212baaf65c)), closes [#1150](https://github.com/ellite/Wallos/issues/1150)
+
 ## [5.4.4](https://github.com/ellite/Wallos/compare/v5.4.3...v5.4.4) (2026-08-15)
 
 
