@@ -67,10 +67,18 @@ if (isset($_FILES['file'])) {
         }
 
         if (file_exists('../../.tmp/restore/wallos.db')) {
+            $db->close();
+
             if (file_exists('../../db/wallos.db')) {
                 unlink('../../db/wallos.db');
             }
             rename('../../.tmp/restore/wallos.db', '../../db/wallos.db');
+
+            $db = new SQLite3('../../db/wallos.db');
+            $db->busyTimeout(5000);
+            ob_start();
+            require_once __DIR__ . '/../../includes/run_migrations.php';
+            ob_end_clean();
 
             if (file_exists('../../.tmp/restore/logos/')) {
                 $dir = '../../images/uploads/logos/';
