@@ -237,21 +237,27 @@ function wallos_get_effective_oidc_configuration($db)
         }
     }
 
+    // client_secret is intentionally not required: public clients use an empty
+    // secret and the token exchange accepts it.
     $requiredFields = [
         'client_id',
-        'client_secret',
         'authorization_url',
         'token_url',
         'user_info_url',
         'redirect_url',
         'user_identifier_field',
     ];
-    $isConfigured = true;
+    $missingFields = [];
     foreach ($requiredFields as $field) {
         if (trim((string) $settings[$field]) === '') {
-            $isConfigured = false;
-            break;
+            $missingFields[] = $field;
         }
+    }
+    $isConfigured = count($missingFields) === 0;
+
+    if ($enabled && !$isConfigured) {
+        $notes[] = 'OIDC is enabled but the login button is hidden because required fields are empty: '
+            . implode(', ', $missingFields) . '.';
     }
 
     return [
