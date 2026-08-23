@@ -412,6 +412,7 @@ $i18n = [
     "disabled" => "disabled",
     // Subscription
     "error_fetching_image" => "Error fetching image",
+    "error_saving_logo" => "Error saving logo image.",
     "subscription_updated_successfuly" => "Subscription updated successfully",
     "subscription_added_successfuly" => "Subscription added successfully",
     "error_deleting_subscription" => "Error deleting subscription.",

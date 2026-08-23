@@ -674,6 +674,9 @@ function submitFormData(formData, submitButton, endpoint) {
     .then((data) => {
       if (data.status === "Success") {
         showSuccessMessage(data.message);
+        if (data.logo_warning) {
+          showErrorMessage(data.logo_warning);
+        }
         fetchSubscriptions(null, null, "add");
         closeAddSubscription();
       } else {

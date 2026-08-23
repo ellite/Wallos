@@ -3,19 +3,21 @@
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
 - member: comma-separated IDs of the members to filter (integer) default null.
-- category: the ID of the category to filter (integer) default null.
-- payment_method: the ID of the payment method to filter (integer) default null.
-- state: the state of the subscription to filter (boolean) default null [0 - active, 1 - inactive].
-- disabled_to_bottom: whether to sort the inactive subscriptions to the bottom (boolean) default false.
+- category: comma-separated IDs of the categories to filter (integer) default null.
+- payment: comma-separated IDs of the payment methods to filter (integer) default null.
+- state: the state of the subscription to filter (integer) default null [0 - active, 1 - inactive].
+- disabled_to_bottom: whether to sort the inactive subscriptions to the bottom (string) default false. Must be the literal string "true" to take effect.
 - sort: the sorting method (string) default next_payment ['name', 'id', 'next_payment', 'price', 'payer_user_id', 'category_id', 'payment_method_id', 'inactive', 'alphanumeric'].
-- convert_currency: whether to convert to the main currency (boolean) default false.
+- convert_currency: whether to convert to the main currency (string) default false. Must be the literal string "true" to take effect.
+- all-user-subscription: whether to return subscriptions for every user instead of just the caller (string) default null. Only honored when api_key belongs to user id 1; adds the "users" field to the response.
 - api_key: the API key of the user.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
 - title: the title of the response (string).
 - subscriptions: an array of subscriptions.
-- notes: warning messages or additional information (array).
+- users: an array of all users, only present when all-user-subscription is used by user id 1.
+- notes: reserved for warning messages or additional information (array); currently always empty.
 
 Example response:
 {
@@ -93,6 +95,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/currency_rates.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -110,17 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     function getPriceConverted($price, $currency, $database)
     {
-        $query = "SELECT rate FROM currencies WHERE id = :currency";
-        $stmt = $database->prepare($query);
-        $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-        $result = $stmt->execute();
-        $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-        if ($exchangeRate === false) {
-            return $price;
-        } else {
-            $fromRate = $exchangeRate['rate'];
-            return $price / $fromRate;
-        }
+        return wallos_convert_price($price, $currency, $database);
     }
 
     // Get user from API key
@@ -217,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     // Construction of the main SQL Query
     $params = [];
     if ($allUserSubscription == 1 && $userId == 1) {
-        $sql = "SELECT * FROM subscriptions";
+        $sql = "SELECT * FROM subscriptions WHERE 1 = 1";
     } else {
         $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
         $params[':userId'] = $userId;
@@ -279,6 +272,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $sql .= " ORDER BY " . implode(", ", $orderByClauses);
 
     $stmt = $db->prepare($sql);
+    if ($stmt === false) {
+        $response = [
+            "success" => false,
+            "title" => "Invalid query parameters"
+        ];
+        echo json_encode($response);
+        exit;
+    }
     if (!empty($params)) {
         foreach ($params as $key => $value) {
             $stmt->bindValue($key, $value, SQLITE3_INTEGER);
