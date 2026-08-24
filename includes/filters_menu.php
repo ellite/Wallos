@@ -62,6 +62,34 @@
   }
   ?>
   <?php
+  if (!empty($folders)) {
+    ?>
+    <div class="filtermenu-submenu">
+      <div class="filter-title" onClick="toggleSubMenu('folder')"><?= translate("folder", $i18n) ?></div>
+      <div class="filtermenu-submenu-content" id="filter-folder">
+        <?php
+        foreach ($folders as $folder) {
+          $selectedClass = '';
+          if (isset($_GET['folder'])) {
+            $folderIds = explode(',', $_GET['folder']);
+            if (in_array($folder['id'], $folderIds)) {
+              $selectedClass = 'selected';
+            }
+          }
+          ?>
+          <div class="filter-item <?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>">
+            <span class="folder-filter-dot" style="background-color: <?= htmlspecialchars($folder['color']) ?>"></span>
+            <?= $folder['name'] ?>
+          </div>
+          <?php
+        }
+        ?>
+      </div>
+    </div>
+    <?php
+  }
+  ?>
+  <?php
   if (count($payment_methods) > 1) {
     ?>
     <div class="filtermenu-submenu">

@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "Wybrano nieprawidłowy okres budżetowy",
   invalid_budget_anchor_date: "Data odniesienia musi być prawidłową datą",
   no_results_found: "Nie znaleziono wyników",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

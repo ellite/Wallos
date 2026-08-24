@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "Periode anggaran yang dipilih tidak valid",
   invalid_budget_anchor_date: "Tanggal acuan harus berupa tanggal yang valid",
   no_results_found: "Tidak ada hasil ditemukan",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

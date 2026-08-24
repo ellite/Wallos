@@ -1010,6 +1010,61 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
     </section>
 
     <?php
+    $sql = "SELECT * FROM folders WHERE user_id = :userId ORDER BY `order` ASC";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    if ($result) {
+        $folders = array();
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $folders[] = $row;
+        }
+    }
+    ?>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('folders', $i18n) ?></h2>
+        </header>
+        <div class="account-categories">
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('folders_explanation', $i18n) ?>
+                </p>
+            </div>
+            <div id="folders" class="sortable-list">
+                <?php
+                foreach ($folders as $folder) {
+                    ?>
+                    <div class="form-group-inline" data-folderid="<?= $folder['id'] ?>">
+                        <div class=" drag-icon"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <input type="color" name="folder-color" class="folder-color-picker"
+                            value="<?= htmlspecialchars($folder['color']) ?>"
+                            title="<?= translate('folder_color', $i18n) ?>">
+                        <input type="text" name="folder" autocomplete="off" value="<?= htmlspecialchars($folder['name']) ?>"
+                            placeholder="<?= translate('folder', $i18n) ?>">
+                        <button class="image-button medium" onClick="editFolder(<?= $folder['id'] ?>)" name="save"
+                            title="<?= translate('save_folder', $i18n) ?>">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="image-button medium" onClick="removeFolder(<?= $folder['id'] ?>)"
+                            title="<?= translate('delete_folder', $i18n) ?>">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addFolder"
+                    onClick="addFolderButton()" class="thin mobile-grow" />
+            </div>
+        </div>
+    </section>
+
+    <?php
     $sql = "SELECT * FROM currencies WHERE user_id = :userId";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);

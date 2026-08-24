@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget: "Budget must be a non-negative number",
   invalid_budget_period: "Invalid budget period selected",
   invalid_budget_anchor_date: "Anchor date must be a valid date",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

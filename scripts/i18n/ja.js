@@ -50,4 +50,12 @@ let i18n = {
   invalid_budget_period: "選択した予算期間が無効です",
   invalid_budget_anchor_date: "基準日は有効な日付である必要があります",
   no_results_found: "結果が見つかりません",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

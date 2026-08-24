@@ -53,6 +53,21 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  if (isset($_GET['folders']) && $_GET['folders'] != "") {
+    $allFolders = explode(',', $_GET['folders']);
+    $placeholders = array_map(function ($idx) {
+      return ":folders{$idx}";
+    }, array_keys($allFolders));
+
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
+      return "folder_id = {$placeholder}";
+    }, $placeholders)) . ")";
+
+    foreach ($allFolders as $idx => $folder) {
+      $params[":folders{$idx}"] = $folder;
+    }
+  }
+
   if (isset($_GET['payments']) && $_GET['payments'] !== "") {
     $allPayments = explode(',', $_GET['payments']);
     $placeholders = array_map(function ($idx) {
@@ -198,6 +213,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
+    $print[$id]['folder_id'] = $subscription['folder_id'] ?? null;
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
@@ -243,7 +259,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
+    printSubscriptions($print, $sort, $categories, $folders, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
   }
 
   if (count($subscriptions) == 0) {

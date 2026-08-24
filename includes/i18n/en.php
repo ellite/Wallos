@@ -495,6 +495,21 @@ $i18n = [
     "google_search_info" => "Adds Google image results (via SerpAPI) as an additional source in the subscription logo search. Create a free SerpAPI account and paste your API key here.",
     "monthly_searches_used" => "Searches used this month",
     "monthly_requests_used" => "API requests used this month",
+
+    // Folders
+    "folders" => "Folders",
+    "folder" => "Folder",
+    "no_folder" => "No folder",
+    "folder_color" => "Folder color",
+    "save_folder" => "Save folder",
+    "delete_folder" => "Delete folder",
+    "folder_saved" => "Folder saved",
+    "folder_removed" => "Folder removed",
+    "failed_add_folder" => "Failed to add folder",
+    "failed_edit_folder" => "Failed to save folder",
+    "failed_remove_folder" => "Failed to remove folder",
+    "per_month" => "month",
+    "folders_explanation" => "Group your subscriptions into colored folders, like pockets of payments, and filter them in one tap on the subscriptions page.",
 ];
 
 

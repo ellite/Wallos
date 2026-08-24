@@ -149,7 +149,7 @@ function formatDate($date, $lang = 'en')
     return $formattedDate;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+function printSubscriptions($subscriptions, $sort, $categories, $folders, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     if ($sort === "price") {
         usort($subscriptions, function ($a, $b) {
@@ -249,6 +249,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 $subscriptionExtraClasses .= " manual";
             }
 
+            $folderStyle = "";
+            $folderId = $subscription['folder_id'] ?? null;
+            if ($folderId !== null && isset($folders[$folderId])) {
+                $subscriptionExtraClasses .= " in-folder";
+                $folderStyle = " style=\"--folder-color: " . htmlspecialchars($folders[$folderId]['color']) . "\" title=\"" . translate('folder', $i18n) . ": " . htmlspecialchars($folders[$folderId]['name']) . "\"";
+            }
+
             $hasLogo = false;
             if ($subscription['logo'] != "") {
                 $hasLogo = true;
@@ -256,7 +263,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
             ?>
 
-            <div class="subscription<?= $subscriptionExtraClasses ?>"
+            <div class="subscription<?= $subscriptionExtraClasses ?>"<?= $folderStyle ?>
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
                 <div class="subscription-main">
