@@ -41,7 +41,7 @@ if ($action === 'generate') {
 
 
     $secret = base32_encode(bin2hex(random_bytes(20)));
-    $qrCodeUrl = "otpauth://totp/Wallos:" . $_SESSION['username'] . "?secret=" . $secret . "&issuer=Wallos";
+    $qrCodeUrl = "otpauth://totp/Wallos:" . rawurlencode($_SESSION['username']) . "?secret=" . $secret . "&issuer=Wallos";
 
     echo json_encode([
         "success" => true,
@@ -103,7 +103,10 @@ if ($action === 'verify') {
             $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
             $stmt->bindValue(':totp_secret', $secret, SQLITE3_TEXT);
             $stmt->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
-            $stmt->bindValue(':last_totp_used', time(), SQLITE3_INTEGER);
+            // Store the current TOTP time-step (not a raw timestamp): the code
+            // just verified above counts as used, so it cannot be replayed as the
+            // first login code. totp.php compares against this same step counter.
+            $stmt->bindValue(':last_totp_used', intdiv(time(), 30), SQLITE3_INTEGER);
             $stmt->execute();
 
             // Update user totp_enabled

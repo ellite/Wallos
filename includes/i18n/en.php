@@ -191,6 +191,7 @@ $i18n = [
     "enable_two_factor_authentication" => "Enable Two Factor Authentication",
     "2fa_already_enabled" => "Two Factor Authentication is already enabled",
     "totp_code_incorrect" => "TOTP code is incorrect",
+    "totp_too_many_attempts" => "Too many failed attempts. Please wait a moment and try again.",
     "backup_codes" => "Backup Codes",
     "download_backup_codes" => "Download Backup Codes",
     "copy_to_clipboard" => "Copy to clipboard",
@@ -411,6 +412,7 @@ $i18n = [
     "disabled" => "disabled",
     // Subscription
     "error_fetching_image" => "Error fetching image",
+    "error_saving_logo" => "Error saving logo image.",
     "subscription_updated_successfuly" => "Subscription updated successfully",
     "subscription_added_successfuly" => "Subscription added successfully",
     "error_deleting_subscription" => "Error deleting subscription.",

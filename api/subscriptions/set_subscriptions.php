@@ -33,6 +33,7 @@ It returns a JSON object with the following properties:
 - title: the title of the response (string).
 - message: detailed information or error message (string).
 - subscriptionId: (only for successful 'add' action) the ID of the newly created subscription (integer).
+- logo_warning: (optional) present when logo_url/logo was given but saving it failed; the subscription is still saved without changing its logo (string).
 
 Example response:
 {
@@ -172,6 +173,9 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
                 unset($ch);
                 return ['success' => true, 'filename' => $fileName];
             }
+
+            unset($ch);
+            return ['success' => false, 'message' => 'Failed to save logo image.'];
         }
 
         unset($ch);
@@ -213,7 +217,7 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
 
             require_once __DIR__ . '/../../includes/gd_background_removal.php';
             $newImage = gdCropTransparent($newImage, 2);
-            imagepng($newImage, $uploadFile);
+            $saved = imagepng($newImage, $uploadFile);
             imagedestroy($newImage);
         } else {
             unlink($tempFile);
@@ -221,7 +225,7 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
         }
 
         unlink($tempFile);
-        return true;
+        return $saved;
     }
     return false;
 }
@@ -286,19 +290,27 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
             if ($fileExtension === 'png') {
-                imagepng($resizedImage, $uploadFile);
+                $saved = imagepng($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
-                imagejpeg($resizedImage, $uploadFile);
+                $saved = imagejpeg($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'gif') {
-                imagegif($resizedImage, $uploadFile);
+                $saved = imagegif($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'webp') {
-                imagewebp($resizedImage, $uploadFile);
+                $saved = imagewebp($resizedImage, $uploadFile);
             } else {
                 return "";
             }
 
             imagedestroy($image);
             imagedestroy($resizedImage);
+
+            if (!$saved) {
+                if (file_exists($uploadFile)) {
+                    unlink($uploadFile);
+                }
+                return "";
+            }
+
             return $fileName;
         }
     }
@@ -514,16 +526,22 @@ switch ($action) {
 
         // Process Logo
         $logo = '';
+        $logoWarning = '';
         $logoUrl = $_POST['logo_url'] ?? $_POST['logo-url'] ?? '';
         if ($logoUrl !== "") {
             $resLogo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings);
             if ($resLogo['success']) {
                 $logo = $resLogo['filename'];
+            } else {
+                $logoWarning = $resLogo['message'];
             }
         } elseif (!empty($_FILES['logo']['name'])) {
             $fileType = mime_content_type($_FILES['logo']['tmp_name']);
             if (strpos($fileType, 'image') !== false) {
                 $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
+                if ($logo === "") {
+                    $logoWarning = 'Failed to save logo image.';
+                }
             }
         }
 
@@ -566,12 +584,16 @@ switch ($action) {
         $stmtInsert->bindParam(':startDate', $startDate, SQLITE3_TEXT);
 
         if ($stmtInsert->execute()) {
-            echo json_encode([
+            $addResponse = [
                 'success' => true,
                 'title' => 'Subscription added',
                 'subscriptionId' => $db->lastInsertRowID(),
                 'message' => 'Subscription added successfully.'
-            ]);
+            ];
+            if ($logoWarning !== '') {
+                $addResponse['logo_warning'] = $logoWarning;
+            }
+            echo json_encode($addResponse);
         } else {
             echo json_encode([
                 'success' => false,
@@ -805,18 +827,26 @@ switch ($action) {
         $logoTextColor = $subscription['logo_text_color'];
         $logoVariant = $subscription['logo_variant'];
         $logoChanged = false;
+        $logoWarning = '';
         $logoUrl = $_POST['logo_url'] ?? $_POST['logo-url'] ?? '';
         if ($logoUrl !== "") {
             $resLogo = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings);
             if ($resLogo['success']) {
                 $logo = $resLogo['filename'];
                 $logoChanged = true;
+            } else {
+                $logoWarning = $resLogo['message'];
             }
         } elseif (!empty($_FILES['logo']['name'])) {
             $fileType = mime_content_type($_FILES['logo']['tmp_name']);
             if (strpos($fileType, 'image') !== false) {
-                $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
-                $logoChanged = true;
+                $newLogo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
+                if ($newLogo !== "") {
+                    $logo = $newLogo;
+                    $logoChanged = true;
+                } else {
+                    $logoWarning = 'Failed to save logo image.';
+                }
             }
         }
 
@@ -875,11 +905,15 @@ switch ($action) {
         $stmtUpdate->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmtUpdate->execute()) {
-            echo json_encode([
+            $updateResponse = [
                 'success' => true,
                 'title' => 'Subscription updated',
                 'message' => 'Subscription updated successfully.'
-            ]);
+            ];
+            if ($logoWarning !== '') {
+                $updateResponse['logo_warning'] = $logoWarning;
+            }
+            echo json_encode($updateResponse);
         } else {
             echo json_encode([
                 'success' => false,

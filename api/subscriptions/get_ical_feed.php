@@ -9,6 +9,7 @@ It returns a downloadable VCAL file with the active subscriptions
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/currency_rates.php';
 require_once '../../includes/ical_helper.php';
 
 header('Content-Type: application/json; charset=UTF-8');
@@ -29,18 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     function getPriceConverted($price, $currency, $database)
     {
-        $query = "SELECT rate FROM currencies WHERE id = :currency";
-        $stmt = $database->prepare($query);
-        $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-        $result = $stmt->execute();
-
-        $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-        if ($exchangeRate === false) {
-            return $price;
-        } else {
-            $fromRate = $exchangeRate['rate'];
-            return $price / $fromRate;
-        }
+        return wallos_convert_price($price, $currency, $database);
     }
 
     // Get user from API key
@@ -140,36 +130,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
 
-        if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
+        $wasConverted = isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId;
+        if ($wasConverted) {
             $subscriptionToReturn['price'] = getPriceConverted($subscription['price'], $subscription['currency_id'], $db);
+            // Converted prices are now in the user's main currency, so the
+            // symbol shown alongside them has to switch too.
+            $subscriptionToReturn['currency_id'] = $userCurrencyId;
         } else {
             $subscriptionToReturn['price'] = $subscription['price'];
         }
 
-        $subscriptionToReturn['category_name'] = $categories[$subscription['category_id']];
-        $subscriptionToReturn['payer_user_name'] = $members[$subscription['payer_user_id']];
-        $subscriptionToReturn['payment_method_name'] = $paymentMethods[$subscription['payment_method_id']];
+        $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
+        $subscriptionToReturn['payer_user_name'] = isset($members[$subscription['payer_user_id']]) ? $members[$subscription['payer_user_id']] : 'Unknown member';
+        $subscriptionToReturn['payment_method_name'] = isset($paymentMethods[$subscription['payment_method_id']]) ? $paymentMethods[$subscription['payment_method_id']] : 'Unknown payment method';
 
         $subscriptionsToReturn[] = $subscriptionToReturn;
     }
 
-    $stmt->bindValue(':inactive', false, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
     header('Content-Type: text/calendar; charset=utf-8');
     header('Content-Disposition: attachment; filename="subscriptions.ics"');
 
-    if ($result === false) {
-        die("BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:NAME:\nEND:VCALENDAR");
-    }
-
     $icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wallos//iCalendar//EN\nNAME:Wallos\nX-WR-CALNAME:Wallos\n";
 
-    while ($subscription = $result->fetchArray(SQLITE3_ASSOC)) {
-        $subscription['payer_user'] = $members[$subscription['payer_user_id']];
-        $subscription['category'] = $categories[$subscription['category_id']];
-        $subscription['payment_method'] = $paymentMethods[$subscription['payment_method_id']];
-        $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
+    foreach ($subscriptionsToReturn as $subscription) {
+        $subscription['payer_user'] = $subscription['payer_user_name'];
+        $subscription['category'] = $subscription['category_name'];
+        $subscription['payment_method'] = $subscription['payment_method_name'];
+        $subscription['currency'] = isset($currencies[$subscription['currency_id']]) ? $currencies[$subscription['currency_id']]['symbol'] : '';
         $subscription['trigger'] = ($subscription['notify_days_before'] == -1) ? $globalNotificationDays : ($subscription['notify_days_before'] ?: 1);
         $subscription['price'] = number_format($subscription['price'], 2);
 

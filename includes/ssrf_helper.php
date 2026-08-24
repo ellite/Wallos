@@ -64,6 +64,80 @@ function is_cgnat_ip($ip) {
 }
 
 /**
+ * Extracts the embedded IPv4 address from an IPv6 transition/mapping form.
+ * Covers IPv4-mapped (::ffff:0:0/96), NAT64 (64:ff9b::/96), 6to4 (2002::/16)
+ * and Teredo (2001:0000::/32). Returns a dotted-quad string, or null when the
+ * address is not one of these forms.
+ */
+function wallos_extract_embedded_ipv4($ip) {
+    $packed = @inet_pton($ip);
+    if ($packed === false || strlen($packed) !== 16) {
+        return null;
+    }
+    $b = unpack('C16', $packed); // 1-indexed bytes $b[1]..$b[16]
+
+    // IPv4-mapped ::ffff:0:0/96 (high 80 bits zero, then 0xffff)
+    $high80Zero = true;
+    for ($i = 1; $i <= 10; $i++) {
+        if ($b[$i] !== 0) {
+            $high80Zero = false;
+            break;
+        }
+    }
+    if ($high80Zero && $b[11] === 0xff && $b[12] === 0xff) {
+        return "{$b[13]}.{$b[14]}.{$b[15]}.{$b[16]}";
+    }
+
+    // NAT64 64:ff9b::/96 — embedded IPv4 in the last 32 bits
+    if ($b[1] === 0x00 && $b[2] === 0x64 && $b[3] === 0xff && $b[4] === 0x9b) {
+        return "{$b[13]}.{$b[14]}.{$b[15]}.{$b[16]}";
+    }
+
+    // 6to4 2002::/16 — embedded IPv4 in bytes 3-6
+    if ($b[1] === 0x20 && $b[2] === 0x02) {
+        return "{$b[3]}.{$b[4]}.{$b[5]}.{$b[6]}";
+    }
+
+    // Teredo 2001:0000::/32 — client IPv4 in the last 32 bits, bitwise-inverted
+    if ($b[1] === 0x20 && $b[2] === 0x01 && $b[3] === 0x00 && $b[4] === 0x00) {
+        $o1 = ~$b[13] & 0xff;
+        $o2 = ~$b[14] & 0xff;
+        $o3 = ~$b[15] & 0xff;
+        $o4 = ~$b[16] & 0xff;
+        return "{$o1}.{$o2}.{$o3}.{$o4}";
+    }
+
+    return null;
+}
+
+/**
+ * Determines whether an IP address (IPv4 or IPv6) must be treated as
+ * private/reserved for SSRF purposes.
+ *
+ * Extends PHP's filter_var — which does not flag IPv6 transition ranges — by
+ * also rejecting NAT64/6to4/Teredo/IPv4-mapped forms. Those can encode an
+ * internal IPv4 destination (e.g. the cloud metadata address) and otherwise
+ * pass the guard. Any such transition form is treated as unsafe by default; a
+ * legitimate destination has no reason to be reached through a transition
+ * relay, and admins can still permit specific hosts via the allowlist.
+ */
+function wallos_ip_is_private_or_reserved($ip) {
+    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+        || is_cgnat_ip($ip)) {
+        return true;
+    }
+
+    // filter_var (above) misses IPv6 transition prefixes; catch them here.
+    // wallos_extract_embedded_ipv4() returns null for plain IPv4 and for
+    // ordinary public IPv6, so only transition forms are blocked here.
+    if (wallos_extract_embedded_ipv4($ip) !== null) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * Validates a webhook URL against SSRF attacks and checks the admin allowlist.
  * If validation fails, it kills the script and outputs a JSON error response.
  * * @param string $url The destination URL to check
@@ -98,7 +172,7 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
     $ipWithPort = $port ? $ip . ':' . $port : $ip;
 
     // Check if it's a private IP
-    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false || is_cgnat_ip($ip);
+    $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
         if ($userId != 1) {
@@ -148,8 +222,7 @@ function validate_smtp_host($host, $port, $db) {
     // DNS failure — gethostbyname returns the input unchanged on failure
     if ($ip === $host && filter_var($host, FILTER_VALIDATE_IP) === false) return false;
 
-    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
-               || is_cgnat_ip($ip);
+    $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
         $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
@@ -195,8 +268,7 @@ function validate_oidc_endpoint_url($url, $db) {
 
     $targetPort = $port ?: ($scheme === 'https' ? 443 : 80);
 
-    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
-               || is_cgnat_ip($ip);
+    $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
         $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
@@ -248,8 +320,7 @@ function is_url_safe_for_ssrf($url, $db, $userId = null) {
     $hostWithPort = $port ? $urlHost . ':' . $port : $urlHost;
     $ipWithPort   = $port ? $ip . ':' . $port : $ip;
 
-    $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
-               || is_cgnat_ip($ip);
+    $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
         if ($userId != 1) {

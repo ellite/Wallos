@@ -1,5 +1,29 @@
 # Changelog
 
+## [5.4.5](https://github.com/ellite/Wallos/compare/v5.4.4...v5.4.5) (2026-08-23)
+
+
+### Bug Fixes
+
+* scope currency rate updates to the user being refreshed ([#1175](https://github.com/ellite/Wallos/issues/1175)) ([267f057](https://github.com/ellite/Wallos/commit/267f057bec332f29cb19e9478f20f0212baaf65c)), closes [#1150](https://github.com/ellite/Wallos/issues/1150)
+
+## [5.4.4](https://github.com/ellite/Wallos/compare/v5.4.3...v5.4.4) (2026-08-15)
+
+
+### Bug Fixes
+
+* bump version ([#1162](https://github.com/ellite/Wallos/issues/1162)) ([1efd340](https://github.com/ellite/Wallos/commit/1efd340c92ff713e1ec71682065846bd210acb6a))
+
+## [5.4.3](https://github.com/ellite/Wallos/compare/v5.4.2...v5.4.3) (2026-08-15)
+
+
+### Bug Fixes
+
+* **security:** block IPv6 transition addresses in SSRF guard ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** rate limit totp verification ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** stream database backups instead of writing them to the web root ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+* **security:** unsafe zip extraction during db restore ([44e3b62](https://github.com/ellite/Wallos/commit/44e3b62a2e4ae01fb3f3bf3ec8db35ce5b8783df))
+
 ## [5.4.2](https://github.com/ellite/Wallos/compare/v5.4.1...v5.4.2) (2026-07-19)
 
 

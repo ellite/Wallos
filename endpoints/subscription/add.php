@@ -78,6 +78,9 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
                 unset($ch);
                 return ['success' => true, 'filename' => $fileName];
             }
+
+            unset($ch);
+            return ['success' => false, 'message' => translate('error_saving_logo', $i18n)];
         }
 
         $error = curl_error($ch);
@@ -125,7 +128,7 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
             require_once __DIR__ . '/../../includes/gd_background_removal.php';
             $newImage = gdCropTransparent($newImage, 2);
 
-            imagepng($newImage, $uploadFile);
+            $saved = imagepng($newImage, $uploadFile);
             imagedestroy($newImage);
         } else {
             unlink($tempFile);
@@ -133,7 +136,7 @@ function saveLogo($imageData, $uploadFile, $name, $settings)
         }
 
         unlink($tempFile);
-        return true;
+        return $saved;
     }
 
     return false;
@@ -200,19 +203,26 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
             imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
 
             if ($fileExtension === 'png') {
-                imagepng($resizedImage, $uploadFile);
+                $saved = imagepng($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'jpg' || $fileExtension === 'jpeg') {
-                imagejpeg($resizedImage, $uploadFile);
+                $saved = imagejpeg($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'gif') {
-                imagegif($resizedImage, $uploadFile);
+                $saved = imagegif($resizedImage, $uploadFile);
             } elseif ($fileExtension === 'webp') {
-                imagewebp($resizedImage, $uploadFile);
+                $saved = imagewebp($resizedImage, $uploadFile);
             } else {
                 return "";
             }
 
             imagedestroy($image);
             imagedestroy($resizedImage);
+
+            if (!$saved) {
+                if (file_exists($uploadFile)) {
+                    unlink($uploadFile);
+                }
+                return "";
+            }
 
             return $fileName;
         }
@@ -286,6 +296,9 @@ if ($logoUrl !== "") {
             exit();
         }
         $logo = resizeAndUploadLogo($_FILES['logo'], '../../images/uploads/logos/', $name, $settings);
+        if ($logo === "") {
+            $logoError = translate('error_saving_logo', $i18n);
+        }
     }
 }
 

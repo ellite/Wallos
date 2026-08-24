@@ -1,6 +1,7 @@
 <?php
 
 require_once 'i18n/getlang.php';
+require_once __DIR__ . '/currency_rates.php';
 
 function getBillingCycle($cycle, $frequency, $i18n)
 {
@@ -84,18 +85,7 @@ function getPricePerMonth($cycle, $frequency, $price)
 
 function getPriceConverted($price, $currency, $database)
 {
-    $query = "SELECT rate FROM currencies WHERE id = :currency";
-    $stmt = $database->prepare($query);
-    $stmt->bindParam(':currency', $currency, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
-    $exchangeRate = $result->fetchArray(SQLITE3_ASSOC);
-    if ($exchangeRate === false) {
-        return $price;
-    } else {
-        $fromRate = $exchangeRate['rate'];
-        return $price / $fromRate;
-    }
+    return wallos_convert_price($price, $currency, $database);
 }
 
 function formatPrice($price, $currencyCode, $currencies)

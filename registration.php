@@ -35,7 +35,9 @@ $userCount = $userCountResult['userCount'];
 if ($userCount == 0) {
     $setupTokenFile = __DIR__ . '/db/setup_token.db';
     if (!file_exists($setupTokenFile)) {
-        file_put_contents($setupTokenFile, bin2hex(random_bytes(32)));
+        $setupToken = bin2hex(random_bytes(32));
+        file_put_contents($setupTokenFile, $setupToken);
+        error_log("Setup token for database restore: " . $setupToken);
     }
 }
 

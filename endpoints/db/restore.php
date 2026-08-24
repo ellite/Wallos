@@ -27,15 +27,33 @@ if (isset($_FILES['file'])) {
         $zip = new ZipArchive();
         if ($zip->open($fileDestination) === true) {
             // Validate all entries before extracting — ZipArchive::extractTo() does not
-            // guarantee protection against path traversal (Zip Slip).
+            // guarantee protection against path traversal (Zip Slip), and the extraction
+            // target sits under the web root, so a crafted archive could otherwise drop
+            // an executable script here (RCE).
+            // Extensions the web server may execute if extracted into a servable path.
+            // .tmp/ is denied at the nginx layer as the primary control; this is defense
+            // in depth for other deployments (Apache).
+            $blockedExtensions = [
+                'php', 'php3', 'php4', 'php5', 'php7', 'php8', 'phtml', 'pht',
+                'phps', 'phar', 'shtml', 'cgi', 'pl', 'py', 'sh',
+                'htaccess', 'htpasswd'
+            ];
             for ($i = 0; $i < $zip->numFiles; $i++) {
                 $entry = str_replace('\\', '/', $zip->getNameIndex($i));
-                if ($entry[0] === '/' || in_array('..', explode('/', $entry), true)) {
+                if ($entry === '' || $entry[0] === '/' || in_array('..', explode('/', $entry), true)) {
                     $zip->close();
                     emptyRestoreFolder();
                     die(json_encode([
                         "success" => false,
                         "message" => "Invalid backup file: unsafe file path detected."
+                    ]));
+                }
+                if (in_array(strtolower(pathinfo($entry, PATHINFO_EXTENSION)), $blockedExtensions, true)) {
+                    $zip->close();
+                    emptyRestoreFolder();
+                    die(json_encode([
+                        "success" => false,
+                        "message" => "Invalid backup file: disallowed file type detected."
                     ]));
                 }
             }
@@ -49,10 +67,18 @@ if (isset($_FILES['file'])) {
         }
 
         if (file_exists('../../.tmp/restore/wallos.db')) {
+            $db->close();
+
             if (file_exists('../../db/wallos.db')) {
                 unlink('../../db/wallos.db');
             }
             rename('../../.tmp/restore/wallos.db', '../../db/wallos.db');
+
+            $db = new SQLite3('../../db/wallos.db');
+            $db->busyTimeout(5000);
+            ob_start();
+            require_once __DIR__ . '/../../includes/run_migrations.php';
+            ob_end_clean();
 
             if (file_exists('../../.tmp/restore/logos/')) {
                 $dir = '../../images/uploads/logos/';
