@@ -59,20 +59,59 @@ if (isset($_POST['email']) && $_POST['email'] != "" && isset($_GET['submit']) &&
     $stmt->bindValue(':email', $email, SQLITE3_TEXT);
     $user = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
 
+    $issueFailed = false;
+
     if ($user) {
+        // The delete and the insert are one unit of work. Unwrapped, a failing
+        // insert after a succeeding delete leaves the account with no token at
+        // all: the old one is gone, the new one never arrived, and the person
+        // has just been told the mail is on its way. That account cannot be
+        // recovered until someone notices.
+        $db->exec('BEGIN');
+
+        $issued = false;
         $stmt = $db->prepare("DELETE FROM password_resets WHERE email = :email");
-        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-        $stmt->execute();
 
-        $token = bin2hex(random_bytes(32));
+        if ($stmt !== false) {
+            $stmt->bindValue(':email', $email, SQLITE3_TEXT);
 
-        $stmt = $db->prepare("INSERT INTO password_resets (user_id, email, token) VALUES (:user_id, :email, :token)");
-        $stmt->bindValue(':user_id', $user['id'], SQLITE3_INTEGER);
-        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-        $stmt->bindValue(':token', $token, SQLITE3_TEXT);
-        $stmt->execute();
+            if ($stmt->execute() !== false) {
+                $token = bin2hex(random_bytes(32));
+
+                $stmt = $db->prepare("INSERT INTO password_resets (user_id, email, token) VALUES (:user_id, :email, :token)");
+
+                if ($stmt !== false) {
+                    $stmt->bindValue(':user_id', $user['id'], SQLITE3_INTEGER);
+                    $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+                    $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+                    $issued = $stmt->execute() !== false;
+                }
+            }
+        }
+
+        if ($issued) {
+            $issued = $db->exec('COMMIT') !== false;
+        } else {
+            $db->exec('ROLLBACK');
+        }
+
+        if (!$issued) {
+            error_log('Wallos password reset: no token was issued for ' . $email
+                . '; any previous token was left in place: ' . $db->lastErrorMsg());
+            $issueFailed = true;
+        }
     }
-    $hasSuccessMessage = true;
+
+    // Still unconditional when the address is simply unknown: answering
+    // differently for a known and an unknown address is how a reset form
+    // becomes an account enumeration oracle. Only a genuine failure to store
+    // the token changes the answer, because there the promise of a mail is
+    // one the application cannot keep.
+    if ($issueFailed) {
+        $hasErrorMessage = true;
+    } else {
+        $hasSuccessMessage = true;
+    }
 }
 
 if (isset($_GET['token']) && $_GET['token'] != "" && isset($_GET['email']) && $_GET['email'] != "") {
@@ -111,17 +150,48 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
         $user = $result->fetchArray(SQLITE3_ASSOC);
         
         if ($password == $confirmPassword) {
+            // The other half of the same file. Neither write was checked and
+            // the success message was unconditional, so a failed UPDATE still
+            // consumed the token: the person is told the password was changed,
+            // the old one goes on working, and the one link back in has been
+            // spent. There is then no way to ask for another without an
+            // administrator.
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $db->prepare("UPDATE user SET password = :password WHERE id = :id");
-            $stmt->bindValue(':password', $passwordHash, SQLITE3_TEXT);
-            $stmt->bindValue(':id', $user['id'], SQLITE3_INTEGER);
-            $stmt->execute();
+            $passwordChanged = false;
 
-            $stmt = $db->prepare("DELETE FROM password_resets WHERE token = :token");
-            $stmt->bindValue(':token', $token, SQLITE3_TEXT);
-            $stmt->execute();
-            $hasSuccessMessage = true;
-            $hideForm = true;
+            if ($stmt !== false) {
+                $stmt->bindValue(':password', $passwordHash, SQLITE3_TEXT);
+                $stmt->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+                // changes() as well as the result: a statement that ran but
+                // matched no row changed no password either.
+                $passwordChanged = $stmt->execute() !== false && $db->changes() > 0;
+            }
+
+            if (!$passwordChanged) {
+                error_log('Wallos password reset: the password was not changed for user '
+                    . $user['id'] . ': ' . $db->lastErrorMsg());
+                $hasErrorMessage = true;
+            } else {
+                // Only now is the token spent. A token that survives a failed
+                // reset can be used again; one consumed by a failed reset
+                // cannot, and the user has no way to tell which happened.
+                $stmt = $db->prepare("DELETE FROM password_resets WHERE token = :token");
+
+                if ($stmt !== false) {
+                    $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+
+                    if ($stmt->execute() === false) {
+                        // The password did change, so this is not a failure the
+                        // user can act on — but the token now outlives its use.
+                        error_log('Wallos password reset: the used token was not cleared: '
+                            . $db->lastErrorMsg());
+                    }
+                }
+
+                $hasSuccessMessage = true;
+                $hideForm = true;
+            }
         } else {
             $hasErrorMessage = true;
             $passwordsMismatch = true;
