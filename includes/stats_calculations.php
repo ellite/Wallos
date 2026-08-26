@@ -180,7 +180,9 @@ if ($result) {
             $categoryId = $subscription['category_id'];
             $categories[$categoryId]['count'] += 1;
             $paymentMethodId = $subscription['payment_method_id'];
-            $paymentMethods[$paymentMethodId]['count'] += 1;
+            if (isset($paymentMethods[$paymentMethodId])) {
+                $paymentMethods[$paymentMethodId]['count'] += 1;
+            }
             $inactive = $subscription['inactive'];
             $replacementSubscriptionId = $subscription['replacement_subscription_id'];
             $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
@@ -189,7 +191,9 @@ if ($result) {
             if ($inactive == 0) {
                 if ($cycle != 5) {
                     $activeSubscriptions++;
-                    $paymentMethodsCount[$paymentMethodId]['count'] += 1;
+                    if (isset($paymentMethodsCount[$paymentMethodId])) {
+                        $paymentMethodsCount[$paymentMethodId]['count'] += 1;
+                    }
                 }
                 $totalCostPerMonth += $price;
                 $memberCost[$payerId]['cost'] += $price;
