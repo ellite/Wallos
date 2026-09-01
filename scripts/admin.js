@@ -239,9 +239,11 @@ function saveSecuritySettingsButton() {
   button.disabled = true;
 
   const allowlist = document.getElementById('local_webhook_notifications_allowlist').value;
+  const allowStandardUsers = document.getElementById('allow_standard_users_local_webhooks').checked;
 
   const data = {
-    local_webhook_notifications_allowlist: allowlist
+    local_webhook_notifications_allowlist: allowlist,
+    allow_standard_users_local_webhooks: allowStandardUsers
   };
 
   fetch('endpoints/admin/savesecuritysettings.php', {

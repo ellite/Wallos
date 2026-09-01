@@ -17,6 +17,7 @@ It receives the following parameters:
 - update_notification: (optional) '1' or '0' (check for wallos updates).
 - oidc_oauth_enabled: (optional) '1' or '0' (enable OIDC login).
 - local_webhook_notifications_allowlist: (optional) comma-separated IP/hosts allowlist.
+- allow_standard_users_local_webhooks: (optional) '1' or '0' (let standard users target allowlisted internal addresses).
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -179,7 +180,8 @@ $columnsMap = [
     'login_disabled' => SQLITE3_INTEGER,
     'update_notification' => SQLITE3_INTEGER,
     'oidc_oauth_enabled' => SQLITE3_INTEGER,
-    'local_webhook_notifications_allowlist' => SQLITE3_TEXT
+    'local_webhook_notifications_allowlist' => SQLITE3_TEXT,
+    'allow_standard_users_local_webhooks' => SQLITE3_INTEGER
 ];
 
 if (wallos_get_effective_ssrf_allowlist($db)['is_managed']) {

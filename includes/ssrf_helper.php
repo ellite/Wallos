@@ -21,17 +21,19 @@ function wallos_get_ssrf_allowlist_env_value()
 /**
  * Returns the effective SSRF allowlist: SSRF_ALLOWLIST env var if set (full
  * override, same semantics as the OIDC_* env vars), otherwise the DB-stored
- * local_webhook_notifications_allowlist value.
+ * local_webhook_notifications_allowlist value. Also returns whether standard
+ * (non-admin) users are allowed to target hosts on that allowlist.
  *
  * @param SQLite3 $db
- * @return array{allowlist: string[], raw: string, is_managed: bool}
+ * @return array{allowlist: string[], raw: string, is_managed: bool, allow_standard_users: bool}
  */
 function wallos_get_effective_ssrf_allowlist($db)
 {
-    $stmt = $db->prepare('SELECT local_webhook_notifications_allowlist FROM admin LIMIT 1');
+    $stmt = $db->prepare('SELECT local_webhook_notifications_allowlist, allow_standard_users_local_webhooks FROM admin LIMIT 1');
     $result = $stmt->execute();
     $row = $result ? $result->fetchArray(SQLITE3_ASSOC) : false;
     $dbValue = $row ? $row['local_webhook_notifications_allowlist'] : '';
+    $allowStandardUsers = $row ? (bool) $row['allow_standard_users_local_webhooks'] : false;
 
     $envValue = wallos_get_ssrf_allowlist_env_value();
     $isManaged = $envValue !== null && trim((string) $envValue) !== '';
@@ -43,6 +45,7 @@ function wallos_get_effective_ssrf_allowlist($db)
         'allowlist' => $allowlist,
         'raw' => (string) $rawValue,
         'is_managed' => $isManaged,
+        'allow_standard_users' => $allowStandardUsers,
     ];
 }
 
@@ -175,14 +178,16 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
     $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
-        if ($userId != 1) {
+        $ssrfConfiguration = wallos_get_effective_ssrf_allowlist($db);
+
+        if ($userId != 1 && !$ssrfConfiguration['allow_standard_users']) {
             die(json_encode([
                 "success" => false,
                 "message" => "Security Block: Standard users are not permitted to use internal network addresses."
             ]));
         }
 
-        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
+        $allowlist = $ssrfConfiguration['allowlist'];
 
         if (!in_array($urlHost, $allowlist) &&
             !in_array($ip, $allowlist) &&
@@ -323,11 +328,13 @@ function is_url_safe_for_ssrf($url, $db, $userId = null) {
     $is_private = wallos_ip_is_private_or_reserved($ip);
 
     if ($is_private) {
-        if ($userId != 1) {
-            return false; // private and user is not admin — skip silently
+        $ssrfConfiguration = wallos_get_effective_ssrf_allowlist($db);
+
+        if ($userId != 1 && !$ssrfConfiguration['allow_standard_users']) {
+            return false; // private, user is not admin, and standard users aren't opted in — skip silently
         }
 
-        $allowlist = wallos_get_effective_ssrf_allowlist($db)['allowlist'];
+        $allowlist = $ssrfConfiguration['allowlist'];
 
         if (
             !in_array($urlHost, $allowlist) &&

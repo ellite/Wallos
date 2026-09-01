@@ -29,7 +29,8 @@ Example response:
     "latest_version": "v1.0.0",
     "update_notification": 1,
     "oidc_oauth_enabled": 0,
-    "local_webhook_notifications_allowlist": "localhost,127.0.0.1"
+    "local_webhook_notifications_allowlist": "localhost,127.0.0.1",
+    "allow_standard_users_local_webhooks": 0
   },
   "notes": []
 }

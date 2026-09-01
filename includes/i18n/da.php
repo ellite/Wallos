@@ -420,6 +420,8 @@ $i18n = [
     "ssrf_protection_info" => "For at forhindre Server-Side Request Forgery (SSRF) angreb blokerer Wallos som standard webhook-notifikationer til private eller interne netværksadresser.",
     "local_webhook_info" => "Hvis du skal sende webhooks til lokale tjenester (som Home Assistant, Gotify eller Node-RED), indtast deres IP-adresser eller værtsnavne ovenfor som en kommasepareret liste (fx <code>192.168.1.100,192.168.1.101</code>).",
     "ssrf_allowlist_env_managed" => "Administreres af miljøvariablen SSRF_ALLOWLIST.",
+    "allow_standard_users_local_webhooks" => "Tillad standardbrugere at bruge webhook-tilladelseslisten",
+    "allow_standard_users_local_webhooks_info" => "Sikkerhedsrisiko: hvis dette aktiveres, kan alle standardbrugere (ikke-administratorer) sende notifikationer til adresserne på webhook-tilladelseslisten ovenfor, herunder interne tjenester på dit netværk. Aktiver kun dette, hvis du stoler på alle brugere på denne Wallos-instans.",
     "smtp_usage_info" => "Vil blive brugt til adgangskodenulstilling og andre systemmails.",
     // Maintenance Tasks
     "maintenance_tasks" => "Vedligeholdelsesopgaver",

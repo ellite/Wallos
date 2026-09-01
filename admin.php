@@ -362,11 +362,6 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 placeholder="e.g., 192.168.1.5:8123, homeassistant.local" value="<?= htmlspecialchars($ssrfConfiguration['raw'], ENT_QUOTES, 'UTF-8') ?>" <?= oidc_input_attrs('allowlist', $ssrfManagedFields) ?> />
         </div>
 
-        <div class="buttons">
-            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
-                id="saveSecuritySettingsButton" onClick="saveSecuritySettingsButton()" />
-        </div>
-
         <div class="settings-notes">
             <p>
                 <i class="fa-solid fa-circle-info"></i>
@@ -382,6 +377,24 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <?= translate('ssrf_allowlist_env_managed', $i18n) ?>
                 </p>
             <?php endif; ?>
+        </div>
+
+        <div class="form-group-inline">
+            <input type="checkbox" id="allow_standard_users_local_webhooks" name="allow_standard_users_local_webhooks"
+                <?= $ssrfConfiguration['allow_standard_users'] ? 'checked' : '' ?> />
+            <label for="allow_standard_users_local_webhooks"><?= translate('allow_standard_users_local_webhooks', $i18n) ?></label>
+        </div>
+
+        <div class="settings-notes">
+            <p>
+                <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                <?= translate('allow_standard_users_local_webhooks_info', $i18n) ?>
+            </p>
+        </div>
+
+        <div class="buttons">
+            <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                id="saveSecuritySettingsButton" onClick="saveSecuritySettingsButton()" />
         </div>
     </div>
 </section>
