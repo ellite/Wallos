@@ -16,7 +16,7 @@ $stmt->bindValue(':paymentId', $paymentId, SQLITE3_INTEGER);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray();
-$inUse = $row['count'] === 1;
+$inUse = $row['count'] > 0;
 
 if ($inUse) {
     die(json_encode([
