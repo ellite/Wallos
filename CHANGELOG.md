@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.5.0](https://github.com/ellite/Wallos/compare/v5.4.5...v5.5.0) (2026-09-01)
+
+
+### Features
+
+* let admins allow standard users to use the Webhook Allowlist (closes [#1153](https://github.com/ellite/Wallos/issues/1153), closes [#1138](https://github.com/ellite/Wallos/issues/1138)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+
+
+### Bug Fixes
+
+* **auth:** actually delete the login token on logout ([#1184](https://github.com/ellite/Wallos/issues/1184)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* **auth:** make the TOTP replay guard run ([#1181](https://github.com/ellite/Wallos/issues/1181)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* close remaining gaps in login-token revocation from [#1184](https://github.com/ellite/Wallos/issues/1184)'s review ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* OIDC token exchange failing behind CDN/anycast proxies (closes [#1145](https://github.com/ellite/Wallos/issues/1145)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* payment method in-use guard misses when 2+ subscriptions share it (closes [#1179](https://github.com/ellite/Wallos/issues/1179)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* reflected XSS via unescaped theme cookies in inline scripts ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* reject deleting or disabling an in-use payment method on every path ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+* undefined array key warnings for subscriptions with no seeded stats bucket (closes [#1182](https://github.com/ellite/Wallos/issues/1182)) ([41494ef](https://github.com/ellite/Wallos/commit/41494ef54d2bf6bceabb5444ec644dfdaff948e1))
+
 ## [5.4.5](https://github.com/ellite/Wallos/compare/v5.4.4...v5.4.5) (2026-08-23)
 
 
