@@ -105,10 +105,10 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
   <script type="text/javascript" src="scripts/all.js?<?= $version ?>"></script>
   <script type="text/javascript" src="scripts/common.js?<?= $version ?>"></script>
   <script type="text/javascript">
-    window.theme = "<?= $theme ?>";
+    window.theme = <?= json_encode($theme, JSON_HEX_TAG | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS) ?>;
     window.update_theme_settings = "<?= $updateThemeSettings ?>";
     window.lang = "<?= $lang ?>";
-    window.colorTheme = "<?= $colorTheme ?>";
+    window.colorTheme = <?= json_encode($colorTheme, JSON_HEX_TAG | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS) ?>;
     window.mobileNavigation = "<?= $settings['mobileNavigation'] == "true" ?>";
     window.csrfToken = "<?= htmlspecialchars(generate_csrf_token()) ?>";
   </script>

@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/theme_helpers.php';
+
 $query = "SELECT * FROM settings WHERE user_id = :userId";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
@@ -12,7 +14,7 @@ if ($settings !== false) {
     $themeValue = $themeMapping[$themeKey];
     $settings['update_theme_setttings'] = false;
     if (isset($_COOKIE['inUseTheme']) && $settings['dark_theme'] == 2) {
-        $inUseTheme = $_COOKIE['inUseTheme'];
+        $inUseTheme = sanitize_resolved_theme($_COOKIE['inUseTheme']);
         $settings['theme'] = $inUseTheme;
     } else {
         $settings['theme'] = $themeValue;
