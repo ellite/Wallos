@@ -44,13 +44,18 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postFields));
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/x-www-form-urlencoded']);
-curl_setopt($ch, CURLOPT_RESOLVE, ["{$tokenUrlInfo['host']}:{$tokenUrlInfo['port']}:{$tokenUrlInfo['ip']}"]);
+curl_setopt($ch, CURLOPT_RESOLVE, ["{$tokenUrlInfo['host']}:{$tokenUrlInfo['port']}:" . implode(',', $tokenUrlInfo['ips'])]);
 $response = curl_exec($ch);
-unset($ch);
+$curlErrno = curl_errno($ch);
+$curlError = curl_error($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+curl_close($ch);
 
-$tokenData = json_decode($response, true);
+$tokenData = $response !== false ? json_decode($response, true) : null;
 if (!$tokenData || !isset($tokenData['access_token'])) {
-    die("OIDC token exchange failed.");
+    $detail = $curlErrno ? $curlError : ('HTTP ' . $httpCode . ($response !== false ? ': ' . substr($response, 0, 500) : ''));
+    error_log('[Wallos OIDC] Token exchange failed for ' . $tokenUrlInfo['host'] . ': ' . $detail);
+    die("OIDC token exchange failed. Check the Wallos server logs for details.");
 }
 
 $userInfoUrl = $oidcSettings['user_info_url'];
@@ -66,13 +71,18 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Authorization: Bearer ' . $tokenData['access_token']
 ]);
-curl_setopt($ch, CURLOPT_RESOLVE, ["{$userInfoUrlInfo['host']}:{$userInfoUrlInfo['port']}:{$userInfoUrlInfo['ip']}"]);
+curl_setopt($ch, CURLOPT_RESOLVE, ["{$userInfoUrlInfo['host']}:{$userInfoUrlInfo['port']}:" . implode(',', $userInfoUrlInfo['ips'])]);
 $response = curl_exec($ch);
-unset($ch);
+$curlErrno = curl_errno($ch);
+$curlError = curl_error($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+curl_close($ch);
 
-$userInfo = json_decode($response, true);
+$userInfo = $response !== false ? json_decode($response, true) : null;
 if (!$userInfo || !isset($userInfo[$oidcSettings['user_identifier_field']])) {
-    die("Failed to fetch OIDC user info.");
+    $detail = $curlErrno ? $curlError : ('HTTP ' . $httpCode . ($response !== false ? ': ' . substr($response, 0, 500) : ''));
+    error_log('[Wallos OIDC] User info fetch failed for ' . $userInfoUrlInfo['host'] . ': ' . $detail);
+    die("Failed to fetch OIDC user info. Check the Wallos server logs for details.");
 }
 
 $oidcSub = $userInfo[$oidcSettings['user_identifier_field']];
