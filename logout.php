@@ -36,11 +36,17 @@ if (isset($_SESSION['token'])) {
     $token = $_SESSION['token'];
     $sql = "DELETE FROM login_tokens WHERE token = :token";
     $stmt = $db->prepare($sql);
-    $stmt->bindParam(':token', $token, SQLITE3_TEXT);
 
-    if ($stmt->execute() === false) {
-        error_log('Wallos: could not revoke the login token on logout; '
+    if ($stmt === false) {
+        error_log('Wallos: could not prepare the login token deletion on logout; '
             . 'any browser still holding the cookie stays signed in');
+    } else {
+        $stmt->bindParam(':token', $token, SQLITE3_TEXT);
+
+        if ($stmt->execute() === false) {
+            error_log('Wallos: could not revoke the login token on logout; '
+                . 'any browser still holding the cookie stays signed in');
+        }
     }
 }
 $_SESSION = array();

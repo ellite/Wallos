@@ -202,6 +202,7 @@ if (isset($_POST['one-time-code'])) {
             $addLoginTokensStmt->bindParam(':userId', $user['id'], SQLITE3_INTEGER);
             $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
             $addLoginTokensStmt->execute();
+            $_SESSION['token'] = $token;
             $cookieExpire = time() + (30 * 24 * 60 * 60);
             $cookieValue = $user['username'] . "|" . $token . "|" . $user['main_currency'];
             setcookie('wallos_login', $cookieValue, [
