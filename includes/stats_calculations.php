@@ -176,11 +176,17 @@ if ($result) {
             }
             $next_payment = $subscription['next_payment'];
             $payerId = $subscription['payer_user_id'];
-            $members[$payerId]['count'] += 1;
+            if (isset($members[$payerId])) {
+                $members[$payerId]['count'] += 1;
+            }
             $categoryId = $subscription['category_id'];
-            $categories[$categoryId]['count'] += 1;
+            if (isset($categories[$categoryId])) {
+                $categories[$categoryId]['count'] += 1;
+            }
             $paymentMethodId = $subscription['payment_method_id'];
-            $paymentMethods[$paymentMethodId]['count'] += 1;
+            if (isset($paymentMethods[$paymentMethodId])) {
+                $paymentMethods[$paymentMethodId]['count'] += 1;
+            }
             $inactive = $subscription['inactive'];
             $replacementSubscriptionId = $subscription['replacement_subscription_id'];
             $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
@@ -189,11 +195,17 @@ if ($result) {
             if ($inactive == 0) {
                 if ($cycle != 5) {
                     $activeSubscriptions++;
-                    $paymentMethodsCount[$paymentMethodId]['count'] += 1;
+                    if (isset($paymentMethodsCount[$paymentMethodId])) {
+                        $paymentMethodsCount[$paymentMethodId]['count'] += 1;
+                    }
                 }
                 $totalCostPerMonth += $price;
-                $memberCost[$payerId]['cost'] += $price;
-                $categoryCost[$categoryId]['cost'] += $price;
+                if (isset($memberCost[$payerId])) {
+                    $memberCost[$payerId]['cost'] += $price;
+                }
+                if (isset($categoryCost[$categoryId])) {
+                    $categoryCost[$categoryId]['cost'] += $price;
+                }
                 if ($price > $mostExpensiveSubscription['price']) {
                     $mostExpensiveSubscription['price'] = $price;
                     $mostExpensiveSubscription['name'] = $name;
