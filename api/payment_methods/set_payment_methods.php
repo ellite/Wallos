@@ -369,6 +369,25 @@ switch ($action) {
             $enabled = ($_POST['enabled'] === '0' || $_POST['enabled'] === 0) ? 0 : 1;
         }
 
+        if ($enabled == 0 && $paymentMethod['enabled'] == 1) {
+            $checkUseSql = "SELECT COUNT(*) FROM subscriptions WHERE payment_method_id = :paymentId AND user_id = :userId";
+            $checkUseStmt = $db->prepare($checkUseSql);
+            $checkUseStmt->bindParam(':paymentId', $paymentId, SQLITE3_INTEGER);
+            $checkUseStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+            $checkUseResult = $checkUseStmt->execute();
+            $row = $checkUseResult->fetchArray();
+            $count = $row[0] ?? 0;
+
+            if ($count > 0) {
+                echo json_encode([
+                    'success' => false,
+                    'title' => 'Payment method in use',
+                    'message' => 'This payment method cannot be disabled because it is in use by one or more subscriptions.'
+                ]);
+                exit;
+            }
+        }
+
         $icon = $paymentMethod['icon'];
         $iconUrl = $_POST['icon_url'] ?? $_POST['icon-url'] ?? '';
 
