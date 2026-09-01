@@ -7,6 +7,7 @@ require_once 'includes/i18n/getlang.php';
 require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
+require_once 'includes/theme_helpers.php';
 
 if ($userCount == 0) {
     header("Location: registration.php");
@@ -30,14 +31,14 @@ if (!isset($_SESSION['totp_user_id'])) {
 $theme = "light";
 $updateThemeSettings = false;
 if (isset($_COOKIE['theme'])) {
-    $theme = $_COOKIE['theme'];
+    $theme = sanitize_theme_mode($_COOKIE['theme']);
 } else {
     $updateThemeSettings = true;
 }
 
 $colorTheme = "blue";
 if (isset($_COOKIE['colorTheme'])) {
-    $colorTheme = $_COOKIE['colorTheme'];
+    $colorTheme = sanitize_color_theme($_COOKIE['colorTheme']);
 }
 
 $demoMode = getenv('DEMO_MODE');
@@ -55,7 +56,7 @@ if (isset($_POST['one-time-code'])) {
     $maxTotpAttempts = 5;
     $totpLockoutSeconds = 30;
 
-    $statement = $db->prepare('SELECT totp_secret, backup_codes, failed_attempts, lockout_until FROM totp WHERE user_id = :id');
+    $statement = $db->prepare('SELECT totp_secret, backup_codes, failed_attempts, lockout_until, last_totp_used FROM totp WHERE user_id = :id');
     $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
     $result = $statement->execute();
     $row = $result->fetchArray(SQLITE3_ASSOC);
@@ -135,16 +136,24 @@ if (isset($_POST['one-time-code'])) {
                 $statement = $db->prepare('UPDATE totp SET backup_codes = :backup_codes WHERE user_id = :id');
                 $statement->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
                 $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
-                $statement->execute();
 
-                $valid = true;
+                // A backup code is single-use, so it counts only once it has
+                // actually been struck off. Honouring one whose removal failed
+                // would leave it usable indefinitely.
+                $valid = $statement->execute() !== false;
             }
         } else {
             // Record the matched time-step so the same code cannot be reused.
             $statement = $db->prepare('UPDATE totp SET last_totp_used = :last_totp_used WHERE user_id = :id');
             $statement->bindValue(':last_totp_used', $matchedStep, SQLITE3_INTEGER);
             $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
-            $statement->execute();
+
+            // The login still proceeds if this cannot be stored — the code was
+            // genuine — but the replay window is then unguarded, so say so.
+            if ($statement->execute() === false) {
+                error_log('Wallos: could not record the used TOTP step for user '
+                    . (int) $_SESSION['totp_user_id'] . '; this code stays replayable until it expires');
+            }
         }
 
         // Update brute-force counters based on the result of this attempt.
@@ -193,6 +202,7 @@ if (isset($_POST['one-time-code'])) {
             $addLoginTokensStmt->bindParam(':userId', $user['id'], SQLITE3_INTEGER);
             $addLoginTokensStmt->bindParam(':token', $token, SQLITE3_TEXT);
             $addLoginTokensStmt->execute();
+            $_SESSION['token'] = $token;
             $cookieExpire = time() + (30 * 24 * 60 * 60);
             $cookieValue = $user['username'] . "|" . $token . "|" . $user['main_currency'];
             setcookie('wallos_login', $cookieValue, [
@@ -260,7 +270,7 @@ if (isset($_POST['one-time-code'])) {
     <link rel="stylesheet" href="styles/login-dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme == "light" ? "disabled" : "" ?>>
     <script type="text/javascript">
         window.update_theme_settings = "<?= $updateThemeSettings ?>";
-        window.color_theme = "<?= $colorTheme ?>";
+        window.color_theme = <?= json_encode($colorTheme, JSON_HEX_TAG | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS) ?>;
     </script>
     <script type="text/javascript" src="scripts/login.js?<?= $version ?>"></script>
     <script type="text/javascript" src="scripts/auth-theme.js?<?= $version ?>"></script>
