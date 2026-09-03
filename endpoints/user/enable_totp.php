@@ -94,26 +94,67 @@ if ($action === 'verify') {
                 $backupCodes[] = $backupCode;
             }
 
-            // Remove old TOTP data
-            $stmt = $db->prepare("DELETE FROM totp WHERE user_id = :user_id");
-            $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-            $stmt->execute();
+            // The enrolment row and the flag on the account have to agree, so
+            // the three writes are one unit of work and each result is read.
+            //
+            // The state to avoid is totp_enabled = 1 with no row in totp: an
+            // account in it cannot be logged into by any credential at all.
+            // login.php sends the person to totp.php, which then has no secret
+            // and no backup codes to check against, so neither an authenticator
+            // code nor any of the ten backup codes they have just been shown
+            // will ever work again. Before this, all three writes were
+            // discarded and success was reported unconditionally, so that
+            // account was told 2FA was on and given the codes to prove it.
+            $enrolled = $db->exec('BEGIN') !== false;
 
-            $stmt = $db->prepare("INSERT INTO totp (user_id, totp_secret, backup_codes, last_totp_used) VALUES (:user_id, :totp_secret, :backup_codes, :last_totp_used)");
-            $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-            $stmt->bindValue(':totp_secret', $secret, SQLITE3_TEXT);
-            $stmt->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
-            // Store the current TOTP time-step (not a raw timestamp): the code
-            // just verified above counts as used, so it cannot be replayed as the
-            // first login code. totp.php compares against this same step counter.
-            $stmt->bindValue(':last_totp_used', intdiv(time(), 30), SQLITE3_INTEGER);
-            $stmt->execute();
+            if ($enrolled) {
+                $stmt = $db->prepare("DELETE FROM totp WHERE user_id = :user_id");
+                $enrolled = $stmt !== false;
+
+                if ($enrolled) {
+                    $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+                    $enrolled = $stmt->execute() !== false;
+                }
+            }
+
+            if ($enrolled) {
+                $stmt = $db->prepare("INSERT INTO totp (user_id, totp_secret, backup_codes, last_totp_used) VALUES (:user_id, :totp_secret, :backup_codes, :last_totp_used)");
+                $enrolled = $stmt !== false;
+
+                if ($enrolled) {
+                    $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':totp_secret', $secret, SQLITE3_TEXT);
+                    $stmt->bindValue(':backup_codes', json_encode($backupCodes), SQLITE3_TEXT);
+                    // Store the current TOTP time-step (not a raw timestamp): the code
+                    // just verified above counts as used, so it cannot be replayed as the
+                    // first login code. totp.php compares against this same step counter.
+                    $stmt->bindValue(':last_totp_used', intdiv(time(), 30), SQLITE3_INTEGER);
+                    $enrolled = $stmt->execute() !== false;
+                }
+            }
 
             // Update user totp_enabled
+            if ($enrolled) {
+                $stmt = $db->prepare("UPDATE user SET totp_enabled = 1 WHERE id = :user_id");
+                $enrolled = $stmt !== false;
 
-            $stmt = $db->prepare("UPDATE user SET totp_enabled = 1 WHERE id = :user_id");
-            $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-            $stmt->execute();
+                if ($enrolled) {
+                    $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+                    $enrolled = $stmt->execute() !== false;
+                }
+            }
+
+            if (!$enrolled || $db->exec('COMMIT') === false) {
+                $db->exec('ROLLBACK');
+
+                error_log('Wallos: could not enable 2FA for user ' . (int) $userId
+                    . ', nothing was changed: ' . $db->lastErrorMsg());
+
+                die(json_encode([
+                    "success" => false,
+                    "message" => translate('error', $i18n)
+                ]));
+            }
 
             die(json_encode([
                 "success" => true,
