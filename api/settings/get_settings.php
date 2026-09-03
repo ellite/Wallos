@@ -26,6 +26,7 @@ Example response:
     "mobile_nav": 1,
     "show_subscription_progress": 0,
     "week_starts_sunday": 0,
+    "upcoming_payments_limit": 3,
     "square_icons": 0,
     "custom_colors": {
       "main_color": "#0000ff",
