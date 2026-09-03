@@ -149,7 +149,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
                 unset($ch);
-                return $fileName;
+                return ["success" => true, "filename" => $fileName];
             }
         }
 
@@ -157,7 +157,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
         break; 
     }
 
-    return "";
+    return ["success" => false, "message" => "Failed to fetch image."];
 }
 
 function saveLogo($imageData, $uploadFile, $name, $settings)
@@ -283,7 +283,24 @@ switch ($action) {
 
         $icon = "";
         if ($iconUrl !== "") {
-            $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $settings);
+            // Three return types out of one function: a filename on success, an
+            // array on two of the failure paths and an empty string on the
+            // third. Unchecked, the array reached bindParam() as the icon and
+            // the insert failed. Both subscription copies of this helper answer
+            // ['success' => bool, 'filename'|'message'] and are checked; this is
+            // that shape (closes #1185).
+            $result = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $settings);
+
+            if (empty($result['success'])) {
+                echo json_encode([
+                    'success' => false,
+                    'title' => 'Icon could not be fetched',
+                    'message' => $result['message'] ?? 'The icon URL could not be fetched.'
+                ]);
+                exit;
+            }
+
+            $icon = $result['filename'];
         } elseif (!empty($_FILES['paymenticon']['name'])) {
             $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
             if (strpos($fileType, 'image') === false) {
@@ -392,7 +409,21 @@ switch ($action) {
         $iconUrl = $_POST['icon_url'] ?? $_POST['icon-url'] ?? '';
 
         if ($iconUrl !== "") {
-            $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $settings);
+            // The worst of the three: $icon holds the method's current icon at
+            // this point, so an unchecked failure did not merely fail to fetch
+            // a new one — it overwrote a working icon with the failure array.
+            $result = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $settings);
+
+            if (empty($result['success'])) {
+                echo json_encode([
+                    'success' => false,
+                    'title' => 'Icon could not be fetched',
+                    'message' => $result['message'] ?? 'The icon URL could not be fetched.'
+                ]);
+                exit;
+            }
+
+            $icon = $result['filename'];
         } elseif (!empty($_FILES['paymenticon']['name'])) {
             $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
             if (strpos($fileType, 'image') === false) {
