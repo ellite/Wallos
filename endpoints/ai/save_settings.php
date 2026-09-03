@@ -61,10 +61,21 @@ if (in_array($aiType, ['ollama', 'openai-compatible'])) {
 }
 
 // Save settings
+//
+// The insert below replaces this row and its result is read; this one's was
+// dropped. Two rows in ai_settings for one user is worse than a stale colour:
+// includes/ai_client.php and settings.php both take the first row they are
+// handed, so the account can go on talking to the provider and the key it just
+// replaced - after being told the new one was saved.
 $stmt = $db->prepare("DELETE FROM ai_settings WHERE user_id = ?");
 $stmt->bindValue(1, $userId, SQLITE3_INTEGER);
-$stmt->execute();
+$deleted = $stmt->execute();
 $stmt->close();
+
+if ($deleted === false) {
+    echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
+    exit;
+}
 
 $stmt = $db->prepare("
     INSERT INTO ai_settings (user_id, type, enabled, api_key, model, url, run_schedule)
