@@ -1,5 +1,6 @@
 <?php
 require_once 'includes/header.php';
+require_once 'includes/upcoming_payments.php';
 
 $currencies = array();
 $query = "SELECT * FROM currencies WHERE user_id = :userId";
@@ -16,6 +17,7 @@ $budgetPeriodAnchorDate = $userData['budget_period_anchor_date'] ?? date('Y-m-d'
 if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $budgetPeriodAnchorDate)) {
     $budgetPeriodAnchorDate = date('Y-m-d');
 }
+$upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_payments_limit'] ?? 3);
 
 ?>
 
@@ -1602,6 +1604,17 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
                     <input type="checkbox" id="showoriginalprice" name="showoriginalprice"
                         onChange="setShowOriginalPrice()" <?= $settings['show_original_price'] ? 'checked' : '' ?>>
                     <label for="showoriginalprice"><?= translate('show_original_price', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
+                    <label for="upcomingpaymentslimit"><?= translate('upcoming_payments', $i18n) ?></label>
+                    <select id="upcomingpaymentslimit" name="upcomingpaymentslimit" onChange="setUpcomingPaymentsLimit()">
+                        <option value="3" <?= $upcomingPaymentsLimit === 3 ? 'selected' : '' ?>>3</option>
+                        <option value="5" <?= $upcomingPaymentsLimit === 5 ? 'selected' : '' ?>>5</option>
+                        <option value="10" <?= $upcomingPaymentsLimit === 10 ? 'selected' : '' ?>>10</option>
+                        <option value="0" <?= $upcomingPaymentsLimit === 0 ? 'selected' : '' ?>>∞</option>
+                    </select>
                 </div>
             </div>
             <h3><?= translate('experience', $i18n) ?></h3>

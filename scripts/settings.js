@@ -1075,6 +1075,13 @@ function setShowOriginalPrice() {
   storeSettingsOnDB('show_original_price', value);
 }
 
+function setUpcomingPaymentsLimit() {
+  const upcomingPaymentsLimit = document.querySelector("#upcomingpaymentslimit");
+  const value = Number(upcomingPaymentsLimit.value);
+
+  storeSettingsOnDB('upcoming_payments_limit', value);
+}
+
 function setMobileNavigation() {
   const mobileNavigationCheckbox = document.querySelector("#mobilenavigation");
   const value = mobileNavigationCheckbox.checked;

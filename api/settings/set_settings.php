@@ -11,6 +11,7 @@ It receives the following parameters:
 - mobile_nav: (optional) '1' or '0' (use mobile navigation menu).
 - show_subscription_progress: (optional) '1' or '0' (show subscription progress bars).
 - week_starts_sunday: (optional) '1' or '0' (start calendar weeks on Sunday).
+- upcoming_payments_limit: (optional) '0', '3', '5', or '10' (number of upcoming payments on the dashboard; 0 means all).
 - disabled_to_bottom: (optional) '1' or '0' (move disabled subscriptions to bottom).
 - hide_disabled: (optional) '1' or '0' (hide disabled subscriptions).
 - remove_background: (optional) '1' or '0' (remove background from logos).
@@ -35,6 +36,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
+require_once '../../includes/upcoming_payments.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -214,6 +216,25 @@ if (isset($_POST['color_theme'])) {
         ]);
         exit;
     }
+}
+
+if (isset($_POST['upcoming_payments_limit'])) {
+    $upcomingPaymentsLimit = parse_upcoming_payments_limit($_POST['upcoming_payments_limit']);
+
+    if ($upcomingPaymentsLimit === null) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Invalid parameter',
+            'message' => "Parameter 'upcoming_payments_limit' must be 0, 3, 5, or 10."
+        ]);
+        exit;
+    }
+
+    $updateFields[] = '`upcoming_payments_limit` = :upcoming_payments_limit';
+    $params['upcoming_payments_limit'] = [
+        'val' => $upcomingPaymentsLimit,
+        'type' => SQLITE3_INTEGER
+    ];
 }
 
 // Perform update if fields were specified
