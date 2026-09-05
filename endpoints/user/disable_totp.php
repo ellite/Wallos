@@ -4,6 +4,52 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/validate_endpoint.php';
 
+/**
+ * Switch two-factor authentication off, or change nothing at all.
+ *
+ * The two writes have to agree. An account left with totp_enabled set and no
+ * enrolment row cannot be logged into by any credential: login.php sends it to
+ * totp.php, which then has no secret and no backup codes to check against. Both
+ * call sites below reported success unconditionally, so a user in that state
+ * had just been told 2FA was switched off.
+ *
+ * SQLite3 has no beginTransaction(), so the transaction is run as statements.
+ *
+ * @param  SQLite3 $db
+ * @param  int     $userId
+ * @return bool false when nothing was changed
+ */
+function wallos_disable_totp($db, $userId)
+{
+    if ($db->exec('BEGIN') === false) {
+        return false;
+    }
+
+    $statement = $db->prepare('UPDATE user SET totp_enabled = 0 WHERE id = :id');
+    $ok = $statement !== false;
+    if ($ok) {
+        $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
+        $ok = $statement->execute() !== false;
+    }
+
+    if ($ok) {
+        $statement = $db->prepare('DELETE FROM totp WHERE user_id = :id');
+        $ok = $statement !== false;
+        if ($ok) {
+            $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
+            $ok = $statement->execute() !== false;
+        }
+    }
+
+    if (!$ok || $db->exec('COMMIT') === false) {
+        $db->exec('ROLLBACK');
+
+        return false;
+    }
+
+    return true;
+}
+
 if (!function_exists('trigger_deprecation')) {
     function trigger_deprecation($package, $version, $message, ...$args)
     {
@@ -62,13 +108,12 @@ if (isset($data['totpCode']) && $data['totpCode'] != "") {
     $totp->setPeriod(30);
 
     if ($totp->verify($totp_code, null, 15)) {
-        $statement = $db->prepare('UPDATE user SET totp_enabled = 0 WHERE id = :id');
-        $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
-        $statement->execute();
-
-        $statement = $db->prepare('DELETE FROM totp WHERE user_id = :id');
-        $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
-        $statement->execute();
+        if (!wallos_disable_totp($db, $userId)) {
+            die(json_encode([
+                "success" => false,
+                "message" => translate('error', $i18n)
+            ]));
+        }
 
         die(json_encode([
             "success" => true,
@@ -89,13 +134,12 @@ if (isset($data['totpCode']) && $data['totpCode'] != "") {
         // Search for the normalized code
         if (($key = array_search($totp_code, $normalizedBackupCodes)) !== false) {
             // Match found, disable TOTP
-            $statement = $db->prepare('UPDATE user SET totp_enabled = 0 WHERE id = :id');
-            $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
-            $statement->execute();
-
-            $statement = $db->prepare('DELETE FROM totp WHERE user_id = :id');
-            $statement->bindValue(':id', $userId, SQLITE3_INTEGER);
-            $statement->execute();
+            if (!wallos_disable_totp($db, $userId)) {
+                die(json_encode([
+                    "success" => false,
+                    "message" => translate('error', $i18n)
+                ]));
+            }
 
             die(json_encode([
                 "success" => true,
