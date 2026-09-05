@@ -75,7 +75,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
 
             if (saveLogo($imageData, $uploadFile, $name, $settings)) {
                 unset($ch);
-                return $fileName;
+                return ["success" => true, "filename" => $fileName];
             }
         }
 
@@ -217,7 +217,28 @@ if ($name === "" || ($iconUrl === "" && empty($_FILES['paymenticon']['name']))) 
 $icon = "";
 
 if ($iconUrl !== "") {
-    $icon = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $i18n, $settings);
+    // getLogoFromUrl() reported failure as an array and success as a bare
+    // string, and neither the caller nor the bind below looked. The array went
+    // into the icon column, the insert failed, and this endpoint answered with
+    // a plain-text error the page cannot read — so the user saw "Unknown
+    // error, please try again" while the reason the helper had already worked
+    // out was thrown away, and error_reporting above kept the warning out of
+    // the log (closes #1185).
+    //
+    // Both subscription copies of this helper already answer
+    // ['success' => bool, 'filename'|'message'] and are checked at the call
+    // site; this is that shape.
+    $result = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $i18n, $settings);
+
+    if (empty($result['success'])) {
+        echo json_encode([
+            "success" => false,
+            "message" => $result['message'] ?? translate('error', $i18n)
+        ]);
+        exit();
+    }
+
+    $icon = $result['filename'];
 } else {
     if (!empty($_FILES['paymenticon']['name'])) {
         $fileType = mime_content_type($_FILES['paymenticon']['tmp_name']);
