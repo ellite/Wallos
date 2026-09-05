@@ -1,24 +1,18 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/exchange_rate_freshness.php';
 
 $shouldUpdate = true;
 
 if (isset($_POST['force']) && $_POST['force'] === "true") {
     $shouldUpdate = true;
 } else {
-    $query = "SELECT date FROM last_exchange_update WHERE user_id = :userId";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $result = $stmt->execute();
-
-    if ($result) {
-        $lastUpdateDate = new DateTime($result);
-        $currentDate = new DateTime();
-        $lastUpdateDateString = $lastUpdateDate->format('Y-m-d');
-        $currentDateString = $currentDate->format('Y-m-d');
-        $shouldUpdate = $lastUpdateDateString < $currentDateString;
-    }
+    // This branch could not run. It built a DateTime out of the SQLite3Result
+    // rather than out of a value fetched from it, which on PHP 8 is a
+    // TypeError and a fatal — and it went unnoticed because the interface only
+    // ever posts force=true, so nothing has reached it.
+    $shouldUpdate = !wallos_rates_refreshed_today($db, $userId);
 
     if (!$shouldUpdate) {
         echo "Rates are current, no need to update.";
