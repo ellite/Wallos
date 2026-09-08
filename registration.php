@@ -10,6 +10,7 @@ require_once 'includes/i18n/getlang.php';
 require_once 'includes/i18n/' . $lang . '.php';
 
 require_once 'includes/version.php';
+require_once 'includes/theme_helpers.php';
 
 function validate($value)
 {
@@ -64,14 +65,14 @@ if ($userCount > 0) {
 $theme = "light";
 $updateThemeSettings = false;
 if (isset($_COOKIE['theme'])) {
-    $theme = $_COOKIE['theme'];
+    $theme = sanitize_theme_mode($_COOKIE['theme']);
 } else {
     $updateThemeSettings = true;
 }
 
 $colorTheme = "blue";
 if (isset($_COOKIE['colorTheme'])) {
-    $colorTheme = $_COOKIE['colorTheme'];
+    $colorTheme = sanitize_color_theme($_COOKIE['colorTheme']);
 }
 
 $currencies = [
@@ -348,7 +349,7 @@ if (isset($_POST['username'])) {
     <link rel="stylesheet" href="styles/barlow.css">
     <script type="text/javascript">
         window.update_theme_settings = "<?= $updateThemeSettings ?>";
-        window.colorTheme = "<?= $colorTheme ?>";
+        window.colorTheme = <?= json_encode($colorTheme, JSON_HEX_TAG | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS) ?>;
     </script>
     <script type="text/javascript" src="scripts/registration.js?<?= $version ?>"></script>
     <script type="text/javascript" src="scripts/auth-theme.js?<?= $version ?>"></script>

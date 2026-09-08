@@ -29,7 +29,7 @@ function getPriceConverted($price, $currency, $database, $userId)
 
 // Get categories
 $categories = array();
-$query = "SELECT * FROM categories WHERE user_id = :userId ORDER BY 'order' ASC";
+$query = "SELECT * FROM categories WHERE user_id = :userId ORDER BY `order` ASC";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();

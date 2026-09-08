@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Γειά σου",
     "upcoming_payments" => "Επερχόμενες Πληρωμές",
+    "upcoming_payments_to_show" => "Επερχόμενες πληρωμές προς εμφάνιση",
     "no_upcoming_payments" => "Δεν έχετε καμία επερχόμενη πληρωμή",
     "overdue_renewals" => "Καθυστερημένες Ανανεώσεις",
     "ai_recommendations" => "Συστάσεις AI",

@@ -50,6 +50,7 @@ $i18n = [
     // لوحة التحكم
     "hello" => "مرحبًا",
     "upcoming_payments" => "المدفوعات القادمة",
+    "upcoming_payments_to_show" => "المدفوعات القادمة المعروضة",
     "no_upcoming_payments" => "ليس لديك أي مدفوعات قادمة",
     "overdue_renewals" => "التجديدات المتأخرة",
     "ai_recommendations" => "توصيات الذكاء الاصطناعي",

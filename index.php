@@ -3,6 +3,7 @@
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
+require_once 'includes/upcoming_payments.php';
 
 function formatPrice($price, $currencyCode, $currencies)
 {
@@ -72,14 +73,12 @@ $result = $stmt->execute();
 $user = $result->fetchArray(SQLITE3_ASSOC);
 $first_name = $user['firstname'] ?? $user['username'] ?? '';
 
-// Fetch the next 3 enabled subscriptions up for payment
-$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive FROM subscriptions WHERE user_id = :userId AND next_payment >= date('now') AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC LIMIT 3");
-$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-$result = $stmt->execute();
-$upcomingSubscriptions = [];
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $upcomingSubscriptions[] = $row;
-}
+// Fetch the enabled subscriptions up for payment using the user's dashboard setting.
+$upcomingSubscriptions = get_upcoming_payments(
+    $db,
+    $userId,
+    $settings['upcoming_payments_limit'] ?? 3
+);
 
 // Fetch enabled subscriptions with manual renewal that are overdue
 $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");

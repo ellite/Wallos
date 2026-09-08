@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard 
     "hello" => "Üdvözlöm", 
     "upcoming_payments" => "Közelgő fizetések", 
+    "upcoming_payments_to_show" => "Megjelenítendő közelgő fizetések",
     "no_upcoming_payments" => "Nincsenek közelgő fizetései", 
     "overdue_renewals" => "Lejárt megújítások", 
     "ai_recommendations" => "AI Ajánlások", 

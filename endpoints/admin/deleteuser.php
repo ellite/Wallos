@@ -2,6 +2,7 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/logo_cleanup.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -14,6 +15,23 @@ if ($userId == 1) {
         "message" => translate('error', $i18n)
     ]));
 } else {
+    // Collect this account's uploaded logo files before its rows go, so they
+    // can be removed from disk afterwards if nothing else references them.
+    $logoFilesToCheck = [];
+    $logoQuery = $db->prepare('SELECT logo, logo_variant FROM subscriptions WHERE user_id = :id');
+    $logoQuery->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $logoResult = $logoQuery->execute();
+    while ($logoResult && ($logoRow = $logoResult->fetchArray(SQLITE3_ASSOC))) {
+        $logoFilesToCheck[] = $logoRow['logo'];
+        $logoFilesToCheck[] = $logoRow['logo_variant'];
+    }
+    $iconQuery = $db->prepare("SELECT icon FROM payment_methods WHERE user_id = :id AND icon NOT LIKE 'images/uploads/icons/%'");
+    $iconQuery->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $iconResult = $iconQuery->execute();
+    while ($iconResult && ($iconRow = $iconResult->fetchArray(SQLITE3_ASSOC))) {
+        $logoFilesToCheck[] = $iconRow['icon'];
+    }
+
     // Delete user
     $stmt = $db->prepare('DELETE FROM user WHERE id = :id');
     $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
@@ -108,6 +126,76 @@ if ($userId == 1) {
     $stmt = $db->prepare('DELETE FROM total_yearly_cost WHERE user_id = :id');
     $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
     $result = $stmt->execute();
+
+    // The twelve tables this used to leave behind. Two of them hold
+    // credentials (a remember-me token and a password reset token) and the
+    // user table has no AUTOINCREMENT, so SQLite hands a deleted id straight
+    // back to the next account created. That account inherited them.
+
+    // Delete login tokens
+    $stmt = $db->prepare('DELETE FROM login_tokens WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete password reset tokens
+    $stmt = $db->prepare('DELETE FROM password_resets WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete custom CSS
+    $stmt = $db->prepare('DELETE FROM custom_css_style WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete uploaded avatars
+    $stmt = $db->prepare('DELETE FROM uploaded_avatars WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete AI settings
+    $stmt = $db->prepare('DELETE FROM ai_settings WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete AI recommendations
+    $stmt = $db->prepare('DELETE FROM ai_recommendations WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Google search settings
+    $stmt = $db->prepare('DELETE FROM google_search WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete ntfy notifications
+    $stmt = $db->prepare('DELETE FROM ntfy_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Mattermost notifications
+    $stmt = $db->prepare('DELETE FROM mattermost_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Discord notifications
+    $stmt = $db->prepare('DELETE FROM discord_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete PushPlus notifications
+    $stmt = $db->prepare('DELETE FROM pushplus_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete ServerChan notifications
+    $stmt = $db->prepare('DELETE FROM serverchan_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // The account's rows are gone; drop its logo files that nothing else uses.
+    foreach (array_unique(array_filter($logoFilesToCheck)) as $logoFile) {
+        deleteLogoFileIfUnused($db, $logoFile, '../../images/uploads/logos/');
+    }
 
     die(json_encode([
         "success" => true,

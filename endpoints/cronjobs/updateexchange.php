@@ -1,6 +1,7 @@
 <?php
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
+require_once __DIR__ . '/../../includes/exchange_rate_freshness.php';
 
 require 'settimezone.php';
 
@@ -18,6 +19,15 @@ $usersToUpdateExchange = $stmt->execute();
 while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToUpdateExchange['id'];
     echo "For user: " . $userToUpdateExchange['username'] . "<br />";
+
+    // Asked before anything is read or fetched. This job also runs on every
+    // container start, so without this a deploy costs one provider request per
+    // account, and a free plan's monthly allowance goes on refreshing rates
+    // that were already current.
+    if (wallos_rates_refreshed_today($db, $userId)) {
+        echo "Rates are already current today.<br />";
+        continue;
+    }
 
     $query = "SELECT api_key, provider FROM fixer WHERE user_id = :userId";
     $stmt = $db->prepare($query);

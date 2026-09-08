@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Xin chào",
     "upcoming_payments" => "Các khoản thanh toán sắp tới",
+    "upcoming_payments_to_show" => "Các khoản thanh toán sắp tới cần hiển thị",
     "no_upcoming_payments" => "Bạn không có khoản thanh toán nào sắp tới",
     "overdue_renewals" => "Gia hạn quá hạn",
     "ai_recommendations" => "Khuyến nghị AI",

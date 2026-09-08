@@ -53,16 +53,34 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     $row = $result->fetchArray(SQLITE3_ASSOC);
 
     if ($row) {
+        // Removing the row *is* the verification: an account counts as verified
+        // when it no longer has one. The result was discarded and the redirect
+        // to login.php?validated=true happened either way, so a delete that did
+        // not run told the person their address was confirmed while the login
+        // went on refusing them, with nothing anywhere saying why. The token
+        // also stayed usable, where it should have been spent.
         $query = "DELETE FROM email_verification WHERE email = :email AND token = :token";
         $stmt = $db->prepare($query);
-        $stmt->bindValue(':email', $email, SQLITE3_TEXT);
-        $stmt->bindValue(':token', $token, SQLITE3_TEXT);
-        $stmt->execute();
+        $verified = false;
 
-        $validated = true;
+        if ($stmt !== false) {
+            $stmt->bindValue(':email', $email, SQLITE3_TEXT);
+            $stmt->bindValue(':token', $token, SQLITE3_TEXT);
+            $verified = $stmt->execute() !== false;
+        }
 
-        header("Location: login.php?validated=true");
-        exit;
+        if ($verified) {
+            $validated = true;
+
+            header("Location: login.php?validated=true");
+            exit;
+        }
+
+        // Not verified, so this falls through to the page below, which already
+        // renders email_verification_failed while $validated is false. No new
+        // message, and no redirect to a page that has nothing to say about it.
+        error_log('Wallos verifyemail: could not consume the verification token for '
+            . $email . ', so the account stays unverified: ' . $db->lastErrorMsg());
 
     } else {
         $query = "SELECT require_email_verification FROM admin";

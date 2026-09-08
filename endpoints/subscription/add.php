@@ -6,6 +6,7 @@ require_once '../../includes/inputvalidation.php';
 require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
+require_once '../../includes/logo_cleanup.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -335,11 +336,27 @@ if (!$isEdit) {
                     )";
 } else {
     $id = $_POST['id'];
-    $sql = "UPDATE subscriptions SET 
-                        name = :name, 
-                        price = :price, 
+
+    // When the logo is being replaced, remember the old files so they can be
+    // removed after the update instead of lingering as orphans.
+    $oldLogo = null;
+    $oldLogoVariant = null;
+    if ($logo != "") {
+        $oldLogoStmt = $db->prepare("SELECT logo, logo_variant FROM subscriptions WHERE id = :id AND user_id = :userId");
+        $oldLogoStmt->bindParam(':id', $id, SQLITE3_INTEGER);
+        $oldLogoStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $oldLogoResult = $oldLogoStmt->execute();
+        if ($oldLogoResult && ($oldLogoRow = $oldLogoResult->fetchArray(SQLITE3_ASSOC))) {
+            $oldLogo = $oldLogoRow['logo'];
+            $oldLogoVariant = $oldLogoRow['logo_variant'];
+        }
+    }
+
+    $sql = "UPDATE subscriptions SET
+                        name = :name,
+                        price = :price,
                         currency_id = :currencyId,
-                        next_payment = :nextPayment, 
+                        next_payment = :nextPayment,
                         auto_renew = :autoRenew,
                         start_date = :startDate,
                         cycle = :cycle, 
@@ -398,6 +415,17 @@ if ($stmt->execute()) {
     if ($logoError !== "") {
         $success['logo_warning'] = $logoError;
     }
+
+    // The logo was just replaced: drop the previous files if nothing else uses them.
+    if ($isEdit && $logo != "") {
+        if ($oldLogo !== null && $oldLogo !== $logo) {
+            deleteLogoFileIfUnused($db, $oldLogo, '../../images/uploads/logos/');
+        }
+        if ($oldLogoVariant !== null && $oldLogoVariant !== $logoVariant) {
+            deleteLogoFileIfUnused($db, $oldLogoVariant, '../../images/uploads/logos/');
+        }
+    }
+
     header('Content-Type: application/json');
     echo json_encode($success);
     exit();

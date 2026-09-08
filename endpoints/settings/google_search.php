@@ -4,10 +4,21 @@ require_once '../../includes/validate_endpoint.php';
 
 $apiKey = isset($_POST['api_key']) ? trim($_POST['api_key']) : '';
 
+// This delete carries both paths: it clears the key when the field is empty,
+// and it makes room for the insert further down when it is not. Only the
+// insert was checked. So a failed delete either reports a key as cleared while
+// it is still there and still being spent, or leaves the old key beside the new
+// one for the reader to pick between.
 $removeOldCredentials = "DELETE FROM google_search WHERE user_id = :userId";
 $stmt = $db->prepare($removeOldCredentials);
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-$stmt->execute();
+
+if ($stmt->execute() === false) {
+    die(json_encode([
+        "success" => false,
+        "message" => translate('error', $i18n)
+    ]));
+}
 
 // An empty field clears the key and disables the Google section
 if ($apiKey === '') {

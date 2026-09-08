@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'static-cache-v4';
+const STATIC_CACHE = 'static-cache-v5';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v2';
 
@@ -38,6 +38,8 @@ const staticAssets = [
     'scripts/login.js',
     'scripts/admin.js',
     'scripts/calendar.js',
+    'scripts/i18n/ar.js',
+    'scripts/i18n/az.js',
     'scripts/i18n/ca.js',
     'scripts/i18n/cs.js',
     'scripts/i18n/da.js',

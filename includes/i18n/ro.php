@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Salut",
     "upcoming_payments" => "Plăți scadente",
+    "upcoming_payments_to_show" => "Plăți scadente de afișat",
     "no_upcoming_payments" => "Nu există plăți scadente",
     "overdue_renewals" => "Reînnoiri scadente",
     "ai_recommendations" => "Recomandări AI",
