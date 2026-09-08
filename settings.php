@@ -1613,7 +1613,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <option value="3" <?= $upcomingPaymentsLimit === 3 ? 'selected' : '' ?>>3</option>
                         <option value="5" <?= $upcomingPaymentsLimit === 5 ? 'selected' : '' ?>>5</option>
                         <option value="10" <?= $upcomingPaymentsLimit === 10 ? 'selected' : '' ?>>10</option>
-                        <option value="0" <?= $upcomingPaymentsLimit === 0 ? 'selected' : '' ?>>∞</option>
+                        <option value="20" <?= $upcomingPaymentsLimit === 20 ? 'selected' : '' ?>>20</option>
                     </select>
                 </div>
             </div>

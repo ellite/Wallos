@@ -1,10 +1,9 @@
 <?php
 
-const UPCOMING_PAYMENTS_LIMITS = [0, 3, 5, 10];
+const UPCOMING_PAYMENTS_LIMITS = [3, 5, 10, 20];
 
 /**
  * Parse a dashboard limit and return null for unsupported values.
- * A value of zero means that SQLite should return all matching subscriptions.
  *
  * @param mixed $limit
  * @return int|null
@@ -40,9 +39,6 @@ function normalize_upcoming_payments_limit($limit)
 function get_upcoming_payments($db, $userId, $limit)
 {
     $limit = normalize_upcoming_payments_limit($limit);
-    // SQLite uses LIMIT -1 to mean no limit. The value is whitelisted above
-    // before it is bound, so the UI cannot turn this into arbitrary SQL.
-    $sqlLimit = $limit === 0 ? -1 : $limit;
 
     $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive
         FROM subscriptions
@@ -53,7 +49,7 @@ function get_upcoming_payments($db, $userId, $limit)
         ORDER BY next_payment ASC
         LIMIT :limit");
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $stmt->bindValue(':limit', $sqlLimit, SQLITE3_INTEGER);
+    $stmt->bindValue(':limit', $limit, SQLITE3_INTEGER);
     $result = $stmt->execute();
 
     $subscriptions = [];

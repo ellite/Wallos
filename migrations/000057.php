@@ -1,7 +1,7 @@
 <?php
 
 // This migration lets each user choose how many upcoming payments appear on
-// the dashboard. Zero represents "all"; existing users keep the old default.
+// the dashboard (3, 5, 10, or 20); existing users keep the old default.
 
 $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') WHERE name='upcoming_payments_limit'");
 if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
@@ -11,4 +11,4 @@ if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
 // Be defensive about databases that may already contain an invalid value.
 $db->exec('UPDATE settings SET upcoming_payments_limit = 3
            WHERE upcoming_payments_limit IS NULL
-              OR upcoming_payments_limit NOT IN (0, 3, 5, 10)');
+              OR upcoming_payments_limit NOT IN (3, 5, 10, 20)');
