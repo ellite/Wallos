@@ -109,6 +109,72 @@ if ($userId == 1) {
     $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
     $result = $stmt->execute();
 
+    // The twelve tables this used to leave behind. Two of them hold
+    // credentials — a remember-me token and a password reset token — and
+    // the user table has no AUTOINCREMENT, so SQLite hands a deleted id
+    // straight back to the next account created. That account inherited
+    // them.
+
+    // Delete login tokens
+    $stmt = $db->prepare('DELETE FROM login_tokens WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete password reset tokens
+    $stmt = $db->prepare('DELETE FROM password_resets WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete custom CSS
+    $stmt = $db->prepare('DELETE FROM custom_css_style WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete uploaded avatars
+    $stmt = $db->prepare('DELETE FROM uploaded_avatars WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete AI settings
+    $stmt = $db->prepare('DELETE FROM ai_settings WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete AI recommendations
+    $stmt = $db->prepare('DELETE FROM ai_recommendations WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Google search settings
+    $stmt = $db->prepare('DELETE FROM google_search WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete ntfy notifications
+    $stmt = $db->prepare('DELETE FROM ntfy_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Mattermost notifications
+    $stmt = $db->prepare('DELETE FROM mattermost_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete Discord notifications
+    $stmt = $db->prepare('DELETE FROM discord_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete PushPlus notifications
+    $stmt = $db->prepare('DELETE FROM pushplus_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Delete ServerChan notifications
+    $stmt = $db->prepare('DELETE FROM serverchan_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
     die(json_encode([
         "success" => true,
         "message" => translate('success', $i18n)
