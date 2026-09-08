@@ -5,10 +5,22 @@ require_once '../../includes/validate_endpoint.php';
 $newApiKey = isset($_POST["api_key"]) ? trim($_POST["api_key"]) : "";
 $provider = isset($_POST["provider"]) ? $_POST["provider"] : 0;
 
+// The insert further down replaces this row and its result decides the answer;
+// this one's was dropped. Two rows in fixer for one user means the exchange
+// rate update reads whichever key it is handed first, which can be the one the
+// user replaced because it had stopped working - and the settings page shows
+// the usage of one row while the cron job spends the quota of the other.
 $removeOldKey = "DELETE FROM fixer WHERE user_id = :userId";
 $stmt = $db->prepare($removeOldKey);
 $stmt->bindParam(":userId", $userId, SQLITE3_INTEGER);
-$stmt->execute();
+
+if ($stmt->execute() === false) {
+    echo json_encode([
+        "success" => false,
+        "message" => translate('failed_to_store_api_key', $i18n)
+    ]);
+    exit;
+}
 
 if ($provider == 1) {
     $testKeyUrl = "https://api.apilayer.com/fixer/latest?base=USD&symbols=EUR";

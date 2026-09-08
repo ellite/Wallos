@@ -138,10 +138,25 @@ if ($provider === 1 && isset($http_response_header)) {
 $apiData = json_decode($response, true);
 if (isset($apiData['success']) && $apiData['success'] == true) {
     // Delete existing settings first
+    //
+    // The same statement sixty lines up, on the clearing path, reads its
+    // result. This copy did not, while the insert that replaces the row it
+    // removes did - so a failed delete answered "saved successfully" over a
+    // fixer table that now holds two keys for one user.
     $removeSql = "DELETE FROM fixer WHERE user_id = :userId";
     $removeStmt = $db->prepare($removeSql);
     $removeStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $removeStmt->execute();
+    $removeResult = $removeStmt->execute();
+
+    if ($removeResult === false) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Database error',
+            'message' => 'Failed to save Fixer API settings.'
+        ]);
+        $db->close();
+        exit;
+    }
 
     // Insert new settings
     $insertSql = "INSERT INTO fixer (api_key, provider, user_id) VALUES (:api_key, :provider, :userId)";
