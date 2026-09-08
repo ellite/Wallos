@@ -183,7 +183,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
 
                     if ($stmt->execute() === false) {
                         // The password did change, so this is not a failure the
-                        // user can act on — but the token now outlives its use.
+                        // user can act on, but the token now outlives its use.
                         error_log('Wallos password reset: the used token was not cleared: '
                             . $db->lastErrorMsg());
                     }

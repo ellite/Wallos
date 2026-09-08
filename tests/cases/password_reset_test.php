@@ -6,10 +6,10 @@
   both leave the account worse off than before.
 
   Issuing the token: delete the previous one, insert a new one, tell the person
-  the mail is on its way — whatever the two writes did. A delete that succeeds
+  the mail is on its way, whatever the two writes did. A delete that succeeds
   followed by an insert that does not leaves the account with no token at all.
 
-  Using the token: update the password, consume the token, say it worked —
+  Using the token: update the password, consume the token, say it worked,
   again whatever the writes did. A failed update tells the person their
   password changed while the old one still works, and spends the one link back
   in on the way. There is no second link without an administrator.
