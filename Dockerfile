@@ -34,7 +34,8 @@ RUN dos2unix /etc/cron.d/cronjobs && \
     chown -R www-data:www-data /var/www/html && \
     chmod +x /var/www/html/startup.sh && \
     echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf
+    echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    printf 'upload_max_filesize = 256M\npost_max_size = 256M\n' > /usr/local/etc/php/conf.d/wallos-uploads.ini
 
 # Expose port 80 for Nginx
 EXPOSE 80
