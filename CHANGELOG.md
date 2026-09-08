@@ -1,5 +1,29 @@
 # Changelog
 
+## [5.6.0](https://github.com/ellite/Wallos/compare/v5.5.1...v5.6.0) (2026-09-08)
+
+
+### Features
+
+* add Azerbaijani (az) localization ([#1201](https://github.com/ellite/Wallos/issues/1201)) ([6a740f8](https://github.com/ellite/Wallos/commit/6a740f8b338a0d3b33f1d8aa6557011ae9e50995))
+* make the dashboard upcoming payment count configurable ([#1191](https://github.com/ellite/Wallos/issues/1191)) ([4fc9310](https://github.com/ellite/Wallos/commit/4fc9310571655b636ed32dad302665ce0bb7e680)), closes [#1186](https://github.com/ellite/Wallos/issues/1186)
+
+
+### Bug Fixes
+
+* add missing language files to the service worker ([b1ba0d3](https://github.com/ellite/Wallos/commit/b1ba0d34a9311541bc0245d1efcb622a5d227a07))
+* **auth:** disable 2FA atomically instead of reporting success on a partial write ([#1193](https://github.com/ellite/Wallos/issues/1193)) ([45eb0a2](https://github.com/ellite/Wallos/commit/45eb0a260c5cc4f3e88dc73118dd223ee36b27fa))
+* **auth:** do not report 2FA as enabled when the enrolment did not complete ([#1194](https://github.com/ellite/Wallos/issues/1194)) ([89c97df](https://github.com/ellite/Wallos/commit/89c97df8b5bc97c9fe8f61a1719f57a56e925da4))
+* **auth:** do not report a password reset that did not happen ([#1195](https://github.com/ellite/Wallos/issues/1195)) ([6600c07](https://github.com/ellite/Wallos/commit/6600c0713f4841ef16224ff2bb9ee85cef9ffcdd))
+* **auth:** do not report an email as verified when the token was not consumed ([#1196](https://github.com/ellite/Wallos/issues/1196)) ([7a57ec1](https://github.com/ellite/Wallos/commit/7a57ec10741d6dd84c9d48c020b3756fdce508ed))
+* check the delete in delete-before-replace save pairs ([#1197](https://github.com/ellite/Wallos/issues/1197)) ([c0a2cb7](https://github.com/ellite/Wallos/commit/c0a2cb777d180749faf12440b95ac038946b4ad4))
+* cleanup unused logos when deleting or editing subscriptions ([20d23db](https://github.com/ellite/Wallos/commit/20d23db12eecfbe46aefb056a2308fd62d73b32e))
+* **currency:** skip an exchange rate refresh that already happened today ([#1199](https://github.com/ellite/Wallos/issues/1199)) ([54f822b](https://github.com/ellite/Wallos/commit/54f822b0e6ec36611feec543f2d51cc3b20ab909))
+* delete every table that belonged to an account on deletion ([#1192](https://github.com/ellite/Wallos/issues/1192)) ([df3e0bf](https://github.com/ellite/Wallos/commit/df3e0bf87708a75578623cbb7bc94dde7b57f107))
+* **payments:** report why a logo could not be fetched instead of "Unknown error" ([#1200](https://github.com/ellite/Wallos/issues/1200)) ([a0bf7e7](https://github.com/ellite/Wallos/commit/a0bf7e70fd15bf011007474fceba32951324f284)), closes [#1185](https://github.com/ellite/Wallos/issues/1185)
+* **security:** validate and encode the theme cookies on the registration page ([#1190](https://github.com/ellite/Wallos/issues/1190)) ([768a1ea](https://github.com/ellite/Wallos/commit/768a1ead75bdf6cbaaea992a44ea85ee4d19d72e))
+* sort categories by the order column, not by the string 'order' ([#1198](https://github.com/ellite/Wallos/issues/1198)) ([098d1b0](https://github.com/ellite/Wallos/commit/098d1b0a9d32ab04a623ee51680b856d9f20027d))
+
 ## [5.5.1](https://github.com/ellite/Wallos/compare/v5.5.0...v5.5.1) (2026-09-08)
 
 
