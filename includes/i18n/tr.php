@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Merhaba",
     "upcoming_payments" => "Yaklaşan Ödemeler",
+    "upcoming_payments_to_show" => "Gösterilecek yaklaşan ödemeler",
     "no_upcoming_payments" => "Yaklaşan ödemeniz yok",
     "overdue_renewals" => "Gecikmiş Yenilemeler",
     "ai_recommendations" => "AI Önerileri",

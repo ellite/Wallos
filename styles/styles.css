@@ -904,6 +904,10 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
   margin-bottom: 0px;
 }
 
+.account-section .account-settings-list .form-group {
+  margin-bottom: 0px;
+}
+
 .account-section .account-settings-list h3 {
   margin: 0px;
 }

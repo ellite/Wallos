@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Привет",
     "upcoming_payments" => "Предстоящие платежи",
+    "upcoming_payments_to_show" => "Отображаемые предстоящие платежи",
     "no_upcoming_payments" => "У вас нет предстоящих платежей",
     "overdue_renewals" => "Просроченные продления",
     "ai_recommendations" => "Рекомендации ИИ",

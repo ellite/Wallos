@@ -1607,8 +1607,8 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 </div>
             </div>
             <div>
-                <div class="form-group-inline">
-                    <label for="upcomingpaymentslimit"><?= translate('upcoming_payments', $i18n) ?></label>
+                <div class="form-group">
+                    <label for="upcomingpaymentslimit"><?= translate('upcoming_payments_to_show', $i18n) ?></label>
                     <select id="upcomingpaymentslimit" name="upcomingpaymentslimit" onChange="setUpcomingPaymentsLimit()">
                         <option value="3" <?= $upcomingPaymentsLimit === 3 ? 'selected' : '' ?>>3</option>
                         <option value="5" <?= $upcomingPaymentsLimit === 5 ? 'selected' : '' ?>>5</option>

@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hallo",
     "upcoming_payments" => "Aankomende Betalingen",
+    "upcoming_payments_to_show" => "Weer te geven aankomende betalingen",
     "no_upcoming_payments" => "Je hebt geen aankomende betalingen",
     "overdue_renewals" => "Verlopen Verlengen",
     "ai_recommendations" => "AI Aanbevelingen",
