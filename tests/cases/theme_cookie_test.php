@@ -8,7 +8,7 @@
       window.colorTheme = "<?= $colorTheme ?>";
 
   a cookie value containing a double quote closes the string and the rest is
-  script — reflected XSS against anyone who can put a cookie on the origin.
+  script: reflected XSS against anyone who can put a cookie on the origin.
 
   5.5.0 fixed this by validating both cookies against a fixed list and encoding
   what is emitted, in login.php, totp.php and includes/header.php.

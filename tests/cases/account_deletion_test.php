@@ -2,14 +2,14 @@
 /*
   Deleting an account removes what belongs to it.
 
-  Both deletion paths — the self-service one and the administrator one — named
+  Both deletion paths (the self-service one and the administrator one) named
   their tables by hand, and the hand-written list had fallen twelve tables
   behind the schema. Two of the twelve hold credentials: `login_tokens` and
   `password_resets`.
 
   That is not only untidiness. The `user` table is declared
   `id INTEGER PRIMARY KEY` with no AUTOINCREMENT, so SQLite hands a deleted id
-  straight back to the next account created — and that account inherited the
+  straight back to the next account created, and that account inherited the
   leftovers, including a remember-me token that still worked.
 
   The list below is read from the schema rather than written down again, so a
