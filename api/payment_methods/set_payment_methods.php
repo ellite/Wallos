@@ -411,7 +411,7 @@ switch ($action) {
         if ($iconUrl !== "") {
             // The worst of the three: $icon holds the method's current icon at
             // this point, so an unchecked failure did not merely fail to fetch
-            // a new one — it overwrote a working icon with the failure array.
+            // a new one, it overwrote a working icon with the failure array.
             $result = getLogoFromUrl($iconUrl, '../../images/uploads/logos/', $name, $settings);
 
             if (empty($result['success'])) {

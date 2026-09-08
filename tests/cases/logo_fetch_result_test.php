@@ -5,7 +5,7 @@
   Four files carry their own copy of this helper. The two subscription copies
   answered ['success' => bool, 'filename'|'message'] and were checked at the
   call site. The two payment copies answered a bare filename on success, an
-  array on some failures and an empty string on another — and no caller looked.
+  array on some failures and an empty string on another, and no caller looked.
   The array was bound as the icon column, the insert failed, and the endpoint
   answered with text the page cannot parse, so the user saw "Unknown error,
   please try again" with nothing in the log (#1185).
@@ -35,7 +35,7 @@ function logo_fetch_files()
  * The body of getLogoFromUrl() alone.
  *
  * Scoped deliberately: these files also hold resizeAndUploadLogo(), which
- * returns a bare filename and is right to — it is not the function whose
+ * returns a bare filename and is right to; it is not the function whose
  * answer nobody could read. A file-wide search flagged all four copies,
  * including the two that were already correct.
  *

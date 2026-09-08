@@ -220,7 +220,7 @@ if ($iconUrl !== "") {
     // getLogoFromUrl() reported failure as an array and success as a bare
     // string, and neither the caller nor the bind below looked. The array went
     // into the icon column, the insert failed, and this endpoint answered with
-    // a plain-text error the page cannot read — so the user saw "Unknown
+    // a plain-text error the page cannot read, so the user saw "Unknown
     // error, please try again" while the reason the helper had already worked
     // out was thrown away, and error_reporting above kept the warning out of
     // the log (closes #1185).
