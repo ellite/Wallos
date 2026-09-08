@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.5.1](https://github.com/ellite/Wallos/compare/v5.5.0...v5.5.1) (2026-09-08)
+
+
+### Bug Fixes
+
+* **restore:** increase upload max size ([ed7ccaf](https://github.com/ellite/Wallos/commit/ed7ccaf57e692c2201eae6f48e352552ebc50dd1))
+
 ## [5.5.0](https://github.com/ellite/Wallos/compare/v5.4.5...v5.5.0) (2026-09-01)
 
 
