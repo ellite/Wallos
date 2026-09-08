@@ -4,7 +4,7 @@
 
   `ORDER BY 'order'` sorts by a constant. Every row gets the same sort key, so
   SQLite returns them in whatever order it happens to have them and the list
-  looks unsorted for no visible reason — the statement is valid, nothing warns,
+  looks unsorted for no visible reason: the statement is valid, nothing warns,
   and the column the user drags into place is never consulted.
 
   The same query is written four other times in this codebase, all four with
@@ -41,7 +41,7 @@ wallos_test('no query sorts by a string constant', function () {
             // A single-quoted token straight after ORDER BY is a constant. An
             // identifier is bare, backticked or double-quoted.
             if (preg_match("/ORDER\s+BY\s+'/i", $line) === 1) {
-                $offenders[] = $path . ':' . ($number + 1) . ' — ' . trim($line);
+                $offenders[] = $path . ':' . ($number + 1) . ' - ' . trim($line);
             }
         }
     }
