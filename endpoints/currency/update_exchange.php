@@ -10,7 +10,7 @@ if (isset($_POST['force']) && $_POST['force'] === "true") {
 } else {
     // This branch could not run. It built a DateTime out of the SQLite3Result
     // rather than out of a value fetched from it, which on PHP 8 is a
-    // TypeError and a fatal — and it went unnoticed because the interface only
+    // TypeError and a fatal, and it went unnoticed because the interface only
     // ever posts force=true, so nothing has reached it.
     $shouldUpdate = !wallos_rates_refreshed_today($db, $userId);
 

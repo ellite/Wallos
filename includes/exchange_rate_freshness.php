@@ -5,7 +5,7 @@
  *
  * The scheduled job runs daily and again on every container start, and the
  * provider is asked once per account with a key. Without this, a deploy costs
- * one request per account — and on a free plan that is how a month's allowance
+ * one request per account, and on a free plan that is how a month's allowance
  * disappears in a fortnight. What the user sees then is not an error: the rates
  * simply stop moving, and nothing on any screen says why.
  *

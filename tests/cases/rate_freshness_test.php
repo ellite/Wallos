@@ -4,7 +4,7 @@
 
   The scheduled job runs daily and again on every container start, and asks the
   provider once per account with a key. Without a freshness check a deploy costs
-  one request per account — and on a free monthly allowance that is how the
+  one request per account, and on a free monthly allowance that is how the
   rates quietly stop moving halfway through a month, with nothing on any screen
   saying why.
 
