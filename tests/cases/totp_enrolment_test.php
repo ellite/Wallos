@@ -88,7 +88,7 @@ wallos_test('a rolled back enrolment leaves the account exactly as it was', func
     assert_same(0, (int) $db->querySingle('SELECT COUNT(*) FROM totp WHERE user_id = 1'),
         'the enrolment row is gone again');
     assert_same(0, (int) $db->querySingle('SELECT totp_enabled FROM user WHERE id = 1'),
-        'and the flag with it — neither half survives alone');
+        'and the flag with it, neither half survives alone');
 
     $db->close();
 });
