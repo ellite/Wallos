@@ -18,7 +18,7 @@ For 'add' and 'edit' actions (all optional for 'edit'):
 - payment_method_id: the payment method ID (integer).
 - payer_user_id: the household member payer ID (integer).
 - category_id: the category ID (integer).
-- notes: subscription notes (string).
+- notes: subscription notes (string, Markdown supported).
 - url: subscription URL (string).
 - logo_url: an image URL to download as the logo (string).
 - logo: direct image file upload for the logo.
@@ -375,7 +375,7 @@ switch ($action) {
         $payerUserId = $_POST['payer_user_id'] ?? null;
         $categoryId = $_POST['category_id'] ?? null;
         
-        $notes = isset($_POST['notes']) ? validate($_POST['notes']) : '';
+        $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : '';
         $url = isset($_POST['url']) ? validate($_POST['url']) : '';
         
         $notify = $_POST['notify'] ?? $_POST['notifications'] ?? '0';
@@ -662,7 +662,7 @@ switch ($action) {
             $categoryId = $_POST['category_id'] === '' ? null : intval($_POST['category_id']);
         }
 
-        $notes = isset($_POST['notes']) ? validate($_POST['notes']) : $subscription['notes'];
+        $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : $subscription['notes'];
         $url = isset($_POST['url']) ? validate($_POST['url']) : $subscription['url'];
 
         $notify = $subscription['notify'];

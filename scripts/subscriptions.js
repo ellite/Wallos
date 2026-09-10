@@ -1213,6 +1213,42 @@ function toISOStringWithTimezone(date) {
     ':' + minutesOffset;
 }
 
+function insertMarkdownSyntax(textarea, prefix, suffix, placeholder) {
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const selected = textarea.value.slice(start, end) || placeholder;
+
+  textarea.setRangeText(prefix + selected + suffix, start, end, 'select');
+  textarea.focus();
+  textarea.setSelectionRange(start + prefix.length, start + prefix.length + selected.length);
+}
+
+function applyNotesMarkdown(action) {
+  const textarea = document.querySelector('#notes');
+  if (!textarea) {
+    return;
+  }
+
+  switch (action) {
+    case 'bold':
+      insertMarkdownSyntax(textarea, '**', '**', translate('notes_bold'));
+      break;
+    case 'italic':
+      insertMarkdownSyntax(textarea, '_', '_', translate('notes_italic'));
+      break;
+    case 'list': {
+      const start = textarea.selectionStart;
+      const lineStart = textarea.value.lastIndexOf('\n', start - 1) + 1;
+      textarea.setRangeText('- ', lineStart, lineStart, 'end');
+      textarea.focus();
+      break;
+    }
+    case 'link':
+      insertMarkdownSyntax(textarea, '[', '](https://)', translate('notes_link'));
+      break;
+  }
+}
+
 window.addEventListener('load', () => {
   if (document.querySelector('.subscription')) {
     swipeHintAnimation();

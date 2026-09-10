@@ -16,6 +16,12 @@ $code = $row['code'];
 
 require_once 'includes/stats_calculations.php';
 require_once 'includes/stats_extra_calculations.php';
+require_once 'includes/upcoming_cancellations.php';
+
+// Subscriptions flagged for cancellation, and what cancelling them would stop costing.
+$upcomingCancellations = get_upcoming_cancellations($db, $userId);
+$upcomingCancellationsCount = count($upcomingCancellations);
+$potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCancellations, $db, $userId);
 
 ?>
 <section class="contain">
@@ -614,6 +620,34 @@ require_once 'includes/stats_extra_calculations.php';
         <?php
       }
       ?>
+    </section>
+    <?php
+  }
+
+  if ($upcomingCancellationsCount > 0) {
+    ?>
+    <section class="stats-section">
+      <h2><?= translate('upcoming_cancellations', $i18n) ?></h2>
+      <div class="statistics">
+        <div class="statistic">
+          <span><?= $upcomingCancellationsCount ?></span>
+          <div class="title"><?= translate('subscriptions', $i18n) ?></div>
+        </div>
+        <?php
+        if ($potentialMonthlySavings > 0) {
+          ?>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($potentialMonthlySavings, $code) ?></span>
+            <div class="title"><?= translate('potential_monthly_savings', $i18n) ?></div>
+          </div>
+          <div class="statistic">
+            <span><?= CurrencyFormatter::format($potentialMonthlySavings * 12, $code) ?></span>
+            <div class="title"><?= translate('potential_yearly_savings', $i18n) ?></div>
+          </div>
+          <?php
+        }
+        ?>
+      </div>
     </section>
     <?php
   }

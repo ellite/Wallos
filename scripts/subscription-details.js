@@ -203,7 +203,9 @@ function renderSubscriptionDetails(subscription) {
   const notesItem = document.querySelector('#details-notes-item');
   if (subscription.notes) {
     notesItem.classList.remove('hide');
-    document.querySelector('#details-notes').textContent = subscription.notes;
+    // notes_html is rendered server-side through render_notes_markdown()
+    // (Parsedown safe mode) - never raw user text.
+    document.querySelector('#details-notes').innerHTML = subscription.notes_html;
   } else {
     notesItem.classList.add('hide');
   }

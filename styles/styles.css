@@ -1362,6 +1362,61 @@ header #avatar {
   margin-bottom: 20px;
 }
 
+.notes-editor {
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  background-color: var(--input-background-color);
+  overflow: hidden;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.notes-editor:focus-within {
+  border-color: var(--main-color);
+  box-shadow: var(--focus-ring);
+}
+
+.notes-toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 6px;
+  background-color: var(--surface-hover);
+  border-bottom: 1px solid var(--input-border-color);
+}
+
+.notes-toolbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color .15s ease-in-out, color .15s ease-in-out;
+}
+
+.notes-toolbar-button:hover {
+  background-color: var(--hover-color);
+  color: #fff;
+}
+
+.notes-editor textarea {
+  display: block;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.notes-editor textarea:focus {
+  box-shadow: none;
+}
+
 .form-group-inline {
   display: flex;
   flex-direction: row;
@@ -1632,6 +1687,7 @@ textarea {
   color: var(--text-color);
   width: 100%;
   height: 245px;
+  box-sizing: border-box;
 }
 
 textarea:focus {
@@ -4060,21 +4116,20 @@ body.details-open {
 }
 
 .details-notes {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 10px;
+  position: relative;
   background-color: var(--surface-hover);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 12px 34px 12px 14px;
   font-size: 14px;
   margin-bottom: 16px;
   overflow-wrap: anywhere;
 }
 
 .details-notes i {
+  position: absolute;
+  top: 12px;
+  right: 14px;
   color: var(--main-color);
-  margin-top: 2px;
 }
 
 @media (max-width: 768px) {

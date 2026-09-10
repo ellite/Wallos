@@ -1,9 +1,11 @@
-const STATIC_CACHE = 'static-cache-v5';
+const STATIC_CACHE = 'static-cache-v7';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v2';
 
+// manifest.php is intentionally not precached here: it's per-user (theme
+// cookie dependent), so it falls through to the network-first handler below
+// instead of being served stale from a cache-first bucket forever.
 const staticAssets = [
-    'manifest.json',
     'styles/styles.css',
     'styles/theme.css',
     'styles/dark-theme.css',
@@ -165,17 +167,23 @@ const pagesToPrefetch = [
     'admin.php',
 ];
 
-// Install: cache static assets only
+// Install: cache static assets in small batches. Firing all ~150 fetches at
+// once starves large files (apexcharts is 600KB) of connections on HTTP/1.1
+// origins, and a dropped one is silently skipped - see the static-asset
+// fetch handler, which backfills anything that slips through here.
 self.addEventListener('install', function (event) {
     event.waitUntil(
-        caches.open(STATIC_CACHE).then(function (cache) {
-            return Promise.allSettled(
-                staticAssets.map(url =>
-                    fetch(url).then(response => {
-                        if (response.ok) cache.put(url, response);
-                    }).catch(() => {}) // silently skip missing files
-                )
-            );
+        caches.open(STATIC_CACHE).then(async function (cache) {
+            const BATCH_SIZE = 12;
+            for (let i = 0; i < staticAssets.length; i += BATCH_SIZE) {
+                await Promise.allSettled(
+                    staticAssets.slice(i, i + BATCH_SIZE).map(url =>
+                        fetch(url).then(response => {
+                            if (response.ok) return cache.put(url, response);
+                        }).catch(() => {}) // silently skip missing files
+                    )
+                );
+            }
         })
     );
     self.skipWaiting();
@@ -248,10 +256,28 @@ self.addEventListener('fetch', function (event) {
         return;
     }
 
-    // Static assets: cache-first (they only change on deploy)
+    // Static assets: cache-first (they only change on deploy). ignoreSearch
+    // because the pages request these with a "?<version>" cache-buster, while
+    // they're precached under the bare path - without it every asset misses
+    // the cache and the page renders unstyled offline.
+    //
+    // On a miss, fetch AND store the result: the install step fires ~150
+    // parallel fetches and any that fail (a large file like apexcharts, a
+    // dropped connection) are silently skipped, so without this backfill a
+    // once-missed asset would never get cached and its feature (e.g. the
+    // stats charts) would stay broken offline forever.
     if (staticAssets.some(asset => url.pathname.endsWith(asset))) {
         event.respondWith(
-            caches.match(request).then(response => response || fetch(request))
+            caches.match(request, { ignoreSearch: true }).then(cached => {
+                if (cached) return cached;
+                return fetch(request).then(networkResponse => {
+                    if (networkResponse.ok) {
+                        const clone = networkResponse.clone();
+                        caches.open(STATIC_CACHE).then(cache => cache.put(request, clone));
+                    }
+                    return networkResponse;
+                });
+            })
         );
         return;
     }
