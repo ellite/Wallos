@@ -4,6 +4,7 @@ require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
 require_once 'includes/upcoming_payments.php';
+require_once 'includes/upcoming_cancellations.php';
 
 function formatPrice($price, $currencyCode, $currencies)
 {
@@ -90,16 +91,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 }
 $hasOverdueSubscriptions = !empty($overdueSubscriptions);
 
-// Fetch enabled subscriptions with a cancellation reminder still ahead of us.
-// One-time purchases are excluded: they have no recurring commitment to cancel and
-// the form clears their cancellation date, matching the other dashboard sections.
-$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, cancellation_date FROM subscriptions WHERE user_id = :userId AND inactive = 0 AND cancellation_date IS NOT NULL AND cancellation_date != '' AND cancellation_date >= date('now') AND cycle != 5 ORDER BY cancellation_date ASC");
-$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-$result = $stmt->execute();
-$upcomingCancellations = [];
-while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $upcomingCancellations[] = $row;
-}
+// Fetch the subscriptions whose cancellation reminder is still ahead (shared with
+// the statistics page, so both stay in step).
+$upcomingCancellations = get_upcoming_cancellations($db, $userId);
 $hasUpcomingCancellations = !empty($upcomingCancellations);
 
 require_once 'includes/stats_calculations.php';
