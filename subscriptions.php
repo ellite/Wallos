@@ -516,7 +516,23 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     </div>
 
     <div class="form-group">
-      <input type="text" id="notes" name="notes" autocomplete="off" placeholder="<?= translate('notes', $i18n) ?>">
+      <div class="notes-editor">
+        <div class="notes-toolbar">
+          <button type="button" class="notes-toolbar-button" title="<?= translate('notes_bold', $i18n) ?>" onClick="applyNotesMarkdown('bold')">
+            <i class="fa-solid fa-bold"></i>
+          </button>
+          <button type="button" class="notes-toolbar-button" title="<?= translate('notes_italic', $i18n) ?>" onClick="applyNotesMarkdown('italic')">
+            <i class="fa-solid fa-italic"></i>
+          </button>
+          <button type="button" class="notes-toolbar-button" title="<?= translate('notes_list', $i18n) ?>" onClick="applyNotesMarkdown('list')">
+            <i class="fa-solid fa-list-ul"></i>
+          </button>
+          <button type="button" class="notes-toolbar-button" title="<?= translate('notes_link', $i18n) ?>" onClick="applyNotesMarkdown('link')">
+            <i class="fa-solid fa-link"></i>
+          </button>
+        </div>
+        <textarea id="notes" name="notes" class="thin" autocomplete="off" placeholder="<?= translate('notes', $i18n) ?>"></textarea>
+      </div>
     </div>
 
     <div class="form-group">

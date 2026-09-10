@@ -6,6 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
+require_once __DIR__ . '/../../includes/webhook_helper.php';
 
 require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
@@ -585,7 +586,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             $payload = str_replace("{{subscription_payer}}", $payer, $payload);
                             $payload = str_replace("{{subscription_date}}", $subscription['date'], $payload);
                             $payload = str_replace("{{subscription_url}}", $subscription['url'], $payload);
-                            $payload = str_replace("{{subscription_notes}}", $subscription['notes'], $payload);
+                            $payload = str_replace("{{subscription_notes}}", webhookJsonEscape($subscription['notes']), $payload);
                 
                             // Initialize cURL for each subscription
                             $ch = curl_init();

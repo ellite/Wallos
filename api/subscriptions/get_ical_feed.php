@@ -162,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
         $uid = 'wallos-subscription-' . $subscription['id'] . '@wallos';
         $summary = icalEscape(html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8'));
-        $notes = icalEscape(html_entity_decode($subscription['notes'], ENT_QUOTES, 'UTF-8'));
+        $notes = icalEscape($subscription['notes']);
         $category = icalEscape($subscription['category']);
         $paymentMethod = icalEscape($subscription['payment_method']);
         $payer = icalEscape($subscription['payer_user']);
@@ -173,15 +173,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $location = icalEscape(isset($subscription['url']) ? $subscription['url'] : '');
         $alarm_trigger = '-P' . $subscription['trigger'] . 'D';
 
+        // Notes can now be multi-paragraph Markdown, so these lines
+        // (especially DESCRIPTION) can genuinely exceed the RFC 5545
+        // 75-octet limit.
+        $summaryLine = icalFold('SUMMARY:' . $summary);
+        $descriptionLine = icalFold('DESCRIPTION:' . $description);
+        $locationLine = icalFold('LOCATION:' . $location);
+
         $icsContent .= <<<ICS
         BEGIN:VEVENT
         UID:$uid
         DTSTAMP:$dtstamp
-        SUMMARY:$summary
-        DESCRIPTION:$description
+        $summaryLine
+        $descriptionLine
         DTSTART;VALUE=DATE:$dtstart
         DTEND;VALUE=DATE:$dtend
-        LOCATION:$location
+        $locationLine
         STATUS:CONFIRMED
         TRANSP:OPAQUE
         BEGIN:VALARM

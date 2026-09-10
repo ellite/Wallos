@@ -78,7 +78,7 @@ require_once __DIR__ . '/getdbkeys.php';
   </dl>
   <div class="details-notes hide" id="details-notes-item">
     <i class="fa-solid fa-note-sticky"></i>
-    <span id="details-notes"></span>
+    <div id="details-notes"></div>
   </div>
 </section>
 
