@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.7.0](https://github.com/ellite/Wallos/compare/v5.6.0...v5.7.0) (2026-09-10)
+
+
+### Features
+
+* cancellation in dashboard & general statistics ([#1207](https://github.com/ellite/Wallos/issues/1207)) ([e38403d](https://github.com/ellite/Wallos/commit/e38403d920edd0cd6dfa2fc20f91c7160c888201))
+* support Markdown notes with safe rendering ([5a92009](https://github.com/ellite/Wallos/commit/5a92009ac96179a1d11944fb869483b351abefb3))
+
+
+### Bug Fixes
+
+* **pwa:** offline mode, icons and background ([5ffa841](https://github.com/ellite/Wallos/commit/5ffa8417293ded9b693633f5407f6dddc4868388))
+
 ## [5.6.0](https://github.com/ellite/Wallos/compare/v5.5.1...v5.6.0) (2026-09-08)
 
 
