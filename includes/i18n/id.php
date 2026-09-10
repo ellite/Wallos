@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Halo",
     "upcoming_payments" => "Pembayaran Mendatang",
+    "upcoming_cancellations" => "Pembatalan Mendatang",
     "upcoming_payments_to_show" => "Pembayaran mendatang yang ditampilkan",
     "no_upcoming_payments" => "Anda tidak memiliki pembayaran mendatang",
     "overdue_renewals" => "Perpanjangan Terlambat",

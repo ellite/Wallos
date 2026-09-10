@@ -51,6 +51,7 @@ $i18n = [
     // Dashboard
     "hello" => "你好",
     "upcoming_payments" => "即将到期的付款",
+    "upcoming_cancellations" => "即将取消",
     "upcoming_payments_to_show" => "要显示的即将到期付款",
     "no_upcoming_payments" => "您没有任何即将到期的付款",
     "overdue_renewals" => "逾期续订",

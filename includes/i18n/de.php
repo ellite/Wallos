@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hallo",
     "upcoming_payments" => "Bevorstehende Zahlungen",
+    "upcoming_cancellations" => "Bevorstehende Kündigungen",
     "upcoming_payments_to_show" => "Anzuzeigende bevorstehende Zahlungen",
     "no_upcoming_payments" => "Sie haben keine bevorstehenden Zahlungen",
     "overdue_renewals" => "Überfällige Verlängerungen",

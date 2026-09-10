@@ -50,6 +50,7 @@ $i18n = [
     // Dashboard
     "hello" => "안녕하세요!",
     "upcoming_payments" => "결제 예정",
+    "upcoming_cancellations" => "취소 예정",
     "upcoming_payments_to_show" => "표시할 예정된 결제",
     "no_upcoming_payments" => "예정된 결제가 없습니다.",
     "overdue_renewals" => "갱신 필요",

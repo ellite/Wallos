@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Pozdravljen",
     "upcoming_payments" => "Prihajajoča plačila",
+    "upcoming_cancellations" => "Prihajajoči preklici",
     "upcoming_payments_to_show" => "Prikazana prihajajoča plačila",
     "no_upcoming_payments" => "Nimate prihodnjih plačil",
     "overdue_renewals" => "Zapadla podaljšanja",

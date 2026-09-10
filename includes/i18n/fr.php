@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Bonjour",
     "upcoming_payments" => "Paiements à venir",
+    "upcoming_cancellations" => "Annulations à venir",
     "upcoming_payments_to_show" => "Paiements à venir à afficher",
     "no_upcoming_payments" => "Vous n'avez aucun paiement à venir",
     "overdue_renewals" => "Renouvellements en retard",

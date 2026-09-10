@@ -50,6 +50,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hello",
     "upcoming_payments" => "Upcoming Payments",
+    "upcoming_cancellations" => "Upcoming Cancellations",
     "upcoming_payments_to_show" => "Upcoming payments to show",
     "no_upcoming_payments" => "You don't have any upcoming payments",
     "overdue_renewals" => "Overdue Renewals",

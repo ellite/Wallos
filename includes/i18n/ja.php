@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "こんにちは",
     "upcoming_payments" => "今後の支払い",
+    "upcoming_cancellations" => "今後のキャンセル",
     "upcoming_payments_to_show" => "表示する今後の支払い",
     "no_upcoming_payments" => "今後の支払いはありません",
     "overdue_renewals" => "期限切れの更新",
