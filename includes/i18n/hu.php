@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard 
     "hello" => "Üdvözlöm", 
     "upcoming_payments" => "Közelgő fizetések", 
+    "upcoming_cancellations" => "Közelgő lemondások",
     "upcoming_payments_to_show" => "Megjelenítendő közelgő fizetések",
     "no_upcoming_payments" => "Nincsenek közelgő fizetései", 
     "overdue_renewals" => "Lejárt megújítások", 
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Költségvetés feletti összeg", 
     "monthly_savings" => "Havi megtakarítások (inaktív előfizetéseken)", 
     "yearly_savings" => "Éves megtakarítások (inaktív előfizetéseken)", 
+    "potential_monthly_savings" => "Lehetséges havi megtakarítás",
+    "potential_yearly_savings" => "Lehetséges éves megtakarítás",
     "split_views" => "Osztott nézetek", 
     "category_split" => "Kategória szerinti megoszlás", 
     "household_split" => "Háztartás szerinti megoszlás", 

@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Γειά σου",
     "upcoming_payments" => "Επερχόμενες Πληρωμές",
+    "upcoming_cancellations" => "Επερχόμενες Ακυρώσεις",
     "upcoming_payments_to_show" => "Επερχόμενες πληρωμές προς εμφάνιση",
     "no_upcoming_payments" => "Δεν έχετε καμία επερχόμενη πληρωμή",
     "overdue_renewals" => "Καθυστερημένες Ανανεώσεις",
@@ -141,6 +142,8 @@ $i18n = [
     "amount_over_budget" => "Ποσό πάνω από τον προϋπολογισμό",
     "monthly_savings" => "Μηνιαίες εξοικονομήσεις (σε ανενεργές συνδρομές)",
     "yearly_savings" => "Ετήσιες εξοικονομήσεις (σε ανενεργές συνδρομές)",
+    "potential_monthly_savings" => "Πιθανή Μηνιαία Εξοικονόμηση",
+    "potential_yearly_savings" => "Πιθανή Ετήσια Εξοικονόμηση",
     "split_views" => "Διαχωρισμένες προβολές",
     "category_split" => "Διαχωρισμός κατηγορίας",
     "household_split" => "Διαχωρισμός νοικοκυριού",

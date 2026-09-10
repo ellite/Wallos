@@ -50,6 +50,7 @@ $i18n = [
     // Dashboard
     "hello" => "안녕하세요!",
     "upcoming_payments" => "결제 예정",
+    "upcoming_cancellations" => "취소 예정",
     "upcoming_payments_to_show" => "표시할 예정된 결제",
     "no_upcoming_payments" => "예정된 결제가 없습니다.",
     "overdue_renewals" => "갱신 필요",
@@ -145,6 +146,8 @@ $i18n = [
     "amount_over_budget" => "초과된 예산",
     "monthly_savings" => "월간 절약액",
     "yearly_savings" => "연간 절약액",
+    "potential_monthly_savings" => "예상 월 절감액",
+    "potential_yearly_savings" => "예상 연 절감액",
     "split_views" => "스플릿 뷰",
     "category_split" => "카테고리별 분포",
     "household_split" => "가구 구성별 분포",

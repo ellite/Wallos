@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Привет",
     "upcoming_payments" => "Предстоящие платежи",
+    "upcoming_cancellations" => "Предстоящие отмены",
     "upcoming_payments_to_show" => "Отображаемые предстоящие платежи",
     "no_upcoming_payments" => "У вас нет предстоящих платежей",
     "overdue_renewals" => "Просроченные продления",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Сумма превышения бюджета",
     "monthly_savings" => "Ежемесячная экономия (при неактивных подписках)",
     "yearly_savings" => "Годовая экономия (при неактивных подписках)",
+    "potential_monthly_savings" => "Потенциальная экономия в месяц",
+    "potential_yearly_savings" => "Потенциальная экономия в год",
     "split_views" => "Подробная статистика",
     "category_split" => "По категориям",
     "household_split" => "По членам семьи",

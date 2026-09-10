@@ -50,6 +50,7 @@ $i18n = [
     // Dashboard
     "hello" => "Salam",
     "upcoming_payments" => "Yaxınlaşan ödənişlər",
+    "upcoming_cancellations" => "Yaxınlaşan ləğvetmələr",
     "upcoming_payments_to_show" => "Göstəriləcək yaxınlaşan ödənişlər",
     "no_upcoming_payments" => "Yaxınlaşan ödənişiniz yoxdur",
     "overdue_renewals" => "Vaxtı keçmiş yenilənmələr",
@@ -145,6 +146,8 @@ $i18n = [
     "amount_over_budget" => "Büdcədən artıq məbləğ",
     "monthly_savings" => "Aylıq qənaət (deaktiv abunələr üzrə)",
     "yearly_savings" => "İllik qənaət (deaktiv abunələr üzrə)",
+    "potential_monthly_savings" => "Potensial aylıq qənaət",
+    "potential_yearly_savings" => "Potensial illik qənaət",
     "split_views" => "Bölgü görünüşləri",
     "category_split" => "Kateqoriya üzrə bölgü",
     "household_split" => "Ev təsərrüfatı üzrə bölgü",

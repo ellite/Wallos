@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Pozdravljen",
     "upcoming_payments" => "Prihajajoča plačila",
+    "upcoming_cancellations" => "Prihajajoči preklici",
     "upcoming_payments_to_show" => "Prikazana prihajajoča plačila",
     "no_upcoming_payments" => "Nimate prihodnjih plačil",
     "overdue_renewals" => "Zapadla podaljšanja",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Znesek nad proračunom",
     "monthly_savings" => "Mesečni prihranek (pri neaktivnih naročninah)",
     "yearly_savings" => "Letni prihranki (pri neaktivnih naročninah)",
+    "potential_monthly_savings" => "Možni mesečni prihranek",
+    "potential_yearly_savings" => "Možni letni prihranek",
     "split_views" => "Razdeljeni pogledi",
     "category_split" => "Razdelitev kategorije",
     "household_split" => "Razdelitev gospodinjstva",

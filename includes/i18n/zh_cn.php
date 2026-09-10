@@ -51,6 +51,7 @@ $i18n = [
     // Dashboard
     "hello" => "你好",
     "upcoming_payments" => "即将到期的付款",
+    "upcoming_cancellations" => "即将取消",
     "upcoming_payments_to_show" => "要显示的即将到期付款",
     "no_upcoming_payments" => "您没有任何即将到期的付款",
     "overdue_renewals" => "逾期续订",
@@ -149,6 +150,8 @@ $i18n = [
     "amount_over_budget" => "超出预算金额",
     "monthly_savings" => "每月节省",
     "yearly_savings" => "每年节省",
+    "potential_monthly_savings" => "预计每月可省",
+    "potential_yearly_savings" => "预计每年可省",
     "split_views" => "拆分视图",
     "category_split" => "分类视图",
     "household_split" => "家庭视图",

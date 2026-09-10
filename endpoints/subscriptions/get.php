@@ -104,9 +104,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       if ($type === 'reminder') {
         $notifConditions[] = "notify = 1";
       } elseif ($type === 'cancellation') {
-        $notifConditions[] = "(cancellation_date IS NOT NULL AND cancellation_date != '')";
+        // One-time purchases are never treated as cancellable, matching the
+        // dashboard, statistics page and cancellation notification cron.
+        $notifConditions[] = "(cancellation_date IS NOT NULL AND cancellation_date != '' AND cycle != 5)";
       } elseif ($type === 'none') {
-        $notifConditions[] = "(notify = 0 AND (cancellation_date IS NULL OR cancellation_date = ''))";
+        $notifConditions[] = "(notify = 0 AND (cancellation_date IS NULL OR cancellation_date = '' OR cycle = 5))";
       }
     }
     if (!empty($notifConditions)) {

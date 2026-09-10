@@ -50,6 +50,7 @@ $i18n = [
     // لوحة التحكم
     "hello" => "مرحبًا",
     "upcoming_payments" => "المدفوعات القادمة",
+    "upcoming_cancellations" => "الإلغاءات القادمة",
     "upcoming_payments_to_show" => "المدفوعات القادمة المعروضة",
     "no_upcoming_payments" => "ليس لديك أي مدفوعات قادمة",
     "overdue_renewals" => "التجديدات المتأخرة",
@@ -145,6 +146,8 @@ $i18n = [
     "amount_over_budget" => "مقدار تجاوز الميزانية",
     "monthly_savings" => "التوفير الشهري (من الاشتراكات المعطلة)",
     "yearly_savings" => "التوفير السنوي (من الاشتراكات المعطلة)",
+    "potential_monthly_savings" => "التوفير الشهري المحتمل",
+    "potential_yearly_savings" => "التوفير السنوي المحتمل",
     "split_views" => "طرق توزيع البيانات",
     "category_split" => "التوزيع حسب التصنيف",
     "household_split" => "التوزيع حسب أفراد الأسرة",

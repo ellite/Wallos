@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Salut",
     "upcoming_payments" => "Plăți scadente",
+    "upcoming_cancellations" => "Anulări viitoare",
     "upcoming_payments_to_show" => "Plăți scadente de afișat",
     "no_upcoming_payments" => "Nu există plăți scadente",
     "overdue_renewals" => "Reînnoiri scadente",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Suma peste buget",
     "monthly_savings" => "Economii lunare (abonamente inactive)",
     "yearly_savings" => "Economii anuale (abonamente inactive)",
+    "potential_monthly_savings" => "Economii lunare potențiale",
+    "potential_yearly_savings" => "Economii anuale potențiale",
     "split_views" => "Vizualizare împărțită",
     "category_split" => "După categorii",
     "household_split" => "După membrii familiei",

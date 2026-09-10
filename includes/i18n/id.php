@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Halo",
     "upcoming_payments" => "Pembayaran Mendatang",
+    "upcoming_cancellations" => "Pembatalan Mendatang",
     "upcoming_payments_to_show" => "Pembayaran mendatang yang ditampilkan",
     "no_upcoming_payments" => "Anda tidak memiliki pembayaran mendatang",
     "overdue_renewals" => "Perpanjangan Terlambat",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Jumlah melebihi anggaran",
     "monthly_savings" => "Penghematan Bulanan (pada langganan tidak aktif)",
     "yearly_savings" => "Penghematan Tahunan (pada langganan tidak aktif)",
+    "potential_monthly_savings" => "Potensi Penghematan Bulanan",
+    "potential_yearly_savings" => "Potensi Penghematan Tahunan",
     "split_views" => "Tampilan Terpisah",
     "category_split" => "Pemisahan Kategori",
     "household_split" => "Pemisahan Rumah Tangga",

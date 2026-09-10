@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Xin chào",
     "upcoming_payments" => "Các khoản thanh toán sắp tới",
+    "upcoming_cancellations" => "Hủy bỏ sắp tới",
     "upcoming_payments_to_show" => "Các khoản thanh toán sắp tới cần hiển thị",
     "no_upcoming_payments" => "Bạn không có khoản thanh toán nào sắp tới",
     "overdue_renewals" => "Gia hạn quá hạn",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Số tiền vượt ngân sách",
     "monthly_savings" => "Tiết kiệm hàng tháng (trên các đăng ký không hoạt động)",
     "yearly_savings" => "Tiết kiệm hàng năm (trên các đăng ký không hoạt động)",
+    "potential_monthly_savings" => "Tiết kiệm hàng tháng tiềm năng",
+    "potential_yearly_savings" => "Tiết kiệm hàng năm tiềm năng",
     "split_views" => "Chia tách lượt xem",
     "category_split" => "Phân chia theo danh mục",
     "household_split" => "Phân chia theo hộ gia đình",

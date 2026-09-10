@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "こんにちは",
     "upcoming_payments" => "今後の支払い",
+    "upcoming_cancellations" => "今後のキャンセル",
     "upcoming_payments_to_show" => "表示する今後の支払い",
     "no_upcoming_payments" => "今後の支払いはありません",
     "overdue_renewals" => "期限切れの更新",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "予算オーバー",
     "monthly_savings" => "月間節約 (非アクティブな定期購入)",
     "yearly_savings" => "年間節約 (非アクティブな定期購入)",
+    "potential_monthly_savings" => "想定される月間節約額",
+    "potential_yearly_savings" => "想定される年間節約額",
     "split_views" => "分割表示",
     "category_split" => "カテゴリ別",
     "household_split" => "世帯別",

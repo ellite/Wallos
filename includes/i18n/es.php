@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hola",
     "upcoming_payments" => "Próximos Pagos",
+    "upcoming_cancellations" => "Próximas Cancelaciones",
     "upcoming_payments_to_show" => "Próximos pagos a mostrar",
     "no_upcoming_payments" => "No tienes pagos próximos",
     "overdue_renewals" => "Renovaciones Atrasadas",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Monto sobre el presupuesto",
     "monthly_savings" => "Ahorro Mensual (en suscripciones inactivas)",
     "yearly_savings" => "Ahorro Anual (en suscripciones inactivas)",
+    "potential_monthly_savings" => "Ahorro Mensual Potencial",
+    "potential_yearly_savings" => "Ahorro Anual Potencial",
     "split_views" => "Vistas Divididas",
     "category_split" => "División por Categoría",
     "household_split" => "División por Hogar",

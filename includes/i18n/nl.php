@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hallo",
     "upcoming_payments" => "Aankomende Betalingen",
+    "upcoming_cancellations" => "Aankomende Annuleringen",
     "upcoming_payments_to_show" => "Weer te geven aankomende betalingen",
     "no_upcoming_payments" => "Je hebt geen aankomende betalingen",
     "overdue_renewals" => "Verlopen Verlengen",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Bedrag over budget",
     "monthly_savings" => "Maandelijkse besparingen (op inactieve abonnementen)",
     "yearly_savings" => "Jaarlijkse besparingen (op inactieve abonnementen)",
+    "potential_monthly_savings" => "Potentiële Maandelijkse Besparing",
+    "potential_yearly_savings" => "Potentiële Jaarlijkse Besparing",
     "split_views" => "Verdelingen",
     "category_split" => "Categorieverdeling",
     "household_split" => "Huishoudenverdeling",

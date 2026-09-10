@@ -48,6 +48,7 @@ $i18n = [
     // Dashboard
     "hello" => "Hej",
     "upcoming_payments" => "Kommende betalinger",
+    "upcoming_cancellations" => "Kommende annulleringer",
     "upcoming_payments_to_show" => "Kommende betalinger, der vises",
     "no_upcoming_payments" => "Du har ingen kommende betalinger",
     "overdue_renewals" => "Forsinkede fornyelser",
@@ -143,6 +144,8 @@ $i18n = [
     "amount_over_budget" => "Beløb over budget",
     "monthly_savings" => "Månedlige besparelser (på inaktive abonnementer)",
     "yearly_savings" => "Årlige besparelser (på inaktive abonnementer)",
+    "potential_monthly_savings" => "Potentiel månedlig besparelse",
+    "potential_yearly_savings" => "Potentiel årlig besparelse",
     "split_views" => "Opdelte visninger",
     "category_split" => "Kategoriopdeling",
     "household_split" => "Husstandsopdeling",

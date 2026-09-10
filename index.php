@@ -4,6 +4,7 @@ require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
 require_once 'includes/upcoming_payments.php';
+require_once 'includes/upcoming_cancellations.php';
 
 function formatPrice($price, $currencyCode, $currencies)
 {
@@ -89,6 +90,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $overdueSubscriptions[] = $row;
 }
 $hasOverdueSubscriptions = !empty($overdueSubscriptions);
+
+// Fetch the subscriptions whose cancellation reminder is still ahead (shared with
+// the statistics page, so both stay in step).
+$upcomingCancellations = get_upcoming_cancellations($db, $userId);
+$hasUpcomingCancellations = !empty($upcomingCancellations);
 
 require_once 'includes/stats_calculations.php';
 
@@ -221,6 +227,45 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 ?>
             </div>
         </div>
+
+        <?php if ($hasUpcomingCancellations) { ?>
+            <div class="cancellation-subscriptions">
+                <h2><?= translate('upcoming_cancellations', $i18n) ?></h2>
+                <div class="dashboard-subscriptions-container">
+                    <div class="dashboard-subscriptions-list">
+                        <?php
+                        foreach ($upcomingCancellations as $subscription) {
+                            $subscriptionName = htmlspecialchars($subscription['name']);
+                            $subscriptionPrice = $subscription['price'];
+                            $subscriptionCurrency = $subscription['currency_id'];
+                            $subscriptionDisplayCancellationDate = formatDate($subscription['cancellation_date'], $lang);
+                            $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+
+                            ?>
+                            <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
+                                <?php
+                                if (empty($subscription['logo'])) {
+                                    ?>
+                                    <p class="subscription-item-title"><?= $subscriptionName ?></p>
+                                    <?php
+                                } else {
+                                    $subscriptionLogoSrc = "images/uploads/logos/" . $subscription['logo'];
+                                    $subscriptionLogoVariantSrc = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
+                                    echo renderThemedLogoImg($subscriptionLogoSrc, $subscriptionLogoVariantSrc, $subscription['logo_text_color'] ?? null, 'subscription-item-logo', 'alt="' . $subscriptionName . ' logo" title="' . $subscriptionName . '"');
+                                }
+                                ?>
+                                <div class="subscription-item-info">
+                                    <p class="subscription-item-date"> <?= $subscriptionDisplayCancellationDate ?></p>
+                                    <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
 
         <?php if (!empty($aiRecommendations)) { ?>
             <div class="ai-recommendations">
