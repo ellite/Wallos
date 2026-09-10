@@ -216,7 +216,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     <link rel="apple-touch-icon" href="images/icon/apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="images/icon/apple-touch-icon-152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon-180.png">
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="manifest.php">
     <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
     <link rel="stylesheet" href="styles/login.css?<?= $version ?>">
     <link rel="stylesheet" href="styles/themes/red.css?<?= $version ?>" id="red-theme" <?= $colorTheme != "red" ? "disabled" : "" ?>>

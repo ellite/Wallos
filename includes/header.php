@@ -91,7 +91,7 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
   <link rel="apple-touch-icon" href="images/icon/apple-touch-icon.png">
   <link rel="apple-touch-icon" sizes="152x152" href="images/icon/apple-touch-icon-152.png">
   <link rel="apple-touch-icon" sizes="180x180" href="images/icon/apple-touch-icon-180.png">
-  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
+  <link rel="manifest" href="manifest.php" crossorigin="use-credentials">
   <link rel="stylesheet" href="styles/theme.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/styles.css?<?= $version ?>">
   <link rel="stylesheet" href="styles/dark-theme.css?<?= $version ?>" id="dark-theme" <?= $theme != "dark" ? "disabled" : "" ?>>
