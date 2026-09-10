@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.7.1](https://github.com/ellite/Wallos/compare/v5.7.0...v5.7.1) (2026-09-10)
+
+
+### Bug Fixes
+
+* bump version ([6d6d1f0](https://github.com/ellite/Wallos/commit/6d6d1f08da33cf940a573c98f5aedf2dd62c4a07))
+* bump version ([d84fdd4](https://github.com/ellite/Wallos/commit/d84fdd4b3d2bf969b6e4259517b5f1d503cd750c))
+
 ## [5.7.0](https://github.com/ellite/Wallos/compare/v5.6.0...v5.7.0) (2026-09-10)
 
 
