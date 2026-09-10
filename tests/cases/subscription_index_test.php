@@ -50,6 +50,7 @@ wallos_test('the queries Wallos runs use an index instead of scanning', function
         'active subscriptions' => "SELECT * FROM subscriptions WHERE user_id = 1 AND inactive = 0",
         'notification cron' => "SELECT * FROM subscriptions WHERE user_id = 1 AND notify = 1 AND inactive = 0",
         'calendar range' => "SELECT * FROM subscriptions WHERE user_id = 1 AND inactive = 0 AND next_payment BETWEEN '2026-08-01' AND '2026-08-31'",
+        'dashboard cancellations' => "SELECT * FROM subscriptions WHERE user_id = 1 AND inactive = 0 AND cancellation_date IS NOT NULL AND cancellation_date != '' AND cancellation_date >= date('now') AND cycle != 5 ORDER BY cancellation_date ASC",
     ];
 
     foreach ($cases as $label => $sql) {
