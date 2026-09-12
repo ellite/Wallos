@@ -274,10 +274,27 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
         <?php
       }
       ?>
-      <div class="statistic">
-        <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
-        <div class="title"><?= translate('amount_due', $i18n) ?></div>
-      </div>
+      <?php
+      // A custom budget period takes over from the calendar month here: what is
+      // left to pay only answers "can this pay cheque cover it" when it is
+      // measured against the period the user actually budgets in.
+      if ($periodScopesStatistics) {
+        ?>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($amountNeededThisPeriod, $code) ?></span>
+          <div class="title"><?= translate('amount_due_this_period', $i18n) ?></div>
+          <div class="period-range"><?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></div>
+        </div>
+        <?php
+      } else {
+        ?>
+        <div class="statistic">
+          <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
+          <div class="title"><?= translate('amount_due', $i18n) ?></div>
+        </div>
+        <?php
+      }
+      ?>
       <?php
       if ($manualRenewalsCount > 0) {
         ?>

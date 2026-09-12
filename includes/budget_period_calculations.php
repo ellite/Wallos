@@ -5,7 +5,7 @@ require_once __DIR__ . '/currency_rates.php';
 if (!function_exists('sanitizeBudgetPeriodType')) {
     function sanitizeBudgetPeriodType($periodType)
     {
-        $allowedTypes = ['weekly', 'fortnightly', 'monthly'];
+        $allowedTypes = ['weekly', 'fortnightly', 'semimonthly', 'monthly'];
         return in_array($periodType, $allowedTypes, true) ? $periodType : 'monthly';
     }
 }
@@ -33,6 +33,17 @@ if (!function_exists('sanitizeBudgetAnchorDate')) {
     }
 }
 
+if (!function_exists('sanitizeBudgetSecondDay')) {
+    function sanitizeBudgetSecondDay($secondDay)
+    {
+        $secondDay = (int) $secondDay;
+
+        // 31 is how "the last day of the month" is expressed: getDateWithClampedDay
+        // pulls it back to the 28th, 29th or 30th as the month requires.
+        return ($secondDay >= 1 && $secondDay <= 31) ? $secondDay : 16;
+    }
+}
+
 if (!function_exists('createDateAtMidnight')) {
     function createDateAtMidnight(DateTime $date)
     {
@@ -55,8 +66,36 @@ if (!function_exists('getDateWithClampedDay')) {
     }
 }
 
+if (!function_exists('getSemiMonthlyPeriodStarts')) {
+    /**
+     * The period starts falling in one month, in order and without duplicates.
+     *
+     * Both paydays are clamped to the month's length, so a user paid on the
+     * 30th and the 31st has two distinct periods in March but only one in
+     * February, where both clamp to the 28th. Returning one start for that
+     * month is what keeps the period from collapsing to zero days.
+     *
+     * @return DateTime[]
+     */
+    function getSemiMonthlyPeriodStarts($year, $month, $firstDay, $secondDay)
+    {
+        $days = [min($firstDay, $secondDay), max($firstDay, $secondDay)];
+        $starts = [];
+
+        foreach ($days as $day) {
+            $start = getDateWithClampedDay($year, $month, $day);
+            $key = $start->format('Y-m-d');
+            if (!isset($starts[$key])) {
+                $starts[$key] = $start;
+            }
+        }
+
+        return array_values($starts);
+    }
+}
+
 if (!function_exists('getActiveBudgetPeriod')) {
-    function getActiveBudgetPeriod(DateTime $today, $periodType, $anchorDate)
+    function getActiveBudgetPeriod(DateTime $today, $periodType, $anchorDate, $secondDay = null)
     {
         $periodType = sanitizeBudgetPeriodType($periodType);
         $anchorDate = sanitizeBudgetAnchorDate($anchorDate ?: getDefaultBudgetAnchorDate());
@@ -65,6 +104,58 @@ if (!function_exists('getActiveBudgetPeriod')) {
         $anchor = DateTime::createFromFormat('!Y-m-d', $anchorDate);
         if ($anchor === false) {
             $anchor = new DateTime('1970-01-01');
+        }
+
+        if ($periodType === 'semimonthly') {
+            $firstDay = (int) $anchor->format('j');
+            $secondDay = sanitizeBudgetSecondDay($secondDay);
+
+            // Walk the starts from the previous month through the next one, so
+            // the period containing today is always among them whichever side
+            // of a payday today falls on.
+            $candidates = [];
+            foreach ([-1, 0, 1] as $monthOffset) {
+                $monthCursor = (clone $todayDate)->modify('first day of this month');
+                if ($monthOffset !== 0) {
+                    $monthCursor->modify($monthOffset . ' month');
+                }
+
+                foreach (getSemiMonthlyPeriodStarts(
+                    (int) $monthCursor->format('Y'),
+                    (int) $monthCursor->format('n'),
+                    $firstDay,
+                    $secondDay
+                ) as $candidate) {
+                    $candidates[$candidate->format('Y-m-d')] = $candidate;
+                }
+            }
+
+            ksort($candidates);
+            $candidates = array_values($candidates);
+
+            $start = $candidates[0];
+            $end = null;
+            foreach ($candidates as $index => $candidate) {
+                if ($candidate <= $todayDate) {
+                    $start = $candidate;
+                    $end = isset($candidates[$index + 1])
+                        ? (clone $candidates[$index + 1])->modify('-1 day')
+                        : null;
+                }
+            }
+
+            if ($end === null) {
+                // Today sits before every candidate, or after the last one:
+                // fall back to a full month from the start it did match.
+                $end = (clone $start)->modify('+1 month')->modify('-1 day');
+            }
+
+            return [
+                'start' => $start,
+                'end' => $end,
+                'label' => formatBudgetPeriodLabel($start, $end),
+                'type' => $periodType,
+            ];
         }
 
         if ($periodType === 'weekly' || $periodType === 'fortnightly') {
@@ -198,6 +289,16 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
         $occurrences = [];
 
         $autoRenew = isset($subscription['auto_renew']) ? (int) $subscription['auto_renew'] === 1 : true;
+
+        // A one-time purchase never repeats, so it has no interval to walk: it is
+        // due once, on its payment date. It is still money the period has to
+        // cover, which is why it is counted rather than skipped.
+        if ((int) ($subscription['cycle'] ?? 0) === 5) {
+            return ($nextPayment >= $rangeStartDate && $nextPayment <= $rangeEndDate)
+                ? [clone $nextPayment]
+                : [];
+        }
+
         $intervalSpec = getSubscriptionIntervalSpec($subscription['cycle'] ?? 0, $subscription['frequency'] ?? 1);
 
         if ($intervalSpec === null) {

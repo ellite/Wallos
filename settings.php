@@ -12,11 +12,22 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $currencies[$currencyId] = $row;
 }
 $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
+$useCustomPeriod = !empty($userData['use_custom_period']);
 $budgetPeriodType = $userData['budget_period_type'] ?? 'monthly';
 $budgetPeriodAnchorDate = $userData['budget_period_anchor_date'] ?? date('Y-m-d');
 if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $budgetPeriodAnchorDate)) {
     $budgetPeriodAnchorDate = date('Y-m-d');
 }
+
+// A monthly period anchored on the 1st is a calendar month, so switching it on
+// changes nothing. The check runs through the same function the statistics use
+// rather than re-deriving the rule, so the warning cannot disagree with them.
+require_once 'includes/budget_period_calculations.php';
+$budgetPeriodSecondDay = sanitizeBudgetSecondDay($userData['budget_period_second_day'] ?? 16);
+$previewPeriod = getActiveBudgetPeriod(new DateTime('now'), $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
+$customPeriodMatchesCalendarMonth =
+    $previewPeriod['start']->format('Y-m-d') === date('Y-m-01')
+    && $previewPeriod['end']->format('Y-m-d') === date('Y-m-t');
 $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_payments_limit'] ?? 3);
 
 ?>
@@ -39,6 +50,11 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         flex: 1 1 180px;
         min-width: 160px;
         gap: 8px;
+    }
+
+    /* display:flex above would otherwise win over the hidden attribute. */
+    .period-budget-controls .period-budget-field[hidden] {
+        display: none;
     }
 
     .period-budget-controls .period-budget-field label {
@@ -109,12 +125,19 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 <input type="number" id="period_budget" name="period_budget" autocomplete="off" value="<?= $userData['period_budget'] ?? 0 ?>"
                     placeholder="Budget">
             </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="use_custom_period" name="use_custom_period" <?= $useCustomPeriod ? "checked" : "" ?>>
+                <label for="use_custom_period">
+                    <?= translate('use_custom_period', $i18n) ?>
+                </label>
+            </div>
             <div class="form-group-inline period-budget-controls">
                 <div class="period-budget-field">
                     <label for="budget_period_type"><?= translate('budget_period', $i18n) ?></label>
                     <select id="budget_period_type" name="budget_period_type">
                         <option value="weekly" <?= $budgetPeriodType === 'weekly' ? 'selected' : '' ?>><?= translate('weekly', $i18n) ?></option>
                         <option value="fortnightly" <?= $budgetPeriodType === 'fortnightly' ? 'selected' : '' ?>><?= translate('fortnightly', $i18n) ?></option>
+                        <option value="semimonthly" <?= $budgetPeriodType === 'semimonthly' ? 'selected' : '' ?>><?= translate('semimonthly', $i18n) ?></option>
                         <option value="monthly" <?= $budgetPeriodType === 'monthly' ? 'selected' : '' ?>><?= translate('monthly', $i18n) ?></option>
                     </select>
                 </div>
@@ -123,11 +146,29 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <input type="date" id="budget_period_anchor_date" name="budget_period_anchor_date"
                         value="<?= htmlspecialchars($budgetPeriodAnchorDate, ENT_QUOTES, 'UTF-8') ?>">
                 </div>
+                <div class="period-budget-field" id="secondPaydayField" <?= $budgetPeriodType === 'semimonthly' ? '' : 'hidden' ?>>
+                    <label for="budget_period_second_day"><?= translate('budget_second_payday', $i18n) ?></label>
+                    <select id="budget_period_second_day" name="budget_period_second_day">
+                        <?php for ($day = 1; $day <= 31; $day++) { ?>
+                            <option value="<?= $day ?>" <?= $budgetPeriodSecondDay === $day ? 'selected' : '' ?>>
+                                <?= $day === 31 ? translate('last_day_of_month', $i18n) : $day ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="savePeriodBudget" class="period-budget-save" onClick="savePeriodBudget()" />
             </div>
             <div class="settings-notes">
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('period_budget_info', $i18n) ?>
+                </p>
+                <p id="customPeriodActiveWarning" <?= ($useCustomPeriod && !$customPeriodMatchesCalendarMonth) ? '' : 'hidden' ?>>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <?= translate('custom_period_active_warning', $i18n) ?>
+                </p>
+                <p id="customPeriodWarning" <?= ($useCustomPeriod && $customPeriodMatchesCalendarMonth) ? '' : 'hidden' ?>>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <?= translate('custom_period_same_as_month', $i18n) ?>
                 </p>
             </div>
         </div>

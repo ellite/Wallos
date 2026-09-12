@@ -1345,6 +1345,11 @@ header #avatar {
   color: var(--accent-color);
 }
 
+/* display:flex above would otherwise win over the hidden attribute. */
+.settings-notes>p[hidden] {
+  display: none;
+}
+
 .settings-notes>p>i {
   color: var(--text-muted);
   font-size: 14px;
@@ -2965,6 +2970,15 @@ button.dark-theme-button i {
   flex-shrink: 0;
 }
 
+/* The period grid spans two months, so a day number alone is ambiguous. */
+.calendar .day .day-month {
+  font-size: 0.75em;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-right: 3px;
+  text-transform: uppercase;
+}
+
 .calendar .today .day {
   background-color: var(--main-color);
   color: #fff;
@@ -3024,6 +3038,11 @@ button.dark-theme-button i {
     padding: 2px 5px;
     border-radius: 5px;
   }
+}
+
+.calendar-monthly-stats-header .period-range {
+  margin-bottom: 1em;
+  display: block;
 }
 
 .over-budget {

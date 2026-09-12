@@ -1,4 +1,6 @@
-const STATIC_CACHE = 'static-cache-v7';
+const STATIC_CACHE = 'static-cache-v9';
+// Bumped whenever a precached asset changes. These are served cache-first with ignoreSearch, so the "?<version>"
+// query the pages append does NOT refresh them - only a new cache name does.
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v2';
 

@@ -44,6 +44,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['month']) && isset($_GET
   $sameAsCurrent = true;
 }
 
+// When the user has opted into a pay period, the page is framed by that period
+// instead of the calendar month: a month grid would keep answering the question
+// they said was the wrong one.
+require_once 'includes/budget_period_calculations.php';
+$useCustomPeriod = !empty($userData['use_custom_period']);
+$budgetPeriodType = sanitizeBudgetPeriodType($userData['budget_period_type'] ?? 'monthly');
+$budgetPeriodAnchorDate = sanitizeBudgetAnchorDate($userData['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
+$budgetPeriodSecondDay = sanitizeBudgetSecondDay($userData['budget_period_second_day'] ?? 16);
+
+$todayDate = new DateTime('today');
+$currentPeriod = getActiveBudgetPeriod($todayDate, $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
+$periodView = $useCustomPeriod
+  && ($currentPeriod['start']->format('Y-m-d') !== $todayDate->format('Y-m-01')
+    || $currentPeriod['end']->format('Y-m-d') !== $todayDate->format('Y-m-t'));
+
+$periodOffset = 0;
+if ($periodView) {
+  // Unlike the month view, the period view can look backwards: "what did last
+  // pay period actually cost" is a reasonable thing to ask.
+  $periodOffset = isset($_GET['period']) ? (int) $_GET['period'] : 0;
+  $periodOffset = max(-120, min(120, $periodOffset));
+
+  // Step one period at a time through the same function that decides the
+  // current one, so every frame is consistent with the statistics.
+  $displayedPeriod = $currentPeriod;
+  for ($step = 0; $step < abs($periodOffset); $step++) {
+    $pivot = $periodOffset > 0
+      ? (clone $displayedPeriod['end'])->modify('+1 day')
+      : (clone $displayedPeriod['start'])->modify('-1 day');
+    $displayedPeriod = getActiveBudgetPeriod($pivot, $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
+  }
+
+  $periodStart = $displayedPeriod['start'];
+  $periodEnd = $displayedPeriod['end'];
+  $periodLabel = $displayedPeriod['label'];
+  // formatBudgetPeriodLabel() drops the year when the period sits inside one,
+  // which is fine beside "current period" but not on a calendar you can page
+  // through: Aug 2026 and Aug 2036 would read identically.
+  $periodHeading = $periodStart->format('Y') === $periodEnd->format('Y')
+    ? $periodLabel . ', ' . $periodStart->format('Y')
+    : $periodLabel;
+  $sameAsCurrent = $periodOffset === 0;
+}
+
 $currenciesInUse = [];
 $numberOfSubscriptionsToPayThisMonth = 0;
 $totalCostThisMonth = 0;
@@ -84,7 +128,6 @@ $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
 
-$yearsToLoad = $calendarYear - $currentYear + 1;
 $weekStartsSunday = !empty($settings['week_starts_sunday']);
 $weekDays = [
   ['key' => 'mon', 'offset' => 0],
@@ -124,26 +167,43 @@ if ($weekStartsSunday) {
   ?>
   <div class="split-header">
     <div class="calendar-title">
-      <h2><?= translate('month-' . $calendarMonth, $i18n) ?> <?= $calendarYear ?></h2>
-      <div class="calendar-nav">
-        <button class="button secondary-button" id="prev"
-          onclick="prevMonth(<?= $calendarMonth ?>, <?= $calendarYear ?>)" <?= $sameAsCurrent ? 'disabled' : '' ?>>
-          <i class="fa-solid fa-chevron-left"></i>
-        </button>
-        <button class="button secondary-button" id="next"
-          onclick="nextMonth(<?= $calendarMonth ?>, <?= $calendarYear ?>)">
-          <i class="fa-solid fa-chevron-right"></i>
-        </button>
-        <?php
-        if (!$sameAsCurrent) {
-          ?>
-          <button class="button secondary-button" onClick="currentMoth()" title="<?= translate('reset', $i18n) ?>">
-            <i class="fa-solid fa-calendar-day"></i>
+      <?php if ($periodView) { ?>
+        <h2><?= htmlspecialchars($periodHeading, ENT_QUOTES, 'UTF-8') ?></h2>
+        <div class="calendar-nav">
+          <button class="button secondary-button" id="prev" onclick="prevPeriod(<?= $periodOffset ?>)">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="button secondary-button" id="next" onclick="nextPeriod(<?= $periodOffset ?>)">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+          <?php if (!$sameAsCurrent) { ?>
+            <button class="button secondary-button" onClick="currentPeriod()" title="<?= translate('reset', $i18n) ?>">
+              <i class="fa-solid fa-calendar-day"></i>
+            </button>
+          <?php } ?>
+        </div>
+      <?php } else { ?>
+        <h2><?= translate('month-' . $calendarMonth, $i18n) ?> <?= $calendarYear ?></h2>
+        <div class="calendar-nav">
+          <button class="button secondary-button" id="prev"
+            onclick="prevMonth(<?= $calendarMonth ?>, <?= $calendarYear ?>)" <?= $sameAsCurrent ? 'disabled' : '' ?>>
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <button class="button secondary-button" id="next"
+            onclick="nextMonth(<?= $calendarMonth ?>, <?= $calendarYear ?>)">
+            <i class="fa-solid fa-chevron-right"></i>
           </button>
           <?php
-        }
-        ?>
-      </div>
+          if (!$sameAsCurrent) {
+            ?>
+            <button class="button secondary-button" onClick="currentMoth()" title="<?= translate('reset', $i18n) ?>">
+              <i class="fa-solid fa-calendar-day"></i>
+            </button>
+            <?php
+          }
+          ?>
+        </div>
+      <?php } ?>
     </div>
     <button class="button secondary-button export-ical" onClick="showExportPopup()"
       title="<?= translate('export_icalendar', $i18n) ?>" aria-label="<?= translate('export_icalendar', $i18n) ?>">
@@ -163,80 +223,58 @@ if ($weekStartsSunday) {
   </div>
   <div>
     <?php
-    $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $calendarMonth, $calendarYear);
-    $firstDay = mktime(0, 0, 0, $calendarMonth, 1, $calendarYear);
-    $firstDayOfWeek = date('N', $firstDay) - 1;
+    // One grid, one range. The month view spans the calendar month; the period
+    // view spans one payday to the day before the next, which usually crosses a
+    // month boundary. Everything below works off $rangeStart/$rangeEnd so the
+    // two frames cannot drift apart.
+    if ($periodView) {
+      $rangeStart = clone $periodStart;
+      $rangeEnd = clone $periodEnd;
+    } else {
+      $rangeStart = new DateTime(sprintf('%04d-%02d-01', (int) $calendarYear, (int) $calendarMonth));
+      $rangeEnd = (clone $rangeStart)->modify('last day of this month');
+    }
+
+    $today = strtotime(date('Y-m-d'));
+    $firstDayOfWeek = (int) $rangeStart->format('N') - 1;
     if ($weekStartsSunday) {
       $firstDayOfWeek = ($firstDayOfWeek + 1) % 7;
     }
-    $today = strtotime(date('Y-m-d'));
-    $todayDay = (int) date('j');
-    $todayMonth = date('m');
-    $todayYear = date('Y');
 
-    // Project every payment occurrence into this month once, before rendering.
-    $monthKey = $calendarYear . '-' . str_pad($calendarMonth, 2, '0', STR_PAD_LEFT);
-    $startOfMonth = strtotime($monthKey . '-01');
-    $paymentsByDay = [];
-
-    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId) {
-      $paymentsByDay[(int) date('j', $date)][] = $subscription;
-      $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
-      $totalCostThisMonth += $convertedPrice;
-      $numberOfSubscriptionsToPayThisMonth++;
-      if ($date >= $today) {
-        $amountDueThisMonth += $convertedPrice;
-      }
-    };
-
+    // Occurrences come from the same helper the statistics use. calendar.php
+    // used to walk dates with strtotime('+1 months'), which overflows a
+    // month-end date: a subscription billed on the 31st skipped September
+    // entirely and then drifted to the 1st for good.
+    $paymentsByDate = [];
     foreach ($subscriptions as $subscription) {
-      $nextPaymentDate = strtotime($subscription['next_payment']);
-      $subscriptionStartDate = !empty($subscription['start_date'])
-        ? strtotime($subscription['start_date'])
-        : $nextPaymentDate;
-      $cycle = $subscription['cycle'];
-      $frequency = $subscription['frequency'];
+      $subscriptionStart = !empty($subscription['start_date'])
+        ? DateTime::createFromFormat('!Y-m-d', trim($subscription['start_date']))
+        : null;
 
-      if ($cycle == 5) {
-        // One-time purchase: only shown on its exact payment date
-        if (date('Y-m', $nextPaymentDate) == $monthKey) {
-          $registerPayment($nextPaymentDate, $subscription);
-        }
-        continue;
-      }
-
-      switch ($cycle) {
-        case 1: // Days
-          $incrementString = "+{$frequency} days";
-          break;
-        case 2: // Weeks
-          $incrementString = "+{$frequency} weeks";
-          break;
-        case 3: // Months
-          $incrementString = "+{$frequency} months";
-          break;
-        case 4: // Years
-          $incrementString = "+{$frequency} years";
-          break;
-        default:
-          $incrementString = "+{$frequency} months";
-      }
-
-      $endDate = strtotime("+" . $yearsToLoad . " years", $nextPaymentDate);
-
-      // Find the first payment date of the month by moving backwards
-      $startDate = $nextPaymentDate;
-      while ($startDate > $startOfMonth) {
-        $startDate = strtotime("-" . $incrementString, $startDate);
-      }
-
-      for ($date = $startDate; $date <= $endDate; $date = strtotime($incrementString, $date)) {
-        if ($date < $subscriptionStartDate) {
+      foreach (getSubscriptionOccurrencesInRange($subscription, $rangeStart, $rangeEnd) as $occurrence) {
+        if ($subscriptionStart instanceof DateTime && $occurrence < $subscriptionStart) {
           continue;
         }
-        if (date('Y-m', $date) == $monthKey) {
-          $registerPayment($date, $subscription);
+
+        $paymentsByDate[$occurrence->format('Y-m-d')][] = $subscription;
+        $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+        $totalCostThisMonth += $convertedPrice;
+        $numberOfSubscriptionsToPayThisMonth++;
+        if ($occurrence->getTimestamp() >= $today) {
+          $amountDueThisMonth += $convertedPrice;
         }
+      }
+    }
+
+    // A day number alone is ambiguous once the grid crosses a month boundary,
+    // so name the month on the first cell and wherever a new one starts.
+    $rangeSpansMonths = $rangeStart->format('Y-m') !== $rangeEnd->format('Y-m');
+    $shortMonthFormatter = null;
+    if ($rangeSpansMonths) {
+      try {
+        $shortMonthFormatter = new IntlDateFormatter($lang, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, null, null, 'MMM');
+      } catch (Throwable $e) {
+        $shortMonthFormatter = new IntlDateFormatter('en', IntlDateFormatter::SHORT, IntlDateFormatter::NONE, null, null, 'MMM');
       }
     }
     ?>
@@ -255,17 +293,30 @@ if ($weekStartsSunday) {
             echo '<div class="calendar-cell empty"></div>';
             $dayOfWeek++;
           }
-          for ($day = 1; $day <= $daysInMonth; $day++) {
+
+          $cursor = clone $rangeStart;
+          $isFirstCell = true;
+          while ($cursor <= $rangeEnd) {
             if ($dayOfWeek > 0 && $dayOfWeek % 7 == 0) {
               echo '</div><div class="week calendar-row">';
             }
-            $isToday = $day == $todayDay && $calendarMonth == $todayMonth && $calendarYear == $todayYear;
+            $dateKey = $cursor->format('Y-m-d');
+            $dayNumber = (int) $cursor->format('j');
+            $isToday = $dateKey === date('Y-m-d');
+            $monthMarker = ($shortMonthFormatter !== null && ($isFirstCell || $dayNumber === 1))
+              ? $shortMonthFormatter->format($cursor)
+              : null;
             ?>
             <div class="calendar-cell<?= $isToday ? ' today' : '' ?>">
-              <span class="day"><?= $day ?></span>
-              <?php if (!empty($paymentsByDay[$day])) { ?>
+              <span class="day">
+                <?php if ($monthMarker !== null) { ?>
+                  <span class="day-month"><?= htmlspecialchars($monthMarker, ENT_QUOTES, 'UTF-8') ?></span>
+                <?php } ?>
+                <?= $dayNumber ?>
+              </span>
+              <?php if (!empty($paymentsByDate[$dateKey])) { ?>
                 <div class="calendar-cell-content">
-                  <?php foreach ($paymentsByDay[$day] as $payment) { ?>
+                  <?php foreach ($paymentsByDate[$dateKey] as $payment) { ?>
                     <div class="calendar-event" onClick="showSubscriptionDetails(event, <?= $payment['id'] ?>)"
                       title="<?= htmlspecialchars($payment['name']) ?>">
                       <?= htmlspecialchars($payment['name']) ?>
@@ -275,7 +326,9 @@ if ($weekStartsSunday) {
               <?php } ?>
             </div>
             <?php
+            $isFirstCell = false;
             $dayOfWeek++;
+            $cursor->modify('+1 day');
           }
           while ($dayOfWeek % 7 != 0) {
             echo '<div class="calendar-cell empty"></div>';
@@ -302,6 +355,9 @@ if ($weekStartsSunday) {
     <div class="calendar-monthly-stats">
       <div class="calendar-monthly-stats-header">
         <h3><?= translate("stats", $i18n) ?></h3>
+        <?php if ($periodView) { ?>
+          <span class="period-range"><?= htmlspecialchars($periodLabel, ENT_QUOTES, 'UTF-8') ?></span>
+        <?php } ?>
       </div>
       <div class="statistics">
         <div class="statistic">
@@ -315,7 +371,7 @@ if ($weekStartsSunday) {
         </div>
         <div class="statistic">
           <span><?= CurrencyFormatter::format($amountDueThisMonth, $code) ?></span>
-          <div class="title"><?= translate("amount_due", $i18n) ?></div>
+          <div class="title"><?= translate($periodView ? "amount_due_this_period" : "amount_due", $i18n) ?></div>
         </div>
       </div>
     </div>

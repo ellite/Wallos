@@ -27,7 +27,17 @@ if (isset($data['period_budget'])) {
     $periodBudget = max(0, (float) $data['period_budget']);
     $sets[] = 'period_budget = :periodBudget';
     $binds[':periodBudget'] = ['value' => $periodBudget, 'type' => SQLITE3_FLOAT];
+}
 
+if (isset($data['use_custom_period'])) {
+    $useCustomPeriod = filter_var($data['use_custom_period'], FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+    $sets[] = 'use_custom_period = :useCustomPeriod';
+    $binds[':useCustomPeriod'] = ['value' => $useCustomPeriod, 'type' => SQLITE3_INTEGER];
+}
+
+// The period shapes the statistics on its own, so it is saved whether or not an
+// amount to budget against came with it.
+if (isset($data['budget_period_type']) || isset($data['budget_period_anchor_date'])) {
     $periodType = sanitizeBudgetPeriodType($data['budget_period_type'] ?? 'monthly');
     $anchorDate = sanitizeBudgetAnchorDate($data['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
 
@@ -35,6 +45,14 @@ if (isset($data['period_budget'])) {
     $binds[':periodType'] = ['value' => $periodType, 'type' => SQLITE3_TEXT];
     $sets[] = 'budget_period_anchor_date = :anchorDate';
     $binds[':anchorDate'] = ['value' => $anchorDate, 'type' => SQLITE3_TEXT];
+}
+
+// Only meaningful for a semi-monthly period, but it is stored whenever it is
+// sent so switching period type back and forth does not lose the setting.
+if (isset($data['budget_period_second_day'])) {
+    $secondDay = sanitizeBudgetSecondDay($data['budget_period_second_day']);
+    $sets[] = 'budget_period_second_day = :secondDay';
+    $binds[':secondDay'] = ['value' => $secondDay, 'type' => SQLITE3_INTEGER];
 }
 
 if (empty($sets)) {
