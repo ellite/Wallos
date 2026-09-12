@@ -505,6 +505,31 @@ $i18n = [
     "google_search_info" => "Adds Google image results (via SerpAPI) as an additional source in the subscription logo search. Create a free SerpAPI account and paste your API key here.",
     "monthly_searches_used" => "Searches used this month",
     "monthly_requests_used" => "API requests used this month",
+
+    // Default categories a new account is created with. The list also starts
+    // with "no_category", which is translated further up.
+    "category_entertainment" => "Entertainment",
+    "category_music" => "Music",
+    "category_utilities" => "Utilities",
+    "category_food_and_beverages" => "Food & Beverages",
+    "category_health_and_wellbeing" => "Health & Wellbeing",
+    "category_productivity" => "Productivity",
+    "category_banking" => "Banking",
+    "category_transport" => "Transport",
+    "category_education" => "Education",
+    "category_insurance" => "Insurance",
+    "category_gaming" => "Gaming",
+    "category_news_and_magazines" => "News & Magazines",
+    "category_software" => "Software",
+    "category_technology" => "Technology",
+    "category_cloud_services" => "Cloud Services",
+    "category_charity_and_donations" => "Charity & Donations",
+    // Default payment methods a new account is created with. Only the generic
+    // ones are translated; a brand is the same word in every language.
+    "payment_method_credit_card" => "Credit Card",
+    "payment_method_bank_transfer" => "Bank Transfer",
+    "payment_method_direct_debit" => "Direct Debit",
+    "payment_method_money" => "Money",
 ];
 
 

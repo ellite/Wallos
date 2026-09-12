@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint_admin.php';
+require_once '../../includes/default_names.php';
 
 $currencies = [
     ['id' => 1, 'name' => 'Euro', 'symbol' => '€', 'code' => 'EUR'],
@@ -37,60 +38,6 @@ $currencies = [
     ['id' => 32, 'name' => 'South African Rand', 'symbol' => 'R', 'code' => 'ZAR'],
     ['id' => 33, 'name' => 'Ukrainian Hryvnia', 'symbol' => '₴', 'code' => 'UAH'],
     ['id' => 34, 'name' => 'New Taiwan Dollar', 'symbol' => 'NT$', 'code' => 'TWD'],
-];
-
-$categories = [
-    ['id' => 1, 'name' => 'No category'],
-    ['id' => 2, 'name' => 'Entertainment'],
-    ['id' => 3, 'name' => 'Music'],
-    ['id' => 4, 'name' => 'Utilities'],
-    ['id' => 5, 'name' => 'Food & Beverages'],
-    ['id' => 6, 'name' => 'Health & Wellbeing'],
-    ['id' => 7, 'name' => 'Productivity'],
-    ['id' => 8, 'name' => 'Banking'],
-    ['id' => 9, 'name' => 'Transport'],
-    ['id' => 10, 'name' => 'Education'],
-    ['id' => 11, 'name' => 'Insurance'],
-    ['id' => 12, 'name' => 'Gaming'],
-    ['id' => 13, 'name' => 'News & Magazines'],
-    ['id' => 14, 'name' => 'Software'],
-    ['id' => 15, 'name' => 'Technology'],
-    ['id' => 16, 'name' => 'Cloud Services'],
-    ['id' => 17, 'name' => 'Charity & Donations'],
-];
-
-$payment_methods = [
-    ['id' => 1, 'name' => 'PayPal', 'icon' => 'images/uploads/icons/paypal.png'],
-    ['id' => 2, 'name' => 'Credit Card', 'icon' => 'images/uploads/icons/creditcard.png'],
-    ['id' => 3, 'name' => 'Bank Transfer', 'icon' => 'images/uploads/icons/banktransfer.png'],
-    ['id' => 4, 'name' => 'Direct Debit', 'icon' => 'images/uploads/icons/directdebit.png'],
-    ['id' => 5, 'name' => 'Money', 'icon' => 'images/uploads/icons/money.png'],
-    ['id' => 6, 'name' => 'Google Pay', 'icon' => 'images/uploads/icons/googlepay.png'],
-    ['id' => 7, 'name' => 'Samsung Pay', 'icon' => 'images/uploads/icons/samsungpay.png'],
-    ['id' => 8, 'name' => 'Apple Pay', 'icon' => 'images/uploads/icons/applepay.png'],
-    ['id' => 9, 'name' => 'Crypto', 'icon' => 'images/uploads/icons/crypto.png'],
-    ['id' => 10, 'name' => 'Klarna', 'icon' => 'images/uploads/icons/klarna.png'],
-    ['id' => 11, 'name' => 'Amazon Pay', 'icon' => 'images/uploads/icons/amazonpay.png'],
-    ['id' => 12, 'name' => 'SEPA', 'icon' => 'images/uploads/icons/sepa.png'],
-    ['id' => 13, 'name' => 'Skrill', 'icon' => 'images/uploads/icons/skrill.png'],
-    ['id' => 14, 'name' => 'Sofort', 'icon' => 'images/uploads/icons/sofort.png'],
-    ['id' => 15, 'name' => 'Stripe', 'icon' => 'images/uploads/icons/stripe.png'],
-    ['id' => 16, 'name' => 'Affirm', 'icon' => 'images/uploads/icons/affirm.png'],
-    ['id' => 17, 'name' => 'AliPay', 'icon' => 'images/uploads/icons/alipay.png'],
-    ['id' => 18, 'name' => 'Elo', 'icon' => 'images/uploads/icons/elo.png'],
-    ['id' => 19, 'name' => 'Facebook Pay', 'icon' => 'images/uploads/icons/facebookpay.png'],
-    ['id' => 20, 'name' => 'GiroPay', 'icon' => 'images/uploads/icons/giropay.png'],
-    ['id' => 21, 'name' => 'iDeal', 'icon' => 'images/uploads/icons/ideal.png'],
-    ['id' => 22, 'name' => 'Union Pay', 'icon' => 'images/uploads/icons/unionpay.png'],
-    ['id' => 23, 'name' => 'Interac', 'icon' => 'images/uploads/icons/interac.png'],
-    ['id' => 24, 'name' => 'WeChat', 'icon' => 'images/uploads/icons/wechat.png'],
-    ['id' => 25, 'name' => 'Paysafe', 'icon' => 'images/uploads/icons/paysafe.png'],
-    ['id' => 26, 'name' => 'Poli', 'icon' => 'images/uploads/icons/poli.png'],
-    ['id' => 27, 'name' => 'Qiwi', 'icon' => 'images/uploads/icons/qiwi.png'],
-    ['id' => 28, 'name' => 'ShopPay', 'icon' => 'images/uploads/icons/shoppay.png'],
-    ['id' => 29, 'name' => 'Venmo', 'icon' => 'images/uploads/icons/venmo.png'],
-    ['id' => 30, 'name' => 'VeriFone', 'icon' => 'images/uploads/icons/verifone.png'],
-    ['id' => 31, 'name' => 'WebMoney', 'icon' => 'images/uploads/icons/webmoney.png'],
 ];
 
 function validate($value)
@@ -176,8 +123,8 @@ if ($result) {
         // Add categories for that user
         $query = 'INSERT INTO categories (name, "order", user_id) VALUES (:name, :order, :user_id)';
         $stmt = $db->prepare($query);
-        foreach ($categories as $index => $category) {
-            $stmt->bindValue(':name', $category['name'], SQLITE3_TEXT);
+        foreach (default_categories($language) as $index => $name) {
+            $stmt->bindValue(':name', $name, SQLITE3_TEXT);
             $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
             $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
             $stmt->execute();
@@ -186,7 +133,7 @@ if ($result) {
         // Add payment methods for that user
         $query = 'INSERT INTO payment_methods (name, icon, "order", user_id) VALUES (:name, :icon, :order, :user_id)';
         $stmt = $db->prepare($query);
-        foreach ($payment_methods as $index => $payment_method) {
+        foreach (default_payment_methods($language) as $index => $payment_method) {
             $stmt->bindValue(':name', $payment_method['name'], SQLITE3_TEXT);
             $stmt->bindValue(':icon', $payment_method['icon'], SQLITE3_TEXT);
             $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);

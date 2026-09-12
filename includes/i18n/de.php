@@ -503,6 +503,31 @@ $i18n = [
     "google_search_info" => "Fügt Google-Bildergebnisse (über SerpAPI) als zusätzliche Quelle in der Logo-Suche hinzu. Erstellen Sie ein kostenloses SerpAPI-Konto und fügen Sie hier Ihren API-Schlüssel ein.",
     "monthly_searches_used" => "Diesen Monat verbrauchte Suchanfragen",
     "monthly_requests_used" => "Diesen Monat verbrauchte API-Anfragen",
+
+    // Default categories a new account is created with. The list also starts
+    // with "no_category", which is translated further up.
+    "category_entertainment" => "Unterhaltung",
+    "category_music" => "Musik",
+    "category_utilities" => "Nebenkosten",
+    "category_food_and_beverages" => "Essen & Trinken",
+    "category_health_and_wellbeing" => "Gesundheit & Wohlbefinden",
+    "category_productivity" => "Produktivität",
+    "category_banking" => "Bankwesen",
+    "category_transport" => "Verkehr",
+    "category_education" => "Bildung",
+    "category_insurance" => "Versicherung",
+    "category_gaming" => "Spiele",
+    "category_news_and_magazines" => "Nachrichten & Zeitschriften",
+    "category_software" => "Software",
+    "category_technology" => "Technik",
+    "category_cloud_services" => "Cloud-Dienste",
+    "category_charity_and_donations" => "Spenden & Wohltätigkeit",
+    // Default payment methods a new account is created with. Only the generic
+    // ones are translated; a brand is the same word in every language.
+    "payment_method_credit_card" => "Kreditkarte",
+    "payment_method_bank_transfer" => "Überweisung",
+    "payment_method_direct_debit" => "Lastschrift",
+    "payment_method_money" => "Bargeld",
 ];
 
 
