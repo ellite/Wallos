@@ -91,6 +91,33 @@ wallos_test('webhookJsonEscape() keeps a multi-line note from breaking the paylo
     assert_same($note, $decoded['notes'] ?? null, 'and decodes back to the exact original note');
 });
 
+wallos_test('a note that ends in a quotation mark survives the escape', function () {
+    // The one the helper as written could not do. trim($encoded, '"') strips
+    // every leading and trailing quote character, not the two json_encode()
+    // added, so a value ending in a quotation mark lost the closing quote of
+    // its own \\" escape and left the payload ending in a bare backslash. He
+    // said "hi" is enough: it came out as He said \\"hi\\ and the body was no
+    // longer JSON, so the receiver rejected every webhook for that
+    // subscription. The first and last character are exactly where a "strip
+    // the quotes" implementation goes wrong, so they are what this asks about.
+    $notes = [
+        'a note ending in a quote' => 'cancel "soon"',
+        'a note that is one quote' => '"',
+        'a note quoted end to end' => '"quoted"',
+        'a note ending in a backslash' => 'path\\',
+        'a note that is empty' => '',
+    ];
+
+    foreach ($notes as $label => $note) {
+        $payload = '{"notes": "' . webhookJsonEscape($note) . '"}';
+        $decoded = json_decode($payload, true);
+
+        assert_true($decoded !== null, $label . ' produces valid JSON: ' . $payload);
+        assert_same($note, $decoded['notes'] ?? null,
+            $label . ' decodes back to exactly what was written');
+    }
+});
+
 wallos_test('both notification crons use the shared webhookJsonEscape() helper for notes', function () {
     foreach (['endpoints/cronjobs/sendnotifications.php', 'endpoints/cronjobs/sendcancellationnotifications.php'] as $file) {
         $source = file_get_contents(WALLOS_ROOT . '/' . $file);
