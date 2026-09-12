@@ -37,7 +37,8 @@ if (isset($_COOKIE['colorTheme'])) {
     $colorTheme = $_COOKIE['colorTheme'];
 }
 
-$settings = $db->querySingle("SELECT * FROM admin", true);
+require_once 'includes/instance_config.php';
+$settings = wallos_get_admin_settings($db);
 if ($settings['smtp_address'] == "" || $settings['server_url'] == "") {
     header("Location: .");
     exit();

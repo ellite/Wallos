@@ -266,9 +266,11 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 $registrations = false;
 $resetPasswordEnabled = false;
 if (!$password_login_disabled) {
-    $adminQuery = "SELECT registrations_open, max_users, server_url, smtp_address FROM admin";
-    $adminResult = $db->query($adminQuery);
-    $adminRow = $adminResult->fetchArray(SQLITE3_ASSOC);
+    // Through the instance configuration, so that a mail server the deployment
+    // owns offers the password reset link. Configured and invisible would be
+    // the worst of the three possible outcomes.
+    require_once 'includes/instance_config.php';
+    $adminRow = wallos_get_admin_settings($db);
     $registrationsOpen = $adminRow['registrations_open'];
     $maxUsers = $adminRow['max_users'];
 
