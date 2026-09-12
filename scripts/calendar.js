@@ -18,6 +18,20 @@ function prevMonth(currentMonth, currentYear) {
   window.location.href = `calendar.php?month=${prevMonth}&year=${prevYear}`;
 }
 
+// The period view walks by offset from the current pay period; the month view
+// keeps its own month/year navigation below.
+function nextPeriod(currentOffset) {
+  window.location.href = `calendar.php?period=${currentOffset + 1}`;
+}
+
+function prevPeriod(currentOffset) {
+  window.location.href = `calendar.php?period=${currentOffset - 1}`;
+}
+
+function currentPeriod() {
+  window.location.href = `calendar.php`;
+}
+
 function currentMoth() {
     window.location.href = `calendar.php`;
 }

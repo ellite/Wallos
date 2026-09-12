@@ -14,7 +14,9 @@ It returns:
 - amount_remaining_this_period: remaining amount before hitting budget (float).
 - amount_over_budget: amount above budget, if any (float).
 - is_over_budget: whether projected spend exceeds period budget (boolean).
-- budget_period_type: weekly, fortnightly, monthly.
+- use_custom_period: whether the user scopes their statistics to this period instead of calendar months (boolean).
+- budget_period_type: weekly, fortnightly, semimonthly, monthly.
+- budget_period_second_day: second payday of the month, semimonthly only; 31 means the last day (int).
 - budget_period_anchor_date: anchor date in YYYY-MM-DD.
 - period_start: active period start date in YYYY-MM-DD.
 - period_end: active period end date in YYYY-MM-DD.
@@ -81,7 +83,7 @@ if ($referenceDateRaw !== null && $referenceDateRaw !== '') {
     $referenceDate = new DateTime('now');
 }
 
-$sql = "SELECT id, main_currency, period_budget, budget_period_type, budget_period_anchor_date FROM user WHERE api_key = :apiKey";
+$sql = "SELECT id, main_currency, period_budget, use_custom_period, budget_period_type, budget_period_anchor_date, budget_period_second_day FROM user WHERE api_key = :apiKey";
 $stmt = $db->prepare($sql);
 $stmt->bindValue(':apiKey', $apiKey, SQLITE3_TEXT);
 $result = $stmt->execute();
@@ -98,9 +100,10 @@ if (!$user) {
 $userId = (int) $user['id'];
 $periodBudget = max(0, (float) ($user['period_budget'] ?? 0));
 $periodType = sanitizeBudgetPeriodType($user['budget_period_type'] ?? 'monthly');
+$secondDay = sanitizeBudgetSecondDay($user['budget_period_second_day'] ?? 16);
 $anchorDate = sanitizeBudgetAnchorDate($user['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
 
-$activePeriod = getActiveBudgetPeriod($referenceDate, $periodType, $anchorDate);
+$activePeriod = getActiveBudgetPeriod($referenceDate, $periodType, $anchorDate, $secondDay);
 
 $subsSql = "SELECT * FROM subscriptions WHERE user_id = :userId AND inactive = 0";
 $subsStmt = $db->prepare($subsSql);
@@ -159,7 +162,9 @@ echo json_encode([
     "amount_remaining_this_period" => round($amountRemaining, 2),
     "amount_over_budget" => round($amountOverBudget, 2),
     "is_over_budget" => $isOverBudget,
+    "use_custom_period" => !empty($user['use_custom_period']),
     "budget_period_type" => $periodType,
+    "budget_period_second_day" => $secondDay,
     "budget_period_anchor_date" => $anchorDate,
     "period_start" => $activePeriod['start']->format('Y-m-d'),
     "period_end" => $activePeriod['end']->format('Y-m-d'),

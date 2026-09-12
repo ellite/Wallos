@@ -281,7 +281,8 @@ if ($result) {
 $today = new DateTime('now');
 $budgetPeriodType = sanitizeBudgetPeriodType($userData['budget_period_type'] ?? 'monthly');
 $budgetPeriodAnchorDate = sanitizeBudgetAnchorDate($userData['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
-$activeBudgetPeriod = getActiveBudgetPeriod($today, $budgetPeriodType, $budgetPeriodAnchorDate);
+$budgetPeriodSecondDay = sanitizeBudgetSecondDay($userData['budget_period_second_day'] ?? 16);
+$activeBudgetPeriod = getActiveBudgetPeriod($today, $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
 $budgetPeriodStart = $activeBudgetPeriod['start'];
 $budgetPeriodEnd = $activeBudgetPeriod['end'];
 $budgetPeriodLabel = $activeBudgetPeriod['label'];
@@ -292,6 +293,13 @@ $calendarMonthStart = new DateTime($today->format('Y-m-01'));
 $calendarMonthEnd = new DateTime($today->format('Y-m-t'));
 $periodDiffersFromCalendarMonth = $budgetPeriodStart->format('Y-m-d') !== $calendarMonthStart->format('Y-m-d')
     || $budgetPeriodEnd->format('Y-m-d') !== $calendarMonthEnd->format('Y-m-d');
+
+// Letting the period take over the statistics is opt-in. Every user carries an
+// anchor date already (migration 000053 seeded it with the day it ran), so the
+// period differing from a calendar month is not on its own a sign that anybody
+// chose it.
+$useCustomPeriod = !empty($userData['use_custom_period']);
+$periodScopesStatistics = $useCustomPeriod && $periodDiffersFromCalendarMonth;
 
 $amountNeededThisPeriod = computeAmountNeededInPeriod($subscriptions ?? [], $today, $budgetPeriodEnd, $db, $userId);
 
