@@ -82,14 +82,38 @@ $userId = $user['id'];
 if (isset($_POST['css'])) {
     $customCss = $_POST['css'];
     
+    // Both halves are read, and the delete as much as the insert. A delete
+    // that fails while the insert succeeds leaves two rows for one user, and
+    // every reader of this table takes whichever row it is handed first - so
+    // the page can go on serving the css this request replaced, after the
+    // answer below said it was saved.
     $stmtDelCss = $db->prepare('DELETE FROM custom_css_style WHERE user_id = :userId');
-    $stmtDelCss->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $stmtDelCss->execute();
+    $cssStored = $stmtDelCss !== false;
 
-    $stmtInsCss = $db->prepare('INSERT INTO custom_css_style (css, user_id) VALUES (:customCss, :userId)');
-    $stmtInsCss->bindValue(':customCss', $customCss, SQLITE3_TEXT);
-    $stmtInsCss->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $stmtInsCss->execute();
+    if ($cssStored) {
+        $stmtDelCss->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $cssStored = $stmtDelCss->execute() !== false;
+    }
+
+    if ($cssStored) {
+        $stmtInsCss = $db->prepare('INSERT INTO custom_css_style (css, user_id) VALUES (:customCss, :userId)');
+        $cssStored = $stmtInsCss !== false;
+
+        if ($cssStored) {
+            $stmtInsCss->bindValue(':customCss', $customCss, SQLITE3_TEXT);
+            $stmtInsCss->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $cssStored = $stmtInsCss->execute() !== false;
+        }
+    }
+
+    if (!$cssStored) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Database error',
+            'message' => 'Failed to save settings to the database.'
+        ]);
+        exit;
+    }
 }
 
 // 2. Process Custom Colors
@@ -131,17 +155,38 @@ if (isset($_POST['main_color']) || isset($_POST['accent_color']) || isset($_POST
         exit;
     }
 
-    // Delete & Insert
+    // Delete & Insert, both read. Same shape as the custom css above and the
+    // same consequence: two colour rows for one user, and the page keeps the
+    // theme this request was meant to replace.
     $delColors = $db->prepare('DELETE FROM custom_colors WHERE user_id = :userId');
-    $delColors->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $delColors->execute();
+    $colorsStored = $delColors !== false;
 
-    $insColors = $db->prepare('INSERT INTO custom_colors (main_color, accent_color, hover_color, user_id) VALUES (:main_color, :accent_color, :hover_color, :userId)');
-    $insColors->bindValue(':main_color', $main_color, SQLITE3_TEXT);
-    $insColors->bindValue(':accent_color', $accent_color, SQLITE3_TEXT);
-    $insColors->bindValue(':hover_color', $hover_color, SQLITE3_TEXT);
-    $insColors->bindValue(':userId', $userId, SQLITE3_INTEGER);
-    $insColors->execute();
+    if ($colorsStored) {
+        $delColors->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $colorsStored = $delColors->execute() !== false;
+    }
+
+    if ($colorsStored) {
+        $insColors = $db->prepare('INSERT INTO custom_colors (main_color, accent_color, hover_color, user_id) VALUES (:main_color, :accent_color, :hover_color, :userId)');
+        $colorsStored = $insColors !== false;
+
+        if ($colorsStored) {
+            $insColors->bindValue(':main_color', $main_color, SQLITE3_TEXT);
+            $insColors->bindValue(':accent_color', $accent_color, SQLITE3_TEXT);
+            $insColors->bindValue(':hover_color', $hover_color, SQLITE3_TEXT);
+            $insColors->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $colorsStored = $insColors->execute() !== false;
+        }
+    }
+
+    if (!$colorsStored) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Database error',
+            'message' => 'Failed to save settings to the database.'
+        ]);
+        exit;
+    }
 }
 
 // 3. Process Settings table updates
