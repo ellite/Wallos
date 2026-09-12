@@ -477,23 +477,27 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 if ($hasUpdate) {
                     ?>
                     <div class="updates-list">
-                        <p><?= translate('new_version_available', $i18n) ?>.</p>
+                        <p class="updates-list-title">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            <?= translate('new_version_available', $i18n) ?>.
+                        </p>
                         <p>
                             <?= translate('current_version', $i18n) ?>:
                             <span>
-                                <?= $version ?>
-                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $version ?>" target="_blank">
-                                    <i class="fa-solid fa-external-link"></i>
+                                <?= htmlspecialchars($version) ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($version) ?>"
+                                    target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </a>
                             </span>
                         </p>
                         <p>
                             <?= translate('latest_version', $i18n) ?>:
-                            <span>
-                                <?= $latestVersion ?>
-                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $latestVersion ?>"
-                                    target="_blank">
-                                    <i class="fa-solid fa-external-link"></i>
+                            <span class="updates-list-latest">
+                                <?= htmlspecialchars($latestVersion) ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+                                    target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </a>
                             </span>
                         </p>
