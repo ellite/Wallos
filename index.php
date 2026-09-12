@@ -117,11 +117,23 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                 if (version_compare($version, $latestVersion) == -1) {
                     ?>
                     <div class="update-banner">
-                    <?= translate('new_version_available', $i18n) ?>:
-                        <span><a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
-                        target="_blank" rel="noreferer">
-                        <?= htmlspecialchars($latestVersion) ?>
-                        </a></span>
+                        <div class="update-banner-icon">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </div>
+                        <div class="update-banner-text">
+                            <strong><?= translate('new_version_available', $i18n) ?></strong>
+                            <span>
+                                <?= translate('current_version', $i18n) ?>: <?= htmlspecialchars($version) ?>
+                                <i class="fa-solid fa-arrow-right"></i>
+                                <b><?= htmlspecialchars($latestVersion) ?></b>
+                            </span>
+                        </div>
+                        <a class="update-banner-link"
+                            href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+                            target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                            <?= translate('release_notes', $i18n) ?>
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
                     </div>
                     <?php
                 }
