@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/budget_period_calculations.php';
 require_once __DIR__ . '/currency_rates.php';
+require_once __DIR__ . '/default_names.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -122,9 +123,14 @@ if (isset($_GET['member']) && $_GET['member'] !== '') {
 if (isset($_GET['category']) && $_GET['category'] !== '') {
     $categoryIds = array_map('intval', explode(',', $_GET['category']));
     $conditions[] = "category_id IN (" . implode(',', $categoryIds) . ")";
+    // A category still carrying its untouched default name is recognised
+    // against the account's own creation-language default, not a literal
+    // English string - #1216 gives every language its own default, so an
+    // account created in German never had an English name to match here.
+    $noCategoryDefaultName = default_no_category_name($userData['language'] ?? 'en');
     foreach ($categoryIds as $cid) {
         if (isset($categories[$cid])) {
-            $statsSubtitleParts[] = $categories[$cid]['name'] == "No category" ? translate("no_category", $i18n) : $categories[$cid]['name'];
+            $statsSubtitleParts[] = $categories[$cid]['name'] === $noCategoryDefaultName ? translate("no_category", $i18n) : $categories[$cid]['name'];
         }
     }
 }

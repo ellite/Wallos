@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/default_names.php'; ?>
 <div class="filtermenu-content">
   <?php
   if (count($members) > 1) {
@@ -35,11 +36,17 @@
       <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
       <div class="filtermenu-submenu-content" id="filter-category">
         <?php
+        // A category still carrying its untouched default name is
+        // recognised against the account's own creation-language default,
+        // not a literal English string - #1216 gives every language its
+        // own default, so an account created in German never had an
+        // English name to match here.
+        $noCategoryDefaultName = default_no_category_name($userData['language'] ?? 'en');
         foreach ($categories as $category) {
           if ($category['count'] == 0) {
             continue;
           }
-          if ($category['name'] == "No category") {
+          if ($category['name'] === $noCategoryDefaultName) {
             $category['name'] = translate("no_category", $i18n);
           }
           $selectedClass = '';

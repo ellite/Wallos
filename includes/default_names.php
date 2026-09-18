@@ -3,19 +3,19 @@
   The categories and payment methods a new account starts with, in the language
   of that account.
 
-  The lists were repeated verbatim in every place that creates an account —
+  The lists were repeated verbatim in every place that creates an account -
   registration.php, endpoints/admin/adduser.php and
-  includes/oidc/oidc_create_user.php — and every copy was English. Somebody who
+  includes/oidc/oidc_create_user.php - and every copy was English. Somebody who
   registered in German got an application that was German everywhere except in
   its own data, on the very first screen they saw.
 
   The categories and the generic payment methods are held here as translation
   keys and resolved once, at the moment the account is created. What is stored
   is ordinary text the owner renames, reorders and deletes like any other row,
-  so changing the account language later never rewrites it — the same contract
+  so changing the account language later never rewrites it - the same contract
   the rows have always had.
 
-  Brand names — PayPal, SEPA, Klarna — are the same word in every language and
+  Brand names - PayPal, SEPA, Klarna - are the same word in every language and
   stay literal.
 
   Currencies are deliberately not here. Their names are a separate list with a
@@ -55,7 +55,7 @@ const DEFAULT_CATEGORY_KEYS = [
 /**
  * The default payment methods, in display order.
  *
- * A generic term — "Credit Card", "Bank Transfer", "Direct Debit", "Money" —
+ * A generic term - "Credit Card", "Bank Transfer", "Direct Debit", "Money" -
  * reads differently to a German and to an English speaker, so it carries a
  * translation "key". A brand is the same word in every language, so it keeps a
  * literal "name".
@@ -193,8 +193,8 @@ function default_payment_methods($language)
  * before a language does: createdatabase.php seeds the categories and payment
  * methods while the database is being created, and migration 000020 gives them
  * user_id 1, so registration.php never seeds them for that account. Its owner
- * picks a language on the registration form — the first moment anybody states
- * one — and gets English data anyway.
+ * picks a language on the registration form - the first moment anybody states
+ * one - and gets English data anyway.
  *
  * Only a row whose name is still exactly the English default is touched, so
  * this cannot rewrite something somebody named themselves, and only the name
@@ -265,4 +265,34 @@ function default_names_rename($db, $stmt, $userId, $english, $localized)
     }
 
     return $renamed;
+}
+
+/**
+ * The "No category" text a fresh account in the given language got as its
+ * untouched placeholder name.
+ *
+ * categories.id is one global sequence shared by every account, not one per
+ * user, so only the very first row this application ever created is actually
+ * id 1 - nothing here can tell "the placeholder row" apart from an ordinary
+ * category by id. Comparing against the literal English string had the same
+ * problem the other way once this file gave every language its own default:
+ * a category still carrying its untouched default name no longer answers
+ * "No category" for anybody who registered in a language other than English,
+ * so it stopped being recognised as the placeholder at all.
+ *
+ * What a display site actually wants to know is whether this row is still
+ * exactly what the account was seeded with, so it compares against that
+ * account's own creation-language default, not a literal English string, and
+ * re-translates it into whichever language is being viewed right now. A
+ * category the owner has renamed matches neither and is shown as stored,
+ * same as before this existed.
+ *
+ * @param string $language
+ * @return string
+ */
+function default_no_category_name($language)
+{
+    $translations = default_names_translations($language);
+
+    return $translations['no_category'] ?? 'No category';
 }

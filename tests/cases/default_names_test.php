@@ -4,7 +4,7 @@
 
   Every path that creates an account carried its own copy of the same English
   list, so somebody who registered in German got an application that was German
-  everywhere except in its own data — on the dashboard, which is the first
+  everywhere except in its own data - on the dashboard, which is the first
   screen they ever see. The lists are held as translation keys now and resolved
   once, at the moment the account is created.
 
@@ -238,8 +238,8 @@ wallos_test('the first account is renamed into its language, rows and all', func
     assert_same('Kreditkarte', $methods[1], 'the generic method is German');
     assert_same('Überweisung', $methods[2], 'and so is the next one');
 
-    // 16 categories — "Software" is the same word in both languages, so that
-    // row is not written at all — and the 4 generic payment methods.
+    // 16 categories - "Software" is the same word in both languages, so that
+    // row is not written at all - and the 4 generic payment methods.
     assert_same(20, $renamed, 'it reports what it renamed');
 
     $db->close();
@@ -300,5 +300,81 @@ wallos_test('every key the seeding uses exists in English', function () {
             assert_true(isset($english[$method['key']]) && $english[$method['key']] !== '',
                 $method['key'] . ' has an English string');
         }
+    }
+});
+
+/*
+  A category still carrying its untouched default name is what a display site
+  recognises as "the no-category placeholder" - there is no other way to tell:
+  categories.id is one global sequence shared by every account, not one per
+  user, so only the very first row this application ever created is actually
+  id 1, and nothing here can tell the placeholder apart from an ordinary
+  category by id.
+
+  Before this file existed, that comparison was against the literal English
+  string "No category", which is exactly right when every account is seeded in
+  English. Once an account can be seeded in German, comparing the same literal
+  string stops recognising a German account's own untouched placeholder as the
+  placeholder at all - default_no_category_name() is what a display site
+  compares against instead: that account's own creation-language default,
+  rather than an English literal.
+*/
+
+wallos_test('the no-category default matches what a fresh account of that language is actually seeded with', function () {
+    // The property this function exists for: comparing $category['name'] to
+    // default_no_category_name($account's own language) is exactly comparing
+    // against what default_categories() put there in the first place.
+    foreach (['en', 'de', 'fr', 'ja'] as $language) {
+        assert_same(default_categories($language)[0], default_no_category_name($language),
+            $language . " matches that language's own seeded placeholder name");
+    }
+});
+
+wallos_test('the no-category default already differs by language, with no new translations needed', function () {
+    // "no_category" is not a key #1216 introduced - it already existed,
+    // already translated, in every language file, which is what makes this
+    // safe to use for every account regardless of when it registered.
+    assert_same('No category', default_no_category_name('en'), 'the English default');
+    assert_same('Keine Kategorie', default_no_category_name('de'), 'the German default');
+    assert_same('Pas de catégorie', default_no_category_name('fr'), 'the French default');
+    assert_same('カテゴリなし', default_no_category_name('ja'), 'the Japanese default');
+});
+
+wallos_test('an unrecognised language answers the English default, same as everything else here', function () {
+    foreach (['', 'xx', 'not a language', "../../../etc/passwd\0"] as $value) {
+        assert_same('No category', default_no_category_name($value),
+            var_export($value, true) . ' falls back to English');
+    }
+});
+
+wallos_test('a category renamed by its owner matches neither default, and is shown as stored', function () {
+    // The comparison this function feeds is an == against a fixed string:
+    // a category somebody has genuinely renamed - to anything, including
+    // another language's word for "no category" - is not the placeholder and
+    // must not be relabelled out from under them.
+    assert_true('Sin categoría' !== default_no_category_name('en'), 'not the English default');
+    assert_true('Sin categoría' !== default_no_category_name('de'), 'nor the German one');
+});
+
+wallos_test('every display site recognises the placeholder by language, not by an English literal', function () {
+    // The three places that used to compare $category['name'] == "No category":
+    // stats.php's filter menu, includes/filters_menu.php, and the stats
+    // subtitle in includes/stats_calculations.php. Each has to have moved to
+    // default_no_category_name() and have stopped comparing to the fixed
+    // English string, or a German account's own placeholder shows up as an
+    // uncategorised-looking category named "Keine Kategorie" instead of being
+    // recognised and re-translated to the page's own display language.
+    foreach ([
+        'stats.php',
+        'includes/filters_menu.php',
+        'includes/stats_calculations.php',
+    ] as $path) {
+        $source = file_get_contents(WALLOS_ROOT . '/' . $path);
+
+        assert_contains('default_names.php', $source, $path . ' includes the default names helper');
+        assert_contains('default_no_category_name(', $source,
+            $path . ' compares against the account-language default');
+        assert_true(strpos($source, '== "No category"') === false,
+            $path . ' no longer compares against the English literal');
     }
 });
