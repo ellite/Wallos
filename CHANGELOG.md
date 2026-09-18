@@ -1,5 +1,25 @@
 # Changelog
 
+## [5.8.0](https://github.com/ellite/Wallos/compare/v5.7.1...v5.8.0) (2026-09-18)
+
+
+### Features
+
+* add push notifications ([ece43eb](https://github.com/ellite/Wallos/commit/ece43ebd507b85136045e1af03dda02515901235))
+* **admin:** let the deployment own the instance SMTP settings and the server URL ([1ea12e6](https://github.com/ellite/Wallos/commit/1ea12e69eb3c6986e335f704052ac63e01ffd14a))
+* **currency:** add frankfurter.dev as a provider that needs no account ([dd7cf87](https://github.com/ellite/Wallos/commit/dd7cf87d5a0bbca2d65d3c2e1a436ecf161a70df))
+
+
+### Bug Fixes
+
+* **admin:** let the SMTP test button see a managed password ([cbd4ec1](https://github.com/ellite/Wallos/commit/cbd4ec17a6c5d5b4a9be759e86eb84cf31067c42))
+* **categories:** recognise the no-category placeholder by language ([1f27e7a](https://github.com/ellite/Wallos/commit/1f27e7a7c47a3032dd54d4e65bb2ded3b41490f6))
+* **i18n:** a new account's categories are in the language it was created with ([9dd66f4](https://github.com/ellite/Wallos/commit/9dd66f4d07e5e74509636329df7fb9260f874248))
+* **i18n:** an account an identity provider creates is in the language it named ([5b3f445](https://github.com/ellite/Wallos/commit/5b3f44539a9b66c0a26cd6c01a85860f58fe6a31))
+* **notifications:** ask the SSRF check about the account, not the last payer ([4d24ccc](https://github.com/ellite/Wallos/commit/4d24cccd6db32c30ec0cd170e8a513b5f6572e0a))
+* **notifications:** keep a note that ends in a quotation mark from breaking the webhook payload ([864234f](https://github.com/ellite/Wallos/commit/864234f5a42653d4f5334307b37da1c218b05a41))
+* **push:** stop reloading the page to subscribe or remove a device ([b308da0](https://github.com/ellite/Wallos/commit/b308da007b0538d682943e7d73864ced6425887b))
+
 ## [5.7.1](https://github.com/ellite/Wallos/compare/v5.7.0...v5.7.1) (2026-09-10)
 
 
