@@ -277,6 +277,7 @@ $i18n = [
     "get_key" => "申请密钥",
     "get_free_fixer_api_key" => "申请免费 Fixer API 密钥",
     "get_key_alternative" => "或者，您也可以从以下网站获取免费的修复程序 api 密钥",
+    "no_api_key_provider" => "或选择一个无需账户和 API 密钥的提供商，并将密钥留空：",
     "ai_model" => "AI 模型",
     "select_ai_model" => "选择 AI 模型",
     "run_schedule" => "运行计划",
@@ -380,6 +381,7 @@ $i18n = [
     "failed_to_store_api_key" => "存储 API 密钥到数据库失败。",
     "invalid_api_key" => "API 密钥无效。",
     "api_key_saved" => "API 密钥已成功保存",
+    "currency_provider_saved" => "货币提供商保存成功",
     "currency_removed" => "货币已移除",
 
     // Household

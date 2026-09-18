@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Haal je sleutel op bij",
     "get_free_fixer_api_key" => "Krijg gratis Fixer API-sleutel",
     "get_key_alternative" => "Als alternatief kun je een gratis Fixer API-sleutel krijgen van",
+    "no_api_key_provider" => "Of selecteer een provider die geen account of API-sleutel nodig heeft, en laat de sleutel leeg:",
     "ai_model" => "AI-model",
     "select_ai_model" => "Selecteer AI-model",
     "run_schedule" => "Uitvoerschema",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Opslaan van API-sleutel in de database mislukt.",
     "invalid_api_key" => "Ongeldige API-sleutel.",
     "api_key_saved" => "API-sleutel succesvol opgeslagen",
+    "currency_provider_saved" => "Valutaprovider succesvol opgeslagen",
     "currency_removed" => "Valuta verwijderd",
     // Huishouden
     "failed_add_household" => "Huishoud lid toevoegen mislukt",

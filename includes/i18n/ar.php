@@ -294,6 +294,7 @@ $i18n = [
     "get_key" => "احصل على مفتاحك من",
     "get_free_fixer_api_key" => "الحصول على مفتاح Fixer API مجاني",
     "get_key_alternative" => "يمكنك بدلًا من ذلك الحصول على مفتاح Fixer API مجاني من",
+    "no_api_key_provider" => "أو اختر مزوّدًا لا يحتاج إلى حساب أو مفتاح API، واترك المفتاح فارغًا:",
     "ai_model" => "نموذج الذكاء الاصطناعي",
     "select_ai_model" => "اختيار نموذج الذكاء الاصطناعي",
     "run_schedule" => "جدول التشغيل",
@@ -396,6 +397,7 @@ $i18n = [
     "failed_to_store_api_key" => "تعذر حفظ مفتاح API في قاعدة البيانات.",
     "invalid_api_key" => "مفتاح API غير صالح.",
     "api_key_saved" => "تم حفظ مفتاح API بنجاح",
+    "currency_provider_saved" => "تم حفظ مزوّد العملة بنجاح",
     "currency_removed" => "تمت إزالة العملة",
     // أفراد الأسرة
     "failed_add_household" => "تعذرت إضافة فرد الأسرة",

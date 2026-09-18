@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Obtingues la teva clau a",
     "get_free_fixer_api_key" => "Obtén una API Key de Fixer gratuita",
     "get_key_alternative" => "També pots obtenir una clau gratuïta de Fixer a",
+    "no_api_key_provider" => "O seleccioneu un proveïdor que no necessiti compte ni clau API, i deixeu la clau buida:",
     "ai_model" => "Model de IA",
     "select_ai_model" => "Seleccionar Model de IA",
     "run_schedule" => "Executar Tasca",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Error al desar la API KEY a la base de dades.",
     "invalid_api_key" => "API KEY no vàlida.",
     "api_key_saved" => "API KEY desada correctament",
+    "currency_provider_saved" => "El proveïdor de moneda s'ha desat correctament",
     "currency_removed" => "Divisa eliminada",
     // Household
     "failed_add_household" => "Error al afegir membre de la llar",

@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Nhận khóa của bạn tại",
     "get_free_fixer_api_key" => "Nhận API Key Fixer miễn phí",
     "get_key_alternative" => "Ngoài ra, bạn có thể nhận API Key Fixer miễn phí từ",
+    "no_api_key_provider" => "Hoặc chọn nhà cung cấp không cần tài khoản lẫn khóa API, và để trống khóa:",
     "ai_model" => "Mô hình AI",
     "select_ai_model" => "Chọn Mô hình AI",
     "run_schedule" => "Chạy Lịch Trình",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Không thể lưu API Key vào cơ sở dữ liệu.",
     "invalid_api_key" => "API Key không hợp lệ.",
     "api_key_saved" => "API Key đã được lưu thành công",
+    "currency_provider_saved" => "Đã lưu nhà cung cấp tiền tệ thành công",
     "currency_removed" => "Tiền tệ đã bị xóa",
     // Household
     "failed_add_household" => "Thêm thành viên hộ gia đình thất bại",

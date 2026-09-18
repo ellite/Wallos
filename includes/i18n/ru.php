@@ -269,6 +269,7 @@ $i18n = [
     "get_key" => "Получите ключ по адресу",
     "get_free_fixer_api_key" => "Получите бесплатный ключ API Fixer",
     "get_key_alternative" => "Кроме того, вы можете получить бесплатный ключ API Fixer на сайте",
+    "no_api_key_provider" => "Или выберите провайдера, для которого не нужны ни учётная запись, ни API-ключ, и оставьте ключ пустым:",
     "ai_model" => "Модель ИИ",
     "select_ai_model" => "Выбрать модель ИИ",
     "run_schedule" => "Запустить расписание",
@@ -368,6 +369,7 @@ $i18n = [
     "failed_to_store_api_key" => "Не удалось сохранить ключ API в базе данных.",
     "invalid_api_key" => "Неверный ключ API.",
     "api_key_saved" => "Ключ API успешно сохранен",
+    "currency_provider_saved" => "Провайдер валюты успешно сохранён",
     "currency_removed" => "Валюта удалена",
     // Household
     "failed_add_household" => "Не удалось добавить члена семьи.",

@@ -2,7 +2,7 @@
 /*
   A language value that is not already a file name still finds its translation.
 
-  The keys of $languages are file names — "pt_br", "zh_cn", "sr_lat" — and
+  The keys of $languages are file names - "pt_br", "zh_cn", "sr_lat" - and
   nothing that hands Wallos a language hands it a file name. A browser sends
   "de-DE" in Accept-Language. An identity provider sends "pt-BR" in the standard
   OIDC "locale" claim. Matching either against the keys directly fails.

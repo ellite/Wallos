@@ -267,6 +267,7 @@ $i18n = [
     "get_key" => "Απόκτησε το κλειδί στο",
     "get_free_fixer_api_key" => "Απόκτησε ΔΩΡΕΑΝ Fixer API κλειδί",
     "get_key_alternative" => "Εναλλακτικά, μπορείτε να λάβετε ένα δωρεάν κλειδί api fixer από το",
+    "no_api_key_provider" => "Ή επιλέξτε έναν πάροχο που δεν χρειάζεται λογαριασμό ή κλειδί API, και αφήστε το κλειδί κενό:",
     "ai_model" => "AI Μοντέλο",
     "select_ai_model" => "Επιλέξτε AI Μοντέλο",
     "run_schedule" => "Εκτέλεση προγράμματος",
@@ -366,6 +367,7 @@ $i18n = [
     "failed_to_store_api_key" => "Failed to store API Key on the Database.",
     "invalid_api_key" => "Invalid API Key.",
     "api_key_saved" => "API key saved successfully",
+    "currency_provider_saved" => "Ο πάροχος νομίσματος αποθηκεύτηκε με επιτυχία",
     "currency_removed" => "Currency removed",
     // Household
     "failed_add_household" => "Η πρόσθεση μέλους απέτυχε",

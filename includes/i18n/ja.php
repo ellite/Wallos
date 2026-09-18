@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "キーを入手する",
     "get_free_fixer_api_key" => "無料のFixer APIキーを取得",
     "get_key_alternative" => "または、以下のサイトから無料のフィクサーapiキーを入手することもできます。",
+    "no_api_key_provider" => "または、アカウントもAPIキーも不要なプロバイダーを選択し、キーは空のままにしてください:",
     "ai_model" => "AIモデル",
     "select_ai_model" => "AIモデルを選択",
     "run_schedule" => "スケジュールを実行",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "データベースにAPIキーを保存できませんでした",
     "invalid_api_key" => "無効なAPIキーです",
     "api_key_saved" => "APIキーの保存に成功",
+    "currency_provider_saved" => "通貨プロバイダーを保存しました",
     "currency_removed" => "通貨を削除",
     // Household
     "failed_add_household" => "世帯員の追加に失敗",

@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Dapatkan kunci Anda di",
     "get_free_fixer_api_key" => "Dapatkan Kunci API Fixer gratis",
     "get_key_alternative" => "Sebagai alternatif, Anda bisa mendapatkan kunci api fixer gratis dari",
+    "no_api_key_provider" => "Atau pilih penyedia yang tidak memerlukan akun maupun kunci API, dan biarkan kunci kosong:",
     "ai_model" => "Model AI",
     "select_ai_model" => "Pilih Model AI",
     "run_schedule" => "Jadwalkan Eksekusi",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Gagal menyimpan Kunci API di Database.",
     "invalid_api_key" => "Kunci API tidak valid.",
     "api_key_saved" => "Kunci API berhasil disimpan",
+    "currency_provider_saved" => "Penyedia mata uang berhasil disimpan",
     "currency_removed" => "Mata uang dihapus",
     // Household
     "failed_add_household" => "Gagal menambahkan anggota rumah tangga",

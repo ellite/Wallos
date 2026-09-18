@@ -295,6 +295,7 @@ $i18n = [
     "get_key" => "Açarınızı buradan alın:",
     "get_free_fixer_api_key" => "Pulsuz Fixer API açarı al",
     "get_key_alternative" => "Alternativ olaraq, pulsuz fixer api açarını buradan da ala bilərsiniz:",
+    "no_api_key_provider" => "Və ya hesab və API açarı tələb etməyən provayder seçin və açarı boş buraxın:",
     "ai_model" => "Süni intellekt modeli",
     "select_ai_model" => "Süni intellekt modelini seçin",
     "run_schedule" => "İcra qrafiki",
@@ -397,6 +398,7 @@ $i18n = [
     "failed_to_store_api_key" => "API açarını verilənlər bazasında saxlamaq alınmadı.",
     "invalid_api_key" => "Yanlış API açarı.",
     "api_key_saved" => "API açarı uğurla yadda saxlanıldı",
+    "currency_provider_saved" => "Valyuta provayderi uğurla saxlanıldı",
     "currency_removed" => "Valyuta silindi",
     // Household
     "failed_add_household" => "Ev təsərrüfatı üzvü əlavə edilmədi",

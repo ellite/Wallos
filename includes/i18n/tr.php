@@ -269,6 +269,7 @@ $i18n = [
     "get_key" => "Anahtarınızı şuradan alın",
     "get_free_fixer_api_key" => "Ücretsiz Fixer API Anahtarı alın",
     "get_key_alternative" => "Alternatif olarak, şu adresten ücretsiz bir fixer api anahtarı edinebilirsiniz",
+    "no_api_key_provider" => "Ya da hesap veya API anahtarı gerektirmeyen bir sağlayıcı seçin ve anahtarı boş bırakın:",
     "ai_model" => "AI Modeli",
     "select_ai_model" => "AI Modelini Seçin",
     "run_schedule" => "Programı Çalıştır",
@@ -368,6 +369,7 @@ $i18n = [
     "failed_to_store_api_key" => "API Anahtarı Veritabanına kaydedilemedi.",
     "invalid_api_key" => "Geçersiz API Anahtarı.",
     "api_key_saved" => "API anahtarı başarıyla kaydedildi",
+    "currency_provider_saved" => "Para birimi sağlayıcısı başarıyla kaydedildi",
     "currency_removed" => "Para birimi kaldırıldı",
     // Household
     "failed_add_household" => "Hane üyesi eklenemedi",

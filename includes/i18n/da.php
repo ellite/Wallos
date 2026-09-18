@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Få din nøgle på",
     "get_free_fixer_api_key" => "Få gratis Fixer API-nøgle",
     "get_key_alternative" => "Alternativt kan du få en gratis fixer API-nøgle fra",
+    "no_api_key_provider" => "Eller vælg en udbyder, der ikke kræver konto eller API-nøgle, og lad nøglen stå tom:",
     "ai_model" => "AI Model",
     "select_ai_model" => "Vælg AI Model",
     "run_schedule" => "Kør tidsplan",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Kunne ikke gemme API-nøgle i databasen.",
     "invalid_api_key" => "Ugyldig API-nøgle.",
     "api_key_saved" => "API-nøgle gemt",
+    "currency_provider_saved" => "Valutaudbyder gemt",
     "currency_removed" => "Valuta fjernet",
     // Household
     "failed_add_household" => "Kunne ikke tilføje husstandsmedlem",

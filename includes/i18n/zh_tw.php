@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "取得金鑰請至",
     "get_free_fixer_api_key" => "取得免費 Fixer API 金鑰",
     "get_key_alternative" => "或者，您可以從以下網址取得免費的 Fixer API 金鑰",
+    "no_api_key_provider" => "或選擇一個不需要帳戶和 API 金鑰的提供商，並將金鑰留空：",
     "ai_model" => "AI 模型",
     "select_ai_model" => "選擇 AI 模型",
     "run_schedule" => "運行計劃",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "儲存 API 金鑰到資料庫失敗。",
     "invalid_api_key" => "無效的 API 金鑰。",
     "api_key_saved" => "已成功儲存 API 金鑰",
+    "currency_provider_saved" => "貨幣提供商已成功儲存",
     "currency_removed" => "已移除貨幣",
     // 家庭成員
     "failed_add_household" => "新增家庭成員失敗",

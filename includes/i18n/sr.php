@@ -269,6 +269,7 @@ $i18n = [
     "get_key" => "Добијте свој кључ на",
     "get_free_fixer_api_key" => "Добијте бесплатни Fixer API кључ",
     "get_key_alternative" => "Алтернативно, можете добити бесплатни Fixer API кључ са",
+    "no_api_key_provider" => "Или изаберите добављача коме није потребан налог ни API кључ, и оставите поље кључа празно:",
     "ai_model" => "AI Модел",
     "select_ai_model" => "Изаберите AI Модел",
     "run_schedule" => "Покрените распоред",
@@ -368,6 +369,7 @@ $i18n = [
     "failed_to_store_api_key" => "Није успело смештање API кључа у базу података.",
     "invalid_api_key" => "Неисправан API кључ.",
     "api_key_saved" => "API кључ успешно сачуван",
+    "currency_provider_saved" => "Добављач валуте је успешно сачуван",
     "currency_removed" => "Валута уклоњена",
     // Домаћинство
     "failed_add_household" => "Додавање члана домаћинства није успело",

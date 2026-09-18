@@ -269,6 +269,7 @@ $i18n = [
     "get_key" => "Obtenez votre clé sur",
     "get_free_fixer_api_key" => "Obtenez une clé API Fixer gratuite",
     "get_key_alternative" => "Vous pouvez également obtenir une clé api de fixation gratuite auprès de",
+    "no_api_key_provider" => "Ou sélectionnez un fournisseur qui ne nécessite ni compte ni clé API, et laissez la clé vide :",
     "ai_model" => "Modèle AI",
     "select_ai_model" => "Sélectionner le modèle AI",
     "run_schedule" => "Exécuter le programme",
@@ -368,6 +369,7 @@ $i18n = [
     "failed_to_store_api_key" => "Échec de l'enregistrement de la clé API dans la base de données.",
     "invalid_api_key" => "Clé API invalide.",
     "api_key_saved" => "Clé API enregistrée avec succès",
+    "currency_provider_saved" => "Fournisseur de devises enregistré avec succès",
     "currency_removed" => "Devise supprimée",
     // Ménage
     "failed_add_household" => "Échec de l'ajout de membre du ménage",

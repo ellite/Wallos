@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Obține cheia la",
     "get_free_fixer_api_key" => "Obține gratuit cheia API Fixer",
     "get_key_alternative" => "Alternativ, poți obține o cheie API fixer gratuită de la",
+    "no_api_key_provider" => "Sau selectați un furnizor care nu necesită cont sau cheie API, și lăsați cheia goală:",
     "ai_model" => "Model AI",
     "select_ai_model" => "Selectează modelul AI",
     "run_schedule" => "Rulează",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Nu s-a reușit stocarea cheii API în baza de date",
     "invalid_api_key" => "Cheie API invalidă.",
     "api_key_saved" => "Cheie API salvată cu succes",
+    "currency_provider_saved" => "Furnizorul de valută a fost salvat cu succes",
     "currency_removed" => "Valută ștearsă",
     // Household
     "failed_add_household" => "Nu s-a reușit adăugarea membrului familiei",

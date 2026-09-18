@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Szerezze be a kulcsát itt:", 
     "get_free_fixer_api_key" => "Ingyenes Fixer API kulcs beszerzése", 
     "get_key_alternative" => "Alternatív megoldásként szerezhet ingyenes fixer api kulcsot innen:", 
+    "no_api_key_provider" => "Vagy válasszon egy olyan szolgáltatót, amelyhez nincs szükség fiókra vagy API-kulcsra, és hagyja üresen a kulcsot:",
     "ai_model" => "AI Modell", 
     "select_ai_model" => "Válasszon AI Modellt", 
     "run_schedule" => "Futtatási ütemterv", 
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Nem sikerült az API kulcsot az adatbázisban tárolni.", 
     "invalid_api_key" => "Érvénytelen API kulcs.", 
     "api_key_saved" => "API kulcs sikeresen mentve", 
+    "currency_provider_saved" => "A pénznem-szolgáltató sikeresen mentve",
     "currency_removed" => "Pénznem eltávolítva", 
     // Household 
     "failed_add_household" => "Nem sikerült a háztartás tagját hozzáadni", 

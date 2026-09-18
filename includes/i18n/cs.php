@@ -270,6 +270,7 @@ $i18n = [
     "get_key" => "Získejte svůj klíč na",
     "get_free_fixer_api_key" => "Získat bezplatný klíč API služby Fixer",
     "get_key_alternative" => "Případně můžete získat bezplatný klíč API služby Fixer od",
+    "no_api_key_provider" => "Nebo vyberte poskytovatele, který nevyžaduje účet ani API klíč, a ponechte klíč prázdný:",
     "ai_model" => "AI Model",
     "select_ai_model" => "Vybrat AI Model",
     "run_schedule" => "Spustit plán",
@@ -369,6 +370,7 @@ $i18n = [
     "failed_to_store_api_key" => "Nepodařilo se uložit klíč API do databáze.",
     "invalid_api_key" => "Neplatný klíč API.",
     "api_key_saved" => "Klíč API úspěšně uložen",
+    "currency_provider_saved" => "Poskytovatel měny byl úspěšně uložen",
     "currency_removed" => "Měna odebrána",
     // Household
     "failed_add_household" => "Nepodařilo se přidat člena domácnosti",

@@ -294,6 +294,7 @@ $i18n = [
     "get_key" => "이곳에서 API 키 발급받기",
     "get_free_fixer_api_key" => "Fixer API 키 발급받기",
     "get_key_alternative" => "또는 이곳에서 무료 Fixer API 키 발급받기:",
+    "no_api_key_provider" => "또는 계정과 API 키가 필요 없는 제공업체를 선택하고 키는 비워 두세요:",
     "ai_model" => "AI 모델",
     "select_ai_model" => "AI 모델 선택",
     "run_schedule" => "스케줄 실행",
@@ -396,6 +397,7 @@ $i18n = [
     "failed_to_store_api_key" => "데이터베이스에 API 키를 저장하지 못했습니다.",
     "invalid_api_key" => "유효하지 않은 API 키입니다.",
     "api_key_saved" => "API 키가 저장되었습니다.",
+    "currency_provider_saved" => "통화 제공업체가 저장되었습니다",
     "currency_removed" => "통화가 삭제되었습니다.",
     // Household
     "failed_add_household" => "가구 구성원 추가에 실패했습니다.",
