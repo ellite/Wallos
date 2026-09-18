@@ -1416,6 +1416,21 @@ header #avatar {
   margin-bottom: 12px;
 }
 
+/* Every other channel's .buttons row holds two buttons (Test, Save), which
+   .account-notifications .buttons fits without wrapping even at mobile-grow
+   width. Push has a third (Enable on this device), so it needs to wrap -
+   scoped to this section alone rather than changing every channel's row. */
+.account-notification-section-settings[data-type="push"] .buttons {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .account-notification-section-settings[data-type="push"] .buttons input {
+    flex: 1 1 auto;
+    min-width: 45%;
+  }
+}
+
 .form-group {
   margin-bottom: 20px;
 }
