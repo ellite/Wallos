@@ -49,5 +49,7 @@ let i18n = {
   no_results_found: "No results found",
   invalid_budget: "Budget must be a non-negative number",
   invalid_budget_period: "Invalid budget period selected",
-  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  invalid_budget_anchor_date: "Anchor date must be a valid date",
+  push_not_supported: "Push notifications are not supported in this browser.",
+  push_permission_denied: "Notification permission was not granted.",
 }

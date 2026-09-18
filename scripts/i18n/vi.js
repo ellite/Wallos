@@ -50,4 +50,6 @@ let i18n = {
   invalid_budget_period: "Kỳ ngân sách đã chọn không hợp lệ",
   invalid_budget_anchor_date: "Ngày mốc phải là ngày hợp lệ",
   no_results_found: "Không tìm thấy kết quả",
+  push_not_supported: "Trình duyệt này không hỗ trợ thông báo đẩy.",
+  push_permission_denied: "Quyền thông báo chưa được cấp.",
 }

@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
+require_once 'includes/webpush_helper.php';
 
 $currencies = array();
 $query = "SELECT * FROM currencies WHERE user_id = :userId";
@@ -398,6 +399,40 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsNtfy['topic'] = "";
         $notificationsNtfy['headers'] = "";
         $notificationsNtfy['ignore_ssl'] = 0;
+    }
+
+    // Push notifications
+    $sql = "SELECT * FROM push_notifications WHERE user_id = :userId LIMIT 1";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $rowCount = 0;
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $notificationsPush['enabled'] = $row['enabled'];
+        $rowCount++;
+    }
+
+    if ($rowCount == 0) {
+        $notificationsPush['enabled'] = 0;
+    }
+
+    $pushSubscriptions = [];
+    $sql = "SELECT id, user_agent, created_at FROM push_subscriptions WHERE user_id = :userId ORDER BY id";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $pushSubscriptions[] = $row;
+    }
+
+    // Generated lazily on first visit to this page for an installation that
+    // has never needed one before - see webpush_get_vapid_keys()'s own
+    // comment for why this lives on the admin row rather than per user.
+    $vapidPublicKey = '';
+    $vapidKeys = webpush_get_vapid_keys($db);
+    if ($vapidKeys !== false) {
+        $vapidPublicKey = $vapidKeys['public'];
     }
 
     // Webhook notifications
@@ -814,6 +849,52 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
                             id="saveNotificationsNtfy" onClick="saveNotificationsNtfyButton()" />
                     </div>
+            </section>
+
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openNotificationsSettings('push');">
+                    <h3>
+                        <i class="fa-solid fa-bell"></i> <?= translate('push_notifications', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="push">
+                    <div class="form-group-inline">
+                        <input type="checkbox" id="pushenabled" name="pushenabled" <?= $notificationsPush['enabled'] ? "checked" : "" ?>>
+                        <label for="pushenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
+                    </div>
+                    <div class="push-devices-list" id="pushDevicesList">
+                        <?php if (empty($pushSubscriptions)): ?>
+                            <p id="noPushDevices" class="push-no-devices"><?= translate('no_devices_registered', $i18n) ?></p>
+                        <?php else: ?>
+                            <?php foreach ($pushSubscriptions as $subscription): ?>
+                                <div class="push-device-row" data-subscriptionid="<?= (int) $subscription['id'] ?>">
+                                    <span class="push-device-name">
+                                        <?= htmlspecialchars($subscription['user_agent'] !== '' ? $subscription['user_agent'] : translate('unknown_device', $i18n)) ?>
+                                    </span>
+                                    <button type="button" class="secondary-button thin" onclick="removePushSubscriptionButton(<?= (int) $subscription['id'] ?>)">
+                                        <?= translate('delete', $i18n) ?>
+                                    </button>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= translate('push_notifications_info', $i18n) ?>
+                        </p>
+                    </div>
+                    <div class="buttons">
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('test', $i18n) ?>" id="testNotificationsPush"
+                            onClick="testNotificationsPushButton()" />
+                        <input type="button" class="secondary-button thin mobile-grow"
+                            value="<?= translate('enable_on_this_device', $i18n) ?>" id="subscribePushButton"
+                            onClick="subscribePushButtonClick()" />
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveNotificationsPush" onClick="saveNotificationsPushButton()" />
+                    </div>
+                </div>
             </section>
 
             <section class="account-notifications-section">
@@ -1696,6 +1777,12 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
     </section>
 
 </section>
+<script>
+    // The raw applicationServerKey bytes pushManager.subscribe() needs -
+    // not a secret, the same value every push service and the VAPID
+    // Authorization header's "k=" parameter are handed too.
+    window.vapidPublicKey = "<?= htmlspecialchars($vapidPublicKey, ENT_QUOTES, 'UTF-8') ?>";
+</script>
 <script src="scripts/settings.js?<?= $version ?>"></script>
 <script src="scripts/theme.js?<?= $version ?>"></script>
 <script src="scripts/notifications.js?<?= $version ?>"></script>

@@ -50,4 +50,6 @@ let i18n = {
   invalid_budget_period: "Ugyldig budgetperiode valgt",
   invalid_budget_anchor_date: "Startdatoen skal være en gyldig dato",
   no_results_found: "Ingen resultater fundet",
+  push_not_supported: "Push-notifikationer understøttes ikke i denne browser.",
+  push_permission_denied: "Tilladelse til notifikationer blev ikke givet.",
 }

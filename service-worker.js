@@ -1,4 +1,4 @@
-const STATIC_CACHE = 'static-cache-v7';
+const STATIC_CACHE = 'static-cache-v8';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v2';
 
@@ -295,6 +295,54 @@ self.addEventListener('fetch', function (event) {
             return response;
         }).catch(() => {
             return caches.match(request, { ignoreSearch: true });
+        })
+    );
+});
+
+// Web Push (RFC 8291/8292): the payload includes/webpush_helper.php sends is
+// {"title": ..., "body": ...} JSON, decrypted by the browser itself before
+// this handler ever sees it - nothing here has to know that aes128gcm
+// happened at all.
+self.addEventListener('push', function (event) {
+    let data = {};
+
+    if (event.data) {
+        try {
+            data = event.data.json();
+        } catch (e) {
+            data = { title: 'Wallos', body: event.data.text() };
+        }
+    }
+
+    const title = data.title || 'Wallos';
+    const options = {
+        body: data.body || '',
+        icon: 'images/icon/android-chrome-192x192.png',
+        badge: 'images/icon/android-chrome-192x192.png',
+        data: { url: data.url || './' },
+    };
+
+    event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', function (event) {
+    event.notification.close();
+
+    const targetUrl = (event.notification.data && event.notification.data.url) || './';
+
+    event.waitUntil(
+        clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (windowClients) {
+            // Focus a tab that already has the app open, rather than piling
+            // up a new one every time a notification is tapped.
+            for (const client of windowClients) {
+                if (client.url.includes(self.registration.scope) && 'focus' in client) {
+                    return client.focus();
+                }
+            }
+
+            if (clients.openWindow) {
+                return clients.openWindow(targetUrl);
+            }
         })
     );
 });

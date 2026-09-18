@@ -192,6 +192,15 @@ if ($userId == 1) {
     $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
     $result = $stmt->execute();
 
+    // Delete push notification settings and every device subscription
+    $stmt = $db->prepare('DELETE FROM push_notifications WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $stmt = $db->prepare('DELETE FROM push_subscriptions WHERE user_id = :id');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
     // The account's rows are gone; drop its logo files that nothing else uses.
     foreach (array_unique(array_filter($logoFilesToCheck)) as $logoFile) {
         deleteLogoFileIfUnused($db, $logoFile, '../../images/uploads/logos/');
