@@ -62,8 +62,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $userId = $user['id'];
     $providers = [
         0 => "Fixer.io",
-        1 => "APILayer.com"
-    ]; 
+        1 => "APILayer.com",
+        2 => "Frankfurter"
+    ];
 
     $query = "SELECT * FROM fixer WHERE user_id = :userId";
     $stmt = $db->prepare($query);

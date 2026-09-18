@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/header.php';
 require_once 'includes/logo_theme_variant.php';
+require_once 'includes/default_names.php';
 
 
 // Get code of main currency to display on statistics
@@ -81,12 +82,18 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
             <div class="filter-title" onClick="toggleSubMenu('category')"><?= translate("category", $i18n) ?></div>
             <div class="filtermenu-submenu-content" id="filter-category">
               <?php
+              // A category still carrying its untouched default name is
+              // recognised against the account's own creation-language
+              // default, not a literal English string - #1216 gives every
+              // language its own default, so an account created in German
+              // never had an English name to match here.
+              $noCategoryDefaultName = default_no_category_name($userData['language'] ?? 'en');
               foreach ($categories as $category) {
                 $isSelected = isset($_GET['category']) && in_array($category['id'], array_map('intval', explode(',', $_GET['category'])));
                 if (($menuCategoryCounts[$category['id']] ?? 0) == 0 && !$isSelected) {
                   continue;
                 }
-                $categoryName = $category['name'] == "No category" ? translate("no_category", $i18n) : $category['name'];
+                $categoryName = $category['name'] === $noCategoryDefaultName ? translate("no_category", $i18n) : $category['name'];
                 $selectedClass = $isSelected ? 'selected' : '';
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">

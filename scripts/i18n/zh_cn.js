@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "所选预算周期无效",
   invalid_budget_anchor_date: "起始日期必须是有效日期",
   no_results_found: "未找到结果",
+  push_not_supported: "此浏览器不支持推送通知。",
+  push_permission_denied: "未授予通知权限。",
+  delete: "删除",
+  no_devices_registered: "尚未注册任何设备。",
 };

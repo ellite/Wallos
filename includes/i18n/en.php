@@ -276,6 +276,11 @@ $i18n = [
     "host" => "Host",
     "topic" => "Topic",
     "ignore_ssl_errors" => "Ignore SSL Errors",
+    "push_notifications" => "Push Notifications",
+    "push_notifications_info" => "Get a notification in your browser or on your phone's lock screen, with no account or app of its own to set up. Works on desktop Chrome, Firefox and Edge, on Android, and on iOS from the home screen after installing Wallos as an app.",
+    "no_devices_registered" => "No devices registered yet.",
+    "unknown_device" => "Unknown device",
+    "enable_on_this_device" => "Enable on this device",
     "categories" => "Categories",
     "translate_categories" => "Translate with AI",
     "save_category" => "Save Category",
@@ -295,6 +300,7 @@ $i18n = [
     "get_key" => "Get your key at",
     "get_free_fixer_api_key" => "Get free Fixer API Key",
     "get_key_alternative" => "Alternatively, you can get a free fixer api key from",
+    "no_api_key_provider" => "Or select a provider that needs no account and no API key, and leave the key empty:",
     "ai_model" => "AI Model",
     "select_ai_model" => "Select AI Model",
     "run_schedule" => "Run Schedule",
@@ -397,6 +403,7 @@ $i18n = [
     "failed_to_store_api_key" => "Failed to store API Key on the Database.",
     "invalid_api_key" => "Invalid API Key.",
     "api_key_saved" => "API key saved successfully",
+    "currency_provider_saved" => "Currency provider saved successfully",
     "currency_removed" => "Currency removed",
     // Household
     "failed_add_household" => "Failed to add household member",
@@ -505,6 +512,31 @@ $i18n = [
     "google_search_info" => "Adds Google image results (via SerpAPI) as an additional source in the subscription logo search. Create a free SerpAPI account and paste your API key here.",
     "monthly_searches_used" => "Searches used this month",
     "monthly_requests_used" => "API requests used this month",
+
+    // Default categories a new account is created with. The list also starts
+    // with "no_category", which is translated further up.
+    "category_entertainment" => "Entertainment",
+    "category_music" => "Music",
+    "category_utilities" => "Utilities",
+    "category_food_and_beverages" => "Food & Beverages",
+    "category_health_and_wellbeing" => "Health & Wellbeing",
+    "category_productivity" => "Productivity",
+    "category_banking" => "Banking",
+    "category_transport" => "Transport",
+    "category_education" => "Education",
+    "category_insurance" => "Insurance",
+    "category_gaming" => "Gaming",
+    "category_news_and_magazines" => "News & Magazines",
+    "category_software" => "Software",
+    "category_technology" => "Technology",
+    "category_cloud_services" => "Cloud Services",
+    "category_charity_and_donations" => "Charity & Donations",
+    // Default payment methods a new account is created with. Only the generic
+    // ones are translated; a brand is the same word in every language.
+    "payment_method_credit_card" => "Credit Card",
+    "payment_method_bank_transfer" => "Bank Transfer",
+    "payment_method_direct_debit" => "Direct Debit",
+    "payment_method_money" => "Money",
 ];
 
 

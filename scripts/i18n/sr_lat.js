@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Izabran je nevažeći period budžeta",
   invalid_budget_anchor_date: "Referentni datum mora biti važeći datum",
   no_results_found: "Nema rezultata",
+  push_not_supported: "Push obaveštenja nisu podržana u ovom pregledaču.",
+  push_permission_denied: "Dozvola za obaveštenja nije odobrena.",
+  delete: "Izbriši",
+  no_devices_registered: "Još uvek nema registrovanih uređaja.",
 }

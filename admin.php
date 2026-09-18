@@ -2,16 +2,19 @@
 require_once 'includes/header.php';
 require_once 'includes/oidc_settings.php';
 require_once 'includes/ssrf_helper.php';
+require_once 'includes/instance_config.php';
 
 if ($isAdmin != 1) {
     header('Location: index.php');
     exit;
 }
 
-// get admin settings from admin table
-$stmt = $db->prepare('SELECT * FROM admin');
-$result = $stmt->execute();
-$settings = $result->fetchArray(SQLITE3_ASSOC);
+// get admin settings from admin table, with anything the deployment owns
+// applied over them
+$adminConfiguration = wallos_get_effective_admin_configuration($db);
+$settings = $adminConfiguration['settings'];
+$instanceManagedFields = $adminConfiguration['managed_fields'];
+$instanceNotes = $adminConfiguration['notes'];
 
 $oidcConfiguration = wallos_get_effective_oidc_configuration($db);
 $oidcSettings = $oidcConfiguration['settings'];
@@ -302,38 +305,54 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
         <div class="admin-form">
             <div class="form-group-inline">
                 <input type="text" name="smtpaddress" id="smtpaddress" autocomplete="off"
-                    placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_address']) ?>" />
+                    placeholder="<?= translate('smtp_address', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_address']) ?>"
+                    <?= oidc_input_attrs('smtp_address', $instanceManagedFields) ?> />
                 <input type="text" name="smtpport" id="smtpport" autocomplete="off"
-                    placeholder="<?= translate('port', $i18n) ?>" class="one-third" value="<?= htmlspecialchars($settings['smtp_port']) ?>" />
+                    placeholder="<?= translate('port', $i18n) ?>" class="one-third" value="<?= htmlspecialchars($settings['smtp_port']) ?>"
+                    <?= oidc_input_attrs('smtp_port', $instanceManagedFields) ?> />
             </div>
             <div class="form-group-inline">
                 <div>
                     <input type="radio" name="encryption" id="encryptionnone" value="none"
-                        <?= empty($settings['encryption']) || $settings['encryption'] == "none" ? "checked" : "" ?> />
+                        <?= empty($settings['encryption']) || $settings['encryption'] == "none" ? "checked" : "" ?>
+                        <?= oidc_input_attrs('encryption', $instanceManagedFields) ?> />
                     <label for="encryptionnone"><?= translate('none', $i18n) ?></label>
                 </div>
                 <div>
                     <input type="radio" name="encryption" id="encryptiontls" value="tls"
-                        <?= $settings['encryption'] == "tls" ? "checked" : "" ?> />
+                        <?= $settings['encryption'] == "tls" ? "checked" : "" ?>
+                        <?= oidc_input_attrs('encryption', $instanceManagedFields) ?> />
                     <label for="encryptiontls"><?= translate('tls', $i18n) ?></label>
                 </div>
                 <div>
                     <input type="radio" name="encryption" id="encryptionssl" value="ssl"
-                        <?= $settings['encryption'] == "ssl" ? "checked" : "" ?> />
+                        <?= $settings['encryption'] == "ssl" ? "checked" : "" ?>
+                        <?= oidc_input_attrs('encryption', $instanceManagedFields) ?> />
                     <label for="encryptionssl"><?= translate('ssl', $i18n) ?></label>
                 </div>
             </div>
             <div class="form-group-inline">
                 <input type="text" name="smtpusername" id="smtpusername" autocomplete="off"
-                    placeholder="<?= translate('smtp_username', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_username']) ?>" />
+                    placeholder="<?= translate('smtp_username', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_username']) ?>"
+                    <?= oidc_input_attrs('smtp_username', $instanceManagedFields) ?> />
             </div>
             <div class="form-group-inline">
-                <input type="password" name="smtppassword" id="smtppassword" autocomplete="off"
-                    placeholder="<?= translate('smtp_password', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_password']) ?>" />
+                <?php if (isset($instanceManagedFields['smtp_password'])): ?>
+                    <?php /* The value is never rendered when the deployment owns it: a mounted
+                             secret that reaches the page source has left the place it was
+                             mounted into. The field says it is set, and nothing more. */ ?>
+                    <input type="password" name="smtppassword" id="smtppassword" autocomplete="off"
+                        placeholder="<?= translate('smtp_password', $i18n) ?>" value=""
+                        <?= oidc_input_attrs('smtp_password', $instanceManagedFields) ?> />
+                <?php else: ?>
+                    <input type="password" name="smtppassword" id="smtppassword" autocomplete="off"
+                        placeholder="<?= translate('smtp_password', $i18n) ?>" value="<?= htmlspecialchars($settings['smtp_password']) ?>" />
+                <?php endif; ?>
             </div>
             <div class="form-group-inline">
                 <input type="text" name="fromemail" id="fromemail" autocomplete="off"
-                    placeholder="<?= translate('from_email', $i18n) ?>" value="<?= htmlspecialchars($settings['from_email']) ?>" />
+                    placeholder="<?= translate('from_email', $i18n) ?>" value="<?= htmlspecialchars($settings['from_email']) ?>"
+                    <?= oidc_input_attrs('from_email', $instanceManagedFields) ?> />
             </div>
             <div class="buttons">
                 <input type="button" class="secondary-button thin mobile-grow" value="<?= translate('test', $i18n) ?>"
@@ -349,6 +368,19 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <i class="fa-solid fa-circle-info"></i>
                     <?= translate('smtp_usage_info', $i18n) ?>
                 </p>
+                <?php if (!empty($instanceManagedFields)): ?>
+                    <p>
+                        <i class="fa-solid fa-circle-info"></i>
+                        Fields managed by environment variables are shown here but cannot be
+                        edited in the UI: <?= htmlspecialchars(implode(', ', $instanceManagedFields)) ?>.
+                    </p>
+                <?php endif; ?>
+                <?php foreach ($instanceNotes as $instanceNote): ?>
+                    <p>
+                        <i class="fa-solid fa-circle-info"></i>
+                        <?= htmlspecialchars($instanceNote) ?>
+                    </p>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>
@@ -477,23 +509,27 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                 if ($hasUpdate) {
                     ?>
                     <div class="updates-list">
-                        <p><?= translate('new_version_available', $i18n) ?>.</p>
+                        <p class="updates-list-title">
+                            <i class="fa-solid fa-arrow-up"></i>
+                            <?= translate('new_version_available', $i18n) ?>.
+                        </p>
                         <p>
                             <?= translate('current_version', $i18n) ?>:
                             <span>
-                                <?= $version ?>
-                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $version ?>" target="_blank">
-                                    <i class="fa-solid fa-external-link"></i>
+                                <?= htmlspecialchars($version) ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($version) ?>"
+                                    target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </a>
                             </span>
                         </p>
                         <p>
                             <?= translate('latest_version', $i18n) ?>:
-                            <span>
-                                <?= $latestVersion ?>
-                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= $latestVersion ?>"
-                                    target="_blank">
-                                    <i class="fa-solid fa-external-link"></i>
+                            <span class="updates-list-latest">
+                                <?= htmlspecialchars($latestVersion) ?>
+                                <a href="https://github.com/ellite/Wallos/releases/tag/<?= htmlspecialchars($latestVersion) ?>"
+                                    target="_blank" title="<?= translate('external_url', $i18n) ?>" rel="noreferrer">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </a>
                             </span>
                         </p>

@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Periode anggaran yang dipilih tidak valid",
   invalid_budget_anchor_date: "Tanggal acuan harus berupa tanggal yang valid",
   no_results_found: "Tidak ada hasil ditemukan",
+  push_not_supported: "Notifikasi push tidak didukung di browser ini.",
+  push_permission_denied: "Izin notifikasi tidak diberikan.",
+  delete: "Hapus",
+  no_devices_registered: "Belum ada perangkat yang terdaftar.",
 }

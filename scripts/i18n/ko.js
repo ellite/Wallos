@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget: "0 이상의 숫자여야 합니다.",
   invalid_budget_period: "유효하지 않은 기간입니다.",
   invalid_budget_anchor_date: "기준일은 유효한 날짜여야 합니다.",
+  push_not_supported: "이 브라우저에서는 푸시 알림이 지원되지 않습니다.",
+  push_permission_denied: "알림 권한이 허용되지 않았습니다.",
+  delete: "삭제",
+  no_devices_registered: "아직 등록된 기기가 없습니다.",
 }

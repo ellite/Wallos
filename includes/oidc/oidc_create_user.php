@@ -7,7 +7,16 @@ $firstname = $parts[0] ?? '';
 $lastname = $parts[1] ?? '';
 
 // Defaults
-$language = 'en';
+//
+// The language comes from the provider when it named one. "locale" is a
+// standard OIDC claim and Authentik, Authelia and Keycloak all send it, so
+// hardcoding English here meant every account an identity provider created was
+// English whatever the provider said - and the person never saw the
+// registration form that would have asked them, because they never went
+// through it. resolve_language() answers 'en' when there is no claim or when
+// the claim names no translation, which is what this line did before.
+require_once __DIR__ . '/../i18n/languages.php';
+$language = resolve_language($userInfo['locale'] ?? null);
 $avatar = "images/avatars/0.svg";
 $budget = 0;
 $main_currency_id = 1; // Euro
@@ -47,16 +56,11 @@ $stmt->bindValue(':name', $username, SQLITE3_TEXT);
 $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
 $stmt->execute();
 
-// Categories
-$categories = [
-    'No category', 'Entertainment', 'Music', 'Utilities', 'Food & Beverages',
-    'Health & Wellbeing', 'Productivity', 'Banking', 'Transport', 'Education',
-    'Insurance', 'Gaming', 'News & Magazines', 'Software', 'Technology',
-    'Cloud Services', 'Charity & Donations'
-];
+require_once __DIR__ . '/../default_names.php';
 
+// Categories
 $stmt = $db->prepare("INSERT INTO categories (name, \"order\", user_id) VALUES (:name, :order, :user_id)");
-foreach ($categories as $index => $name) {
+foreach (default_categories($language) as $index => $name) {
     $stmt->bindValue(':name', $name, SQLITE3_TEXT);
     $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);
     $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
@@ -64,42 +68,8 @@ foreach ($categories as $index => $name) {
 }
 
 // Payment Methods
-$payment_methods = [
-    ['name' => 'PayPal', 'icon' => 'images/uploads/icons/paypal.png'],
-    ['name' => 'Credit Card', 'icon' => 'images/uploads/icons/creditcard.png'],
-    ['name' => 'Bank Transfer', 'icon' => 'images/uploads/icons/banktransfer.png'],
-    ['name' => 'Direct Debit', 'icon' => 'images/uploads/icons/directdebit.png'],
-    ['name' => 'Money', 'icon' => 'images/uploads/icons/money.png'],
-    ['name' => 'Google Pay', 'icon' => 'images/uploads/icons/googlepay.png'],
-    ['name' => 'Samsung Pay', 'icon' => 'images/uploads/icons/samsungpay.png'],
-    ['name' => 'Apple Pay', 'icon' => 'images/uploads/icons/applepay.png'],
-    ['name' => 'Crypto', 'icon' => 'images/uploads/icons/crypto.png'],
-    ['name' => 'Klarna', 'icon' => 'images/uploads/icons/klarna.png'],
-    ['name' => 'Amazon Pay', 'icon' => 'images/uploads/icons/amazonpay.png'],
-    ['name' => 'SEPA', 'icon' => 'images/uploads/icons/sepa.png'],
-    ['name' => 'Skrill', 'icon' => 'images/uploads/icons/skrill.png'],
-    ['name' => 'Sofort', 'icon' => 'images/uploads/icons/sofort.png'],
-    ['name' => 'Stripe', 'icon' => 'images/uploads/icons/stripe.png'],
-    ['name' => 'Affirm', 'icon' => 'images/uploads/icons/affirm.png'],
-    ['name' => 'AliPay', 'icon' => 'images/uploads/icons/alipay.png'],
-    ['name' => 'Elo', 'icon' => 'images/uploads/icons/elo.png'],
-    ['name' => 'Facebook Pay', 'icon' => 'images/uploads/icons/facebookpay.png'],
-    ['name' => 'GiroPay', 'icon' => 'images/uploads/icons/giropay.png'],
-    ['name' => 'iDeal', 'icon' => 'images/uploads/icons/ideal.png'],
-    ['name' => 'Union Pay', 'icon' => 'images/uploads/icons/unionpay.png'],
-    ['name' => 'Interac', 'icon' => 'images/uploads/icons/interac.png'],
-    ['name' => 'WeChat', 'icon' => 'images/uploads/icons/wechat.png'],
-    ['name' => 'Paysafe', 'icon' => 'images/uploads/icons/paysafe.png'],
-    ['name' => 'Poli', 'icon' => 'images/uploads/icons/poli.png'],
-    ['name' => 'Qiwi', 'icon' => 'images/uploads/icons/qiwi.png'],
-    ['name' => 'ShopPay', 'icon' => 'images/uploads/icons/shoppay.png'],
-    ['name' => 'Venmo', 'icon' => 'images/uploads/icons/venmo.png'],
-    ['name' => 'VeriFone', 'icon' => 'images/uploads/icons/verifone.png'],
-    ['name' => 'WebMoney', 'icon' => 'images/uploads/icons/webmoney.png'],
-];
-
 $stmt = $db->prepare("INSERT INTO payment_methods (name, icon, \"order\", user_id) VALUES (:name, :icon, :order, :user_id)");
-foreach ($payment_methods as $index => $method) {
+foreach (default_payment_methods($language) as $index => $method) {
     $stmt->bindValue(':name', $method['name'], SQLITE3_TEXT);
     $stmt->bindValue(':icon', $method['icon'], SQLITE3_TEXT);
     $stmt->bindValue(':order', $index + 1, SQLITE3_INTEGER);

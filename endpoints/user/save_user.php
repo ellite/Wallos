@@ -2,6 +2,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/frankfurter.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -38,7 +39,18 @@ function update_exchange_rate($db, $userId)
             $mainCurrencyCode = $row['code'];
             $mainCurrencyId = $row['main_currency'];
 
-            if ($provider === 1) {
+            if ((int) $provider === 2) {
+                // frankfurter.dev publishes the ECB reference rates without an
+                // account, and prices in any currency it lists, so it is asked
+                // in the user's own main currency and the conversion below has
+                // nothing left to do. No key, no header, and https, because
+                // there is no account behind it to authenticate.
+                //
+                // The helper answers in the same {"rates": ...} shape the two
+                // providers below do, so everything after this branch is
+                // unchanged.
+                $apiData = frankfurter_latest_rates($mainCurrencyCode, $codes);
+            } elseif ($provider === 1) {
                 $api_url = "https://api.apilayer.com/fixer/latest?base=EUR&symbols=" . $codes;
                 $context = stream_context_create([
                     'http' => [
@@ -47,14 +59,22 @@ function update_exchange_rate($db, $userId)
                     ]
                 ]);
                 $response = file_get_contents($api_url, false, $context);
+                $apiData = json_decode($response, true);
             } else {
                 $api_url = "http://data.fixer.io/api/latest?access_key=" . $apiKey . "&base=EUR&symbols=" . $codes;
                 $response = file_get_contents($api_url);
+                $apiData = json_decode($response, true);
             }
 
-            $apiData = json_decode($response, true);
-
-            $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];
+            if ((int) $provider === 2) {
+                // The answer already is in the main currency, so there is
+                // nothing to divide through by. The loop below still writes the
+                // main currency's own row as 1.0, which is a rule of this
+                // application rather than a number read out of a response.
+                $mainCurrencyToEUR = 1.0;
+            } else {
+                $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];
+            }
 
             if ($apiData !== null && isset($apiData['rates'])) {
                 foreach ($apiData['rates'] as $currencyCode => $rate) {

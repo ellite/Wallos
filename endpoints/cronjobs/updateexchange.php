@@ -2,6 +2,7 @@
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/exchange_rate_freshness.php';
+require_once __DIR__ . '/../../includes/frankfurter.php';
 
 require 'settimezone.php';
 
@@ -58,7 +59,18 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
             $mainCurrencyCode = $row['code'];
             $mainCurrencyId = $row['main_currency'];
 
-            if ($provider === 1) {
+            if ((int) $provider === 2) {
+                // frankfurter.dev publishes the ECB reference rates without an
+                // account, and prices in any currency it lists, so it is asked
+                // in the user's own main currency and the conversion below has
+                // nothing left to do. No key, no header, and https, because
+                // there is no account behind it to authenticate.
+                //
+                // The helper answers in the same {"rates": ...} shape the two
+                // providers below do, so everything after this branch is
+                // unchanged.
+                $apiData = frankfurter_latest_rates($mainCurrencyCode, $codes);
+            } elseif ($provider === 1) {
                 $api_url = "https://api.apilayer.com/fixer/latest?base=EUR&symbols=" . $codes;
                 $context = stream_context_create([
                     'http' => [
@@ -67,14 +79,22 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
                     ]
                 ]);
                 $response = file_get_contents($api_url, false, $context);
+                $apiData = json_decode($response, true);
             } else {
                 $api_url = "http://data.fixer.io/api/latest?access_key=" . $apiKey . "&base=EUR&symbols=" . $codes;
                 $response = file_get_contents($api_url);
+                $apiData = json_decode($response, true);
             }
 
-            $apiData = json_decode($response, true);
-
-            $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];
+            if ((int) $provider === 2) {
+                // The answer already is in the main currency, so there is
+                // nothing to divide through by. The loop below still writes the
+                // main currency's own row as 1.0, which is a rule of this
+                // application rather than a number read out of a response.
+                $mainCurrencyToEUR = 1.0;
+            } else {
+                $mainCurrencyToEUR = $apiData['rates'][$mainCurrencyCode];
+            }
 
             if ($apiData !== null && isset($apiData['rates'])) {
                 // One user's rates and their refresh date are one unit of work:
@@ -128,8 +148,31 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
 
                     $db->exec('COMMIT');
 
-                    echo "Rates updated successfully!<br />";
+                    // A currency the provider would not price keeps the rate it had, and
+                    // saying which one is the difference between a total somebody can
+                    // trust and one they cannot. Only the Frankfurter path fills this.
+                    $held = isset($apiData['held']) && is_array($apiData['held']) ? $apiData['held'] : [];
+                    echo "Rates updated successfully!" . ($held === []
+                        ? ""
+                        : " Not priced, so left unchanged: " . htmlspecialchars(implode(', ', $held)) . ".") . "<br />";
                 }
+            } else {
+                // A refresh that stored nothing must not pass for one that
+                // worked. This branch had no else at all, so a provider
+                // answering with no rates moved on to the next user without a
+                // word, and the only trace left was that the stored rates had
+                // not moved.
+                $failureMessage = "Exchange rates update failed. The currency provider returned no rates.";
+
+                if (is_array($apiData) && isset($apiData['message']) && is_string($apiData['message'])) {
+                    // frankfurter.dev explains itself in the body - it answers
+                    // 422 with {"message":"invalid currency: XYZ"} and names the
+                    // one code it objected to - and its own wording says more
+                    // than a guess made here would.
+                    $failureMessage .= " " . htmlspecialchars($apiData['message']);
+                }
+
+                echo $failureMessage . "<br />";
             }
         } else {
             echo "Exchange rates update skipped. No fixer.io api key provided<br />";

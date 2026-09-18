@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Izbrano neveljavno proračunsko obdobje",
   invalid_budget_anchor_date: "Izhodiščni datum mora biti veljaven datum",
   no_results_found: "Ni najdenih rezultatov",
+  push_not_supported: "Potisna obvestila v tem brskalniku niso podprta.",
+  push_permission_denied: "Dovoljenje za obvestila ni bilo odobreno.",
+  delete: "Izbriši",
+  no_devices_registered: "Še ni registriranih naprav.",
 }

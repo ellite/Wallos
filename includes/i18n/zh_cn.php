@@ -259,6 +259,11 @@ $i18n = [
     "host" => "主机",
     "topic" => "主题",
     "ignore_ssl_errors" => "忽略 SSL 错误",
+    "push_notifications" => "推送通知",
+    "push_notifications_info" => "无需单独的账户或应用，即可在浏览器或手机锁屏上收到通知。适用于桌面版 Chrome、Firefox 和 Edge，以及 Android；在 iOS 上，将 Wallos 安装为应用后可从主屏幕使用。",
+    "no_devices_registered" => "尚未注册任何设备。",
+    "unknown_device" => "未知设备",
+    "enable_on_this_device" => "在此设备上启用",
     "categories" => "分类",
     "save_category" => "保存分类",
     "delete_category" => "删除分类",
@@ -277,6 +282,7 @@ $i18n = [
     "get_key" => "申请密钥",
     "get_free_fixer_api_key" => "申请免费 Fixer API 密钥",
     "get_key_alternative" => "或者，您也可以从以下网站获取免费的修复程序 api 密钥",
+    "no_api_key_provider" => "或选择一个无需账户和 API 密钥的提供商，并将密钥留空：",
     "ai_model" => "AI 模型",
     "select_ai_model" => "选择 AI 模型",
     "run_schedule" => "运行计划",
@@ -380,6 +386,7 @@ $i18n = [
     "failed_to_store_api_key" => "存储 API 密钥到数据库失败。",
     "invalid_api_key" => "API 密钥无效。",
     "api_key_saved" => "API 密钥已成功保存",
+    "currency_provider_saved" => "货币提供商保存成功",
     "currency_removed" => "货币已移除",
 
     // Household

@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Wybrano nieprawidłowy okres budżetowy",
   invalid_budget_anchor_date: "Data odniesienia musi być prawidłową datą",
   no_results_found: "Nie znaleziono wyników",
+  push_not_supported: "Powiadomienia push nie są obsługiwane w tej przeglądarce.",
+  push_permission_denied: "Nie udzielono zgody na powiadomienia.",
+  delete: "Usuń",
+  no_devices_registered: "Nie zarejestrowano jeszcze żadnych urządzeń.",
 }

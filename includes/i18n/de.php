@@ -251,6 +251,11 @@ $i18n = [
     "host" => "Host",
     "topic" => "Topic",
     "ignore_ssl_errors" => "SSL Fehler ignorieren",
+    "push_notifications" => "Push-Benachrichtigungen",
+    "push_notifications_info" => "Erhalten Sie eine Benachrichtigung in Ihrem Browser oder auf dem Sperrbildschirm Ihres Telefons, ganz ohne eigenes Konto oder eigene App. Funktioniert in Chrome, Firefox und Edge auf dem Desktop, auf Android und auf iOS vom Startbildschirm aus, nachdem Wallos als App installiert wurde.",
+    "no_devices_registered" => "Noch keine Geräte registriert.",
+    "unknown_device" => "Unbekanntes Gerät",
+    "enable_on_this_device" => "Auf diesem Gerät aktivieren",
     "categories" => "Kategorien",
     "save_category" => "Kategorie speichern",
     "delete_category" => "Kategorie löschen",
@@ -269,6 +274,7 @@ $i18n = [
     "get_key" => "Erhalte deinen key bei",
     "get_free_fixer_api_key" => "Erhalte deinen kostenfreien Fixer API Key",
     "get_key_alternative" => "Alternativ können Sie einen kostenlosen Fixer-Api-Schlüssel erhalten von",
+    "no_api_key_provider" => "Oder wählen Sie einen Anbieter, der kein Konto und keinen API-Schlüssel benötigt, und lassen Sie den Schlüssel leer:",
     "ai_model" => "AI Modell",
     "select_ai_model" => "Wählen Sie AI Modell",
     "run_schedule" => "Zeitplan ausführen",
@@ -368,6 +374,7 @@ $i18n = [
     "failed_to_store_api_key" => "API Key konnte nicht in Datenbank gespeichert werden.",
     "invalid_api_key" => "Ungültiger API Key.",
     "api_key_saved" => "API key erfolgreich gespeichert",
+    "currency_provider_saved" => "Währungsanbieter erfolgreich gespeichert",
     "currency_removed" => "Währung gelöscht",
     // Household
     "failed_add_household" => "Haushaltsmitglied konnte nicht hinzugefügt werden",
@@ -503,6 +510,31 @@ $i18n = [
     "google_search_info" => "Fügt Google-Bildergebnisse (über SerpAPI) als zusätzliche Quelle in der Logo-Suche hinzu. Erstellen Sie ein kostenloses SerpAPI-Konto und fügen Sie hier Ihren API-Schlüssel ein.",
     "monthly_searches_used" => "Diesen Monat verbrauchte Suchanfragen",
     "monthly_requests_used" => "Diesen Monat verbrauchte API-Anfragen",
+
+    // Default categories a new account is created with. The list also starts
+    // with "no_category", which is translated further up.
+    "category_entertainment" => "Unterhaltung",
+    "category_music" => "Musik",
+    "category_utilities" => "Nebenkosten",
+    "category_food_and_beverages" => "Essen & Trinken",
+    "category_health_and_wellbeing" => "Gesundheit & Wohlbefinden",
+    "category_productivity" => "Produktivität",
+    "category_banking" => "Bankwesen",
+    "category_transport" => "Verkehr",
+    "category_education" => "Bildung",
+    "category_insurance" => "Versicherung",
+    "category_gaming" => "Spiele",
+    "category_news_and_magazines" => "Nachrichten & Zeitschriften",
+    "category_software" => "Software",
+    "category_technology" => "Technik",
+    "category_cloud_services" => "Cloud-Dienste",
+    "category_charity_and_donations" => "Spenden & Wohltätigkeit",
+    // Default payment methods a new account is created with. Only the generic
+    // ones are translated; a brand is the same word in every language.
+    "payment_method_credit_card" => "Kreditkarte",
+    "payment_method_bank_transfer" => "Überweisung",
+    "payment_method_direct_debit" => "Lastschrift",
+    "payment_method_money" => "Bargeld",
 ];
 
 

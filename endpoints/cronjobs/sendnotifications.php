@@ -7,6 +7,8 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
 require_once __DIR__ . '/../../includes/webhook_helper.php';
+require_once __DIR__ . '/../../includes/webpush_helper.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
 require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
@@ -100,6 +102,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $discordNotificationsEnabled = false;
     $ntfyNotificationsEnabled = false;
     $serverchanNotificationsEnabled = false;
+    $pushNotificationsEnabled = false;
 
     // Get notification settings (how many days before the subscription ends should the notification be sent)
     $query = $hasPeriodSummaryColumn
@@ -247,9 +250,39 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $serverchan['sendkey'] = $row['sendkey'];
     }
 
+    // Check if Push notifications are enabled and get the registered devices
+    $query = "SELECT * FROM push_notifications WHERE user_id = :userId";
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    $pushSubscriptions = [];
+
+    if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $pushNotificationsEnabled = $row['enabled'];
+    }
+
+    if ($pushNotificationsEnabled) {
+        $query = "SELECT id, endpoint, p256dh, auth FROM push_subscriptions WHERE user_id = :userId";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $result = $stmt->execute();
+
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $pushSubscriptions[] = $row;
+        }
+
+        // No point running the rest of this channel's setup - the VAPID
+        // keypair, the admin row for the JWT subject - for an account that
+        // enabled push but has not actually registered a device yet.
+        if (empty($pushSubscriptions)) {
+            $pushNotificationsEnabled = false;
+        }
+    }
+
     $notificationsEnabled = $emailNotificationsEnabled || $gotifyNotificationsEnabled || $telegramNotificationsEnabled ||
         $webhookNotificationsEnabled || $pushoverNotificationsEnabled || $discordNotificationsEnabled || $pushplusNotificationsEnabled ||
-        $mattermostNotificationsEnabled || $ntfyNotificationsEnabled || $serverchanNotificationsEnabled;
+        $mattermostNotificationsEnabled || $ntfyNotificationsEnabled || $serverchanNotificationsEnabled || $pushNotificationsEnabled;
 
     // If no notifications are enabled, no need to run
     if (!$notificationsEnabled) {
@@ -392,7 +425,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $defaultEmail = $defaultUser['email'];
                 $defaultName = $defaultUser['username'];
 
-                foreach ($notify as $userId => $perUser) {
+                foreach ($notify as $payerUserId => $perUser) {
                     $message = buildNotificationMessage("", $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
                     if ($message === "") {
                         continue;
@@ -423,7 +456,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $mail->Port = $email['smtpPort'];
 
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -465,10 +498,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Discord webhook URL. Notifications not sent.<br />";
                 } else {
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
                         $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -524,10 +557,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Gotify server URL. Notifications not sent.<br />";
                 } else {
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
                         $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -579,10 +612,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Telegram notifications if enabled
             if ($telegramNotificationsEnabled) {
-                foreach ($notify as $userId => $perUser) {
+                foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -632,10 +665,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // PushPlus notifications if enabled
             if ($pushplusNotificationsEnabled) {
-                foreach ($notify as $userId => $perUser) {
+                foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -694,10 +727,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Mattermost webhook URL. Notifications not sent.<br />";
                 } else {
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
                         $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -754,10 +787,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Pushover notifications if enabled
             if ($pushoverNotificationsEnabled) {
-                foreach ($notify as $userId => $perUser) {
+                foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -801,10 +834,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 if (!$ssrf) {
                     echo "SSRF attempt detected for Ntfy host URL. Notifications not sent.<br />";
                 } else {
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
                         $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -862,10 +895,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 if (!$ssrf) {
                     echo "SSRF attempt detected for webhook URL. Notifications not sent.<br />";;
                 } else {
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
                         $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
                 
@@ -930,10 +963,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Serverchan notifications if enabled
             if ($serverchanNotificationsEnabled) {
-                foreach ($notify as $userId => $perUser) {
+                foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
                     $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -977,6 +1010,70 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     } else {
                         unset($ch);
                         echo "Serverchan Notifications sent<br />";
+                    }
+                }
+            }
+
+            // Push notifications if enabled
+            if ($pushNotificationsEnabled) {
+                $vapidKeys = webpush_get_vapid_keys($db);
+
+                if ($vapidKeys === false) {
+                    echo "Push Notifications not sent: could not load this installation's VAPID keys.<br />";
+                } else {
+                    $adminSettings = wallos_get_admin_settings($db);
+                    $pushSubject = !empty($adminSettings['from_email'])
+                        ? 'mailto:' . $adminSettings['from_email']
+                        : 'mailto:wallos@wallosapp.com';
+
+                    foreach ($notify as $payerUserId => $perUser) {
+                        // Get name of user from household table
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
+                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $result = $stmt->execute();
+                        $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        $name = $user['name'] ?? "";
+                        $message = buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
+                        if ($message === "") {
+                            continue;
+                        }
+
+                        $payload = json_encode([
+                            'title' => 'Wallos Notification',
+                            'body' => $message,
+                        ]);
+
+                        // One account, one message, every device it has
+                        // registered - not one per payer's own devices, since
+                        // a push subscription belongs to whoever is signed
+                        // into the account in that browser, not to a
+                        // household member.
+                        foreach ($pushSubscriptions as $subscription) {
+                            $ssrf = is_url_safe_for_ssrf($subscription['endpoint'], $db, $userId);
+                            if (!$ssrf) {
+                                echo "SSRF attempt detected for a push subscription endpoint. Notification not sent.<br />";
+                                continue;
+                            }
+
+                            $result = webpush_send($subscription, $payload, $vapidKeys, $pushSubject, 2419200, $ssrf);
+
+                            if ($result['prune']) {
+                                // The push service itself has discarded this
+                                // subscription (unsubscribed, uninstalled,
+                                // cleared site data) - see webpush_send()'s
+                                // own comment for why this is never a device
+                                // that is merely offline.
+                                $pruneStmt = $db->prepare('DELETE FROM push_subscriptions WHERE id = :id');
+                                $pruneStmt->bindValue(':id', $subscription['id'], SQLITE3_INTEGER);
+                                $pruneStmt->execute();
+                                echo "Push subscription gone, removed.<br />";
+                            } elseif ($result['success']) {
+                                echo "Push Notification sent<br />";
+                            } else {
+                                echo "Error sending Push notification: " . ($result['error'] ?? 'unknown error') . "<br />";
+                            }
+                        }
                     }
                 }
             }

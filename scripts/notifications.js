@@ -439,3 +439,165 @@ function saveNotificationsServerchanButton() {
 
   makeFetchCall('endpoints/notifications/saveserverchannotifications.php', data, button);
 }
+
+// Push notifications ---------------------------------------------------
+//
+// Unlike every other channel above, there is no host/token/key for the user
+// to type in: the "configuration" is the browser's own Push subscription,
+// created by subscribePushButtonClick() and handed straight to the server -
+// the enabled checkbox is the only thing saveNotificationsPushButton() ever
+// saves on its own.
+
+// pushManager.subscribe() takes the VAPID public key as a Uint8Array, not
+// the base64url string the server hands over; this is the standard
+// conversion (unpadded base64url -> padded base64 -> raw bytes).
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
+}
+
+// Builds (or replaces) one device's row in the list from what
+// savepushsubscription.php handed back, without touching anything else on
+// the page - in particular, without a reload, which would reset every
+// notification section back to its default collapsed state along with it.
+//
+// user_agent is a raw client-supplied HTTP header, so it is never spliced
+// into innerHTML: the name goes in through .textContent, and the "delete"
+// button through addEventListener rather than an onclick="..." string built
+// from the same value.
+function renderPushDeviceRow(subscription) {
+  const list = document.getElementById("pushDevicesList");
+  const existingRow = list.querySelector(`.push-device-row[data-subscriptionid="${subscription.id}"]`);
+
+  const row = existingRow || document.createElement("div");
+  row.className = "push-device-row";
+  row.setAttribute("data-subscriptionid", subscription.id);
+  row.innerHTML = "";
+
+  const name = document.createElement("span");
+  name.className = "push-device-name";
+  name.textContent = subscription.user_agent;
+  row.appendChild(name);
+
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.className = "secondary-button thin";
+  deleteButton.textContent = translate('delete');
+  deleteButton.addEventListener('click', function () {
+    removePushSubscriptionButton(subscription.id, row);
+  });
+  row.appendChild(deleteButton);
+
+  if (!existingRow) {
+    const noDevices = document.getElementById("noPushDevices");
+    if (noDevices) {
+      noDevices.remove();
+    }
+    list.appendChild(row);
+  }
+}
+
+function subscribePushButtonClick() {
+  const button = document.getElementById("subscribePushButton");
+
+  if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) {
+    showErrorMessage(translate('push_not_supported'));
+    return;
+  }
+
+  button.disabled = true;
+
+  Notification.requestPermission().then(function (permission) {
+    if (permission !== 'granted') {
+      showErrorMessage(translate('push_permission_denied'));
+      button.disabled = false;
+      return;
+    }
+
+    navigator.serviceWorker.ready.then(function (registration) {
+      return registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(window.vapidPublicKey),
+      });
+    }).then(function (subscription) {
+      return fetch('endpoints/notifications/savepushsubscription.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': window.csrfToken,
+        },
+        body: JSON.stringify(subscription.toJSON()),
+      });
+    }).then(function (response) {
+      return response.json();
+    }).then(function (data) {
+      if (data.success) {
+        renderPushDeviceRow(data.subscription);
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    }).catch(function (error) {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+  });
+}
+
+function removePushSubscriptionButton(id, row) {
+  row = row || document.querySelector(`.push-device-row[data-subscriptionid="${id}"]`);
+
+  fetch('endpoints/notifications/removepushsubscription.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        if (row) {
+          row.remove();
+        }
+
+        const list = document.getElementById("pushDevicesList");
+        if (list && !list.querySelector(".push-device-row")) {
+          const noDevices = document.createElement("p");
+          noDevices.id = "noPushDevices";
+          noDevices.className = "push-no-devices";
+          noDevices.textContent = translate('no_devices_registered');
+          list.appendChild(noDevices);
+        }
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(error => showErrorMessage(error));
+}
+
+function testNotificationsPushButton() {
+  const button = document.getElementById("testNotificationsPush");
+  button.disabled = true;
+
+  makeFetchCall('endpoints/notifications/testpushnotifications.php', {}, button);
+}
+
+function saveNotificationsPushButton() {
+  const button = document.getElementById("saveNotificationsPush");
+  button.disabled = true;
+
+  const enabled = document.getElementById("pushenabled").checked ? 1 : 0;
+
+  makeFetchCall('endpoints/notifications/savenotificationspush.php', { enabled: enabled }, button);
+}

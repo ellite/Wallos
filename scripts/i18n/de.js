@@ -52,4 +52,8 @@ let i18n = {
   invalid_budget_period: "Ungültiger Budgetzeitraum ausgewählt",
   invalid_budget_anchor_date: "Das Ankerdatum muss ein gültiges Datum sein",
   no_results_found: "Keine Ergebnisse gefunden",
+  push_not_supported: "Push-Benachrichtigungen werden von diesem Browser nicht unterstützt.",
+  push_permission_denied: "Die Berechtigung für Benachrichtigungen wurde nicht erteilt.",
+  delete: "Löschen",
+  no_devices_registered: "Noch keine Geräte registriert.",
 }

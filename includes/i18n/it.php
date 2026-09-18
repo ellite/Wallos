@@ -257,6 +257,11 @@ $i18n = [
     "host" => "Host",
     "topic" => "Topic",
     "ignore_ssl_errors" => "Ignora errori SSL",
+    "push_notifications" => "Notifiche Push",
+    "push_notifications_info" => "Ricevi una notifica nel browser o sulla schermata di blocco del telefono, senza bisogno di un account o di un'app dedicata. Funziona su Chrome, Firefox ed Edge desktop, su Android e su iOS dalla schermata Home dopo aver installato Wallos come app.",
+    "no_devices_registered" => "Nessun dispositivo ancora registrato.",
+    "unknown_device" => "Dispositivo sconosciuto",
+    "enable_on_this_device" => "Attiva su questo dispositivo",
     "categories" => 'Categorie',
     "save_category" => 'Salva categoria',
     "delete_category" => 'Elimina categoria',
@@ -275,6 +280,7 @@ $i18n = [
     "get_key" => 'Ottieni la tua chiave su',
     "get_free_fixer_api_key" => 'Ottieni gratuitamente la chiave API di Fixer',
     "get_key_alternative" => 'In alternativa, puoi ottenere gratuitamente una chiave API di Fixer da',
+    "no_api_key_provider" => "Oppure seleziona un provider che non richiede account né chiave API, e lascia la chiave vuota:",
     "ai_model" => "Modello AI",
     "select_ai_model" => "Seleziona Modello AI",
     "run_schedule" => "Esegui Programma",
@@ -379,6 +385,7 @@ $i18n = [
     "failed_to_store_api_key" => "Impossibile salvare la chiave API",
     "invalid_api_key" => "Chiave API non valida",
     "api_key_saved" => "Chiave API salvata",
+    "currency_provider_saved" => "Provider di valuta salvato con successo",
     "currency_removed" => "Valuta rimossa",
 
     // Household

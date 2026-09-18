@@ -50,4 +50,8 @@ let i18n = {
   notes: "ملاحظات",
   export: "تصدير",
   no_results_found: "لم يُعثر على نتائج",
+  push_not_supported: "الإشعارات الفورية غير مدعومة في هذا المتصفح.",
+  push_permission_denied: "لم يتم منح إذن الإشعارات.",
+  delete: "حذف",
+  no_devices_registered: "لم يتم تسجيل أي أجهزة بعد.",
 }

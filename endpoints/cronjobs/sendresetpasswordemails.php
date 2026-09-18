@@ -7,11 +7,11 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
-$query = "SELECT * FROM admin";
-$stmt = $db->prepare($query);
-$result = $stmt->execute();
-$admin = $result->fetchArray(SQLITE3_ASSOC);
+// The admin row with anything the deployment owns applied over it, so this job
+// uses the same mail server the admin page shows.
+$admin = wallos_get_admin_settings($db);
 
 $query = "SELECT * FROM password_resets WHERE email_sent = 0";
 $stmt = $db->prepare($query);

@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Ongeldige budgetperiode geselecteerd",
   invalid_budget_anchor_date: "Startdatum moet een geldige datum zijn",
   no_results_found: "Geen resultaten gevonden",
+  push_not_supported: "Pushmeldingen worden niet ondersteund in deze browser.",
+  push_permission_denied: "Toestemming voor meldingen is niet verleend.",
+  delete: "Verwijderen",
+  no_devices_registered: "Nog geen apparaten geregistreerd.",
 }

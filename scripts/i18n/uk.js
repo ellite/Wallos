@@ -50,4 +50,8 @@ let i18n = {
   invalid_budget_period: "Вибрано недійсний бюджетний період",
   invalid_budget_anchor_date: "Дата відліку має бути дійсною датою",
   no_results_found: "Нічого не знайдено",
+  push_not_supported: "Push-сповіщення не підтримуються в цьому браузері.",
+  push_permission_denied: "Дозвіл на сповіщення не надано.",
+  delete: "Видалити",
+  no_devices_registered: "Поки що немає зареєстрованих пристроїв.",
 }
