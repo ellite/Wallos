@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.1](https://github.com/ellite/Wallos/compare/v5.8.0...v5.8.1) (2026-09-18)
+
+
+### Bug Fixes
+
+* buttons position for push notifications ([#1226](https://github.com/ellite/Wallos/issues/1226)) ([9e2ad14](https://github.com/ellite/Wallos/commit/9e2ad14164d64e8bcdadefd1ac6fef79ad4e12e0))
+
 ## [5.8.0](https://github.com/ellite/Wallos/compare/v5.7.1...v5.8.0) (2026-09-18)
 
 
