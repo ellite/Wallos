@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Ingen resultater fundet",
   push_not_supported: "Push-notifikationer understøttes ikke i denne browser.",
   push_permission_denied: "Tilladelse til notifikationer blev ikke givet.",
+  delete: "Slet",
+  no_devices_registered: "Ingen enheder registreret endnu.",
 }

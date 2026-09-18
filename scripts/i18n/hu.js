@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Nincs találat",
   push_not_supported: "A böngésző nem támogatja a push értesítéseket.",
   push_permission_denied: "Az értesítési engedély nem lett megadva.",
+  delete: "Törlés",
+  no_devices_registered: "Még nincs regisztrált eszköz.",
 }

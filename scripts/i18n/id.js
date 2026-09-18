@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Tidak ada hasil ditemukan",
   push_not_supported: "Notifikasi push tidak didukung di browser ini.",
   push_permission_denied: "Izin notifikasi tidak diberikan.",
+  delete: "Hapus",
+  no_devices_registered: "Belum ada perangkat yang terdaftar.",
 }

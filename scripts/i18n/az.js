@@ -52,4 +52,6 @@ let i18n = {
   invalid_budget_anchor_date: "Baza tarixi etibarlı tarix olmalıdır",
   push_not_supported: "Bu brauzerdə push bildirişləri dəstəklənmir.",
   push_permission_denied: "Bildiriş icazəsi verilmədi.",
+  delete: "Sil",
+  no_devices_registered: "Hələ heç bir cihaz qeydiyyatdan keçməyib.",
 }

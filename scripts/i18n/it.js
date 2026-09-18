@@ -53,4 +53,6 @@ let i18n = {
   no_results_found: "Nessun risultato trovato",
   push_not_supported: "Le notifiche push non sono supportate in questo browser.",
   push_permission_denied: "L'autorizzazione per le notifiche non è stata concessa.",
+  delete: "Cancella",
+  no_devices_registered: "Nessun dispositivo ancora registrato.",
 }

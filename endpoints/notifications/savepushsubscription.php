@@ -75,9 +75,10 @@ if ($existing) {
     // The same device subscribing again - a browser can rotate keys for an
     // existing endpoint, so the row is refreshed rather than left stale or
     // duplicated under the same endpoint.
+    $subscriptionId = (int) $existing['id'];
     $query = "UPDATE push_subscriptions SET p256dh = :p256dh, auth = :auth, user_agent = :userAgent WHERE id = :id";
     $stmt = $db->prepare($query);
-    $stmt->bindValue(':id', $existing['id'], SQLITE3_INTEGER);
+    $stmt->bindValue(':id', $subscriptionId, SQLITE3_INTEGER);
 } else {
     $query = "INSERT INTO push_subscriptions (user_id, endpoint, p256dh, auth, user_agent, created_at)
               VALUES (:userId, :endpoint, :p256dh, :auth, :userAgent, :createdAt)";
@@ -92,9 +93,16 @@ $stmt->bindValue(':auth', $auth, SQLITE3_TEXT);
 $stmt->bindValue(':userAgent', $userAgent, SQLITE3_TEXT);
 
 if ($stmt->execute()) {
+    // Handed back so the settings page can add or refresh this device's row
+    // itself, rather than reloading the whole page to pick it up.
     echo json_encode([
         "success" => true,
-        "message" => translate('notifications_settings_saved', $i18n)
+        "message" => translate('notifications_settings_saved', $i18n),
+        "subscription" => [
+            "id" => $existing ? $subscriptionId : (int) $db->lastInsertRowID(),
+            "user_agent" => $userAgent !== '' ? $userAgent : translate('unknown_device', $i18n),
+            "is_new" => !$existing,
+        ],
     ]);
 } else {
     echo json_encode([

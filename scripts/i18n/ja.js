@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "結果が見つかりません",
   push_not_supported: "このブラウザではプッシュ通知に対応していません。",
   push_permission_denied: "通知の許可が得られませんでした。",
+  delete: "削除",
+  no_devices_registered: "まだ登録されたデバイスはありません。",
 }

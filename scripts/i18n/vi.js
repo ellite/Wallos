@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Không tìm thấy kết quả",
   push_not_supported: "Trình duyệt này không hỗ trợ thông báo đẩy.",
   push_permission_denied: "Quyền thông báo chưa được cấp.",
+  delete: "Xóa",
+  no_devices_registered: "Chưa có thiết bị nào được đăng ký.",
 }

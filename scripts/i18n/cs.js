@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Nebyly nalezeny žádné výsledky",
   push_not_supported: "Push notifikace nejsou v tomto prohlížeči podporovány.",
   push_permission_denied: "Oprávnění k oznámením nebylo uděleno.",
+  delete: "Odstranit",
+  no_devices_registered: "Zatím nejsou registrována žádná zařízení.",
 }

@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "No s'han trobat resultats",
   push_not_supported: "Les notificacions push no són compatibles amb aquest navegador.",
   push_permission_denied: "No s'ha concedit el permís de notificacions.",
+  delete: "Eliminar",
+  no_devices_registered: "Encara no hi ha dispositius registrats.",
 }

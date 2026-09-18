@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Ничего не найдено",
   push_not_supported: "Push-уведомления не поддерживаются в этом браузере.",
   push_permission_denied: "Разрешение на уведомления не было предоставлено.",
+  delete: "Удалить",
+  no_devices_registered: "Пока нет зарегистрированных устройств.",
 }

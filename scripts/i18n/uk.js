@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Нічого не знайдено",
   push_not_supported: "Push-сповіщення не підтримуються в цьому браузері.",
   push_permission_denied: "Дозвіл на сповіщення не надано.",
+  delete: "Видалити",
+  no_devices_registered: "Поки що немає зареєстрованих пристроїв.",
 }

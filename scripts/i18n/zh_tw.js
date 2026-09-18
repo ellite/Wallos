@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "找不到結果",
   push_not_supported: "此瀏覽器不支援推播通知。",
   push_permission_denied: "未授予通知權限。",
+  delete: "刪除",
+  no_devices_registered: "尚未註冊任何裝置。",
 };

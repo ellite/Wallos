@@ -52,4 +52,6 @@ let i18n = {
   no_results_found: "Нема резултата",
   push_not_supported: "Push обавештења нису подржана у овом прегледачу.",
   push_permission_denied: "Дозвола за обавештења није одобрена.",
+  delete: "Обриши",
+  no_devices_registered: "Још увек нема регистрованих уређаја.",
 }
