@@ -1157,6 +1157,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 <select name="fixer-provider" id="fixerProvider">
                     <option value="0" <?= $provider == 0 ? 'selected' : '' ?>>fixer.io</option>
                     <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
+                    <option value="2" <?= $provider == 2 ? 'selected' : '' ?>>frankfurter.dev</option>
                 </select>
             </div>
             <div class="buttons">
@@ -1189,6 +1190,15 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         https://apilayer.com
                         <a href="https://apilayer.com/marketplace/fixer-api" title="Get free fixer api key"
                             target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                </p>
+                <p>
+                    <?= translate("no_api_key_provider", $i18n) ?>
+                    <span>
+                        https://frankfurter.dev
+                        <a href="https://frankfurter.dev" title="Frankfurter" target="_blank">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </span>

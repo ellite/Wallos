@@ -295,6 +295,7 @@ $i18n = [
     "get_key" => "Get your key at",
     "get_free_fixer_api_key" => "Get free Fixer API Key",
     "get_key_alternative" => "Alternatively, you can get a free fixer api key from",
+    "no_api_key_provider" => "Or select a provider that needs no account and no API key, and leave the key empty:",
     "ai_model" => "AI Model",
     "select_ai_model" => "Select AI Model",
     "run_schedule" => "Run Schedule",
@@ -397,6 +398,7 @@ $i18n = [
     "failed_to_store_api_key" => "Failed to store API Key on the Database.",
     "invalid_api_key" => "Invalid API Key.",
     "api_key_saved" => "API key saved successfully",
+    "currency_provider_saved" => "Currency provider saved successfully",
     "currency_removed" => "Currency removed",
     // Household
     "failed_add_household" => "Failed to add household member",
