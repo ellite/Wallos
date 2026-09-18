@@ -7,7 +7,16 @@ $firstname = $parts[0] ?? '';
 $lastname = $parts[1] ?? '';
 
 // Defaults
-$language = 'en';
+//
+// The language comes from the provider when it named one. "locale" is a
+// standard OIDC claim and Authentik, Authelia and Keycloak all send it, so
+// hardcoding English here meant every account an identity provider created was
+// English whatever the provider said - and the person never saw the
+// registration form that would have asked them, because they never went
+// through it. resolve_language() answers 'en' when there is no claim or when
+// the claim names no translation, which is what this line did before.
+require_once __DIR__ . '/../i18n/languages.php';
+$language = resolve_language($userInfo['locale'] ?? null);
 $avatar = "images/avatars/0.svg";
 $budget = 0;
 $main_currency_id = 1; // Euro
