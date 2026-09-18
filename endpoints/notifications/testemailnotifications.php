@@ -7,9 +7,26 @@ use PHPMailer\PHPMailer\Exception;
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/instance_config.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
+
+// smtppassword is rendered blank on purpose when the deployment owns it - a
+// mounted secret reaching the page source would have left the place it was
+// mounted into - but this endpoint otherwise reads exactly what the browser
+// posted, so a blank managed password was tested as if mail were
+// unconfigured: the admin page called it managed, the test said it failed,
+// and nothing explained why. Any field that came back empty and is
+// env-managed is filled in from the effective configuration instead.
+$data = wallos_fill_managed_form_fields($data, [
+    'smtpaddress' => 'smtp_address',
+    'smtpport' => 'smtp_port',
+    'encryption' => 'encryption',
+    'smtpusername' => 'smtp_username',
+    'smtppassword' => 'smtp_password',
+    'fromemail' => 'from_email',
+], wallos_get_effective_admin_configuration($db)['managed_fields'], wallos_get_admin_settings($db));
 
 if (
     !isset($data["smtpaddress"]) || $data["smtpaddress"] == "" ||

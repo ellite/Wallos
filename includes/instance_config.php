@@ -4,7 +4,7 @@
   Instance settings the deployment can own.
 
   Wallos keeps its instance SMTP and its public URL in the admin table, entered
-  through the admin page. That works, and it keeps working exactly as before —
+  through the admin page. That works, and it keeps working exactly as before -
   but it means the credentials of the mail server live in the database, and that
   somebody has to type them in again by hand after every fresh volume. In a
   container deployment the mail server is not a user preference; it is part of
@@ -13,7 +13,7 @@
   The mechanism here is the one this project already uses for OIDC: read the
   variable, remember which field the environment owns, and show that field in
   the admin page without letting anybody edit it there. A secret may come from a
-  file instead — OIDC_CLIENT_SECRET_FILE already does this — because a mounted
+  file instead - OIDC_CLIENT_SECRET_FILE already does this - because a mounted
   file is how Docker and Kubernetes hand a secret to a container without putting
   it in the process environment where every `docker inspect` can read it.
 
@@ -227,7 +227,7 @@ function wallos_get_effective_admin_configuration($db)
  * The admin row every consumer should read.
  *
  * A convenience over the function above for the callers that only want the
- * values — the mail jobs, the pages that ask whether mail is configured at all.
+ * values - the mail jobs, the pages that ask whether mail is configured at all.
  *
  * @param SQLite3 $db
  * @return array
@@ -235,4 +235,38 @@ function wallos_get_effective_admin_configuration($db)
 function wallos_get_admin_settings($db)
 {
     return wallos_get_effective_admin_configuration($db)['settings'];
+}
+
+/**
+ * Fills in any posted form field the environment owns that came back empty.
+ *
+ * A managed field is either disabled-but-populated in a page, or - a secret
+ * such as smtp_password - rendered blank on purpose, because a mounted secret
+ * reaching the page source would have left the place it was mounted into.
+ * An endpoint that reads exactly what a form posted then tests a blank managed
+ * secret as though nothing were configured, when it is: the page calls the
+ * field managed, the test fails, and nothing explains why.
+ *
+ * Only an empty posted value is replaced. A field the browser genuinely sent a
+ * value for - including one somebody typed into a field the page disabled,
+ * which a script can still do - keeps what was posted, since deciding what the
+ * server trusts is `savesmtpsettings.php`'s job, not this one's.
+ *
+ * @param array<string, mixed>  $posted        Form field name => posted value.
+ * @param array<string, string> $fieldColumns  Form field name => admin column.
+ * @param array<string, string> $managedFields Admin column => variable name that owns it, from wallos_get_effective_admin_configuration().
+ * @param array<string, mixed>  $settings      The effective admin settings (column => value) the fallback reads from.
+ * @return array<string, mixed> $posted, with any empty managed field filled in.
+ */
+function wallos_fill_managed_form_fields($posted, $fieldColumns, $managedFields, $settings)
+{
+    foreach ($fieldColumns as $field => $column) {
+        $value = isset($posted[$field]) ? trim((string) $posted[$field]) : '';
+
+        if ($value === '' && isset($managedFields[$column])) {
+            $posted[$field] = $settings[$column] ?? '';
+        }
+    }
+
+    return $posted;
 }

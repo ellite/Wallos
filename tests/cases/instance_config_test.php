@@ -258,7 +258,7 @@ wallos_test('a fresh installation that configured nothing by hand can still send
     // passwordreset.php refuses to run unless smtp_address and server_url are
     // both set, and on a fresh volume the admin row has neither. An operator
     // who put them in the compose file has configured this installation, and
-    // the page has to agree — otherwise the feature is configured and
+    // the page has to agree - otherwise the feature is configured and
     // invisible, which is worse than not configured at all.
     $db = wallos_test_open_database();
 
@@ -337,4 +337,74 @@ wallos_test('every reader of the instance mail settings goes through one place',
         assert_true(preg_match('/SELECT \* FROM admin|SELECT registrations_open, max_users, server_url, smtp_address FROM admin/', $source) !== 1,
             $path . ' does not read the admin row directly any more');
     }
+});
+
+wallos_test('a managed field a form posted empty is filled in from the effective settings', function () {
+    // What the admin page does with the password field specifically: the input
+    // is rendered blank when the deployment owns it, so the browser posts an
+    // empty string for a field that is, in fact, configured.
+    $fieldColumns = ['smtppassword' => 'smtp_password', 'fromemail' => 'from_email'];
+    $managedFields = ['smtp_password' => 'WALLOS_SMTP_PASSWORD'];
+    $settings = ['smtp_password' => 'from-the-environment', 'from_email' => 'wallos@example.com'];
+
+    $filled = wallos_fill_managed_form_fields(
+        ['smtppassword' => '', 'fromemail' => ''],
+        $fieldColumns,
+        $managedFields,
+        $settings
+    );
+
+    assert_same('from-the-environment', $filled['smtppassword'],
+        'the empty managed field is filled in from the effective settings');
+    assert_same('', $filled['fromemail'],
+        'a field the environment does not own is left exactly as posted, empty or not');
+});
+
+wallos_test('a managed field is left alone when the form actually posted a value', function () {
+    // Deciding what the server trusts belongs to the save endpoint, not this
+    // helper: a script can still post a value into a disabled field, and this
+    // is not the place that rejects it.
+    $filled = wallos_fill_managed_form_fields(
+        ['smtppassword' => 'typed-by-hand'],
+        ['smtppassword' => 'smtp_password'],
+        ['smtp_password' => 'WALLOS_SMTP_PASSWORD'],
+        ['smtp_password' => 'from-the-environment']
+    );
+
+    assert_same('typed-by-hand', $filled['smtppassword'],
+        'a posted value is never overwritten, managed field or not');
+});
+
+wallos_test('an unmanaged field that was posted empty stays empty', function () {
+    // Nothing here should manufacture a value for an installation that has not
+    // asked for any of this - every field is unmanaged, so nothing changes.
+    $filled = wallos_fill_managed_form_fields(
+        ['smtppassword' => ''],
+        ['smtppassword' => 'smtp_password'],
+        [],
+        ['smtp_password' => 'unused']
+    );
+
+    assert_same('', $filled['smtppassword'], 'no field is managed, so nothing is filled in');
+});
+
+wallos_test('the SMTP test endpoint fills in managed fields before it validates or authenticates', function () {
+    // The defect this exists for: an installation with WALLOS_SMTP_PASSWORD set
+    // shows the password field as managed and blank, and pressing Test posted
+    // that blank straight to PHPMailer - failing against a mail server that
+    // was, in fact, configured correctly.
+    $source = file_get_contents(WALLOS_ROOT . '/endpoints/notifications/testemailnotifications.php');
+
+    assert_contains('instance_config.php', $source, 'the endpoint reads the instance configuration');
+    assert_contains('wallos_fill_managed_form_fields($data', $source,
+        'posted fields are passed through the managed-field fallback');
+
+    $fallbackAt = strpos($source, 'wallos_fill_managed_form_fields($data');
+    $fillAllFieldsAt = strpos($source, 'fill_all_fields');
+    $smtpAuthAt = strpos($source, '$smtpAuth =');
+
+    assert_true($fallbackAt !== false && $fallbackAt < $fillAllFieldsAt,
+        'the fallback runs before the endpoint can reject the request for looking unconfigured');
+    assert_true($fallbackAt < $smtpAuthAt,
+        'the fallback runs before smtpAuth is decided, or a managed password never turns auth on');
 });
