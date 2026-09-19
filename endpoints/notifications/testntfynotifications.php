@@ -3,9 +3,17 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/instance_config.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
+
+// The same resolution the cron does, so the button tests what will actually
+// be sent: an account with no server of its own is tested against the instance
+// server, not told to fill the field in.
+$ntfySettings = wallos_ntfy_settings($db, $data["host"] ?? '', $data["headers"] ?? '');
+$data["host"] = $ntfySettings['host'];
+$data["headers"] = $ntfySettings['headers'];
 
 if (
     !isset($data["host"]) || $data["host"] == "" ||
