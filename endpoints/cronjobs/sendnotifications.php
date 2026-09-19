@@ -18,6 +18,7 @@ require __DIR__ . '/../../includes/currency_formatter.php';
 require __DIR__ . '/../../includes/budget_period_calculations.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/webhook_headers.php';
 
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
@@ -847,14 +848,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             continue;
                         }
 
-                        $headers = json_decode($ntfy["headers"], true);
-                        $customheaders = [];
-
-                        if (is_array($headers)) {
-                            $customheaders = array_map(function ($key, $value) {
-                                return "$key: $value";
-                            }, array_keys($headers), $headers);
-                        }
+                        $customheaders = webhook_custom_headers($ntfy["headers"]);
 
                         $ch = curl_init();
 
@@ -927,8 +921,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 
                             // Add headers if they exist
-                            if (!empty($webhook['headers'])) {
-                                $customheaders = json_decode($webhook["headers"], true);
+                            $customheaders = webhook_custom_headers($webhook['headers']);
+                            if (!empty($customheaders)) {
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                             }
                 
