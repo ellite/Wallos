@@ -100,7 +100,9 @@ jobs:
           context: .
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,"name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},ghcr.io/ellite/wallos",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+          # PRs never push and never log into a registry, so don't build image
+          # refs from vars.DOCKERHUB_TAG - it is empty for fork PRs.
+          outputs: ${{ github.event_name == 'pull_request' && 'type=cacheonly' || format('type=image,"name={0}/{1},ghcr.io/ellite/wallos",push-by-digest=true,name-canonical=true,push=true', env.REGISTRY, env.IMAGE_NAME) }}
           # Scope cache per platform to prevent architecture-mismatched layers
           cache-from: type=gha,scope=${{ github.workflow }}-${{ matrix.platform }}
           cache-to: type=gha,mode=max,scope=${{ github.workflow }}-${{ matrix.platform }}
