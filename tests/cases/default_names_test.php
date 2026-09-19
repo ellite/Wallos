@@ -378,3 +378,53 @@ wallos_test('every display site recognises the placeholder by language, not by a
             $path . ' no longer compares against the English literal');
     }
 });
+
+wallos_test('an account that changes its language takes its default names with it', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    // A name of her own, to stay as it is.
+    $statement = $db->prepare('UPDATE categories SET name = :name WHERE user_id = 1 AND name = :english');
+    $statement->bindValue(':name', 'Kids', SQLITE3_TEXT);
+    $statement->bindValue(':english', 'Gaming', SQLITE3_TEXT);
+    $statement->execute();
+
+    $renamed = localize_default_names_on_language_change($db, 1, 'en', 'de');
+
+    assert_true($renamed > 0, 'the switch renames the seeded names');
+
+    $categories = default_names_test_rows($db, 'categories', 1);
+    assert_true(in_array('Unterhaltung', $categories, true), 'a seeded category now reads in German');
+    assert_true(in_array('Kids', $categories, true), 'and the one she named herself is untouched');
+    assert_true(!in_array('Entertainment', $categories, true), 'nothing seeded is left in English');
+
+    $methods = default_names_test_rows($db, 'payment_methods', 1);
+    assert_true(in_array('Kreditkarte', $methods, true), 'the generic payment methods follow too');
+    assert_true(in_array('PayPal', $methods, true), 'and a brand stays a brand');
+
+    $db->close();
+});
+
+wallos_test('a save that does not change the language renames nothing', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    assert_same(0, localize_default_names_on_language_change($db, 1, 'de', 'de'),
+        'the same language twice is not a change');
+    assert_same(0, localize_default_names_on_language_change($db, 1, 'en', ''),
+        'and neither is a save that carries no language at all');
+
+    assert_same('Entertainment', default_names_test_rows($db, 'categories', 1)[1],
+        'so the rows are as they were');
+
+    $db->close();
+});
+
+wallos_test('the endpoint that saves a language is the one that applies it', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/endpoints/user/save_user.php');
+
+    assert_contains('localize_default_names_on_language_change($db, $userId, $storedLanguage, $language)', $source,
+        'save_user.php applies the change through the guarded helper');
+    assert_contains('SELECT main_currency, language FROM user WHERE id = :userId', $source,
+        'and it reads the language it had, in the query it already ran');
+});

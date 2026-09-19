@@ -230,6 +230,38 @@ function localize_default_names($db, $userId, $language)
 }
 
 /**
+ * Renames an account's still-default names when it changes its language.
+ *
+ * Seeding in the account's language covers accounts that are created after it
+ * existed; an account that switches its language later kept the names it was
+ * seeded with, so a household that moved Wallos to German went on reading
+ * "Entertainment" and "Credit Card" in a German interface.
+ *
+ * The guard is here rather than at the call site so it can be tested: a save
+ * that does not touch the language must not rename anything, and neither must
+ * a save that "changes" it to the value it already had.
+ *
+ * Only rows that still carry the English default are renamed, which is
+ * localize_default_names()'s own promise: a name somebody chose is never
+ * rewritten, and subscriptions reference a category or payment method by id,
+ * so nothing but the name column moves.
+ *
+ * @param SQLite3 $db
+ * @param int     $userId
+ * @param string  $before The language the account had.
+ * @param string  $after  The language it has now.
+ * @return int how many rows were renamed
+ */
+function localize_default_names_on_language_change($db, $userId, $before, $after)
+{
+    if ($after === '' || $before === $after) {
+        return 0;
+    }
+
+    return localize_default_names($db, $userId, $after);
+}
+
+/**
  * Runs one prepared rename over a pair of equally ordered name lists.
  *
  * @param SQLite3           $db
