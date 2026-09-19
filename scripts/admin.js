@@ -508,3 +508,34 @@ function saveOidcSettingsButton() {
       button.disabled = false;
     });
 }
+
+function saveInstanceTelegramButton() {
+  const button = document.getElementById("saveInstanceTelegramButton");
+  button.disabled = true;
+
+  const data = {
+    telegrambottoken: document.getElementById("telegrambottoken").value,
+  };
+
+  fetch('endpoints/admin/saveinstancetelegram.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
