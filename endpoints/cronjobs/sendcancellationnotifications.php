@@ -13,6 +13,7 @@ require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -73,7 +74,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $gotifyNotificationsEnabled = $row['enabled'];
-        $gotify['serverUrl'] = $row["url"];
+        // The instance server when this account has none of its own. Resolved
+        // here, before the SSRF check below reads the address. The token stays
+        // the account's own.
+        $gotify['serverUrl'] = wallos_gotify_server($db, $row["url"]);
         $gotify['appToken'] = $row["token"];
         $gotify['ignore_ssl'] = $row["ignore_ssl"];
     }
