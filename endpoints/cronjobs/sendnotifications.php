@@ -455,8 +455,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $mail->Port = $email['smtpPort'];
 
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -500,8 +501,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 } else {
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -559,8 +561,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 } else {
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -614,8 +617,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             if ($telegramNotificationsEnabled) {
                 foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -667,8 +671,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             if ($pushplusNotificationsEnabled) {
                 foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -729,8 +734,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 } else {
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -789,8 +795,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             if ($pushoverNotificationsEnabled) {
                 foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -836,8 +843,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 } else {
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -897,8 +905,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 } else {
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
                 
@@ -965,8 +974,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             if ($serverchanNotificationsEnabled) {
                 foreach ($notify as $payerUserId => $perUser) {
                     // Get name of user from household table
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                    $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
@@ -1028,8 +1038,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     foreach ($notify as $payerUserId => $perUser) {
                         // Get name of user from household table
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
