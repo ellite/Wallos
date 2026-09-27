@@ -269,6 +269,55 @@ if ($replacementSubscriptionId !== null) {
     }
 }
 
+// Reject any foreign key that doesn't belong to the authenticated user, so a
+// subscription can't be attached to another tenant's currency/category/
+// household member/payment method (IDs are global auto-increment integers
+// and easily enumerable).
+function rejectForeignId($message)
+{
+    header('Content-Type: application/json');
+    echo json_encode(['status' => 'Error', 'message' => $message]);
+    exit();
+}
+
+$currStmt = $db->prepare("SELECT id FROM currencies WHERE id = :id AND user_id = :userId");
+$currStmt->bindParam(':id', $currencyId, SQLITE3_INTEGER);
+$currStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$currResult = $currStmt->execute();
+if (!$currResult || !$currResult->fetchArray()) {
+    rejectForeignId('The specified currency does not exist or does not belong to you.');
+}
+
+if ($categoryId !== null && $categoryId !== '') {
+    $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
+    $catStmt->bindParam(':id', $categoryId, SQLITE3_INTEGER);
+    $catStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $catResult = $catStmt->execute();
+    if (!$catResult || !$catResult->fetchArray()) {
+        rejectForeignId('The specified category does not exist or does not belong to you.');
+    }
+}
+
+if ($payerUserId !== null && $payerUserId !== '') {
+    $payerStmt = $db->prepare("SELECT id FROM household WHERE id = :id AND user_id = :userId");
+    $payerStmt->bindParam(':id', $payerUserId, SQLITE3_INTEGER);
+    $payerStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $payerResult = $payerStmt->execute();
+    if (!$payerResult || !$payerResult->fetchArray()) {
+        rejectForeignId('The specified household member does not exist or does not belong to you.');
+    }
+}
+
+if ($paymentMethodId !== null && $paymentMethodId !== '') {
+    $pmStmt = $db->prepare("SELECT id FROM payment_methods WHERE id = :id AND (user_id = :userId OR user_id = 0 OR user_id IS NULL)");
+    $pmStmt->bindParam(':id', $paymentMethodId, SQLITE3_INTEGER);
+    $pmStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+    $pmResult = $pmStmt->execute();
+    if (!$pmResult || !$pmResult->fetchArray()) {
+        rejectForeignId('The specified payment method does not exist or does not belong to you.');
+    }
+}
+
 if ($logoUrl !== "") {
     $result = getLogoFromUrl($logoUrl, '../../images/uploads/logos/', $name, $settings, $i18n);
     if ($result['success']) {
