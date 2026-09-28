@@ -36,6 +36,10 @@ We welcome contributions from the community and look forward to working with you
     ```
 
     Use `CONTAINER_ENGINE=docker dev/test.sh` if you prefer Docker over Podman.
+    The first run builds a cached PHP 8.3 test image with Intl, matching the
+    application's localized date and currency support. With PHP 8.3 and the
+    SQLite3, Intl, cURL and OpenSSL extensions installed locally, you can also
+    run `php tests/run.php` directly.
     Tests build the real schema by running `createdatabase.php` and the
     migration chain, so they exercise the schema the application produces.
 6.  **Commit your changes:** Commit your changes with a clear and concise message:

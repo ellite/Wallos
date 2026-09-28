@@ -537,6 +537,18 @@ $i18n = [
     "payment_method_bank_transfer" => "Bank Transfer",
     "payment_method_direct_debit" => "Direct Debit",
     "payment_method_money" => "Money",
+    // Detailed Pushover payment reminders (other locales fall back to English).
+    "pushover_payment_today" => "Payment today",
+    "pushover_payment_tomorrow" => "Payment tomorrow",
+    "pushover_payment_in_days" => "Payment in %d days",
+    "pushover_upcoming_payments" => "%d upcoming payments",
+    "pushover_period_summary" => "Wallos · Budget period summary",
+    "pushover_amount_on_date" => "%s on %s",
+    "pushover_automatic_renewal" => "Renewal: automatic",
+    "pushover_manual_renewal" => "Manual renewal required",
+    "pushover_open_wallos" => "Open Wallos",
+    "pushover_test" => "Test",
+    "pushover_example_subscription" => "Example subscription",
 ];
 
 
