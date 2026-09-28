@@ -12,6 +12,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once __DIR__ . '/oidc/session_persist.php';
+
 if (isset($_GET['code']) && isset($_GET['state'])) {
     // This request is coming from the OIDC login flow
     $code = $_GET['code'];
@@ -25,12 +27,25 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
         !hash_equals($expectedState, $state)
     ) {
         unset($_SESSION['oidc_state']);
+        oidc_persist_session();
         $db->close();
         header("Location: login.php?error=oidc_invalid_state");
         exit();
     }
 
+    // Removed, and written to disk before the exchange begins (#1239).
+    //
+    // The token exchange below takes a second or two, and PHP writes the
+    // session at the end of the request - by which time oidc_login.php has
+    // called session_regenerate_id(true), which deletes the file this removal
+    // would have been written to. A second request carrying the same callback,
+    // which is what a browser on an unstable connection produces, waits on the
+    // session lock and is then handed the state as it stood before, passes the
+    // check above, and redeems the same authorization code again. The provider
+    // refuses it, and the person is shown a failure for a login that
+    // succeeded.
     unset($_SESSION['oidc_state']);
+    oidc_persist_session();
 
     require_once 'includes/oidc/handle_oidc_callback.php';
 
