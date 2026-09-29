@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/instance_config.php';
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
@@ -401,6 +402,10 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsNtfy['ignore_ssl'] = 0;
     }
 
+    // Whether this installation runs a Telegram bot of its own, so the page can
+    // say that leaving the token empty is a choice rather than an omission.
+    $instanceTelegramBot = trim((string) (wallos_get_admin_settings($db)['telegram_bot_token'] ?? ''));
+
     // Push notifications
     $sql = "SELECT * FROM push_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -733,6 +738,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token'] : "") ?>" />
                     </div>
+                    <?php if ($instanceTelegramBot !== '' && trim((string) $notificationsTelegram['bot_token']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_telegram_bot_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group-inline">
                         <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off"
                             placeholder="<?= translate('telegram_chat_id', $i18n) ?>"
