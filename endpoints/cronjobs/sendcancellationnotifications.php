@@ -13,6 +13,7 @@ require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -99,7 +100,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $pushoverNotificationsEnabled = $row['enabled'];
         $pushover['user_key'] = $row["user_key"];
-        $pushover['token'] = $row["token"];
+        // The instance application when this account has no token of its own.
+        // The user key stays the account's own.
+        $pushover['token'] = wallos_pushover_token($db, $row["token"]);
     }
 
     // Check if Ntfy notifications are enabled and get the settings

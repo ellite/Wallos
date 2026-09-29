@@ -125,6 +125,7 @@ function wallos_instance_config_variables()
         'smtp_password' => 'WALLOS_SMTP_PASSWORD',
         'from_email' => 'WALLOS_SMTP_FROM',
         'server_url' => 'WALLOS_SERVER_URL',
+        'pushover_token' => 'WALLOS_PUSHOVER_TOKEN',
     ];
 }
 
@@ -135,7 +136,7 @@ function wallos_instance_config_variables()
  */
 function wallos_instance_config_secrets()
 {
-    return ['smtp_password'];
+    return ['smtp_password', 'pushover_token'];
 }
 
 /**
@@ -269,4 +270,35 @@ function wallos_fill_managed_form_fields($posted, $fieldColumns, $managedFields,
     }
 
     return $posted;
+}
+
+/**
+ * The Pushover application a notification should be sent from.
+ *
+ * An application token names the application a message is sent from, not the
+ * person it reaches: the user key is what names the person, and it stays on
+ * each user's own row. One application for the installation is what a
+ * household wants - before this, every member had to register an application
+ * of their own at pushover.net, so notifications arrived from as many
+ * applications as there are people in the house.
+ *
+ * An account with a token of its own keeps it, which is every installation
+ * configured today; an empty field means the instance application, if the
+ * deployment configured one.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userToken The token on the user's own row.
+ * @return string The application token to send with, or '' when there is none.
+ */
+function wallos_pushover_token($db, $userToken)
+{
+    $userToken = trim((string) $userToken);
+
+    if ($userToken !== '') {
+        return $userToken;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['pushover_token'] ?? ''));
 }

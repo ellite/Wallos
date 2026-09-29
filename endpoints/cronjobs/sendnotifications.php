@@ -207,7 +207,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $pushoverNotificationsEnabled = $row['enabled'];
         $pushover['user_key'] = $row["user_key"];
-        $pushover['token'] = $row["token"];
+        // The instance application when this account has no token of its own.
+        // The user key stays the account's own.
+        $pushover['token'] = wallos_pushover_token($db, $row["token"]);
     }
 
     // Check if Ntfy notifications are enabled and get the settings
