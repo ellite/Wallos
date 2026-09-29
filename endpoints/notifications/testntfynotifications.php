@@ -3,6 +3,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/webhook_headers.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -19,13 +20,7 @@ if (
 } else {
     $host = rtrim($data["host"], '/');
     $topic = $data["topic"];
-    $headers = json_decode($data["headers"], true);
-    if ($headers === null) {
-        $headers = [];
-    }
-    $customheaders = array_map(function ($key, $value) {
-        return "$key: $value";
-    }, array_keys($headers), $headers);
+    $customheaders = webhook_custom_headers($data["headers"]);
 
     $url = rtrim($host, '/') . '/' . ltrim($topic, '/');
     $ignore_ssl = $data["ignore_ssl"];

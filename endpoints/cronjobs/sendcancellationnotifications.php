@@ -13,6 +13,7 @@ require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/webhook_headers.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -522,10 +523,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
                         }
 
-                        $headers = json_decode($ntfy["headers"], true);
-                        $customheaders = array_map(function ($key, $value) {
-                            return "$key: $value";
-                        }, array_keys($headers), $headers);
+                        $customheaders = webhook_custom_headers($ntfy["headers"]);
 
                         $ch = curl_init();
 
@@ -594,9 +592,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 
-                            // Add headers if they exist
-                            if (!empty($webhook['headers'])) {
-                                $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                            // Add headers if they exist. The same reading as
+                            // every other job: this one used to split the field
+                            // into lines, so a value that worked here was a
+                            // value that ended the other run, and the other way
+                            // round.
+                            $customheaders = webhook_custom_headers($webhook['headers']);
+                            if (!empty($customheaders)) {
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                             }
                 
