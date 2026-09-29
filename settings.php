@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/instance_config.php';
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
@@ -401,6 +402,10 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsNtfy['ignore_ssl'] = 0;
     }
 
+    // Whether this installation runs a Gotify server of its own, so the page can
+    // say that leaving the field empty is a choice rather than an omission.
+    $instanceGotifyServer = trim((string) (wallos_get_admin_settings($db)['gotify_server'] ?? ''));
+
     // Push notifications
     $sql = "SELECT * FROM push_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -663,6 +668,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <input type="text" name="gotifyurl" id="gotifyurl" autocomplete="off"
                             placeholder="<?= translate('url', $i18n) ?>" value="<?= htmlspecialchars($notificationsGotify['url']) ?>" />
                     </div>
+                    <?php if ($instanceGotifyServer !== '' && trim((string) $notificationsGotify['url']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_gotify_server_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group-inline">
                         <input type="text" name="gotifytoken" id="gotifytoken" autocomplete="off"
                             placeholder="<?= translate('token', $i18n) ?>"

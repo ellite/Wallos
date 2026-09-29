@@ -386,6 +386,30 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <section class="account-section">
+        <header>
+            <h2><?= translate('instance_gotify_server', $i18n) ?></h2>
+        </header>
+        <div class="admin-form">
+            <div class="form-group-inline">
+                <input type="text" name="gotifyserver" id="gotifyserver" autocomplete="off"
+                    placeholder="https://gotify.example.com"
+                    value="<?= htmlspecialchars($settings['gotify_server'] ?? '') ?>"
+                    <?= oidc_input_attrs('gotify_server', $instanceManagedFields) ?> />
+            </div>
+            <div class="buttons">
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveInstanceGotifyButton" onClick="saveInstanceGotifyButton()" />
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('instance_gotify_server_info', $i18n) ?>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="account-section">
     <header>
         <h2><?= translate('security_settings', $i18n) ?></h2> </header>
     <div class="admin-form">
