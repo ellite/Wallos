@@ -13,6 +13,7 @@ require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -110,9 +111,12 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $ntfyNotificationsEnabled = $row['enabled'];
-        $ntfy['host'] = $row["host"];
+        // The instance server when this account has none of its own. Resolved
+        // here, before the SSRF check below reads the host.
+        $ntfySettings = wallos_ntfy_settings($db, $row["host"], $row["headers"]);
+        $ntfy['host'] = $ntfySettings['host'];
         $ntfy['topic'] = $row["topic"];
-        $ntfy['headers'] = $row["headers"];
+        $ntfy['headers'] = $ntfySettings['headers'];
         $ntfy['ignore_ssl'] = $row["ignore_ssl"];
     }
 

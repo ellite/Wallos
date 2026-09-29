@@ -508,3 +508,35 @@ function saveOidcSettingsButton() {
       button.disabled = false;
     });
 }
+
+function saveInstanceNtfyButton() {
+  const button = document.getElementById("saveInstanceNtfyButton");
+  button.disabled = true;
+
+  const data = {
+    ntfyserver: document.getElementById("ntfyserver").value,
+    ntfyheaders: document.getElementById("ntfyheaders").value,
+  };
+
+  fetch('endpoints/admin/saveinstancentfy.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
