@@ -94,7 +94,7 @@ wallos_test('every page linking the manifest points at manifest.php, not the old
 });
 
 wallos_test('the service worker does not cache-first the manifest forever', function () {
-    $source = file_get_contents(WALLOS_ROOT . '/service-worker.js');
+    $source = file_get_contents(WALLOS_ROOT . '/service-worker.php');
 
     assert_not_contains("'manifest.json'", $source,
         'the old static manifest is not precached (it no longer exists)');
@@ -103,7 +103,7 @@ wallos_test('the service worker does not cache-first the manifest forever', func
 });
 
 wallos_test('the service worker matches versioned static assets when offline', function () {
-    $source = file_get_contents(WALLOS_ROOT . '/service-worker.js');
+    $source = file_get_contents(WALLOS_ROOT . '/service-worker.php');
 
     // The pages request assets as "styles/styles.css?<version>" but they are
     // precached under the bare path, so the static-asset lookup must ignore
@@ -118,8 +118,26 @@ wallos_test('the service worker matches versioned static assets when offline', f
 });
 
 wallos_test('the service worker installs static assets in batches, not all at once', function () {
-    $source = file_get_contents(WALLOS_ROOT . '/service-worker.js');
+    $source = file_get_contents(WALLOS_ROOT . '/service-worker.php');
 
     assert_contains('BATCH_SIZE', $source,
         'the install step chunks its fetches so large files are not starved of connections');
+});
+
+wallos_test('the legacy service-worker.js stub hands existing registrations over to service-worker.php', function () {
+    $path = WALLOS_ROOT . '/service-worker.js';
+
+    assert_true(file_exists($path),
+        'browsers registered before the move keep checking service-worker.js; a 404 would leave them on the old worker forever');
+    assert_contains("importScripts('service-worker.php')", file_get_contents($path),
+        'the stub loads the version-aware worker');
+});
+
+wallos_test('the service worker cache name is tied to the app version', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/service-worker.php');
+
+    assert_contains("'static-cache-<?= \$version ?>'", $source,
+        'every release gets a fresh static cache, and activate deletes the old one');
+    assert_contains("cache: 'reload'", $source,
+        'precaching bypasses the HTTP cache so stale files are not stored under the new cache name');
 });
