@@ -535,6 +535,18 @@ $i18n = [
     "payment_method_bank_transfer" => "Überweisung",
     "payment_method_direct_debit" => "Lastschrift",
     "payment_method_money" => "Bargeld",
+    // Detailed Pushover payment reminders.
+    "pushover_payment_today" => "Zahlung heute",
+    "pushover_payment_tomorrow" => "Zahlung morgen",
+    "pushover_payment_in_days" => "Zahlung in %d Tagen",
+    "pushover_upcoming_payments" => "%d anstehende Zahlungen",
+    "pushover_period_summary" => "Wallos · Zusammenfassung des Budgetzeitraums",
+    "pushover_amount_on_date" => "%s am %s",
+    "pushover_automatic_renewal" => "Verlängerung: automatisch",
+    "pushover_manual_renewal" => "Manuelle Verlängerung erforderlich",
+    "pushover_open_wallos" => "Wallos öffnen",
+    "pushover_test" => "Test",
+    "pushover_example_subscription" => "Beispielabo",
 ];
 
 

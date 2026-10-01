@@ -9,6 +9,7 @@ require_once __DIR__ . '/../../includes/ssrf_helper.php';
 require_once __DIR__ . '/../../includes/webhook_helper.php';
 require_once __DIR__ . '/../../includes/webpush_helper.php';
 require_once __DIR__ . '/../../includes/instance_config.php';
+require_once __DIR__ . '/../../includes/pushover_notifications.php';
 
 require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
@@ -27,7 +28,7 @@ if (php_sapi_name() == 'cli') {
 }
 
 // Get all user ids
-$query = "SELECT id, username FROM user";
+$query = "SELECT id, username, language FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 $periodSummaryColumnCheck = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
@@ -324,6 +325,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             $categories[$rowCategory['id']] = $rowCategory;
         }
 
+        $paymentMethods = $pushoverNotificationsEnabled
+            ? wallos_pushover_payment_methods($db, $userId)
+            : [];
+
         $currentDate = new DateTime('now');
 
         $query = "SELECT main_currency, period_budget, budget_period_type, budget_period_anchor_date FROM user WHERE id = :userId";
@@ -397,6 +402,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $notify[$rowSubscription['payer_user_id']][$i]['days'] = $daysToCompare;
                 $notify[$rowSubscription['payer_user_id']][$i]['url'] = $rowSubscription['url'];
                 $notify[$rowSubscription['payer_user_id']][$i]['notes'] = $rowSubscription['notes'];
+                if ($pushoverNotificationsEnabled) {
+                    $notify[$rowSubscription['payer_user_id']][$i]['amount'] = $rowSubscription['price'];
+                    $notify[$rowSubscription['payer_user_id']][$i]['currency_code'] = $currencies[$rowSubscription['currency_id']]['code'];
+                    $notify[$rowSubscription['payer_user_id']][$i]['payment_method'] = $paymentMethods[$rowSubscription['payment_method_id']] ?? '';
+                    $notify[$rowSubscription['payer_user_id']][$i]['auto_renew'] = $rowSubscription['auto_renew'];
+                    $notify[$rowSubscription['payer_user_id']][$i]['cycle'] = $rowSubscription['cycle'];
+                }
                 $i++;
             }
         }
@@ -793,45 +805,25 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
             // Pushover notifications if enabled
             if ($pushoverNotificationsEnabled) {
+                $serverUrl = wallos_get_admin_settings($db)['server_url'] ?? '';
+                $pushoverSummary = $sendPeriodStartSummaryOnly ? wallos_pushover_period_summary(
+                    $amountNeededThisPeriod,
+                    (float) ($userBudgetConfig['period_budget'] ?? 0),
+                    $mainCurrencyCode,
+                    $userToNotify['language'] ?? 'en'
+                ) : '';
                 foreach ($notify as $payerUserId => $perUser) {
-                    // Get name of user from household table
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
-                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
-                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
-                    $result = $stmt->execute();
-                    $user = $result->fetchArray(SQLITE3_ASSOC);
-
-                    if ($user['name']) {
-                        $name = $user['name'];
-                    } else {
-                        $name = "";
+                    $messages = wallos_pushover_messages(
+                        $perUser,
+                        $userToNotify['language'] ?? 'en',
+                        $household[$payerUserId]['name'] ?? '',
+                        $pushoverSummary,
+                        $serverUrl
+                    );
+                    foreach ($messages as $message) {
+                        $sent = wallos_pushover_send($pushover['token'], $pushover['user_key'], $message, $pushoverError);
+                        echo $sent ? "Pushover Notifications sent<br />" : $pushoverError . "<br />";
                     }
-                    $message = buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
-                    if ($message === "") {
-                        continue;
-                    }
-
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, "https://api.pushover.net/1/messages.json");
-                    curl_setopt($ch, CURLOPT_POST, 1);
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-                        'token' => $pushover['token'],
-                        'user' => $pushover['user_key'],
-                        'message' => $message,
-                    ]));
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-                    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-
-                    $result = curl_exec($ch);
-
-                    if ($result === false) {
-                        echo "Error sending notifications: " . curl_error($ch) . "<br />";
-                    } else {
-                        echo "Pushover Notifications sent<br />";
-                    }
-
-                    unset($ch);
                 }
             }
 
