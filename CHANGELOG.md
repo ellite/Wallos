@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.3](https://github.com/ellite/Wallos/compare/v5.8.2...v5.8.3) (2026-10-01)
+
+
+### Bug Fixes
+
+* invalidate service worker cache on version update ([#1247](https://github.com/ellite/Wallos/issues/1247)) ([#1250](https://github.com/ellite/Wallos/issues/1250)) ([d2623b4](https://github.com/ellite/Wallos/commit/d2623b412032e9bd1ce35a3afefd8c85b3c7e127))
+
 ## [5.8.2](https://github.com/ellite/Wallos/compare/v5.8.1...v5.8.2) (2026-09-27)
 
 
