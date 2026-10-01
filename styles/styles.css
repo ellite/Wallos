@@ -613,8 +613,16 @@ button.mobile-action-renew {
 }
 
 .subscription-main {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns:
+    var(--logo-flex-basis)
+    minmax(0, 5fr)
+    minmax(0, 3fr)
+    minmax(0, 3fr)
+    minmax(0, 4fr)
+    auto
+    auto;
+  grid-template-areas: "logo name cycle next price pm actions";
   align-items: center;
   gap: 12px;
   position: relative;
@@ -622,6 +630,7 @@ button.mobile-action-renew {
 }
 
 .subscription-main .actions-expand {
+  grid-area: actions;
   font-size: 21px;
   padding: 8px 16px;
   color: var(--main-color);
@@ -716,8 +725,13 @@ button.mobile-action-renew {
   margin: 0px;
 }
 
+.subscriptions:not(.grid-view) .subscription-main>span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .subscription .logo {
-  flex-basis: var(--logo-flex-basis);
+  grid-area: logo;
 }
 
 .subscription .logo img {
@@ -755,13 +769,12 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .name {
-  flex-basis: 25%;
+  grid-area: name;
   font-weight: 600;
 }
 
 .subscription .cycle {
-  flex-basis: 16%;
-  flex-grow: 1;
+  grid-area: cycle;
   flex-direction: row;
   align-items: center;
 }
@@ -774,12 +787,12 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .next {
-  flex-basis: 16%;
-  flex-grow: 1;
+  grid-area: next;
   text-transform: capitalize;
 }
 
 .subscription .payment_method {
+  grid-area: pm;
   margin-left: 10px;
   display: flex;
   justify-content: center;
@@ -800,9 +813,14 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .price {
-  flex-basis: 8%;
+  grid-area: price;
   justify-content: center;
   flex-direction: row;
+}
+
+.subscriptions:not(.grid-view) .subscription .price .value {
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .subscription .price .original_price {
@@ -826,8 +844,51 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
     display: none;
   }
 
+  .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1.5fr)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto
+      auto;
+    grid-template-areas: "logo cycle next price pm actions";
+  }
+
+  .mobile-navigation .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1.5fr)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto;
+    grid-template-areas: "logo cycle next price pm";
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main {
+    gap: 6px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main>.cycle,
+  .subscriptions:not(.grid-view) .subscription-main>.next,
+  .subscriptions:not(.grid-view) .subscription-main>.price {
+    font-size: 14px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription .payment_method {
+    margin-left: 0px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main>.cycle>svg {
+    display: none;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main .actions-expand {
+    padding: 8px 6px;
+  }
+
   .subscription-main>.name {
-    flex-basis: var(--logo-flex-basis);
+    grid-area: logo;
     font-size: 14px;
     font-weight: normal;
     max-height: 38px;
@@ -837,6 +898,25 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 @media (max-width: 375px) {
+  .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto
+      auto;
+    grid-template-areas: "logo next price pm actions";
+  }
+
+  .mobile-navigation .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto;
+    grid-template-areas: "logo next price pm";
+  }
+
   .subscription-main>.cycle {
     display: none;
   }
@@ -3889,7 +3969,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.logo {
   grid-area: logo;
-  flex-basis: auto;
   justify-content: flex-start;
   height: 42px;
   max-width: 150px;
@@ -3906,7 +3985,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.name {
   grid-area: name;
-  flex-basis: auto;
   justify-content: flex-start;
   text-align: left;
   font-size: 17px;
@@ -3919,7 +3997,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.price {
   grid-area: price;
-  flex-basis: auto;
   justify-content: flex-start;
   align-self: start;
   font-size: 23px;
@@ -3929,8 +4006,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.cycle {
   grid-area: cycle;
-  flex-basis: auto;
-  flex-grow: 0;
   justify-content: flex-start;
   font-size: 13px;
   color: var(--text-muted);
@@ -3938,8 +4013,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.next {
   grid-area: next;
-  flex-basis: auto;
-  flex-grow: 0;
   justify-content: flex-start;
   font-size: 13px;
   color: var(--text-muted);
