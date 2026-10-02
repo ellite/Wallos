@@ -265,12 +265,24 @@ function initDashboardWidgetEditor() {
     return escapeHtml(value).replace(/'/g, "&#39;");
   }
 
+  // Mirrors the server-side cap in wallos_normalize_dashboard_widget_layout_input().
+  const MAX_PAYMENT_METHOD_BUDGETS = 10;
+
+  function syncAddButton() {
+    if (!addButton) {
+      return;
+    }
+    const pmbCount = list.querySelectorAll('.dashboard-widget[data-widget-id="payment_method_budget"]').length;
+    addButton.disabled = pmbCount >= MAX_PAYMENT_METHOD_BUDGETS;
+  }
+
   function enterEditMode() {
     editing = true;
     lastSavedLayout = JSON.stringify(collectLayout());
     dashboard.classList.add("editing-widgets");
     if (addButton) {
       addButton.hidden = false;
+      syncAddButton();
     }
 
     sortable = Sortable.create(list, {
@@ -357,13 +369,18 @@ function initDashboardWidgetEditor() {
       if (!editing) {
         return;
       }
+      const pmbCount = list.querySelectorAll('.dashboard-widget[data-widget-id="payment_method_budget"]').length;
+      if (pmbCount >= MAX_PAYMENT_METHOD_BUDGETS) {
+        return;
+      }
       const widget = buildPaymentMethodBudgetWidget(newInstanceId());
       list.appendChild(widget);
       const config = widget.querySelector(".dashboard-widget-config");
       if (config) {
         config.hidden = false;
       }
-      saveLayout();
+      syncAddButton();
+      // Not saved yet: the widget is persisted by its config "Save" button or by "Done".
     });
   }
 
@@ -381,7 +398,12 @@ function initDashboardWidgetEditor() {
       const enabled = widget.getAttribute("data-enabled") !== "1";
       widget.setAttribute("data-enabled", enabled ? "1" : "0");
       setToggleVisual(widget, enabled);
-      saveLayout();
+      saveLayout().then(function (data) {
+        if (!(data && data.success)) {
+          widget.setAttribute("data-enabled", enabled ? "0" : "1");
+          setToggleVisual(widget, !enabled);
+        }
+      });
       return;
     }
 
@@ -414,8 +436,15 @@ function initDashboardWidgetEditor() {
       if (confirmMsg && !window.confirm(confirmMsg)) {
         return;
       }
+      const nextSibling = widget.nextSibling;
       widget.remove();
-      saveLayout();
+      syncAddButton();
+      saveLayout().then(function (data) {
+        if (!(data && data.success)) {
+          list.insertBefore(widget, nextSibling && nextSibling.parentNode === list ? nextSibling : null);
+          syncAddButton();
+        }
+      });
       return;
     }
 

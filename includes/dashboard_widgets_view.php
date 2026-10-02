@@ -59,8 +59,14 @@ foreach ($dashboardWidgetLayout as $entry) {
     $defaultTitle = translate($titleKey, $i18n);
     $title = $customTitle !== '' ? $customTitle : $defaultTitle;
 
+    // Hidden widgets only render their chrome; their body is filled in on the
+    // reload that follows "Done", so we don't pay for data nobody sees.
+    $renderBody = $enabled;
+
     $instanceRows = [];
-    if ($widgetId === 'payment_method_budget') {
+    if (!$renderBody) {
+        $hasContent = true;
+    } elseif ($widgetId === 'payment_method_budget') {
         $filterIds = !empty($configuredMethodIds) ? $configuredMethodIds : null;
         $instanceRows = wallos_build_payment_method_budget_rows(
             $paymentMethodsForPicker,
@@ -182,7 +188,7 @@ foreach ($dashboardWidgetLayout as $entry) {
         <?php } ?>
         <div class="dashboard-widget-body">
             <?php
-            switch ($widgetId) {
+            switch ($renderBody ? $widgetId : null) {
                 case 'overdue':
                     if ($hasOverdueSubscriptions) {
                         ?>
