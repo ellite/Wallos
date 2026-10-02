@@ -1281,6 +1281,11 @@ header #avatar {
   min-width: 140px;
 }
 
+.payment-method-budgets .buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .dashboard-header-row {
   display: flex;
   align-items: center;
@@ -1413,7 +1418,12 @@ header #avatar {
   margin: 6px 0;
   max-height: 280px;
   overflow-y: auto;
-  padding-right: 4px;
+  /* Room for the toggle switch so the first/last rows aren't clipped by the scroll box. */
+  padding: 4px 4px 4px 0;
+}
+
+.dashboard-widget-config .settings-notes {
+  margin: 8px 0 12px;
 }
 
 .pmb-method-option {

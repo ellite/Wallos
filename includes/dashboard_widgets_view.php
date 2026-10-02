@@ -158,7 +158,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                         </label>
                     </div>
                 </div>
-                <p class="settings-notes"><i class="fa-solid fa-circle-info"></i> <?= translate('payment_method_budget_display_info', $i18n) ?></p>
+                <div class="settings-notes"><p><i class="fa-solid fa-circle-info"></i> <?= translate('payment_method_budget_display_info', $i18n) ?></p></div>
             </div>
             <div class="form-group">
                 <label><?= translate('select_payment_methods', $i18n) ?></label>
@@ -181,7 +181,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                         </div>
                     <?php } ?>
                 </div>
-                <p class="settings-notes"><i class="fa-solid fa-circle-info"></i> <?= translate('payment_method_budget_select_info', $i18n) ?></p>
+                <div class="settings-notes"><p><i class="fa-solid fa-circle-info"></i> <?= translate('payment_method_budget_select_info', $i18n) ?></p></div>
             </div>
             <input type="button" class="button thin pmb-config-save" value="<?= translate('save', $i18n) ?>">
         </div>

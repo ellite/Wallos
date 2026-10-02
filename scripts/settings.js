@@ -1096,16 +1096,22 @@ function setShowSubscriptionProgress() {
   storeSettingsOnDB('subscription_progress', value);
 }
 
-function savePaymentMethodBudget(paymentMethodId) {
-  const input = document.getElementById('payment_method_budget_' + paymentMethodId);
-  if (!input) {
-    return;
+function savePaymentMethodBudgets() {
+  const inputs = document.querySelectorAll('.payment-method-budget-row input[type="number"]');
+  const budgets = {};
+  for (const input of inputs) {
+    const budget = Number(input.value || 0);
+    if (Number.isNaN(budget) || budget < 0) {
+      showErrorMessage(translate('invalid_budget'));
+      input.focus();
+      return;
+    }
+    budgets[input.dataset.paymentMethodId] = budget;
   }
 
-  const budget = Number(input.value || 0);
-  if (Number.isNaN(budget) || budget < 0) {
-    showErrorMessage(translate('invalid_budget'));
-    return;
+  const button = document.getElementById('savePaymentMethodBudgets');
+  if (button) {
+    button.disabled = true;
   }
 
   fetch('endpoints/payments/budget.php', {
@@ -1114,14 +1120,23 @@ function savePaymentMethodBudget(paymentMethodId) {
       'Content-Type': 'application/json',
       'X-CSRF-Token': window.csrfToken,
     },
-    body: JSON.stringify({ payment_method_id: paymentMethodId, budget: budget })
+    body: JSON.stringify({ budgets: budgets })
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
       } else {
-        showErrorMessage(data.message);
+        showErrorMessage(data.message || translate('unknown_error'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
+      if (button) {
+        button.disabled = false;
       }
     });
 }

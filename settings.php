@@ -140,7 +140,8 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         </header>
         <div class="account-budget payment-method-budgets">
             <?php
-            $pmBudgetStmt = $db->prepare('SELECT id, name, budget FROM payment_methods WHERE user_id = :userId ORDER BY `order` ASC');
+            // Only enabled methods, plus any disabled one that still has a budget set.
+            $pmBudgetStmt = $db->prepare('SELECT id, name, budget FROM payment_methods WHERE user_id = :userId AND (enabled = 1 OR budget > 0) ORDER BY `order` ASC');
             $pmBudgetStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
             $pmBudgetResult = $pmBudgetStmt->execute();
             $hasPaymentMethodsForBudget = false;
@@ -149,20 +150,21 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 $pmBudgetId = (int) $pmBudgetRow['id'];
                 $pmBudgetValue = (float) ($pmBudgetRow['budget'] ?? 0);
                 ?>
-                <div class="form-group-inline payment-method-budget-row" data-payment-method-id="<?= $pmBudgetId ?>">
+                <div class="form-group-inline payment-method-budget-row">
                     <label for="payment_method_budget_<?= $pmBudgetId ?>"><?= htmlspecialchars($pmBudgetRow['name'], ENT_QUOTES, 'UTF-8') ?></label>
                     <span><?= htmlspecialchars($userData['currency_symbol'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
                     <input type="number" id="payment_method_budget_<?= $pmBudgetId ?>" min="0" step="0.01"
                         value="<?= htmlspecialchars((string) $pmBudgetValue, ENT_QUOTES, 'UTF-8') ?>"
                         data-payment-method-id="<?= $pmBudgetId ?>" autocomplete="off">
-                    <input type="button" value="<?= translate('save', $i18n) ?>" class="thin"
-                        onClick="savePaymentMethodBudget(<?= $pmBudgetId ?>)">
                 </div>
                 <?php
             }
-            if (!$hasPaymentMethodsForBudget) {
+            if ($hasPaymentMethodsForBudget) {
                 ?>
-                <p><?= translate('payment_methods', $i18n) ?></p>
+                <div class="buttons">
+                    <input type="button" id="savePaymentMethodBudgets" value="<?= translate('save', $i18n) ?>" class="thin"
+                        onClick="savePaymentMethodBudgets()">
+                </div>
                 <?php
             }
             ?>
