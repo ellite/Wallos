@@ -200,8 +200,6 @@ $i18n = [
     "payment_method_budget" => "Budget per metodo di pagamento",
     "payment_method_budget_info" => "Imposta un budget per metodo di pagamento. La dashboard lo confronta con l'importo necessario nel periodo di budget corrente (stessa finestra del budget periodico).",
     "category_cost" => "Costo per categoria",
-    "dashboard_widgets" => "Widget della dashboard",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

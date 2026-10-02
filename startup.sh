@@ -51,8 +51,9 @@ chmod -R 755 /var/www/html/db/ /var/www/html/images/uploads/logos
 chown -R www-data:www-data /var/www/html/db/ /var/www/html/images/uploads/logos
 
 echo "Initializing database..."
-/usr/local/bin/php /var/www/html/endpoints/cronjobs/createdatabase.php
-/usr/local/bin/php /var/www/html/endpoints/db/migrate.php
+# Don't let a failure here abort startup (set -e): keep the web UI reachable.
+/usr/local/bin/php /var/www/html/endpoints/cronjobs/createdatabase.php || echo "WARNING: createdatabase.php failed"
+/usr/local/bin/php /var/www/html/endpoints/db/migrate.php || echo "WARNING: migrate.php failed"
 
 chmod -R 755 /var/www/html/db/
 chown -R www-data:www-data /var/www/html/db/

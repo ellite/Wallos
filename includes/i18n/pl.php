@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Budżet metody płatności",
     "payment_method_budget_info" => "Ustaw budżet dla każdej metody płatności. Pulpit porównuje go z kwotą potrzebną w bieżącym okresie budżetowym (to samo okno co budżet okresowy).",
     "category_cost" => "Koszt według kategorii",
-    "dashboard_widgets" => "Widżety pulpitu",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

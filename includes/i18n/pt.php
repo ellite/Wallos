@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Orçamento por método de pagamento",
     "payment_method_budget_info" => "Defina um orçamento por método de pagamento. O painel compara-o com o valor necessário no período orçamental atual (mesma janela do orçamento periódico).",
     "category_cost" => "Custo por categoria",
-    "dashboard_widgets" => "Widgets do painel",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

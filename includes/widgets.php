@@ -130,6 +130,20 @@ if (!function_exists('wallos_normalize_dashboard_widget_layout_input')) {
         $seenInstanceIds = [];
         $normalized = [];
         $hasPaymentMethodBudget = false;
+        $maxPaymentMethodBudgets = 10;
+        $paymentMethodBudgetCount = 0;
+
+        // Reserve explicit instance ids first so the fallback id for legacy entries
+        // is deterministic regardless of entry order.
+        $explicitInstanceIds = [];
+        foreach ($widgets as $entry) {
+            if (is_array($entry)
+                && ($entry['widget_id'] ?? null) === 'payment_method_budget'
+                && is_string($entry['instance_id'] ?? null)
+                && $entry['instance_id'] !== '') {
+                $explicitInstanceIds[$entry['instance_id']] = true;
+            }
+        }
 
         foreach ($widgets as $entry) {
             if (!is_array($entry)) {
@@ -144,12 +158,20 @@ if (!function_exists('wallos_normalize_dashboard_widget_layout_input')) {
             $enabledBool = ($enabled === true || $enabled === 1 || $enabled === '1');
 
             if ($widgetId === 'payment_method_budget') {
+                if (++$paymentMethodBudgetCount > $maxPaymentMethodBudgets) {
+                    return null;
+                }
                 $instanceId = $entry['instance_id'] ?? null;
                 if (!is_string($instanceId) || $instanceId === '') {
-                    // Stable migration id for legacy single entries missing instance_id.
-                    $instanceId = isset($seenInstanceIds['pmb_default']) ? null : 'pmb_default';
+                    // Stable, order-independent id for legacy entries missing instance_id.
+                    $instanceId = 'pmb_default';
+                    for ($n = 2; isset($explicitInstanceIds[$instanceId]) || isset($seenInstanceIds[$instanceId]); $n++) {
+                        $instanceId = 'pmb_default_' . $n;
+                    }
+                } elseif (!preg_match('/^pmb_[A-Za-z0-9_]{1,32}$/', $instanceId)) {
+                    return null;
                 }
-                if ($instanceId !== null && isset($seenInstanceIds[$instanceId])) {
+                if (isset($seenInstanceIds[$instanceId])) {
                     return null;
                 }
 
@@ -430,7 +452,7 @@ if (!function_exists('wallos_build_payment_method_budget_rows')) {
 
             $remaining = max(0, $budget - $amountNeeded);
             $overBudget = max(0, $amountNeeded - $budget);
-            $usedPercent = $budget > 0 ? min(100, ($amountNeeded / $budget) * 100) : 0;
+            $usedPercent = $budget > 0 ? min(100, ($amountNeeded / $budget) * 100) : ($amountNeeded > 0 ? 100 : 0);
 
             $rows[] = [
                 'payment_method_id' => $methodId,
@@ -459,7 +481,7 @@ if (!function_exists('wallos_combine_payment_method_budget_rows')) {
      */
     function wallos_combine_payment_method_budget_rows(array $rows, $label = '')
     {
-        if (count($rows) <= 1) {
+        if (count($rows) === 0) {
             return $rows;
         }
 
@@ -480,7 +502,7 @@ if (!function_exists('wallos_combine_payment_method_budget_rows')) {
 
         $remaining = max(0, $budget - $amountNeeded);
         $overBudget = max(0, $amountNeeded - $budget);
-        $usedPercent = $budget > 0 ? min(100, ($amountNeeded / $budget) * 100) : 0;
+        $usedPercent = $budget > 0 ? min(100, ($amountNeeded / $budget) * 100) : ($amountNeeded > 0 ? 100 : 0);
         $combinedLabel = is_string($label) ? trim($label) : '';
         if ($combinedLabel === '') {
             $combinedLabel = implode(', ', $names);

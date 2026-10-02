@@ -106,28 +106,39 @@ function initDashboardWidgetEditor() {
     });
   }
 
+  // Saves are chained so an older request can never land after (and overwrite) a newer one.
+  // The payload is collected when the request actually runs, so it always reflects the latest DOM.
+  let saveQueue = Promise.resolve();
+  let lastSavedLayout = null;
+
   function saveLayout() {
-    return fetch("endpoints/settings/dashboard_widgets.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": window.csrfToken,
-      },
-      body: JSON.stringify({ widgets: collectLayout() }),
-    })
-      .then(function (response) { return response.json(); })
-      .then(function (data) {
-        if (data.success) {
-          showSuccessMessage(data.message);
-        } else {
-          showErrorMessage(data.message || translate("unknown_error"));
-        }
-        return data;
+    const run = function () {
+      const layout = JSON.stringify(collectLayout());
+      return fetch("endpoints/settings/dashboard_widgets.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": window.csrfToken,
+        },
+        body: JSON.stringify({ widgets: JSON.parse(layout) }),
       })
-      .catch(function (error) {
-        console.error(error);
-        showErrorMessage(translate("unknown_error"));
-      });
+        .then(function (response) { return response.json(); })
+        .then(function (data) {
+          if (data.success) {
+            lastSavedLayout = layout;
+            showSuccessMessage(data.message);
+          } else {
+            showErrorMessage(data.message || translate("unknown_error"));
+          }
+          return data;
+        })
+        .catch(function (error) {
+          console.error(error);
+          showErrorMessage(translate("unknown_error"));
+        });
+    };
+    saveQueue = saveQueue.then(run, run);
+    return saveQueue;
   }
 
   function setToggleVisual(widget, enabled) {
@@ -256,6 +267,7 @@ function initDashboardWidgetEditor() {
 
   function enterEditMode() {
     editing = true;
+    lastSavedLayout = JSON.stringify(collectLayout());
     dashboard.classList.add("editing-widgets");
     if (addButton) {
       addButton.hidden = false;
@@ -275,7 +287,10 @@ function initDashboardWidgetEditor() {
       scrollSensitivity: 80,
       scrollSpeed: 25,
       onEnd: function () {
-        saveLayout();
+        // Skip the request when the drag didn't change the order.
+        if (JSON.stringify(collectLayout()) !== lastSavedLayout) {
+          saveLayout();
+        }
       },
     });
   }

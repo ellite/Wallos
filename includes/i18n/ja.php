@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "支払い方法別予算",
     "payment_method_budget_info" => "支払い方法ごとに予算を設定します。ダッシュボードでは現在の予算期間に必要な金額と比較します（期間予算と同じ期間）。",
     "category_cost" => "カテゴリ別コスト",
-    "dashboard_widgets" => "ダッシュボードウィジェット",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

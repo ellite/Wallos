@@ -216,8 +216,6 @@ $i18n = [
     "payment_method_budget" => "결제 수단별 예산",
     "payment_method_budget_info" => "결제 수단별로 예산을 설정합니다. 대시보드는 현재 예산 기간에 필요한 금액과 비교합니다(기간 예산과 동일한 구간).",
     "category_cost" => "카테고리별 비용",
-    "dashboard_widgets" => "대시보드 위젯",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

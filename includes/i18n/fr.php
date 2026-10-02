@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Budget par moyen de paiement",
     "payment_method_budget_info" => "Définissez un budget par moyen de paiement. Le tableau de bord le compare au montant nécessaire dans la période budgétaire en cours (même fenêtre que le budget périodique).",
     "category_cost" => "Coût par catégorie",
-    "dashboard_widgets" => "Widgets du tableau de bord",
-    "dashboard_widgets_info" => "Personnalisez les widgets sur le tableau de bord avec Modifier les widgets (glisser pour réordonner, afficher/masquer).",
 
     "edit_widgets" => "Modifier les widgets",
     "done_editing_widgets" => "Terminé",

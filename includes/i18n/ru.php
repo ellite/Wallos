@@ -189,8 +189,6 @@ $i18n = [
     "payment_method_budget" => "Бюджет способа оплаты",
     "payment_method_budget_info" => "Задайте бюджет для каждого способа оплаты. На панели он сравнивается с необходимой суммой в текущем бюджетном периоде (то же окно, что и у периодического бюджета).",
     "category_cost" => "Расходы по категориям",
-    "dashboard_widgets" => "Виджеты панели",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

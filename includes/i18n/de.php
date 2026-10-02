@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Budget pro Zahlungsmethode",
     "payment_method_budget_info" => "Lege ein Budget pro Zahlungsmethode fest. Das Dashboard vergleicht es mit dem benötigten Betrag im aktuellen Budgetzeitraum (gleiches Fenster wie Periodenbudget).",
     "category_cost" => "Kosten nach Kategorie",
-    "dashboard_widgets" => "Dashboard-Widgets",
-    "dashboard_widgets_info" => "Widgets auf dem Dashboard mit „Widgets bearbeiten“ anpassen (ziehen zum Neuordnen, ein-/ausblenden).",
 
     "edit_widgets" => "Widgets bearbeiten",
     "done_editing_widgets" => "Fertig",

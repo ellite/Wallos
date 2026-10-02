@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Budget per betaalmethode",
     "payment_method_budget_info" => "Stel een budget in per betaalmethode. Het dashboard vergelijkt dit met het benodigde bedrag in de huidige budgetperiode (zelfde venster als periodiebudget).",
     "category_cost" => "Kosten per categorie",
-    "dashboard_widgets" => "Dashboard-widgets",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

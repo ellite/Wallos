@@ -231,24 +231,7 @@ switch ($widgetId) {
             if ((int) ($sub['cycle'] ?? 0) === 5) {
                 continue;
             }
-            $converted = wallos_convert_price($sub['price'], $sub['currency_id'], $db, $userId);
-            $monthly = 0.0;
-            $cycle = (int) $sub['cycle'];
-            $frequency = max(1, (int) $sub['frequency']);
-            switch ($cycle) {
-                case 1:
-                    $monthly = $converted * (30 / $frequency);
-                    break;
-                case 2:
-                    $monthly = $converted * (4.35 / $frequency);
-                    break;
-                case 3:
-                    $monthly = $converted / $frequency;
-                    break;
-                case 4:
-                    $monthly = $converted / (12 * $frequency);
-                    break;
-            }
+            $monthly = wallos_subscription_monthly_cost($sub, $db, $userId);
             $totalCostPerMonth += $monthly;
         }
         $budget = max(0, (float) ($user['budget'] ?? 0));
@@ -397,23 +380,7 @@ switch ($widgetId) {
                 continue;
             }
             $activeCount++;
-            $converted = wallos_convert_price($sub['price'], $sub['currency_id'], $db, $userId);
-            $cycle = (int) $sub['cycle'];
-            $frequency = max(1, (int) $sub['frequency']);
-            switch ($cycle) {
-                case 1:
-                    $totalCostPerMonth += $converted * (30 / $frequency);
-                    break;
-                case 2:
-                    $totalCostPerMonth += $converted * (4.35 / $frequency);
-                    break;
-                case 3:
-                    $totalCostPerMonth += $converted / $frequency;
-                    break;
-                case 4:
-                    $totalCostPerMonth += $converted / (12 * $frequency);
-                    break;
-            }
+            $totalCostPerMonth += wallos_subscription_monthly_cost($sub, $db, $userId);
         }
         $response['active_subscriptions'] = $activeCount;
         $response['monthly_cost'] = round($totalCostPerMonth, 2);
@@ -469,24 +436,7 @@ switch ($widgetId) {
             if (!isset($categoryCost[$categoryId])) {
                 continue;
             }
-            $converted = wallos_convert_price($sub['price'], $sub['currency_id'], $db, $userId);
-            $cycle = (int) $sub['cycle'];
-            $frequency = max(1, (int) $sub['frequency']);
-            $monthly = 0.0;
-            switch ($cycle) {
-                case 1:
-                    $monthly = $converted * (30 / $frequency);
-                    break;
-                case 2:
-                    $monthly = $converted * (4.35 / $frequency);
-                    break;
-                case 3:
-                    $monthly = $converted / $frequency;
-                    break;
-                case 4:
-                    $monthly = $converted / (12 * $frequency);
-                    break;
-            }
+            $monthly = wallos_subscription_monthly_cost($sub, $db, $userId);
             $categoryCost[$categoryId]['cost'] += $monthly;
         }
         $response['categories'] = wallos_build_category_cost_rows($categoryCost, $categoryLimit);

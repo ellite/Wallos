@@ -201,8 +201,6 @@ $i18n = [
     "payment_method_budget" => "付款方式预算",
     "payment_method_budget_info" => "为每种付款方式设置预算。仪表盘会将其与当前预算周期所需金额比较（与周期预算相同的时间窗口）。",
     "category_cost" => "按分类费用",
-    "dashboard_widgets" => "仪表盘小组件",
-    "dashboard_widgets_info" => "Customize widgets on the dashboard with Edit widgets (drag to reorder, show or hide).",
 
     "edit_widgets" => "Edit widgets",
     "done_editing_widgets" => "Done",

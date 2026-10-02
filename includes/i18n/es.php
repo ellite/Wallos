@@ -193,8 +193,6 @@ $i18n = [
     "payment_method_budget" => "Presupuesto por método de pago",
     "payment_method_budget_info" => "Define un presupuesto por método de pago. El panel lo compara con el importe necesario en el periodo presupuestario actual (misma ventana que el presupuesto por periodo).",
     "category_cost" => "Coste por categoría",
-    "dashboard_widgets" => "Widgets del panel",
-    "dashboard_widgets_info" => "Personaliza los widgets en el panel con Editar widgets (arrastrar para reordenar, mostrar/ocultar).",
 
     "edit_widgets" => "Editar widgets",
     "done_editing_widgets" => "Listo",
