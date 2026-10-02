@@ -1096,6 +1096,51 @@ function setShowSubscriptionProgress() {
   storeSettingsOnDB('subscription_progress', value);
 }
 
+function savePaymentMethodBudgets() {
+  const inputs = document.querySelectorAll('.payment-method-budget-row input[type="number"]');
+  const budgets = {};
+  for (const input of inputs) {
+    const budget = Number(input.value || 0);
+    if (Number.isNaN(budget) || budget < 0) {
+      showErrorMessage(translate('invalid_budget'));
+      input.focus();
+      return;
+    }
+    budgets[input.dataset.paymentMethodId] = budget;
+  }
+
+  const button = document.getElementById('savePaymentMethodBudgets');
+  if (button) {
+    button.disabled = true;
+  }
+
+  fetch('endpoints/payments/budget.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ budgets: budgets })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message || translate('unknown_error'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('unknown_error'));
+    })
+    .finally(() => {
+      if (button) {
+        button.disabled = false;
+      }
+    });
+}
+
 function loadApiUsage(endpoint, containerId, countId, fillId) {
   const usageContainer = document.getElementById(containerId);
   if (!usageContainer) {

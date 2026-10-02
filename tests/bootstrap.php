@@ -101,6 +101,11 @@ function assert_not_contains($needle, $haystack, $message)
  * the schema is built inside a throwaway copy of the source tree rather than in
  * the working copy.
  *
+ * Migration files are re-synced into the sandbox on every PHP process start, and
+ * pending migrations are applied to the cached template DB. That way a leftover
+ * /tmp/wallos-tests from an older checkout still picks up new migrations
+ * (e.g. 000061) without requiring `rm -rf` or rebuilding from scratch.
+ *
  * @return string Path to the freshly copied database.
  */
 function wallos_test_database()
@@ -110,32 +115,44 @@ function wallos_test_database()
     if ($template === null) {
         $sandbox = WALLOS_TEST_TMP . '/sandbox';
 
-        if (!is_dir($sandbox)) {
-            mkdir($sandbox, 0700, true);
-            foreach (['endpoints/cronjobs', 'includes', 'migrations', 'db'] as $directory) {
-                mkdir($sandbox . '/' . $directory, 0700, true);
+        foreach (['', '/endpoints/cronjobs', '/includes', '/migrations', '/db'] as $directory) {
+            $path = $sandbox . $directory;
+            if (!is_dir($path)) {
+                mkdir($path, 0700, true);
             }
-
-            foreach (glob(WALLOS_ROOT . '/migrations/*.php') as $migration) {
-                copy($migration, $sandbox . '/migrations/' . basename($migration));
-            }
-            copy(WALLOS_ROOT . '/endpoints/cronjobs/createdatabase.php', $sandbox . '/endpoints/cronjobs/createdatabase.php');
-            copy(WALLOS_ROOT . '/includes/run_migrations.php', $sandbox . '/includes/run_migrations.php');
         }
+
+        // Always mirror the current tree's migration sources into the sandbox.
+        $sourceMigrations = [];
+        foreach (glob(WALLOS_ROOT . '/migrations/*.php') ?: [] as $migration) {
+            $name = basename($migration);
+            $sourceMigrations[$name] = true;
+            copy($migration, $sandbox . '/migrations/' . $name);
+        }
+        foreach (glob($sandbox . '/migrations/*.php') ?: [] as $stale) {
+            if (!isset($sourceMigrations[basename($stale)])) {
+                @unlink($stale);
+            }
+        }
+        copy(WALLOS_ROOT . '/endpoints/cronjobs/createdatabase.php', $sandbox . '/endpoints/cronjobs/createdatabase.php');
+        copy(WALLOS_ROOT . '/includes/run_migrations.php', $sandbox . '/includes/run_migrations.php');
+        copy(WALLOS_ROOT . '/includes/database_bootstrap.php', $sandbox . '/includes/database_bootstrap.php');
 
         $databaseFile = $sandbox . '/db/wallos.db';
 
+        ob_start();
         if (!file_exists($databaseFile)) {
             // Both scripts print progress and resolve their paths from __DIR__,
             // which is why they run inside the sandbox copy.
-            ob_start();
             require $sandbox . '/endpoints/cronjobs/createdatabase.php';
-            $db = new SQLite3($databaseFile);
-            $db->busyTimeout(5000);
-            require $sandbox . '/includes/run_migrations.php';
-            $db->close();
-            ob_end_clean();
         }
+        $db = new SQLite3($databaseFile);
+        $db->busyTimeout(5000);
+        // Re-run on an existing template so migrations added after the sandbox
+        // was first built (common when WALLOS_TEST_TMP is reused) still apply.
+        require $sandbox . '/includes/run_migrations.php';
+        $db->close();
+        ob_end_clean();
 
         $template = $databaseFile;
     }

@@ -1,9 +1,16 @@
 <?php
 
+require_once __DIR__ . '/../../includes/database_bootstrap.php';
+
 $databaseFile = __DIR__ . '/../../db/wallos.db';
 
-if (!file_exists($databaseFile)) {
-    echo "Database does not exist. Creating it...\n";
+if (wallos_database_needs_create($databaseFile)) {
+    if (file_exists($databaseFile)) {
+        echo "Database file exists but schema is incomplete. Recreating...\n";
+        wallos_remove_database_files($databaseFile);
+    } else {
+        echo "Database does not exist. Creating it...\n";
+    }
     $db = new SQLite3($databaseFile, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
     $db->busyTimeout(5000);
 

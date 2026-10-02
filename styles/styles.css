@@ -1267,6 +1267,194 @@ header #avatar {
   color: var(--text-color);
 }
 
+.payment-method-budget-name {
+  margin: 12px 0 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.payment-method-budgets .payment-method-budget-row {
+  margin-bottom: 8px;
+}
+
+.payment-method-budgets .payment-method-budget-row label {
+  min-width: 140px;
+}
+
+.payment-method-budgets .buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
+.dashboard-header-row > h1 {
+  flex: 1 1 auto;
+  margin: 0;
+  min-width: 0;
+}
+
+.dashboard-edit-controls {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4px;
+}
+
+/* Visibility is class-driven so .button/.image-button display rules cannot
+   override the HTML hidden attribute (that was why Done stayed visible). */
+.dashboard:not(.editing-widgets) #doneDashboardWidgets,
+.dashboard.editing-widgets #editDashboardWidgets {
+  display: none !important;
+}
+
+.dashboard-edit-hint {
+  display: none;
+  margin: 6px 0 12px;
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+.dashboard.editing-widgets .dashboard-edit-hint {
+  display: block;
+}
+
+.dashboard-widgets-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard-widget-chrome {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background-color: rgba(var(--accent-color-rgb), 0.12);
+}
+
+.dashboard-widget-chrome-title {
+  font-weight: 600;
+}
+
+.dashboard-widget-empty {
+  margin: 0;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Normal view: hide disabled or empty (except upcoming which always has content flag) */
+.dashboard:not(.editing-widgets) .dashboard-widget[data-enabled="0"],
+.dashboard:not(.editing-widgets) .dashboard-widget[data-has-content="0"] {
+  display: none;
+}
+
+.dashboard.editing-widgets .dashboard-widget {
+  display: block;
+  padding: 8px;
+  border: 1px dashed rgba(var(--accent-color-rgb), 0.45);
+  border-radius: 10px;
+  background-color: transparent;
+}
+
+.dashboard.editing-widgets .dashboard-widget[data-enabled="0"] {
+  opacity: 0.55;
+}
+
+.dashboard.editing-widgets .dashboard-widget-chrome {
+  display: flex;
+}
+
+.dashboard.editing-widgets .dashboard-widget-body > .overdue-subscriptions > h2,
+.dashboard.editing-widgets .dashboard-widget-body > .upcoming-subscriptions > h2,
+.dashboard.editing-widgets .dashboard-widget-body > .ai-recommendations > h2,
+.dashboard.editing-widgets .dashboard-widget-body > .budget-subscriptions > h2,
+.dashboard.editing-widgets .dashboard-widget-body > .current-subscriptions > h2,
+.dashboard.editing-widgets .dashboard-widget-body > .savings-subscriptions > h2 {
+  /* Chrome already shows the title while editing */
+  display: none;
+}
+
+.dashboard.editing-widgets .dashboard-widgets-list .sortable-ghost {
+  border-radius: 8px;
+  background-color: rgba(var(--accent-color-rgb), 0.6);
+  border: 1px solid var(--accent-color);
+}
+
+.dashboard-widget-config {
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: rgba(var(--accent-color-rgb), 0.08);
+}
+
+.dashboard-widget-config .form-group {
+  margin-bottom: 10px;
+}
+
+.pmb-display-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.pmb-display-mode .form-group-inline {
+  margin-bottom: 0;
+}
+
+.pmb-method-checks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 6px 0;
+  max-height: 280px;
+  overflow-y: auto;
+  /* Room for the toggle switch so the first/last rows aren't clipped by the scroll box. */
+  padding: 4px 4px 4px 0;
+}
+
+.dashboard-widget-config .settings-notes {
+  margin: 8px 0 12px;
+}
+
+.pmb-method-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  position: relative;
+}
+
+.pmb-method-option label {
+  margin-bottom: 0;
+}
+
+.dashboard-add-pmb {
+  display: none;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.dashboard.editing-widgets .dashboard-add-pmb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.dashboard.editing-widgets .dashboard-add-pmb[hidden] {
+  display: none !important;
+}
+
 .credits-list {
   display: flex;
   flex-direction: column;

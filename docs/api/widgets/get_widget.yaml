@@ -1,0 +1,178 @@
+get:
+  summary: "Get dashboard widget payload"
+  description: |
+    Returns a single widget's live payload (`schema_version: 1`).
+
+    For `payment_method_budget`, pass `instance_id` from `list_widgets` to target one
+    dashboard instance. Optional `payment_method_id` (single id or comma-separated)
+    overrides the instance filter. When `display_mode` is `combined`, `methods` is a
+    one-row total and `methods_breakdown` holds the per-method rows.
+  parameters:
+    - name: api_key
+      in: query
+      required: true
+      description: "User API key (also accepted as apiKey, or in JSON body)."
+      schema:
+        type: string
+    - name: apiKey
+      in: query
+      required: false
+      description: "Alias for api_key."
+      schema:
+        type: string
+    - name: widget_id
+      in: query
+      required: true
+      description: |
+        One of: overdue, upcoming, ai, monthly_budget, period_budget,
+        payment_method_budget, subscriptions, savings, category_cost.
+      schema:
+        type: string
+    - name: instance_id
+      in: query
+      required: false
+      description: "Required to target a specific payment_method_budget instance."
+      schema:
+        type: string
+    - name: payment_method_id
+      in: query
+      required: false
+      description: "Optional filter: one id or comma-separated list. Overrides instance filter."
+      schema:
+        type: string
+    - name: include_disabled
+      in: query
+      required: false
+      description: "Include disabled payment methods (default false)."
+      schema:
+        type: boolean
+    - name: category_limit
+      in: query
+      required: false
+      description: "Top-N categories for category_cost (default 5)."
+      schema:
+        type: integer
+    - name: reference_date
+      in: query
+      required: false
+      description: "YYYY-MM-DD reference for period windows (default today)."
+      schema:
+        type: string
+        format: date
+  responses:
+    '200':
+      description: "Successful widget payload (shape varies by widget_id)."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              schema_version:
+                type: integer
+                example: 1
+              widget_id:
+                type: string
+              enabled:
+                type: boolean
+              currency_code:
+                type: string
+              currency_symbol:
+                type: string
+              notes:
+                type: array
+                items:
+                  type: string
+              instance_id:
+                type: string
+              payment_method_ids:
+                type: array
+                items:
+                  type: integer
+              display_mode:
+                type: string
+                enum: [per_method, combined]
+              title:
+                type: string
+              period:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  start:
+                    type: string
+                  end:
+                    type: string
+                  label:
+                    type: string
+                  anchor_date:
+                    type: string
+              methods:
+                type: array
+                description: "Display rows for payment_method_budget."
+                items:
+                  type: object
+                  properties:
+                    payment_method_id:
+                      type: integer
+                      nullable: true
+                    payment_method_ids:
+                      type: array
+                      items:
+                        type: integer
+                    name:
+                      type: string
+                    combined:
+                      type: boolean
+                    budget:
+                      type: number
+                    amount_needed:
+                      type: number
+                    budget_used_percent:
+                      type: number
+                    remaining:
+                      type: number
+                    over_budget:
+                      type: number
+              methods_breakdown:
+                type: array
+                description: "Present when display_mode=combined; per-method rows before bundling."
+                items:
+                  type: object
+          examples:
+            combined_instance:
+              summary: "Combined payment method budget instance"
+              value:
+                success: true
+                schema_version: 1
+                widget_id: payment_method_budget
+                enabled: true
+                currency_code: AUD
+                currency_symbol: "$"
+                notes: []
+                instance_id: pmb_10bbd4a2
+                payment_method_ids: [1, 4]
+                display_mode: combined
+                title: "Paypal & DB"
+                methods:
+                  - payment_method_id: null
+                    payment_method_ids: [1, 4]
+                    name: "Paypal & DB"
+                    combined: true
+                    budget: 250
+                    amount_needed: 72
+                    budget_used_percent: 28.8
+                    remaining: 178
+                    over_budget: 0
+                methods_breakdown:
+                  - payment_method_id: 1
+                    name: PayPal
+                    budget: 200
+                    amount_needed: 60
+                  - payment_method_id: 4
+                    name: Direct Debit
+                    budget: 50
+                    amount_needed: 12
+    '401':
+      description: "Invalid API key (JSON success=false)."
