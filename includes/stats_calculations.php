@@ -2,6 +2,7 @@
 require_once __DIR__ . '/budget_period_calculations.php';
 require_once __DIR__ . '/currency_rates.php';
 require_once __DIR__ . '/default_names.php';
+require_once __DIR__ . '/variable_pricing.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -106,7 +107,7 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
+$query = "SELECT id, name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew, has_variable_price FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -162,6 +163,8 @@ foreach ($params as $key => $value) {
 $result = $stmt->execute();
 $usesMultipleCurrencies = false;
 $subscriptions = [];
+$currentYearMonth = date('Y-m');
+$priceHistoryIndex = load_price_history_index($db, (int) $userId);
 
 if ($result) {
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
@@ -195,8 +198,14 @@ if ($result) {
             }
             $inactive = $subscription['inactive'];
             $replacementSubscriptionId = $subscription['replacement_subscription_id'];
-            $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
-            $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
+            $variable = subscription_has_variable_price($subscription);
+            $rawPrice = effective_subscription_price($subscription, $currentYearMonth, $priceHistoryIndex);
+            $originalSubscriptionPrice = getPriceConverted($rawPrice, $currency, $db, $userId);
+            if ($variable && (int) $cycle !== 5) {
+                $price = $originalSubscriptionPrice;
+            } else {
+                $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
+            }
 
             if ($inactive == 0) {
                 if ($cycle != 5) {
@@ -227,18 +236,22 @@ if ($result) {
                     $endOfMonth = new DateTime('last day of this month');
 
                     if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
-                        $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
-                        $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                        if ($cycle == 1) {
-                            $timesToPay = $daysRemaining / $frequency;
+                        if ($variable) {
+                            $amountDueThisMonth += $originalSubscriptionPrice;
+                        } else {
+                            $timesToPay = 1;
+                            $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
+                            $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
+                            if ($cycle == 1) {
+                                $timesToPay = $daysRemaining / $frequency;
+                            }
+                            if ($cycle == 2) {
+                                $weeksInMonth = ceil($daysInMonth / 7);
+                                $weeksRemaining = ceil($daysRemaining / 7);
+                                $timesToPay = $weeksRemaining / $frequency;
+                            }
+                            $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                         }
-                        if ($cycle == 2) {
-                            $weeksInMonth = ceil($daysInMonth / 7);
-                            $weeksRemaining = ceil($daysRemaining / 7);
-                            $timesToPay = $weeksRemaining / $frequency;
-                        }
-                        $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                     }
                 }
             } else {
@@ -247,16 +260,21 @@ if ($result) {
 
                 // Check if it has a replacement subscription and if it was not already counted
                 if ($replacementSubscriptionId && !in_array($replacementSubscriptionId, $replacementSubscriptions)) {
-                    $query = "SELECT price, currency_id, cycle, frequency FROM subscriptions WHERE id = :replacementSubscriptionId AND user_id = :userId";
+                    $query = "SELECT id, price, currency_id, cycle, frequency, has_variable_price FROM subscriptions WHERE id = :replacementSubscriptionId AND user_id = :userId";
                     $stmt = $db->prepare($query);
                     $stmt->bindValue(':replacementSubscriptionId', $replacementSubscriptionId, SQLITE3_INTEGER);
                     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $replacementSubscription = $result->fetchArray(SQLITE3_ASSOC);
                     if ($replacementSubscription) {
-                        $replacementSubscriptionPrice = getPriceConverted($replacementSubscription['price'], $replacementSubscription['currency_id'], $db, $userId);
-                        $replacementSubscriptionPrice = getPricePerMonth($replacementSubscription['cycle'], $replacementSubscription['frequency'], $replacementSubscriptionPrice);
-                        $totalCostsInReplacementsPerMonth += $replacementSubscriptionPrice;
+                        $replacementRaw = effective_subscription_price($replacementSubscription, $currentYearMonth, $priceHistoryIndex);
+                        $replacementSubscriptionPrice = getPriceConverted($replacementRaw, $replacementSubscription['currency_id'], $db, $userId);
+                        if (subscription_has_variable_price($replacementSubscription) && (int) $replacementSubscription['cycle'] !== 5) {
+                            $totalCostsInReplacementsPerMonth += $replacementSubscriptionPrice;
+                        } else {
+                            $replacementSubscriptionPrice = getPricePerMonth($replacementSubscription['cycle'], $replacementSubscription['frequency'], $replacementSubscriptionPrice);
+                            $totalCostsInReplacementsPerMonth += $replacementSubscriptionPrice;
+                        }
                     }
                 }
 

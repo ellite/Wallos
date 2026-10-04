@@ -107,6 +107,7 @@ $detailsLookups = [
     'day_before' => translate('day_before', $i18n),
     'days_before' => translate('days_before', $i18n),
     'none' => translate('none', $i18n),
+    'variable_price' => translate('variable_price', $i18n),
   ],
 ];
 foreach ($categories as $categoryId => $category) {

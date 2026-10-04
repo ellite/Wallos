@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/header.php';
 require_once 'includes/currency_rates.php';
+require_once 'includes/variable_pricing.php';
 
 function getPriceConverted($price, $currency, $database, $userId)
 {
@@ -179,9 +180,32 @@ if ($weekStartsSunday) {
     $startOfMonth = strtotime($monthKey . '-01');
     $paymentsByDay = [];
 
-    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId) {
+    $priceHistoryIndex = load_price_history_index($db, (int) $userId);
+    $variableMonthCounted = [];
+
+    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId, $monthKey, $priceHistoryIndex, &$variableMonthCounted) {
       $paymentsByDay[(int) date('j', $date)][] = $subscription;
-      $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+
+      $variable = subscription_has_variable_price($subscription);
+      $rawPrice = $variable
+        ? effective_subscription_price($subscription, $monthKey, $priceHistoryIndex)
+        : (float) $subscription['price'];
+      $convertedPrice = getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId);
+
+      if ($variable) {
+        $subscriptionId = (int) $subscription['id'];
+        if (empty($variableMonthCounted[$subscriptionId]['total'])) {
+          $totalCostThisMonth += $convertedPrice;
+          $numberOfSubscriptionsToPayThisMonth++;
+          $variableMonthCounted[$subscriptionId]['total'] = true;
+        }
+        if ($date >= $today && empty($variableMonthCounted[$subscriptionId]['due'])) {
+          $amountDueThisMonth += $convertedPrice;
+          $variableMonthCounted[$subscriptionId]['due'] = true;
+        }
+        return;
+      }
+
       $totalCostThisMonth += $convertedPrice;
       $numberOfSubscriptionsToPayThisMonth++;
       if ($date >= $today) {

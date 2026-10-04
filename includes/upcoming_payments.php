@@ -40,7 +40,7 @@ function get_upcoming_payments($db, $userId, $limit)
 {
     $limit = normalize_upcoming_payments_limit($limit);
 
-    $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive
+    $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, has_variable_price
         FROM subscriptions
         WHERE user_id = :userId
           AND next_payment >= date('now')

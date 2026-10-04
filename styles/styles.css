@@ -1561,6 +1561,54 @@ label {
   cursor: pointer;
 }
 
+.price-history-section {
+  margin-top: 8px;
+}
+
+.price-history-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 4px 0 12px;
+}
+
+.price-history-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.price-history-row input[type="month"] {
+  flex: 0 0 150px;
+}
+
+.price-history-row input[type="number"] {
+  flex: 0 0 120px;
+}
+
+.price-history-row input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.subscription .price .variable-price-mark {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+  .price-history-row {
+    flex-wrap: wrap;
+  }
+
+  .price-history-row input[type="month"],
+  .price-history-row input[type="number"] {
+    flex: 1 1 120px;
+  }
+}
+
 label.split-label {
   display: flex;
   flex-direction: row;

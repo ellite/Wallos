@@ -287,6 +287,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <span class="price">
                         <span class="value">
                             <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies) ?>
+                            <?php if (!empty($subscription['has_variable_price'])) { ?>
+                                <i class="fa-solid fa-wave-square variable-price-mark"
+                                    title="<?= translate('variable_price_this_month', $i18n) ?>"></i>
+                            <?php } ?>
                             <?php
                             if (isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price']) {
                                 ?>

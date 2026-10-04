@@ -12,6 +12,8 @@ It returns a JSON object with the following properties:
 - subscription: an object containing the subscription details.
 - notes: warning messages or additional information (array).
 
+`price` stays the stored base price. `effective_price` is the current month's amount used by totals (see get_subscriptions.php; missing months use the latest earlier actual, then the base price). `price_history` is the list of monthly actuals in the subscription currency, each `{period, price, note}`.
+
 Example response:
 {
   "success": true,
@@ -48,6 +50,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
+require_once '../../includes/variable_pricing.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -129,6 +132,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $pmRow = $pmResult->fetchArray(SQLITE3_ASSOC);
     $subscription['payment_method_name'] = $pmRow ? $pmRow['name'] : 'Unknown payment method';
 
+    $history = price_history_for_subscription($db, (int) $subscription['id']);
+    $historyIndex = [(int) $subscription['id'] => []];
+    foreach ($history as $historyEntry) {
+        $historyIndex[(int) $subscription['id']][$historyEntry['period']] = $historyEntry['price'];
+    }
+    $subscription['effective_price'] = effective_subscription_price($subscription, date('Y-m'), $historyIndex);
+    $subscription['price_history'] = $history;
+
     // Optional Currency Conversion
     if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $subscription['currency_id'] != $userCurrencyId) {
         $updateSql = "SELECT * FROM last_exchange_update WHERE user_id = :userId";
@@ -141,6 +152,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         if ($canConvertCurrency) {
             $subscription['price'] = wallos_convert_price(
                 $subscription['price'],
+                $subscription['currency_id'],
+                $db,
+                $userId
+            );
+            $subscription['effective_price'] = wallos_convert_price(
+                $subscription['effective_price'],
                 $subscription['currency_id'],
                 $db,
                 $userId

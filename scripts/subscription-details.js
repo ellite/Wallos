@@ -134,6 +134,9 @@ function renderSubscriptionDetails(subscription) {
   if (subscription.inactive) {
     detailsAddChip(chips, strings.inactive, 'warn');
   }
+  if (Number(subscription.has_variable_price) === 1 && strings.variable_price) {
+    detailsAddChip(chips, strings.variable_price, 'muted');
+  }
   if (isOneTime) {
     detailsAddChip(chips, strings.one_time, 'muted');
   } else if (Number(subscription.auto_renew) === 1) {
@@ -142,7 +145,10 @@ function renderSubscriptionDetails(subscription) {
     detailsAddChip(chips, strings.manual_renewal, 'manual');
   }
 
-  document.querySelector('#details-price').textContent = detailsFormatPrice(subscription.price, subscription.currency_id);
+  const shownPrice = subscription.effective_price !== undefined && subscription.effective_price !== null
+    ? subscription.effective_price
+    : subscription.price;
+  document.querySelector('#details-price').textContent = detailsFormatPrice(shownPrice, subscription.currency_id);
   document.querySelector('#details-billing-cycle').textContent = isOneTime ? "" : detailsBillingCycleText(subscription.cycle, subscription.frequency);
 
   const progressTrack = document.querySelector('#details-progress-track');

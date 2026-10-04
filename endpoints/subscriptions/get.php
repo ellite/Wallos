@@ -6,6 +6,7 @@ require_once '../../includes/getdbkeys.php';
 require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
+require_once '../../includes/variable_pricing.php';
 
 require_once '../../includes/getsettings.php';
 
@@ -174,6 +175,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  $priceHistoryIndex = load_price_history_index($db, (int) $userId);
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
       continue;
@@ -201,7 +203,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
-    $print[$id]['price'] = floatval($subscription['price']);
+    $hasVariablePrice = subscription_has_variable_price($subscription);
+    $effectivePrice = effective_subscription_price($subscription, date('Y-m'), $priceHistoryIndex);
+    $print[$id]['price'] = $effectivePrice;
+    $print[$id]['has_variable_price'] = $hasVariablePrice ? 1 : 0;
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
@@ -212,11 +217,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
       $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
     }
-    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
+    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true' && !$hasVariablePrice) {
       $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
     }
     if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
-      $print[$id]['original_price'] = floatval($subscription['price']);
+      $print[$id]['original_price'] = $effectivePrice;
       $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
     }
   }

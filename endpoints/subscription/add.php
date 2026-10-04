@@ -7,6 +7,7 @@ require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/logo_cleanup.php';
+require_once '../../includes/variable_pricing.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -235,6 +236,8 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
 $isEdit = isset($_POST['id']) && $_POST['id'] != "";
 $name = validate($_POST["name"]);
 $price = $_POST['price'];
+$hasVariablePrice = isset($_POST['has_variable_price']) ? 1 : 0;
+$priceHistoryJson = $_POST['price_history'] ?? '';
 $currencyId = $_POST["currency_id"];
 $frequency = $_POST["frequency"];
 $cycle = $_POST["cycle"];
@@ -255,6 +258,18 @@ $inactive = isset($_POST['inactive']) ? true : false;
 $cancellationDate = $_POST['cancellation_date'] ?? null;
 $replacementSubscriptionId = $_POST['replacement_subscription_id'];
 
+$historyEntries = null;
+try {
+    if ($hasVariablePrice === 1) {
+        if (!variable_pricing_supports_cycle($cycle, $frequency)) {
+            throw new InvalidArgumentException('variable_price_monthly_only');
+        }
+        $historyEntries = parse_price_history_json($priceHistoryJson);
+    }
+} catch (InvalidArgumentException $error) {
+    rejectSubscriptionInput(translate($error->getMessage(), $i18n));
+}
+
 if ($replacementSubscriptionId == 0 || $inactive == 0) {
     $replacementSubscriptionId = null;
 }
@@ -273,7 +288,7 @@ if ($replacementSubscriptionId !== null) {
 // subscription can't be attached to another tenant's currency/category/
 // household member/payment method (IDs are global auto-increment integers
 // and easily enumerable).
-function rejectForeignId($message)
+function rejectSubscriptionInput($message)
 {
     header('Content-Type: application/json');
     echo json_encode(['status' => 'Error', 'message' => $message]);
@@ -285,7 +300,7 @@ $currStmt->bindParam(':id', $currencyId, SQLITE3_INTEGER);
 $currStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $currResult = $currStmt->execute();
 if (!$currResult || !$currResult->fetchArray()) {
-    rejectForeignId('The specified currency does not exist or does not belong to you.');
+    rejectSubscriptionInput('The specified currency does not exist or does not belong to you.');
 }
 
 if ($categoryId !== null && $categoryId !== '') {
@@ -294,7 +309,7 @@ if ($categoryId !== null && $categoryId !== '') {
     $catStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $catResult = $catStmt->execute();
     if (!$catResult || !$catResult->fetchArray()) {
-        rejectForeignId('The specified category does not exist or does not belong to you.');
+        rejectSubscriptionInput('The specified category does not exist or does not belong to you.');
     }
 }
 
@@ -304,7 +319,7 @@ if ($payerUserId !== null && $payerUserId !== '') {
     $payerStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $payerResult = $payerStmt->execute();
     if (!$payerResult || !$payerResult->fetchArray()) {
-        rejectForeignId('The specified household member does not exist or does not belong to you.');
+        rejectSubscriptionInput('The specified household member does not exist or does not belong to you.');
     }
 }
 
@@ -314,7 +329,7 @@ if ($paymentMethodId !== null && $paymentMethodId !== '') {
     $pmStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
     $pmResult = $pmStmt->execute();
     if (!$pmResult || !$pmResult->fetchArray()) {
-        rejectForeignId('The specified payment method does not exist or does not belong to you.');
+        rejectSubscriptionInput('The specified payment method does not exist or does not belong to you.');
     }
 }
 
@@ -376,12 +391,12 @@ if (!$isEdit) {
                         name, logo, price, currency_id, next_payment, cycle, frequency, notes,
                         payment_method_id, payer_user_id, category_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                        auto_renew, start_date, logo_text_color, logo_variant
+                        auto_renew, start_date, logo_text_color, logo_variant, has_variable_price
                     ) VALUES (
                         :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
                         :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                        :autoRenew, :startDate, :logoTextColor, :logoVariant
+                        :autoRenew, :startDate, :logoTextColor, :logoVariant, :hasVariablePrice
                     )";
 } else {
     $id = $_POST['id'];
@@ -419,7 +434,8 @@ if (!$isEdit) {
                         url = :url, 
                         notify_days_before = :notifyDaysBefore, 
                         cancellation_date = :cancellationDate, 
-                        replacement_subscription_id = :replacement_subscription_id";
+                        replacement_subscription_id = :replacement_subscription_id,
+                        has_variable_price = :hasVariablePrice";
 
     if ($logo != "") {
         $sql .= ", logo = :logo, logo_text_color = :logoTextColor, logo_variant = :logoVariant";
@@ -456,8 +472,17 @@ if ($isEdit) {
 }
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $stmt->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
+$stmt->bindParam(':hasVariablePrice', $hasVariablePrice, SQLITE3_INTEGER);
 
-if ($stmt->execute()) {
+try {
+    $savedId = save_subscription_with_price_history(
+        $db, $stmt, (int) $userId, $isEdit ? (int) $id : null, $historyEntries
+    );
+} catch (InvalidArgumentException $error) {
+    rejectSubscriptionInput(translate($error->getMessage(), $i18n));
+}
+
+if ($savedId !== null) {
     $success['status'] = "Success";
     $text = $isEdit ? "updated" : "added";
     $success['message'] = translate('subscription_' . $text . '_successfuly', $i18n);
@@ -479,7 +504,8 @@ if ($stmt->execute()) {
     echo json_encode($success);
     exit();
 } else {
-    echo translate('error', $i18n) . ": " . $db->lastErrorMsg();
+    header('Content-Type: application/json');
+    echo json_encode(['status' => 'Error', 'message' => translate('error', $i18n)]);
 }
 $db->close();
 ?>
