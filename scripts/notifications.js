@@ -157,35 +157,59 @@ function testNotificationsWebhookButton() {
     makeFetchCall('endpoints/notifications/testwebhooknotifications.php', data, button);
 }
 
+function telegramRequiredFieldsValid() {
+    // bot token and chat ID are mandatory; the topic ID is optional
+    for (const id of ["telegrambottoken", "telegramchatid"]) {
+        const field = document.getElementById(id);
+        if (field.value.trim() === "") {
+            field.reportValidity();
+            return false;
+        }
+    }
+    return true;
+}
+
 function saveNotificationsTelegramButton() {
+    if (!telegramRequiredFieldsValid()) {
+        return;
+    }
+
     const button = document.getElementById("saveNotificationsTelegram");
     button.disabled = true;
   
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const chat_id = document.getElementById("telegramchatid").value;
     const bot_token = document.getElementById("telegrambottoken").value;
+    const message_thread_id = document.getElementById("telegramthreadid").value;
   
     const data = {
       enabled: enabled,
       chat_id: chat_id,
-      bot_token: bot_token
+      bot_token: bot_token,
+      message_thread_id: message_thread_id
     };
 
     makeFetchCall('endpoints/notifications/savetelegramnotifications.php', data, button);
 }
 
 function testNotificationsTelegramButton() {
+    if (!telegramRequiredFieldsValid()) {
+        return;
+    }
+
     const button = document.getElementById("testNotificationsTelegram");
     button.disabled = true;
   
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const bottoken = document.getElementById("telegrambottoken").value;
     const chatid = document.getElementById("telegramchatid").value;
+    const messagethreadid = document.getElementById("telegramthreadid").value;
   
     const data = {
       enabled: enabled,
       bottoken: bottoken,
-      chatid: chatid
+      chatid: chatid,
+      messagethreadid: messagethreadid
     };
 
     makeFetchCall('endpoints/notifications/testtelegramnotifications.php', data, button);
@@ -600,4 +624,4 @@ function saveNotificationsPushButton() {
   const enabled = document.getElementById("pushenabled").checked ? 1 : 0;
 
   makeFetchCall('endpoints/notifications/savenotificationspush.php', { enabled: enabled }, button);
-}
+}

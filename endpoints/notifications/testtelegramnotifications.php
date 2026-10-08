@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/telegram_helper.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -21,16 +22,14 @@ if (
 
     $botToken = $data["bottoken"];
     $chatId = $data["chatid"];
+    $params = wallos_telegram_payload($chatId, $message, $data["messagethreadid"] ?? "");
 
     $ch = curl_init();
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, "https://api.telegram.org/bot" . $botToken . "/sendMessage");
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-        'chat_id' => $chatId,
-        'text' => $message,
-    ]));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($params));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
     curl_setopt($ch, CURLOPT_TIMEOUT, 15);
@@ -53,4 +52,4 @@ if (
             "message" => translate('notification_sent_successfuly', $i18n)
         ]));
     }
-}
+}
