@@ -24,10 +24,11 @@ wallos_test('presets format a date as named', function () {
     $date = '2026-03-05';
     $expected = [
         'iso' => '2026-03-05',
-        'dmy_slash' => '05/03/2026',
+        'iso_basic' => '20260305',
         'mdy_slash' => '03/05/2026',
         'dmy_dot' => '05.03.2026',
         'd_mmm_y' => '5 Mar 2026',
+        'mdy_long' => 'March 5, 2026',
     ];
 
     foreach ($expected as $key => $output) {
@@ -37,6 +38,15 @@ wallos_test('presets format a date as named', function () {
     $timestamp = strtotime($date);
     assert_same('2026-03-05', format_user_date($timestamp, 'en', 'iso'), 'accepts a timestamp');
     assert_same('2026-03-05', format_user_date(new DateTime($date), 'en', 'iso'), 'accepts a DateTime');
+});
+
+wallos_test('standard names label only the ISO 8601 formats', function () {
+    foreach (array_keys(DATE_FORMAT_LABELS) as $key) {
+        assert_true(array_key_exists($key, DATE_FORMATS), "label '$key' belongs to a real format");
+    }
+
+    assert_same('ISO 8601', DATE_FORMAT_LABELS['iso'], 'the extended calendar date is named');
+    assert_same('ISO 8601 basic', DATE_FORMAT_LABELS['iso_basic'], 'the basic calendar date is named');
 });
 
 wallos_test('month names follow the locale', function () {

@@ -11,4 +11,4 @@ if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
 // Be defensive about databases that may already contain an invalid value.
 $db->exec("UPDATE settings SET date_format = 'auto'
            WHERE date_format IS NULL
-              OR date_format NOT IN ('auto', 'iso', 'dmy_slash', 'mdy_slash', 'dmy_dot', 'd_mmm_y')");
+              OR date_format NOT IN ('auto', 'iso', 'iso_basic', 'mdy_slash', 'dmy_dot', 'd_mmm_y', 'mdy_long')");

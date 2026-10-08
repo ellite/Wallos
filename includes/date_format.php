@@ -6,10 +6,18 @@
 const DATE_FORMATS = [
     'auto' => null,
     'iso' => 'yyyy-MM-dd',
-    'dmy_slash' => 'dd/MM/yyyy',
+    'iso_basic' => 'yyyyMMdd',
     'mdy_slash' => 'MM/dd/yyyy',
     'dmy_dot' => 'dd.MM.yyyy',
     'd_mmm_y' => 'd MMM yyyy',
+    'mdy_long' => 'MMMM d, yyyy',
+];
+
+// Standard names shown beside a format's example in the settings dropdown.
+// Not translated: they are the names of the standard itself.
+const DATE_FORMAT_LABELS = [
+    'iso' => 'ISO 8601',
+    'iso_basic' => 'ISO 8601 basic',
 ];
 
 /**
