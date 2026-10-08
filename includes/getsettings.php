@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/theme_helpers.php';
+require_once __DIR__ . '/date_format.php';
 
 $query = "SELECT * FROM settings WHERE user_id = :userId";
 $stmt = $db->prepare($query);
@@ -31,6 +32,7 @@ if ($settings !== false) {
     $settings['showOriginalPrice'] = $settings['show_original_price'] ? 'true': 'false';
     $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
     $settings['showSubscriptionProgress'] = $settings['show_subscription_progress'] ? 'true': 'false';
+    $settings['date_format'] = normalize_date_format($settings['date_format'] ?? 'auto');
     $settings['week_starts_sunday'] = isset($settings['week_starts_sunday']) ? $settings['week_starts_sunday'] : 0;
 }
 

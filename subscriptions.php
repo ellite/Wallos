@@ -232,7 +232,9 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $currencyId = $subscription['currency_id'];
       $print[$id]['auto_renew'] = $subscription['auto_renew'];
       $next_payment_timestamp = strtotime($subscription['next_payment']);
-      $formatted_date = $formatter->format($next_payment_timestamp);
+      $formatted_date = ($settings['date_format'] ?? 'auto') === 'auto'
+      ? $formatter->format($next_payment_timestamp)
+      : format_user_date($next_payment_timestamp, $lang, $settings['date_format']);
       $print[$id]['next_payment'] = $formatted_date;
       $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
       $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];

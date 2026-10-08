@@ -4,6 +4,7 @@ require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
 require_once 'includes/upcoming_payments.php';
+require_once 'includes/date_format.php';
 require_once 'includes/upcoming_cancellations.php';
 
 function formatPrice($price, $currencyCode, $currencies)
@@ -29,42 +30,9 @@ function formatPrice($price, $currencyCode, $currencies)
 
 function formatDate($date, $lang = 'en')
 {
-    $currentYear = date('Y');
-    $dateYear = date('Y', strtotime($date));
+    global $settings;
 
-    // Determine the date format based on whether the year matches the current year
-    $dateFormat = ($currentYear == $dateYear) ? 'MMM d' : 'MMM yyyy';
-
-    // Try to create an IntlDateFormatter; if it fails, fallback to 'en'
-    try {
-        $formatter = new IntlDateFormatter(
-            $lang,
-            IntlDateFormatter::SHORT,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            $dateFormat
-        );
-
-        if (!$formatter) {
-            throw new Exception('Failed to create IntlDateFormatter with language: ' . $lang);
-        }
-    } catch (Throwable $e) {
-        $lang = 'en'; // Fallback to English on error
-        $formatter = new IntlDateFormatter(
-            $lang,
-            IntlDateFormatter::SHORT,
-            IntlDateFormatter::NONE,
-            null,
-            null,
-            $dateFormat
-        );
-    }
-
-    // Format the date
-    $formattedDate = $formatter->format(new DateTime($date));
-
-    return $formattedDate;
+    return format_user_date($date, $lang, $settings['date_format'] ?? 'auto');
 }
 
 // Get the first name of the user
