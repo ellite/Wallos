@@ -1,13 +1,26 @@
-# Exclude .vscode directory
-.vscode/
-
-# Exclude .git directory
-.git/
-.github/
+# Exclude all dotfiles/dirs (.git, .github, .vscode, .gitignore, ...) except what runtime needs
+.*
+# .tmp/ is the runtime scratch dir for db backup/restore
+!.tmp
 
 *.md
-.gitignore
-.dockerignore
+
+# Editor/OS junk at any depth
+**/*~
+**/*.swp
+**/*.swo
+**/*.bak
+**/*.orig
+**/*.rej
+**/*.tmp
+**/.DS_Store
+
+# Build/dev-only files; not used at runtime
+Dockerfile
+docker-compose.yaml
+/tests/
+/dev/
+/build/
 
 # README screenshots and capture script; not used at runtime
 /screenshots/

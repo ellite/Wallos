@@ -8,3 +8,14 @@
 AGENTS.md
 .antigravitycli
 plan.html
+.claude/
+
+# Build artifacts
+/build/
+
+# Editor junk
+*~
+*.swp
+*.swo
+*.orig
+*.rej
