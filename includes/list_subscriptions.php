@@ -2,9 +2,7 @@
 
 require_once 'i18n/getlang.php';
 require_once __DIR__ . '/currency_rates.php';
-<<<<<<< HEAD
 require_once __DIR__ . '/html_text.php';
-=======
 require_once __DIR__ . '/date_format.php';
 
 function getBillingCycle($cycle, $frequency, $i18n)

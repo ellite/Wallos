@@ -12,7 +12,7 @@ It receives the following parameters:
 - show_subscription_progress: (optional) '1' or '0' (show subscription progress bars).
 - week_starts_sunday: (optional) '1' or '0' (start calendar weeks on Sunday).
 - upcoming_payments_limit: (optional) '3', '5', '10', or '20' (number of upcoming payments on the dashboard).
-- date_format: (optional) 'auto', 'iso', 'dmy_slash', 'mdy_slash', 'dmy_dot', or 'd_mmm_y' (how dates are displayed).
+- date_format: (optional) 'auto', 'iso', 'iso_basic', 'mdy_slash', 'dmy_dot', 'd_mmm_y', or 'mdy_long' (how dates are displayed).
 - disabled_to_bottom: (optional) '1' or '0' (move disabled subscriptions to bottom).
 - hide_disabled: (optional) '1' or '0' (hide disabled subscriptions).
 - remove_background: (optional) '1' or '0' (remove background from logos).

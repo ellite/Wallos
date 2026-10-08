@@ -1714,9 +1714,12 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <select id="dateformat" name="dateformat" onChange="setDateFormat()">
                         <?php foreach (array_keys(DATE_FORMATS) as $dateFormatKey) { ?>
                             <option value="<?= $dateFormatKey ?>" <?= $settings['date_format'] === $dateFormatKey ? 'selected' : '' ?>>
-                                <?= $dateFormatKey === 'auto'
-                                    ? translate('date_format_automatic', $i18n)
-                                    : format_user_date(new DateTime(), $lang, $dateFormatKey) ?>
+                                <?php if ($dateFormatKey === 'auto') { ?>
+                                    <?= translate('date_format_automatic', $i18n) ?>
+                                <?php } else { ?>
+                                    <?= format_user_date(new DateTime(), $lang, $dateFormatKey) ?>
+                                    <?= isset(DATE_FORMAT_LABELS[$dateFormatKey]) ? '(' . DATE_FORMAT_LABELS[$dateFormatKey] . ')' : '' ?>
+                                <?php } ?>
                             </option>
                         <?php } ?>
                     </select>
