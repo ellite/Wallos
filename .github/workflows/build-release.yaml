@@ -99,6 +99,11 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
+          target: runtime
+          build-args: |
+            VERSION=${{ steps.meta.outputs.version }}
+            REVISION=${{ github.sha }}
+            CREATED=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,"name=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }},ghcr.io/ellite/wallos",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
           # Scope cache per platform to prevent architecture-mismatched layers
