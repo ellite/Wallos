@@ -226,6 +226,8 @@ $i18n = [
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",
     "telegram_chat_id" => "Telegram Chat ID",
+    "telegram_message_thread_id" => "Topic ID (optional)",
+    "telegram_topic_not_supported" => "Topics are only available in group chats. Direct message chat IDs cannot have a topic ID.",
     "pushplus" => "Pushplus",
     "pushplus_token" => "Pushplus Token",
     "serverchan" => "Serverchan",
@@ -395,7 +397,7 @@ $i18n = [
     // Betalingen
     "payment_in_use" => "Kan gebruikte betaalmethode niet uitschakelen",
     "failed_update_payment" => "Betaalmethode bijwerken in database mislukt",
-    "enabled" => "ingeschakeld", 
+    "enabled" => "ingeschakeld",
     "disabled" => "uitgeschakeld",
     // Subscription
     "error_fetching_image" => "Fout bij ophalen afbeelding",
@@ -454,7 +456,7 @@ $i18n = [
     "calendar" => "Kalender",
     "sun" => "Zo",
     "mon" => "Ma",
-    "tue" => "Di", 
+    "tue" => "Di",
     "wed" => "Wo",
     "thu" => "Do",
     "fri" => "Vr",
