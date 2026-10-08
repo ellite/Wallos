@@ -1110,6 +1110,12 @@ function setUpcomingPaymentsLimit() {
   storeSettingsOnDB('upcoming_payments_limit', value);
 }
 
+function setDateFormat() {
+  const dateFormat = document.querySelector("#dateformat");
+
+  storeSettingsOnDB('date_format', dateFormat.value);
+}
+
 function setMobileNavigation() {
   const mobileNavigationCheckbox = document.querySelector("#mobilenavigation");
   const value = mobileNavigationCheckbox.checked;
