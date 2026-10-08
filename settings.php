@@ -309,6 +309,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsTelegram['enabled'] = $row['enabled'];
         $notificationsTelegram['bot_token'] = $row['bot_token'];
         $notificationsTelegram['chat_id'] = $row['chat_id'];
+        $notificationsTelegram['message_thread_id'] = $row['message_thread_id'] ?? '';
         $rowCount++;
     }
 
@@ -316,6 +317,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsTelegram['enabled'] = 0;
         $notificationsTelegram['bot_token'] = "";
         $notificationsTelegram['chat_id'] = "";
+        $notificationsTelegram['message_thread_id'] = "";
     }
 
 
@@ -729,14 +731,19 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <label for="telegramenabled" class="capitalize"><?= translate('enabled', $i18n) ?></label>
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
+                        <input type="text" name="telegrambottoken" id="telegrambottoken" autocomplete="off" required
                             placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token'] : "") ?>" />
                     </div>
                     <div class="form-group-inline">
-                        <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off"
+                        <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off" required
                             placeholder="<?= translate('telegram_chat_id', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsTelegram['chat_id']) ?>" />
+                    </div>
+                    <div class="form-group-inline">
+                        <input type="text" name="telegramthreadid" id="telegramthreadid" autocomplete="off"
+                            placeholder="<?= translate('telegram_message_thread_id', $i18n) ?>"
+                            value="<?= htmlspecialchars($notificationsTelegram['message_thread_id']) ?>" />
                     </div>
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"

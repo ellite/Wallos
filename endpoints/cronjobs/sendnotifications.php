@@ -7,6 +7,7 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
 require_once __DIR__ . '/../../includes/webhook_helper.php';
+require_once __DIR__ . '/../../includes/telegram_helper.php';
 require_once __DIR__ . '/../../includes/webpush_helper.php';
 require_once __DIR__ . '/../../includes/instance_config.php';
 
@@ -174,6 +175,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $telegramNotificationsEnabled = $row['enabled'];
         $telegram['botToken'] = $row["bot_token"];
         $telegram['chatId'] = $row["chat_id"];
+        $telegram['messageThreadId'] = $row["message_thread_id"] ?? '';
     }
     // Check if PushPlus notifications are enabled and get the settings
     $query = "SELECT * FROM pushplus_notifications WHERE user_id = :userId";
@@ -633,10 +635,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         continue;
                     }
 
-                    $data = array(
-                        'chat_id' => $telegram['chatId'],
-                        'text' => mb_convert_encoding($message, 'UTF-8', 'auto')
-                    );
+                    $data = wallos_telegram_payload($telegram['chatId'], mb_convert_encoding($message, 'UTF-8', 'auto'), $telegram['messageThreadId']);
 
                     $data_string = json_encode($data);
 

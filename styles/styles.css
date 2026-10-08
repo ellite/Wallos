@@ -1521,6 +1521,22 @@ header #avatar {
   flex-direction: column;
 }
 
+/* Asterisk on mandatory inputs in the notification settings */
+.account-notification-section-settings .form-group-inline:has(> input:required) {
+  position: relative;
+}
+
+.account-notification-section-settings .form-group-inline:has(> input:required)::after {
+  content: "*";
+  position: absolute;
+  right: 15px;
+  top: 14px;
+  color: #dc3545;
+  font-size: 20px;
+  line-height: 1;
+  pointer-events: none;
+}
+
 .form-group.hide,
 .form-group-inline.hide {
   display: none;

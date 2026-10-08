@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/telegram_helper.php';
 
 
 $postData = file_get_contents("php://input");
@@ -19,6 +20,13 @@ if (
     $enabled = $data["enabled"];
     $bot_token = $data["bot_token"];
     $chat_id = $data["chat_id"];
+    $message_thread_id = trim($data["message_thread_id"] ?? "");
+    if ($message_thread_id !== "" && !ctype_digit($message_thread_id)) {
+        die(json_encode(["success" => false, "message" => translate('error_saving_notifications', $i18n)]));
+    }
+    if ($message_thread_id !== "" && !wallos_telegram_chat_supports_topics($chat_id)) {
+        die(json_encode(["success" => false, "message" => translate('telegram_topic_not_supported', $i18n)]));
+    }
 
     $query = "SELECT COUNT(*) FROM telegram_notifications WHERE user_id = :userId";
     $stmt = $db->prepare($query);
@@ -35,17 +43,18 @@ if (
         $row = $result->fetchArray();
         $count = $row[0];
         if ($count == 0) {
-            $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id, user_id)
-                              VALUES (:enabled, :bot_token, :chat_id, :userId)";
+            $query = "INSERT INTO telegram_notifications (enabled, bot_token, chat_id, message_thread_id, user_id)
+                              VALUES (:enabled, :bot_token, :chat_id, :message_thread_id, :userId)";
         } else {
             $query = "UPDATE telegram_notifications
-                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id WHERE user_id = :userId";
+                              SET enabled = :enabled, bot_token = :bot_token, chat_id = :chat_id, message_thread_id = :message_thread_id WHERE user_id = :userId";
         }
 
         $stmt = $db->prepare($query);
         $stmt->bindValue(':enabled', $enabled, SQLITE3_INTEGER);
         $stmt->bindValue(':bot_token', $bot_token, SQLITE3_TEXT);
         $stmt->bindValue(':chat_id', $chat_id, SQLITE3_TEXT);
+        $stmt->bindValue(':message_thread_id', $message_thread_id, SQLITE3_TEXT);
         $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmt->execute()) {
@@ -62,4 +71,4 @@ if (
             echo json_encode($response);
         }
     }
-}
+}

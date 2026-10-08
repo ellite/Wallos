@@ -226,6 +226,8 @@ $i18n = [
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegramボットトークン",
     "telegram_chat_id" => "TelegramチャットID",
+    "telegram_message_thread_id" => "Topic ID (optional)",
+    "telegram_topic_not_supported" => "Topics are only available in group chats. Direct message chat IDs cannot have a topic ID.",
     "pushplus" => "Pushplus",
     "pushplus_token" => "Pushplusトークン",
     "serverchan" => "Serverchan",
@@ -476,7 +478,7 @@ $i18n = [
     "over_budget_warning" => "予算オーバーだ",
     // TOTP Page
     "insert_totp_code" => "TOTPコードを入力してください",
-    
+
 
     "auth_tagline" => "お金の行き先を把握しましょう。",
     "auth_tagline_sub" => "サブスクリプションを管理し、支出を確認し、更新を見逃さないようにしましょう。",

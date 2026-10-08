@@ -108,7 +108,7 @@ $i18n = [
     "clone" => "Clonar",
     "renew" => "Renovar",
     "calculate_next_payment_date" => "Calcular data del pròxim pagament",
-    // Subscription form 
+    // Subscription form
     "add_subscription" => "Afegir subscripció",
     "edit_subscription" => "Editar",
     "subscription_name" => "Nom de la Subscripció",
@@ -139,7 +139,7 @@ $i18n = [
     "active_subscriptions" => "Subscripcions Actives",
     "inactive_subscriptions" => "Subscripcions Inactives",
     "monthly_cost" => "Cost Mensual",
-    "yearly_cost" => "Cost Anual", 
+    "yearly_cost" => "Cost Anual",
     "average_monthly" => "Cost mitjà mensual per subscripció",
     "most_expensive" => "Cost de subscripció més car",
     "amount_due" => "Import a pagar aquest mes",
@@ -226,6 +226,8 @@ $i18n = [
     "telegram" => "Telegram",
     "telegram_bot_token" => "Token del Bot de Telegram",
     "telegram_chat_id" => "ID del Xat de Telegram",
+    "telegram_message_thread_id" => "Topic ID (optional)",
+    "telegram_topic_not_supported" => "Topics are only available in group chats. Direct message chat IDs cannot have a topic ID.",
     "pushplus" => "Pushplus",
     "pushplus_token" => "Token de Pushplus",
     "serverchan" => "Serverchan",
