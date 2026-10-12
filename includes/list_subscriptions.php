@@ -185,7 +185,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 if ($subscription['category_id'] == 1) {
                     echo translate('no_category', $i18n);
                 } else {
-                    echo $categories[$subscription['category_id']]['name'];
+                    echo $categories[$subscription['category_id'] ?? ""]['name'] ?? "";
                 }
                 ?>
             </div>
@@ -195,7 +195,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
         if ($sort == "payer_user_id" && $subscription['payer_user_id'] != $currentPayerUserId) {
             ?>
             <div class="subscription-list-title">
-                <?= $members[$subscription['payer_user_id']]['name'] ?>
+                <?= $members[$subscription['payer_user_id'] ?? ""]['name'] ?? "" ?>
             </div>
             <?php
             $currentPayerUserId = $subscription['payer_user_id'];
@@ -299,8 +299,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
                     </span>
                     <span class="payment_method">
+                        <?php if (!empty($subscription['payment_method_icon'])) { ?>
                         <img src="<?= $subscription['payment_method_icon'] ?>"
                             title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                        <?php } ?>
                     </span>
                     <?php
                     $desktopMenuButtonClass = ""; {
