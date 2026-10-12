@@ -1565,6 +1565,21 @@ label {
   margin-top: 8px;
 }
 
+.price-history-section summary {
+  cursor: pointer;
+  color: var(--main-color);
+  padding: 8px 0;
+}
+
+.price-history-section summary:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+.price-history-content {
+  padding-top: 8px;
+}
+
 .price-history-hint {
   color: var(--text-muted);
   font-size: 13px;
@@ -1624,6 +1639,7 @@ input[type="search"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
+input[type="month"],
 input[type="number"],
 select {
   width: 100%;
@@ -1644,6 +1660,7 @@ input[type="search"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
+input[type="month"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
@@ -3103,7 +3120,8 @@ button.dark-theme-button i {
 
 .calendar .calendar-price-adjustment {
   display: block;
-  font-weight: 600;
+  font-size: 0.85em;
+  font-weight: 400;
   white-space: normal;
 }
 

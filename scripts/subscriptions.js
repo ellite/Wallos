@@ -1291,6 +1291,7 @@ function togglePriceHistorySection() {
     && document.querySelector("#frequency")?.value === "1";
   checkbox.setCustomValidity(checkbox.checked && !supported ? section.dataset.monthlyOnly : "");
   section.style.display = checkbox.checked ? "block" : "none";
+  document.querySelector("#price-history-count").textContent = `(${document.querySelector("#price-history-rows").children.length})`;
   const fallback = document.querySelector('#price_history_fallback');
   if (fallback) fallback.disabled = false;
   section.querySelectorAll("input:not([type=hidden])").forEach(input => {
@@ -1303,6 +1304,7 @@ function clearPriceHistoryRows() {
   const container = document.querySelector("#price-history-rows");
   if (container) {
     container.replaceChildren();
+    document.querySelector("#price-history-section").open = false;
   }
   const hidden = document.querySelector("#price_history");
   if (hidden) {
@@ -1349,6 +1351,7 @@ function addPriceHistoryRow(entry) {
   remove.title = section.dataset.removeLabel || "";
   remove.addEventListener("click", function () {
     row.remove();
+    togglePriceHistorySection();
   });
   const icon = document.createElement("i");
   icon.className = "fa-solid fa-xmark";
@@ -1358,6 +1361,8 @@ function addPriceHistoryRow(entry) {
   row.className = "price-history-row";
   row.append(period, price, note, remove);
   container.appendChild(row);
+  if (!entry) section.open = true;
+  row.addEventListener("invalid", () => { section.open = true; }, true);
   togglePriceHistorySection();
 }
 
@@ -1384,10 +1389,12 @@ function syncPriceHistoryHiddenField() {
     const note = row.querySelector(".price-history-note")?.value || "";
     const price = Number(priceStr);
     if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(period) || priceStr === "" || !Number.isFinite(price)) {
+      section.open = true;
       showErrorMessage(section.dataset.invalidMessage);
       return false;
     }
     if (Object.hasOwn(byPeriod, period)) {
+      section.open = true;
       showErrorMessage(section.dataset.duplicateMessage);
       return false;
     }

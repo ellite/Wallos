@@ -379,7 +379,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
           onchange="togglePriceHistorySection()">
         <label for="has_variable_price" class="grow"><?= translate('variable_price', $i18n) ?></label>
       </div>
-      <div id="price-history-section" class="price-history-section" style="display:none;"
+      <details id="price-history-section" class="price-history-section" style="display:none;"
         data-limit="<?= WALLOS_PRICE_HISTORY_LIMIT ?>"
         data-monthly-only="<?= htmlspecialchars(translate('variable_price_monthly_only', $i18n), ENT_QUOTES, 'UTF-8') ?>"
         data-limit-message="<?= htmlspecialchars(translate('price_history_limit', $i18n), ENT_QUOTES, 'UTF-8') ?>"
@@ -388,20 +388,22 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
         data-amount-placeholder="<?= translate('price_history_amount', $i18n) ?>"
         data-note-placeholder="<?= translate('price_history_note', $i18n) ?>"
         data-remove-label="<?= translate('price_history_remove', $i18n) ?>">
+        <summary><?= translate('price_history_label', $i18n) ?> <span id="price-history-count"></span></summary>
+        <div class="price-history-content">
         <label for="price_history_fallback"><?= translate('price_history_missing_month', $i18n) ?></label>
         <select id="price_history_fallback" name="price_history_fallback">
           <option value="previous"><?= translate('price_history_use_previous', $i18n) ?></option>
           <option value="base"><?= translate('price_history_use_base', $i18n) ?></option>
         </select>
         <p class="price-history-hint"><?= translate('variable_price_hint', $i18n) ?></p>
-        <label><?= translate('price_history_label', $i18n) ?></label>
         <input type="hidden" id="price_history" name="price_history" value="[]">
         <div id="price-history-rows"></div>
         <button type="button" class="button secondary-button thin" onclick="addPriceHistoryRow()">
           <i class="fa-solid fa-circle-plus"></i>
           <?= translate('price_history_add', $i18n) ?>
         </button>
-      </div>
+        </div>
+      </details>
     </div>
 
     <div class="form-group">
