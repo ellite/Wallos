@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/final_payment.php';
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/getdbkeys.php';
@@ -22,6 +23,10 @@ if ($result === false) {
 }
 
 $subscription = $result->fetchArray(SQLITE3_ASSOC); // Fetch the subscription details as an associative array
+
+if ($subscription && !wallos_payment_within_final_date($subscription, $subscription['next_payment'])) {
+    die(json_encode(['success' => false, 'message' => translate('final_payment_help', $i18n)]));
+}
 
 if ($subscription) {
     $subscription['payer_user'] = $members[$subscription['payer_user_id']]['name'];

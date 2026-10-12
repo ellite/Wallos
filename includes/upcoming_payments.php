@@ -44,6 +44,7 @@ function get_upcoming_payments($db, $userId, $limit)
         FROM subscriptions
         WHERE user_id = :userId
           AND next_payment >= date('now')
+          AND (final_payment_date IS NULL OR final_payment_date = '' OR next_payment <= final_payment_date)
           AND inactive = 0
           AND cycle != 5
         ORDER BY next_payment ASC

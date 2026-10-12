@@ -106,7 +106,7 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
+$query = "SELECT name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew, final_payment_date FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -198,7 +198,7 @@ if ($result) {
             $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
             $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
 
-            if ($inactive == 0) {
+            if ($inactive == 0 && !wallos_subscription_ended($subscription)) {
                 if ($cycle != 5) {
                     $activeSubscriptions++;
                     if (isset($paymentMethodsCount[$paymentMethodId])) {
@@ -226,7 +226,9 @@ if ($result) {
                     $todayVal = new DateTime('today');
                     $endOfMonth = new DateTime('last day of this month');
 
-                    if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
+                    if (!empty($subscription['final_payment_date'])) {
+                        $amountDueThisMonth += $originalSubscriptionPrice * count(getSubscriptionOccurrencesInRange($subscription, $todayVal, $endOfMonth));
+                    } elseif ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
                         $timesToPay = 1;
                         $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
                         $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
@@ -241,7 +243,7 @@ if ($result) {
                         $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                     }
                 }
-            } else {
+            } elseif ($inactive != 0) {
                 $inactiveSubscriptions++;
                 $totalSavingsPerMonth += $price;
 

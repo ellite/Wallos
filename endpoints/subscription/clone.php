@@ -19,7 +19,7 @@ if ($subscriptionToClone === false) {
     ]));
 }
 
-$query = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, auto_renew, start_date, cycle, frequency, notes, payment_method_id, payer_user_id, category_id, notify, url, inactive, notify_days_before, user_id, cancellation_date, replacement_subscription_id) VALUES (:name, :logo, :price, :currency_id, :next_payment, :auto_renew, :start_date, :cycle, :frequency, :notes, :payment_method_id, :payer_user_id, :category_id, :notify, :url, :inactive, :notify_days_before, :user_id, :cancellation_date, :replacement_subscription_id)";
+$query = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, auto_renew, start_date, cycle, frequency, notes, payment_method_id, payer_user_id, category_id, notify, url, inactive, notify_days_before, user_id, cancellation_date, replacement_subscription_id, final_payment_date) VALUES (:name, :logo, :price, :currency_id, :next_payment, :auto_renew, :start_date, :cycle, :frequency, :notes, :payment_method_id, :payer_user_id, :category_id, :notify, :url, :inactive, :notify_days_before, :user_id, :cancellation_date, :replacement_subscription_id, :final_payment_date)";
 $cloneStmt = $db->prepare($query);
 $cloneStmt->bindValue(':name', $subscriptionToClone['name'], SQLITE3_TEXT);
 $cloneStmt->bindValue(':logo', $subscriptionToClone['logo'], SQLITE3_TEXT);
@@ -39,6 +39,7 @@ $cloneStmt->bindValue(':url', $subscriptionToClone['url'], SQLITE3_TEXT);
 $cloneStmt->bindValue(':inactive', $subscriptionToClone['inactive'], SQLITE3_INTEGER);
 $cloneStmt->bindValue(':notify_days_before', $subscriptionToClone['notify_days_before'], SQLITE3_INTEGER);
 $cloneStmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+$cloneStmt->bindValue(':final_payment_date', $subscriptionToClone['final_payment_date'], $subscriptionToClone['final_payment_date'] === null ? SQLITE3_NULL : SQLITE3_TEXT);
 $cloneStmt->bindValue(':cancellation_date', $subscriptionToClone['cancellation_date'], SQLITE3_TEXT);
 $cloneStmt->bindValue(':replacement_subscription_id', $subscriptionToClone['replacement_subscription_id'], SQLITE3_INTEGER);
 

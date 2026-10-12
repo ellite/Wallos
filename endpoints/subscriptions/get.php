@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/final_payment.php';
 require_once '../../includes/connect_endpoint.php';
 
 require_once '../../includes/currency_formatter.php';
@@ -204,6 +205,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
+      $print[$id]['ended'] = wallos_subscription_ended($subscription);
+      $print[$id]['final_payment_date'] = $subscription['final_payment_date'];
     $print[$id]['url'] = $subscription['url'] ?? "";
     $print[$id]['notes'] = $subscription['notes'] ?? "";
     $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];

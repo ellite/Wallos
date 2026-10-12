@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/final_payment.php';
 /*
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
@@ -147,7 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
         // Calculate the monthly cost
         for ($date = $startDate; $date <= strtotime("+1 month", $startOfMonth); $date = strtotime($incrementString, $date)) {
-            if (date('Y-m', $date) == $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT)) {
+            if (date('Y-m', $date) == $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT) && wallos_payment_within_final_date($subscription, date('Y-m-d', $date))) {
                 $price = $subscription['price'];
                 if (
                     $userCurrencyId !== $subscription['currency_id']

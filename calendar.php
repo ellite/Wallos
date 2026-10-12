@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/includes/final_payment.php';
 require_once 'includes/header.php';
 require_once 'includes/currency_rates.php';
 
@@ -199,7 +200,7 @@ if ($weekStartsSunday) {
 
       if ($cycle == 5) {
         // One-time purchase: only shown on its exact payment date
-        if (date('Y-m', $nextPaymentDate) == $monthKey) {
+        if (date('Y-m', $nextPaymentDate) == $monthKey && wallos_payment_within_final_date($subscription, date('Y-m-d', $nextPaymentDate))) {
           $registerPayment($nextPaymentDate, $subscription);
         }
         continue;
@@ -234,7 +235,7 @@ if ($weekStartsSunday) {
         if ($date < $subscriptionStartDate) {
           continue;
         }
-        if (date('Y-m', $date) == $monthKey) {
+        if (date('Y-m', $date) == $monthKey && wallos_payment_within_final_date($subscription, date('Y-m-d', $date))) {
           $registerPayment($date, $subscription);
         }
       }

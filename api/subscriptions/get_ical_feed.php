@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/final_payment.php';
 /*
 This API Endpoint accepts both POST and GET requests.
 It receives the following parameters:
@@ -153,6 +154,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Wallos//iCalendar//EN\nNAME:Wallos\nX-WR-CALNAME:Wallos\n";
 
     foreach ($subscriptionsToReturn as $subscription) {
+        if (!wallos_payment_within_final_date($subscription, $subscription['next_payment'])) {
+            continue;
+        }
         $subscription['payer_user'] = $subscription['payer_user_name'];
         $subscription['category'] = $subscription['category_name'];
         $subscription['payment_method'] = $subscription['payment_method_name'];

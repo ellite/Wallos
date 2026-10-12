@@ -156,6 +156,7 @@ function renderSubscriptionDetails(subscription) {
 
   document.querySelector('#details-next-payment').textContent = detailsFormatDate(subscription.next_payment);
   document.querySelector('#details-start-date').textContent = detailsFormatDate(subscription.start_date) || strings.none;
+  document.querySelector('#details-final-payment-date').textContent = detailsFormatDate(subscription.final_payment_date) || strings.none;
   document.querySelector('#details-category').textContent = lookups.categories[subscription.category_id] || strings.none;
   document.querySelector('#details-payer').textContent = lookups.members[subscription.payer_user_id] || strings.none;
 

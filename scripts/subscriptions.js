@@ -91,6 +91,7 @@ function fillEditFormFields(subscription) {
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
+  document.querySelector("#final_payment_date").value = subscription.final_payment_date || "";
   const nextPament = document.querySelector("#next_payment");
   nextPament.value = subscription.next_payment;
   const cancellationDate = document.querySelector("#cancellation_date");

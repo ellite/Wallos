@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../includes/final_payment.php";
 error_reporting(E_ERROR | E_PARSE);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
@@ -252,6 +253,13 @@ $logoError = "";
 $notify = isset($_POST['notifications']) ? true : false;
 $notifyDaysBefore = $_POST['notify_days_before'];
 $inactive = isset($_POST['inactive']) ? true : false;
+$finalPaymentDate = $_POST['final_payment_date'] ?? null;
+$finalPaymentError = wallos_final_payment_error($finalPaymentDate, $startDate, $nextPayment);
+if ($finalPaymentError !== null) {
+    header('Content-Type: application/json');
+    die(json_encode(['status' => 'Error', 'message' => $finalPaymentError]));
+}
+$finalPaymentDate = $finalPaymentDate === '' ? null : $finalPaymentDate;
 $cancellationDate = $_POST['cancellation_date'] ?? null;
 $replacementSubscriptionId = $_POST['replacement_subscription_id'];
 
@@ -376,12 +384,12 @@ if (!$isEdit) {
                         name, logo, price, currency_id, next_payment, cycle, frequency, notes,
                         payment_method_id, payer_user_id, category_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                        auto_renew, start_date, logo_text_color, logo_variant
+                        auto_renew, start_date, logo_text_color, logo_variant, final_payment_date
                     ) VALUES (
                         :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
                         :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                        :autoRenew, :startDate, :logoTextColor, :logoVariant
+                        :autoRenew, :startDate, :logoTextColor, :logoVariant, :finalPaymentDate
                     )";
 } else {
     $id = $_POST['id'];
@@ -418,6 +426,7 @@ if (!$isEdit) {
                         inactive = :inactive, 
                         url = :url, 
                         notify_days_before = :notifyDaysBefore, 
+                        final_payment_date = :finalPaymentDate,
                         cancellation_date = :cancellationDate, 
                         replacement_subscription_id = :replacement_subscription_id";
 
@@ -450,6 +459,7 @@ $stmt->bindParam(':notify', $notify, SQLITE3_INTEGER);
 $stmt->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
 $stmt->bindParam(':url', $url, SQLITE3_TEXT);
 $stmt->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
+$stmt->bindValue(':finalPaymentDate', $finalPaymentDate, $finalPaymentDate === null ? SQLITE3_NULL : SQLITE3_TEXT);
 $stmt->bindParam(':cancellationDate', $cancellationDate, SQLITE3_TEXT);
 if ($isEdit) {
     $stmt->bindParam(':id', $id, SQLITE3_INTEGER);

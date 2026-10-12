@@ -49,6 +49,10 @@ require_once __DIR__ . '/getdbkeys.php';
       <dd id="details-start-date"></dd>
     </div>
     <div class="details-item">
+      <dt><?= translate('final_payment_date', $i18n) ?></dt>
+      <dd id="details-final-payment-date"></dd>
+    </div>
+    <div class="details-item">
       <dt><?= translate('category', $i18n) ?></dt>
       <dd id="details-category"></dd>
     </div>

@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/currency_rates.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/final_payment.php';
 
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
@@ -53,6 +54,9 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $resultSubscriptions = $stmt->execute();
 
     while ($rowSubscriptions = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
+        if (wallos_subscription_ended($rowSubscriptions)) {
+            continue;
+        }
         $originalSubscriptionPrice = getPriceConverted($rowSubscriptions['price'], $rowSubscriptions['currency_id'], $db, $userId);
         $price = getPricePerMonth($rowSubscriptions['cycle'], $rowSubscriptions['frequency'], $originalSubscriptionPrice) * 12;
         $totalYearlyCost += $price;
