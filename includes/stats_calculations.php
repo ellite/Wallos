@@ -107,7 +107,7 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT id, name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew, has_variable_price FROM subscriptions";
+$query = "SELECT id, name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew, has_variable_price, price_history_fallback FROM subscriptions";
 $conditions = [];
 $params = [];
 
@@ -260,7 +260,7 @@ if ($result) {
 
                 // Check if it has a replacement subscription and if it was not already counted
                 if ($replacementSubscriptionId && !in_array($replacementSubscriptionId, $replacementSubscriptions)) {
-                    $query = "SELECT id, price, currency_id, cycle, frequency, has_variable_price FROM subscriptions WHERE id = :replacementSubscriptionId AND user_id = :userId";
+                    $query = "SELECT id, price, currency_id, cycle, frequency, has_variable_price, price_history_fallback FROM subscriptions WHERE id = :replacementSubscriptionId AND user_id = :userId";
                     $stmt = $db->prepare($query);
                     $stmt->bindValue(':replacementSubscriptionId', $replacementSubscriptionId, SQLITE3_INTEGER);
                     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);

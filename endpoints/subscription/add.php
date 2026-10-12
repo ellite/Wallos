@@ -237,6 +237,11 @@ $isEdit = isset($_POST['id']) && $_POST['id'] != "";
 $name = validate($_POST["name"]);
 $price = $_POST['price'];
 $hasVariablePrice = isset($_POST['has_variable_price']) ? 1 : 0;
+try {
+    $priceHistoryFallback = validate_price_history_fallback($_POST['price_history_fallback'] ?? 'previous');
+} catch (InvalidArgumentException $error) {
+    die(json_encode(['status' => 'Error', 'message' => translate($error->getMessage(), $i18n)]));
+}
 $priceHistoryJson = $_POST['price_history'] ?? '';
 $currencyId = $_POST["currency_id"];
 $frequency = $_POST["frequency"];
@@ -391,12 +396,12 @@ if (!$isEdit) {
                         name, logo, price, currency_id, next_payment, cycle, frequency, notes,
                         payment_method_id, payer_user_id, category_id, notify, inactive, url,
                         notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                        auto_renew, start_date, logo_text_color, logo_variant, has_variable_price
+                        auto_renew, start_date, logo_text_color, logo_variant, has_variable_price, price_history_fallback
                     ) VALUES (
                         :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
                         :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                         :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                        :autoRenew, :startDate, :logoTextColor, :logoVariant, :hasVariablePrice
+                        :autoRenew, :startDate, :logoTextColor, :logoVariant, :hasVariablePrice, :priceHistoryFallback
                     )";
 } else {
     $id = $_POST['id'];
@@ -435,7 +440,7 @@ if (!$isEdit) {
                         notify_days_before = :notifyDaysBefore, 
                         cancellation_date = :cancellationDate, 
                         replacement_subscription_id = :replacement_subscription_id,
-                        has_variable_price = :hasVariablePrice";
+                        has_variable_price = :hasVariablePrice, price_history_fallback = :priceHistoryFallback";
 
     if ($logo != "") {
         $sql .= ", logo = :logo, logo_text_color = :logoTextColor, logo_variant = :logoVariant";
@@ -472,6 +477,7 @@ if ($isEdit) {
 }
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $stmt->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
+$stmt->bindValue(':priceHistoryFallback', $priceHistoryFallback, SQLITE3_TEXT);
 $stmt->bindParam(':hasVariablePrice', $hasVariablePrice, SQLITE3_INTEGER);
 
 try {

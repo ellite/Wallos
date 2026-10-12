@@ -15,7 +15,7 @@ require_once __DIR__ . '/variable_pricing.php';
  */
 function get_upcoming_cancellations($db, $userId)
 {
-    $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, cycle, frequency, cancellation_date, has_variable_price
+    $stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, cycle, frequency, cancellation_date, has_variable_price, price_history_fallback
         FROM subscriptions
         WHERE user_id = :userId
           AND inactive = 0

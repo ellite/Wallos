@@ -388,6 +388,11 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
         data-amount-placeholder="<?= translate('price_history_amount', $i18n) ?>"
         data-note-placeholder="<?= translate('price_history_note', $i18n) ?>"
         data-remove-label="<?= translate('price_history_remove', $i18n) ?>">
+        <label for="price_history_fallback"><?= translate('price_history_missing_month', $i18n) ?></label>
+        <select id="price_history_fallback" name="price_history_fallback">
+          <option value="previous"><?= translate('price_history_use_previous', $i18n) ?></option>
+          <option value="base"><?= translate('price_history_use_base', $i18n) ?></option>
+        </select>
         <p class="price-history-hint"><?= translate('variable_price_hint', $i18n) ?></p>
         <label><?= translate('price_history_label', $i18n) ?></label>
         <input type="hidden" id="price_history" name="price_history" value="[]">

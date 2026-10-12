@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/../../includes/variable_pricing.php";
 /*
 This API Endpoint accepts POST requests only.
 It receives the following parameters:
@@ -25,6 +26,7 @@ For 'add' and 'edit' actions (all optional for 'edit'):
 - notify / notifications: whether to send payment notifications (1 or 0).
 - notify_days_before: how many days before to send notification (integer).
 - inactive: whether the subscription is inactive (1 or 0).
+- price_history_fallback: previous (default) or base; omitted edit preserves the setting.
 - cancellation_date: the cancellation date (YYYY-MM-DD).
 - replacement_subscription_id: the ID of the replacement subscription (integer).
 
@@ -385,6 +387,7 @@ switch ($action) {
         $inactive = $_POST['inactive'] ?? '0';
         $inactive = ($inactive === '1' || $inactive === 1) ? 1 : 0;
         
+        $priceHistoryFallback = $_POST['price_history_fallback'] ?? 'previous';
         $cancellationDate = $_POST['cancellation_date'] ?? null;
         if ($cancellationDate === '') {
             $cancellationDate = null;
@@ -417,6 +420,13 @@ switch ($action) {
                 'title' => 'Invalid parameter',
                 'message' => 'Parameter "cycle" must be 1 (Days), 2 (Weeks), 3 (Months), or 4 (Years).'
             ]);
+            exit;
+        }
+
+        try {
+            $priceHistoryFallback = validate_price_history_fallback($priceHistoryFallback);
+        } catch (InvalidArgumentException $error) {
+            echo json_encode(['success' => false, 'title' => 'Invalid price fallback', 'message' => 'Expected previous or base.']);
             exit;
         }
 
@@ -552,12 +562,12 @@ switch ($action) {
                             name, logo, price, currency_id, next_payment, cycle, frequency, notes,
                             payment_method_id, payer_user_id, category_id, notify, inactive, url,
                             notify_days_before, user_id, cancellation_date, replacement_subscription_id,
-                            auto_renew, start_date, logo_text_color, logo_variant
+                            auto_renew, start_date, logo_text_color, logo_variant, price_history_fallback
                         ) VALUES (
                             :name, :logo, :price, :currencyId, :nextPayment, :cycle, :frequency, :notes,
                             :paymentMethodId, :payerUserId, :categoryId, :notify, :inactive, :url,
                             :notifyDaysBefore, :userId, :cancellationDate, :replacement_subscription_id,
-                            :autoRenew, :startDate, :logoTextColor, :logoVariant
+                            :autoRenew, :startDate, :logoTextColor, :logoVariant, :priceHistoryFallback
                         )";
         $stmtInsert = $db->prepare($sqlInsert);
         $stmtInsert->bindParam(':name', $name, SQLITE3_TEXT);
@@ -578,6 +588,7 @@ switch ($action) {
         $stmtInsert->bindParam(':url', $url, SQLITE3_TEXT);
         $stmtInsert->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
         $stmtInsert->bindParam(':userId', $userId, SQLITE3_INTEGER);
+        $stmtInsert->bindValue(':priceHistoryFallback', $priceHistoryFallback, SQLITE3_TEXT);
         $stmtInsert->bindParam(':cancellationDate', $cancellationDate, SQLITE3_TEXT);
         $stmtInsert->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
         $stmtInsert->bindParam(':autoRenew', $autoRenew, SQLITE3_INTEGER);
@@ -681,6 +692,7 @@ switch ($action) {
             $inactive = ($_POST['inactive'] === '1' || $_POST['inactive'] === 1) ? 1 : 0;
         }
 
+        $priceHistoryFallback = $_POST['price_history_fallback'] ?? $subscription['price_history_fallback'];
         $cancellationDate = $subscription['cancellation_date'];
         if (isset($_POST['cancellation_date'])) {
             $cancellationDate = $_POST['cancellation_date'] === '' ? null : $_POST['cancellation_date'];
@@ -711,6 +723,13 @@ switch ($action) {
                 'title' => 'Invalid cycle',
                 'message' => 'Parameter "cycle" must be 1 (Days), 2 (Weeks), 3 (Months), or 4 (Years).'
             ]);
+            exit;
+        }
+
+        try {
+            $priceHistoryFallback = validate_price_history_fallback($priceHistoryFallback);
+        } catch (InvalidArgumentException $error) {
+            echo json_encode(['success' => false, 'title' => 'Invalid price fallback', 'message' => 'Expected previous or base.']);
             exit;
         }
 
@@ -875,6 +894,7 @@ switch ($action) {
                             inactive = :inactive,
                             url = :url,
                             notify_days_before = :notifyDaysBefore,
+                            price_history_fallback = :priceHistoryFallback,
                             cancellation_date = :cancellationDate,
                             replacement_subscription_id = :replacement_subscription_id
                        WHERE id = :id AND user_id = :userId";
@@ -899,6 +919,7 @@ switch ($action) {
         $stmtUpdate->bindParam(':inactive', $inactive, SQLITE3_INTEGER);
         $stmtUpdate->bindParam(':url', $url, SQLITE3_TEXT);
         $stmtUpdate->bindParam(':notifyDaysBefore', $notifyDaysBefore, SQLITE3_INTEGER);
+        $stmtUpdate->bindValue(':priceHistoryFallback', $priceHistoryFallback, SQLITE3_TEXT);
         $stmtUpdate->bindParam(':cancellationDate', $cancellationDate, SQLITE3_TEXT);
         $stmtUpdate->bindParam(':replacement_subscription_id', $replacementSubscriptionId, SQLITE3_INTEGER);
         $stmtUpdate->bindParam(':id', $subscriptionId, SQLITE3_INTEGER);

@@ -19,7 +19,7 @@ It returns a JSON object with the following properties:
 - users: an array of all users, only present when all-user-subscription is used by user id 1.
 - notes: reserved for warning messages or additional information (array); currently always empty.
 
-`price` stays the stored base price. `effective_price` is the amount totals use for the current month: the same as `price` unless has_variable_price is 1, in which case it is that month's actual, else the latest earlier actual, else `price`. `effective_price` follows convert_currency the same way `price` does.
+`price` stays the stored base price. `effective_price` is the amount totals use for the current month: the same as `price` unless has_variable_price is 1, in which case it is that month's actual, else the selected previous/base fallback. `effective_price` follows convert_currency the same way `price` does.
 
 Example response:
 {

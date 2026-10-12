@@ -6,12 +6,20 @@
  *
  * has_variable_price = 0 leaves every existing calculation untouched.
  * has_variable_price = 1 stores one actual amount per calendar month. Totals
- * use that month's actual, then the most recent preceding actual, then subscriptions.price.
+ * use that month's actual. Missing months use the selected previous/base fallback.
  * The amount is already a month's cost, so it is not divided or multiplied by
  * the billing cycle. Fixed-price subscriptions keep using subscriptions.price.
  */
 
 const WALLOS_PRICE_HISTORY_LIMIT = 240;
+
+function validate_price_history_fallback($value): string
+{
+    if (!in_array($value, ['previous', 'base'], true)) {
+        throw new InvalidArgumentException('price_history_fallback_invalid');
+    }
+    return $value;
+}
 
 function variable_pricing_supports_cycle($cycle, $frequency): bool
 {
@@ -124,6 +132,9 @@ function effective_subscription_price(array $subscription, string $yearMonth, ar
     $entries = $historyIndex[(int) ($subscription['id'] ?? 0)] ?? [];
     if (isset($entries[$yearMonth])) {
         return (float) $entries[$yearMonth];
+    }
+    if (($subscription['price_history_fallback'] ?? 'previous') === 'base') {
+        return $base;
     }
     if ($entries) {
         $periods = array_keys($entries);

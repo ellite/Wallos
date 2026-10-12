@@ -142,6 +142,7 @@ function fillEditFormFields(subscription) {
   const hasVariablePrice = document.querySelector("#has_variable_price");
   if (hasVariablePrice) {
     hasVariablePrice.checked = !!subscription.has_variable_price;
+    document.querySelector('#price_history_fallback').value = subscription.price_history_fallback || 'previous';
   }
   clearPriceHistoryRows();
   if (Array.isArray(subscription.price_history)) {
@@ -1290,6 +1291,8 @@ function togglePriceHistorySection() {
     && document.querySelector("#frequency")?.value === "1";
   checkbox.setCustomValidity(checkbox.checked && !supported ? section.dataset.monthlyOnly : "");
   section.style.display = checkbox.checked ? "block" : "none";
+  const fallback = document.querySelector('#price_history_fallback');
+  if (fallback) fallback.disabled = false;
   section.querySelectorAll("input:not([type=hidden])").forEach(input => {
     input.disabled = !checkbox.checked;
     input.required = checkbox.checked && !input.classList.contains("price-history-note");

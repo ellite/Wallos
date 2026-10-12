@@ -38,6 +38,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['notify_days_before'] = $row['notify_days_before'];
             $subscriptionData['cancellation_date'] = $row['cancellation_date'];
             $subscriptionData['replacement_subscription_id'] = $row['replacement_subscription_id'];
+            $subscriptionData['price_history_fallback'] = $row['price_history_fallback'];
             $subscriptionData['has_variable_price'] = subscription_has_variable_price($row) ? 1 : 0;
             $subscriptionData['price_history'] = price_history_for_subscription($db, $subscriptionId);
             $historyIndex = [
