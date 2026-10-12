@@ -122,6 +122,14 @@ function price_history_for_subscription(?SQLite3 $db, int $subscriptionId): arra
  * Unconverted amount for $yearMonth.
  * Variable subscriptions: that month, else the latest preceding month, else the base price.
  */
+function subscription_has_monthly_price_override(array $subscription, string $yearMonth, array $historyIndex): bool
+{
+    $entries = $historyIndex[(int) ($subscription['id'] ?? 0)] ?? [];
+    return subscription_has_variable_price($subscription)
+        && array_key_exists($yearMonth, $entries)
+        && (float) $entries[$yearMonth] !== (float) ($subscription['price'] ?? 0);
+}
+
 function effective_subscription_price(array $subscription, string $yearMonth, array $historyIndex): float
 {
     $base = (float) ($subscription['price'] ?? 0);

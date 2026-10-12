@@ -183,13 +183,17 @@ if ($weekStartsSunday) {
     $priceHistoryIndex = load_price_history_index($db, (int) $userId);
     $variableMonthCounted = [];
 
-    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId, $monthKey, $priceHistoryIndex, &$variableMonthCounted) {
-      $paymentsByDay[(int) date('j', $date)][] = $subscription;
+    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId, $monthKey, $priceHistoryIndex, $code, &$variableMonthCounted) {
 
       $variable = subscription_has_variable_price($subscription);
       $rawPrice = $variable
         ? effective_subscription_price($subscription, $monthKey, $priceHistoryIndex)
         : (float) $subscription['price'];
+      $subscription['has_price_override'] = subscription_has_monthly_price_override($subscription, $monthKey, $priceHistoryIndex);
+      if ($subscription['has_price_override']) {
+        $subscription['override_price_label'] = CurrencyFormatter::format(getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId), $code);
+      }
+      $paymentsByDay[(int) date('j', $date)][] = $subscription;
       $convertedPrice = getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId);
 
       if ($variable) {
@@ -293,6 +297,13 @@ if ($weekStartsSunday) {
                     <div class="calendar-event" onClick="showSubscriptionDetails(event, <?= $payment['id'] ?>)"
                       title="<?= htmlspecialchars($payment['name']) ?>">
                       <?= htmlspecialchars($payment['name']) ?>
+                      <?php if (!empty($payment['has_price_override'])) { ?>
+                        <span class="calendar-price-adjustment"
+                          title="<?= htmlspecialchars(translate('price_adjustment_recorded', $i18n), ENT_QUOTES, 'UTF-8') ?>">
+                          <?= htmlspecialchars(translate('price_adjustment', $i18n)) ?>:
+                          <?= htmlspecialchars($payment['override_price_label']) ?>
+                        </span>
+                      <?php } ?>
                     </div>
                   <?php } ?>
                 </div>

@@ -3101,6 +3101,12 @@ button.dark-theme-button i {
   min-width: 0;
 }
 
+.calendar .calendar-price-adjustment {
+  display: block;
+  font-weight: 600;
+  white-space: normal;
+}
+
 .calendar .calendar-event {
   background-color: rgba(var(--main-color-rgb), 0.1);
   color: var(--main-color);

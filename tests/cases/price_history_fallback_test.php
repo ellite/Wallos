@@ -40,3 +40,12 @@ wallos_test('one-off fallback flows through budget and upcoming prices', functio
     assert_equals(10,computeAmountNeededInPeriod([$sub],new DateTime($next),new DateTime($next),$db,1,$index),'budget returns base');
     $db->close();
 });
+wallos_test('calendar price marker identifies explicit deviations only', function () {
+    $sub=['id'=>1,'price'=>10,'has_variable_price'=>1]; $index=[1=>['2026-10'=>15,'2026-12'=>0,'2027-01'=>10]];
+    assert_true(subscription_has_monthly_price_override($sub,'2026-10',$index),'extra package is marked');
+    assert_true(subscription_has_monthly_price_override($sub,'2026-12',$index),'explicit zero differs from base');
+    assert_true(!subscription_has_monthly_price_override($sub,'2026-11',$index),'carry-forward is not a recorded adjustment');
+    assert_true(!subscription_has_monthly_price_override($sub,'2027-01',$index),'base amount not marked as different');
+    $sub['has_variable_price']=0;
+    assert_true(!subscription_has_monthly_price_override($sub,'2026-10',$index),'disabled history not marked');
+});
