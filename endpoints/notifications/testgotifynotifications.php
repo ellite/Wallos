@@ -2,9 +2,15 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/instance_config.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
+
+// The same resolution the cron does, so the button tests what will actually be
+// sent: an account with no server of its own is tested against the instance
+// server rather than told to fill the field in. The token stays its own.
+$data["gotify_url"] = wallos_gotify_server($db, $data["gotify_url"] ?? '');
 
 if (
     !isset($data["gotify_url"]) || $data["gotify_url"] == "" ||

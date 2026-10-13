@@ -508,3 +508,30 @@ function saveOidcSettingsButton() {
       button.disabled = false;
     });
 }
+
+function saveInstanceGotifyButton() {
+  const button = document.getElementById("saveInstanceGotifyButton");
+  button.disabled = true;
+
+  fetch('endpoints/admin/saveinstancegotify.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ gotifyserver: document.getElementById("gotifyserver").value }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
