@@ -125,6 +125,8 @@ function wallos_instance_config_variables()
         'smtp_password' => 'WALLOS_SMTP_PASSWORD',
         'from_email' => 'WALLOS_SMTP_FROM',
         'server_url' => 'WALLOS_SERVER_URL',
+        'ntfy_server' => 'WALLOS_NTFY_SERVER',
+        'ntfy_headers' => 'WALLOS_NTFY_HEADERS',
     ];
 }
 
@@ -135,7 +137,7 @@ function wallos_instance_config_variables()
  */
 function wallos_instance_config_secrets()
 {
-    return ['smtp_password'];
+    return ['smtp_password', 'ntfy_headers'];
 }
 
 /**
@@ -269,4 +271,55 @@ function wallos_fill_managed_form_fields($posted, $fieldColumns, $managedFields,
     }
 
     return $posted;
+}
+
+/**
+ * The ntfy server and credential a notification should be sent through.
+ *
+ * What is personal about ntfy is the topic. The server address is not: a
+ * household that self-hosts ntfy runs one server, and before this every member
+ * had to know its address and type it in.
+ *
+ * The rule the field already implied, with one guarantee added:
+ *
+ *   - an account with a server of its own keeps it, which is every
+ *     installation configured today,
+ *   - an empty server means the instance server, if the deployment configured
+ *     one,
+ *   - and the instance headers are only ever sent to the instance server.
+ *
+ * That last line is the one to read twice. The headers are a credential for
+ * the server they belong to. An account that points ntfy at a server of its
+ * own must not have the installation's token sent there, so the instance
+ * headers are not merely overridden in that case - they are never read.
+ * An account on the instance server that has headers of its own keeps using
+ * them, which is how a shared server with per-user tokens stays possible.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userHost    The host on the user's own row.
+ * @param mixed   $userHeaders The headers on the user's own row.
+ * @return array{host: string, headers: string} What to send with.
+ */
+function wallos_ntfy_settings($db, $userHost, $userHeaders)
+{
+    $userHost = trim((string) $userHost);
+    $userHeaders = (string) $userHeaders;
+
+    if ($userHost !== '') {
+        return ['host' => $userHost, 'headers' => $userHeaders];
+    }
+
+    $settings = wallos_get_admin_settings($db);
+    $instanceHost = trim((string) ($settings['ntfy_server'] ?? ''));
+
+    if ($instanceHost === '') {
+        // No instance server: nothing changes for this account, including
+        // whatever its headers say.
+        return ['host' => '', 'headers' => $userHeaders];
+    }
+
+    return [
+        'host' => $instanceHost,
+        'headers' => trim($userHeaders) !== '' ? $userHeaders : (string) ($settings['ntfy_headers'] ?? ''),
+    ];
 }

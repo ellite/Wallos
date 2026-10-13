@@ -386,6 +386,41 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <section class="account-section">
+        <header>
+            <h2><?= translate('instance_ntfy_server', $i18n) ?></h2>
+        </header>
+        <div class="admin-form">
+            <div class="form-group-inline">
+                <input type="text" name="ntfyserver" id="ntfyserver" autocomplete="off"
+                    placeholder="https://ntfy.sh"
+                    value="<?= htmlspecialchars($settings['ntfy_server'] ?? '') ?>"
+                    <?= oidc_input_attrs('ntfy_server', $instanceManagedFields) ?> />
+            </div>
+            <div class="form-group-inline">
+                <?php if (isset($instanceManagedFields['ntfy_headers'])): ?>
+                    <?php /* A credential the deployment owns is never rendered as a value. */ ?>
+                    <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
+                        placeholder="<?= translate('custom_headers', $i18n) ?>"
+                        <?= oidc_input_attrs('ntfy_headers', $instanceManagedFields) ?>></textarea>
+                <?php else: ?>
+                    <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
+                        placeholder="<?= translate('custom_headers', $i18n) ?>"><?= htmlspecialchars($settings['ntfy_headers'] ?? '') ?></textarea>
+                <?php endif; ?>
+            </div>
+            <div class="buttons">
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveInstanceNtfyButton" onClick="saveInstanceNtfyButton()" />
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('instance_ntfy_server_info', $i18n) ?>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="account-section">
     <header>
         <h2><?= translate('security_settings', $i18n) ?></h2> </header>
     <div class="admin-form">
