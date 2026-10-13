@@ -125,6 +125,7 @@ function wallos_instance_config_variables()
         'smtp_password' => 'WALLOS_SMTP_PASSWORD',
         'from_email' => 'WALLOS_SMTP_FROM',
         'server_url' => 'WALLOS_SERVER_URL',
+        'telegram_bot_token' => 'WALLOS_TELEGRAM_BOT_TOKEN',
     ];
 }
 
@@ -135,7 +136,7 @@ function wallos_instance_config_variables()
  */
 function wallos_instance_config_secrets()
 {
-    return ['smtp_password'];
+    return ['smtp_password', 'telegram_bot_token'];
 }
 
 /**
@@ -269,4 +270,30 @@ function wallos_fill_managed_form_fields($posted, $fieldColumns, $managedFields,
     }
 
     return $posted;
+}
+
+/**
+ * The Telegram bot a notification should be sent through.
+ *
+ * A bot token names a bot, not a person: one bot can message everybody who has
+ * started a chat with it, so an installation can run a single bot for the whole
+ * household while each user keeps their own chat id. A user who has a token of
+ * their own keeps using it, which is every installation that has this
+ * configured today.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userToken The bot_token on the user's own row.
+ * @return string The token to send with, or '' when there is none.
+ */
+function wallos_telegram_bot_token($db, $userToken)
+{
+    $userToken = trim((string) $userToken);
+
+    if ($userToken !== '') {
+        return $userToken;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['telegram_bot_token'] ?? ''));
 }

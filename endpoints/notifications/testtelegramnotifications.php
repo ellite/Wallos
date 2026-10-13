@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/instance_config.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -19,7 +20,10 @@ if (
     $title = translate('wallos_notification', $i18n);
     $message = translate('test_notification', $i18n);
 
-    $botToken = $data["bottoken"];
+    // Empty here means the same as it means to the cron: the instance bot,
+    // if the deployment configured one. Otherwise the test would fail for a
+    // user whose notifications work.
+    $botToken = wallos_telegram_bot_token($db, $data["bottoken"] ?? '');
     $chatId = $data["chatid"];
 
     $ch = curl_init();

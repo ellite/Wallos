@@ -386,6 +386,38 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <section class="account-section">
+        <header>
+            <h2><?= translate('instance_telegram_bot', $i18n) ?></h2>
+        </header>
+        <div class="admin-form">
+            <div class="form-group-inline">
+                <?php if (isset($instanceManagedFields['telegram_bot_token'])): ?>
+                    <?php /* A token the deployment owns is never rendered as a value: a mounted
+                             secret that reaches the page source has left the place it was
+                             mounted into. The field says it is set, and nothing more. */ ?>
+                    <input type="password" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
+                        placeholder="<?= translate('telegram_bot_token', $i18n) ?>" value=""
+                        <?= oidc_input_attrs('telegram_bot_token', $instanceManagedFields) ?> />
+                <?php else: ?>
+                    <input type="password" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
+                        placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
+                        value="<?= htmlspecialchars($settings['telegram_bot_token'] ?? '') ?>" />
+                <?php endif; ?>
+            </div>
+            <div class="buttons">
+                <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                    id="saveInstanceTelegramButton" onClick="saveInstanceTelegramButton()" />
+            </div>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i>
+                    <?= translate('instance_telegram_bot_info', $i18n) ?>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="account-section">
     <header>
         <h2><?= translate('security_settings', $i18n) ?></h2> </header>
     <div class="admin-form">
