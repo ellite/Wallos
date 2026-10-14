@@ -29,7 +29,8 @@ PR branches were merged with `-Xignore-cr-at-eol` because several PRs converted 
 | #863 CSV export shows `Â£` | `scripts/profile.js`: CSV is prefixed with a UTF-8 BOM and served as `text/csv`, so Excel reads UTF-8. | `tests/csv_export.test.js` |
 | #990 Webhook body sent as form data | JSON payloads now get `Content-Type: application/json` unless the user set their own Content-Type. Applied to both crons and the test button. `webhook_headers_with_content_type()` in `includes/webhook_headers.php`. | `tests/cases/webhook_headers_test.php` |
 | #891 OIDC logout "Missing parameters: id_token_hint" | ID token kept in the session at OIDC login; logout redirect now sends `id_token_hint`, `client_id` and `post_logout_redirect_uri` (`includes/oidc/logout_url.php`). Also handles logout URLs that already contain `?`. | `tests/cases/oidc_logout_url_test.php` |
-| #861 Sort by price ignores currency | Price sort is now done on the main-currency (and per-month, if that setting is on) value, in both `subscriptions.php` and the filter endpoint. Ties keep DB order; disabled-to-bottom respected. | `tests/cases/price_sort_test.php` |
+| #861 Sort by price ignores currency | Price sort ranks by the main-currency (and per-month, if that setting is on) value. `printSubscriptions()` used to re-sort by the displayed price and overrode any earlier ordering, so the fix lives there (`sortSubscriptionsByPrice()` + `sort_price`), covering both `subscriptions.php` and the filter endpoint. Ties keep DB order; disabled-to-bottom respected. Verified live on devhub (EUR 50 > JPY 3000 ≈ 18.75 > USD 20 ≈ 18.18). | `tests/cases/price_sort_test.php` |
+| (found while testing #1259 on devhub) CSV export emitted PHP warnings inside the JSON for subscriptions with no payer / payment method / known category | `endpoints/subscriptions/export.php`: null-safe lookups, so API-created subscriptions export cleanly. | `tests/cases/export_missing_relations_test.php` |
 
 ## Needs your input / not done
 
@@ -42,4 +43,16 @@ PR branches were merged with `-Xignore-cr-at-eol` because several PRs converted 
 | #930 custom payment method | Reporter found the cause: SMB-mounted logos folder. Environment problem, not code. |
 | #862 502 behind nginx | Reporter's IPv6 setup; `nginx.default.conf` already uses `ipv6only=off`. No repro, no change. |
 
-(Further items below as the session continues.)
+| PR #1258 (Dockerfile / .dockerignore rewrite, chore) | Not merged. Full multi-stage Dockerfile rewrite plus build-arg changes in the release workflow. I cannot build/publish images unattended and it is not a bug fix. |
+| PR #1264 (e2e tests) | Not merged. Large addition; deserves its own review of what it needs in CI. |
+| Feature PRs #1262, #1261, #1256, #1255, #1253, #1248, #1241, #1235, #1234, #1233, #1232, #1231, #1213, #1156, #1139 | Deliberately left out: you asked for only one release and a `feat:` would force a 0.1.0 bump. They are untouched on their own branches; none were reviewed in depth. |
+| #867 notifications not translated | Real, but it is a feature-sized change: the notification strings are hardcoded English in the cron jobs and there is no i18n loading per user in those scripts. Not started. |
+| #958, #956, #1096, #921, #979 | Not reproducible from code: cron not running in the reporter's container (#958), SMTP/spam setup (#956), proxy timeouts (#1096), very old SQLite 3.7.17 (#921), and PHP 8.4/8.5 (#979) reported fine by a user. #979 may be closable — the 8.5 / 8.4 reports suggest it works; I only have PHP 8.2 locally. |
+
+## Verification
+
+- `php tests/run.php`: 179 cases, 2905 assertions, all passing.
+- `node --test tests/theme_body_classes.test.js tests/csv_export.test.js`: 6 cases passing.
+- devhub (`wallos-dev`, port 8282, project dir is bind-mounted): logged in as `agent`; with NULL payer/payment method rows the subscriptions page renders without warnings, the price sort order is correct and CSV export returns clean JSON.
+- Side effects on devhub: I added three `ZZ-*` test subscriptions for the `agent` user and deleted them again. I also set the agent user's EUR/USD/JPY `rate` values to 1 / 1.1 / 160 to test conversion; the originals were not recorded, so the next exchange-rate refresh will overwrite them.
+- Not tested live: OIDC logout (no provider available), webhook Content-Type against a real receiver, Excel's BOM handling, push/Pushover paths, PR #1237's abandoned download.
