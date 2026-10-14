@@ -23,8 +23,8 @@ require_once WALLOS_ROOT . '/includes/webhook_headers.php';
 
 wallos_test('a value that is not JSON yields no headers instead of ending the run', function () {
     // What somebody types who reads "Custom headers" and writes a header.
-    assert_same([], webhook_custom_headers('Content-Type: application/json'),
-        'a plain header line is not JSON, so it yields nothing');
+    assert_same(['Content-Type: application/json'], webhook_custom_headers('Content-Type: application/json'),
+        'a plain header line is read as one header, as the cancellation job always did');
     assert_same([], webhook_custom_headers('{"Authorization": '), 'truncated JSON yields nothing');
     assert_same([], webhook_custom_headers('null'), 'the literal null yields nothing');
     assert_same([], webhook_custom_headers('"a string"'), 'a JSON string is not a header list');
@@ -101,4 +101,11 @@ wallos_test('cURL never sees anything but an array of lines', function () {
             assert_true(is_string($line), 'every entry is a string for ' . var_export($stored, true));
         }
     }
+});
+
+wallos_test('newline-separated headers (the old cancellation format) still work, and values cannot inject lines', function () {
+    require_once WALLOS_ROOT . '/includes/webhook_headers.php';
+    assert_same(['X-Token: abc', 'Accept: text/plain'], webhook_custom_headers("X-Token: abc\r\nAccept: text/plain"), 'lines read');
+    assert_same([], webhook_custom_headers('not a header at all'), 'garbage yields nothing');
+    assert_same(['X-A: one X-Injected: two'], webhook_custom_headers(json_encode(['X-A' => "one\r\nX-Injected: two"])), 'CR/LF neutralised');
 });

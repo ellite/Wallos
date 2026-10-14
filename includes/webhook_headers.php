@@ -43,7 +43,16 @@ function webhook_custom_headers($stored)
     $decoded = json_decode($stored, true);
 
     if (!is_array($decoded)) {
-        return [];
+        // Not JSON: sendcancellationnotifications.php used to read this field
+        // as one "Name: value" per line, so existing values may be stored
+        // that way. Keep them working.
+        $decoded = [];
+        foreach (preg_split("/\r\n|\n|\r/", $stored) as $line) {
+            $line = trim($line);
+            if ($line !== '' && preg_match('/^[A-Za-z0-9!#$%&\'*+.^_`|~-]+:/', $line)) {
+                $decoded[] = $line;
+            }
+        }
     }
 
     $headers = [];
@@ -61,6 +70,9 @@ function webhook_custom_headers($stored)
         } else {
             $line = trim((string) $key) . ': ' . trim((string) $value);
         }
+
+        // A header line is one line: never let a value smuggle in another.
+        $line = preg_replace('/[\r\n]+/', ' ', $line);
 
         if ($line !== '' && strpos($line, ':') !== false) {
             $headers[] = $line;
