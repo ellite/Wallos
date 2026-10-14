@@ -66,19 +66,22 @@ function setDarkTheme(theme) {
 
         if (theme == 0) {
           darkThemeCss.disabled = true;
-          document.body.className = 'light';
+          document.body.classList.remove('dark', 'automatic');
+          document.body.classList.add('light');
           lightThemeButton.classList.add('selected');
         }
 
         if (theme == 1) {
           darkThemeCss.disabled = false;
-          document.body.className = 'dark';
+          document.body.classList.remove('light', 'automatic');
+          document.body.classList.add('dark');
           darkThemeButton.classList.add('selected');
         }
 
         if (theme == 2) {
           darkThemeCss.disabled = !prefersDarkMode;
-          document.body.className = prefersDarkMode ? 'dark' : 'light';
+          document.body.classList.remove('light', 'dark', 'automatic');
+          document.body.classList.add(prefersDarkMode ? 'dark' : 'light');
           automaticThemeButton.classList.add('selected');
           document.cookie = `inUseTheme=${prefersDarkMode ? 'dark' : 'light'}; expires=Fri, 31 Dec 9999 23:59:59 GMT; SameSite=Lax`;
         }
