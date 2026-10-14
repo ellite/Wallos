@@ -58,7 +58,7 @@ if (
         $payload = str_replace($placeholder, $value, $payload);
     }
 
-    $customheaders = webhook_custom_headers($data["customheaders"]);
+    $customheaders = webhook_headers_with_content_type(webhook_custom_headers($data["customheaders"]), $payload);
     $ignore_ssl = $data["ignore_ssl"];
 
     $ch = curl_init();

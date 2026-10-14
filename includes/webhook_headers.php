@@ -81,3 +81,33 @@ function webhook_custom_headers($stored)
 
     return $headers;
 }
+
+/**
+ * Adds "Content-Type: application/json" when the payload is JSON and the user
+ * did not set a Content-Type of their own (#990).
+ *
+ * Without it cURL announces application/x-www-form-urlencoded for a string
+ * body, and a receiver such as n8n parses the whole JSON document as the name
+ * of a single form field.
+ *
+ * @param string[] $headers Header lines as returned by webhook_custom_headers().
+ * @param mixed    $payload The request body.
+ * @return string[]
+ */
+function webhook_headers_with_content_type($headers, $payload)
+{
+    foreach ($headers as $line) {
+        if (stripos($line, 'content-type:') === 0) {
+            return $headers;
+        }
+    }
+
+    if (is_string($payload) && trim($payload) !== '') {
+        $decoded = json_decode($payload);
+        if (json_last_error() === JSON_ERROR_NONE && (is_array($decoded) || is_object($decoded))) {
+            $headers[] = 'Content-Type: application/json';
+        }
+    }
+
+    return $headers;
+}

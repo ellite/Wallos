@@ -109,3 +109,16 @@ wallos_test('newline-separated headers (the old cancellation format) still work,
     assert_same([], webhook_custom_headers('not a header at all'), 'garbage yields nothing');
     assert_same(['X-A: one X-Injected: two'], webhook_custom_headers(json_encode(['X-A' => "one\r\nX-Injected: two"])), 'CR/LF neutralised');
 });
+
+wallos_test('a JSON payload is announced as JSON unless the user set a Content-Type (#990)', function () {
+    require_once WALLOS_ROOT . '/includes/webhook_headers.php';
+    $json = '{"name": "Test", "price": "10"}';
+    assert_same(['Content-Type: application/json'], webhook_headers_with_content_type([], $json), 'added for JSON body');
+    assert_same(['X-A: 1', 'Content-Type: application/json'], webhook_headers_with_content_type(['X-A: 1'], $json), 'appended');
+    assert_same(['content-type: text/plain'], webhook_headers_with_content_type(['content-type: text/plain'], $json), 'user value wins, any case');
+    assert_same([], webhook_headers_with_content_type([], 'plain text body'), 'non-JSON untouched');
+    assert_same([], webhook_headers_with_content_type([], ''), 'empty body untouched');
+    foreach (['endpoints/cronjobs/sendnotifications.php', 'endpoints/cronjobs/sendcancellationnotifications.php', 'endpoints/notifications/testwebhooknotifications.php'] as $file) {
+        assert_true(strpos(file_get_contents(WALLOS_ROOT . '/' . $file), 'webhook_headers_with_content_type(webhook_custom_headers(') !== false, $file . ' applies it');
+    }
+});

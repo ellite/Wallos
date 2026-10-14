@@ -930,7 +930,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 
                             // Add headers if they exist
-                            $customheaders = webhook_custom_headers($webhook['headers']);
+                            $customheaders = webhook_headers_with_content_type(webhook_custom_headers($webhook['headers']), $payload);
                             if (!empty($customheaders)) {
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                             }
