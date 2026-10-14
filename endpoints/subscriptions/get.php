@@ -203,6 +203,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
+    $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
@@ -220,6 +221,10 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $print[$id]['original_price'] = floatval($subscription['price']);
       $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
     }
+  }
+
+  if ($sortOrder == "price" && isset($print)) {
+    sortSubscriptionsByPrice($print, $settings['disabledToBottom'] === 'true');
   }
 
   if ($sortOrder == "alphanumeric") {

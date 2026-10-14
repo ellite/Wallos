@@ -88,6 +88,41 @@ function getPriceConverted($price, $currency, $database)
     return wallos_convert_price($price, $currency, $database);
 }
 
+/**
+ * The value a subscription is ranked by when the list is sorted by price: its
+ * price in the main currency, so AED 71.00 does not outrank GBP 55.00 just
+ * because 71 > 55 (#861). Follows the monthly-price display setting, so the
+ * order matches the figures that are shown.
+ */
+function getSortPrice($rawPrice, $currencyId, $mainCurrencyId, $cycle, $frequency, $settings, $database)
+{
+    $price = floatval($rawPrice);
+    if ($currencyId != $mainCurrencyId) {
+        $price = floatval(getPriceConverted($price, $currencyId, $database));
+    }
+    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
+        $price = getPricePerMonth($cycle, $frequency, $price);
+    }
+    return $price;
+}
+
+/**
+ * Orders the printable list by sort_price, highest first. usort() is stable,
+ * so ties keep the order the database gave them.
+ */
+function sortSubscriptionsByPrice(&$print, $disabledToBottom)
+{
+    usort($print, function ($a, $b) use ($disabledToBottom) {
+        if ($disabledToBottom) {
+            $byInactive = ($a['inactive'] ?? 0) <=> ($b['inactive'] ?? 0);
+            if ($byInactive !== 0) {
+                return $byInactive;
+            }
+        }
+        return ($b['sort_price'] ?? 0) <=> ($a['sort_price'] ?? 0);
+    });
+}
+
 function formatPrice($price, $currencyCode, $currencies)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
