@@ -127,22 +127,28 @@ if ($result) {
 
 foreach ($subscriptions as $subscription) {
   $memberId = $subscription['payer_user_id'];
-  $members[$memberId]['count']++;
+  if (isset($members[$memberId ?? ""])) {
+    $members[$memberId ?? ""]['count']++;
+  }
   $categoryId = $subscription['category_id'];
-  $categories[$categoryId]['count']++;
+  if (isset($categories[$categoryId ?? ""])) {
+    $categories[$categoryId ?? ""]['count']++;
+  }
   $paymentMethodId = $subscription['payment_method_id'];
-  $payment_methods[$paymentMethodId]['count']++;
+  if (isset($payment_methods[$paymentMethodId ?? ""])) {
+    $payment_methods[$paymentMethodId ?? ""]['count']++;
+  }
 }
 
 if ($sortOrder == "category_id") {
   usort($subscriptions, function ($a, $b) use ($categories) {
-    return $categories[$a['category_id']]['order'] - $categories[$b['category_id']]['order'];
+    return ($categories[$a['category_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($categories[$b['category_id'] ?? ""]['order'] ?? PHP_INT_MAX);
   });
 }
 
 if ($sortOrder == "payment_method_id") {
   usort($subscriptions, function ($a, $b) use ($payment_methods) {
-    return $payment_methods[$a['payment_method_id']]['order'] - $payment_methods[$b['payment_method_id']]['order'];
+    return ($payment_methods[$a['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($payment_methods[$b['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX);
   });
 }
 
@@ -234,9 +240,10 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $next_payment_timestamp = strtotime($subscription['next_payment']);
       $formatted_date = $formatter->format($next_payment_timestamp);
       $print[$id]['next_payment'] = $formatted_date;
-      $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
-      $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
-      $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
+      $paymentIcon = $payment_methods[$paymentMethodId ?? ""]['icon'] ?? "";
+      $paymentIconFolder = (strpos($paymentIcon, 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
+      $print[$id]['payment_method_icon'] = $paymentIcon === "" ? "" : $paymentIconFolder . $paymentIcon;
+      $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId ?? ""]['name'] ?? "";
       $print[$id]['payment_method_id'] = $paymentMethodId;
       $print[$id]['category_id'] = $subscription['category_id'];
       $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
