@@ -46,6 +46,7 @@ wallos_test('getSortPrice converts other currencies and leaves the main currency
     assert_true(strpos($source, 'getPriceConverted($price, $currencyId, $database)') !== false, 'other currencies are converted');
     foreach (['subscriptions.php', 'endpoints/subscriptions/get.php'] as $file) {
         $page = file_get_contents(WALLOS_ROOT . '/' . $file);
-        assert_true(strpos($page, "sortSubscriptionsByPrice(\$print") !== false, $file . ' sorts by converted price');
+        assert_true(strpos($page, 'sort_price') !== false, $file . ' computes the converted price');
     }
+    assert_true(strpos($source, 'sortSubscriptionsByPrice($subscriptions') !== false, 'the list printer ranks by converted price');
 });

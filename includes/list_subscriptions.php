@@ -119,7 +119,7 @@ function sortSubscriptionsByPrice(&$print, $disabledToBottom)
                 return $byInactive;
             }
         }
-        return ($b['sort_price'] ?? 0) <=> ($a['sort_price'] ?? 0);
+        return ($b['sort_price'] ?? $b['price'] ?? 0) <=> ($a['sort_price'] ?? $a['price'] ?? 0);
     });
 }
 
@@ -187,14 +187,8 @@ function formatDate($date, $lang = 'en')
 function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     if ($sort === "price") {
-        usort($subscriptions, function ($a, $b) {
-            return $a['price'] < $b['price'] ? 1 : -1;
-        });
-        if ($disabledToBottom === 'true') {
-            usort($subscriptions, function ($a, $b) {
-                return $a['inactive'] - $b['inactive'];
-            });
-        }
+        // Ranked by the main-currency value (sort_price), not the raw number (#861).
+        sortSubscriptionsByPrice($subscriptions, $disabledToBottom === 'true');
     }
 
     // One-time purchases always go to the bottom regardless of sort order

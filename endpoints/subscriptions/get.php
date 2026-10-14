@@ -223,10 +223,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
-  if ($sortOrder == "price" && isset($print)) {
-    sortSubscriptionsByPrice($print, $settings['disabledToBottom'] === 'true');
-  }
-
   if ($sortOrder == "alphanumeric") {
     usort($print, function ($a, $b) {
       return strnatcmp(strtolower($a['name']), strtolower($b['name']));

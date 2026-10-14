@@ -268,10 +268,6 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       }
     }
 
-    if ($sortOrder == "price" && isset($print)) {
-      sortSubscriptionsByPrice($print, $settings['disabledToBottom'] === 'true');
-    }
-
     if ($sortOrder == "alphanumeric") {
       usort($print, function ($a, $b) {
         return strnatcmp(strtolower($a['name']), strtolower($b['name']));
