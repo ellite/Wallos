@@ -11,3 +11,6 @@
 
 # README screenshots and capture script; not used at runtime
 /screenshots/
+
+# Browser end-to-end tests; not used at runtime
+/e2e/
