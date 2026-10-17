@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Adăugarea monedei a eșuat",
   failed_add_payment_method: "Adăugarea metodei de plată a eșuat",
   failed_sort_payment_methods: "Sortarea metodelor de plată a eșuat",
+  bulk_selected_count: "{count} din {total} selectate",
+  no_subscriptions_selected: "Niciun abonament selectat",
+  select_action: "Alege o acțiune",
+  confirm_bulk_delete: "Ștergi {count} abonament(e)? Acțiunea nu poate fi anulată.",
+  bulk_action_success: "{count} abonament(e) actualizate",
+  error_bulk_action: "Acțiunea în masă a eșuat",
 }

@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Не вдалося додати валюту",
   failed_add_payment_method: "Не вдалося додати спосіб оплати",
   failed_sort_payment_methods: "Не вдалося відсортувати способи оплати",
+  bulk_selected_count: "Вибрано {count} з {total}",
+  no_subscriptions_selected: "Не вибрано жодної підписки",
+  select_action: "Виберіть дію",
+  confirm_bulk_delete: "Видалити підписки ({count})? Цю дію не можна скасувати.",
+  bulk_action_success: "Оновлено підписок: {count}",
+  error_bulk_action: "Не вдалося виконати масову дію",
 }

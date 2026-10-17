@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Nije uspelo dodavanje valute",
   failed_add_payment_method: "Nije uspelo dodavanje načina plaćanja",
   failed_sort_payment_methods: "Nije uspelo sortiranje načina plaćanja",
+  bulk_selected_count: "Izabrano {count} od {total}",
+  no_subscriptions_selected: "Nije izabrana nijedna pretplata",
+  select_action: "Izaberite radnju",
+  confirm_bulk_delete: "Obrisati pretplate ({count})? Ovo se ne može opozvati.",
+  bulk_action_success: "Ažurirano pretplata: {count}",
+  error_bulk_action: "Grupna radnja nije uspela",
 }

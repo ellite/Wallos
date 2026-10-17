@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Dodajanje valute ni uspelo",
   failed_add_payment_method: "Dodajanje načina plačila ni uspelo",
   failed_sort_payment_methods: "Razvrščanje načinov plačila ni uspelo",
+  bulk_selected_count: "Izbrano {count} od {total}",
+  no_subscriptions_selected: "Ni izbranih naročnin",
+  select_action: "Izberite dejanje",
+  confirm_bulk_delete: "Izbrišem naročnine ({count})? Tega ni mogoče razveljaviti.",
+  bulk_action_success: "Posodobljene naročnine: {count}",
+  error_bulk_action: "Množično dejanje ni uspelo",
 }

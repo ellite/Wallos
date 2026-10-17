@@ -112,6 +112,15 @@ $i18n = [
     "clone" => "克隆",
     "renew" => "续订",
     "calculate_next_payment_date" => "计算下次支付日期",
+    "bulk_actions" => "批量操作",
+    "select_all" => "全选",
+    "select_action" => "选择操作",
+    "bulk_enable_notifications" => "启用通知",
+    "bulk_disable_notifications" => "关闭通知",
+    "set_notification_timing" => "设置通知时间",
+    "set_category" => "设置分类",
+    "set_payment_method" => "设置支付方式",
+    "apply" => "应用",
 
     // 订阅表单
     "add_subscription" => "添加订阅",

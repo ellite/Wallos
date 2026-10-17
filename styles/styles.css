@@ -4071,6 +4071,106 @@ input[type="radio"]:checked+label::after {
   color: var(--main-color);
 }
 
+#bulk-mode-button.selected {
+  background-color: rgba(var(--main-color-rgb), 0.12);
+  color: var(--main-color);
+}
+
+.bulk-toolbar {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-bottom: 15px;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+}
+
+.bulk-toolbar.is-open {
+  display: flex;
+}
+
+.bulk-toolbar .bulk-select-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.bulk-toolbar #bulk-selected-count {
+  color: var(--text-muted);
+  margin-right: auto;
+}
+
+.bulk-toolbar select {
+  max-width: 220px;
+}
+
+.bulk-toolbar input[type="checkbox"],
+.bulk-select input[type="checkbox"] {
+  position: static;
+  opacity: 1;
+  width: 18px;
+  height: 18px;
+  margin: 0px;
+  accent-color: var(--main-color);
+  cursor: pointer;
+}
+
+.bulk-select {
+  display: none;
+}
+
+.subscriptions.bulk-mode .bulk-select {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.subscriptions.bulk-mode:not(.grid-view) .subscription-container {
+  padding-left: 40px;
+}
+
+.subscriptions.grid-view.bulk-mode .bulk-select {
+  top: 12px;
+  left: 12px;
+  transform: none;
+}
+
+.rtl .subscriptions.bulk-mode .bulk-select {
+  left: auto;
+  right: 14px;
+}
+
+.rtl .subscriptions.bulk-mode:not(.grid-view) .subscription-container {
+  padding-left: 0px;
+  padding-right: 40px;
+}
+
+.rtl .subscriptions.grid-view.bulk-mode .bulk-select {
+  right: 12px;
+}
+
+.subscriptions.bulk-mode .subscription {
+  cursor: pointer;
+}
+
+.subscriptions.bulk-mode .subscription-container:has(.bulk-select-checkbox:checked) .subscription {
+  outline: 2px solid var(--main-color);
+}
+
+@media (max-width: 768px) {
+  .bulk-toolbar select {
+    flex: 1;
+    max-width: none;
+  }
+}
+
 .subscriptions.grid-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));

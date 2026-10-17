@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Αποτυχία προσθήκης νομίσματος",
   failed_add_payment_method: "Αποτυχία προσθήκης τρόπου πληρωμής",
   failed_sort_payment_methods: "Αποτυχία ταξινόμησης τρόπων πληρωμής",
+  bulk_selected_count: "Επιλέχθηκαν {count} από {total}",
+  no_subscriptions_selected: "Δεν επιλέχθηκαν συνδρομές",
+  select_action: "Επιλέξτε ενέργεια",
+  confirm_bulk_delete: "Διαγραφή {count} συνδρομών; Αυτό δεν μπορεί να αναιρεθεί.",
+  bulk_action_success: "Ενημερώθηκαν {count} συνδρομές",
+  error_bulk_action: "Η μαζική ενέργεια απέτυχε",
 }

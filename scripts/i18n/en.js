@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Failed to add currency",
   failed_add_payment_method: "Failed to add payment method",
   failed_sort_payment_methods: "Failed to sort payment methods",
+  bulk_selected_count: "{count} of {total} selected",
+  no_subscriptions_selected: "No subscriptions selected",
+  select_action: "Select an action",
+  confirm_bulk_delete: "Delete {count} subscription(s)? This cannot be undone.",
+  bulk_action_success: "{count} subscription(s) updated",
+  error_bulk_action: "Bulk action failed",
 }

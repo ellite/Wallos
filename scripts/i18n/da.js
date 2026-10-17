@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Kunne ikke tilføje valuta",
   failed_add_payment_method: "Kunne ikke tilføje betalingsmetode",
   failed_sort_payment_methods: "Kunne ikke sortere betalingsmetoder",
+  bulk_selected_count: "{count} af {total} valgt",
+  no_subscriptions_selected: "Ingen abonnementer valgt",
+  select_action: "Vælg en handling",
+  confirm_bulk_delete: "Slet {count} abonnement(er)? Dette kan ikke fortrydes.",
+  bulk_action_success: "{count} abonnement(er) opdateret",
+  error_bulk_action: "Massehandlingen mislykkedes",
 }

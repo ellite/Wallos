@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "新增貨幣失敗",
   failed_add_payment_method: "新增付款方式失敗",
   failed_sort_payment_methods: "排序付款方式失敗",
+  bulk_selected_count: "已選 {count} / {total}",
+  no_subscriptions_selected: "未選擇任何訂閱",
+  select_action: "選擇操作",
+  confirm_bulk_delete: "確定刪除 {count} 個訂閱？此操作無法復原。",
+  bulk_action_success: "已更新 {count} 個訂閱",
+  error_bulk_action: "批次操作失敗",
 };

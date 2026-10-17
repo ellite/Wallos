@@ -285,6 +285,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
             ?>
 
+            <label class="bulk-select">
+                <input type="checkbox" class="bulk-select-checkbox" value="<?= $subscription['id'] ?>"
+                    onChange="updateBulkSelection()">
+            </label>
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">

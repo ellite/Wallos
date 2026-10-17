@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Nem sikerült hozzáadni a pénznemet",
   failed_add_payment_method: "Nem sikerült hozzáadni a fizetési módot",
   failed_sort_payment_methods: "Nem sikerült rendezni a fizetési módokat",
+  bulk_selected_count: "{count} / {total} kijelölve",
+  no_subscriptions_selected: "Nincs kijelölt előfizetés",
+  select_action: "Válassz műveletet",
+  confirm_bulk_delete: "Törlöd a(z) {count} előfizetést? Ez nem vonható vissza.",
+  bulk_action_success: "{count} előfizetés frissítve",
+  error_bulk_action: "A tömeges művelet nem sikerült",
 }

@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "فشل إضافة العملة",
   failed_add_payment_method: "فشل إضافة طريقة الدفع",
   failed_sort_payment_methods: "فشل ترتيب طرق الدفع",
+  bulk_selected_count: "تم تحديد {count} من {total}",
+  no_subscriptions_selected: "لم يتم تحديد أي اشتراك",
+  select_action: "اختر إجراءً",
+  confirm_bulk_delete: "حذف {count} من الاشتراكات؟ لا يمكن التراجع عن ذلك.",
+  bulk_action_success: "تم تحديث {count} من الاشتراكات",
+  error_bulk_action: "فشل الإجراء الجماعي",
 }

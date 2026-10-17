@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Không thể thêm đơn vị tiền tệ",
   failed_add_payment_method: "Không thể thêm phương thức thanh toán",
   failed_sort_payment_methods: "Không thể sắp xếp phương thức thanh toán",
+  bulk_selected_count: "Đã chọn {count} / {total}",
+  no_subscriptions_selected: "Chưa chọn đăng ký nào",
+  select_action: "Chọn thao tác",
+  confirm_bulk_delete: "Xóa {count} đăng ký? Không thể hoàn tác.",
+  bulk_action_success: "Đã cập nhật {count} đăng ký",
+  error_bulk_action: "Thao tác hàng loạt thất bại",
 }
