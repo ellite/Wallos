@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.8.4](https://github.com/ellite/Wallos/compare/v5.8.3...v5.8.4) (2026-10-17)
+
+
+### Bug Fixes
+
+* **i18n:** complete Arabic translation and plural "days before" label ([#1266](https://github.com/ellite/Wallos/issues/1266)) ([ff78a22](https://github.com/ellite/Wallos/commit/ff78a22b994b826bf4e5d2dcd7c5bd9322cd1e02))
+
 ## [5.8.3](https://github.com/ellite/Wallos/compare/v5.8.2...v5.8.3) (2026-10-01)
 
 
