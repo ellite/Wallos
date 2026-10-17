@@ -216,7 +216,7 @@ switch ($action) {
         }
 
         // Check if category is in use
-        $checkUseSql = "SELECT COUNT(*) FROM subscriptions WHERE category_id = :categoryId AND user_id = :userId";
+        $checkUseSql = "SELECT COUNT(*) FROM subscriptions WHERE (category_id = :categoryId OR id IN (SELECT subscription_id FROM subscription_categories WHERE category_id = :categoryId)) AND user_id = :userId";
         $checkUseStmt = $db->prepare($checkUseSql);
         $checkUseStmt->bindParam(':categoryId', $categoryId, SQLITE3_INTEGER);
         $checkUseStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

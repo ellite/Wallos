@@ -374,15 +374,18 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </ul>
                 </div>
                 <div class="subscription-back" inert>
-                    <button type="button" class="subscription-back-close"
-                        onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
-                        title="<?= translate('cancel', $i18n) ?>">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div class="subscription-back-header">
+                        <span class="subscription-back-title"><?= $subscription['name'] ?></span>
+                        <button type="button" class="subscription-back-close"
+                            onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
+                            title="<?= translate('cancel', $i18n) ?>">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        <?= translate('edit_subscription', $i18n) ?>
+                        <?= translate('edit', $i18n) ?>
                     </button>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); cloneSubscription(event, <?= $subscription['id'] ?>)">

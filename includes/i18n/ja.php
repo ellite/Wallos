@@ -113,6 +113,7 @@ $i18n = [
     // Subscription form
     "add_subscription" => "定期購入の追加",
     "edit_subscription" => "定期購入の編集",
+    "edit" => "編集",
     "subscription_name" => "定期購入名",
     "logo_preview" => "ロゴのプレビュー",
     "search_logo" => "ウェブ上でロゴを検索する",

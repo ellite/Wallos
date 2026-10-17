@@ -13,6 +13,135 @@ function toggleNotificationDays() {
   notifyDaysBefore.disabled = !notifyCheckbox.checked;
 }
 
+// Multi-select used by the "Paid by" and "Category" fields. The hidden input
+// carries the selected ids as a comma separated list, first one being the
+// primary one. At least one option always stays selected.
+function multiSelectElements(wrapperId) {
+  const wrapper = document.querySelector(`#${wrapperId}`);
+  return {
+    wrapper,
+    toggle: wrapper.querySelector(".multi-select-toggle"),
+    list: wrapper.querySelector(".multi-select-options"),
+    input: wrapper.querySelector("input[type='hidden']"),
+  };
+}
+
+function getMultiSelection(wrapperId) {
+  const { input } = multiSelectElements(wrapperId);
+  return input.value === "" ? [] : input.value.split(",");
+}
+
+function setMultiSelection(wrapperId, ids) {
+  const { wrapper, list, input } = multiSelectElements(wrapperId);
+  const options = list.querySelectorAll("li[role='option']");
+  const wanted = ids.map(String).filter(id => list.querySelector(`li[data-value="${id}"]`));
+  if (wanted.length === 0 && options.length > 0) {
+    wanted.push(options[0].dataset.value);
+  }
+  options.forEach(option => {
+    option.setAttribute("aria-selected", wanted.includes(option.dataset.value) ? "true" : "false");
+  });
+  input.value = wanted.join(",");
+  const names = wanted.map(id => list.querySelector(`li[data-value="${id}"] .multi-select-name`).textContent.trim());
+  wrapper.querySelector(".multi-select-label").textContent = names.length > 0 ? names.join(", ") : wrapper.dataset.placeholder;
+}
+
+function toggleMultiOption(wrapperId, option) {
+  const current = getMultiSelection(wrapperId);
+  const id = option.dataset.value;
+  if (current.includes(id)) {
+    if (current.length === 1) {
+      return;
+    }
+    setMultiSelection(wrapperId, current.filter(value => value !== id));
+  } else {
+    setMultiSelection(wrapperId, [...current, id]);
+  }
+}
+
+function closeMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.remove("is-open");
+  list.hidden = true;
+  toggle.setAttribute("aria-expanded", "false");
+}
+
+function openMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.add("is-open");
+  list.hidden = false;
+  toggle.setAttribute("aria-expanded", "true");
+  const first = list.querySelector("li[aria-selected='true']") || list.querySelector("li");
+  if (first) {
+    first.focus();
+  }
+}
+
+function initMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  list.querySelectorAll("li").forEach(option => option.tabIndex = -1);
+
+  toggle.addEventListener("click", () => {
+    wrapper.classList.contains("is-open") ? closeMultiSelect(wrapperId) : openMultiSelect(wrapperId);
+  });
+
+  toggle.addEventListener("keydown", event => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      openMultiSelect(wrapperId);
+    }
+  });
+
+  list.addEventListener("click", event => {
+    const option = event.target.closest("li[role='option']");
+    if (option) {
+      toggleMultiOption(wrapperId, option);
+      option.focus();
+    }
+  });
+
+  list.addEventListener("keydown", event => {
+    const options = Array.from(list.querySelectorAll("li"));
+    const index = options.indexOf(document.activeElement);
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      options[Math.min(index + 1, options.length - 1)].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      options[Math.max(index - 1, 0)].focus();
+    } else if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      if (index >= 0) {
+        toggleMultiOption(wrapperId, options[index]);
+      }
+    } else if (event.key === "Escape" || event.key === "Tab") {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+      }
+      closeMultiSelect(wrapperId);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener("mousedown", event => {
+    if (wrapper.classList.contains("is-open") && !wrapper.contains(event.target)) {
+      closeMultiSelect(wrapperId);
+    }
+  });
+
+  setMultiSelection(wrapperId, getMultiSelection(wrapperId));
+}
+
+const multiSelectIds = ["payer_user_select", "category_select"];
+
+function initMultiSelects() {
+  multiSelectIds.forEach(id => {
+    if (document.querySelector(`#${id}`)) {
+      initMultiSelect(id);
+    }
+  });
+}
+
 function resetForm() {
   const id = document.querySelector("#id");
   id.value = "";
@@ -39,6 +168,10 @@ function resetForm() {
   replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
+  multiSelectIds.forEach(id => {
+    setMultiSelection(id, []);
+    closeMultiSelect(id);
+  });
   toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
@@ -84,10 +217,12 @@ function fillEditFormFields(subscription) {
   toggleOneTimeCycleUI(subscription.cycle == 5);
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
-  const categorySelect = document.querySelector("#category");
-  categorySelect.value = subscription.category_id;
-  const payerSelect = document.querySelector("#payer_user");
-  payerSelect.value = subscription.payer_user_id;
+  setMultiSelection("category_select", subscription.category_ids && subscription.category_ids.length > 0
+    ? subscription.category_ids
+    : [subscription.category_id]);
+  setMultiSelection("payer_user_select", subscription.payer_user_ids && subscription.payer_user_ids.length > 0
+    ? subscription.payer_user_ids
+    : [subscription.payer_user_id]);
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
@@ -702,6 +837,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  initMultiSelects();
+
   const subscriptionForm = document.querySelector("#subs-form");
   const submitButton = document.querySelector("#save-button");
   const endpoint = "endpoints/subscription/add.php";

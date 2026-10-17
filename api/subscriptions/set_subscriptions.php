@@ -16,8 +16,10 @@ For 'add' and 'edit' actions (all optional for 'edit'):
 - start_date: the start date of the subscription (YYYY-MM-DD).
 - auto_renew: whether the subscription auto renews (1 or 0, default 1).
 - payment_method_id: the payment method ID (integer).
-- payer_user_id: the household member payer ID (integer).
-- category_id: the category ID (integer).
+- payer_user_id: the household member payer ID (integer), or several IDs separated by commas (1,2) / as an array
+  (payer_user_id[]=1&payer_user_id[]=2) when the subscription is shared. The first one is the primary payer.
+- category_id: the category ID (integer), or several IDs separated by commas (1,2) / as an array
+  (category_id[]=1&category_id[]=2) when the subscription belongs to more than one. The first one is the primary category.
 - notes: subscription notes (string, Markdown supported).
 - url: subscription URL (string).
 - logo_url: an image URL to download as the logo (string).
@@ -49,6 +51,8 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
+require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -372,8 +376,10 @@ switch ($action) {
         $autoRenew = ($autoRenew === '0' || $autoRenew === 0) ? 0 : 1;
 
         $paymentMethodId = $_POST['payment_method_id'] ?? null;
-        $payerUserId = $_POST['payer_user_id'] ?? null;
-        $categoryId = $_POST['category_id'] ?? null;
+        $payerIds = parsePayerIds($_POST['payer_user_id'] ?? []);
+        $payerUserId = $payerIds[0] ?? null;
+        $categoryIds = parsePayerIds($_POST['category_id'] ?? []);
+        $categoryId = $categoryIds[0] ?? null;
         
         $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : '';
         $url = isset($_POST['url']) ? validate($_POST['url']) : '';
@@ -462,37 +468,23 @@ switch ($action) {
         }
 
         // Category
-        if ($categoryId !== null) {
-            $categoryId = intval($categoryId);
-            $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
-            $catStmt->bindValue(':id', $categoryId, SQLITE3_INTEGER);
-            $catStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $catRes = $catStmt->execute()->fetchArray();
-            if (!$catRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid category ID',
-                    'message' => 'The specified category does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if (!categoriesBelongToUser($db, $userId, $categoryIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid category ID',
+                'message' => 'The specified category does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payer user
-        if ($payerUserId !== null) {
-            $payerUserId = intval($payerUserId);
-            $payerStmt = $db->prepare("SELECT id FROM household WHERE id = :id AND user_id = :userId");
-            $payerStmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
-            $payerStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $payerRes = $payerStmt->execute()->fetchArray();
-            if (!$payerRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid payer ID',
-                    'message' => 'The specified household member does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if (!payersBelongToUser($db, $userId, $payerIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid payer ID',
+                'message' => 'The specified household member does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payment Method
@@ -584,10 +576,13 @@ switch ($action) {
         $stmtInsert->bindParam(':startDate', $startDate, SQLITE3_TEXT);
 
         if ($stmtInsert->execute()) {
+            $newSubscriptionId = $db->lastInsertRowID();
+            saveSubscriptionPayers($db, $newSubscriptionId, $payerIds);
+            saveSubscriptionCategories($db, $newSubscriptionId, $categoryIds);
             $addResponse = [
                 'success' => true,
                 'title' => 'Subscription added',
-                'subscriptionId' => $db->lastInsertRowID(),
+                'subscriptionId' => $newSubscriptionId,
                 'message' => 'Subscription added successfully.'
             ];
             if ($logoWarning !== '') {
@@ -652,14 +647,20 @@ switch ($action) {
             $paymentMethodId = $_POST['payment_method_id'] === '' ? null : intval($_POST['payment_method_id']);
         }
 
+        // null means the payers were not sent and stay as they are
+        $payerIds = null;
         $payerUserId = $subscription['payer_user_id'];
         if (isset($_POST['payer_user_id'])) {
-            $payerUserId = $_POST['payer_user_id'] === '' ? null : intval($_POST['payer_user_id']);
+            $payerIds = parsePayerIds($_POST['payer_user_id']);
+            $payerUserId = $payerIds[0] ?? null;
         }
 
+        // null means the categories were not sent and stay as they are
+        $categoryIds = null;
         $categoryId = $subscription['category_id'];
         if (isset($_POST['category_id'])) {
-            $categoryId = $_POST['category_id'] === '' ? null : intval($_POST['category_id']);
+            $categoryIds = parsePayerIds($_POST['category_id']);
+            $categoryId = $categoryIds[0] ?? null;
         }
 
         $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : $subscription['notes'];
@@ -756,35 +757,23 @@ switch ($action) {
         }
 
         // Category
-        if ($categoryId !== null) {
-            $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
-            $catStmt->bindValue(':id', $categoryId, SQLITE3_INTEGER);
-            $catStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $catRes = $catStmt->execute()->fetchArray();
-            if (!$catRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid category ID',
-                    'message' => 'The specified category does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if ($categoryIds !== null && !categoriesBelongToUser($db, $userId, $categoryIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid category ID',
+                'message' => 'The specified category does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payer
-        if ($payerUserId !== null) {
-            $payerStmt = $db->prepare("SELECT id FROM household WHERE id = :id AND user_id = :userId");
-            $payerStmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
-            $payerStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $payerRes = $payerStmt->execute()->fetchArray();
-            if (!$payerRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid payer ID',
-                    'message' => 'The specified household member does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if ($payerIds !== null && !payersBelongToUser($db, $userId, $payerIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid payer ID',
+                'message' => 'The specified household member does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payment Method
@@ -905,6 +894,12 @@ switch ($action) {
         $stmtUpdate->bindParam(':userId', $userId, SQLITE3_INTEGER);
 
         if ($stmtUpdate->execute()) {
+            if ($payerIds !== null) {
+                saveSubscriptionPayers($db, $subscriptionId, $payerIds);
+            }
+            if ($categoryIds !== null) {
+                saveSubscriptionCategories($db, $subscriptionId, $categoryIds);
+            }
             $updateResponse = [
                 'success' => true,
                 'title' => 'Subscription updated',
@@ -953,6 +948,14 @@ switch ($action) {
         }
 
         // Delete
+        $stmtPayers = $db->prepare("DELETE FROM subscription_payers WHERE subscription_id = :subId");
+        $stmtPayers->bindParam(':subId', $subscriptionId, SQLITE3_INTEGER);
+        $stmtPayers->execute();
+
+        $stmtCategories = $db->prepare("DELETE FROM subscription_categories WHERE subscription_id = :subId");
+        $stmtCategories->bindParam(':subId', $subscriptionId, SQLITE3_INTEGER);
+        $stmtCategories->execute();
+
         $sqlDelete = "DELETE FROM subscriptions WHERE id = :subId AND user_id = :userId";
         $stmtDelete = $db->prepare($sqlDelete);
         $stmtDelete->bindParam(':subId', $subscriptionId, SQLITE3_INTEGER);

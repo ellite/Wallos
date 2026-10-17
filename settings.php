@@ -1031,7 +1031,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     if ($category['id'] != 1) {
                         $canDelete = true;
 
-                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE category_id = :categoryId AND user_id = :userId";
+                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE (category_id = :categoryId OR id IN (SELECT subscription_id FROM subscription_categories WHERE category_id = :categoryId)) AND user_id = :userId";
                         $stmt = $db->prepare($query);
                         $stmt->bindParam(':categoryId', $category['id'], SQLITE3_INTEGER);
                         $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

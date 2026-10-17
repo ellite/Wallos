@@ -113,6 +113,7 @@ $i18n = [
     // نموذج الاشتراك
     "add_subscription" => "إضافة اشتراك",
     "edit_subscription" => "تعديل الاشتراك",
+    "edit" => "تعديل",
     "subscription_name" => "اسم الاشتراك",
     "logo_preview" => "معاينة الشعار",
     "search_logo" => "البحث عن شعار على الويب",
