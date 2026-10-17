@@ -2,6 +2,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/logo_cleanup.php';
+require_once '../../includes/subscription_categories.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -65,6 +66,14 @@ if (isset($updates[$action])) {
     if (!$stmt->execute()) {
         bulkEditFail($i18n);
     }
+
+    // The subscription_categories rows are the full list the filter and the
+    // statistics read, category_id is only the first of them: replace them.
+    if ($action === 'set_category') {
+        foreach ($ids as $subscriptionId) {
+            saveSubscriptionCategories($db, $subscriptionId, [$value]);
+        }
+    }
 } elseif ($action === 'delete') {
     // Same clean up as endpoints/subscription/delete.php, for each subscription.
     $logos = [];
@@ -74,6 +83,14 @@ if (isset($updates[$action])) {
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $logos[] = $row['logo'];
         $logos[] = $row['logo_variant'];
+    }
+
+    // Subscription ids can be reused by SQLite, so the payer and category rows
+    // of a deleted subscription must not be left behind for the next one.
+    foreach (['subscription_payers', 'subscription_categories'] as $table) {
+        $stmt = $db->prepare("DELETE FROM $table WHERE subscription_id IN (SELECT id FROM subscriptions WHERE id IN ($idList) AND user_id = :userId)");
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->execute();
     }
 
     $stmt = $db->prepare("DELETE FROM subscriptions WHERE id IN ($idList) AND user_id = :userId");

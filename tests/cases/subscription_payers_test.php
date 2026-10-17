@@ -203,3 +203,15 @@ wallos_test('the statistics split a price evenly between its categories, so they
     assert_contains('$fullPrice / count($subscriptionCategoryIds)', $source, 'category cost divides by the number of categories');
     assert_contains('array_intersect($subscriptionCategoryIds, $filteredCategoryIds)) / count($subscriptionCategoryIds)', $source, 'a category filter counts that category\'s share');
 });
+
+/* Bulk actions (endpoints/subscriptions/bulkedit.php) have to keep the junction tables in step. */
+
+wallos_test('bulk delete removes the payer and category rows too, and bulk set-category replaces the category list', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/endpoints/subscriptions/bulkedit.php');
+    assert_contains("foreach (['subscription_payers', 'subscription_categories'] as \$table)", $source,
+        'a deleted subscription leaves no payer or category rows behind for a reused id');
+    assert_true(strpos($source, "DELETE FROM \$table") < strpos($source, 'DELETE FROM subscriptions WHERE id IN'),
+        'the junction rows are removed while the subscriptions can still be found');
+    assert_contains('saveSubscriptionCategories($db, $subscriptionId, [$value])', $source,
+        'set-category writes the list the filter and the statistics read');
+});
