@@ -287,6 +287,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
       $currencyId = $subscription['currency_id'];
       $print[$id]['auto_renew'] = $subscription['auto_renew'];
+      $print[$id]['notify'] = $subscription['notify'];
       $next_payment_timestamp = strtotime($subscription['next_payment']);
       $formatted_date = $formatter->format($next_payment_timestamp);
       $print[$id]['next_payment'] = $formatted_date;

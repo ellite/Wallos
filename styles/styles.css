@@ -842,6 +842,25 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 
 }
 
+.subscription .notify-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  width: 28px;
+  margin-left: 6px;
+  color: var(--main-color);
+  cursor: pointer;
+}
+
+.subscription .notify-status.off {
+  color: var(--text-muted);
+}
+
+.subscription .notify-status:hover {
+  opacity: 0.7;
+}
+
 .subscription .price {
   grid-area: price;
   justify-content: center;
@@ -4248,7 +4267,7 @@ input[type="radio"]:checked+label::after {
   grid-template-areas:
     "logo actions"
     "name name"
-    "price price"
+    "price notify"
     "cycle pm"
     "next pm";
   gap: 2px 10px;
@@ -4331,6 +4350,13 @@ input[type="radio"]:checked+label::after {
 .rtl .subscriptions.grid-view .subscription-main>.next::before {
   margin-right: 0px;
   margin-left: 6px;
+}
+
+.subscriptions.grid-view .subscription-main>.notify-status {
+  grid-area: notify;
+  align-self: start;
+  justify-self: end;
+  margin-left: 0px;
 }
 
 .subscriptions.grid-view .subscription-main>.payment_method {
