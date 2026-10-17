@@ -15,6 +15,7 @@ require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 require 'settimezone.php';
 require_once __DIR__ . '/../../includes/webhook_headers.php';
 require_once __DIR__ . '/../../includes/subscription_payers.php';
+require_once __DIR__ . '/../../includes/subscription_categories.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -201,7 +202,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 'name' => $rowSubscription['name'],
                 'price' => $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'],
                 'currency' => $currencies[$rowSubscription['currency_id']]['name'],
-                'category' => $categories[$rowSubscription['category_id']]['name'],
+                'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
                 'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],
                 'date' => $rowSubscription['next_payment'],
                 'url' => $rowSubscription['url'],

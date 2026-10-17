@@ -6,6 +6,7 @@ require_once 'includes/logo_theme_variant.php';
 
 include_once 'includes/list_subscriptions.php';
 require_once 'includes/subscription_payers.php';
+require_once 'includes/subscription_categories.php';
 
 $sort = "next_payment";
 $sortOrder = $sort;
@@ -47,15 +48,7 @@ if (isset($_GET['member'])) {
 
 if (isset($_GET['category'])) {
   $categoryIds = explode(',', $_GET['category']);
-  $placeholders = array_map(function ($key) {
-    return ":category{$key}";
-  }, array_keys($categoryIds));
-
-  $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
-
-  foreach ($categoryIds as $key => $categoryId) {
-    $params[":category{$key}"] = $categoryId;
-  }
+  $sql .= " AND " . categoryFilterCondition($categoryIds, $params);
 }
 
 if (isset($_GET['payment'])) {
@@ -119,6 +112,7 @@ if ($result) {
 }
 
 $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+$categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
 
 foreach ($subscriptions as $subscription) {
   foreach ($payersBySubscription[$subscription['id']] ?? [] as $memberId) {
@@ -126,9 +120,10 @@ foreach ($subscriptions as $subscription) {
       $members[$memberId]['count']++;
     }
   }
-  $categoryId = $subscription['category_id'];
-  if (isset($categories[$categoryId ?? ""])) {
-    $categories[$categoryId ?? ""]['count']++;
+  foreach ($categoriesBySubscription[$subscription['id']] ?? [] as $categoryId) {
+    if (isset($categories[$categoryId])) {
+      $categories[$categoryId]['count']++;
+    }
   }
   $paymentMethodId = $subscription['payment_method_id'];
   if (isset($payment_methods[$paymentMethodId ?? ""])) {
@@ -242,6 +237,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId ?? ""]['name'] ?? "";
       $print[$id]['payment_method_id'] = $paymentMethodId;
       $print[$id]['category_id'] = $subscription['category_id'];
+      $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
       $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
       $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
       $print[$id]['price'] = floatval($subscription['price']);
@@ -482,18 +478,27 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     </div>
 
     <div class="form-group">
-      <label for="category"><?= translate('category', $i18n) ?></label>
-      <select id="category" name="category_id">
-        <?php
-        foreach ($categories as $category) {
-          ?>
-          <option value="<?= $category['id'] ?>">
-            <?= $category['name'] ?>
-          </option>
+      <label for="category_toggle"><?= translate('category', $i18n) ?></label>
+      <div class="multi-select" id="category_select" data-placeholder="<?= translate('none', $i18n) ?>">
+        <button type="button" class="multi-select-toggle" id="category_toggle" aria-haspopup="listbox"
+          aria-expanded="false" aria-controls="category_options">
+          <span class="multi-select-label"></span>
+        </button>
+        <ul class="multi-select-options" id="category_options" role="listbox" aria-multiselectable="true"
+          aria-labelledby="category_toggle" tabindex="-1" hidden>
           <?php
-        }
-        ?>
-      </select>
+          foreach ($categories as $category) {
+            ?>
+            <li role="option" aria-selected="false" data-value="<?= $category['id'] ?>">
+              <span class="multi-select-check"></span>
+              <span class="multi-select-name"><?= $category['name'] ?></span>
+            </li>
+            <?php
+          }
+          ?>
+        </ul>
+        <input type="hidden" name="category_id" id="category" value="">
+      </div>
     </div>
 
     <div class="form-group-inline grow" id="notifications-group">

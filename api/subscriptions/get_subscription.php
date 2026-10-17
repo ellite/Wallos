@@ -39,6 +39,8 @@ Example response:
     "cancelation_date": null,
     "cancellation_date": "",
     "category_name": "Entertainment",
+    "category_ids": [3],
+    "category_names": ["Entertainment"],
     "payer_user_name": "John Doe",
     "payer_user_ids": [1, 2],
     "payer_user_names": ["John Doe", "Jane Doe"],
@@ -51,6 +53,7 @@ Example response:
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
 require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -113,6 +116,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $catResult = $catStmt->execute();
     $categoryRow = $catResult->fetchArray(SQLITE3_ASSOC);
     $subscription['category_name'] = $categoryRow ? $categoryRow['name'] : 'No category';
+
+    // All categories, the primary one first
+    $subscription['category_ids'] = getCategoriesBySubscription($db, [$subscription])[$subscription['id']] ?? [];
+    $subscription['category_names'] = [];
+    foreach ($subscription['category_ids'] as $categoryId) {
+        $namesStmt = $db->prepare("SELECT name FROM categories WHERE id = :categoryId AND user_id = :userId");
+        $namesStmt->bindValue(':categoryId', $categoryId, SQLITE3_INTEGER);
+        $namesStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $nameRow = $namesStmt->execute()->fetchArray(SQLITE3_ASSOC);
+        $subscription['category_names'][] = $nameRow ? $nameRow['name'] : 'No category';
+    }
 
     // Resolve Payer Name
     $payerSql = "SELECT name FROM household WHERE id = :payerId AND user_id = :userId";

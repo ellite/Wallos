@@ -47,6 +47,8 @@ Example response:
             "cancelation_date": null,
             "cancellation_date": "",
             "category_name": "General",
+            "category_ids": [1, 2],
+            "category_names": ["General", "Entertainment"],
             "payer_user_name": "John Doe",
             "payer_user_ids": [1, 2],
             "payer_user_names": ["John Doe", "Jane Doe"],
@@ -99,6 +101,7 @@ Example response:
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
 require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -225,13 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     }
     if (isset($_REQUEST['category'])) {
         $categoryIds = explode(',', $_REQUEST['category']);
-        $placeholders = array_map(function ($key) {
-            return ":category{$key}";
-        }, array_keys($categoryIds));
-        $sql .= " AND category_id IN (" . implode(',', $placeholders) . ")";
-        foreach ($categoryIds as $key => $categoryId) {
-            $params[":category{$key}"] = $categoryId;
-        }
+        $sql .= " AND " . categoryFilterCondition($categoryIds, $params);
     }
     if (isset($_REQUEST['payment'])) {
         $paymentIds = explode(',', $_REQUEST['payment']);
@@ -291,6 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     }
     $subscriptionsToReturn = array();
     $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+    $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
         if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
@@ -298,6 +296,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         } else {
             $subscriptionToReturn['price'] = $subscription['price'];
         }
+        $categoryIdsForSubscription = $categoriesBySubscription[$subscription['id']] ?? [];
+        $subscriptionToReturn['category_ids'] = $categoryIdsForSubscription;
+        $subscriptionToReturn['category_names'] = array_map(fn($categoryId) => $categories[$categoryId] ?? 'No category', $categoryIdsForSubscription);
         $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
         $payerIdsForSubscription = $payersBySubscription[$subscription['id']] ?? [];
         $subscriptionToReturn['payer_user_ids'] = $payerIdsForSubscription;

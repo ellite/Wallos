@@ -13,86 +13,89 @@ function toggleNotificationDays() {
   notifyDaysBefore.disabled = !notifyCheckbox.checked;
 }
 
-// Multi-select for the "Paid by" field. The hidden #payer_user input carries the
-// selected member ids as a comma separated list, first one being the primary payer.
-function getPayerSelection() {
-  const value = document.querySelector("#payer_user").value;
-  return value === "" ? [] : value.split(",");
+// Multi-select used by the "Paid by" and "Category" fields. The hidden input
+// carries the selected ids as a comma separated list, first one being the
+// primary one. At least one option always stays selected.
+function multiSelectElements(wrapperId) {
+  const wrapper = document.querySelector(`#${wrapperId}`);
+  return {
+    wrapper,
+    toggle: wrapper.querySelector(".multi-select-toggle"),
+    list: wrapper.querySelector(".multi-select-options"),
+    input: wrapper.querySelector("input[type='hidden']"),
+  };
 }
 
-function setPayerSelection(ids) {
-  const select = document.querySelector("#payer_user_select");
-  const options = select.querySelectorAll("li[role='option']");
-  const wanted = ids.map(String).filter(id => select.querySelector(`li[data-value="${id}"]`));
-  // A subscription always has a payer, default to the first member.
+function getMultiSelection(wrapperId) {
+  const { input } = multiSelectElements(wrapperId);
+  return input.value === "" ? [] : input.value.split(",");
+}
+
+function setMultiSelection(wrapperId, ids) {
+  const { wrapper, list, input } = multiSelectElements(wrapperId);
+  const options = list.querySelectorAll("li[role='option']");
+  const wanted = ids.map(String).filter(id => list.querySelector(`li[data-value="${id}"]`));
   if (wanted.length === 0 && options.length > 0) {
     wanted.push(options[0].dataset.value);
   }
   options.forEach(option => {
     option.setAttribute("aria-selected", wanted.includes(option.dataset.value) ? "true" : "false");
   });
-  document.querySelector("#payer_user").value = wanted.join(",");
-  const names = wanted.map(id => select.querySelector(`li[data-value="${id}"] .multi-select-name`).textContent.trim());
-  select.querySelector(".multi-select-label").textContent = names.length > 0 ? names.join(", ") : select.dataset.placeholder;
+  input.value = wanted.join(",");
+  const names = wanted.map(id => list.querySelector(`li[data-value="${id}"] .multi-select-name`).textContent.trim());
+  wrapper.querySelector(".multi-select-label").textContent = names.length > 0 ? names.join(", ") : wrapper.dataset.placeholder;
 }
 
-function togglePayerOption(option) {
-  const current = getPayerSelection();
+function toggleMultiOption(wrapperId, option) {
+  const current = getMultiSelection(wrapperId);
   const id = option.dataset.value;
   if (current.includes(id)) {
-    // Keep at least one payer selected.
     if (current.length === 1) {
       return;
     }
-    setPayerSelection(current.filter(value => value !== id));
+    setMultiSelection(wrapperId, current.filter(value => value !== id));
   } else {
-    setPayerSelection([...current, id]);
+    setMultiSelection(wrapperId, [...current, id]);
   }
 }
 
-function closePayerSelect() {
-  const select = document.querySelector("#payer_user_select");
-  select.classList.remove("is-open");
-  select.querySelector(".multi-select-options").hidden = true;
-  select.querySelector(".multi-select-toggle").setAttribute("aria-expanded", "false");
+function closeMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.remove("is-open");
+  list.hidden = true;
+  toggle.setAttribute("aria-expanded", "false");
 }
 
-function openPayerSelect() {
-  const select = document.querySelector("#payer_user_select");
-  select.classList.add("is-open");
-  const list = select.querySelector(".multi-select-options");
+function openMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.add("is-open");
   list.hidden = false;
-  select.querySelector(".multi-select-toggle").setAttribute("aria-expanded", "true");
+  toggle.setAttribute("aria-expanded", "true");
   const first = list.querySelector("li[aria-selected='true']") || list.querySelector("li");
   if (first) {
     first.focus();
   }
 }
 
-function initPayerSelect() {
-  const select = document.querySelector("#payer_user_select");
-  if (!select) {
-    return;
-  }
-  const toggle = select.querySelector(".multi-select-toggle");
-  const list = select.querySelector(".multi-select-options");
+function initMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
   list.querySelectorAll("li").forEach(option => option.tabIndex = -1);
 
   toggle.addEventListener("click", () => {
-    select.classList.contains("is-open") ? closePayerSelect() : openPayerSelect();
+    wrapper.classList.contains("is-open") ? closeMultiSelect(wrapperId) : openMultiSelect(wrapperId);
   });
 
   toggle.addEventListener("keydown", event => {
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
-      openPayerSelect();
+      openMultiSelect(wrapperId);
     }
   });
 
   list.addEventListener("click", event => {
     const option = event.target.closest("li[role='option']");
     if (option) {
-      togglePayerOption(option);
+      toggleMultiOption(wrapperId, option);
       option.focus();
     }
   });
@@ -109,24 +112,34 @@ function initPayerSelect() {
     } else if (event.key === " " || event.key === "Enter") {
       event.preventDefault();
       if (index >= 0) {
-        togglePayerOption(options[index]);
+        toggleMultiOption(wrapperId, options[index]);
       }
     } else if (event.key === "Escape" || event.key === "Tab") {
       if (event.key === "Escape") {
         event.stopPropagation();
       }
-      closePayerSelect();
+      closeMultiSelect(wrapperId);
       toggle.focus();
     }
   });
 
   document.addEventListener("mousedown", event => {
-    if (select.classList.contains("is-open") && !select.contains(event.target)) {
-      closePayerSelect();
+    if (wrapper.classList.contains("is-open") && !wrapper.contains(event.target)) {
+      closeMultiSelect(wrapperId);
     }
   });
 
-  setPayerSelection(getPayerSelection());
+  setMultiSelection(wrapperId, getMultiSelection(wrapperId));
+}
+
+const multiSelectIds = ["payer_user_select", "category_select"];
+
+function initMultiSelects() {
+  multiSelectIds.forEach(id => {
+    if (document.querySelector(`#${id}`)) {
+      initMultiSelect(id);
+    }
+  });
 }
 
 function resetForm() {
@@ -155,8 +168,10 @@ function resetForm() {
   replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
-  setPayerSelection([]);
-  closePayerSelect();
+  multiSelectIds.forEach(id => {
+    setMultiSelection(id, []);
+    closeMultiSelect(id);
+  });
   toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
@@ -202,9 +217,10 @@ function fillEditFormFields(subscription) {
   toggleOneTimeCycleUI(subscription.cycle == 5);
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
-  const categorySelect = document.querySelector("#category");
-  categorySelect.value = subscription.category_id;
-  setPayerSelection(subscription.payer_user_ids && subscription.payer_user_ids.length > 0
+  setMultiSelection("category_select", subscription.category_ids && subscription.category_ids.length > 0
+    ? subscription.category_ids
+    : [subscription.category_id]);
+  setMultiSelection("payer_user_select", subscription.payer_user_ids && subscription.payer_user_ids.length > 0
     ? subscription.payer_user_ids
     : [subscription.payer_user_id]);
 
@@ -821,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  initPayerSelect();
+  initMultiSelects();
 
   const subscriptionForm = document.querySelector("#subs-form");
   const submitButton = document.querySelector("#save-button");

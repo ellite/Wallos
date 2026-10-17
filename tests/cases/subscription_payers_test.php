@@ -131,3 +131,75 @@ wallos_test('email reaches every payer while the other channels keep to the prim
         assert_contains('No email set for', $source, $file . ' skips extra payers without an address');
     }
 });
+
+/* Categories work the same way, see migrations/000061.php. */
+
+require_once WALLOS_ROOT . '/includes/subscription_categories.php';
+
+function categories_test_category($db, $userId, $name)
+{
+    $stmt = $db->prepare("INSERT INTO categories (name, user_id) VALUES (:name, :userId)");
+    $stmt->bindValue(':name', $name, SQLITE3_TEXT);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    return $db->lastInsertRowID();
+}
+
+wallos_test('the categories migration carries each subscription\'s category over, and can run twice', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+    $categoryId = categories_test_category($db, 1, 'Video');
+    $subscriptionId = payers_test_subscription($db, 1, null);
+    $db->exec("UPDATE subscriptions SET category_id = $categoryId WHERE id = $subscriptionId");
+
+    $db->exec('DELETE FROM subscription_categories');
+    require WALLOS_ROOT . '/migrations/000061.php';
+    require WALLOS_ROOT . '/migrations/000061.php';
+
+    $found = getCategoriesBySubscription($db, [['id' => $subscriptionId, 'category_id' => $categoryId]]);
+    assert_same([$categoryId], $found[$subscriptionId], 'the existing category is carried over');
+    assert_same(1, $db->querySingle("SELECT COUNT(*) FROM subscription_categories WHERE subscription_id = $subscriptionId"), 'running twice does not duplicate rows');
+
+    $db->close();
+});
+
+wallos_test('categories are saved as a list, checked for ownership and filterable by any of them', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+    wallos_test_create_user($db, 2, 'bob');
+    $video = categories_test_category($db, 1, 'Video');
+    $music = categories_test_category($db, 1, 'Music');
+    $foreign = categories_test_category($db, 2, 'Other');
+    $shared = payers_test_subscription($db, 1, null);
+    $videoOnly = payers_test_subscription($db, 1, null);
+
+    saveSubscriptionCategories($db, $shared, [$video, $music]);
+    saveSubscriptionCategories($db, $videoOnly, [$video]);
+    $row = ['id' => $shared, 'category_id' => $video];
+    assert_same([$video, $music], getCategoriesBySubscription($db, [$row])[$shared], 'both categories stored in order');
+
+    assert_true(categoriesBelongToUser($db, 1, [$video, $music]), 'own categories accepted');
+    assert_true(!categoriesBelongToUser($db, 1, [$video, $foreign]), 'one foreign category rejects the list');
+
+    $params = [];
+    $condition = categoryFilterCondition([$music], $params);
+    $stmt = $db->prepare("SELECT id FROM subscriptions WHERE user_id = 1 AND $condition");
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value, SQLITE3_INTEGER);
+    }
+    $found = [];
+    $result = $stmt->execute();
+    while ($r = $result->fetchArray(SQLITE3_ASSOC)) {
+        $found[] = $r['id'];
+    }
+    assert_same([$shared], $found, 'filtering by the second category finds the shared subscription');
+
+    $db->close();
+});
+
+wallos_test('the statistics split a price evenly between its categories, so they add up to the total', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/includes/stats_calculations.php');
+    assert_contains('$fullPrice / count($subscriptionCategoryIds)', $source, 'category cost divides by the number of categories');
+    assert_contains('array_intersect($subscriptionCategoryIds, $filteredCategoryIds)) / count($subscriptionCategoryIds)', $source, 'a category filter counts that category\'s share');
+});

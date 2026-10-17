@@ -20,6 +20,7 @@ wallos_test('subscription relation counts ignore absent and unresolved optional 
         ['id' => 3, 'payer_user_id' => 7, 'category_id' => 8, 'payment_method_id' => 9],
     ];
     $payersBySubscription = [2 => [99], 3 => [7]];
+    $categoriesBySubscription = [2 => [99], 3 => [8]];
     set_error_handler(function ($severity, $message) { throw new ErrorException($message, 0, $severity); });
     try { eval($fragment); } finally { restore_error_handler(); }
     assert_same([7 => ['count' => 1]], $members, 'only known payer counted');

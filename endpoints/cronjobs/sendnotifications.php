@@ -20,6 +20,7 @@ require __DIR__ . '/../../includes/budget_period_calculations.php';
 require 'settimezone.php';
 require_once __DIR__ . '/../../includes/webhook_headers.php';
 require_once __DIR__ . '/../../includes/subscription_payers.php';
+require_once __DIR__ . '/../../includes/subscription_categories.php';
 
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
@@ -396,7 +397,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     'currency' => $currencies[$rowSubscription['currency_id']]['name'],
                     'currency_symbol' => $currencies[$rowSubscription['currency_id']]['symbol'],
                     'formatted_price' => formatPrice($rowSubscription['price'], $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']),
-                    'category' => $categories[$rowSubscription['category_id']]['name'],
+                    'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
                     'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],
                     'date' => $rowSubscription['next_payment'],
                     'days' => $daysToCompare,

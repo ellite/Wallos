@@ -12,6 +12,7 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
 require_once '../../includes/ical_helper.php';
 require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -129,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     }
 
     $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+    $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
 
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
@@ -143,7 +145,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
             $subscriptionToReturn['price'] = $subscription['price'];
         }
 
-        $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
+        $categoryLabel = payerNamesLabel($categoriesBySubscription[$subscription['id']] ?? [], $categories);
+        $subscriptionToReturn['category_name'] = $categoryLabel !== '' ? $categoryLabel : 'No category';
         $payerLabel = payerNamesLabel($payersBySubscription[$subscription['id']] ?? [], $members);
         $subscriptionToReturn['payer_user_name'] = $payerLabel !== '' ? $payerLabel : 'Unknown member';
         $subscriptionToReturn['payment_method_name'] = isset($paymentMethods[$subscription['payment_method_id']]) ? $paymentMethods[$subscription['payment_method_id']] : 'Unknown payment method';

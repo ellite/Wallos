@@ -27,6 +27,7 @@ wallos_test('CSV export tolerates subscriptions without payer, payment method or
         $out = [];
         foreach ($rows as $row) {
             $payerIds = $row['payer_user_id'] === null ? [] : [$row['payer_user_id']];
+            $categoryIds = [$row['category_id']];
             eval($fragment);
             $out[] = $subscriptionDetails;
         }

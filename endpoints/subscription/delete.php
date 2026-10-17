@@ -19,6 +19,11 @@ $payersStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
 $payersStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $payersStmt->execute();
 
+$categoriesStmt = $db->prepare("DELETE FROM subscription_categories WHERE subscription_id IN (SELECT id FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId)");
+$categoriesStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
+$categoriesStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$categoriesStmt->execute();
+
 $deleteQuery = "DELETE FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId";
 $deleteStmt = $db->prepare($deleteQuery);
 $deleteStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);

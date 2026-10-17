@@ -7,6 +7,7 @@ require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
 require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 require_once '../../includes/getsettings.php';
 
@@ -41,17 +42,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if (isset($_GET['categories']) && $_GET['categories'] != "") {
     $allCategories = explode(',', $_GET['categories']);
-    $placeholders = array_map(function ($idx) {
-      return ":categories{$idx}";
-    }, array_keys($allCategories));
-
-    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
-      return "category_id = {$placeholder}";
-    }, $placeholders)) . ")";
-
-    foreach ($allCategories as $idx => $category) {
-      $params[":categories{$idx}"] = $category;
-    }
+    $sql .= " AND " . categoryFilterCondition($allCategories, $params);
   }
 
   if (isset($_GET['payments']) && $_GET['payments'] !== "") {
@@ -166,6 +157,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+  $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
 
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
@@ -194,6 +186,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId ?? ""]['name'] ?? "";
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
+    $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
     $print[$id]['price'] = floatval($subscription['price']);

@@ -18,7 +18,8 @@ For 'add' and 'edit' actions (all optional for 'edit'):
 - payment_method_id: the payment method ID (integer).
 - payer_user_id: the household member payer ID (integer), or several IDs separated by commas (1,2) / as an array
   (payer_user_id[]=1&payer_user_id[]=2) when the subscription is shared. The first one is the primary payer.
-- category_id: the category ID (integer).
+- category_id: the category ID (integer), or several IDs separated by commas (1,2) / as an array
+  (category_id[]=1&category_id[]=2) when the subscription belongs to more than one. The first one is the primary category.
 - notes: subscription notes (string, Markdown supported).
 - url: subscription URL (string).
 - logo_url: an image URL to download as the logo (string).
@@ -51,6 +52,7 @@ require_once '../../includes/inputvalidation.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -376,7 +378,8 @@ switch ($action) {
         $paymentMethodId = $_POST['payment_method_id'] ?? null;
         $payerIds = parsePayerIds($_POST['payer_user_id'] ?? []);
         $payerUserId = $payerIds[0] ?? null;
-        $categoryId = $_POST['category_id'] ?? null;
+        $categoryIds = parsePayerIds($_POST['category_id'] ?? []);
+        $categoryId = $categoryIds[0] ?? null;
         
         $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : '';
         $url = isset($_POST['url']) ? validate($_POST['url']) : '';
@@ -465,20 +468,13 @@ switch ($action) {
         }
 
         // Category
-        if ($categoryId !== null) {
-            $categoryId = intval($categoryId);
-            $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
-            $catStmt->bindValue(':id', $categoryId, SQLITE3_INTEGER);
-            $catStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $catRes = $catStmt->execute()->fetchArray();
-            if (!$catRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid category ID',
-                    'message' => 'The specified category does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if (!categoriesBelongToUser($db, $userId, $categoryIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid category ID',
+                'message' => 'The specified category does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payer user
@@ -582,6 +578,7 @@ switch ($action) {
         if ($stmtInsert->execute()) {
             $newSubscriptionId = $db->lastInsertRowID();
             saveSubscriptionPayers($db, $newSubscriptionId, $payerIds);
+            saveSubscriptionCategories($db, $newSubscriptionId, $categoryIds);
             $addResponse = [
                 'success' => true,
                 'title' => 'Subscription added',
@@ -658,9 +655,12 @@ switch ($action) {
             $payerUserId = $payerIds[0] ?? null;
         }
 
+        // null means the categories were not sent and stay as they are
+        $categoryIds = null;
         $categoryId = $subscription['category_id'];
         if (isset($_POST['category_id'])) {
-            $categoryId = $_POST['category_id'] === '' ? null : intval($_POST['category_id']);
+            $categoryIds = parsePayerIds($_POST['category_id']);
+            $categoryId = $categoryIds[0] ?? null;
         }
 
         $notes = isset($_POST['notes']) ? validate_markdown($_POST['notes']) : $subscription['notes'];
@@ -757,19 +757,13 @@ switch ($action) {
         }
 
         // Category
-        if ($categoryId !== null) {
-            $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
-            $catStmt->bindValue(':id', $categoryId, SQLITE3_INTEGER);
-            $catStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
-            $catRes = $catStmt->execute()->fetchArray();
-            if (!$catRes) {
-                echo json_encode([
-                    'success' => false,
-                    'title' => 'Invalid category ID',
-                    'message' => 'The specified category does not exist or does not belong to you.'
-                ]);
-                exit;
-            }
+        if ($categoryIds !== null && !categoriesBelongToUser($db, $userId, $categoryIds)) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid category ID',
+                'message' => 'The specified category does not exist or does not belong to you.'
+            ]);
+            exit;
         }
 
         // Payer
@@ -903,6 +897,9 @@ switch ($action) {
             if ($payerIds !== null) {
                 saveSubscriptionPayers($db, $subscriptionId, $payerIds);
             }
+            if ($categoryIds !== null) {
+                saveSubscriptionCategories($db, $subscriptionId, $categoryIds);
+            }
             $updateResponse = [
                 'success' => true,
                 'title' => 'Subscription updated',
@@ -954,6 +951,10 @@ switch ($action) {
         $stmtPayers = $db->prepare("DELETE FROM subscription_payers WHERE subscription_id = :subId");
         $stmtPayers->bindParam(':subId', $subscriptionId, SQLITE3_INTEGER);
         $stmtPayers->execute();
+
+        $stmtCategories = $db->prepare("DELETE FROM subscription_categories WHERE subscription_id = :subId");
+        $stmtCategories->bindParam(':subId', $subscriptionId, SQLITE3_INTEGER);
+        $stmtCategories->execute();
 
         $sqlDelete = "DELETE FROM subscriptions WHERE id = :subId AND user_id = :userId";
         $stmtDelete = $db->prepare($sqlDelete);
