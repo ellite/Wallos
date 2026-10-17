@@ -192,7 +192,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['currency_code'] = $currencies[$subscription['currency_id']]['code'];
     $currencyId = $subscription['currency_id'];
     $next_payment_timestamp = strtotime($subscription['next_payment']);
-    $formatted_date = $formatter->format($next_payment_timestamp);
+    $formatted_date = ($settings['date_format'] ?? 'auto') === 'auto'
+      ? $formatter->format($next_payment_timestamp)
+      : format_user_date($next_payment_timestamp, $lang, $settings['date_format']);
     $print[$id]['next_payment'] = $formatted_date;
     $print[$id]['auto_renew'] = $subscription['auto_renew'];
     $paymentIcon = $payment_methods[$paymentMethodId ?? ""]['icon'] ?? "";

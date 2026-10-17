@@ -1708,6 +1708,23 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     </select>
                 </div>
             </div>
+            <div>
+                <div class="form-group">
+                    <label for="dateformat"><?= translate('date_format', $i18n) ?></label>
+                    <select id="dateformat" name="dateformat" onChange="setDateFormat()">
+                        <?php foreach (array_keys(DATE_FORMATS) as $dateFormatKey) { ?>
+                            <option value="<?= $dateFormatKey ?>" <?= $settings['date_format'] === $dateFormatKey ? 'selected' : '' ?>>
+                                <?php if ($dateFormatKey === 'auto') { ?>
+                                    <?= translate('date_format_automatic', $i18n) ?>
+                                <?php } else { ?>
+                                    <?= format_user_date(new DateTime(), $lang, $dateFormatKey) ?>
+                                    <?= isset(DATE_FORMAT_LABELS[$dateFormatKey]) ? '(' . DATE_FORMAT_LABELS[$dateFormatKey] . ')' : '' ?>
+                                <?php } ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
             <h3><?= translate('experience', $i18n) ?></h3>
             <div>
                 <div class="form-group-inline">
