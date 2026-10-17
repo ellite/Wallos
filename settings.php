@@ -517,7 +517,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             $selected = $i == $notifications['days'] ? "selected" : "";
                             ?>
                             <option value="<?= $i ?>" <?= $selected ?>>
-                                <?= $i ?>     <?= translate('day_before', $i18n) ?>
+                                <?= $i ?>     <?= translate('days_before', $i18n) ?>
                             </option>
                             <?php
                         }
