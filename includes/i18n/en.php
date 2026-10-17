@@ -113,6 +113,7 @@ $i18n = [
     // Subscription form
     "add_subscription" => "Add subscription",
     "edit_subscription" => "Edit subscription",
+    "edit" => "Edit",
     "subscription_name" => "Subscription name",
     "logo_preview" => "Logo Preview",
     "search_logo" => "Search logo on the web",

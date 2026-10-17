@@ -4407,6 +4407,21 @@ body.details-open {
   color: var(--main-color);
 }
 
+/* Links in the notes: the browser default blue is unreadable on the dark surface */
+.details-notes a {
+  color: var(--main-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.details-notes a:visited {
+  color: var(--main-color);
+}
+
+.details-notes a:hover {
+  opacity: 0.8;
+}
+
 @media (max-width: 768px) {
   .subscription-details,
   .logo-search,
@@ -4483,10 +4498,10 @@ body.details-open {
 }
 
 .subscriptions.grid-view .subscription-back {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 8px;
   position: absolute;
   inset: 0;
   transform: rotateY(180deg);
@@ -4494,7 +4509,7 @@ body.details-open {
   backface-visibility: hidden;
   background-color: var(--box-background-color);
   border-radius: inherit;
-  padding: 12px 10px;
+  padding: 42px 10px 10px;
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -4509,21 +4524,30 @@ body.details-open {
 
 .subscription-back .back-action {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 6px;
   width: 100%;
+  min-width: 0;
   border: 1px solid var(--input-border-color);
   background-color: var(--input-background-color);
   color: var(--text-color);
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  text-align: start;
-  padding: 8px 12px;
-  border-radius: 8px;
+  line-height: 1.2;
+  text-align: center;
+  padding: 8px 6px;
+  border-radius: 10px;
   cursor: pointer;
   box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+/* Without the renew action there are three tiles: the last one takes the whole row */
+.subscription-back .back-action:last-child:nth-child(even) {
+  grid-column: 1 / -1;
 }
 
 .subscription-back .back-action:hover {
@@ -4533,8 +4557,7 @@ body.details-open {
 
 .subscription-back .back-action>i {
   color: var(--main-color);
-  font-size: 15px;
-  width: 18px;
+  font-size: 20px;
   text-align: center;
 }
 
@@ -4547,10 +4570,31 @@ body.details-open {
   color: var(--error-color);
 }
 
-.subscription-back-close {
+.subscription-back-header {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 6px 0 14px;
+  box-sizing: border-box;
+}
+
+.subscription-back-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.subscription-back-close {
+  flex: 0 0 auto;
   border: none;
   background-color: transparent;
   color: var(--text-muted);
@@ -4560,9 +4604,8 @@ body.details-open {
   cursor: pointer;
 }
 
-.rtl .subscription-back-close {
-  right: auto;
-  left: 8px;
+.rtl .subscription-back-header {
+  padding: 6px 14px 0 6px;
 }
 
 .subscription-back-close:hover {
@@ -4578,18 +4621,18 @@ body.details-open {
 
 @media (max-width: 768px) {
   .subscriptions.grid-view .subscription-back {
-    padding: 8px;
-    gap: 4px;
+    padding: 40px 8px 8px;
+    gap: 6px;
   }
 
   .subscription-back .back-action {
-    font-size: 14px;
-    padding: 6px 10px;
-    gap: 8px;
+    font-size: 12px;
+    padding: 6px 4px;
+    gap: 4px;
   }
 
   .subscription-back .back-action>i {
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 
