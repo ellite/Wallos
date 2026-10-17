@@ -6,6 +6,7 @@ require_once '../../includes/getdbkeys.php';
 require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
+require_once '../../includes/subscription_payers.php';
 
 require_once '../../includes/getsettings.php';
 
@@ -70,17 +71,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if (isset($_GET['members']) && $_GET['members'] != "") {
     $allMembers = explode(',', $_GET['members']);
-    $placeholders = array_map(function ($idx) {
-      return ":members{$idx}";
-    }, array_keys($allMembers));
-
-    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
-      return "payer_user_id = {$placeholder}";
-    }, $placeholders)) . ")";
-
-    foreach ($allMembers as $idx => $member) {
-      $params[":members{$idx}"] = $member;
-    }
+    $sql .= " AND " . payerFilterCondition($allMembers, $params);
   }
 
   if (isset($_GET['state']) && $_GET['state'] != "") {
@@ -174,6 +165,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
       continue;
@@ -202,6 +195,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
+    $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);

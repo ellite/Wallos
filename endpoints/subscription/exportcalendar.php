@@ -2,6 +2,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/getdbkeys.php';
+require_once '../../includes/subscription_payers.php';
 require_once '../../includes/ical_helper.php';
 
 $postData = file_get_contents("php://input");
@@ -24,7 +25,7 @@ if ($result === false) {
 $subscription = $result->fetchArray(SQLITE3_ASSOC); // Fetch the subscription details as an associative array
 
 if ($subscription) {
-    $subscription['payer_user'] = $members[$subscription['payer_user_id']]['name'];
+    $subscription['payer_user'] = payerNamesLabel(getPayersBySubscription($db, [$subscription])[$subscription['id']] ?? [], array_map(fn($m) => $m['name'] ?? '', $members));
     $subscription['category'] = $categories[$subscription['category_id']]['name'];
     $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
     $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];

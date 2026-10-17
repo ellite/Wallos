@@ -40,6 +40,8 @@ Example response:
     "cancellation_date": "",
     "category_name": "Entertainment",
     "payer_user_name": "John Doe",
+    "payer_user_ids": [1, 2],
+    "payer_user_names": ["John Doe", "Jane Doe"],
     "payment_method_name": "PayPal"
   },
   "notes": []
@@ -48,6 +50,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
+require_once '../../includes/subscription_payers.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -119,6 +122,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     $payerResult = $payerStmt->execute();
     $payerRow = $payerResult->fetchArray(SQLITE3_ASSOC);
     $subscription['payer_user_name'] = $payerRow ? $payerRow['name'] : 'Unknown member';
+
+    // All payers, the primary one first
+    $subscription['payer_user_ids'] = getPayersBySubscription($db, [$subscription])[$subscription['id']] ?? [];
+    $subscription['payer_user_names'] = [];
+    foreach ($subscription['payer_user_ids'] as $payerId) {
+        $namesStmt = $db->prepare("SELECT name FROM household WHERE id = :payerId AND user_id = :userId");
+        $namesStmt->bindValue(':payerId', $payerId, SQLITE3_INTEGER);
+        $namesStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $nameRow = $namesStmt->execute()->fetchArray(SQLITE3_ASSOC);
+        $subscription['payer_user_names'][] = $nameRow ? $nameRow['name'] : 'Unknown member';
+    }
 
     // Resolve Payment Method Name
     $pmSql = "SELECT name FROM payment_methods WHERE id = :pmId AND (user_id = :userId OR user_id = 0 OR user_id IS NULL)";

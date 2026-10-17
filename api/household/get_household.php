@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
     foreach ($household as $key => $value) {
         unset($household[$key]['user_id']);
         // Check if is used in any subscriptions
-        $sql = "SELECT * FROM subscriptions WHERE user_id = :userId AND payer_user_id = :householdId";
+        $sql = "SELECT * FROM subscriptions WHERE user_id = :userId AND (payer_user_id = :householdId OR id IN (SELECT subscription_id FROM subscription_payers WHERE payer_id = :householdId))";
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':userId', $userId);
         $stmt->bindValue(':householdId', $household[$key]['id']);

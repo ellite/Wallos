@@ -48,6 +48,8 @@ Example response:
             "cancellation_date": "",
             "category_name": "General",
             "payer_user_name": "John Doe",
+            "payer_user_ids": [1, 2],
+            "payer_user_names": ["John Doe", "Jane Doe"],
             "payment_method_name": "PayPal"
         },
         {
@@ -96,6 +98,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
+require_once '../../includes/subscription_payers.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -218,13 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
 
     if (isset($_REQUEST['member'])) {
         $memberIds = explode(',', $_REQUEST['member']);
-        $placeholders = array_map(function ($key) {
-            return ":member{$key}";
-        }, array_keys($memberIds));
-        $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
-        foreach ($memberIds as $key => $memberId) {
-            $params[":member{$key}"] = $memberId;
-        }
+        $sql .= " AND " . payerFilterCondition($memberIds, $params);
     }
     if (isset($_REQUEST['category'])) {
         $categoryIds = explode(',', $_REQUEST['category']);
@@ -293,6 +290,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
     }
     $subscriptionsToReturn = array();
+    $payersBySubscription = getPayersBySubscription($db, $subscriptions);
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
         if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
@@ -301,6 +299,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
             $subscriptionToReturn['price'] = $subscription['price'];
         }
         $subscriptionToReturn['category_name'] = isset($categories[$subscription['category_id']]) ? $categories[$subscription['category_id']] : 'No category';
+        $payerIdsForSubscription = $payersBySubscription[$subscription['id']] ?? [];
+        $subscriptionToReturn['payer_user_ids'] = $payerIdsForSubscription;
+        $subscriptionToReturn['payer_user_names'] = array_map(fn($payerId) => $members[$payerId] ?? 'Unknown member', $payerIdsForSubscription);
         $subscriptionToReturn['payer_user_name'] = isset($members[$subscription['payer_user_id']]) ? $members[$subscription['payer_user_id']] : 'Unknown member';
         $subscriptionToReturn['payment_method_name'] = isset($paymentMethods[$subscription['payment_method_id']]) ? $paymentMethods[$subscription['payment_method_id']] : 'Unknown payment method';
         $subscriptionsToReturn[] = $subscriptionToReturn;

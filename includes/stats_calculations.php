@@ -2,6 +2,7 @@
 require_once __DIR__ . '/budget_period_calculations.php';
 require_once __DIR__ . '/currency_rates.php';
 require_once __DIR__ . '/default_names.php';
+require_once __DIR__ . '/subscription_payers.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -79,7 +80,7 @@ while ($row = $r->fetchArray(SQLITE3_ASSOC)) {
     $menuCategoryCounts[$row['category_id']] = $row['cnt'];
 }
 
-$stmt = $db->prepare("SELECT payer_user_id, COUNT(*) as cnt FROM subscriptions WHERE user_id = :userId GROUP BY payer_user_id");
+$stmt = $db->prepare("SELECT sp.payer_id AS payer_user_id, COUNT(*) as cnt FROM subscription_payers sp JOIN subscriptions s ON s.id = sp.subscription_id WHERE s.user_id = :userId GROUP BY sp.payer_id");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $r = $stmt->execute();
 $menuMemberCounts = [];
@@ -106,13 +107,15 @@ $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
 $statsSubtitleParts = [];
-$query = "SELECT name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
+$query = "SELECT id, name, price, logo, logo_text_color, logo_variant, frequency, cycle, currency_id, next_payment, payer_user_id, category_id, payment_method_id, inactive, replacement_subscription_id, start_date, auto_renew FROM subscriptions";
 $conditions = [];
 $params = [];
 
+$filteredMemberIds = [];
 if (isset($_GET['member']) && $_GET['member'] !== '') {
     $memberIds = array_map('intval', explode(',', $_GET['member']));
-    $conditions[] = "payer_user_id IN (" . implode(',', $memberIds) . ")";
+    $filteredMemberIds = $memberIds;
+    $conditions[] = payerFilterCondition($memberIds, $params);
     foreach ($memberIds as $mid) {
         if (isset($members[$mid])) {
             $statsSubtitleParts[] = $members[$mid]['name'];
@@ -169,6 +172,7 @@ if ($result) {
     }
     if (isset($subscriptions)) {
         $replacementSubscriptions = array();
+        $payersBySubscription = getPayersBySubscription($db, $subscriptions);
 
         foreach ($subscriptions as $subscription) {
             $name = $subscription['name'];
@@ -181,9 +185,11 @@ if ($result) {
                 $usesMultipleCurrencies = true;
             }
             $next_payment = $subscription['next_payment'];
-            $payerId = $subscription['payer_user_id'];
-            if (isset($members[$payerId])) {
-                $members[$payerId]['count'] += 1;
+            $subscriptionPayerIds = $payersBySubscription[$subscription['id']] ?? [];
+            foreach ($subscriptionPayerIds as $payerId) {
+                if (isset($members[$payerId])) {
+                    $members[$payerId]['count'] += 1;
+                }
             }
             $categoryId = $subscription['category_id'];
             if (isset($categories[$categoryId])) {
@@ -196,7 +202,16 @@ if ($result) {
             $inactive = $subscription['inactive'];
             $replacementSubscriptionId = $subscription['replacement_subscription_id'];
             $originalSubscriptionPrice = getPriceConverted($price, $currency, $db, $userId);
-            $price = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
+            $fullPrice = getPricePerMonth($cycle, $frequency, $originalSubscriptionPrice);
+
+            // Filtering by member counts only that member's share of a shared
+            // subscription, the same share the per-member breakdown uses.
+            $memberShare = 1;
+            if (!empty($filteredMemberIds) && count($subscriptionPayerIds) > 0) {
+                $memberShare = count(array_intersect($subscriptionPayerIds, $filteredMemberIds)) / count($subscriptionPayerIds);
+            }
+            $originalSubscriptionPrice *= $memberShare;
+            $price = $fullPrice * $memberShare;
 
             if ($inactive == 0) {
                 if ($cycle != 5) {
@@ -206,8 +221,12 @@ if ($result) {
                     }
                 }
                 $totalCostPerMonth += $price;
-                if (isset($memberCost[$payerId])) {
-                    $memberCost[$payerId]['cost'] += $price;
+                // The price is split evenly between the people paying for it
+                $payerShare = count($subscriptionPayerIds) > 0 ? $fullPrice / count($subscriptionPayerIds) : 0;
+                foreach ($subscriptionPayerIds as $payerId) {
+                    if (isset($memberCost[$payerId])) {
+                        $memberCost[$payerId]['cost'] += $payerShare;
+                    }
                 }
                 if (isset($categoryCost[$categoryId])) {
                     $categoryCost[$categoryId]['cost'] += $price;

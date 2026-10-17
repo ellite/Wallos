@@ -1637,6 +1637,116 @@ select {
   padding-left: 40px;
 }
 
+.multi-select {
+  position: relative;
+  width: 100%;
+}
+
+.multi-select-toggle {
+  width: 100%;
+  height: 50px;
+  padding: 0 40px 0 15px;
+  font-size: 16px;
+  text-align: left;
+  background-color: var(--input-background-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%2364748B' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  color: var(--text-color);
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.multi-select-toggle:focus,
+.multi-select.is-open .multi-select-toggle {
+  border-color: var(--main-color);
+  box-shadow: var(--focus-ring);
+}
+
+.multi-select-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multi-select-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: 240px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+}
+
+.multi-select-options[hidden] {
+  display: none;
+}
+
+.multi-select-options li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--text-color);
+  outline: none;
+  user-select: none;
+}
+
+.multi-select-options li:hover,
+.multi-select-options li:focus-visible {
+  background-color: rgba(var(--main-color-rgb), 0.1);
+}
+
+.multi-select-check {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  background-color: var(--input-background-color);
+  position: relative;
+}
+
+.multi-select-options li[aria-selected="true"] .multi-select-check {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.multi-select-options li[aria-selected="true"] .multi-select-check::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--text-color-inverted);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.rtl .multi-select-toggle {
+  text-align: right;
+  padding: 0 15px 0 40px;
+  background-position: left 15px center;
+}
+
 .date-wrapper {
   display: flex;
   flex-grow: 0;

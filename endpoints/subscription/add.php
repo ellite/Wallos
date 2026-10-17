@@ -7,6 +7,7 @@ require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/logo_cleanup.php';
+require_once '../../includes/subscription_payers.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -242,7 +243,8 @@ $nextPayment = $_POST["next_payment"];
 $autoRenew = isset($_POST['auto_renew']) ? true : false;
 $startDate = $_POST["start_date"];
 $paymentMethodId = $_POST["payment_method_id"];
-$payerUserId = $_POST["payer_user_id"];
+$payerIds = parsePayerIds($_POST["payer_user_id"] ?? "");
+$payerUserId = $payerIds[0] ?? null;
 $categoryId = $_POST['category_id'];
 $notes = validate_markdown($_POST["notes"]);
 $url = validate($_POST['url']);
@@ -298,14 +300,8 @@ if ($categoryId !== null && $categoryId !== '') {
     }
 }
 
-if ($payerUserId !== null && $payerUserId !== '') {
-    $payerStmt = $db->prepare("SELECT id FROM household WHERE id = :id AND user_id = :userId");
-    $payerStmt->bindParam(':id', $payerUserId, SQLITE3_INTEGER);
-    $payerStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $payerResult = $payerStmt->execute();
-    if (!$payerResult || !$payerResult->fetchArray()) {
-        rejectForeignId('The specified household member does not exist or does not belong to you.');
-    }
+if (!payersBelongToUser($db, $userId, $payerIds)) {
+    rejectForeignId('The specified household member does not exist or does not belong to you.');
 }
 
 if ($paymentMethodId !== null && $paymentMethodId !== '') {
@@ -464,6 +460,9 @@ if ($stmt->execute()) {
     if ($logoError !== "") {
         $success['logo_warning'] = $logoError;
     }
+
+    $savedSubscriptionId = $isEdit ? intval($id) : $db->lastInsertRowID();
+    saveSubscriptionPayers($db, $savedSubscriptionId, $payerIds);
 
     // The logo was just replaced: drop the previous files if nothing else uses them.
     if ($isEdit && $logo != "") {

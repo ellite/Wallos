@@ -13,6 +13,122 @@ function toggleNotificationDays() {
   notifyDaysBefore.disabled = !notifyCheckbox.checked;
 }
 
+// Multi-select for the "Paid by" field. The hidden #payer_user input carries the
+// selected member ids as a comma separated list, first one being the primary payer.
+function getPayerSelection() {
+  const value = document.querySelector("#payer_user").value;
+  return value === "" ? [] : value.split(",");
+}
+
+function setPayerSelection(ids) {
+  const select = document.querySelector("#payer_user_select");
+  const options = select.querySelectorAll("li[role='option']");
+  const wanted = ids.map(String).filter(id => select.querySelector(`li[data-value="${id}"]`));
+  // A subscription always has a payer, default to the first member.
+  if (wanted.length === 0 && options.length > 0) {
+    wanted.push(options[0].dataset.value);
+  }
+  options.forEach(option => {
+    option.setAttribute("aria-selected", wanted.includes(option.dataset.value) ? "true" : "false");
+  });
+  document.querySelector("#payer_user").value = wanted.join(",");
+  const names = wanted.map(id => select.querySelector(`li[data-value="${id}"] .multi-select-name`).textContent.trim());
+  select.querySelector(".multi-select-label").textContent = names.length > 0 ? names.join(", ") : select.dataset.placeholder;
+}
+
+function togglePayerOption(option) {
+  const current = getPayerSelection();
+  const id = option.dataset.value;
+  if (current.includes(id)) {
+    // Keep at least one payer selected.
+    if (current.length === 1) {
+      return;
+    }
+    setPayerSelection(current.filter(value => value !== id));
+  } else {
+    setPayerSelection([...current, id]);
+  }
+}
+
+function closePayerSelect() {
+  const select = document.querySelector("#payer_user_select");
+  select.classList.remove("is-open");
+  select.querySelector(".multi-select-options").hidden = true;
+  select.querySelector(".multi-select-toggle").setAttribute("aria-expanded", "false");
+}
+
+function openPayerSelect() {
+  const select = document.querySelector("#payer_user_select");
+  select.classList.add("is-open");
+  const list = select.querySelector(".multi-select-options");
+  list.hidden = false;
+  select.querySelector(".multi-select-toggle").setAttribute("aria-expanded", "true");
+  const first = list.querySelector("li[aria-selected='true']") || list.querySelector("li");
+  if (first) {
+    first.focus();
+  }
+}
+
+function initPayerSelect() {
+  const select = document.querySelector("#payer_user_select");
+  if (!select) {
+    return;
+  }
+  const toggle = select.querySelector(".multi-select-toggle");
+  const list = select.querySelector(".multi-select-options");
+  list.querySelectorAll("li").forEach(option => option.tabIndex = -1);
+
+  toggle.addEventListener("click", () => {
+    select.classList.contains("is-open") ? closePayerSelect() : openPayerSelect();
+  });
+
+  toggle.addEventListener("keydown", event => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      openPayerSelect();
+    }
+  });
+
+  list.addEventListener("click", event => {
+    const option = event.target.closest("li[role='option']");
+    if (option) {
+      togglePayerOption(option);
+      option.focus();
+    }
+  });
+
+  list.addEventListener("keydown", event => {
+    const options = Array.from(list.querySelectorAll("li"));
+    const index = options.indexOf(document.activeElement);
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      options[Math.min(index + 1, options.length - 1)].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      options[Math.max(index - 1, 0)].focus();
+    } else if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      if (index >= 0) {
+        togglePayerOption(options[index]);
+      }
+    } else if (event.key === "Escape" || event.key === "Tab") {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+      }
+      closePayerSelect();
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener("mousedown", event => {
+    if (select.classList.contains("is-open") && !select.contains(event.target)) {
+      closePayerSelect();
+    }
+  });
+
+  setPayerSelection(getPayerSelection());
+}
+
 function resetForm() {
   const id = document.querySelector("#id");
   id.value = "";
@@ -39,6 +155,8 @@ function resetForm() {
   replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
+  setPayerSelection([]);
+  closePayerSelect();
   toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
@@ -86,8 +204,9 @@ function fillEditFormFields(subscription) {
   paymentSelect.value = subscription.payment_method_id;
   const categorySelect = document.querySelector("#category");
   categorySelect.value = subscription.category_id;
-  const payerSelect = document.querySelector("#payer_user");
-  payerSelect.value = subscription.payer_user_id;
+  setPayerSelection(subscription.payer_user_ids && subscription.payer_user_ids.length > 0
+    ? subscription.payer_user_ids
+    : [subscription.payer_user_id]);
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
@@ -702,6 +821,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  initPayerSelect();
+
   const subscriptionForm = document.querySelector("#subs-form");
   const submitButton = document.querySelector("#save-button");
   const endpoint = "endpoints/subscription/add.php";

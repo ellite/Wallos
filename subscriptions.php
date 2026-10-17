@@ -5,6 +5,7 @@ require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
 
 include_once 'includes/list_subscriptions.php';
+require_once 'includes/subscription_payers.php';
 
 $sort = "next_payment";
 $sortOrder = $sort;
@@ -41,15 +42,7 @@ $sql = "SELECT * FROM subscriptions WHERE user_id = :userId";
 
 if (isset($_GET['member'])) {
   $memberIds = explode(',', $_GET['member']);
-  $placeholders = array_map(function ($key) {
-    return ":member{$key}";
-  }, array_keys($memberIds));
-
-  $sql .= " AND payer_user_id IN (" . implode(',', $placeholders) . ")";
-
-  foreach ($memberIds as $key => $memberId) {
-    $params[":member{$key}"] = $memberId;
-  }
+  $sql .= " AND " . payerFilterCondition($memberIds, $params);
 }
 
 if (isset($_GET['category'])) {
@@ -125,10 +118,13 @@ if ($result) {
   }
 }
 
+$payersBySubscription = getPayersBySubscription($db, $subscriptions);
+
 foreach ($subscriptions as $subscription) {
-  $memberId = $subscription['payer_user_id'];
-  if (isset($members[$memberId ?? ""])) {
-    $members[$memberId ?? ""]['count']++;
+  foreach ($payersBySubscription[$subscription['id']] ?? [] as $memberId) {
+    if (isset($members[$memberId])) {
+      $members[$memberId]['count']++;
+    }
   }
   $categoryId = $subscription['category_id'];
   if (isset($categories[$categoryId ?? ""])) {
@@ -247,6 +243,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $print[$id]['payment_method_id'] = $paymentMethodId;
       $print[$id]['category_id'] = $subscription['category_id'];
       $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
+      $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
       $print[$id]['price'] = floatval($subscription['price']);
       $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
       $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
@@ -459,16 +456,27 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
           </select>
         </div>
         <div class="split50">
-          <label for="payer_user"><?= translate('paid_by', $i18n) ?></label>
-          <select id="payer_user" name="payer_user_id">
-            <?php
-            foreach ($members as $member) {
-              ?>
-              <option value="<?= $member['id'] ?>"><?= $member['name'] ?></option>
+          <label for="payer_user_toggle"><?= translate('paid_by', $i18n) ?></label>
+          <div class="multi-select" id="payer_user_select" data-placeholder="<?= translate('none', $i18n) ?>">
+            <button type="button" class="multi-select-toggle" id="payer_user_toggle" aria-haspopup="listbox"
+              aria-expanded="false" aria-controls="payer_user_options">
+              <span class="multi-select-label"></span>
+            </button>
+            <ul class="multi-select-options" id="payer_user_options" role="listbox" aria-multiselectable="true"
+              aria-labelledby="payer_user_toggle" tabindex="-1" hidden>
               <?php
-            }
-            ?>
-          </select>
+              foreach ($members as $member) {
+                ?>
+                <li role="option" aria-selected="false" data-value="<?= $member['id'] ?>">
+                  <span class="multi-select-check"></span>
+                  <span class="multi-select-name"><?= $member['name'] ?></span>
+                </li>
+                <?php
+              }
+              ?>
+            </ul>
+            <input type="hidden" name="payer_user_id" id="payer_user" value="">
+          </div>
         </div>
       </div>
     </div>

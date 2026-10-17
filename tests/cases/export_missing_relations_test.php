@@ -11,6 +11,7 @@ wallos_test('CSV export tolerates subscriptions without payer, payment method or
     $members = [4 => ['name' => 'Me']];
     $currencies = [5 => ['symbol' => '£']];
     $cyclePrint = 'Monthly';
+    require_once WALLOS_ROOT . '/includes/subscription_payers.php';
 
     $rows = [
         ['name' => 'Full', 'next_payment' => '2026-11-01', 'auto_renew' => 1, 'category_id' => 2, 'payment_method_id' => 3,
@@ -25,6 +26,7 @@ wallos_test('CSV export tolerates subscriptions without payer, payment method or
     try {
         $out = [];
         foreach ($rows as $row) {
+            $payerIds = $row['payer_user_id'] === null ? [] : [$row['payer_user_id']];
             eval($fragment);
             $out[] = $subscriptionDetails;
         }

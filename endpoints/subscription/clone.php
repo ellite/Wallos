@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/subscription_payers.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -43,10 +44,12 @@ $cloneStmt->bindValue(':cancellation_date', $subscriptionToClone['cancellation_d
 $cloneStmt->bindValue(':replacement_subscription_id', $subscriptionToClone['replacement_subscription_id'], SQLITE3_INTEGER);
 
 if ($cloneStmt->execute()) {
+    $clonedId = $db->lastInsertRowID();
+    saveSubscriptionPayers($db, $clonedId, getPayersBySubscription($db, [$subscriptionToClone])[$subscriptionToClone['id']] ?? []);
     $response = [
         "success" => true,
         "message" => translate('success', $i18n),
-        "id" => $db->lastInsertRowID()
+        "id" => $clonedId
     ];
     echo json_encode($response);
 } else {
