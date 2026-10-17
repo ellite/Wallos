@@ -195,13 +195,15 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $formatted_date = $formatter->format($next_payment_timestamp);
     $print[$id]['next_payment'] = $formatted_date;
     $print[$id]['auto_renew'] = $subscription['auto_renew'];
-    $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
-    $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
-    $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
+    $paymentIcon = $payment_methods[$paymentMethodId ?? ""]['icon'] ?? "";
+    $paymentIconFolder = (strpos($paymentIcon, 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
+    $print[$id]['payment_method_icon'] = $paymentIcon === "" ? "" : $paymentIconFolder . $paymentIcon;
+    $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId ?? ""]['name'] ?? "";
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['price'] = floatval($subscription['price']);
+    $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
@@ -234,13 +236,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if ($sortOrder == "category_id") {
     usort($print, function ($a, $b) use ($categories) {
-      return $categories[$a['category_id']]['order'] - $categories[$b['category_id']]['order'];
+      return ($categories[$a['category_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($categories[$b['category_id'] ?? ""]['order'] ?? PHP_INT_MAX);
     });
   }
   
   if ($sortOrder == "payment_method_id") {
     usort($print, function ($a, $b) use ($payment_methods) {
-      return $payment_methods[$a['payment_method_id']]['order'] - $payment_methods[$b['payment_method_id']]['order'];
+      return ($payment_methods[$a['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($payment_methods[$b['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX);
     });
   }
 

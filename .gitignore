@@ -5,6 +5,22 @@
 .DS_Store
 .idea/
 .vscode/
+
+# AI assistant files
+CLAUDE.md
+CLAUDE.local.md
+.claude/
 AGENTS.md
+GEMINI.md
+.gemini/
+.cursor/
+.cursorrules
+.cursorignore
+.windsurf/
+.windsurfrules
+.aider*
+.continue/
+.codex/
+.github/copilot-instructions.md
 .antigravitycli
 plan.html
