@@ -9,8 +9,10 @@ set -eu
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 ENGINE=${CONTAINER_ENGINE:-podman}
 
+"$ENGINE" build -q -t wallos-tests -f "$ROOT/dev/Dockerfile.test" "$ROOT/dev"
+
 exec "$ENGINE" run --rm \
     -v "$ROOT":/var/www/html:Z \
     -w /var/www/html \
-    docker.io/library/php:8.3-cli \
+    wallos-tests \
     php tests/run.php "$@"

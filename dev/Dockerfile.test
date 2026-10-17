@@ -1,0 +1,7 @@
+FROM docker.io/library/php:8.3-cli
+
+# Match the application's Intl support for localized currency and date tests.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends libicu-dev \
+    && docker-php-ext-install intl \
+    && rm -rf /var/lib/apt/lists/*

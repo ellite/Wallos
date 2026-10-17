@@ -2,6 +2,8 @@
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/instance_config.php';
+require_once '../../includes/pushover_notifications.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -16,34 +18,24 @@ if (
     ];
     echo json_encode($response);
 } else {
-    // Set the message parameters
-    $message = translate('test_notification', $i18n);
+    // Preview the real reminder layout using fictional data, never a live subscription.
+    $stmt = $db->prepare('SELECT u.language, c.code FROM user u LEFT JOIN currencies c ON c.id = u.main_currency AND c.user_id = u.id WHERE u.id = :userId');
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $account = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+    $translations = wallos_pushover_translations($account['language'] ?? 'en');
+    $messages = wallos_pushover_messages([[
+        'name' => $translations['pushover_example_subscription'],
+        'amount' => 9.99,
+        'currency_code' => $account['code'] ?? 'EUR',
+        'date' => (new DateTimeImmutable('tomorrow'))->format('Y-m-d'),
+        'days' => 1,
+        'payment_method' => 'Visa ···· 1234',
+        'auto_renew' => 1,
+        'cycle' => 3,
+    ]], $account['language'] ?? 'en', '', '', wallos_get_admin_settings($db)['server_url'] ?? '', true);
+    $sent = wallos_pushover_send($data['token'], $data['user_key'], $messages[0]);
 
-    $user_key = $data["user_key"];
-    $token = $data["token"];
-
-    $ch = curl_init();
-
-    // Set the URL and other options
-    curl_setopt($ch, CURLOPT_URL, "https://api.pushover.net/1/messages.json");
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-        'token' => $token,
-        'user' => $user_key,
-        'message' => $message,
-    ]));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 15);
-
-    // Execute the request
-    $response = curl_exec($ch);
-
-    // Close the cURL session
-    unset($ch);
-
-    // Check if the message was sent successfully
-    if ($response === false) {
+    if (!$sent) {
         die(json_encode([
             "success" => false,
             "message" => translate('notification_failed', $i18n)
