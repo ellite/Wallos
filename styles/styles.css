@@ -3073,6 +3073,37 @@ button.dark-theme-button i {
   background-color: rgba(var(--main-color-rgb), 0.18);
 }
 
+.calendar .calendar-event-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.calendar .calendar-event-renewal {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.calendar .calendar-event-renewal svg {
+  width: 12px;
+  height: 12px;
+}
+
+.calendar .calendar-event-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar .calendar-event-price {
+  display: block;
+  font-size: 10px;
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
   .calendar .calendar-header .calendar-cell {
     padding: 10px 0px 8px;
@@ -3096,6 +3127,15 @@ button.dark-theme-button i {
     font-size: 10px;
     padding: 2px 5px;
     border-radius: 5px;
+  }
+
+  .calendar .calendar-event-renewal svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .calendar .calendar-event-price {
+    font-size: 9px;
   }
 }
 
