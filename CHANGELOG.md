@@ -1,5 +1,20 @@
 # Changelog
 
+## [5.9.0](https://github.com/ellite/Wallos/compare/v5.8.4...v5.9.0) (2026-10-17)
+
+
+### Features
+
+* **subscriptions:** allow several categories per subscription ([d750eac](https://github.com/ellite/Wallos/commit/d750eacc6b6bb80bc25d365cd378671589d25ffb))
+* **subscriptions:** allow several payers per subscription ([faa0226](https://github.com/ellite/Wallos/commit/faa0226801ca6fc85326efa212c33c8f19525798))
+* **subscriptions:** show card actions as a 2x2 grid ([a224dd2](https://github.com/ellite/Wallos/commit/a224dd2b2dc332673c3043aeb1095a364e8a4302))
+
+
+### Bug Fixes
+
+* **pwa:** rename the static cache when a script or stylesheet changes ([1d37f89](https://github.com/ellite/Wallos/commit/1d37f898d458c97dee70c09767588a58e715af5b))
+* **stats:** drop point labels and dates from the cost trend graph ([3a1da1c](https://github.com/ellite/Wallos/commit/3a1da1c00677766201588cae7baa247b112a1934))
+
 ## [5.8.4](https://github.com/ellite/Wallos/compare/v5.8.3...v5.8.4) (2026-10-17)
 
 
