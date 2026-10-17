@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Дозвола за обавештења није одобрена.",
   delete: "Обриши",
   no_devices_registered: "Још увек нема регистрованих уређаја.",
+  bulk_selected_count: "Изабрано {count} од {total}",
+  no_subscriptions_selected: "Није изабрана ниједна претплата",
+  select_action: "Изаберите радњу",
+  confirm_bulk_delete: "Обрисати претплате ({count})? Ово се не може опозвати.",
+  bulk_action_success: "Ажурирано претплата: {count}",
+  error_bulk_action: "Групна радња није успела",
 }

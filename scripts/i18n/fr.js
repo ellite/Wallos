@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "L'autorisation de notification n'a pas été accordée.",
   delete: "Supprimer",
   no_devices_registered: "Aucun appareil enregistré pour le moment.",
+  bulk_selected_count: "{count} sur {total} sélectionné(s)",
+  no_subscriptions_selected: "Aucun abonnement sélectionné",
+  select_action: "Choisir une action",
+  confirm_bulk_delete: "Supprimer {count} abonnement(s) ? Cette action est irréversible.",
+  bulk_action_success: "{count} abonnement(s) mis à jour",
+  error_bulk_action: "L'action groupée a échoué",
 };

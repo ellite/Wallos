@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Дозвіл на сповіщення не надано.",
   delete: "Видалити",
   no_devices_registered: "Поки що немає зареєстрованих пристроїв.",
+  bulk_selected_count: "Вибрано {count} з {total}",
+  no_subscriptions_selected: "Не вибрано жодної підписки",
+  select_action: "Виберіть дію",
+  confirm_bulk_delete: "Видалити підписки ({count})? Цю дію не можна скасувати.",
+  bulk_action_success: "Оновлено підписок: {count}",
+  error_bulk_action: "Не вдалося виконати масову дію",
 }

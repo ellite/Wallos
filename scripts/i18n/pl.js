@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Nie udzielono zgody na powiadomienia.",
   delete: "Usuń",
   no_devices_registered: "Nie zarejestrowano jeszcze żadnych urządzeń.",
+  bulk_selected_count: "Zaznaczono {count} z {total}",
+  no_subscriptions_selected: "Nie zaznaczono żadnej subskrypcji",
+  select_action: "Wybierz działanie",
+  confirm_bulk_delete: "Usunąć subskrypcje ({count})? Tej operacji nie można cofnąć.",
+  bulk_action_success: "Zaktualizowano subskrypcje: {count}",
+  error_bulk_action: "Działanie zbiorcze nie powiodło się",
 }

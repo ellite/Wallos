@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Bildiriş icazəsi verilmədi.",
   delete: "Sil",
   no_devices_registered: "Hələ heç bir cihaz qeydiyyatdan keçməyib.",
+  bulk_selected_count: "{total} abunəlikdən {count} seçilib",
+  no_subscriptions_selected: "Heç bir abunəlik seçilməyib",
+  select_action: "Əməliyyat seçin",
+  confirm_bulk_delete: "{count} abunəlik silinsin? Bu geri qaytarıla bilməz.",
+  bulk_action_success: "{count} abunəlik yeniləndi",
+  error_bulk_action: "Toplu əməliyyat alınmadı",
 }

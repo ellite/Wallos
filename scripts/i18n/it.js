@@ -55,4 +55,10 @@ let i18n = {
   push_permission_denied: "L'autorizzazione per le notifiche non è stata concessa.",
   delete: "Cancella",
   no_devices_registered: "Nessun dispositivo ancora registrato.",
+  bulk_selected_count: "{count} di {total} selezionati",
+  no_subscriptions_selected: "Nessun abbonamento selezionato",
+  select_action: "Seleziona un'azione",
+  confirm_bulk_delete: "Eliminare {count} abbonamento/i? L'operazione non può essere annullata.",
+  bulk_action_success: "{count} abbonamento/i aggiornato/i",
+  error_bulk_action: "Azione di gruppo non riuscita",
 }

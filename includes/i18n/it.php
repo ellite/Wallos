@@ -111,6 +111,15 @@ $i18n = [
     "clone" => "Clona",
     "renew" => "Rinnova",
     "calculate_next_payment_date" => "Calcola la prossima data di pagamento",
+    "bulk_actions" => "Azioni di gruppo",
+    "select_all" => "Seleziona tutto",
+    "select_action" => "Seleziona un'azione",
+    "bulk_enable_notifications" => "Attiva notifiche",
+    "bulk_disable_notifications" => "Disattiva notifiche",
+    "set_notification_timing" => "Imposta anticipo notifica",
+    "set_category" => "Imposta categoria",
+    "set_payment_method" => "Imposta metodo di pagamento",
+    "apply" => "Applica",
 
     // Add/Edit Subscription
     "add_subscription" => 'Aggiungi abbonamento',

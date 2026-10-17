@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Permisiunea pentru notificări nu a fost acordată.",
   delete: "Șterge",
   no_devices_registered: "Niciun dispozitiv înregistrat încă.",
+  bulk_selected_count: "{count} din {total} selectate",
+  no_subscriptions_selected: "Niciun abonament selectat",
+  select_action: "Alege o acțiune",
+  confirm_bulk_delete: "Ștergi {count} abonament(e)? Acțiunea nu poate fi anulată.",
+  bulk_action_success: "{count} abonament(e) actualizate",
+  error_bulk_action: "Acțiunea în masă a eșuat",
 }

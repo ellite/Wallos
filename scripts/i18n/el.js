@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Δεν χορηγήθηκε άδεια ειδοποιήσεων.",
   delete: "Διαγραφή",
   no_devices_registered: "Δεν έχουν καταχωρηθεί συσκευές ακόμα.",
+  bulk_selected_count: "Επιλέχθηκαν {count} από {total}",
+  no_subscriptions_selected: "Δεν επιλέχθηκαν συνδρομές",
+  select_action: "Επιλέξτε ενέργεια",
+  confirm_bulk_delete: "Διαγραφή {count} συνδρομών; Αυτό δεν μπορεί να αναιρεθεί.",
+  bulk_action_success: "Ενημερώθηκαν {count} συνδρομές",
+  error_bulk_action: "Η μαζική ενέργεια απέτυχε",
 }

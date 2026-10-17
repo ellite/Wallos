@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "لم يتم منح إذن الإشعارات.",
   delete: "حذف",
   no_devices_registered: "لم يتم تسجيل أي أجهزة بعد.",
+  bulk_selected_count: "تم تحديد {count} من {total}",
+  no_subscriptions_selected: "لم يتم تحديد أي اشتراك",
+  select_action: "اختر إجراءً",
+  confirm_bulk_delete: "حذف {count} من الاشتراكات؟ لا يمكن التراجع عن ذلك.",
+  bulk_action_success: "تم تحديث {count} من الاشتراكات",
+  error_bulk_action: "فشل الإجراء الجماعي",
 }

@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "未授予通知權限。",
   delete: "刪除",
   no_devices_registered: "尚未註冊任何裝置。",
+  bulk_selected_count: "已選 {count} / {total}",
+  no_subscriptions_selected: "未選擇任何訂閱",
+  select_action: "選擇操作",
+  confirm_bulk_delete: "確定刪除 {count} 個訂閱？此操作無法復原。",
+  bulk_action_success: "已更新 {count} 個訂閱",
+  error_bulk_action: "批次操作失敗",
 };

@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Az értesítési engedély nem lett megadva.",
   delete: "Törlés",
   no_devices_registered: "Még nincs regisztrált eszköz.",
+  bulk_selected_count: "{count} / {total} kijelölve",
+  no_subscriptions_selected: "Nincs kijelölt előfizetés",
+  select_action: "Válassz műveletet",
+  confirm_bulk_delete: "Törlöd a(z) {count} előfizetést? Ez nem vonható vissza.",
+  bulk_action_success: "{count} előfizetés frissítve",
+  error_bulk_action: "A tömeges művelet nem sikerült",
 }

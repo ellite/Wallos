@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Oprávnění k oznámením nebylo uděleno.",
   delete: "Odstranit",
   no_devices_registered: "Zatím nejsou registrována žádná zařízení.",
+  bulk_selected_count: "Vybráno {count} z {total}",
+  no_subscriptions_selected: "Nejsou vybrána žádná předplatná",
+  select_action: "Vyberte akci",
+  confirm_bulk_delete: "Smazat předplatná ({count})? Tuto akci nelze vrátit.",
+  bulk_action_success: "Aktualizováno předplatných: {count}",
+  error_bulk_action: "Hromadnou akci se nepodařilo provést",
 }

@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Quyền thông báo chưa được cấp.",
   delete: "Xóa",
   no_devices_registered: "Chưa có thiết bị nào được đăng ký.",
+  bulk_selected_count: "Đã chọn {count} / {total}",
+  no_subscriptions_selected: "Chưa chọn đăng ký nào",
+  select_action: "Chọn thao tác",
+  confirm_bulk_delete: "Xóa {count} đăng ký? Không thể hoàn tác.",
+  bulk_action_success: "Đã cập nhật {count} đăng ký",
+  error_bulk_action: "Thao tác hàng loạt thất bại",
 }

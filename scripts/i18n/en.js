@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Notification permission was not granted.",
   delete: "Delete",
   no_devices_registered: "No devices registered yet.",
+  bulk_selected_count: "{count} of {total} selected",
+  no_subscriptions_selected: "No subscriptions selected",
+  select_action: "Select an action",
+  confirm_bulk_delete: "Delete {count} subscription(s)? This cannot be undone.",
+  bulk_action_success: "{count} subscription(s) updated",
+  error_bulk_action: "Bulk action failed",
 }

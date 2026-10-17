@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "未授予通知权限。",
   delete: "删除",
   no_devices_registered: "尚未注册任何设备。",
+  bulk_selected_count: "已选 {count} / {total}",
+  no_subscriptions_selected: "未选择任何订阅",
+  select_action: "选择操作",
+  confirm_bulk_delete: "确定删除 {count} 个订阅？此操作不可撤销。",
+  bulk_action_success: "已更新 {count} 个订阅",
+  error_bulk_action: "批量操作失败",
 };

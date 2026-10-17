@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Dovoljenje za obvestila ni bilo odobreno.",
   delete: "Izbriši",
   no_devices_registered: "Še ni registriranih naprav.",
+  bulk_selected_count: "Izbrano {count} od {total}",
+  no_subscriptions_selected: "Ni izbranih naročnin",
+  select_action: "Izberite dejanje",
+  confirm_bulk_delete: "Izbrišem naročnine ({count})? Tega ni mogoče razveljaviti.",
+  bulk_action_success: "Posodobljene naročnine: {count}",
+  error_bulk_action: "Množično dejanje ni uspelo",
 }

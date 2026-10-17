@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "通知の許可が得られませんでした。",
   delete: "削除",
   no_devices_registered: "まだ登録されたデバイスはありません。",
+  bulk_selected_count: "{total} 件中 {count} 件を選択",
+  no_subscriptions_selected: "サブスクリプションが選択されていません",
+  select_action: "操作を選択",
+  confirm_bulk_delete: "{count} 件のサブスクリプションを削除しますか？この操作は元に戻せません。",
+  bulk_action_success: "{count} 件のサブスクリプションを更新しました",
+  error_bulk_action: "一括操作に失敗しました",
 }

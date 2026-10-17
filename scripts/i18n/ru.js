@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Разрешение на уведомления не было предоставлено.",
   delete: "Удалить",
   no_devices_registered: "Пока нет зарегистрированных устройств.",
+  bulk_selected_count: "Выбрано {count} из {total}",
+  no_subscriptions_selected: "Подписки не выбраны",
+  select_action: "Выберите действие",
+  confirm_bulk_delete: "Удалить подписки ({count})? Это действие нельзя отменить.",
+  bulk_action_success: "Обновлено подписок: {count}",
+  error_bulk_action: "Не удалось выполнить массовое действие",
 }

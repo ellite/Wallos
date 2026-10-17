@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Tilladelse til notifikationer blev ikke givet.",
   delete: "Slet",
   no_devices_registered: "Ingen enheder registreret endnu.",
+  bulk_selected_count: "{count} af {total} valgt",
+  no_subscriptions_selected: "Ingen abonnementer valgt",
+  select_action: "Vælg en handling",
+  confirm_bulk_delete: "Slet {count} abonnement(er)? Dette kan ikke fortrydes.",
+  bulk_action_success: "{count} abonnement(er) opdateret",
+  error_bulk_action: "Massehandlingen mislykkedes",
 }

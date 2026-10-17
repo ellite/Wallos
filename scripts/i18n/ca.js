@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "No s'ha concedit el permís de notificacions.",
   delete: "Eliminar",
   no_devices_registered: "Encara no hi ha dispositius registrats.",
+  bulk_selected_count: "{count} de {total} seleccionades",
+  no_subscriptions_selected: "No hi ha cap subscripció seleccionada",
+  select_action: "Selecciona una acció",
+  confirm_bulk_delete: "Vols eliminar {count} subscripció(ns)? Això no es pot desfer.",
+  bulk_action_success: "{count} subscripció(ns) actualitzada(es)",
+  error_bulk_action: "No s'ha pogut aplicar l'acció massiva",
 }

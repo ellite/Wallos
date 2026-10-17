@@ -56,4 +56,10 @@ let i18n = {
   push_permission_denied: "Die Berechtigung für Benachrichtigungen wurde nicht erteilt.",
   delete: "Löschen",
   no_devices_registered: "Noch keine Geräte registriert.",
+  bulk_selected_count: "{count} von {total} ausgewählt",
+  no_subscriptions_selected: "Keine Abonnements ausgewählt",
+  select_action: "Aktion auswählen",
+  confirm_bulk_delete: "{count} Abonnement(s) löschen? Dies kann nicht rückgängig gemacht werden.",
+  bulk_action_success: "{count} Abonnement(s) aktualisiert",
+  error_bulk_action: "Massenaktion fehlgeschlagen",
 }

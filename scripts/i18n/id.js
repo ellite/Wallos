@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Izin notifikasi tidak diberikan.",
   delete: "Hapus",
   no_devices_registered: "Belum ada perangkat yang terdaftar.",
+  bulk_selected_count: "{count} dari {total} dipilih",
+  no_subscriptions_selected: "Tidak ada langganan yang dipilih",
+  select_action: "Pilih tindakan",
+  confirm_bulk_delete: "Hapus {count} langganan? Tindakan ini tidak dapat dibatalkan.",
+  bulk_action_success: "{count} langganan diperbarui",
+  error_bulk_action: "Tindakan massal gagal",
 }

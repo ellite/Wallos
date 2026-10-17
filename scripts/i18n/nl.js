@@ -54,4 +54,10 @@ let i18n = {
   push_permission_denied: "Toestemming voor meldingen is niet verleend.",
   delete: "Verwijderen",
   no_devices_registered: "Nog geen apparaten geregistreerd.",
+  bulk_selected_count: "{count} van {total} geselecteerd",
+  no_subscriptions_selected: "Geen abonnementen geselecteerd",
+  select_action: "Kies een actie",
+  confirm_bulk_delete: "{count} abonnement(en) verwijderen? Dit kan niet ongedaan worden gemaakt.",
+  bulk_action_success: "{count} abonnement(en) bijgewerkt",
+  error_bulk_action: "Bulkactie mislukt",
 }
