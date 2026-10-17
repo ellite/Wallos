@@ -1400,7 +1400,7 @@ function visibleBulkCheckboxes() {
 function toggleBulkMode() {
   const active = document.querySelector("#subscriptions").classList.toggle("bulk-mode");
   document.querySelector("#bulk-toolbar").classList.toggle("is-open", active);
-  document.querySelector("#bulk-mode-button").classList.toggle("selected", active);
+  document.querySelectorAll(".bulk-mode-button").forEach((button) => button.classList.toggle("selected", active));
 
   if (!active) {
     document.querySelectorAll(".bulk-select-checkbox").forEach((checkbox) => checkbox.checked = false);
@@ -1425,11 +1425,25 @@ function updateBulkSelection() {
   const selected = checkboxes.filter((checkbox) => checkbox.checked).length;
   const selectAll = document.querySelector("#bulk-select-all");
 
-  counter.textContent = translate("bulk_selected_count")
+  counter.textContent = "(" + translate("bulk_selected_count")
     .replace("{count}", selected)
-    .replace("{total}", checkboxes.length);
+    .replace("{total}", checkboxes.length) + ")";
   selectAll.checked = checkboxes.length > 0 && selected === checkboxes.length;
   selectAll.indeterminate = selected > 0 && selected < checkboxes.length;
+  updateBulkApplyState();
+}
+
+// Apply stays disabled until there is something to apply: at least one
+// subscription selected and an action chosen.
+function updateBulkApplyState() {
+  const apply = document.querySelector("#bulk-apply");
+  if (!apply) {
+    return;
+  }
+
+  const selected = visibleBulkCheckboxes().some((checkbox) => checkbox.checked);
+  const action = document.querySelector("#bulk-action").value;
+  apply.disabled = !selected || action === "";
 }
 
 function updateBulkActionValue() {
@@ -1437,6 +1451,7 @@ function updateBulkActionValue() {
   document.querySelector("#bulk-notify-days").hidden = action !== "set_notify_days";
   document.querySelector("#bulk-category").hidden = action !== "set_category";
   document.querySelector("#bulk-payment-method").hidden = action !== "set_payment_method";
+  updateBulkApplyState();
 }
 
 function applyBulkAction() {

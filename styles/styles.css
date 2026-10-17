@@ -277,10 +277,40 @@ main>.contain {
   display: none;
 }
 
+/* The bulk button exists twice: next to the new subscription button on mobile,
+   with the other tools on desktop. Only one of them is shown. */
+.main-actions-primary {
+  display: contents;
+}
+
+.main-actions .bulk-mode-button-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .main-actions {
     justify-content: space-between;
     flex-direction: column-reverse;
+  }
+
+  .main-actions-primary {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  /* The bulk button takes the space it needs, the new subscription button the rest */
+  .main-actions-primary > .button {
+    flex: 1 1 auto;
+  }
+
+  .main-actions-primary > .bulk-mode-button-mobile {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .main-actions .bulk-mode-button-desktop {
+    display: none;
   }
 }
 
@@ -4071,7 +4101,7 @@ input[type="radio"]:checked+label::after {
   color: var(--main-color);
 }
 
-#bulk-mode-button.selected {
+.bulk-mode-button.selected {
   background-color: rgba(var(--main-color-rgb), 0.12);
   color: var(--main-color);
 }
@@ -4096,6 +4126,7 @@ input[type="radio"]:checked+label::after {
   display: flex;
   align-items: center;
   gap: 6px;
+  margin: 0px;
   cursor: pointer;
 }
 
@@ -4121,6 +4152,7 @@ input[type="radio"]:checked+label::after {
 
 .bulk-select {
   display: none;
+  margin: 0px;
 }
 
 .subscriptions.bulk-mode .bulk-select {
@@ -4168,6 +4200,12 @@ input[type="radio"]:checked+label::after {
   .bulk-toolbar select {
     flex: 1;
     max-width: none;
+  }
+
+  /* The action select gets a line of its own; the value select it reveals, and the buttons, follow below */
+  .bulk-toolbar #bulk-action {
+    flex-basis: 100%;
+    margin: 2px 0px;
   }
 }
 

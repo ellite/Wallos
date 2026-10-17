@@ -155,10 +155,16 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
 
 <section class="contain">
   <header class="<?= $headerClass ?>" id="main-actions">
-    <button class="button" onClick="addSubscription()">
-      <i class="fa-solid fa-circle-plus"></i>
-      <?= translate('new_subscription', $i18n) ?>
-    </button>
+    <div class="main-actions-primary">
+      <button class="button secondary-button bulk-mode-button bulk-mode-button-mobile"
+        title="<?= translate('bulk_actions', $i18n) ?>" onClick="toggleBulkMode()">
+        <i class="fa-solid fa-square-check"></i>
+      </button>
+      <button class="button" onClick="addSubscription()">
+        <i class="fa-solid fa-circle-plus"></i>
+        <?= translate('new_subscription', $i18n) ?>
+      </button>
+    </div>
     <div class="top-actions">
       <button class="button secondary-button mobile-search-toggle" id="mobile-search-toggle"
         title="<?= translate('search', $i18n) ?>" onClick="toggleMobileSearch()">
@@ -197,9 +203,9 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
         </button>
       </div>
 
-      <button class="button secondary-button" id="bulk-mode-button" title="<?= translate('bulk_actions', $i18n) ?>"
-        onClick="toggleBulkMode()">
-        <i class="fa-solid fa-list-check"></i>
+      <button class="button secondary-button bulk-mode-button bulk-mode-button-desktop"
+        title="<?= translate('bulk_actions', $i18n) ?>" onClick="toggleBulkMode()">
+        <i class="fa-solid fa-square-check"></i>
       </button>
     </div>
   </header>
@@ -248,8 +254,8 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       }
       ?>
     </select>
-    <button class="button" onClick="applyBulkAction()"><?= translate('apply', $i18n) ?></button>
-    <button class="button secondary-button" onClick="toggleBulkMode()"><?= translate('cancel', $i18n) ?></button>
+    <button class="button mobile-grow" id="bulk-apply" onClick="applyBulkAction()" disabled><?= translate('apply', $i18n) ?></button>
+    <button class="button secondary-button mobile-grow" onClick="toggleBulkMode()"><?= translate('cancel', $i18n) ?></button>
   </div>
   <div class="subscriptions<?= $subscriptionsView === 'grid' ? ' grid-view' : '' ?>" id="subscriptions">
     <?php
