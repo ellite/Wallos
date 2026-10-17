@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.10.0](https://github.com/ellite/Wallos/compare/v5.9.0...v5.10.0) (2026-10-17)
+
+
+### Features
+
+* **bulk:** polish the bulk toolbar and keep Apply disabled until it has something to apply ([29b5b5d](https://github.com/ellite/Wallos/commit/29b5b5d2a1e62ab97fbef0c817bf60e8e7037e55))
+
+
+### Bug Fixes
+
+* **bulk:** keep payer and category rows in step with bulk delete and set-category ([b3a4d98](https://github.com/ellite/Wallos/commit/b3a4d9879848e7d430d9f700fc2b8ec824dbab7c))
+* **i18n:** rename default names when switching between any two languages ([b3acdc0](https://github.com/ellite/Wallos/commit/b3acdc0672aea5fa73a960c2f6617ef68065812b))
+
 ## [5.9.0](https://github.com/ellite/Wallos/compare/v5.8.4...v5.9.0) (2026-10-17)
 
 
