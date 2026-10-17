@@ -155,10 +155,16 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
 
 <section class="contain">
   <header class="<?= $headerClass ?>" id="main-actions">
-    <button class="button" onClick="addSubscription()">
-      <i class="fa-solid fa-circle-plus"></i>
-      <?= translate('new_subscription', $i18n) ?>
-    </button>
+    <div class="main-actions-primary">
+      <button class="button secondary-button bulk-mode-button bulk-mode-button-mobile"
+        title="<?= translate('bulk_actions', $i18n) ?>" onClick="toggleBulkMode()">
+        <i class="fa-solid fa-square-check"></i>
+      </button>
+      <button class="button" onClick="addSubscription()">
+        <i class="fa-solid fa-circle-plus"></i>
+        <?= translate('new_subscription', $i18n) ?>
+      </button>
+    </div>
     <div class="top-actions">
       <button class="button secondary-button mobile-search-toggle" id="mobile-search-toggle"
         title="<?= translate('search', $i18n) ?>" onClick="toggleMobileSearch()">
@@ -196,8 +202,61 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
           <i class="fa-solid fa-table-cells-large"></i>
         </button>
       </div>
+
+      <button class="button secondary-button bulk-mode-button bulk-mode-button-desktop"
+        title="<?= translate('bulk_actions', $i18n) ?>" onClick="toggleBulkMode()">
+        <i class="fa-solid fa-square-check"></i>
+      </button>
     </div>
   </header>
+  <div class="bulk-toolbar" id="bulk-toolbar">
+    <label class="bulk-select-all">
+      <input type="checkbox" id="bulk-select-all" onChange="toggleBulkSelectAll(this.checked)">
+      <?= translate('select_all', $i18n) ?>
+    </label>
+    <span id="bulk-selected-count"></span>
+    <select id="bulk-action" onChange="updateBulkActionValue()">
+      <option value=""><?= translate('select_action', $i18n) ?></option>
+      <option value="enable_notifications"><?= translate('bulk_enable_notifications', $i18n) ?></option>
+      <option value="disable_notifications"><?= translate('bulk_disable_notifications', $i18n) ?></option>
+      <option value="set_notify_days"><?= translate('set_notification_timing', $i18n) ?></option>
+      <option value="set_category"><?= translate('set_category', $i18n) ?></option>
+      <option value="set_payment_method"><?= translate('set_payment_method', $i18n) ?></option>
+      <option value="delete"><?= translate('delete', $i18n) ?></option>
+    </select>
+    <select id="bulk-notify-days" hidden>
+      <option value="-1"><?= translate('default_value_from_settings', $i18n) ?></option>
+      <option value="0"><?= translate('on_due_date', $i18n) ?></option>
+      <option value="1">1 <?= translate('day_before', $i18n) ?></option>
+      <?php
+      for ($i = 2; $i <= 180; $i++) {
+        ?>
+        <option value="<?= $i ?>"><?= $i ?> <?= translate('days_before', $i18n) ?></option>
+        <?php
+      }
+      ?>
+    </select>
+    <select id="bulk-category" hidden>
+      <?php
+      foreach ($categories as $category) {
+        ?>
+        <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+        <?php
+      }
+      ?>
+    </select>
+    <select id="bulk-payment-method" hidden>
+      <?php
+      foreach ($payment_methods as $payment) {
+        ?>
+        <option value="<?= $payment['id'] ?>"><?= $payment['name'] ?></option>
+        <?php
+      }
+      ?>
+    </select>
+    <button class="button mobile-grow" id="bulk-apply" onClick="applyBulkAction()" disabled><?= translate('apply', $i18n) ?></button>
+    <button class="button secondary-button mobile-grow" onClick="toggleBulkMode()"><?= translate('cancel', $i18n) ?></button>
+  </div>
   <div class="subscriptions<?= $subscriptionsView === 'grid' ? ' grid-view' : '' ?>" id="subscriptions">
     <?php
     $formatter = new IntlDateFormatter(

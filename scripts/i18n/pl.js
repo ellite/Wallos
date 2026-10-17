@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Nie udało się dodać waluty",
   failed_add_payment_method: "Nie udało się dodać metody płatności",
   failed_sort_payment_methods: "Nie udało się posortować metod płatności",
+  bulk_selected_count: "Zaznaczono {count} z {total}",
+  no_subscriptions_selected: "Nie zaznaczono żadnej subskrypcji",
+  select_action: "Wybierz działanie",
+  confirm_bulk_delete: "Usunąć subskrypcje ({count})? Tej operacji nie można cofnąć.",
+  bulk_action_success: "Zaktualizowano subskrypcje: {count}",
+  error_bulk_action: "Działanie zbiorcze nie powiodło się",
 }

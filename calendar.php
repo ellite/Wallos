@@ -7,6 +7,21 @@ function getPriceConverted($price, $currency, $database, $userId)
   return wallos_convert_price($price, $currency, $database, $userId);
 }
 
+function formatCalendarPrice($price, $currencyId, $currencies)
+{
+  if (!isset($currencies[$currencyId])) {
+    return number_format((float) $price, 2);
+  }
+
+  $currency = $currencies[$currencyId];
+  $formattedPrice = CurrencyFormatter::format($price, $currency['code']);
+  if ($currency['symbol'] != "" && strstr($formattedPrice, $currency['code'])) {
+    $formattedPrice = str_replace($currency['code'], $currency['symbol'], $formattedPrice);
+  }
+
+  return $formattedPrice;
+}
+
 // Get budget from user table
 $query = "SELECT budget FROM user WHERE id = :userId";
 $stmt = $db->prepare($query);
@@ -83,6 +98,14 @@ $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $code = $row['code'];
+
+$calendarCurrencies = [];
+$stmt = $db->prepare("SELECT id, code, symbol FROM currencies WHERE user_id = :userId");
+$stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+$result = $stmt->execute();
+while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+  $calendarCurrencies[$row['id']] = $row;
+}
 
 $yearsToLoad = $calendarYear - $currentYear + 1;
 $weekStartsSunday = !empty($settings['week_starts_sunday']);
@@ -268,7 +291,16 @@ if ($weekStartsSunday) {
                   <?php foreach ($paymentsByDay[$day] as $payment) { ?>
                     <div class="calendar-event" onClick="showSubscriptionDetails(event, <?= $payment['id'] ?>)"
                       title="<?= htmlspecialchars($payment['name']) ?>">
-                      <?= htmlspecialchars($payment['name']) ?>
+                      <span class="calendar-event-title">
+                        <?php if ($payment['cycle'] != 5) { ?>
+                          <span class="calendar-event-renewal"
+                            title="<?= $payment['auto_renew'] ? translate('automatically_renews', $i18n) : translate('manual_renewal', $i18n) ?>">
+                            <?php include $payment['auto_renew'] ? 'images/siteicons/svg/automatic.php' : 'images/siteicons/svg/manual.php'; ?>
+                          </span>
+                        <?php } ?>
+                        <span class="calendar-event-name"><?= htmlspecialchars($payment['name']) ?></span>
+                      </span>
+                      <span class="calendar-event-price"><?= formatCalendarPrice($payment['price'], $payment['currency_id'], $calendarCurrencies) ?></span>
                     </div>
                   <?php } ?>
                 </div>

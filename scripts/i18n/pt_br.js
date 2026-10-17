@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Falha ao adicionar a moeda",
   failed_add_payment_method: "Falha ao adicionar o método de pagamento",
   failed_sort_payment_methods: "Falha ao ordenar os métodos de pagamento",
+  bulk_selected_count: "{count} de {total} selecionadas",
+  no_subscriptions_selected: "Nenhuma assinatura selecionada",
+  select_action: "Selecione uma ação",
+  confirm_bulk_delete: "Excluir {count} assinatura(s)? Esta ação não pode ser desfeita.",
+  bulk_action_success: "{count} assinatura(s) atualizada(s)",
+  error_bulk_action: "Não foi possível aplicar a ação em massa",
 }

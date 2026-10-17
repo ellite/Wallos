@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Gagal menambahkan mata uang",
   failed_add_payment_method: "Gagal menambahkan metode pembayaran",
   failed_sort_payment_methods: "Gagal mengurutkan metode pembayaran",
+  bulk_selected_count: "{count} dari {total} dipilih",
+  no_subscriptions_selected: "Tidak ada langganan yang dipilih",
+  select_action: "Pilih tindakan",
+  confirm_bulk_delete: "Hapus {count} langganan? Tindakan ini tidak dapat dibatalkan.",
+  bulk_action_success: "{count} langganan diperbarui",
+  error_bulk_action: "Tindakan massal gagal",
 }

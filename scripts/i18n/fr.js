@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Impossible d'ajouter la devise",
   failed_add_payment_method: "Impossible d'ajouter le mode de paiement",
   failed_sort_payment_methods: "Impossible de trier les modes de paiement",
+  bulk_selected_count: "{count} sur {total} sélectionné(s)",
+  no_subscriptions_selected: "Aucun abonnement sélectionné",
+  select_action: "Choisir une action",
+  confirm_bulk_delete: "Supprimer {count} abonnement(s) ? Cette action est irréversible.",
+  bulk_action_success: "{count} abonnement(s) mis à jour",
+  error_bulk_action: "L'action groupée a échoué",
 };

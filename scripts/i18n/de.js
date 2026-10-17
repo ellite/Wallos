@@ -56,4 +56,10 @@ let i18n = {
   failed_add_currency: "Währung konnte nicht hinzugefügt werden",
   failed_add_payment_method: "Zahlungsmethode konnte nicht hinzugefügt werden",
   failed_sort_payment_methods: "Zahlungsmethoden konnten nicht sortiert werden",
+  bulk_selected_count: "{count} von {total} ausgewählt",
+  no_subscriptions_selected: "Keine Abonnements ausgewählt",
+  select_action: "Aktion auswählen",
+  confirm_bulk_delete: "{count} Abonnement(s) löschen? Dies kann nicht rückgängig gemacht werden.",
+  bulk_action_success: "{count} Abonnement(s) aktualisiert",
+  error_bulk_action: "Massenaktion fehlgeschlagen",
 }

@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Valuta toevoegen mislukt",
   failed_add_payment_method: "Betaalmethode toevoegen mislukt",
   failed_sort_payment_methods: "Betaalmethoden sorteren mislukt",
+  bulk_selected_count: "{count} van {total} geselecteerd",
+  no_subscriptions_selected: "Geen abonnementen geselecteerd",
+  select_action: "Kies een actie",
+  confirm_bulk_delete: "{count} abonnement(en) verwijderen? Dit kan niet ongedaan worden gemaakt.",
+  bulk_action_success: "{count} abonnement(en) bijgewerkt",
+  error_bulk_action: "Bulkactie mislukt",
 }

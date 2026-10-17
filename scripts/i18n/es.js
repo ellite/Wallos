@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "No se pudo añadir la moneda",
   failed_add_payment_method: "No se pudo añadir el método de pago",
   failed_sort_payment_methods: "No se pudieron ordenar los métodos de pago",
+  bulk_selected_count: "{count} de {total} seleccionadas",
+  no_subscriptions_selected: "No hay suscripciones seleccionadas",
+  select_action: "Selecciona una acción",
+  confirm_bulk_delete: "¿Eliminar {count} suscripción(es)? Esto no se puede deshacer.",
+  bulk_action_success: "{count} suscripción(es) actualizada(s)",
+  error_bulk_action: "No se pudo aplicar la acción masiva",
 }

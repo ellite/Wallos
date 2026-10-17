@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Přidání měny se nezdařilo",
   failed_add_payment_method: "Přidání platební metody se nezdařilo",
   failed_sort_payment_methods: "Seřazení platebních metod se nezdařilo",
+  bulk_selected_count: "Vybráno {count} z {total}",
+  no_subscriptions_selected: "Nejsou vybrána žádná předplatná",
+  select_action: "Vyberte akci",
+  confirm_bulk_delete: "Smazat předplatná ({count})? Tuto akci nelze vrátit.",
+  bulk_action_success: "Aktualizováno předplatných: {count}",
+  error_bulk_action: "Hromadnou akci se nepodařilo provést",
 }

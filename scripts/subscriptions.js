@@ -712,6 +712,7 @@ function fetchSubscriptions(id, event, initiator) {
       }
 
       setSwipeElements();
+      updateBulkSelection();
       if (initiator === "add") {
         if (document.getElementsByClassName('subscription').length === 1) {
           setTimeout(() => {
@@ -1390,4 +1391,144 @@ window.addEventListener('load', () => {
   if (document.querySelector('.subscription')) {
     swipeHintAnimation();
   }
+});
+
+function visibleBulkCheckboxes() {
+  return Array.from(document.querySelectorAll(".subscription-container:not(.hide) .bulk-select-checkbox"));
+}
+
+function toggleBulkMode() {
+  const active = document.querySelector("#subscriptions").classList.toggle("bulk-mode");
+  document.querySelector("#bulk-toolbar").classList.toggle("is-open", active);
+  document.querySelectorAll(".bulk-mode-button").forEach((button) => button.classList.toggle("selected", active));
+
+  if (!active) {
+    document.querySelectorAll(".bulk-select-checkbox").forEach((checkbox) => checkbox.checked = false);
+    document.querySelector("#bulk-action").value = "";
+    updateBulkActionValue();
+  }
+  updateBulkSelection();
+}
+
+function toggleBulkSelectAll(checked) {
+  visibleBulkCheckboxes().forEach((checkbox) => checkbox.checked = checked);
+  updateBulkSelection();
+}
+
+function updateBulkSelection() {
+  const counter = document.querySelector("#bulk-selected-count");
+  if (!counter) {
+    return;
+  }
+
+  const checkboxes = visibleBulkCheckboxes();
+  const selected = checkboxes.filter((checkbox) => checkbox.checked).length;
+  const selectAll = document.querySelector("#bulk-select-all");
+
+  counter.textContent = "(" + translate("bulk_selected_count")
+    .replace("{count}", selected)
+    .replace("{total}", checkboxes.length) + ")";
+  selectAll.checked = checkboxes.length > 0 && selected === checkboxes.length;
+  selectAll.indeterminate = selected > 0 && selected < checkboxes.length;
+  updateBulkApplyState();
+}
+
+// Apply stays disabled until there is something to apply: at least one
+// subscription selected and an action chosen.
+function updateBulkApplyState() {
+  const apply = document.querySelector("#bulk-apply");
+  if (!apply) {
+    return;
+  }
+
+  const selected = visibleBulkCheckboxes().some((checkbox) => checkbox.checked);
+  const action = document.querySelector("#bulk-action").value;
+  apply.disabled = !selected || action === "";
+}
+
+function updateBulkActionValue() {
+  const action = document.querySelector("#bulk-action").value;
+  document.querySelector("#bulk-notify-days").hidden = action !== "set_notify_days";
+  document.querySelector("#bulk-category").hidden = action !== "set_category";
+  document.querySelector("#bulk-payment-method").hidden = action !== "set_payment_method";
+  updateBulkApplyState();
+}
+
+function applyBulkAction() {
+  const ids = visibleBulkCheckboxes()
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => parseInt(checkbox.value));
+  const action = document.querySelector("#bulk-action").value;
+
+  if (ids.length === 0) {
+    showErrorMessage(translate("no_subscriptions_selected"));
+    return;
+  }
+  if (action === "") {
+    showErrorMessage(translate("select_action"));
+    return;
+  }
+  if (action === "delete" && !confirm(translate("confirm_bulk_delete").replace("{count}", ids.length))) {
+    return;
+  }
+
+  const values = {
+    set_notify_days: "#bulk-notify-days",
+    set_category: "#bulk-category",
+    set_payment_method: "#bulk-payment-method",
+  };
+  const value = values[action] ? parseInt(document.querySelector(values[action]).value) : null;
+
+  fetch("endpoints/subscriptions/bulkedit.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ ids: ids, action: action, value: value }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        showSuccessMessage(translate("bulk_action_success").replace("{count}", data.count));
+        toggleBulkMode();
+        fetchSubscriptions(null, null, "bulk");
+      } else {
+        showErrorMessage(data.message || translate("error_bulk_action"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error_bulk_action"));
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const subscriptions = document.querySelector("#subscriptions");
+  if (!subscriptions) {
+    return;
+  }
+
+  // In bulk mode a click anywhere on a subscription selects it instead of
+  // opening it. Capture phase, so it runs before the subscription's onClick.
+  subscriptions.addEventListener("click", function (event) {
+    if (!subscriptions.classList.contains("bulk-mode") || event.target.closest(".bulk-select")) {
+      return;
+    }
+
+    const container = event.target.closest(".subscription-container");
+    if (!container) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    const checkbox = container.querySelector(".bulk-select-checkbox");
+    checkbox.checked = !checkbox.checked;
+    updateBulkSelection();
+  }, true);
 });

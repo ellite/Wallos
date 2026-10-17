@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "Valyutanın əlavə edilməsi alınmadı",
   failed_add_payment_method: "Ödəniş üsulunun əlavə edilməsi alınmadı",
   failed_sort_payment_methods: "Ödəniş üsullarının sıralanması alınmadı",
+  bulk_selected_count: "{total} abunəlikdən {count} seçilib",
+  no_subscriptions_selected: "Heç bir abunəlik seçilməyib",
+  select_action: "Əməliyyat seçin",
+  confirm_bulk_delete: "{count} abunəlik silinsin? Bu geri qaytarıla bilməz.",
+  bulk_action_success: "{count} abunəlik yeniləndi",
+  error_bulk_action: "Toplu əməliyyat alınmadı",
 }

@@ -55,4 +55,10 @@ let i18n = {
   failed_add_currency: "통화를 추가하지 못했습니다",
   failed_add_payment_method: "결제 수단을 추가하지 못했습니다",
   failed_sort_payment_methods: "결제 수단을 정렬하지 못했습니다",
+  bulk_selected_count: "{total}개 중 {count}개 선택됨",
+  no_subscriptions_selected: "선택된 구독이 없습니다",
+  select_action: "작업 선택",
+  confirm_bulk_delete: "구독 {count}개를 삭제할까요? 되돌릴 수 없습니다.",
+  bulk_action_success: "구독 {count}개를 업데이트했습니다",
+  error_bulk_action: "일괄 작업에 실패했습니다",
 }
