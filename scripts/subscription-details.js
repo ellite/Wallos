@@ -27,17 +27,24 @@ function showSubscriptionDetails(event, id) {
     });
 }
 
+// Wallos language codes (zh_cn, pt_br, sr_lat) are not BCP 47 tags, which Intl rejects
+function detailsLocale() {
+  return (window.lang || 'en').replace('sr_lat', 'sr-Latn').replace(/_/g, '-');
+}
+
 function detailsFormatPrice(price, currencyId) {
   const lookups = window.subscriptionLookups;
   const currency = lookups.currencies[currencyId];
   const value = Number(price);
   if (currency && currency.code) {
     try {
-      return new Intl.NumberFormat(window.lang || 'en', { style: 'currency', currency: currency.code }).format(value);
+      return new Intl.NumberFormat(detailsLocale(), { style: 'currency', currency: currency.code }).format(value);
     } catch (e) { /* unknown currency code, fall through */ }
   }
-  const symbol = currency ? (currency.symbol || currency.code || '') : '';
-  return `${symbol}${value.toFixed(2)}`;
+  // Symbols are stored as HTML entities (e.g. &yen;) and the result is set via textContent
+  const decoder = document.createElement('textarea');
+  decoder.innerHTML = currency ? (currency.symbol || currency.code || '') : '';
+  return `${decoder.value}${value.toFixed(2)}`;
 }
 
 function detailsFormatDate(dateString) {
@@ -49,7 +56,7 @@ function detailsFormatDate(dateString) {
     return dateString;
   }
   try {
-    return date.toLocaleDateString(window.lang || 'en', { day: 'numeric', month: 'short', year: 'numeric' });
+    return date.toLocaleDateString(detailsLocale(), { day: 'numeric', month: 'short', year: 'numeric' });
   } catch (e) {
     return date.toLocaleDateString('en', { day: 'numeric', month: 'short', year: 'numeric' });
   }
