@@ -16,10 +16,10 @@ wallos_test('CSV export tolerates subscriptions without payer, payment method or
     $rows = [
         ['name' => 'Full', 'next_payment' => '2026-11-01', 'auto_renew' => 1, 'category_id' => 2, 'payment_method_id' => 3,
          'payer_user_id' => 4, 'currency_id' => 5, 'price' => 10, 'notes' => 'n', 'url' => '', 'inactive' => 0, 'notify' => 0,
-         'cancellation_date' => null],
+         'cancellation_date' => null, 'final_payment_date' => '2026-11-30'],
         ['name' => 'API', 'next_payment' => '2026-11-01', 'auto_renew' => 0, 'category_id' => 99, 'payment_method_id' => null,
          'payer_user_id' => null, 'currency_id' => 5, 'price' => 5, 'notes' => null, 'url' => '', 'inactive' => 0, 'notify' => 0,
-         'cancellation_date' => null],
+         'cancellation_date' => null, 'final_payment_date' => null],
     ];
 
     set_error_handler(function ($severity, $message) { throw new ErrorException($message, 0, $severity); });
@@ -35,6 +35,8 @@ wallos_test('CSV export tolerates subscriptions without payer, payment method or
         restore_error_handler();
     }
 
+    assert_same('2026-11-30', $out[0]['Final Payment Date'], 'final date is exported');
+    assert_same(null, $out[1]['Final Payment Date'], 'empty final date stays empty');
     assert_same('Visa', $out[0]['Payment Method'], 'known payment method kept');
     assert_same('£10', $out[0]['Price'], 'price with symbol');
     assert_same('', $out[1]['Payment Method'], 'missing payment method is empty');
