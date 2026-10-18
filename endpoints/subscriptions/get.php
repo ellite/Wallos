@@ -7,6 +7,8 @@ require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
 require_once '../../includes/variable_pricing.php';
+require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 require_once '../../includes/getsettings.php';
 
@@ -41,17 +43,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if (isset($_GET['categories']) && $_GET['categories'] != "") {
     $allCategories = explode(',', $_GET['categories']);
-    $placeholders = array_map(function ($idx) {
-      return ":categories{$idx}";
-    }, array_keys($allCategories));
-
-    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
-      return "category_id = {$placeholder}";
-    }, $placeholders)) . ")";
-
-    foreach ($allCategories as $idx => $category) {
-      $params[":categories{$idx}"] = $category;
-    }
+    $sql .= " AND " . categoryFilterCondition($allCategories, $params);
   }
 
   if (isset($_GET['payments']) && $_GET['payments'] !== "") {
@@ -71,17 +63,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if (isset($_GET['members']) && $_GET['members'] != "") {
     $allMembers = explode(',', $_GET['members']);
-    $placeholders = array_map(function ($idx) {
-      return ":members{$idx}";
-    }, array_keys($allMembers));
-
-    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
-      return "payer_user_id = {$placeholder}";
-    }, $placeholders)) . ")";
-
-    foreach ($allMembers as $idx => $member) {
-      $params[":members{$idx}"] = $member;
-    }
+    $sql .= " AND " . payerFilterCondition($allMembers, $params);
   }
 
   if (isset($_GET['state']) && $_GET['state'] != "") {
@@ -176,6 +158,9 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   $priceHistoryIndex = load_price_history_index($db, (int) $userId);
+  $payersBySubscription = getPayersBySubscription($db, $subscriptions);
+  $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
+
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
       continue;
@@ -197,16 +182,20 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $formatted_date = $formatter->format($next_payment_timestamp);
     $print[$id]['next_payment'] = $formatted_date;
     $print[$id]['auto_renew'] = $subscription['auto_renew'];
-    $paymentIconFolder = (strpos($payment_methods[$paymentMethodId]['icon'], 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
-    $print[$id]['payment_method_icon'] = $paymentIconFolder . $payment_methods[$paymentMethodId]['icon'];
-    $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId]['name'];
+    $paymentIcon = $payment_methods[$paymentMethodId ?? ""]['icon'] ?? "";
+    $paymentIconFolder = (strpos($paymentIcon, 'images/uploads/icons/') !== false) ? "" : "images/uploads/logos/";
+    $print[$id]['payment_method_icon'] = $paymentIcon === "" ? "" : $paymentIconFolder . $paymentIcon;
+    $print[$id]['payment_method_name'] = $payment_methods[$paymentMethodId ?? ""]['name'] ?? "";
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
+    $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $hasVariablePrice = subscription_has_variable_price($subscription);
     $effectivePrice = effective_subscription_price($subscription, date('Y-m'), $priceHistoryIndex);
     $print[$id]['price'] = $effectivePrice;
     $print[$id]['has_variable_price'] = $hasVariablePrice ? 1 : 0;
+    $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
+    $print[$id]['sort_price'] = getSortPrice($effectivePrice, $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
@@ -239,13 +228,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   if ($sortOrder == "category_id") {
     usort($print, function ($a, $b) use ($categories) {
-      return $categories[$a['category_id']]['order'] - $categories[$b['category_id']]['order'];
+      return ($categories[$a['category_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($categories[$b['category_id'] ?? ""]['order'] ?? PHP_INT_MAX);
     });
   }
   
   if ($sortOrder == "payment_method_id") {
     usort($print, function ($a, $b) use ($payment_methods) {
-      return $payment_methods[$a['payment_method_id']]['order'] - $payment_methods[$b['payment_method_id']]['order'];
+      return ($payment_methods[$a['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($payment_methods[$b['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX);
     });
   }
 

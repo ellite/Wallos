@@ -3,6 +3,7 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/frankfurter.php';
+require_once '../../includes/default_names.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -118,12 +119,13 @@ function update_exchange_rate($db, $userId)
 
 $demoMode = getenv('DEMO_MODE');
 
-$query = "SELECT main_currency FROM user WHERE id = :userId";
+$query = "SELECT main_currency, language FROM user WHERE id = :userId";
 $stmt = $db->prepare($query);
 $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $row = $result->fetchArray(SQLITE3_ASSOC);
 $mainCurrencyId = $row['main_currency'];
+$storedLanguage = $row['language'] ?? 'en';
 
 function sanitizeFilename($filename)
 {
@@ -345,6 +347,10 @@ if (
         if ($main_currency != $mainCurrencyId) {
             update_exchange_rate($db, $userId);
         }
+
+        // The names this account was seeded with follow the language it just
+        // chose, as far as they are still the seeded ones.
+        localize_default_names_on_language_change($db, $userId, $storedLanguage, $language);
 
         $reload = $oldLanguage != $language;
 

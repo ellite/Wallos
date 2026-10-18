@@ -38,6 +38,14 @@ if ($userIdToDelete == 1 || $userIdToDelete != $userId) {
     $result = $stmt->execute();
 
     // Delete subscriptions
+    $stmt = $db->prepare('DELETE FROM subscription_categories WHERE subscription_id IN (SELECT id FROM subscriptions WHERE user_id = :id)');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $stmt->execute();
+
+    $stmt = $db->prepare('DELETE FROM subscription_payers WHERE subscription_id IN (SELECT id FROM subscriptions WHERE user_id = :id)');
+    $stmt->bindValue(':id', $userId, SQLITE3_INTEGER);
+    $stmt->execute();
+
     $stmt = $db->prepare('DELETE FROM subscriptions WHERE user_id = :id');
     $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);
     $result = $stmt->execute();

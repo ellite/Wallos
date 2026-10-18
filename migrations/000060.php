@@ -1,30 +1,27 @@
 <?php
 
-// Variable monthly pricing. A subscription can opt in with has_variable_price
-// and then store one actual amount per calendar month. Existing rows stay
-// fixed-price (the column defaults to 0) and no current total changes for them.
+// A subscription can be paid by more than one household member.
 //
-// History is removed with the subscription via a trigger. Foreign keys are not
-// enabled on the connection, so ON DELETE CASCADE would not run.
+// subscription_payers holds one row per (subscription, member). The existing
+// subscriptions.payer_user_id column stays and keeps the first selected payer,
+// the "primary" one: notifications are grouped by it, and the sort and API
+// fields built on it keep working unchanged. The new table is the full list.
+//
+// Every existing subscription gets one row for the payer it already has, so
+// nothing changes for an installation until somebody picks a second payer.
 
-$column = $db->query("SELECT * FROM pragma_table_info('subscriptions') WHERE name='has_variable_price'");
-if ($column->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE subscriptions ADD COLUMN has_variable_price INTEGER NOT NULL DEFAULT 0');
-}
-
-$db->exec("CREATE TABLE IF NOT EXISTS subscription_price_history (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+$db->exec("CREATE TABLE IF NOT EXISTS subscription_payers (
     subscription_id INTEGER NOT NULL,
-    period TEXT NOT NULL,
-    price REAL NOT NULL,
-    note TEXT,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(subscription_id, period)
+    payer_id INTEGER NOT NULL,
+    PRIMARY KEY (subscription_id, payer_id),
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions(id) ON DELETE CASCADE,
+    FOREIGN KEY (payer_id) REFERENCES household(id)
 )");
 
-$db->exec('CREATE TRIGGER IF NOT EXISTS delete_subscription_price_history
-AFTER DELETE ON subscriptions
-FOR EACH ROW
-BEGIN
-    DELETE FROM subscription_price_history WHERE subscription_id = OLD.id;
-END');
+$db->exec('CREATE INDEX IF NOT EXISTS idx_subscription_payers_payer
+           ON subscription_payers (payer_id)');
+
+$db->exec('INSERT OR IGNORE INTO subscription_payers (subscription_id, payer_id)
+           SELECT id, payer_user_id FROM subscriptions WHERE payer_user_id IS NOT NULL');
+
+?>

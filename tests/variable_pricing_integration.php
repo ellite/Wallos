@@ -5,7 +5,7 @@
  * php tests/variable_pricing_integration.php <case>   runs one case
  */
 
-$cases = ['save', 'save-failure', 'limit', 'invalid', 'cycle', 'currency', 'toggle', 'clone', 'clone-failure', 'stats', 'api', 'list'];
+$cases = ['save', 'save-create', 'save-failure', 'limit', 'invalid', 'cycle', 'currency', 'toggle', 'clone', 'clone-shared', 'clone-failure', 'stats', 'api', 'list'];
 $case = $argv[1] ?? null;
 if ($case === null) {
     $failed = 0;
@@ -39,6 +39,14 @@ $db->exec("INSERT INTO subscriptions (id, user_id, name, price, currency_id, nex
            VALUES (1, 1, 'Energy', 80, 9010, '$paymentDate', 3, 1, 0, 1, 1)");
 $db->exec("INSERT INTO subscription_price_history (subscription_id, period, price)
            VALUES (1, '$month', 130)");
+
+if ($case === 'clone-shared') {
+    $db->exec("INSERT INTO household (id, user_id, name) VALUES (10001, 1, 'Second payer')");
+    $db->exec("INSERT INTO categories (id, user_id, name) VALUES (10001, 1, 'Second category')");
+    $db->exec('UPDATE subscriptions SET payer_user_id = 10000, category_id = 10000 WHERE id = 1');
+    $db->exec('INSERT INTO subscription_payers VALUES (1, 10000), (1, 10001)');
+    $db->exec('INSERT INTO subscription_categories VALUES (1, 10000), (1, 10001)');
+}
 
 function copy_integration_directory($source, $destination)
 {
@@ -100,6 +108,15 @@ $_POST = [
     'has_variable_price' => 'on', 'csrf_token' => 'integration-csrf',
     'price_history' => json_encode([['period' => $month, 'price' => 140, 'note' => 'actual']]),
 ];
+// Real form submissions contain scalar strings, including payer/category IDs.
+$_POST = array_map('strval', $_POST);
+if ($case === 'save-create') {
+    unset($_POST['id']);
+    $_POST['price_history'] = json_encode([
+        ['period' => $month, 'price' => 140],
+        ['period' => date('Y-m', strtotime('first day of next month')), 'price' => 150],
+    ]);
+}
 if ($case === 'save-failure' || $case === 'clone-failure') {
     $db = new SQLite3($sandbox . '/db/wallos.db');
     $db->exec("CREATE TRIGGER fail_history BEFORE INSERT ON subscription_price_history
@@ -151,6 +168,12 @@ register_shutdown_function(function () use ($case, $sandbox, $month, $databaseFi
     $success = false;
     if ($case === 'save') {
         $success = ($response['status'] ?? '') === 'Success' && (float) $subscription['price'] === 90.0 && $actual === 140.0;
+    } elseif ($case === 'save-create') {
+        $newId = (int) $database->querySingle('SELECT MAX(id) FROM subscriptions');
+        $success = ($response['status'] ?? '') === 'Success' && $newId !== 1
+            && (int) $database->querySingle('SELECT COUNT(*) FROM subscription_price_history WHERE subscription_id = ' . $newId) === 2
+            && (int) $database->querySingle('SELECT payer_id FROM subscription_payers WHERE subscription_id = ' . $newId) === 10000
+            && (int) $database->querySingle('SELECT category_id FROM subscription_categories WHERE subscription_id = ' . $newId) === 10000;
     } elseif (in_array($case, ['save-failure', 'limit', 'invalid', 'cycle', 'currency'], true)) {
         $success = ($response['status'] ?? '') === 'Error' && (float) $subscription['price'] === 80.0
             && (int) $subscription['currency_id'] === 9010 && $actual === 130.0;
@@ -161,10 +184,15 @@ register_shutdown_function(function () use ($case, $sandbox, $month, $databaseFi
         $success = ($response['monthly'] ?? null) === 150 && ($response['budget'] ?? null) === 140;
     } elseif ($case === 'api') {
         $success = ($response['success'] ?? false) && ($response['monthly_cost'] ?? '') === '140.00';
-    } elseif ($case === 'clone') {
+    } elseif ($case === 'clone' || $case === 'clone-shared') {
         $cloneId = (int) ($response['id'] ?? 0);
         $success = ($response['success'] ?? false) && $cloneId !== 1
             && (float) $database->querySingle('SELECT price FROM subscription_price_history WHERE subscription_id = ' . $cloneId) === 130.0;
+        if ($case === 'clone-shared') {
+            $success = $success
+                && (int) $database->querySingle('SELECT COUNT(*) FROM subscription_payers WHERE subscription_id = ' . $cloneId) === 2
+                && (int) $database->querySingle('SELECT COUNT(*) FROM subscription_categories WHERE subscription_id = ' . $cloneId) === 2;
+        }
     } elseif ($case === 'clone-failure') {
         $success = ($response['success'] ?? true) === false
             && (int) $database->querySingle('SELECT COUNT(*) FROM subscriptions') === 1 && $actual === 130.0;
@@ -183,7 +211,7 @@ register_shutdown_function(function () use ($case, $sandbox, $month, $databaseFi
     }
 });
 
-if ($case === 'clone' || $case === 'clone-failure') {
+if (in_array($case, ['clone', 'clone-shared', 'clone-failure'], true)) {
     // CLI has no HTTP request body. Supply php://input while executing the real
     // authenticated clone endpoint, restoring the built-in wrapper on close.
     class IntegrationRequestBody {

@@ -378,3 +378,157 @@ wallos_test('every display site recognises the placeholder by language, not by a
             $path . ' no longer compares against the English literal');
     }
 });
+
+wallos_test('an account that changes its language takes its default names with it', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    // A name of her own, to stay as it is.
+    $statement = $db->prepare('UPDATE categories SET name = :name WHERE user_id = 1 AND name = :english');
+    $statement->bindValue(':name', 'Kids', SQLITE3_TEXT);
+    $statement->bindValue(':english', 'Gaming', SQLITE3_TEXT);
+    $statement->execute();
+
+    $renamed = localize_default_names_on_language_change($db, 1, 'en', 'de');
+
+    assert_true($renamed > 0, 'the switch renames the seeded names');
+
+    $categories = default_names_test_rows($db, 'categories', 1);
+    assert_true(in_array('Unterhaltung', $categories, true), 'a seeded category now reads in German');
+    assert_true(in_array('Kids', $categories, true), 'and the one she named herself is untouched');
+    assert_true(!in_array('Entertainment', $categories, true), 'nothing seeded is left in English');
+
+    $methods = default_names_test_rows($db, 'payment_methods', 1);
+    assert_true(in_array('Kreditkarte', $methods, true), 'the generic payment methods follow too');
+    assert_true(in_array('PayPal', $methods, true), 'and a brand stays a brand');
+
+    $db->close();
+});
+
+wallos_test('a save that does not change the language renames nothing', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    assert_same(0, localize_default_names_on_language_change($db, 1, 'de', 'de'),
+        'the same language twice is not a change');
+    assert_same(0, localize_default_names_on_language_change($db, 1, 'en', ''),
+        'and neither is a save that carries no language at all');
+
+    assert_same('Entertainment', default_names_test_rows($db, 'categories', 1)[1],
+        'so the rows are as they were');
+
+    $db->close();
+});
+
+wallos_test('the endpoint that saves a language is the one that applies it', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/endpoints/user/save_user.php');
+
+    assert_contains('localize_default_names_on_language_change($db, $userId, $storedLanguage, $language)', $source,
+        'save_user.php applies the change through the guarded helper');
+    assert_contains('SELECT main_currency, language FROM user WHERE id = :userId', $source,
+        'and it reads the language it had, in the query it already ran');
+});
+
+wallos_test('switching from one non-English language to another renames the seeded names again', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    // She names one of the seeded rows herself, then walks English -> German -> French.
+    $statement = $db->prepare('UPDATE categories SET name = :name WHERE user_id = 1 AND name = :english');
+    $statement->bindValue(':name', 'Kids', SQLITE3_TEXT);
+    $statement->bindValue(':english', 'Gaming', SQLITE3_TEXT);
+    $statement->execute();
+
+    localize_default_names_on_language_change($db, 1, 'en', 'de');
+    $renamed = localize_default_names_on_language_change($db, 1, 'de', 'fr');
+
+    assert_true($renamed > 0, 'the second switch renames what the first one wrote');
+
+    $categories = default_names_test_rows($db, 'categories', 1);
+    assert_true(in_array('Divertissement', $categories, true), 'a seeded category now reads in French');
+    assert_true(!in_array('Unterhaltung', $categories, true), 'and none is left in German');
+    assert_true(in_array('Kids', $categories, true), 'the name she chose is still hers');
+
+    $methods = default_names_test_rows($db, 'payment_methods', 1);
+    assert_true(in_array('Carte de crédit', $methods, true), 'the generic payment methods follow');
+    assert_true(in_array('PayPal', $methods, true), 'and a brand stays a brand');
+
+    $db->close();
+});
+
+wallos_test('switching back to English restores the English names', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    localize_default_names_on_language_change($db, 1, 'en', 'de');
+    localize_default_names_on_language_change($db, 1, 'de', 'en');
+
+    assert_same(default_categories('en'), default_names_test_rows($db, 'categories', 1),
+        'every category reads in English again');
+    assert_same('Credit Card', default_names_test_rows($db, 'payment_methods', 1)[1],
+        'and so does the generic payment method');
+
+    $db->close();
+});
+
+wallos_test('names that are still English are renamed even when the account was not in English', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    // The language on record says German, the rows were never localized: they
+    // are the English ones the installation seeded. A switch to French still
+    // finds them.
+    $renamed = localize_default_names_on_language_change($db, 1, 'de', 'fr');
+
+    assert_true($renamed > 0, 'the English names are found as well');
+    assert_same(default_categories('fr'), default_names_test_rows($db, 'categories', 1),
+        'every category reads in French');
+
+    $db->close();
+});
+
+wallos_test('a language switch leaves another account\'s names alone', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+    wallos_test_create_user($db, 2, 'bob');
+
+    foreach (['Entertainment', 'Music'] as $name) {
+        $statement = $db->prepare('INSERT INTO categories (name, "order", user_id) VALUES (:name, 1, 2)');
+        $statement->bindValue(':name', $name, SQLITE3_TEXT);
+        $statement->execute();
+    }
+
+    localize_default_names_on_language_change($db, 1, 'en', 'de');
+    localize_default_names_on_language_change($db, 1, 'de', 'fr');
+
+    assert_same(['Entertainment', 'Music'], default_names_test_rows($db, 'categories', 2),
+        'the second account still has its own names');
+
+    $db->close();
+});
+
+wallos_test('a rename never feeds the next one: each row is renamed once', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    // Rows carrying the German default for a position are all found before any
+    // is written, so a target name that happens to be another position's
+    // default is not renamed a second time.
+    localize_default_names_on_language_change($db, 1, 'en', 'de');
+    $renamed = localize_default_names($db, 1, 'fr', ['de']);
+
+    $differs = fn($pair) => $pair[0] !== $pair[1];
+    $categoriesThatDiffer = count(array_filter(array_map(null, default_categories('de'), default_categories('fr')), $differs));
+    $methodsThatDiffer = count(array_filter(array_map(
+        null,
+        array_column(default_payment_methods('de'), 'name'),
+        array_column(default_payment_methods('fr'), 'name')
+    ), $differs));
+
+    assert_same($categoriesThatDiffer + $methodsThatDiffer, $renamed,
+        'one write for every default that differs between the two languages');
+    assert_same(default_categories('fr'), default_names_test_rows($db, 'categories', 1),
+        'and each category ends on its French name');
+
+    $db->close();
+});

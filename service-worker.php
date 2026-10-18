@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/includes/version.php';
+$assetsStamp = 0;
+foreach (array_merge(glob(__DIR__ . '/scripts/*.js') ?: [], glob(__DIR__ . '/scripts/i18n/*.js') ?: [], glob(__DIR__ . '/styles/*.css') ?: [], glob(__DIR__ . '/styles/themes/*.css') ?: []) as $assetFile) {
+    $assetsStamp = max($assetsStamp, (int) filemtime($assetFile));
+}
 if (!headers_sent()) {
     header('Content-Type: text/javascript; charset=utf-8');
     header('Cache-Control: no-cache');
@@ -9,7 +13,12 @@ if (!headers_sent()) {
 // so every release invalidates stale precached assets automatically - a release
 // that changed JS/CSS without remembering to bump a hardcoded cache version
 // used to leave already-visited browsers stuck on old cached files indefinitely.
-const STATIC_CACHE = 'static-cache-<?= $version ?>';
+//
+// The version alone only changes at a release, so the newest modification time
+// of the precached scripts and styles is part of the name as well: a changed
+// file changes this worker, the browser installs it and drops the old cache,
+// instead of serving the previous copy until the version is bumped.
+const STATIC_CACHE = 'static-cache-<?= $version ?>-<?= $assetsStamp ?>';
 const PAGES_CACHE = 'pages-cache-v1';
 const LOGOS_CACHE = 'logos-cache-v2';
 

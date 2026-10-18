@@ -335,6 +335,12 @@ function csvField(value) {
     return stringValue;
 }
 
+// The BOM tells Excel the file is UTF-8; without it, "£" is read as Windows-1252
+// and shows up as "Â£" (#863).
+function csvDataUri(csv) {
+    return 'data:text/csv;charset=utf-8,' + encodeURIComponent('\uFEFF' + csv);
+}
+
 function exportAsCsv() {
     fetch("endpoints/subscriptions/export.php")
         .then(response => response.json())
@@ -345,7 +351,7 @@ function exportAsCsv() {
                 const csv = subscriptions.map(subscription => Object.values(subscription).map(csvField).join(',')).join('\n');
                 const csvWithHeader = header + '\n' + csv;
                 const element = document.createElement('a');
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csvWithHeader));
+                element.setAttribute('href', csvDataUri(csvWithHeader));
                 element.setAttribute('download', 'subscriptions.csv');
                 element.style.display = 'none';
                 document.body.appendChild(element);

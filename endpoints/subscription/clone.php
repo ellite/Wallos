@@ -2,6 +2,8 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/variable_pricing.php';
+require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -56,6 +58,8 @@ try {
 }
 
 if ($clonedId !== null) {
+    saveSubscriptionPayers($db, $clonedId, getPayersBySubscription($db, [$subscriptionToClone])[$subscriptionToClone['id']] ?? []);
+    saveSubscriptionCategories($db, $clonedId, getCategoriesBySubscription($db, [$subscriptionToClone])[$subscriptionToClone['id']] ?? []);
     $response = [
         "success" => true,
         "message" => translate('success', $i18n),

@@ -11,3 +11,21 @@
 
 # README screenshots and capture script; not used at runtime
 /screenshots/
+
+# AI assistant files
+CLAUDE.md
+CLAUDE.local.md
+.claude/
+AGENTS.md
+GEMINI.md
+.gemini/
+.cursor/
+.cursorrules
+.cursorignore
+.windsurf/
+.windsurfrules
+.aider*
+.continue/
+.codex/
+.antigravitycli
+plan.html

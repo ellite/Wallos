@@ -23,7 +23,7 @@ wallos_test('price fallback validates exact modes and migration defaults to prev
         catch (InvalidArgumentException $e) { assert_same('price_history_fallback_invalid',$e->getMessage(),'clear invalid mode'); }
     }
     $db = new SQLite3(':memory:'); $db->exec('CREATE TABLE subscriptions (id INTEGER PRIMARY KEY); INSERT INTO subscriptions VALUES (1)');
-    require WALLOS_ROOT.'/migrations/000062.php'; require WALLOS_ROOT.'/migrations/000062.php';
+    require WALLOS_ROOT.'/migrations/000064.php'; require WALLOS_ROOT.'/migrations/000064.php';
     assert_same('previous',$db->querySingle('SELECT price_history_fallback FROM subscriptions WHERE id=1'),'legacy row unchanged'); $db->close();
 });
 wallos_test('one-off fallback flows through budget and upcoming prices', function () {
