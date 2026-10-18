@@ -13,6 +13,9 @@ require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
 require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/webhook_headers.php';
+require_once __DIR__ . '/../../includes/subscription_payers.php';
+require_once __DIR__ . '/../../includes/subscription_categories.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -190,18 +193,38 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $resultSubscriptions = $stmt->execute();
 
         $notify = [];
+        $notifyOtherPayers = [];
         $i = 0;
         $currentDate = new DateTime('now');
         while ($rowSubscription = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
-            $notify[$rowSubscription['payer_user_id']][$i]['name'] = $rowSubscription['name'];
-            $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
-            $notify[$rowSubscription['payer_user_id']][$i]['currency'] = $currencies[$rowSubscription['currency_id']]['name'];
-            $notify[$rowSubscription['payer_user_id']][$i]['category'] = $categories[$rowSubscription['category_id']]['name'];
-            $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
-            $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
-            $notify[$rowSubscription['payer_user_id']][$i]['url'] = $rowSubscription['url'];
-            $notify[$rowSubscription['payer_user_id']][$i]['notes'] = $rowSubscription['notes'];
+            $allPayerIds = getPayersBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [];
+            $entry = [
+                'name' => $rowSubscription['name'],
+                'price' => $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'],
+                'currency' => $currencies[$rowSubscription['currency_id']]['name'],
+                'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
+                'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],
+                'date' => $rowSubscription['next_payment'],
+                'url' => $rowSubscription['url'],
+                'notes' => $rowSubscription['notes'],
+            ];
+            // Every channel hears about it once, under the primary payer.
+            // Email goes to each payer on their own address, see $notifyEmail.
+            $notify[$rowSubscription['payer_user_id']][$i] = $entry;
+            foreach ($allPayerIds as $extraPayerId) {
+                if ($extraPayerId != $rowSubscription['payer_user_id']) {
+                    $notifyOtherPayers[$extraPayerId][$i] = $entry;
+                }
+            }
             $i++;
+        }
+
+        // Email reaches every payer, the other channels the primary one only
+        $notifyEmail = $notify;
+        foreach ($notifyOtherPayers as $payerId => $entries) {
+            foreach ($entries as $index => $entry) {
+                $notifyEmail[$payerId][$index] = $entry;
+            }
         }
 
         if (!empty($notify)) {
@@ -220,7 +243,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $defaultEmail = $defaultUser['email'];
                     $defaultName = $defaultUser['username'];
 
-                    foreach ($notify as $userId => $perUser) {
+                    foreach ($notifyEmail as $payerUserId => $perUser) {
                         $message = "The following subscriptions are up for cancellation:\n";
 
                         foreach ($perUser as $subscription) {
@@ -245,10 +268,18 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         }
                         $mail->Port = $email['smtpPort'];
 
-                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :userId');
-                        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :payerId AND user_id = :ownerId');
+                        $stmt->bindValue(':payerId', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        // A payer without an address is skipped, except the primary
+                        // ones, who have always fallen back to the account's email.
+                        if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
+                            echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
+                            continue;
+                        }
 
                         $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
                         $name = !empty($user['name']) ? $user['name'] : $defaultName;
@@ -522,10 +553,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
                         }
 
-                        $headers = json_decode($ntfy["headers"], true);
-                        $customheaders = array_map(function ($key, $value) {
-                            return "$key: $value";
-                        }, array_keys($headers), $headers);
+                        $customheaders = webhook_custom_headers($ntfy["headers"]);
 
                         $ch = curl_init();
 
@@ -594,9 +622,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $webhook['request_method']);
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 
-                            // Add headers if they exist
-                            if (!empty($webhook['headers'])) {
-                                $customheaders = preg_split("/\r\n|\n|\r/", $webhook['headers']);
+                            // Add headers if they exist. The same reading as
+                            // every other job: this one used to split the field
+                            // into lines, so a value that worked here was a
+                            // value that ended the other run, and the other way
+                            // round.
+                            $customheaders = webhook_headers_with_content_type(webhook_custom_headers($webhook['headers']), $payload);
+                            if (!empty($customheaders)) {
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                             }
                 

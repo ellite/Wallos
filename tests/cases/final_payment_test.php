@@ -36,8 +36,8 @@ wallos_test('final payment date preserves clamped month ends and unbounded sched
 wallos_test('final payment migration preserves legacy rows and is repeatable', function () {
     $db = new SQLite3(':memory:');
     $db->exec("CREATE TABLE subscriptions (id INTEGER PRIMARY KEY, name TEXT); INSERT INTO subscriptions VALUES (1, 'legacy')");
-    require WALLOS_ROOT . '/migrations/000061.php';
-    require WALLOS_ROOT . '/migrations/000061.php';
+    require WALLOS_ROOT . '/migrations/000063.php';
+    require WALLOS_ROOT . '/migrations/000063.php';
     assert_same(null, $db->querySingle('SELECT final_payment_date FROM subscriptions WHERE id=1'), 'legacy date empty');
     assert_same('legacy', $db->querySingle('SELECT name FROM subscriptions WHERE id=1'), 'legacy row retained');
     $db->close();

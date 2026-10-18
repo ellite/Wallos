@@ -105,7 +105,10 @@ function loadLineGraph(container, dataPoints, currency, run) {
         series: [{ name: currency || '', data: dataPoints.map(p => p.y) }],
         xaxis: {
             categories: dataPoints.map(p => p.label),
-            labels: { style: { fontFamily: t.font, colors: t.text } },
+            // The date of each point is in the tooltip; the trend grows by a point every week
+            labels: { show: false },
+            axisTicks: { show: false },
+            tooltip: { enabled: false },
         },
         yaxis: {
             labels: {
@@ -119,6 +122,8 @@ function loadLineGraph(container, dataPoints, currency, run) {
             type: 'gradient',
             gradient: { opacityFrom: 0.35, opacityTo: 0.0 },
         },
+        // The cost of each point is in the tooltip; labelling every point of a long trend makes it unreadable
+        dataLabels: { enabled: false },
         markers: { size: 0, discrete: discreteMarkers, hover: { size: 5 } },
         grid: { borderColor: t.border },
         tooltip: {

@@ -1,5 +1,40 @@
 # Changelog
 
+## [5.10.0](https://github.com/ellite/Wallos/compare/v5.9.0...v5.10.0) (2026-10-17)
+
+
+### Features
+
+* **bulk:** polish the bulk toolbar and keep Apply disabled until it has something to apply ([29b5b5d](https://github.com/ellite/Wallos/commit/29b5b5d2a1e62ab97fbef0c817bf60e8e7037e55))
+
+
+### Bug Fixes
+
+* **bulk:** keep payer and category rows in step with bulk delete and set-category ([b3a4d98](https://github.com/ellite/Wallos/commit/b3a4d9879848e7d430d9f700fc2b8ec824dbab7c))
+* **i18n:** rename default names when switching between any two languages ([b3acdc0](https://github.com/ellite/Wallos/commit/b3acdc0672aea5fa73a960c2f6617ef68065812b))
+
+## [5.9.0](https://github.com/ellite/Wallos/compare/v5.8.4...v5.9.0) (2026-10-17)
+
+
+### Features
+
+* **subscriptions:** allow several categories per subscription ([d750eac](https://github.com/ellite/Wallos/commit/d750eacc6b6bb80bc25d365cd378671589d25ffb))
+* **subscriptions:** allow several payers per subscription ([faa0226](https://github.com/ellite/Wallos/commit/faa0226801ca6fc85326efa212c33c8f19525798))
+* **subscriptions:** show card actions as a 2x2 grid ([a224dd2](https://github.com/ellite/Wallos/commit/a224dd2b2dc332673c3043aeb1095a364e8a4302))
+
+
+### Bug Fixes
+
+* **pwa:** rename the static cache when a script or stylesheet changes ([1d37f89](https://github.com/ellite/Wallos/commit/1d37f898d458c97dee70c09767588a58e715af5b))
+* **stats:** drop point labels and dates from the cost trend graph ([3a1da1c](https://github.com/ellite/Wallos/commit/3a1da1c00677766201588cae7baa247b112a1934))
+
+## [5.8.4](https://github.com/ellite/Wallos/compare/v5.8.3...v5.8.4) (2026-10-17)
+
+
+### Bug Fixes
+
+* **i18n:** complete Arabic translation and plural "days before" label ([#1266](https://github.com/ellite/Wallos/issues/1266)) ([ff78a22](https://github.com/ellite/Wallos/commit/ff78a22b994b826bf4e5d2dcd7c5bd9322cd1e02))
+
 ## [5.8.3](https://github.com/ellite/Wallos/compare/v5.8.2...v5.8.3) (2026-10-01)
 
 

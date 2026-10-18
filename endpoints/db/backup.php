@@ -82,6 +82,22 @@ header('Content-Disposition: attachment; filename="' . $downloadName . '"');
 header('Content-Length: ' . filesize($zipname));
 header('Cache-Control: no-store');
 
+// Removed on the way out rather than after readfile(), because a download the
+// browser abandons - a closed tab, a lost connection, a proxy timing out - ends
+// this script inside readfile(). The unlink below it then never runs, and a
+// complete copy of the database and every uploaded file stays in the system
+// temp directory until something else clears it. The shutdown function runs on
+// that path too.
+//
+// Registered here rather than at tempnam() so the failure branches above keep
+// their own unlink and their own message.
+register_shutdown_function(function () use ($zipname) {
+    if (is_file($zipname)) {
+        @unlink($zipname);
+    }
+});
+
+// An abandoned download does not need the rest of the file read into memory
+// first; ignore_user_abort stays off, so PHP stops at the next write.
 readfile($zipname);
-unlink($zipname);
 exit;
