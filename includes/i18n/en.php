@@ -425,6 +425,12 @@ $i18n = [
     // Notifications
     "error_saving_notifications" => "Error saving notifications data.",
     "wallos_notification" => "Wallos Notification",
+    "notification_renewals_intro" => "The following subscriptions are up for renewal:",
+    "notification_renewals_intro_named" => "%s, the following subscriptions are up for renewal:",
+    "notification_subscription_line" => "%s for %s (%s)",
+    "notification_due_today" => "Today",
+    "notification_due_tomorrow" => "Tomorrow",
+    "notification_due_in_days" => "In %d days",
     "test_notification" => "This is a test notification. If you're seeing this, the configuration is correct.",
     "email_error" => "Error sending email",
     "notification_sent_successfuly" => "Notification sent successfully",
