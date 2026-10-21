@@ -4,6 +4,7 @@ require_once __DIR__ . '/currency_rates.php';
 require_once __DIR__ . '/default_names.php';
 require_once __DIR__ . '/subscription_payers.php';
 require_once __DIR__ . '/subscription_categories.php';
+require_once __DIR__ . '/payments_due.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -261,17 +262,10 @@ if ($result) {
                     $endOfMonth = new DateTime('last day of this month');
 
                     if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
-                        $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
+                        // Whole payments only: the next payment is inside the month,
+                        // so it always counts, plus any later ones before the month ends.
                         $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                        if ($cycle == 1) {
-                            $timesToPay = $daysRemaining / $frequency;
-                        }
-                        if ($cycle == 2) {
-                            $weeksInMonth = ceil($daysInMonth / 7);
-                            $weeksRemaining = ceil($daysRemaining / 7);
-                            $timesToPay = $weeksRemaining / $frequency;
-                        }
+                        $timesToPay = getPaymentsDueInRemainingDays($cycle, $frequency, $daysRemaining);
                         $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                     }
                 }
