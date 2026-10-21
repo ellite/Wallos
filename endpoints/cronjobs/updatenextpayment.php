@@ -4,6 +4,7 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/final_payment.php';
 
 $date = new DateTime('now');
 echo "\n" . $date->format('Y-m-d') . " " . $date->format('H:i:s') . "<br />\n";
@@ -20,7 +21,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $cycles[$cycleId] = $row;
 }
 
-$query = "SELECT id, next_payment, frequency, cycle FROM subscriptions WHERE next_payment < :currentDate AND auto_renew = 1 AND inactive = 0";
+$query = "SELECT id, next_payment, frequency, cycle, final_payment_date FROM subscriptions WHERE next_payment < :currentDate AND auto_renew = 1 AND inactive = 0";
 $stmt = $db->prepare($query);
 $stmt->bindValue(':currentDate', $currentDate->format('Y-m-d'));
 $result = $stmt->execute();
@@ -47,7 +48,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
     // Add intervals until the next payment date is in the future
     while ($nextPaymentDate < $currentDate) {
-        $nextPaymentDate->add($interval);
+        $candidate = (clone $nextPaymentDate)->add($interval);
+        if (!wallos_payment_within_final_date($row, $candidate->format('Y-m-d'))) {
+            break;
+        }
+        $nextPaymentDate = $candidate;
     }
 
     // Update the subscription's next_payment date
