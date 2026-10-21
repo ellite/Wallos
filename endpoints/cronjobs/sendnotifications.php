@@ -16,6 +16,7 @@ require __DIR__ . '/../../libs/PHPMailer/Exception.php';
 
 require __DIR__ . '/../../includes/currency_formatter.php';
 require __DIR__ . '/../../includes/budget_period_calculations.php';
+require_once __DIR__ . '/../../includes/variable_pricing.php';
 
 require 'settimezone.php';
 require_once __DIR__ . '/../../includes/webhook_headers.php';
@@ -341,7 +342,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $activeBudgetPeriod = getActiveBudgetPeriod($currentDate, $budgetPeriodType, $budgetPeriodAnchorDate);
         $isPeriodStart = $activeBudgetPeriod['start']->format('Y-m-d') === $currentDate->format('Y-m-d');
 
-        $query = "SELECT price, currency_id, next_payment, cycle, frequency, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND inactive = 0";
+        $query = "SELECT id, price, currency_id, next_payment, cycle, frequency, inactive, auto_renew, has_variable_price, price_history_fallback FROM subscriptions WHERE user_id = :userId AND inactive = 0";
         $stmt = $db->prepare($query);
         $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
@@ -368,6 +369,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $stmt->bindValue(':notify', 1, SQLITE3_INTEGER);
         $stmt->bindValue(':inactive', 0, SQLITE3_INTEGER);
         $resultSubscriptions = $stmt->execute();
+        $notificationPriceHistory = load_price_history_index($db, (int) $userId);
 
         $notify = [];
         $notifyOtherPayers = [];
@@ -391,12 +393,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
                 echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
                 echo "Difference: " . $difference . "<br /><br />";
+                $notifyPrice = effective_subscription_price($rowSubscription, $nextPaymentDate->format('Y-m'), $notificationPriceHistory);
                 $entry = [
                     'name' => html_entity_decode($rowSubscription['name'], ENT_QUOTES, 'UTF-8'),
-                    'price' => $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'],
+                    'price' => $notifyPrice . $currencies[$rowSubscription['currency_id']]['symbol'],
                     'currency' => $currencies[$rowSubscription['currency_id']]['name'],
                     'currency_symbol' => $currencies[$rowSubscription['currency_id']]['symbol'],
-                    'formatted_price' => formatPrice($rowSubscription['price'], $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']),
+                    'formatted_price' => formatPrice($notifyPrice, $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']),
                     'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
                     'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],
                     'date' => $rowSubscription['next_payment'],

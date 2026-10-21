@@ -28,6 +28,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/variable_pricing.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -112,7 +113,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
     }
 
-    // Calculate the monthly cost based on the next_payment_date, payment cycle, and payment frequency
+    // Calculate the monthly cost based on the next_payment_date, payment cycle, and payment frequency.
+    // A variable-price subscription contributes its actual for this month once,
+    // even when more than one renewal falls in the month.
+    $priceHistoryIndex = load_price_history_index($db, (int) $userId);
+    $yearMonth = $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT);
     foreach ($subscriptions as $subscription) {
         $nextPaymentDate = strtotime($subscription['next_payment']);
         $cycle = $subscription['cycle']; // Integer from 1 to 4
@@ -146,9 +151,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
 
         // Calculate the monthly cost
+        $addedVariableMonth = false;
         for ($date = $startDate; $date <= strtotime("+1 month", $startOfMonth); $date = strtotime($incrementString, $date)) {
-            if (date('Y-m', $date) == $year . '-' . str_pad($month, 2, '0', STR_PAD_LEFT)) {
-                $price = $subscription['price'];
+            if (date('Y-m', $date) == $yearMonth) {
+                if (subscription_has_variable_price($subscription)) {
+                    if ($addedVariableMonth) {
+                        continue;
+                    }
+                    $addedVariableMonth = true;
+                    $price = effective_subscription_price($subscription, $yearMonth, $priceHistoryIndex);
+                } else {
+                    $price = $subscription['price'];
+                }
                 if (
                     $userCurrencyId !== $subscription['currency_id']
                     && $canConvertCurrency

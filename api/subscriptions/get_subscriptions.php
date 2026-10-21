@@ -19,6 +19,8 @@ It returns a JSON object with the following properties:
 - users: an array of all users, only present when all-user-subscription is used by user id 1.
 - notes: reserved for warning messages or additional information (array); currently always empty.
 
+`price` stays the stored base price. `effective_price` is the amount totals use for the current month: the same as `price` unless has_variable_price is 1, in which case it is that month's actual, else the selected previous/base fallback. `effective_price` follows convert_currency the same way `price` does.
+
 Example response:
 {
     "success": true,
@@ -100,6 +102,7 @@ Example response:
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
+require_once '../../includes/variable_pricing.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
 
@@ -287,14 +290,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         }
     }
     $subscriptionsToReturn = array();
+    $historyUserId = ($allUserSubscription == 1 && $userId == 1) ? null : (int) $userId;
+    $priceHistoryIndex = load_price_history_index($db, $historyUserId);
+    $currentYearMonth = date('Y-m');
     $payersBySubscription = getPayersBySubscription($db, $subscriptions);
     $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
     foreach ($subscriptions as $subscription) {
         $subscriptionToReturn = $subscription;
+        $effectivePrice = effective_subscription_price($subscription, $currentYearMonth, $priceHistoryIndex);
         if (isset($_REQUEST['convert_currency']) && $_REQUEST['convert_currency'] === 'true' && $canConvertCurrency && $subscription['currency_id'] != $userCurrencyId) {
             $subscriptionToReturn['price'] = getPriceConverted($subscription['price'], $subscription['currency_id'], $db);
+            $subscriptionToReturn['effective_price'] = getPriceConverted($effectivePrice, $subscription['currency_id'], $db);
         } else {
             $subscriptionToReturn['price'] = $subscription['price'];
+            $subscriptionToReturn['effective_price'] = $effectivePrice;
         }
         $categoryIdsForSubscription = $categoriesBySubscription[$subscription['id']] ?? [];
         $subscriptionToReturn['category_ids'] = $categoryIdsForSubscription;

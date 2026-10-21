@@ -6,6 +6,7 @@ require_once '../../includes/getdbkeys.php';
 require_once '../../includes/logo_theme_variant.php';
 
 include_once '../../includes/list_subscriptions.php';
+require_once '../../includes/variable_pricing.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
 
@@ -156,6 +157,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     }
   }
 
+  $priceHistoryIndex = load_price_history_index($db, (int) $userId);
   $payersBySubscription = getPayersBySubscription($db, $subscriptions);
   $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
 
@@ -188,9 +190,12 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
+    $hasVariablePrice = subscription_has_variable_price($subscription);
+    $effectivePrice = effective_subscription_price($subscription, date('Y-m'), $priceHistoryIndex);
+    $print[$id]['price'] = $effectivePrice;
+    $print[$id]['has_variable_price'] = $hasVariablePrice ? 1 : 0;
     $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
-    $print[$id]['price'] = floatval($subscription['price']);
-    $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
+    $print[$id]['sort_price'] = getSortPrice($effectivePrice, $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
     $print[$id]['url'] = $subscription['url'] ?? "";
@@ -201,11 +206,11 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $print[$id]['price'] = getPriceConverted($print[$id]['price'], $currencyId, $db);
       $print[$id]['currency_code'] = $currencies[$mainCurrencyId]['code'];
     }
-    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
+    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true' && !$hasVariablePrice) {
       $print[$id]['price'] = getPricePerMonth($cycle, $frequency, $print[$id]['price']);
     }
     if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
-      $print[$id]['original_price'] = floatval($subscription['price']);
+      $print[$id]['original_price'] = $effectivePrice;
       $print[$id]['original_currency_code'] = $currencies[$subscription['currency_id']]['code'];
     }
   }
