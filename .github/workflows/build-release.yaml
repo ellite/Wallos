@@ -98,6 +98,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          # always resolve php:8.3-fpm-alpine fresh, so a rebuild picks up base image security fixes
+          pull: true
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           # PRs never push and never log into a registry, so don't build image
