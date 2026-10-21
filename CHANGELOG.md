@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.10.1](https://github.com/ellite/Wallos/compare/v5.10.0...v5.10.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* **docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619) ([a540a9e](https://github.com/ellite/Wallos/commit/a540a9e3146cdf689d88e2e5b2d2f8acbb1e064f))
+* **docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619) ([9e560ed](https://github.com/ellite/Wallos/commit/9e560ed091035b9524aca28e4e6026b2a1bac8f9))
+
 ## [5.10.0](https://github.com/ellite/Wallos/compare/v5.9.0...v5.10.0) (2026-10-17)
 
 
