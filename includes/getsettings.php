@@ -31,6 +31,8 @@ if ($settings !== false) {
     $settings['showOriginalPrice'] = $settings['show_original_price'] ? 'true': 'false';
     $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
     $settings['showSubscriptionProgress'] = $settings['show_subscription_progress'] ? 'true': 'false';
+    $settings['defaultAutoRenew'] = ($settings['default_auto_renew'] ?? 1) ? 'true': 'false';
+    $settings['defaultNotifications'] = ($settings['default_notifications'] ?? 0) ? 'true': 'false';
     $settings['week_starts_sunday'] = isset($settings['week_starts_sunday']) ? $settings['week_starts_sunday'] : 0;
 }
 

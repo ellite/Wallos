@@ -1096,6 +1096,20 @@ function setShowSubscriptionProgress() {
   storeSettingsOnDB('subscription_progress', value);
 }
 
+function setDefaultAutoRenew() {
+  const defaultAutoRenewCheckbox = document.querySelector("#defaultautorenew");
+  const value = defaultAutoRenewCheckbox.checked;
+
+  storeSettingsOnDB('default_auto_renew', value);
+}
+
+function setDefaultNotifications() {
+  const defaultNotificationsCheckbox = document.querySelector("#defaultnotifications");
+  const value = defaultNotificationsCheckbox.checked;
+
+  storeSettingsOnDB('default_notifications', value);
+}
+
 function loadApiUsage(endpoint, containerId, countId, fillId) {
   const usageContainer = document.getElementById(containerId);
   if (!usageContainer) {
