@@ -396,6 +396,12 @@ $i18n = [
     // Notifications
     "error_saving_notifications" => "Benachrichtigungsangaben konnten nicht gespeichert werden.",
     "wallos_notification" => "Wallos Benachrichtigung",
+    "notification_renewals_intro" => "Die folgenden Abos stehen zur Verlängerung an:",
+    "notification_renewals_intro_named" => "%s, die folgenden Abos stehen zur Verlängerung an:",
+    "notification_subscription_line" => "%s für %s (%s)",
+    "notification_due_today" => "Heute",
+    "notification_due_tomorrow" => "Morgen",
+    "notification_due_in_days" => "In %d Tagen",
     "test_notification" => "Dies ist eine Test-Benachrichtigung. Wenn du das hier siehst, sind deine Konfigurationen korrekt.",
     "email_error" => "E-Mail konnte nicht gesendet werden",
     "notification_sent_successfuly" => "Benachrichtigung erfolgreich gesendet",
