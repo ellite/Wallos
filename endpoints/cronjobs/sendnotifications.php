@@ -18,6 +18,9 @@ require __DIR__ . '/../../includes/currency_formatter.php';
 require __DIR__ . '/../../includes/budget_period_calculations.php';
 
 require 'settimezone.php';
+require_once __DIR__ . '/../../includes/webhook_headers.php';
+require_once __DIR__ . '/../../includes/subscription_payers.php';
+require_once __DIR__ . '/../../includes/subscription_categories.php';
 
 if (php_sapi_name() == 'cli') {
     $date = new DateTime('now');
@@ -367,6 +370,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $resultSubscriptions = $stmt->execute();
 
         $notify = [];
+        $notifyOtherPayers = [];
         $i = 0;
         while ($rowSubscription = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
             if ($rowSubscription['notify_days_before'] !== -1) {
@@ -382,21 +386,32 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             }
 
             if ($difference === $daysToCompare && $nextPaymentDate->format('Y-m-d') >= $currentDate->format('Y-m-d')) {
+                $allPayerIds = getPayersBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [];
                 echo "Subscription: " . $rowSubscription['name'] . "<br />";
                 echo "Next payment date: " . $nextPaymentDate->format('Y-m-d') . "<br />";
                 echo "Current date: " . $currentDate->format('Y-m-d') . "<br />";
                 echo "Difference: " . $difference . "<br /><br />";
-                $notify[$rowSubscription['payer_user_id']][$i]['name'] = html_entity_decode($rowSubscription['name'], ENT_QUOTES, 'UTF-8');
-                $notify[$rowSubscription['payer_user_id']][$i]['price'] = $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'];
-                $notify[$rowSubscription['payer_user_id']][$i]['currency'] = $currencies[$rowSubscription['currency_id']]['name'];
-                $notify[$rowSubscription['payer_user_id']][$i]['currency_symbol'] = $currencies[$rowSubscription['currency_id']]['symbol'];
-                $notify[$rowSubscription['payer_user_id']][$i]['formatted_price'] = formatPrice($rowSubscription['price'], $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']);
-                $notify[$rowSubscription['payer_user_id']][$i]['category'] = $categories[$rowSubscription['category_id']]['name'];
-                $notify[$rowSubscription['payer_user_id']][$i]['payer'] = $household[$rowSubscription['payer_user_id']]['name'];
-                $notify[$rowSubscription['payer_user_id']][$i]['date'] = $rowSubscription['next_payment'];
-                $notify[$rowSubscription['payer_user_id']][$i]['days'] = $daysToCompare;
-                $notify[$rowSubscription['payer_user_id']][$i]['url'] = $rowSubscription['url'];
-                $notify[$rowSubscription['payer_user_id']][$i]['notes'] = $rowSubscription['notes'];
+                $entry = [
+                    'name' => html_entity_decode($rowSubscription['name'], ENT_QUOTES, 'UTF-8'),
+                    'price' => $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'],
+                    'currency' => $currencies[$rowSubscription['currency_id']]['name'],
+                    'currency_symbol' => $currencies[$rowSubscription['currency_id']]['symbol'],
+                    'formatted_price' => formatPrice($rowSubscription['price'], $currencies[$rowSubscription['currency_id']]['code'], $currencies[$rowSubscription['currency_id']]['symbol']),
+                    'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
+                    'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],
+                    'date' => $rowSubscription['next_payment'],
+                    'days' => $daysToCompare,
+                    'url' => $rowSubscription['url'],
+                    'notes' => $rowSubscription['notes'],
+                ];
+                // Every channel hears about it once, under the primary payer.
+                // Email goes to each payer on their own address, see $notifyEmail.
+                $notify[$rowSubscription['payer_user_id']][$i] = $entry;
+                foreach ($allPayerIds as $extraPayerId) {
+                    if ($extraPayerId != $rowSubscription['payer_user_id']) {
+                        $notifyOtherPayers[$extraPayerId][$i] = $entry;
+                    }
+                }
                 $i++;
             }
         }
@@ -405,6 +420,14 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
             $defaultPayerUserId = array_key_first($household);
             if ($defaultPayerUserId !== null) {
                 $notify[$defaultPayerUserId] = [];
+            }
+        }
+
+        // Email reaches every payer, the other channels the primary one only
+        $notifyEmail = $notify;
+        foreach ($notifyOtherPayers as $payerId => $entries) {
+            foreach ($entries as $index => $entry) {
+                $notifyEmail[$payerId][$index] = $entry;
             }
         }
 
@@ -425,7 +448,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                 $defaultEmail = $defaultUser['email'];
                 $defaultName = $defaultUser['username'];
 
-                foreach ($notify as $payerUserId => $perUser) {
+                foreach ($notifyEmail as $payerUserId => $perUser) {
                     $message = buildNotificationMessage("", $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
                     if ($message === "") {
                         continue;
@@ -460,6 +483,13 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                    // A payer without an address is skipped, except the primary
+                    // ones, who have always fallen back to the account's email.
+                    if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
+                        echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
+                        continue;
+                    }
 
                     $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
                     $name = !empty($user['name']) ? $user['name'] : $defaultName;
@@ -855,14 +885,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             continue;
                         }
 
-                        $headers = json_decode($ntfy["headers"], true);
-                        $customheaders = [];
-
-                        if (is_array($headers)) {
-                            $customheaders = array_map(function ($key, $value) {
-                                return "$key: $value";
-                            }, array_keys($headers), $headers);
-                        }
+                        $customheaders = webhook_custom_headers($ntfy["headers"]);
 
                         $ch = curl_init();
 
@@ -936,8 +959,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
                 
                             // Add headers if they exist
-                            if (!empty($webhook['headers'])) {
-                                $customheaders = json_decode($webhook["headers"], true);
+                            $customheaders = webhook_headers_with_content_type(webhook_custom_headers($webhook['headers']), $payload);
+                            if (!empty($customheaders)) {
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, $customheaders);
                             }
                 

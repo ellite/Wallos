@@ -27,17 +27,24 @@ function showSubscriptionDetails(event, id) {
     });
 }
 
+// Wallos language codes (zh_cn, pt_br, sr_lat) are not BCP 47 tags, which Intl rejects
+function detailsLocale() {
+  return (window.lang || 'en').replace('sr_lat', 'sr-Latn').replace(/_/g, '-');
+}
+
 function detailsFormatPrice(price, currencyId) {
   const lookups = window.subscriptionLookups;
   const currency = lookups.currencies[currencyId];
   const value = Number(price);
   if (currency && currency.code) {
     try {
-      return new Intl.NumberFormat(window.lang || 'en', { style: 'currency', currency: currency.code }).format(value);
+      return new Intl.NumberFormat(detailsLocale(), { style: 'currency', currency: currency.code }).format(value);
     } catch (e) { /* unknown currency code, fall through */ }
   }
-  const symbol = currency ? (currency.symbol || currency.code || '') : '';
-  return `${symbol}${value.toFixed(2)}`;
+  // Symbols are stored as HTML entities (e.g. &yen;) and the result is set via textContent
+  const decoder = document.createElement('textarea');
+  decoder.innerHTML = currency ? (currency.symbol || currency.code || '') : '';
+  return `${decoder.value}${value.toFixed(2)}`;
 }
 
 function detailsFormatDate(dateString) {
@@ -49,7 +56,7 @@ function detailsFormatDate(dateString) {
     return dateString;
   }
   try {
-    return date.toLocaleDateString(window.lang || 'en', { day: 'numeric', month: 'short', year: 'numeric' });
+    return date.toLocaleDateString(detailsLocale(), { day: 'numeric', month: 'short', year: 'numeric' });
   } catch (e) {
     return date.toLocaleDateString('en', { day: 'numeric', month: 'short', year: 'numeric' });
   }
@@ -156,8 +163,10 @@ function renderSubscriptionDetails(subscription) {
 
   document.querySelector('#details-next-payment').textContent = detailsFormatDate(subscription.next_payment);
   document.querySelector('#details-start-date').textContent = detailsFormatDate(subscription.start_date) || strings.none;
-  document.querySelector('#details-category').textContent = lookups.categories[subscription.category_id] || strings.none;
-  document.querySelector('#details-payer').textContent = lookups.members[subscription.payer_user_id] || strings.none;
+  const categoryIds = subscription.category_ids && subscription.category_ids.length > 0 ? subscription.category_ids : [subscription.category_id];
+  document.querySelector('#details-category').textContent = categoryIds.map(id => lookups.categories[id]).filter(Boolean).join(', ') || strings.none;
+  const payerIds = subscription.payer_user_ids && subscription.payer_user_ids.length > 0 ? subscription.payer_user_ids : [subscription.payer_user_id];
+  document.querySelector('#details-payer').textContent = payerIds.map(id => lookups.members[id]).filter(Boolean).join(', ') || strings.none;
 
   const paymentMethod = lookups.paymentMethods[subscription.payment_method_id];
   const paymentIcon = document.querySelector('#details-payment-icon');

@@ -13,6 +13,135 @@ function toggleNotificationDays() {
   notifyDaysBefore.disabled = !notifyCheckbox.checked;
 }
 
+// Multi-select used by the "Paid by" and "Category" fields. The hidden input
+// carries the selected ids as a comma separated list, first one being the
+// primary one. At least one option always stays selected.
+function multiSelectElements(wrapperId) {
+  const wrapper = document.querySelector(`#${wrapperId}`);
+  return {
+    wrapper,
+    toggle: wrapper.querySelector(".multi-select-toggle"),
+    list: wrapper.querySelector(".multi-select-options"),
+    input: wrapper.querySelector("input[type='hidden']"),
+  };
+}
+
+function getMultiSelection(wrapperId) {
+  const { input } = multiSelectElements(wrapperId);
+  return input.value === "" ? [] : input.value.split(",");
+}
+
+function setMultiSelection(wrapperId, ids) {
+  const { wrapper, list, input } = multiSelectElements(wrapperId);
+  const options = list.querySelectorAll("li[role='option']");
+  const wanted = ids.map(String).filter(id => list.querySelector(`li[data-value="${id}"]`));
+  if (wanted.length === 0 && options.length > 0) {
+    wanted.push(options[0].dataset.value);
+  }
+  options.forEach(option => {
+    option.setAttribute("aria-selected", wanted.includes(option.dataset.value) ? "true" : "false");
+  });
+  input.value = wanted.join(",");
+  const names = wanted.map(id => list.querySelector(`li[data-value="${id}"] .multi-select-name`).textContent.trim());
+  wrapper.querySelector(".multi-select-label").textContent = names.length > 0 ? names.join(", ") : wrapper.dataset.placeholder;
+}
+
+function toggleMultiOption(wrapperId, option) {
+  const current = getMultiSelection(wrapperId);
+  const id = option.dataset.value;
+  if (current.includes(id)) {
+    if (current.length === 1) {
+      return;
+    }
+    setMultiSelection(wrapperId, current.filter(value => value !== id));
+  } else {
+    setMultiSelection(wrapperId, [...current, id]);
+  }
+}
+
+function closeMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.remove("is-open");
+  list.hidden = true;
+  toggle.setAttribute("aria-expanded", "false");
+}
+
+function openMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  wrapper.classList.add("is-open");
+  list.hidden = false;
+  toggle.setAttribute("aria-expanded", "true");
+  const first = list.querySelector("li[aria-selected='true']") || list.querySelector("li");
+  if (first) {
+    first.focus();
+  }
+}
+
+function initMultiSelect(wrapperId) {
+  const { wrapper, toggle, list } = multiSelectElements(wrapperId);
+  list.querySelectorAll("li").forEach(option => option.tabIndex = -1);
+
+  toggle.addEventListener("click", () => {
+    wrapper.classList.contains("is-open") ? closeMultiSelect(wrapperId) : openMultiSelect(wrapperId);
+  });
+
+  toggle.addEventListener("keydown", event => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      openMultiSelect(wrapperId);
+    }
+  });
+
+  list.addEventListener("click", event => {
+    const option = event.target.closest("li[role='option']");
+    if (option) {
+      toggleMultiOption(wrapperId, option);
+      option.focus();
+    }
+  });
+
+  list.addEventListener("keydown", event => {
+    const options = Array.from(list.querySelectorAll("li"));
+    const index = options.indexOf(document.activeElement);
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      options[Math.min(index + 1, options.length - 1)].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      options[Math.max(index - 1, 0)].focus();
+    } else if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      if (index >= 0) {
+        toggleMultiOption(wrapperId, options[index]);
+      }
+    } else if (event.key === "Escape" || event.key === "Tab") {
+      if (event.key === "Escape") {
+        event.stopPropagation();
+      }
+      closeMultiSelect(wrapperId);
+      toggle.focus();
+    }
+  });
+
+  document.addEventListener("mousedown", event => {
+    if (wrapper.classList.contains("is-open") && !wrapper.contains(event.target)) {
+      closeMultiSelect(wrapperId);
+    }
+  });
+
+  setMultiSelection(wrapperId, getMultiSelection(wrapperId));
+}
+
+const multiSelectIds = ["payer_user_select", "category_select"];
+
+function initMultiSelects() {
+  multiSelectIds.forEach(id => {
+    if (document.querySelector(`#${id}`)) {
+      initMultiSelect(id);
+    }
+  });
+}
+
 function resetForm() {
   const id = document.querySelector("#id");
   id.value = "";
@@ -39,6 +168,10 @@ function resetForm() {
   replacementSubscription.classList.add("hide");
   const form = document.querySelector("#subs-form");
   form.reset();
+  multiSelectIds.forEach(id => {
+    setMultiSelection(id, []);
+    closeMultiSelect(id);
+  });
   toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
@@ -84,10 +217,12 @@ function fillEditFormFields(subscription) {
   toggleOneTimeCycleUI(subscription.cycle == 5);
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
-  const categorySelect = document.querySelector("#category");
-  categorySelect.value = subscription.category_id;
-  const payerSelect = document.querySelector("#payer_user");
-  payerSelect.value = subscription.payer_user_id;
+  setMultiSelection("category_select", subscription.category_ids && subscription.category_ids.length > 0
+    ? subscription.category_ids
+    : [subscription.category_id]);
+  setMultiSelection("payer_user_select", subscription.payer_user_ids && subscription.payer_user_ids.length > 0
+    ? subscription.payer_user_ids
+    : [subscription.payer_user_id]);
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
@@ -577,6 +712,7 @@ function fetchSubscriptions(id, event, initiator) {
       }
 
       setSwipeElements();
+      updateBulkSelection();
       if (initiator === "add") {
         if (document.getElementsByClassName('subscription').length === 1) {
           setTimeout(() => {
@@ -702,6 +838,8 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+  initMultiSelects();
+
   const subscriptionForm = document.querySelector("#subs-form");
   const submitButton = document.querySelector("#save-button");
   const endpoint = "endpoints/subscription/add.php";
@@ -1253,4 +1391,144 @@ window.addEventListener('load', () => {
   if (document.querySelector('.subscription')) {
     swipeHintAnimation();
   }
+});
+
+function visibleBulkCheckboxes() {
+  return Array.from(document.querySelectorAll(".subscription-container:not(.hide) .bulk-select-checkbox"));
+}
+
+function toggleBulkMode() {
+  const active = document.querySelector("#subscriptions").classList.toggle("bulk-mode");
+  document.querySelector("#bulk-toolbar").classList.toggle("is-open", active);
+  document.querySelectorAll(".bulk-mode-button").forEach((button) => button.classList.toggle("selected", active));
+
+  if (!active) {
+    document.querySelectorAll(".bulk-select-checkbox").forEach((checkbox) => checkbox.checked = false);
+    document.querySelector("#bulk-action").value = "";
+    updateBulkActionValue();
+  }
+  updateBulkSelection();
+}
+
+function toggleBulkSelectAll(checked) {
+  visibleBulkCheckboxes().forEach((checkbox) => checkbox.checked = checked);
+  updateBulkSelection();
+}
+
+function updateBulkSelection() {
+  const counter = document.querySelector("#bulk-selected-count");
+  if (!counter) {
+    return;
+  }
+
+  const checkboxes = visibleBulkCheckboxes();
+  const selected = checkboxes.filter((checkbox) => checkbox.checked).length;
+  const selectAll = document.querySelector("#bulk-select-all");
+
+  counter.textContent = "(" + translate("bulk_selected_count")
+    .replace("{count}", selected)
+    .replace("{total}", checkboxes.length) + ")";
+  selectAll.checked = checkboxes.length > 0 && selected === checkboxes.length;
+  selectAll.indeterminate = selected > 0 && selected < checkboxes.length;
+  updateBulkApplyState();
+}
+
+// Apply stays disabled until there is something to apply: at least one
+// subscription selected and an action chosen.
+function updateBulkApplyState() {
+  const apply = document.querySelector("#bulk-apply");
+  if (!apply) {
+    return;
+  }
+
+  const selected = visibleBulkCheckboxes().some((checkbox) => checkbox.checked);
+  const action = document.querySelector("#bulk-action").value;
+  apply.disabled = !selected || action === "";
+}
+
+function updateBulkActionValue() {
+  const action = document.querySelector("#bulk-action").value;
+  document.querySelector("#bulk-notify-days").hidden = action !== "set_notify_days";
+  document.querySelector("#bulk-category").hidden = action !== "set_category";
+  document.querySelector("#bulk-payment-method").hidden = action !== "set_payment_method";
+  updateBulkApplyState();
+}
+
+function applyBulkAction() {
+  const ids = visibleBulkCheckboxes()
+    .filter((checkbox) => checkbox.checked)
+    .map((checkbox) => parseInt(checkbox.value));
+  const action = document.querySelector("#bulk-action").value;
+
+  if (ids.length === 0) {
+    showErrorMessage(translate("no_subscriptions_selected"));
+    return;
+  }
+  if (action === "") {
+    showErrorMessage(translate("select_action"));
+    return;
+  }
+  if (action === "delete" && !confirm(translate("confirm_bulk_delete").replace("{count}", ids.length))) {
+    return;
+  }
+
+  const values = {
+    set_notify_days: "#bulk-notify-days",
+    set_category: "#bulk-category",
+    set_payment_method: "#bulk-payment-method",
+  };
+  const value = values[action] ? parseInt(document.querySelector(values[action]).value) : null;
+
+  fetch("endpoints/subscriptions/bulkedit.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ ids: ids, action: action, value: value }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        showSuccessMessage(translate("bulk_action_success").replace("{count}", data.count));
+        toggleBulkMode();
+        fetchSubscriptions(null, null, "bulk");
+      } else {
+        showErrorMessage(data.message || translate("error_bulk_action"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error_bulk_action"));
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const subscriptions = document.querySelector("#subscriptions");
+  if (!subscriptions) {
+    return;
+  }
+
+  // In bulk mode a click anywhere on a subscription selects it instead of
+  // opening it. Capture phase, so it runs before the subscription's onClick.
+  subscriptions.addEventListener("click", function (event) {
+    if (!subscriptions.classList.contains("bulk-mode") || event.target.closest(".bulk-select")) {
+      return;
+    }
+
+    const container = event.target.closest(".subscription-container");
+    if (!container) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    const checkbox = container.querySelector(".bulk-select-checkbox");
+    checkbox.checked = !checkbox.checked;
+    updateBulkSelection();
+  }, true);
 });

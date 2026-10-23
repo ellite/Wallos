@@ -88,6 +88,41 @@ function getPriceConverted($price, $currency, $database)
     return wallos_convert_price($price, $currency, $database);
 }
 
+/**
+ * The value a subscription is ranked by when the list is sorted by price: its
+ * price in the main currency, so AED 71.00 does not outrank GBP 55.00 just
+ * because 71 > 55 (#861). Follows the monthly-price display setting, so the
+ * order matches the figures that are shown.
+ */
+function getSortPrice($rawPrice, $currencyId, $mainCurrencyId, $cycle, $frequency, $settings, $database)
+{
+    $price = floatval($rawPrice);
+    if ($currencyId != $mainCurrencyId) {
+        $price = floatval(getPriceConverted($price, $currencyId, $database));
+    }
+    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
+        $price = getPricePerMonth($cycle, $frequency, $price);
+    }
+    return $price;
+}
+
+/**
+ * Orders the printable list by sort_price, highest first. usort() is stable,
+ * so ties keep the order the database gave them.
+ */
+function sortSubscriptionsByPrice(&$print, $disabledToBottom)
+{
+    usort($print, function ($a, $b) use ($disabledToBottom) {
+        if ($disabledToBottom) {
+            $byInactive = ($a['inactive'] ?? 0) <=> ($b['inactive'] ?? 0);
+            if ($byInactive !== 0) {
+                return $byInactive;
+            }
+        }
+        return ($b['sort_price'] ?? $b['price'] ?? 0) <=> ($a['sort_price'] ?? $a['price'] ?? 0);
+    });
+}
+
 function formatPrice($price, $currencyCode, $currencies)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
@@ -152,14 +187,8 @@ function formatDate($date, $lang = 'en')
 function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     if ($sort === "price") {
-        usort($subscriptions, function ($a, $b) {
-            return $a['price'] < $b['price'] ? 1 : -1;
-        });
-        if ($disabledToBottom === 'true') {
-            usort($subscriptions, function ($a, $b) {
-                return $a['inactive'] - $b['inactive'];
-            });
-        }
+        // Ranked by the main-currency value (sort_price), not the raw number (#861).
+        sortSubscriptionsByPrice($subscriptions, $disabledToBottom === 'true');
     }
 
     // One-time purchases always go to the bottom regardless of sort order
@@ -185,7 +214,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 if ($subscription['category_id'] == 1) {
                     echo translate('no_category', $i18n);
                 } else {
-                    echo $categories[$subscription['category_id']]['name'];
+                    echo $categories[$subscription['category_id'] ?? ""]['name'] ?? "";
                 }
                 ?>
             </div>
@@ -195,7 +224,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
         if ($sort == "payer_user_id" && $subscription['payer_user_id'] != $currentPayerUserId) {
             ?>
             <div class="subscription-list-title">
-                <?= $members[$subscription['payer_user_id']]['name'] ?>
+                <?= $members[$subscription['payer_user_id'] ?? ""]['name'] ?? "" ?>
             </div>
             <?php
             $currentPayerUserId = $subscription['payer_user_id'];
@@ -256,6 +285,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
             ?>
 
+            <label class="bulk-select">
+                <input type="checkbox" class="bulk-select-checkbox" value="<?= $subscription['id'] ?>"
+                    onChange="updateBulkSelection()">
+            </label>
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= $subscription['name'] ?>">
@@ -299,8 +332,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
                     </span>
                     <span class="payment_method">
+                        <?php if (!empty($subscription['payment_method_icon'])) { ?>
                         <img src="<?= $subscription['payment_method_icon'] ?>"
                             title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                        <?php } ?>
                     </span>
                     <?php
                     $desktopMenuButtonClass = ""; {
@@ -343,15 +378,18 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </ul>
                 </div>
                 <div class="subscription-back" inert>
-                    <button type="button" class="subscription-back-close"
-                        onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
-                        title="<?= translate('cancel', $i18n) ?>">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div class="subscription-back-header">
+                        <span class="subscription-back-title"><?= $subscription['name'] ?></span>
+                        <button type="button" class="subscription-back-close"
+                            onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
+                            title="<?= translate('cancel', $i18n) ?>">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        <?= translate('edit_subscription', $i18n) ?>
+                        <?= translate('edit', $i18n) ?>
                     </button>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); cloneSubscription(event, <?= $subscription['id'] ?>)">

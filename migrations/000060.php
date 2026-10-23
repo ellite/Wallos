@@ -1,32 +1,27 @@
 <?php
 
-// Dashboard widget visibility flags (default ON so existing dashboard layout is unchanged)
-// and per-payment-method budget amounts for period-scoped method budget widgets.
+// A subscription can be paid by more than one household member.
+//
+// subscription_payers holds one row per (subscription, member). The existing
+// subscriptions.payer_user_id column stays and keeps the first selected payer,
+// the "primary" one: notifications are grouped by it, and the sort and API
+// fields built on it keep working unchanged. The new table is the full list.
+//
+// Every existing subscription gets one row for the payer it already has, so
+// nothing changes for an installation until somebody picks a second payer.
 
-$widgetColumns = [
-    'dashboard_widget_overdue',
-    'dashboard_widget_upcoming',
-    'dashboard_widget_ai',
-    'dashboard_widget_monthly_budget',
-    'dashboard_widget_period_budget',
-    'dashboard_widget_payment_method_budget',
-    'dashboard_widget_subscriptions',
-    'dashboard_widget_savings',
-    'dashboard_widget_category_cost',
-];
+$db->exec("CREATE TABLE IF NOT EXISTS subscription_payers (
+    subscription_id INTEGER NOT NULL,
+    payer_id INTEGER NOT NULL,
+    PRIMARY KEY (subscription_id, payer_id),
+    FOREIGN KEY (subscription_id) REFERENCES subscriptions(id) ON DELETE CASCADE,
+    FOREIGN KEY (payer_id) REFERENCES household(id)
+)");
 
-foreach ($widgetColumns as $column) {
-    $columnQuery = $db->query("SELECT * FROM pragma_table_info('settings') WHERE name='" . $column . "'");
-    if ($columnQuery->fetchArray(SQLITE3_ASSOC) === false) {
-        $db->exec("ALTER TABLE settings ADD COLUMN {$column} BOOLEAN DEFAULT 1");
-        $db->exec("UPDATE settings SET {$column} = 1");
-    }
-}
+$db->exec('CREATE INDEX IF NOT EXISTS idx_subscription_payers_payer
+           ON subscription_payers (payer_id)');
 
-$budgetColumn = $db->query("SELECT * FROM pragma_table_info('payment_methods') WHERE name='budget'");
-if ($budgetColumn->fetchArray(SQLITE3_ASSOC) === false) {
-    $db->exec('ALTER TABLE payment_methods ADD COLUMN budget REAL DEFAULT 0');
-    $db->exec('UPDATE payment_methods SET budget = 0');
-}
+$db->exec('INSERT OR IGNORE INTO subscription_payers (subscription_id, payer_id)
+           SELECT id, payer_user_id FROM subscriptions WHERE payer_user_id IS NOT NULL');
 
 ?>

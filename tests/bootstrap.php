@@ -104,7 +104,7 @@ function assert_not_contains($needle, $haystack, $message)
  * Migration files are re-synced into the sandbox on every PHP process start, and
  * pending migrations are applied to the cached template DB. That way a leftover
  * /tmp/wallos-tests from an older checkout still picks up new migrations
- * (e.g. 000061) without requiring `rm -rf` or rebuilding from scratch.
+ * (e.g. 000063) without requiring `rm -rf` or rebuilding from scratch.
  *
  * @return string Path to the freshly copied database.
  */

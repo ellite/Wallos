@@ -14,6 +14,16 @@ $logoStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
 $logoResult = $logoStmt->execute();
 $logoRow = $logoResult ? $logoResult->fetchArray(SQLITE3_ASSOC) : false;
 
+$payersStmt = $db->prepare("DELETE FROM subscription_payers WHERE subscription_id IN (SELECT id FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId)");
+$payersStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
+$payersStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$payersStmt->execute();
+
+$categoriesStmt = $db->prepare("DELETE FROM subscription_categories WHERE subscription_id IN (SELECT id FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId)");
+$categoriesStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
+$categoriesStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
+$categoriesStmt->execute();
+
 $deleteQuery = "DELETE FROM subscriptions WHERE id = :subscriptionId AND user_id = :userId";
 $deleteStmt = $db->prepare($deleteQuery);
 $deleteStmt->bindParam(':subscriptionId', $subscriptionId, SQLITE3_INTEGER);
@@ -41,4 +51,4 @@ if ($deleteStmt->execute()) {
         "message" => translate('error_deleting_subscription', $i18n)
     ]);
 }
-$db->close();
+$db->close();

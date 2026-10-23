@@ -287,6 +287,11 @@ wallos_test('migration adds payment method budget, widget flags, and layout colu
     $layoutCol = $db->query("SELECT * FROM pragma_table_info('settings') WHERE name='dashboard_widget_layout'");
     assert_true($layoutCol->fetchArray(SQLITE3_ASSOC) !== false, 'dashboard_widget_layout exists');
 
+    $payers = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='subscription_payers'");
+    assert_true($payers->fetchArray(SQLITE3_ASSOC) !== false, 'subscription_payers exists');
+    $categories = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='subscription_categories'");
+    assert_true($categories->fetchArray(SQLITE3_ASSOC) !== false, 'subscription_categories exists');
+
     $db->close();
 });
 

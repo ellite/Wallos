@@ -307,3 +307,47 @@ wallos_test('webpush_send() reports 404/410 as prune, and everything else as not
         assert_same($expectedPrune, $prune, "status $status prunes: " . ($expectedPrune ? 'yes' : 'no'));
     }
 });
+
+wallos_test('a second first-use does not replace the keypair the browsers already know', function () {
+    $db = wallos_test_open_database();
+
+    // Two requests find the columns empty at the same moment and each
+    // generates a pair. Whichever writes first is the one a browser may
+    // already have subscribed with, so the second must not replace it: a
+    // subscription is bound to the applicationServerKey it saw, and a push
+    // service answers 403 for it forever afterwards, which prunes nothing and
+    // shows nothing.
+    $first = webpush_generate_vapid_keypair();
+    $second = webpush_generate_vapid_keypair();
+
+    assert_true($first !== false && $second !== false, 'two keypairs were generated');
+    assert_true($first['public'] !== $second['public'], 'and they really are different');
+
+    $stored = webpush_store_vapid_keys($db, $first);
+    assert_same($first['public'], $stored['public'], 'the first write is stored');
+
+    $answered = webpush_store_vapid_keys($db, $second);
+
+    assert_same($first['public'], $answered['public'],
+        'the second caller is answered with the stored pair, not its own');
+    assert_same($first['private_pem'], $answered['private_pem'],
+        'including the private half, so what it signs with matches what it sends');
+
+    $row = $db->querySingle('SELECT vapid_public_key FROM admin LIMIT 1', true);
+    assert_same($first['public'], $row['vapid_public_key'], 'and the row still holds the first pair');
+
+    $db->close();
+});
+
+wallos_test('an installation with no keypair yet still gets one', function () {
+    $db = wallos_test_open_database();
+
+    $keys = webpush_get_vapid_keys($db);
+    assert_true($keys !== false, 'the first use generates and stores a pair');
+
+    $row = $db->querySingle('SELECT vapid_public_key, vapid_private_key FROM admin LIMIT 1', true);
+    assert_same($keys['public'], $row['vapid_public_key'], 'the row holds what the caller was given');
+    assert_true(!empty($row['vapid_private_key']), 'both halves are stored');
+
+    $db->close();
+});
