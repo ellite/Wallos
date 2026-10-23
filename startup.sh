@@ -16,6 +16,13 @@ chown -R www-data:www-data /var/www/html
 chown -R www-data:www-data /tmp
 chmod -R 770 /tmp
 
+# nginx is configured dual-stack ([::]:80 ipv6only=off). If the kernel has IPv6
+# disabled, that socket cannot be created and nginx exits, so listen on IPv4 only.
+if [ ! -e /proc/net/if_inet6 ]; then
+  echo "IPv6 not available, configuring nginx to listen on IPv4 only"
+  sed -i 's/listen\( *\)\[::\]:80 ipv6only=off;/listen\180;/' /etc/nginx/nginx.conf /etc/nginx/http.d/default.conf
+fi
+
 # PIDs we’ll track
 PHP_FPM_PID=
 NGINX_PID=
