@@ -32,6 +32,18 @@ if ($settings !== false) {
     $settings['mobileNavigation'] = $settings['mobile_nav'] ? 'true': 'false';
     $settings['showSubscriptionProgress'] = $settings['show_subscription_progress'] ? 'true': 'false';
     $settings['week_starts_sunday'] = isset($settings['week_starts_sunday']) ? $settings['week_starts_sunday'] : 0;
+
+    // Dashboard widget visibility / order (JSON layout preferred; legacy bool columns as fallback)
+    require_once __DIR__ . '/widgets.php';
+    foreach (wallos_widget_ids() as $widgetId) {
+        $column = wallos_widget_setting_column($widgetId);
+        if (!array_key_exists($column, $settings) || $settings[$column] === null) {
+            $settings[$column] = 1;
+        } else {
+            $settings[$column] = (int) $settings[$column] ? 1 : 0;
+        }
+    }
+    $settings['dashboard_widget_layout'] = $settings['dashboard_widget_layout'] ?? null;
 }
 
 $query = "SELECT * FROM custom_colors WHERE user_id = :userId";
