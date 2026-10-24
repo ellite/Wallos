@@ -456,68 +456,75 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
 
-                    $mail = new PHPMailer(true);
-                    $mail->CharSet = "UTF-8";
-                    $mail->isSMTP();
-                    $mail->Timeout = 15;
+                    try {
+                        $mail = new PHPMailer(true);
+                        $mail->CharSet = "UTF-8";
+                        $mail->isSMTP();
+                        $mail->Timeout = 15;
 
-                    $mail->Host = $email['smtpAddress'];
-                    $mail->SMTPAuth = $smtpAuth;
+                        $mail->Host = $email['smtpAddress'];
+                        $mail->SMTPAuth = $smtpAuth;
 
-                    if ($smtpAuth) {
-                        $mail->Username = $email['smtpUsername'];
-                        $mail->Password = $email['smtpPassword'];
-                    }
-
-                    if ($email['encryption'] != "none") {
-                        $mail->SMTPSecure = $email['encryption'];
-                    } else {
-                        $mail->SMTPSecure = false;
-                        $mail->SMTPAutoTLS = false;
-                    }
-
-                    $mail->Port = $email['smtpPort'];
-
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
-                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
-                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
-                    $result = $stmt->execute();
-                    $user = $result->fetchArray(SQLITE3_ASSOC);
-
-                    // A payer without an address is skipped, except the primary
-                    // ones, who have always fallen back to the account's email.
-                    if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
-                        echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
-                        continue;
-                    }
-
-                    $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
-                    $name = !empty($user['name']) ? $user['name'] : $defaultName;
-
-                    $mail->setFrom($email['fromEmail'], 'Wallos App');
-                    $mail->addAddress($emailaddress, $name);
-
-                    if (!empty($email['otherEmails'])) {
-                        $list = explode(';', $email['otherEmails']);
-
-                        // Avoid duplicate emails
-                        $list = array_unique($list);
-                        $list = array_filter($list, function ($value) use ($emailaddress) {
-                            return $value !== $emailaddress;
-                        });
-
-                        foreach ($list as $value) {
-                            $mail->addCC(trim($value));
+                        if ($smtpAuth) {
+                            $mail->Username = $email['smtpUsername'];
+                            $mail->Password = $email['smtpPassword'];
                         }
-                    }
 
-                    $mail->Subject = 'Wallos Notification';
-                    $mail->Body = $message;
+                        if ($email['encryption'] != "none") {
+                            $mail->SMTPSecure = $email['encryption'];
+                        } else {
+                            $mail->SMTPSecure = false;
+                            $mail->SMTPAutoTLS = false;
+                        }
 
-                    if ($mail->send()) {
-                        echo "Email Notifications sent<br />";
-                    } else {
-                        echo "Error sending notifications: " . $mail->ErrorInfo . "<br />";
+                        $mail->Port = $email['smtpPort'];
+
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
+                        $result = $stmt->execute();
+                        $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        // A payer without an address is skipped, except the primary
+                        // ones, who have always fallen back to the account's email.
+                        if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
+                            echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
+                            continue;
+                        }
+
+                        $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
+                        $name = !empty($user['name']) ? $user['name'] : $defaultName;
+
+                        $mail->setFrom($email['fromEmail'], 'Wallos App');
+                        $mail->addAddress($emailaddress, $name);
+
+                        if (!empty($email['otherEmails'])) {
+                            $list = explode(';', $email['otherEmails']);
+
+                            // Avoid duplicate emails
+                            $list = array_unique($list);
+                            $list = array_filter($list, function ($value) use ($emailaddress) {
+                                return $value !== $emailaddress;
+                            });
+
+                            foreach ($list as $value) {
+                                $mail->addCC(trim($value));
+                            }
+                        }
+
+                        $mail->Subject = 'Wallos Notification';
+                        $mail->Body = $message;
+
+                        if ($mail->send()) {
+                            echo "Email Notifications sent<br />";
+                        } else {
+                            error_log("Email notification failed for user " . (int) $userId . ".");
+                            echo "Error sending email notifications.<br />";
+                        }
+                    } catch (Exception $e) {
+                        // SMTP responses and exception messages may contain secrets.
+                        error_log("Email notification failed for user " . (int) $userId . ".");
+                        echo "Error sending email notifications.<br />";
                     }
                 }
                 }
