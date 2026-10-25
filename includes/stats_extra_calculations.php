@@ -1,4 +1,7 @@
 <?php
+
+require_once __DIR__ . '/variable_pricing.php';
+
 // Wallos v5 — additional statistics for stats.php.
 // Requires stats_calculations.php to have run first ($subscriptions, $db, $userId, $userData, $i18n, $lang).
 // All monetary values are converted to the main currency. Lifetime figures assume current prices.
@@ -50,8 +53,14 @@ if (isset($subscriptions)) {
     foreach ($subscriptions as $subscription) {
         $cycle = (int) $subscription['cycle'];
         $frequency = max(1, (int) $subscription['frequency']);
-        $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
-        $monthlyPrice = getPricePerMonth($cycle, $frequency, $convertedPrice);
+        $variable = subscription_has_variable_price($subscription);
+        $rawPrice = effective_subscription_price($subscription, $currentYearMonth ?? date('Y-m'), $priceHistoryIndex ?? []);
+        $convertedPrice = getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId);
+        if ($variable && $cycle !== 5) {
+            $monthlyPrice = $convertedPrice;
+        } else {
+            $monthlyPrice = getPricePerMonth($cycle, $frequency, $convertedPrice);
+        }
 
         // New subscriptions per year (all subscriptions, active or not)
         $startDate = null;
@@ -98,11 +107,20 @@ if (isset($subscriptions)) {
             if ($paymentTimestamp !== false && isset($cycleStepUnits[$cycle])) {
                 $paymentDate = (new DateTime())->setTimestamp($paymentTimestamp);
                 $safety = 0;
+                $variableMonthsCounted = [];
                 while ($paymentDate < $projectionEnd && $safety < 1000) {
                     if ($paymentDate >= $projectionStart) {
                         $bucketKey = $paymentDate->format('Y-m');
                         if (isset($projectionBuckets[$bucketKey])) {
-                            $projectionBuckets[$bucketKey]['total'] += $convertedPrice;
+                            if ($variable) {
+                                if (!isset($variableMonthsCounted[$bucketKey])) {
+                                    $variableMonthsCounted[$bucketKey] = true;
+                                    $monthRaw = effective_subscription_price($subscription, $bucketKey, $priceHistoryIndex ?? []);
+                                    $projectionBuckets[$bucketKey]['total'] += getPriceConverted($monthRaw, $subscription['currency_id'], $db, $userId);
+                                }
+                            } else {
+                                $projectionBuckets[$bucketKey]['total'] += $convertedPrice;
+                            }
                         }
                     }
                     $paymentDate->modify("+{$frequency} {$cycleStepUnits[$cycle]}");

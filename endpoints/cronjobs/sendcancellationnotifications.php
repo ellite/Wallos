@@ -7,6 +7,7 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
 require_once __DIR__ . '/../../includes/webhook_helper.php';
+require_once __DIR__ . '/../../includes/variable_pricing.php';
 
 require __DIR__ . '/../../libs/PHPMailer/PHPMailer.php';
 require __DIR__ . '/../../libs/PHPMailer/SMTP.php';
@@ -191,16 +192,18 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $stmt->bindValue(':cancellationDate', $currentDate, SQLITE3_TEXT);
         $stmt->bindValue(':oneTimeCycle', 5, SQLITE3_INTEGER);
         $resultSubscriptions = $stmt->execute();
+        $notificationPriceHistory = load_price_history_index($db, (int) $userId);
 
         $notify = [];
         $notifyOtherPayers = [];
         $i = 0;
         $currentDate = new DateTime('now');
         while ($rowSubscription = $resultSubscriptions->fetchArray(SQLITE3_ASSOC)) {
+            $notifyPrice = effective_subscription_price($rowSubscription, date('Y-m'), $notificationPriceHistory);
             $allPayerIds = getPayersBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [];
             $entry = [
                 'name' => $rowSubscription['name'],
-                'price' => $rowSubscription['price'] . $currencies[$rowSubscription['currency_id']]['symbol'],
+                'price' => $notifyPrice . $currencies[$rowSubscription['currency_id']]['symbol'],
                 'currency' => $currencies[$rowSubscription['currency_id']]['name'],
                 'category' => payerNamesLabel(getCategoriesBySubscription($db, [$rowSubscription])[$rowSubscription['id']] ?? [], array_map(fn($category) => $category['name'], $categories)) ?: $categories[$rowSubscription['category_id']]['name'],
                 'payer' => payerNamesLabel($allPayerIds, array_map(fn($member) => $member['name'], $household)) ?: $household[$rowSubscription['payer_user_id']]['name'],

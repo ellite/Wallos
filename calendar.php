@@ -1,6 +1,7 @@
 <?php
 require_once 'includes/header.php';
 require_once 'includes/currency_rates.php';
+require_once 'includes/variable_pricing.php';
 
 function getPriceConverted($price, $currency, $database, $userId)
 {
@@ -202,9 +203,36 @@ if ($weekStartsSunday) {
     $startOfMonth = strtotime($monthKey . '-01');
     $paymentsByDay = [];
 
-    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId) {
+    $priceHistoryIndex = load_price_history_index($db, (int) $userId);
+    $variableMonthCounted = [];
+
+    $registerPayment = function ($date, $subscription) use (&$paymentsByDay, &$totalCostThisMonth, &$numberOfSubscriptionsToPayThisMonth, &$amountDueThisMonth, $today, $db, $userId, $monthKey, $priceHistoryIndex, $code, &$variableMonthCounted) {
+
+      $variable = subscription_has_variable_price($subscription);
+      $rawPrice = $variable
+        ? effective_subscription_price($subscription, $monthKey, $priceHistoryIndex)
+        : (float) $subscription['price'];
+      $subscription['has_price_override'] = subscription_has_monthly_price_override($subscription, $monthKey, $priceHistoryIndex);
+      if ($subscription['has_price_override']) {
+        $subscription['override_price_label'] = CurrencyFormatter::format(getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId), $code);
+      }
       $paymentsByDay[(int) date('j', $date)][] = $subscription;
-      $convertedPrice = getPriceConverted($subscription['price'], $subscription['currency_id'], $db, $userId);
+      $convertedPrice = getPriceConverted($rawPrice, $subscription['currency_id'], $db, $userId);
+
+      if ($variable) {
+        $subscriptionId = (int) $subscription['id'];
+        if (empty($variableMonthCounted[$subscriptionId]['total'])) {
+          $totalCostThisMonth += $convertedPrice;
+          $numberOfSubscriptionsToPayThisMonth++;
+          $variableMonthCounted[$subscriptionId]['total'] = true;
+        }
+        if ($date >= $today && empty($variableMonthCounted[$subscriptionId]['due'])) {
+          $amountDueThisMonth += $convertedPrice;
+          $variableMonthCounted[$subscriptionId]['due'] = true;
+        }
+        return;
+      }
+
       $totalCostThisMonth += $convertedPrice;
       $numberOfSubscriptionsToPayThisMonth++;
       if ($date >= $today) {
@@ -301,6 +329,13 @@ if ($weekStartsSunday) {
                         <span class="calendar-event-name"><?= htmlspecialchars($payment['name']) ?></span>
                       </span>
                       <span class="calendar-event-price"><?= formatCalendarPrice($payment['price'], $payment['currency_id'], $calendarCurrencies) ?></span>
+                      <?php if (!empty($payment['has_price_override'])) { ?>
+                        <span class="calendar-price-adjustment"
+                          title="<?= htmlspecialchars(translate('price_adjustment_recorded', $i18n), ENT_QUOTES, 'UTF-8') ?>">
+                          <?= htmlspecialchars(translate('price_adjustment', $i18n)) ?>:
+                          <?= htmlspecialchars($payment['override_price_label']) ?>
+                        </span>
+                      <?php } ?>
                     </div>
                   <?php } ?>
                 </div>

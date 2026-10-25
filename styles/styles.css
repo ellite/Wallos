@@ -1671,6 +1671,69 @@ label {
   cursor: pointer;
 }
 
+.price-history-section {
+  margin-top: 8px;
+}
+
+.price-history-section summary {
+  cursor: pointer;
+  color: var(--main-color);
+  padding: 8px 0;
+}
+
+.price-history-section summary:focus-visible {
+  outline: 2px solid var(--main-color);
+  outline-offset: 2px;
+}
+
+.price-history-content {
+  padding-top: 8px;
+}
+
+.price-history-hint {
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 4px 0 12px;
+}
+
+.price-history-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.price-history-row input[type="month"] {
+  flex: 0 0 150px;
+}
+
+.price-history-row input[type="number"] {
+  flex: 0 0 120px;
+}
+
+.price-history-row input[type="text"] {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.subscription .price .variable-price-mark {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+  .price-history-row {
+    flex-wrap: wrap;
+  }
+
+  .price-history-row input[type="month"],
+  .price-history-row input[type="number"] {
+    flex: 1 1 120px;
+  }
+}
+
 label.split-label {
   display: flex;
   flex-direction: row;
@@ -1686,6 +1749,7 @@ input[type="search"],
 input[type="email"],
 input[type="password"],
 input[type="date"],
+input[type="month"],
 input[type="number"],
 select {
   width: 100%;
@@ -1706,6 +1770,7 @@ input[type="search"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus,
+input[type="month"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
@@ -3271,6 +3336,13 @@ button.dark-theme-button i {
   gap: 4px;
   width: 100%;
   min-width: 0;
+}
+
+.calendar .calendar-price-adjustment {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 400;
+  white-space: normal;
 }
 
 .calendar .calendar-event {

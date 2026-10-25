@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/markdown.php';
+require_once '../../includes/variable_pricing.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
 
@@ -41,6 +42,16 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['notify_days_before'] = $row['notify_days_before'];
             $subscriptionData['cancellation_date'] = $row['cancellation_date'];
             $subscriptionData['replacement_subscription_id'] = $row['replacement_subscription_id'];
+            $subscriptionData['price_history_fallback'] = $row['price_history_fallback'];
+            $subscriptionData['has_variable_price'] = subscription_has_variable_price($row) ? 1 : 0;
+            $subscriptionData['price_history'] = price_history_for_subscription($db, $subscriptionId);
+            $historyIndex = [
+                $subscriptionId => [],
+            ];
+            foreach ($subscriptionData['price_history'] as $historyEntry) {
+                $historyIndex[$subscriptionId][$historyEntry['period']] = $historyEntry['price'];
+            }
+            $subscriptionData['effective_price'] = effective_subscription_price($row, date('Y-m'), $historyIndex);
 
             $subscriptionJson = json_encode($subscriptionData);
             header('Content-Type: application/json');
