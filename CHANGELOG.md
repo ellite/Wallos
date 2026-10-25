@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.2](https://github.com/ellite/Wallos/compare/v5.10.1...v5.10.2) (2026-10-23)
+
+
+### Bug Fixes
+
+* **docker:** fall back to IPv4-only nginx when IPv6 is unavailable ([#1287](https://github.com/ellite/Wallos/issues/1287)) ([a41bae7](https://github.com/ellite/Wallos/commit/a41bae7acdeed1a42f67df1ea9b9e7a982da00e2))
+
 ## [5.10.1](https://github.com/ellite/Wallos/compare/v5.10.0...v5.10.1) (2026-10-21)
 
 
