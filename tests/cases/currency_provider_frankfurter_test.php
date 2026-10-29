@@ -217,9 +217,9 @@ function frankfurter_save_paths()
 {
     return [
         // Posted from the settings page, where the provider arrives as a string.
-        'endpoints/currency/fixer_api_key.php' => 'if ($provider == 2) {',
+        'endpoints/currency/fixer_api_key.php' => 'if ($provider == 2 || $provider == 3) {',
         // The REST equivalent, which has already cast it.
-        'api/fixer/set_fixer.php' => 'if ($provider === 2) {',
+        'api/fixer/set_fixer.php' => 'if ($provider === 2 || $provider === 3) {',
     ];
 }
 
