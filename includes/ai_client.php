@@ -4,6 +4,15 @@
   Callers must have loaded connect_endpoint.php (for $db) and ssrf_helper.php.
 */
 
+require_once __DIR__ . '/chatgpt_auth.php';
+
+// Tests point this at a fake server.
+if (!defined('WALLOS_CHATGPT_API_BASE')) {
+    define('WALLOS_CHATGPT_API_BASE', CHATGPT_RESOURCE);
+}
+
+const AI_CHATGPT_PLAN_LIMIT_ERRORS = ['subscription_sharing_usage_limit_exceeded', 'subscription_sharing_usage_unavailable'];
+
 function ai_load_settings($db, $userId)
 {
     $stmt = $db->prepare("SELECT * FROM ai_settings WHERE user_id = ?");
@@ -201,8 +210,17 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
     $host = $aiSettings['url'] ?? '';
     $apiKey = $aiSettings['api_key'] ?? '';
 
-    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible']) || !$enabled || empty($model)) {
+    if (!in_array($type, ['chatgpt', 'chatgpt-plan', 'gemini', 'openrouter', 'ollama', 'openai-compatible']) || !$enabled || empty($model)) {
         return ["success" => false, "message" => translate('error', $i18n)];
+    }
+
+    if ($type === 'chatgpt-plan') {
+        try {
+            return ["success" => true, "content" => ai_chatgpt_plan_complete($db, $userId, $model, $prompt)];
+        } catch (ChatGPTAuthException $e) {
+            ai_log_failure($type, $userId, $e->getMessage(), ['detail' => $e->detail]);
+            return chatgpt_auth_error_response($e, $i18n);
+        }
     }
 
     $ssrf = null;
@@ -451,4 +469,119 @@ function ai_normalize_recommendations($decoded)
     }
 
     return $normalized;
+}
+
+/*
+  One request to the ChatGPT plan API with the user's access token. A
+  rejected token is renewed once. Returns [HTTP status, body].
+*/
+function ai_chatgpt_plan_request($db, $userId, $path, $body = null)
+{
+    for ($attempt = 0; ; $attempt++) {
+        $ch = curl_init(WALLOS_CHATGPT_API_BASE . $path);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 300);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . chatgpt_auth_access_token($db, $userId, $attempt > 0),
+            'Content-Type: application/json',
+            'Accept: ' . ($body === null ? 'application/json' : 'text/event-stream'),
+        ]);
+        if ($body !== null) {
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($body));
+        }
+        $raw = curl_exec($ch);
+        $status = (int) curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+        $failed = curl_errno($ch) !== 0;
+        curl_close($ch);
+
+        if ($failed) {
+            throw new ChatGPTAuthException('chatgpt_unavailable');
+        }
+        if ($status !== 401 || $attempt > 0) {
+            return [$status, (string) $raw];
+        }
+    }
+}
+
+/*
+  The error a non-2xx plan API answer stands for.
+*/
+function ai_chatgpt_plan_error($status, $raw)
+{
+    $error = json_decode($raw, true)['error'] ?? null;
+    $code = is_array($error) && is_string($error['code'] ?? null) ? $error['code'] : '';
+    if (in_array($code, AI_CHATGPT_PLAN_LIMIT_ERRORS, true)) {
+        return new ChatGPTAuthException('chatgpt_usage_limit', 429);
+    }
+
+    return new ChatGPTAuthException('ai_provider_error', 502, 'HTTP ' . $status . ($code !== '' ? ': ' . $code : ''));
+}
+
+/*
+  The models the signed-in ChatGPT account may use, as the model picker lists them.
+*/
+function ai_chatgpt_plan_models($db, $userId)
+{
+    [$status, $raw] = ai_chatgpt_plan_request($db, $userId, '/models');
+    if ($status < 200 || $status >= 300) {
+        throw ai_chatgpt_plan_error($status, $raw);
+    }
+    $data = json_decode($raw, true);
+    if (!isset($data['models']) || !is_array($data['models'])) {
+        throw new ChatGPTAuthException('ai_invalid_response');
+    }
+
+    $models = [];
+    foreach ($data['models'] as $model) {
+        if (is_array($model) && ($model['visibility'] ?? '') === 'list' && is_string($model['slug'] ?? null)) {
+            $models[] = ['id' => $model['slug'], 'name' => is_string($model['display_name'] ?? null) ? $model['display_name'] : $model['slug']];
+        }
+    }
+
+    return $models;
+}
+
+/*
+  One Responses API call on the ChatGPT plan. The flow requires store: false
+  and stream: true, and only response.completed counts as an answer.
+*/
+function ai_chatgpt_plan_complete($db, $userId, $model, $prompt)
+{
+    [$status, $raw] = ai_chatgpt_plan_request($db, $userId, '/responses', [
+        'model' => $model,
+        'input' => [['role' => 'user', 'content' => $prompt]],
+        'store' => false,
+        'stream' => true,
+    ]);
+    if ($status < 200 || $status >= 300) {
+        throw ai_chatgpt_plan_error($status, $raw);
+    }
+
+    $text = '';
+    foreach (preg_split('/\r?\n/', $raw) as $line) {
+        if (strncmp($line, 'data:', 5) !== 0) {
+            continue;
+        }
+        $event = json_decode(trim(substr($line, 5)), true);
+        $type = is_array($event) ? ($event['type'] ?? '') : '';
+
+        if ($type === 'response.output_text.delta' && is_string($event['delta'] ?? null)) {
+            $text .= $event['delta'];
+        } elseif ($type === 'response.completed') {
+            return $text;
+        } elseif ($type === 'response.incomplete') {
+            $reason = $event['response']['incomplete_details']['reason'] ?? null;
+            throw new ChatGPTAuthException('ai_invalid_response', 502, is_string($reason) ? $reason : 'incomplete');
+        } elseif ($type === 'response.failed' || $type === 'error') {
+            // response.failed nests the error; an error event carries its code at the top level
+            $error = $event['response']['error'] ?? ($event['error'] ?? $event);
+            $code = is_array($error) && is_string($error['code'] ?? null) ? $error['code'] : 'failed';
+            throw in_array($code, AI_CHATGPT_PLAN_LIMIT_ERRORS, true)
+                ? new ChatGPTAuthException('chatgpt_usage_limit', 429)
+                : new ChatGPTAuthException('ai_provider_error', 502, $code);
+        }
+    }
+
+    throw new ChatGPTAuthException('ai_invalid_response', 502, 'stream ended early');
 }

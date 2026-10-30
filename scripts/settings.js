@@ -1259,6 +1259,9 @@ function toggleAiInputs() {
   const urlInput = document.getElementById("ai_ollama_host");
   const testButtonUrl = document.getElementById("fetchModelsButton2");
   const testButtonKey = document.getElementById("fetchModelsButton");
+  const chatgptPlanGroup = document.getElementById("chatgpt_plan_group");
+
+  chatgptPlanGroup.style.display = type === "chatgpt-plan" ? "" : "none";
 
   // Reset key visibility
   apiKeyInput.type = "password";
@@ -1270,6 +1273,11 @@ function toggleAiInputs() {
     urlGroup.style.display = "";
     urlInput.placeholder = "http://localhost:11434";
     testButtonUrl.classList.remove("hidden");   // show url-row Test
+  } else if (type === "chatgpt-plan") {
+    apiKeyInput.classList.add("hidden");
+    testButtonKey.classList.remove("hidden");   // lists the account's models
+    urlGroup.style.display = "none";
+    testButtonUrl.classList.add("hidden");
   } else if (type === "openai-compatible") {
     apiKeyInput.classList.remove("hidden");
     testButtonKey.classList.remove("hidden");   // show key-row Test
@@ -1317,6 +1325,68 @@ function saveAiSettingsButton() {
     .catch(error => {
       showErrorMessage(translate('unknown_error'));
     });
+}
+
+function chatgptRequest(endpoint, body) {
+  return fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(body || {})
+  }).then(response => response.json());
+}
+
+function chatgptSignIn() {
+  // Opened before the request so the browser does not treat it as a pop-up.
+  const authWindow = window.open('', '_blank');
+  chatgptRequest('endpoints/ai/chatgpt_login.php')
+    .then(data => {
+      if (data.success) {
+        if (authWindow) {
+          authWindow.opener = null;
+          authWindow.location = data.auth_url;
+        } else {
+          window.open(data.auth_url, '_blank', 'noopener');
+        }
+        document.getElementById('chatgpt_callback_group').style.display = '';
+        document.getElementById('chatgpt_callback_url').focus();
+      } else {
+        authWindow?.close();
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(() => {
+      authWindow?.close();
+      showErrorMessage(translate('unknown_error'));
+    });
+}
+
+function chatgptConnect() {
+  const url = document.getElementById('chatgpt_callback_url').value.trim();
+  chatgptRequest('endpoints/ai/chatgpt_callback.php', { url })
+    .then(data => {
+      if (data.success) {
+        window.location.reload();
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(() => showErrorMessage(translate('unknown_error')));
+}
+
+function chatgptSignOut() {
+  chatgptRequest('endpoints/ai/chatgpt_logout.php')
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(() => showErrorMessage(translate('unknown_error')));
 }
 
 function translateCategories() {
