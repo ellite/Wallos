@@ -441,6 +441,41 @@ function renewSubscription(event, id) {
     });
 }
 
+function toggleSubscriptionNotify(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  const button = event.currentTarget;
+
+  fetch("endpoints/subscription/togglenotify.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        button.classList.toggle("off", !data.notify);
+        const icon = button.querySelector("i");
+        icon.classList.toggle("fa-bell", data.notify);
+        icon.classList.toggle("fa-bell-slash", !data.notify);
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
 
 function setSearchButtonStatus() {
 
