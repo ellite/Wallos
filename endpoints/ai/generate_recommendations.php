@@ -162,46 +162,7 @@ if (!$aiResult['success']) {
     exit;
 }
 
-$recommendations = ai_extract_json($aiResult['content']);
-
-if (isset($recommendations['recommendations']) && is_array($recommendations['recommendations'])) {
-    $recommendations = $recommendations['recommendations'];
-}
-
-if (is_array($recommendations)) {
-    $normalizedRecommendations = [];
-
-    foreach ($recommendations as $rec) {
-        if (!is_array($rec)) {
-            continue;
-        }
-
-        $title = $rec['title'] ?? null;
-        $description = $rec['description'] ?? null;
-        $savings = $rec['savings'] ?? '';
-
-        if (!is_scalar($title) || !is_scalar($description)
-            || ($savings !== null && !is_scalar($savings))) {
-            continue;
-        }
-
-        $title = trim((string) $title);
-        $description = trim((string) $description);
-        $savings = $savings === null ? '' : trim((string) $savings);
-
-        if ($title === '' || $description === '') {
-            continue;
-        }
-
-        $normalizedRecommendations[] = [
-            'title' => $title,
-            'description' => $description,
-            'savings' => $savings,
-        ];
-    }
-
-    $recommendations = $normalizedRecommendations;
-}
+$recommendations = ai_normalize_recommendations(ai_extract_json($aiResult['content']));
 
 if (!empty($recommendations)) {
     // Clear old recommendations

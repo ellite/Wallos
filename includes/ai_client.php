@@ -403,3 +403,52 @@ function ai_extract_json($content)
 
     return null;
 }
+
+/*
+  The recommendations in a decoded model reply, unwrapped from a
+  {"recommendations": [...]} object and reduced to rows with a title and a
+  description. Anything else yields an empty list.
+*/
+function ai_normalize_recommendations($decoded)
+{
+    if (isset($decoded['recommendations']) && is_array($decoded['recommendations'])) {
+        $decoded = $decoded['recommendations'];
+    }
+
+    if (!is_array($decoded)) {
+        return [];
+    }
+
+    $normalized = [];
+
+    foreach ($decoded as $rec) {
+        if (!is_array($rec)) {
+            continue;
+        }
+
+        $title = $rec['title'] ?? null;
+        $description = $rec['description'] ?? null;
+        $savings = $rec['savings'] ?? '';
+
+        if (!is_scalar($title) || !is_scalar($description)
+            || ($savings !== null && !is_scalar($savings))) {
+            continue;
+        }
+
+        $title = trim((string) $title);
+        $description = trim((string) $description);
+        $savings = $savings === null ? '' : trim((string) $savings);
+
+        if ($title === '' || $description === '') {
+            continue;
+        }
+
+        $normalized[] = [
+            'title' => $title,
+            'description' => $description,
+            'savings' => $savings,
+        ];
+    }
+
+    return $normalized;
+}
