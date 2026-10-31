@@ -2,6 +2,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/chatgpt_auth.php';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -14,7 +15,7 @@ $aiModel      = isset($data['model']) ? trim($data['model']) : '';
 $aiSchedule   = isset($data['ai_run_schedule']) ? $data['ai_run_schedule'] : "manual";
 
 // Validate type
-if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
+if (empty($aiType) || !in_array($aiType, ['chatgpt', 'chatgpt-plan', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
     echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
     exit;
 }
@@ -23,6 +24,20 @@ if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ol
 if (in_array($aiType, ['chatgpt', 'gemini', 'openrouter']) && empty($aiApiKey)) {
     echo json_encode(["success" => false, "message" => translate('invalid_api_key', $i18n)]);
     exit;
+}
+
+// The ChatGPT plan needs a connected account instead of a key
+if ($aiType === 'chatgpt-plan') {
+    $aiApiKey = '';
+    try {
+        $connected = chatgpt_auth_status($db, $userId)['connected'];
+    } catch (ChatGPTAuthException $e) {
+        $connected = false;
+    }
+    if (!$connected) {
+        echo json_encode(["success" => false, "message" => translate('chatgpt_not_connected', $i18n)]);
+        exit;
+    }
 }
 
 // URL required when using a host

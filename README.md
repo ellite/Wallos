@@ -32,6 +32,7 @@
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [OIDC](#oidc)
+- [AI Recommendations](#ai-recommendations)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
@@ -58,7 +59,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
 - OIDC with OAuth
-- AI Recommendations with ChatGPT, Gemini or Local Ollama
+- AI Recommendations with ChatGPT (an API key or your ChatGPT plan), Gemini, OpenRouter, a local Ollama or any OpenAI-compatible API
 
 ## Demo
 
@@ -252,6 +253,41 @@ If `OIDC_ISSUER` is set, Wallos will fetch `/.well-known/openid-configuration` a
 Wallos blocks webhook, SMTP, and OIDC endpoint URLs that resolve to private/link-local/loopback addresses unless the host is present in the Security Settings allowlist. Normally that allowlist is edited through the Admin UI, which requires a manual login before OIDC can be used against an identity provider on a private address (e.g. a self-hosted IdP at `auth.example.com`).
 
 Setting the `SSRF_ALLOWLIST` environment variable overrides the database value entirely (same full-override semantics as the `OIDC_*` variables above), so the allowlist can be provisioned on first boot with no manual UI step. It accepts a comma-separated list of hosts/IPs, optionally with a port (e.g. `SSRF_ALLOWLIST=auth.example.com,192.168.1.100:8123`). While set, the Security Settings field in the Admin UI is shown but disabled.
+
+## AI Recommendations
+
+Wallos can ask an AI model for ways to save money on your subscriptions.
+Each user sets it up under Settings, in the AI Recommendations section: enable it, choose a provider, then select **Test** to load the available models, pick one and save.
+
+| Provider | Needs |
+| --- | --- |
+| ChatGPT | An OpenAI API key |
+| Gemini | A Google AI Studio API key |
+| OpenRouter | An OpenRouter API key |
+| Local Ollama | The Ollama URL, e.g. `http://localhost:11434` |
+| OpenAI Compatible | The API base URL, e.g. `http://localhost:11434/v1`, and an API key if the server requires one |
+| ChatGPT plan | A connected ChatGPT account (see below) instead of an API key |
+
+**Generate Recommendations** runs it on demand; the run schedule can also repeat it weekly or monthly.
+Recommendations are based on your active subscriptions and household members, and appear on the dashboard.
+When AI is enabled with a model saved and the interface language is not English, the categories section of the settings page can also translate category names into that language.
+
+A local Ollama or OpenAI-compatible server on a private address is blocked unless its host is in the [SSRF allowlist](#ssrf-allowlist).
+For any user other than the first (admin) account, the admin also has to enable **Allow standard users to use the Webhook Allowlist** in the Security Settings.
+
+### Using your ChatGPT plan
+
+Instead of an OpenAI API key, each user can run AI recommendations on their own ChatGPT plan through [Sign in with ChatGPT](https://developers.openai.com/siwc/token-sharing-open-source).
+Set `WALLOS_SECRET_KEY` to a random value of at least 32 characters, for example the output of `openssl rand -hex 32`.
+Wallos encrypts the ChatGPT tokens with it, so a database backup alone does not expose them.
+Without it, the ChatGPT plan option stays disabled.
+Changing the key later means every user has to sign in again.
+
+Choose **ChatGPT plan** as the provider and select **Continue with ChatGPT**, then approve Wallos in the window that opens.
+The browser then lands on an address starting with `http://127.0.0.1:1455` that fails to load; paste that address back into Wallos and select **Connect**.
+Select **Test** to list the models your account can use, pick one and save.
+**Sign out** revokes the session at OpenAI.
+Usage is managed in [ChatGPT settings](https://chatgpt.com/settings/usage).
 
 ## API Documentation
 

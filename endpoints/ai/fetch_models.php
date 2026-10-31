@@ -17,6 +17,17 @@ $aiOllamaHost = isset($data["ollama_host"]) ? trim($data["ollama_host"]) : '';
 
 $ssrf = null; // Initialize to avoid errors for public API types
 
+// The ChatGPT plan lists the models of the signed-in account
+if ($aiType === 'chatgpt-plan') {
+    require_once '../../includes/ai_client.php';
+    try {
+        echo json_encode(["success" => true, "models" => ai_chatgpt_plan_models($db, $userId)]);
+    } catch (ChatGPTAuthException $e) {
+        echo json_encode(chatgpt_auth_error_response($e, $i18n));
+    }
+    exit;
+}
+
 // Validate ai-type
 if (!in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
     echo json_encode(["success" => false, "message" => translate('error', $i18n)]);

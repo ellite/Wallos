@@ -3,6 +3,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/logo_cleanup.php';
+require_once '../../includes/chatgpt_auth.php';
 
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
@@ -162,6 +163,12 @@ if ($userIdToDelete == 1 || $userIdToDelete != $userId) {
 
     // Delete AI settings
     $stmt = $db->prepare('DELETE FROM ai_settings WHERE user_id = :id');
+    $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    // Revoke the ChatGPT session, then delete the connection
+    chatgpt_auth_try_logout($db, $userIdToDelete);
+    $stmt = $db->prepare('DELETE FROM ai_chatgpt_auth WHERE user_id = :id');
     $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);
     $result = $stmt->execute();
 

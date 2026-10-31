@@ -3,10 +3,13 @@ set_time_limit(300);
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
+require_once __DIR__ . '/../../includes/ai_client.php';
 
 if (php_sapi_name() === 'cli') {
     $runType = $argv[1] ?? 'weekly';
 } else {
+    // failures carry provider text; a browser must not render it as HTML
+    header('Content-Type: text/plain; charset=utf-8');
     $runType = $_GET['run'] ?? 'weekly';
 }
 
@@ -17,7 +20,7 @@ if (!in_array($runType, ['weekly', 'monthly'])) {
 echo "Running " . $runType . " AI Recommendations generation.\n";
 
 $stmt = $db->prepare("
-    SELECT user_id, type, api_key, model, url
+    SELECT user_id, type, enabled, api_key, model, url
     FROM ai_settings
     WHERE enabled = 1
     AND model != ''
@@ -69,44 +72,6 @@ $failures  = [];
 foreach ($allAiSettings as $aiSettings) {
     $processed++;
     $tempUserId = $aiSettings['user_id'];
-
-    $type   = $aiSettings['type']    ?? '';
-    $model  = $aiSettings['model']   ?? '';
-    $host   = $aiSettings['url']     ?? '';
-    $apiKey = $aiSettings['api_key'] ?? '';
-    $ssrf   = null;
-
-    // Validate provider
-    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible']) || empty($model)) {
-        $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid type or model'];
-        continue;
-    }
-
-    // Validate host/key
-    if (in_array($type, ['ollama', 'openai-compatible'])) {
-        if (empty($host)) {
-            $failures[] = ['user_id' => $tempUserId, 'reason' => 'missing host'];
-            continue;
-        }
-        $parsedUrl = parse_url($host);
-        if (
-            !isset($parsedUrl['scheme']) ||
-            !in_array(strtolower($parsedUrl['scheme']), ['http', 'https']) ||
-            !filter_var($host, FILTER_VALIDATE_URL)
-        ) {
-            $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid host URL'];
-            continue;
-        }
-        $ssrf = validate_webhook_url_for_ssrf($host, $db, [], $tempUserId);
-        if ($type === 'ollama') {
-            $apiKey = '';
-        }
-    } else {
-        if (empty($apiKey)) {
-            $failures[] = ['user_id' => $tempUserId, 'reason' => 'missing api key'];
-            continue;
-        }
-    }
 
     // Categories
     $catStmt = $db->prepare("SELECT * FROM categories WHERE user_id = :user_id");
@@ -211,95 +176,17 @@ PROMPT;
 
     $prompt .= "\n\n" . json_encode($subscriptionsForAI, JSON_PRETTY_PRINT);
 
-    // cURL request
-    $ch = curl_init();
+    $aiResult = ai_complete($aiSettings, $prompt, $db, $i18n, $tempUserId);
 
-    if ($type === 'ollama') {
-        curl_setopt($ch, CURLOPT_URL, rtrim($host, '/') . '/api/generate');
-        curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            'model'  => $model,
-            'prompt' => $prompt,
-            'stream' => false,
-        ]));
-    } elseif ($type === 'openai-compatible') {
-        $headers = ['Content-Type: application/json'];
-        if (!empty($apiKey)) {
-            $headers[] = 'Authorization: Bearer ' . $apiKey;
-        }
-        curl_setopt($ch, CURLOPT_URL, rtrim($host, '/') . '/chat/completions');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            'model'    => $model,
-            'messages' => [['role' => 'user', 'content' => $prompt]],
-        ]));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        if ($ssrf) {
-            curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
-        }
-    } else {
-        $headers = ['Content-Type: application/json'];
-        if ($type === 'chatgpt') {
-            $headers[] = 'Authorization: Bearer ' . $apiKey;
-            curl_setopt($ch, CURLOPT_URL, 'https://api.openai.com/v1/chat/completions');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                'model'    => $model,
-                'messages' => [['role' => 'user', 'content' => $prompt]],
-            ]));
-        } elseif ($type === 'gemini') {
-            curl_setopt($ch, CURLOPT_URL,
-                'https://generativelanguage.googleapis.com/v1beta/models/' .
-                urlencode($model) . ':generateContent?key=' . urlencode($apiKey)
-            );
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                'contents' => [['parts' => [['text' => $prompt]]]],
-            ]));
-        } elseif ($type === 'openrouter') {
-            $headers[] = 'Authorization: Bearer ' . $apiKey;
-            curl_setopt($ch, CURLOPT_URL, 'https://openrouter.ai/api/v1/chat/completions');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-                'model'    => $model,
-                'messages' => [['role' => 'user', 'content' => $prompt]],
-            ]));
-        }
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    }
-
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 300);
-
-    $reply = curl_exec($ch);
-
-    if (curl_errno($ch)) {
-        $failures[] = ['user_id' => $tempUserId, 'reason' => curl_error($ch)];
-        unset($ch);
+    if (!$aiResult['success']) {
+        $failures[] = ['user_id' => $tempUserId, 'reason' => $aiResult['message']];
         continue;
     }
-    unset($ch);
 
-    // Parse response
-    $replyData = json_decode($reply, true);
-    $recommendations = null;
+    $recommendations = ai_normalize_recommendations(ai_extract_json($aiResult['content']));
 
-    if (in_array($type, ['chatgpt', 'openrouter', 'openai-compatible'])
-        && isset($replyData['choices'][0]['message']['content'])) {
-        $recommendationsJson = $replyData['choices'][0]['message']['content'];
-        $recommendationsJson = preg_replace('/^```json\s*|\s*```$/m', '', $recommendationsJson);
-        $recommendationsJson = preg_replace('/^```\s*|\s*```$/m', '', $recommendationsJson);
-        $recommendations = json_decode(trim($recommendationsJson), true);
-    } elseif ($type === 'gemini'
-        && isset($replyData['candidates'][0]['content']['parts'][0]['text'])) {
-        $recommendationsJson = $replyData['candidates'][0]['content']['parts'][0]['text'];
-        $recommendationsJson = preg_replace('/^```json\s*|\s*```$/m', '', $recommendationsJson);
-        $recommendationsJson = preg_replace('/^```\s*|\s*```$/m', '', $recommendationsJson);
-        $recommendations = json_decode(trim($recommendationsJson), true);
-    } elseif ($type === 'ollama') {
-        $recommendations = json_decode($replyData['response'] ?? '', true);
-    }
-
-    if (json_last_error() !== JSON_ERROR_NONE || !is_array($recommendations)) {
-        $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid AI response: ' . json_last_error_msg()];
+    if (empty($recommendations)) {
+        $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid AI response'];
         continue;
     }
 
