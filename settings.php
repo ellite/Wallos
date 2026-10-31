@@ -1239,6 +1239,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <option value="0" <?= $provider == 0 ? 'selected' : '' ?>>fixer.io</option>
                     <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
                     <option value="2" <?= $provider == 2 ? 'selected' : '' ?>>frankfurter.dev</option>
+                    <option value="3" <?= $provider == 3 ? 'selected' : '' ?>>allratestoday.com</option>
                 </select>
             </div>
             <div class="buttons">
@@ -1280,6 +1281,12 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <span>
                         https://frankfurter.dev
                         <a href="https://frankfurter.dev" title="Frankfurter" target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                    <span>
+                        https://allratestoday.com
+                        <a href="https://allratestoday.com" title="AllRatesToday" target="_blank">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </span>

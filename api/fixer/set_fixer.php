@@ -4,9 +4,9 @@ This API Endpoint accepts POST requests only.
 It receives the following parameters:
 - api_key: the API key of the user (for Wallos authentication).
 - fixer_api_key: the Fixer.io or APILayer API key to save (optional; if empty/omitted, clears the key).
-  Not read for provider '2', which needs no account.
+  Not read for providers '2' and '3', which need no account.
 - provider: the provider type (optional; '0' for Fixer.io, '1' for APILayer.com, '2' for
-  Frankfurter, defaults to '0').
+  Frankfurter, '3' for AllRatesToday, defaults to '0').
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -65,19 +65,20 @@ $userId = $user['id'];
 $fixerApiKey = isset($_POST['fixer_api_key']) ? trim($_POST['fixer_api_key']) : '';
 $provider = $_POST['provider'] ?? '0';
 
-if (!in_array($provider, ['0', '1', '2', 0, 1, 2], true)) {
+if (!in_array($provider, ['0', '1', '2', '3', 0, 1, 2, 3], true)) {
     echo json_encode([
         'success' => false,
         'title' => 'Invalid provider',
-        'message' => 'Provider must be 0 (Fixer.io), 1 (APILayer.com) or 2 (Frankfurter).'
+        'message' => 'Provider must be 0 (Fixer.io), 1 (APILayer.com), 2 (Frankfurter) or 3 (AllRatesToday).'
     ]);
     exit;
 }
 $provider = intval($provider);
 
-// frankfurter.dev publishes the ECB reference rates without an account, so an
-// empty key on this provider is not an unconfigured one: choosing it is the
-// whole configuration, and there is nothing to send anywhere to validate.
+// frankfurter.dev and allratestoday.com publish the ECB reference rates without
+// an account, so an empty key on these providers is not an unconfigured one:
+// choosing one is the whole configuration, and there is nothing to send
+// anywhere to validate.
 //
 // Which is why it has to be decided before the clearing path below, where an
 // empty key means "remove my settings" - the two would otherwise read the same
@@ -85,10 +86,10 @@ $provider = intval($provider);
 //
 // The row is updated rather than deleted and reinserted, so that a key stored
 // for one of the other two providers is still there to switch back to.
-if ($provider === 2) {
+if ($provider === 2 || $provider === 3) {
     $updateSql = "UPDATE fixer SET provider = :provider WHERE user_id = :userId";
     $updateStmt = $db->prepare($updateSql);
-    $updateStmt->bindValue(':provider', 2, SQLITE3_INTEGER);
+    $updateStmt->bindValue(':provider', $provider, SQLITE3_INTEGER);
     $updateStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
     $updateResult = $updateStmt->execute();
 
@@ -109,7 +110,7 @@ if ($provider === 2) {
         $insertSql = "INSERT INTO fixer (api_key, provider, user_id) VALUES (:api_key, :provider, :userId)";
         $insertStmt = $db->prepare($insertSql);
         $insertStmt->bindValue(':api_key', '', SQLITE3_TEXT);
-        $insertStmt->bindValue(':provider', 2, SQLITE3_INTEGER);
+        $insertStmt->bindValue(':provider', $provider, SQLITE3_INTEGER);
         $insertStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 
         if ($insertStmt->execute() === false) {
@@ -126,7 +127,8 @@ if ($provider === 2) {
     echo json_encode([
         'success' => true,
         'title' => 'Fixer settings updated',
-        'message' => 'Frankfurter is now the currency rate provider. It needs no API key.'
+        'message' => ($provider === 3 ? 'AllRatesToday' : 'Frankfurter')
+            . ' is now the currency rate provider. It needs no API key.'
     ]);
     $db->close();
     exit;

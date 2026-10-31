@@ -3,6 +3,7 @@ require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/exchange_rate_freshness.php';
 require_once __DIR__ . '/../../includes/frankfurter.php';
+require_once __DIR__ . '/../../includes/allratestoday.php';
 
 require 'settimezone.php';
 
@@ -70,6 +71,11 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
                 // providers below do, so everything after this branch is
                 // unchanged.
                 $apiData = frankfurter_latest_rates($mainCurrencyCode, $codes);
+            } elseif ((int) $provider === 3) {
+                // allratestoday.com serves the same ECB table, also without an
+                // account, rebased to the main currency on its side. Same
+                // {"rates": ...} shape back, so nothing after here changes.
+                $apiData = allratestoday_latest_rates($mainCurrencyCode, $codes);
             } elseif ($provider === 1) {
                 $api_url = "https://api.apilayer.com/fixer/latest?base=EUR&symbols=" . $codes;
                 $context = stream_context_create([
@@ -86,7 +92,7 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
                 $apiData = json_decode($response, true);
             }
 
-            if ((int) $provider === 2) {
+            if ((int) $provider === 2 || (int) $provider === 3) {
                 // The answer already is in the main currency, so there is
                 // nothing to divide through by. The loop below still writes the
                 // main currency's own row as 1.0, which is a rule of this
@@ -150,7 +156,7 @@ while ($userToUpdateExchange = $usersToUpdateExchange->fetchArray(SQLITE3_ASSOC)
 
                     // A currency the provider would not price keeps the rate it had, and
                     // saying which one is the difference between a total somebody can
-                    // trust and one they cannot. Only the Frankfurter path fills this.
+                    // trust and one they cannot. Only the keyless providers fill this.
                     $held = isset($apiData['held']) && is_array($apiData['held']) ? $apiData['held'] : [];
                     echo "Rates updated successfully!" . ($held === []
                         ? ""

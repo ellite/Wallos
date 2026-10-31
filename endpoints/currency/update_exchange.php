@@ -3,6 +3,7 @@ require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/exchange_rate_freshness.php';
 require_once '../../includes/frankfurter.php';
+require_once '../../includes/allratestoday.php';
 
 $shouldUpdate = true;
 
@@ -60,6 +61,11 @@ if ($result) {
             // The helper answers in the same {"rates": ...} shape the two
             // providers below do, so everything after this branch is unchanged.
             $apiData = frankfurter_latest_rates($mainCurrencyCode, $codes);
+        } elseif ((int) $provider === 3) {
+            // allratestoday.com serves the same ECB table, also without an
+            // account, rebased to the main currency on its side. Same
+            // {"rates": ...} shape back, so nothing after here changes.
+            $apiData = allratestoday_latest_rates($mainCurrencyCode, $codes);
         } elseif ($provider === 1) {
             $api_url = "https://api.apilayer.com/fixer/latest?base=EUR&symbols=" . $codes;
             $context = stream_context_create([
@@ -99,7 +105,7 @@ if ($result) {
             $apiData = json_decode($response, true);
         }
 
-        if ((int) $provider === 2) {
+        if ((int) $provider === 2 || (int) $provider === 3) {
             // The answer already is in the main currency, so there is nothing
             // to divide through by. The loop below still writes the main
             // currency's own row as 1.0, which is a rule of this application
@@ -158,7 +164,7 @@ if ($result) {
                 $db->close();
                 // A currency the provider would not price keeps the rate it had, and
                 // saying which one is the difference between a total somebody can
-                // trust and one they cannot. Only the Frankfurter path fills this.
+                // trust and one they cannot. Only the keyless providers fill this.
                 $held = isset($apiData['held']) && is_array($apiData['held']) ? $apiData['held'] : [];
                 echo "Rates updated successfully!" . ($held === []
                     ? ""
