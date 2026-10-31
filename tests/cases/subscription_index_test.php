@@ -141,3 +141,48 @@ wallos_test('the dashboard supports the configured limits', function () {
 
     $db->close();
 });
+
+wallos_test('the dashboard date range migration defaults to the count-based list', function () {
+    $db = wallos_test_open_database();
+
+    assert_same(0, (int) $db->querySingle('SELECT upcoming_payments_days FROM settings WHERE user_id = 1'),
+        'existing users keep the count-based list');
+
+    require WALLOS_ROOT . '/migrations/000062.php';
+    assert_same(0, (int) $db->querySingle('SELECT upcoming_payments_days FROM settings WHERE user_id = 1'),
+        'the date range migration is safe to run twice');
+
+    $db->close();
+});
+
+wallos_test('dashboard date range parsing accepts only supported values', function () {
+    assert_same(30, parse_upcoming_payments_days('30'), 'a supported string value is accepted');
+    assert_same(0, parse_upcoming_payments_days(0), 'zero turns the date range off');
+    assert_same(null, parse_upcoming_payments_days(15), 'unsupported numeric values are rejected');
+    assert_same(null, parse_upcoming_payments_days('-7'), 'negative values are rejected');
+    assert_same(null, parse_upcoming_payments_days(true), 'boolean values are rejected');
+});
+
+wallos_test('the dashboard date range shows every payment due within it', function () {
+    $db = wallos_test_open_database();
+    wallos_test_create_user($db, 1, 'alice');
+
+    $stmt = $db->prepare('INSERT INTO subscriptions (user_id, name, price, currency_id, next_payment, cycle, inactive)
+                          VALUES (1, :name, 9.99, :currencyId, :nextPayment, 3, 0)');
+    // Five payments three days out, five at ten days and five at twenty days.
+    foreach ([3, 10, 20] as $offset) {
+        for ($i = 1; $i <= 5; $i++) {
+            $stmt->bindValue(':name', 'payment-' . $offset . '-' . $i, SQLITE3_TEXT);
+            $stmt->bindValue(':currencyId', wallos_test_currency_id(1, 0), SQLITE3_INTEGER);
+            $stmt->bindValue(':nextPayment', date('Y-m-d', strtotime('+' . $offset . ' days')), SQLITE3_TEXT);
+            $stmt->execute();
+        }
+    }
+
+    assert_same(5, count(get_upcoming_payments($db, 1, 3, 7)), 'the seven-day range ignores the limit of three');
+    assert_same(15, count(get_upcoming_payments($db, 1, 3, 30)), 'the thirty-day range returns every payment in it');
+    assert_same(3, count(get_upcoming_payments($db, 1, 3, 0)), 'turning the range off restores the limit');
+    assert_same(3, count(get_upcoming_payments($db, 1, 3, 15)), 'unsupported ranges fall back to the limit');
+
+    $db->close();
+});

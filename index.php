@@ -74,11 +74,12 @@ $result = $stmt->execute();
 $user = $result->fetchArray(SQLITE3_ASSOC);
 $first_name = $user['firstname'] ?? $user['username'] ?? '';
 
-// Fetch the enabled subscriptions up for payment using the user's dashboard setting.
+// Fetch the enabled subscriptions up for payment using the user's dashboard settings.
 $upcomingSubscriptions = get_upcoming_payments(
     $db,
     $userId,
-    $settings['upcoming_payments_limit'] ?? 3
+    $settings['upcoming_payments_limit'] ?? 3,
+    $settings['upcoming_payments_days'] ?? 0
 );
 
 // Fetch enabled subscriptions with manual renewal that are overdue

@@ -27,6 +27,7 @@ Example response:
     "show_subscription_progress": 0,
     "week_starts_sunday": 0,
     "upcoming_payments_limit": 3,
+    "upcoming_payments_days": 0,
     "square_icons": 0,
     "custom_colors": {
       "main_color": "#0000ff",
