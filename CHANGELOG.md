@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.10.3](https://github.com/ellite/Wallos/compare/v5.10.2...v5.10.3) (2026-10-31)
+
+
+### Bug Fixes
+
+* **vuln:** stored XSS in admin context via unescaped push-service response in sendnotifications.php ([#1295](https://github.com/ellite/Wallos/issues/1295)) ([693d867](https://github.com/ellite/Wallos/commit/693d8676f3e5b0c85e120fc5958ccb82f37ee89c))
+
 ## [5.10.2](https://github.com/ellite/Wallos/compare/v5.10.1...v5.10.2) (2026-10-23)
 
 
