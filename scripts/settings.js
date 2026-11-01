@@ -825,14 +825,42 @@ function resetFormIcon() {
   iconPreview.style.display = 'none';
 }
 
+// Same markup settings.php prints on first load; click, rename and drag are
+// handled by the delegated listeners and by Sortable on #payments-list.
+function renderPaymentMethods(data) {
+  return data.payments.map(payment => `
+    <div class="payments-payment" data-enabled="${Number(payment.enabled)}" data-in-use="${payment.in_use ? "yes" : "no"}" data-paymentid="${Number(payment.id)}" title="${escapeHtml(payment.title)}">
+      <div class="drag-icon" title="">
+        <i class="fa-solid fa-grip-vertical"></i>
+      </div>
+      <img src="${escapeHtml(payment.icon)}" alt="Logo" />
+      <span class="payment-name" contenteditable="true" title="${escapeHtml(data.labels.rename_payment_method)}">${escapeHtml(payment.name)}</span>
+      ${payment.in_use ? "" : `<div class="delete-payment-method" title="${escapeHtml(data.labels.delete)}" data-paymentid="${Number(payment.id)}">x</div>`}
+    </div>`).join("");
+}
+
 function reloadPaymentMethods() {
   const paymentsContainer = document.querySelector("#payments-list");
   const paymentMethodsEndpoint = "endpoints/payments/get.php";
 
   fetch(paymentMethodsEndpoint)
-    .then(response => response.text())
+    .then(response => response.json())
     .then(data => {
-      paymentsContainer.innerHTML = data;
+      if (!data.payments) {
+        throw new Error(data.message || translate("unknown_error"));
+      }
+      paymentsContainer.innerHTML = renderPaymentMethods(data);
+      paymentsContainer.querySelectorAll(".delete-payment-method").forEach(button => {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          deletePaymentMethod(button.dataset.paymentid);
+        });
+      });
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
     });
 }
 

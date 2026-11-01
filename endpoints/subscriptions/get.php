@@ -1,6 +1,16 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 
+header('Content-Type: application/json; charset=utf-8');
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+  // Answer before the list helpers load: they query on behalf of a user.
+  http_response_code(401);
+  echo json_encode(['success' => false, 'message' => html_entity_decode(translate('session_expired', $i18n), ENT_QUOTES | ENT_HTML5, 'UTF-8')], JSON_INVALID_UTF8_SUBSTITUTE);
+  $db->close();
+  exit;
+}
+
 require_once '../../includes/currency_formatter.php';
 require_once '../../includes/getdbkeys.php';
 require_once '../../includes/logo_theme_variant.php';
@@ -233,29 +243,51 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     });
   }
 
-  if (isset($print)) {
-    printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "../../", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
+  $iconDir = '../../images/siteicons/svg/';
+  $readIcon = function ($name) use ($iconDir) {
+    return trim(file_get_contents($iconDir . $name . '.php'));
+  };
+  $mobileNavigation = $settings['mobileNavigation'] === 'true';
+
+  $icons = [
+    'logo' => $readIcon('logo'),
+    'automatic' => $readIcon('automatic'),
+    'manual' => $readIcon('manual'),
+  ];
+  if ($mobileNavigation) {
+    foreach (['clone', 'delete', 'renew', 'edit'] as $name) {
+      $icons[$name] = $readIcon('mobile-menu/' . $name);
+    }
   }
 
-  if (count($subscriptions) == 0) {
-    ?>
-    <div class="no-matching-subscriptions">
-      <p>
-        <?= translate('no_matching_subscriptions', $i18n) ?>
-      </p>
-      <button class="button" onClick="clearFilters()">
-        <span clasS="fa-solid fa-minus-circle"></span>
-        <?= translate('clear_filters', $i18n) ?>
-      </button>
-      <img src="images/siteimages/empty.png" alt="<?= translate('empty_page', $i18n) ?>" />
-    </div>
-    <?php
+  $labels = [];
+  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel'] as $key) {
+    $labels[$key] = htmlToText(translate($key, $i18n));
   }
-} else {
-  http_response_code(401);
-  ?>
-  <p class="no-matching-subscriptions"><?= translate('session_expired', $i18n) ?></p>
-  <?php
+
+  echo json_encode([
+    'success' => true,
+    'total' => count($subscriptions),
+    'mobile_navigation' => $mobileNavigation,
+    'subscriptions' => buildSubscriptionsPayload(
+      $print ?? [],
+      $sort,
+      $categories,
+      $members,
+      $i18n,
+      $settings['disabledToBottom'],
+      $settings['showSubscriptionProgress'],
+      $currencies,
+      $lang
+    ),
+    'labels' => $labels,
+    'icons' => $icons,
+    'messages' => [
+      'no_matching_subscriptions' => htmlToText(translate('no_matching_subscriptions', $i18n)),
+      'clear_filters' => htmlToText(translate('clear_filters', $i18n)),
+      'empty_page' => htmlToText(translate('empty_page', $i18n)),
+    ],
+  ], JSON_INVALID_UTF8_SUBSTITUTE);
 }
 
 $db->close();

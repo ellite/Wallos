@@ -671,6 +671,118 @@ function closeLogoSearch() {
   logoResults.innerHTML = "";
 }
 
+function renderSubscriptionLogo(subscription) {
+  if (!subscription.logo) {
+    return "";
+  }
+  if (!subscription.logo_text_color || !subscription.logo_variant) {
+    return `<img src="${escapeHtml(subscription.logo)}" class="">`;
+  }
+  // The theme the original file already reads well on; styles.css shows the matching image.
+  const nativeTheme = subscription.logo_text_color === "dark" ? "light" : "dark";
+  return `<img src="${escapeHtml(subscription.logo)}" class="logo-theme-original" data-native-theme="${nativeTheme}">`
+    + `<img src="${escapeHtml(subscription.logo_variant)}" class="logo-theme-variant" data-native-theme="${nativeTheme}">`;
+}
+
+function renderSubscription(subscription, data) {
+  const id = subscription.id;
+  const labels = data.labels;
+  const icons = data.icons;
+  const hasLogo = !!subscription.logo;
+  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual");
+
+  let mobileActions = "";
+  if (data.mobile_navigation) {
+    mobileActions = `
+      <div class="mobile-actions" data-id="${id}">
+        <button class="mobile-action-clone"></button>
+        <button class="mobile-action-clone" onClick="cloneSubscription(event, ${id})">${icons.clone} Clone</button>
+        <button class="mobile-action-delete" onClick="deleteSubscription(event, ${id})">${icons.delete} Delete</button>
+        ${subscription.can_renew ? `<button class="mobile-action-renew" onClick="renewSubscription(event, ${id})">${icons.renew} Renew</button>` : ""}
+        <button class="mobile-action-edit" onClick="openEditSubscription(event, ${id})">${icons.edit} Edit</button>
+      </div>`;
+  }
+
+  const cycleIcon = subscription.one_time ? "" : (subscription.auto_renew ? icons.automatic : icons.manual);
+  const originalPrice = subscription.original_price
+    ? `<span class="original_price">(${escapeHtml(subscription.original_price)})</span>`
+    : "";
+  const paymentIcon = subscription.payment_method_icon
+    ? `<img src="${escapeHtml(subscription.payment_method_icon)}" title="${escapeHtml(labels.payment_method)}: ${escapeHtml(subscription.payment_method_name)}" />`
+    : "";
+  const expandClass = data.mobile_navigation ? "mobileNavigationHideOnMobile" : "";
+  const renewItem = subscription.can_renew
+    ? `<li class="renew" title="${escapeHtml(labels.renew)}" onClick="renewSubscription(event, ${id})"><i class="fa-solid fa-rotate-right"></i> ${escapeHtml(labels.renew)}</li>`
+    : "";
+  const renewBackAction = subscription.can_renew
+    ? `<button type="button" class="back-action" onClick="unflipCard(${id}); renewSubscription(event, ${id})"><i class="fa-solid fa-rotate-right"></i> ${escapeHtml(labels.renew)}</button>`
+    : "";
+  const progress = subscription.progress !== null
+    ? `<div class="subscription-progress-container"><span class="subscription-progress" style="width: ${Number(subscription.progress)}%;"></span></div>`
+    : "";
+
+  return `
+    <div class="subscription-container">
+      ${mobileActions}
+      <label class="bulk-select">
+        <input type="checkbox" class="bulk-select-checkbox" value="${id}" onChange="updateBulkSelection()">
+      </label>
+      <div class="subscription${extraClasses}" onClick="showSubscriptionDetails(event, ${id})" data-id="${id}" data-name="${escapeHtml(subscription.name)}">
+        <div class="subscription-main">
+          <span class="logo ${hasLogo ? "" : "hideOnMobile"}">${hasLogo ? renderSubscriptionLogo(subscription) : icons.logo}</span>
+          <span class="name ${hasLogo ? "hideOnMobile" : ""}">${escapeHtml(subscription.name)}</span>
+          <span class="cycle" title="${escapeHtml(subscription.cycle_title)}">${cycleIcon} ${escapeHtml(subscription.billing_cycle)}</span>
+          <span class="next">${escapeHtml(subscription.next_payment)}</span>
+          <span class="price"><span class="value">${escapeHtml(subscription.price)} ${originalPrice}</span></span>
+          <span class="payment_method">${paymentIcon}</span>
+          <button type="button" class="actions-expand ${expandClass}" onClick="expandActions(event, ${id})">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <ul class="actions">
+            <li class="edit" title="${escapeHtml(labels.edit_subscription)}" onClick="openEditSubscription(event, ${id})"><i class="fa-solid fa-pen-to-square"></i> ${escapeHtml(labels.edit_subscription)}</li>
+            <li class="delete" title="${escapeHtml(labels.delete)}" onClick="deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</li>
+            <li class="clone" title="${escapeHtml(labels.clone)}" onClick="cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</li>
+            ${renewItem}
+          </ul>
+        </div>
+        <div class="subscription-back" inert>
+          <div class="subscription-back-header">
+            <span class="subscription-back-title">${escapeHtml(subscription.name)}</span>
+            <button type="button" class="subscription-back-close" onClick="event.stopPropagation(); unflipCard(${id})" title="${escapeHtml(labels.cancel)}">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+          <button type="button" class="back-action" onClick="unflipCard(${id}); openEditSubscription(event, ${id})"><i class="fa-solid fa-pen-to-square"></i> ${escapeHtml(labels.edit)}</button>
+          <button type="button" class="back-action" onClick="unflipCard(${id}); cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</button>
+          ${renewBackAction}
+          <button type="button" class="back-action delete" onClick="unflipCard(${id}); deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</button>
+        </div>
+      </div>
+      ${progress}
+    </div>`;
+}
+
+function renderSubscriptions(data) {
+  if (data.subscriptions.length === 0 && data.total === 0) {
+    const messages = data.messages;
+    return `
+      <div class="no-matching-subscriptions">
+        <p>${escapeHtml(messages.no_matching_subscriptions)}</p>
+        <button class="button" onClick="clearFilters()">
+          <span class="fa-solid fa-minus-circle"></span> ${escapeHtml(messages.clear_filters)}
+        </button>
+        <img src="images/siteimages/empty.png" alt="${escapeHtml(messages.empty_page)}" />
+      </div>`;
+  }
+
+  return data.subscriptions.map(subscription => {
+    const headings = subscription.headings
+      .map(heading => `<div class="subscription-list-title">${escapeHtml(heading)}</div>`)
+      .join("");
+    return headings + renderSubscription(subscription, data);
+  }).join("");
+}
+
 function fetchSubscriptions(id, event, initiator) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
@@ -695,16 +807,19 @@ function fetchSubscriptions(id, event, initiator) {
   }
 
   fetch(getSubscriptions)
-    .then(response => response.text())
-    .then(data => {
-      if (data) {
-        subscriptionsContainer.innerHTML = data;
+    .then(response => response.json().catch(() => null).then(data => ({ response, data })))
+    .then(({ response, data }) => {
+      if (!data) {
+        throw new Error(`Unexpected response (${response.status})`);
+      }
+      if (data.success) {
+        subscriptionsContainer.innerHTML = renderSubscriptions(data);
         const mainActions = document.querySelector("#main-actions");
-        if (data.includes("no-matching-subscriptions")) {
-          // mainActions.classList.add("hidden");
-        } else {
+        if (data.total > 0 || data.subscriptions.length > 0) {
           mainActions.classList.remove("hidden");
         }
+      } else {
+        subscriptionsContainer.innerHTML = `<p class="no-matching-subscriptions">${escapeHtml(data.message || "")}</p>`;
       }
 
       if (initiator == "clone" && id && event) {
