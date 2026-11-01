@@ -1,5 +1,15 @@
 # Changelog
 
+## [5.10.4](https://github.com/ellite/Wallos/compare/v5.10.3...v5.10.4) (2026-11-01)
+
+
+### Bug Fixes
+
+* missing _ for save_user.php in profile.php  ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **ui:** stop plain-text taps from opening Chrome's Touch to Search ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **vuln:** stored XSS in statistics page names and chart legend ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **vuln:** stored XSS in subscriptions list names, headings and filter menus ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+
 ## [5.10.3](https://github.com/ellite/Wallos/compare/v5.10.2...v5.10.3) (2026-10-31)
 
 
