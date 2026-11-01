@@ -163,6 +163,7 @@ function renderSubscriptionDetails(subscription) {
 
   document.querySelector('#details-next-payment').textContent = detailsFormatDate(subscription.next_payment);
   document.querySelector('#details-start-date').textContent = detailsFormatDate(subscription.start_date) || strings.none;
+  document.querySelector('#details-final-payment-date').textContent = detailsFormatDate(subscription.final_payment_date) || strings.none;
   const categoryIds = subscription.category_ids && subscription.category_ids.length > 0 ? subscription.category_ids : [subscription.category_id];
   document.querySelector('#details-category').textContent = categoryIds.map(id => lookups.categories[id]).filter(Boolean).join(', ') || strings.none;
   const payerIds = subscription.payer_user_ids && subscription.payer_user_ids.length > 0 ? subscription.payer_user_ids : [subscription.payer_user_id];

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/currency_rates.php';
+require_once __DIR__ . '/final_payment.php';
 
 if (!function_exists('sanitizeBudgetPeriodType')) {
     function sanitizeBudgetPeriodType($periodType)
@@ -195,6 +196,15 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
 
         $rangeStartDate = createDateAtMidnight($rangeStart);
         $rangeEndDate = createDateAtMidnight($rangeEnd);
+        if (!empty($subscription['final_payment_date'])) {
+            $finalDate = new DateTime($subscription['final_payment_date']);
+            if ($finalDate < $rangeEndDate) {
+                $rangeEndDate = $finalDate;
+            }
+        }
+        if ($rangeStartDate > $rangeEndDate) {
+            return [];
+        }
         $occurrences = [];
 
         $autoRenew = isset($subscription['auto_renew']) ? (int) $subscription['auto_renew'] === 1 : true;

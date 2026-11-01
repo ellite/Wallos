@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/final_payment.php';
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 
@@ -51,6 +52,10 @@ $interval = new DateInterval($intervalSpec);
 // Add intervals until the next payment date is in the future and after current next payment date
 while ($nextPaymentDate < $currentDate || $nextPaymentDate == new DateTime($subscriptionToRenew['next_payment'])) {
     $nextPaymentDate->add($interval);
+}
+
+if (!wallos_payment_within_final_date($subscriptionToRenew, $nextPaymentDate->format('Y-m-d'))) {
+    die(json_encode(['success' => false, 'message' => translate('final_payment_help', $i18n)]));
 }
 
 // Update the subscription's next_payment date

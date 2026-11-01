@@ -2,6 +2,7 @@
 
 require_once 'i18n/getlang.php';
 require_once __DIR__ . '/currency_rates.php';
+require_once __DIR__ . '/final_payment.php';
 
 function getBillingCycle($cycle, $frequency, $i18n)
 {
@@ -253,7 +254,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         Delete
                     </button>
                     <?php
-                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
+                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time'] && empty($subscription['ended'])) {
                         ?>
                         <button class="mobile-action-renew" onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
                             <?php include $imagePath . "images/siteicons/svg/mobile-menu/renew.php"; ?>
@@ -316,7 +317,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         ?>
                         <?= $subscription['billing_cycle'] ?>
                     </span>
-                    <span class="next"><?= formatDate($subscription['next_payment'], $lang) ?></span>
+                    <span class="next"><?= !empty($subscription['ended']) ? translate('payments_ended', $i18n) : formatDate($subscription['next_payment'], $lang) ?></span>
                     <span class="price">
                         <span class="value">
                             <?= formatPrice($subscription['price'], $subscription['currency_code'], $currencies) ?>
@@ -365,7 +366,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                             <?= translate('clone', $i18n) ?>
                         </li>
                         <?php
-                        if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
+                        if ($subscription['auto_renew'] != 1 && !$subscription['one_time'] && empty($subscription['ended'])) {
                             ?>
                             <li class="renew" title="<?= translate('renew', $i18n) ?>"
                                 onClick="renewSubscription(event, <?= $subscription['id'] ?>)">
@@ -397,7 +398,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         <?= translate('clone', $i18n) ?>
                     </button>
                     <?php
-                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time']) {
+                    if ($subscription['auto_renew'] != 1 && !$subscription['one_time'] && empty($subscription['ended'])) {
                         ?>
                         <button type="button" class="back-action"
                             onClick="unflipCard(<?= $subscription['id'] ?>); renewSubscription(event, <?= $subscription['id'] ?>)">
@@ -415,7 +416,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 </div>
             </div>
             <?php
-            if ($showSubscriptionProgress === 'true' && !$subscription['inactive']) {
+            if ($showSubscriptionProgress === 'true' && !$subscription['inactive'] && empty($subscription['ended'])) {
                 $progress = $subscription['progress'] > 100 ? 100 : $subscription['progress'];
                 ?>
                 <div class="subscription-progress-container">

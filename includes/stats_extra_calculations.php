@@ -68,6 +68,11 @@ if (isset($subscriptions)) {
             continue;
         }
 
+        $ended = wallos_subscription_ended($subscription);
+        if ($ended) {
+            $monthlyPrice = 0;
+        }
+
         // Split views over active spend
         if ($monthlyPrice > 0) {
             $cycleSpend[$cycle] = ($cycleSpend[$cycle] ?? 0) + $monthlyPrice;
@@ -76,7 +81,7 @@ if (isset($subscriptions)) {
             $paymentMethodCost[$subscription['payment_method_id']] = ($paymentMethodCost[$subscription['payment_method_id']] ?? 0) + $monthlyPrice;
         }
 
-        if ($cycle !== 5) {
+        if ($cycle !== 5 && !$ended) {
             $activeMonthlyPrices[] = $monthlyPrice;
 
             if ($cheapestSubscription === null || $monthlyPrice < $cheapestSubscription['price']) {
@@ -99,7 +104,7 @@ if (isset($subscriptions)) {
                 $paymentDate = (new DateTime())->setTimestamp($paymentTimestamp);
                 $safety = 0;
                 while ($paymentDate < $projectionEnd && $safety < 1000) {
-                    if ($paymentDate >= $projectionStart) {
+                    if ($paymentDate >= $projectionStart && wallos_payment_within_final_date($subscription, $paymentDate->format('Y-m-d'))) {
                         $bucketKey = $paymentDate->format('Y-m');
                         if (isset($projectionBuckets[$bucketKey])) {
                             $projectionBuckets[$bucketKey]['total'] += $convertedPrice;
@@ -112,10 +117,12 @@ if (isset($subscriptions)) {
 
             // Lifetime spend and age (recurring subscriptions with a start date)
             if ($startDate !== null && $startDate <= $now) {
-                $daysActive = $startDate->diff($now)->days;
+                $lifetimeEnd = !empty($subscription['final_payment_date']) && $subscription['final_payment_date'] < $now->format('Y-m-d')
+                    ? new DateTime($subscription['final_payment_date']) : $now;
+                $daysActive = $startDate->diff($lifetimeEnd)->days;
                 $ageYears = $daysActive / 365.25;
                 $subscriptionAges[] = $ageYears;
-                $lifetimeSpend = $monthlyPrice * ($daysActive / 30.44);
+                $lifetimeSpend = getPricePerMonth($cycle, $frequency, $convertedPrice) * ($daysActive / 30.44);
                 $totalLifetimeSpend += $lifetimeSpend;
                 $lifetimeSpends[] = [
                     'label' => html_entity_decode($subscription['name']),

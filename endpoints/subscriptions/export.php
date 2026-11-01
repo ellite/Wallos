@@ -52,6 +52,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         'URL' => $row['url'],
         'State' => $row['inactive'] ? 'Disabled' : 'Enabled',
         'Notifications' => $row['notify'] ? 'Enabled' : 'Disabled',
+        'Final Payment Date' => $row['final_payment_date'],
         'Cancellation Date' => $row['cancellation_date'],
         'Active' => $row['inactive'] ? 'No' : 'Yes',
     );

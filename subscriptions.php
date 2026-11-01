@@ -303,6 +303,8 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
       $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
       $print[$id]['inactive'] = $subscription['inactive'];
+      $print[$id]['ended'] = wallos_subscription_ended($subscription);
+      $print[$id]['final_payment_date'] = $subscription['final_payment_date'];
       $print[$id]['url'] = $subscription['url'];
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
@@ -463,6 +465,14 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="form-group">
+      <label for="final_payment_date"><?= translate('final_payment_date', $i18n) ?></label>
+      <div class="date-wrapper">
+        <input type="date" id="final_payment_date" name="final_payment_date" autocomplete="off" aria-describedby="final-payment-help">
+      </div>
+      <small id="final-payment-help"><?= translate('final_payment_help', $i18n) ?></small>
     </div>
 
     <div class="form-group">
