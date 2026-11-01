@@ -240,7 +240,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       <?php
       foreach ($categories as $category) {
         ?>
-        <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+        <option value="<?= $category['id'] ?>"><?= htmlSafe($category['name']) ?></option>
         <?php
       }
       ?>
@@ -249,7 +249,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       <?php
       foreach ($payment_methods as $payment) {
         ?>
-        <option value="<?= $payment['id'] ?>"><?= $payment['name'] ?></option>
+        <option value="<?= $payment['id'] ?>"><?= htmlSafe($payment['name']) ?></option>
         <?php
       }
       ?>
@@ -503,7 +503,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             foreach ($payment_methods as $payment) {
               ?>
               <option value="<?= $payment['id'] ?>">
-                <?= $payment['name'] ?>
+                <?= htmlSafe($payment['name']) ?>
               </option>
               <?php
             }
@@ -524,7 +524,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
                 ?>
                 <li role="option" aria-selected="false" data-value="<?= $member['id'] ?>">
                   <span class="multi-select-check"></span>
-                  <span class="multi-select-name"><?= $member['name'] ?></span>
+                  <span class="multi-select-name"><?= htmlSafe($member['name']) ?></span>
                 </li>
                 <?php
               }
@@ -550,7 +550,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             ?>
             <li role="option" aria-selected="false" data-value="<?= $category['id'] ?>">
               <span class="multi-select-check"></span>
-              <span class="multi-select-name"><?= $category['name'] ?></span>
+              <span class="multi-select-name"><?= htmlSafe($category['name']) ?></span>
             </li>
             <?php
           }

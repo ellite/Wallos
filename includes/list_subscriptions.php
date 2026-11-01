@@ -242,6 +242,16 @@ function htmlToText($value)
 }
 
 /**
+ * A stored name made safe for HTML output. Stored values may or may not already
+ * be escaped, so decode first and escape exactly once: this neither double-escapes
+ * ordinary names nor lets a raw payload through.
+ */
+function htmlSafe($value)
+{
+    return htmlspecialchars(htmlToText($value), ENT_QUOTES, 'UTF-8');
+}
+
+/**
  * The list as plain data, for the JSON endpoint: the same order and headings as
  * printSubscriptions(), with display strings (formatted price and date, resolved
  * titles) already worked out so the client only has to lay them out.
@@ -293,7 +303,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
         foreach ($subscription['headings'] as $heading) {
             ?>
             <div class="subscription-list-title">
-                <?= $heading ?>
+                <?= htmlSafe($heading) ?>
             </div>
             <?php
         }
@@ -351,7 +361,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             </label>
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
-                data-name="<?= $subscription['name'] ?>">
+                data-name="<?= htmlSafe($subscription['name']) ?>">
                 <div class="subscription-main">
                     <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
                         <?php
@@ -362,7 +372,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                     </span>
-                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
+                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= htmlSafe($subscription['name']) ?></span>
                     <span class="cycle"
                         title="<?= $subscription['one_time'] ? $subscription['billing_cycle'] : ($subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n)) ?>">
                         <?php
@@ -394,7 +404,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     <span class="payment_method">
                         <?php if (!empty($subscription['payment_method_icon'])) { ?>
                         <img src="<?= $subscription['payment_method_icon'] ?>"
-                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                            title="<?= htmlSafe(translate('payment_method', $i18n) . ': ' . $subscription['payment_method_name']) ?>" />
                         <?php } ?>
                     </span>
                     <?php
@@ -439,7 +449,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 </div>
                 <div class="subscription-back" inert>
                     <div class="subscription-back-header">
-                        <span class="subscription-back-title"><?= $subscription['name'] ?></span>
+                        <span class="subscription-back-title"><?= htmlSafe($subscription['name']) ?></span>
                         <button type="button" class="subscription-back-close"
                             onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
                             title="<?= translate('cancel', $i18n) ?>">
