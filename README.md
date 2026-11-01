@@ -272,7 +272,7 @@ Recommendations are based on your active subscriptions and household members, an
 When AI is enabled with a model saved and the interface language is not English, the categories section of the settings page can also translate category names into that language.
 
 A local Ollama or OpenAI-compatible server on a private address is blocked unless its host is in the [SSRF allowlist](#ssrf-allowlist).
-For any user other than the first (admin) account, the admin also has to enable **Allow standard users to use the Webhook Allowlist** in the Security Settings.
+For any user other than the first (admin) account, the admin also has to enable **Allow standard users to use the Webhook Allowlist** in the Security Settings. The host still has to be in the allowlist; enabling the setting alone is not enough.
 
 ## API Documentation
 
