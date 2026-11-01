@@ -3,6 +3,7 @@
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
+require_once 'includes/html_text.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/upcoming_cancellations.php';
 
@@ -161,7 +162,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <?php
 
                     foreach ($overdueSubscriptions as $subscription) {
-                        $subscriptionName = htmlspecialchars($subscription['name']);
+                        $subscriptionName = htmlSafe($subscription['name']);
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
@@ -208,7 +209,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <?php
                 } else {
                     foreach ($upcomingSubscriptions as $subscription) {
-                        $subscriptionName = htmlspecialchars($subscription['name']);
+                        $subscriptionName = htmlSafe($subscription['name']);
                         $subscriptionPrice = $subscription['price'];
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
@@ -247,7 +248,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                     <div class="dashboard-subscriptions-list">
                         <?php
                         foreach ($upcomingCancellations as $subscription) {
-                            $subscriptionName = htmlspecialchars($subscription['name']);
+                            $subscriptionName = htmlSafe($subscription['name']);
                             $subscriptionPrice = $subscription['price'];
                             $subscriptionCurrency = $subscription['currency_id'];
                             $subscriptionDisplayCancellationDate = formatDate($subscription['cancellation_date'], $lang);

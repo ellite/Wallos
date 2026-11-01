@@ -31,3 +31,15 @@ wallos_test('the subscription list page escapes every stored name it prints', fu
         assert_true(!preg_match('/<\?= \$(subscription|member|category|payment)\[\'name\'\] \?>/', $source), $file . ' has no unescaped name echo');
     }
 });
+
+wallos_test('the statistics page and chart legend escape stored names', function () {
+    $stats = file_get_contents(WALLOS_ROOT . '/stats.php');
+    foreach (["htmlSafe(\$member['name'])", "htmlSafe(\$categoryName)", "htmlSafe(\$payment['name'])",
+              "htmlSafe(\$mostExpensiveSubscription['name'])", "htmlSafe(\$cheapestSubscription['name'])", "htmlSafe(\$oldestSubscription['name'])"] as $needle) {
+        assert_true(strpos($stats, $needle) !== false, 'stats.php escapes ' . $needle);
+    }
+    assert_true(!preg_match('/<\?= \$\w*Subscription\[\'name\'\] \?>/', $stats), 'stats.php has no unescaped subscription name echo');
+    assert_true(!preg_match('/alt="\' \. \$\w+\[\'name\'\]/', $stats), 'stats.php has no unescaped name in alt/title attributes');
+    $js = file_get_contents(WALLOS_ROOT . '/scripts/stats.js');
+    assert_true(!preg_match('/innerHTML\s*=.*p\.label/', $js), 'the chart legend never writes labels with innerHTML');
+});
