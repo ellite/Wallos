@@ -1,17 +1,10 @@
 <?php
-/* list_subscriptions.php runs queries at include time, so evaluate only the
-   escaping helpers out of it. */
+/* The escaping helpers live in a dependency-free include. */
 function list_xss_load_helpers() {
     if (function_exists('htmlSafe')) {
         return;
     }
-    $source = file_get_contents(WALLOS_ROOT . '/includes/list_subscriptions.php');
-    foreach (['htmlToText', 'htmlSafe'] as $name) {
-        $start = strpos($source, 'function ' . $name . '(');
-        assert_true($start !== false, $name . ' found');
-        $end = strpos($source, "\n}", $start);
-        eval(substr($source, $start, $end - $start + 2));
-    }
+    require_once WALLOS_ROOT . '/includes/html_text.php';
 }
 
 wallos_test('stored names are escaped exactly once, whether or not they were stored escaped', function () {
