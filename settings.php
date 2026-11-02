@@ -2,6 +2,7 @@
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
+require_once 'includes/html_text.php';
 
 $currencies = array();
 $query = "SELECT * FROM currencies WHERE user_id = :userId";
@@ -129,6 +130,48 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
             <div class="settings-notes">
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('period_budget_info', $i18n) ?>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('payment_method_budget', $i18n) ?></h2>
+        </header>
+        <div class="account-budget payment-method-budgets">
+            <?php
+            // Only enabled methods, plus any disabled one that still has a budget set.
+            $pmBudgetStmt = $db->prepare('SELECT id, name, budget FROM payment_methods WHERE user_id = :userId AND (enabled = 1 OR budget > 0) ORDER BY `order` ASC');
+            $pmBudgetStmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+            $pmBudgetResult = $pmBudgetStmt->execute();
+            $hasPaymentMethodsForBudget = false;
+            while ($pmBudgetResult && ($pmBudgetRow = $pmBudgetResult->fetchArray(SQLITE3_ASSOC))) {
+                $hasPaymentMethodsForBudget = true;
+                $pmBudgetId = (int) $pmBudgetRow['id'];
+                $pmBudgetValue = (float) ($pmBudgetRow['budget'] ?? 0);
+                ?>
+                <div class="form-group-inline payment-method-budget-row">
+                    <label for="payment_method_budget_<?= $pmBudgetId ?>"><?= htmlSafe($pmBudgetRow['name']) ?></label>
+                    <span><?= htmlSafe($userData['currency_symbol'] ?? '') ?></span>
+                    <input type="number" id="payment_method_budget_<?= $pmBudgetId ?>" min="0" step="0.01"
+                        value="<?= htmlspecialchars((string) $pmBudgetValue, ENT_QUOTES, 'UTF-8') ?>"
+                        data-payment-method-id="<?= $pmBudgetId ?>" autocomplete="off">
+                </div>
+                <?php
+            }
+            if ($hasPaymentMethodsForBudget) {
+                ?>
+                <div class="buttons">
+                    <input type="button" id="savePaymentMethodBudgets" value="<?= translate('save', $i18n) ?>" class="thin"
+                        onClick="savePaymentMethodBudgets()">
+                </div>
+                <?php
+            }
+            ?>
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('payment_method_budget_info', $i18n) ?>
                 </p>
             </div>
         </div>
