@@ -19,6 +19,7 @@ if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}
     $budgetPeriodAnchorDate = date('Y-m-d');
 }
 $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_payments_limit'] ?? 3);
+$upcomingPaymentsDays = normalize_upcoming_payments_days($settings['upcoming_payments_days'] ?? 0);
 
 ?>
 
@@ -1700,11 +1701,27 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
             <div>
                 <div class="form-group">
                     <label for="upcomingpaymentslimit"><?= translate('upcoming_payments_to_show', $i18n) ?></label>
-                    <select id="upcomingpaymentslimit" name="upcomingpaymentslimit" onChange="setUpcomingPaymentsLimit()">
+                    <select id="upcomingpaymentslimit" name="upcomingpaymentslimit" onChange="setUpcomingPaymentsLimit()"
+                        <?= $upcomingPaymentsDays > 0 ? 'disabled' : '' ?>>
                         <option value="3" <?= $upcomingPaymentsLimit === 3 ? 'selected' : '' ?>>3</option>
                         <option value="5" <?= $upcomingPaymentsLimit === 5 ? 'selected' : '' ?>>5</option>
                         <option value="10" <?= $upcomingPaymentsLimit === 10 ? 'selected' : '' ?>>10</option>
                         <option value="20" <?= $upcomingPaymentsLimit === 20 ? 'selected' : '' ?>>20</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="upcomingpaymentsdays"><?= translate('upcoming_payments_range', $i18n) ?></label>
+                    <select id="upcomingpaymentsdays" name="upcomingpaymentsdays" onChange="setUpcomingPaymentsDays()">
+                        <?php
+                        foreach (UPCOMING_PAYMENTS_DAYS as $days) {
+                            $label = $days === 0
+                                ? translate('upcoming_payments_range_off', $i18n)
+                                : sprintf(translate('upcoming_payments_next_days', $i18n), $days);
+                            ?>
+                            <option value="<?= $days ?>" <?= $upcomingPaymentsDays === $days ? 'selected' : '' ?>><?= $label ?></option>
+                            <?php
+                        }
+                        ?>
                     </select>
                 </div>
             </div>

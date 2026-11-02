@@ -12,6 +12,7 @@ It receives the following parameters:
 - show_subscription_progress: (optional) '1' or '0' (show subscription progress bars).
 - week_starts_sunday: (optional) '1' or '0' (start calendar weeks on Sunday).
 - upcoming_payments_limit: (optional) '3', '5', '10', or '20' (number of upcoming payments on the dashboard).
+- upcoming_payments_days: (optional) '0', '7', '14', '30', '60', or '90' (show every upcoming payment due within that many days; '0' uses upcoming_payments_limit instead).
 - disabled_to_bottom: (optional) '1' or '0' (move disabled subscriptions to bottom).
 - hide_disabled: (optional) '1' or '0' (hide disabled subscriptions).
 - remove_background: (optional) '1' or '0' (remove background from logos).
@@ -278,6 +279,25 @@ if (isset($_POST['upcoming_payments_limit'])) {
     $updateFields[] = '`upcoming_payments_limit` = :upcoming_payments_limit';
     $params['upcoming_payments_limit'] = [
         'val' => $upcomingPaymentsLimit,
+        'type' => SQLITE3_INTEGER
+    ];
+}
+
+if (isset($_POST['upcoming_payments_days'])) {
+    $upcomingPaymentsDays = parse_upcoming_payments_days($_POST['upcoming_payments_days']);
+
+    if ($upcomingPaymentsDays === null) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Invalid parameter',
+            'message' => "Parameter 'upcoming_payments_days' must be 0, 7, 14, 30, 60, or 90."
+        ]);
+        exit;
+    }
+
+    $updateFields[] = '`upcoming_payments_days` = :upcoming_payments_days';
+    $params['upcoming_payments_days'] = [
+        'val' => $upcomingPaymentsDays,
         'type' => SQLITE3_INTEGER
     ];
 }
