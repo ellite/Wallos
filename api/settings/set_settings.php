@@ -12,6 +12,7 @@ It receives the following parameters:
 - show_subscription_progress: (optional) '1' or '0' (show subscription progress bars).
 - week_starts_sunday: (optional) '1' or '0' (start calendar weeks on Sunday).
 - upcoming_payments_limit: (optional) '3', '5', '10', or '20' (number of upcoming payments on the dashboard).
+- date_format: (optional) 'auto', 'iso', 'iso_basic', 'mdy_slash', 'dmy_dot', 'd_mmm_y', or 'mdy_long' (how dates are displayed).
 - disabled_to_bottom: (optional) '1' or '0' (move disabled subscriptions to bottom).
 - hide_disabled: (optional) '1' or '0' (hide disabled subscriptions).
 - remove_background: (optional) '1' or '0' (remove background from logos).
@@ -37,6 +38,7 @@ Example response:
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
 require_once '../../includes/upcoming_payments.php';
+require_once '../../includes/date_format.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -279,6 +281,25 @@ if (isset($_POST['upcoming_payments_limit'])) {
     $params['upcoming_payments_limit'] = [
         'val' => $upcomingPaymentsLimit,
         'type' => SQLITE3_INTEGER
+    ];
+}
+
+if (isset($_POST['date_format'])) {
+    $dateFormat = parse_date_format($_POST['date_format']);
+
+    if ($dateFormat === null) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Invalid parameter',
+            'message' => "Parameter 'date_format' must be one of: " . implode(', ', array_keys(DATE_FORMATS)) . "."
+        ]);
+        exit;
+    }
+
+    $updateFields[] = '`date_format` = :date_format';
+    $params['date_format'] = [
+        'val' => $dateFormat,
+        'type' => SQLITE3_TEXT
     ];
 }
 
