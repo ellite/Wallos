@@ -24,5 +24,7 @@ docker-compose.yaml
 
 # README screenshots and capture script; not used at runtime
 /screenshots/
-# AI assistant scratch files (dot-dirs are already excluded by .*)
+
+# AI assistant files are already ignored by .* and *.md rules
+
 plan.html
