@@ -6,17 +6,21 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  # Autocommit: change to `contents: write` when enabling the block below.
 
 jobs:
   typography:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        # Autocommit: check out the PR branch instead of the merge ref.
+        # with:
+        #   ref: ${{ github.head_ref }}
 
       - name: Collect text files
         run: |
           git grep -Iz --name-only -e '' -- \
-            ':!:libs/' ':!:images/' ':!:screenshots/' ':!:webfonts/' ':!:*.min.*' ':!:*.svg' \
+            ':!:libs/' ':!:webfonts/' ':!:*.min.*' ':!:*.svg' \
             > "$RUNNER_TEMP/files.list"
 
       - name: Fix dubious UTF-8 symbols
@@ -24,6 +28,21 @@ jobs:
 
       - name: Trim trailing whitespace and fix final newlines
         run: xargs -0 -a "$RUNNER_TEMP/files.list" .github/scripts/fix-whitespace
+
+      # Autocommit: uncomment to push fixes back to the PR branch, and then
+      # remove or disable the "Fail if fixes were needed" step below.
+      # Works for same-repo PRs only (fork PRs get a read-only token).
+      # Pushes made with GITHUB_TOKEN do not trigger other workflows, so no
+      # loop with release-please; this one re-runs only on a new manual push.
+      # - name: Commit and push fixes
+      #   if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+      #   run: |
+      #     if ! git diff --quiet; then
+      #       git config user.name "github-actions[bot]"
+      #       git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #       git commit -am "chore: fix typography (utf-8, whitespace)"
+      #       git push
+      #     fi
 
       - name: Fail if fixes were needed
         run: |
