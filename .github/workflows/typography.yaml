@@ -1,0 +1,34 @@
+name: Typography
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  typography:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect text files
+        run: |
+          git ls-files -z \
+            ':!:libs/' ':!:images/' ':!:screenshots/' ':!:*.min.*' ':!:*.svg' \
+            > "$RUNNER_TEMP/files.list"
+
+      - name: Fix dubious UTF-8 symbols
+        run: xargs -0 -a "$RUNNER_TEMP/files.list" .github/scripts/check-utf8 --fix
+
+      - name: Trim trailing whitespace and fix final newlines
+        run: xargs -0 -a "$RUNNER_TEMP/files.list" .github/scripts/fix-whitespace
+
+      - name: Fail if fixes were needed
+        run: |
+          if ! git diff --exit-code --stat; then
+            echo "::error::Typography problems found. Run .github/scripts/check-utf8 --fix and .github/scripts/fix-whitespace locally and commit."
+            git diff | head -200
+            exit 1
+          fi
