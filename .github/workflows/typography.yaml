@@ -24,7 +24,11 @@ jobs:
             > "$RUNNER_TEMP/files.list"
 
       - name: Fix dubious UTF-8 symbols
-        run: xargs -0 -a "$RUNNER_TEMP/files.list" .github/scripts/check-utf8 --fix
+        # Translation files are excluded: they legitimately contain typographic
+        # characters (e.g. Catalan l·l, French apostrophes).
+        run: |
+          tr '\0' '\n' < "$RUNNER_TEMP/files.list" | grep -v -e '/i18n/' \
+            | tr '\n' '\0' | xargs -0 .github/scripts/check-utf8 --fix
 
       - name: Trim trailing whitespace and fix final newlines
         run: xargs -0 -a "$RUNNER_TEMP/files.list" .github/scripts/fix-whitespace

@@ -1,13 +1,13 @@
 let i18n = {
     // Dashboard
-    'error_reloading_subscription': '重新加载订阅时出错:',
-    'error_fetching_image_results': '获取图片结果时出错:',
+    'error_reloading_subscription': '重新加载订阅时出错：',
+    'error_fetching_image_results': '获取图片结果时出错：',
     'subscription_deleted': '订阅已删除',
     'error_deleting_subscription': "删除订阅时出错",
     'failed_to_load_subscription': "加载订阅失败",
     'edit_subscription': "编辑订阅",
     'add_subscription': "添加订阅",
-    'confirm_delete_subscription': "您确定要删除此订阅吗?",
+    'confirm_delete_subscription': "您确定要删除此订阅吗？",
     // Settings
     'network_response_error': "网络响应不正常",
     'failed_add_member': '添加成员失败',
@@ -26,9 +26,9 @@ let i18n = {
     'failed_save_currency': '保存货币失败',
     'cant_disable_payment_in_use': '无法禁用正在使用的支付方式',
     'failed_save_payment_method': '保存支付方式失败',
-    'unknown_error': '未知错误,请重试。',
-    'delete_account_confirmation': "您确定要删除您的帐户吗?",
-    'this_will_delete_all_data': "这将删除所有您的数据,且无法撤销。是否继续?",
+    'unknown_error': '未知错误，请重试。',
+    'delete_account_confirmation': "您确定要删除您的帐户吗？",
+    'this_will_delete_all_data': "这将删除所有您的数据，且无法撤销。是否继续？",
     'success': "成功",
     'copied_to_clipboard': "已复制到剪贴板",
     // Calendar
@@ -58,7 +58,7 @@ let i18n = {
   bulk_selected_count: "已选 {count} / {total}",
   no_subscriptions_selected: "未选择任何订阅",
   select_action: "选择操作",
-  confirm_bulk_delete: "确定删除 {count} 个订阅?此操作不可撤销。",
+  confirm_bulk_delete: "确定删除 {count} 个订阅？此操作不可撤销。",
   bulk_action_success: "已更新 {count} 个订阅",
   error_bulk_action: "批量操作失败",
 };

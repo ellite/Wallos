@@ -7,7 +7,7 @@ let i18n = {
   failed_to_load_subscription: "定期購入の読み込みに失敗しました",
   edit_subscription: "定期購入の編集",
   add_subscription: "定期購入の追加",
-  confirm_delete_subscription: "この定期購入を削除してもよろしいですか?",
+  confirm_delete_subscription: "この定期購入を削除してもよろしいですか？",
   // Settings
   network_response_error: "ネットワークの応答異常",
   failed_add_member: "世帯員の追加に失敗",
@@ -27,8 +27,8 @@ let i18n = {
   cant_disable_payment_in_use: "使用中の支払いは無効にできません",
   failed_save_payment_method: "支払い方法の保存に失敗",
   unknown_error: "不明なエラー。もう一度試してください。",
-  delete_account_confirmation: "アカウントを削除してもよろしいですか?",
-  this_will_delete_all_data: "これによりすべてのデータが削除され、元に戻すことはできません。続行しますか?",
+  delete_account_confirmation: "アカウントを削除してもよろしいですか？",
+  this_will_delete_all_data: "これによりすべてのデータが削除され、元に戻すことはできません。続行しますか？",
   success: "成功",
   copied_to_clipboard: "クリップボードにコピーされました",
   // Calendar
@@ -58,7 +58,7 @@ let i18n = {
   bulk_selected_count: "{total} 件中 {count} 件を選択",
   no_subscriptions_selected: "サブスクリプションが選択されていません",
   select_action: "操作を選択",
-  confirm_bulk_delete: "{count} 件のサブスクリプションを削除しますか?この操作は元に戻せません。",
+  confirm_bulk_delete: "{count} 件のサブスクリプションを削除しますか？この操作は元に戻せません。",
   bulk_action_success: "{count} 件のサブスクリプションを更新しました",
   error_bulk_action: "一括操作に失敗しました",
 }

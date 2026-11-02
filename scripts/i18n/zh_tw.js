@@ -1,13 +1,13 @@
 let i18n = {
     // Dashboard
-    error_reloading_subscription: '重新讀取訂閱時發生錯誤:',
-    error_fetching_image_results: '抓取圖片時發生錯誤:',
+    error_reloading_subscription: '重新讀取訂閱時發生錯誤：',
+    error_fetching_image_results: '抓取圖片時發生錯誤：',
     subscription_deleted: '訂閱已刪除',
     error_deleting_subscription: "刪除訂閱時發生錯誤",
     failed_to_load_subscription: "讀取訂閱失敗",
     edit_subscription: "編輯訂閱",
     add_subscription: "新增訂閱",
-    confirm_delete_subscription: "您確定要刪除此訂閱嗎?",
+    confirm_delete_subscription: "您確定要刪除此訂閱嗎？",
     // Settings
     network_response_error: "網路無回應",
     failed_add_member: '新增成員失敗',
@@ -26,9 +26,9 @@ let i18n = {
     failed_save_currency: '保存貨幣失敗',
     cant_disable_payment_in_use: '無法停用正在使用中的支付方式',
     failed_save_payment_method: '保存支付方式失敗',
-    unknown_error: '發生未知的錯誤,請再試一次。',
-    delete_account_confirmation: "您確定要刪除您的帳戶嗎?",
-    this_will_delete_all_data: "這將刪除所有資料,且無法復原。繼續?",
+    unknown_error: '發生未知的錯誤，請再試一次。',
+    delete_account_confirmation: "您確定要刪除您的帳戶嗎？",
+    this_will_delete_all_data: "這將刪除所有資料，且無法復原。繼續？",
     success: "成功",
     copied_to_clipboard: "已複製到剪貼簿",
     // Calendar
@@ -58,7 +58,7 @@ let i18n = {
   bulk_selected_count: "已選 {count} / {total}",
   no_subscriptions_selected: "未選擇任何訂閱",
   select_action: "選擇操作",
-  confirm_bulk_delete: "確定刪除 {count} 個訂閱?此操作無法復原。",
+  confirm_bulk_delete: "確定刪除 {count} 個訂閱？此操作無法復原。",
   bulk_action_success: "已更新 {count} 個訂閱",
   error_bulk_action: "批次操作失敗",
 };
