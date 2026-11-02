@@ -52,4 +52,5 @@ if (
             "message" => translate('notification_sent_successfuly', $i18n)
         ]));
     }
-}
+}
+

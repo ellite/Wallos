@@ -624,4 +624,5 @@ function saveNotificationsPushButton() {
   const enabled = document.getElementById("pushenabled").checked ? 1 : 0;
 
   makeFetchCall('endpoints/notifications/savenotificationspush.php', { enabled: enabled }, button);
-}
+}
+
