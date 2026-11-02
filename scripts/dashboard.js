@@ -253,16 +253,19 @@ function initDashboardWidgetEditor() {
     return widget;
   }
 
+  // Same contract as escapeHtml() in scripts/common.js. Defined here so the
+  // widget builder does not depend on call order if this file is reused alone.
   function escapeHtml(value) {
-    return String(value == null ? "" : value)
+    return String(value ?? "")
       .replace(/&/g, "&amp;")
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
   }
 
   function escapeAttr(value) {
-    return escapeHtml(value).replace(/'/g, "&#39;");
+    return escapeHtml(value);
   }
 
   // Mirrors the server-side cap in wallos_normalize_dashboard_widget_layout_input().

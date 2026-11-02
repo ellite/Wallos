@@ -749,7 +749,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             echo "PushPlus Notifications sent successfully<br />";
                         } else {
                             $errorMsg = isset($resultData['msg']) ? $resultData['msg'] : 'Unknown error';
-                            echo "PushPlus API error: " . $errorMsg . "<br />";
+                            echo "PushPlus API error: " . htmlspecialchars((string) $errorMsg, ENT_QUOTES, 'UTF-8') . "<br />";
                         }
                     }
                     unset($ch);
@@ -813,7 +813,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                                 echo "Mattermost Notifications sent successfully<br />";
                             } else {
                                 $errorMsg = isset($resultData['msg']) ? $resultData['msg'] : 'Unknown error';
-                                echo "Mattermost API error: " . $errorMsg . "<br />";
+                                echo "Mattermost API error: " . htmlspecialchars((string) $errorMsg, ENT_QUOTES, 'UTF-8') . "<br />";
                             }
                         }
                         unset($ch);
@@ -1105,7 +1105,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             } elseif ($result['success']) {
                                 echo "Push Notification sent<br />";
                             } else {
-                                echo "Error sending Push notification: " . ($result['error'] ?? 'unknown error') . "<br />";
+                                // The error is the push service's raw response body, and the endpoint
+                                // is chosen by the subscribing user, so it must not reach the page as HTML.
+                                echo "Error sending Push notification: " . htmlspecialchars(mb_substr((string) ($result['error'] ?? 'unknown error'), 0, 200), ENT_QUOTES, 'UTF-8') . "<br />";
                             }
                         }
                     }

@@ -4,6 +4,8 @@
  * Expects variables prepared by index.php (subscriptions data, budgets, settings, i18n, …).
  */
 
+require_once __DIR__ . '/html_text.php';
+
 $dashboardWidgetLayout = wallos_get_dashboard_widget_layout($settings);
 $paymentMethodsForPicker = $pmRows ?? [];
 
@@ -42,7 +44,7 @@ $widgetHasContent = [
      data-payment-methods="<?= htmlspecialchars(json_encode(array_map(function ($m) {
          return [
              'id' => (int) $m['id'],
-             'name' => $m['name'],
+             'name' => htmlToText($m['name'] ?? ''),
              'budget' => (float) ($m['budget'] ?? 0),
              'enabled' => (int) ($m['enabled'] ?? 1) === 1,
          ];
@@ -97,7 +99,7 @@ foreach ($dashboardWidgetLayout as $entry) {
          <?php if ($widgetId === 'payment_method_budget') { ?>
          data-instance-id="<?= htmlspecialchars($instanceId, ENT_QUOTES, 'UTF-8') ?>"
          data-payment-method-ids="<?= htmlspecialchars(json_encode($configuredMethodIds), ENT_QUOTES, 'UTF-8') ?>"
-         data-title="<?= htmlspecialchars($customTitle, ENT_QUOTES, 'UTF-8') ?>"
+         data-title="<?= htmlSafe($customTitle) ?>"
          data-display-mode="<?= htmlspecialchars($displayMode, ENT_QUOTES, 'UTF-8') ?>"
          <?php } ?>>
         <div class="dashboard-widget-chrome">
@@ -122,14 +124,14 @@ foreach ($dashboardWidgetLayout as $entry) {
                     <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
                 </button>
             <?php } ?>
-            <span class="dashboard-widget-chrome-title"><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></span>
+            <span class="dashboard-widget-chrome-title"><?= htmlSafe($title) ?></span>
         </div>
         <?php if ($widgetId === 'payment_method_budget') { ?>
         <div class="dashboard-widget-config" hidden>
             <div class="form-group">
                 <label><?= translate('widget_title', $i18n) ?></label>
                 <input type="text" class="pmb-title-input thin" maxlength="80"
-                       value="<?= htmlspecialchars($customTitle, ENT_QUOTES, 'UTF-8') ?>"
+                       value="<?= htmlSafe($customTitle) ?>"
                        placeholder="<?= htmlspecialchars($defaultTitle, ENT_QUOTES, 'UTF-8') ?>">
             </div>
             <div class="form-group">
@@ -177,7 +179,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                    id="<?= $inputId ?>"
                                    value="<?= $mid ?>"
                                    <?= $checked ? 'checked' : '' ?>>
-                            <label for="<?= $inputId ?>"><?= htmlspecialchars($method['name'], ENT_QUOTES, 'UTF-8') ?></label>
+                            <label for="<?= $inputId ?>"><?= htmlSafe($method['name']) ?></label>
                         </div>
                     <?php } ?>
                 </div>
@@ -197,12 +199,12 @@ foreach ($dashboardWidgetLayout as $entry) {
                             <div class="dashboard-subscriptions-container">
                                 <div class="dashboard-subscriptions-list">
                                     <?php foreach ($overdueSubscriptions as $subscription) {
-                                        $subscriptionName = htmlspecialchars($subscription['name']);
+                                        $subscriptionName = htmlSafe($subscription['name']);
                                         $subscriptionPrice = $subscription['price'];
                                         $subscriptionCurrency = $subscription['currency_id'];
                                         $subscriptionNextPayment = $subscription['next_payment'];
                                         $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
-                                        $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                                        $subscriptionDisplayPrice = htmlSafe(formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies));
                                         ?>
                                         <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                                             <?php if (empty($subscription['logo'])) { ?>
@@ -237,12 +239,12 @@ foreach ($dashboardWidgetLayout as $entry) {
                                     <p><?= translate('no_upcoming_payments', $i18n) ?></p>
                                 <?php } else {
                                     foreach ($upcomingSubscriptions as $subscription) {
-                                        $subscriptionName = htmlspecialchars($subscription['name']);
+                                        $subscriptionName = htmlSafe($subscription['name']);
                                         $subscriptionPrice = $subscription['price'];
                                         $subscriptionCurrency = $subscription['currency_id'];
                                         $subscriptionNextPayment = $subscription['next_payment'];
                                         $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
-                                        $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                                        $subscriptionDisplayPrice = htmlSafe(formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies));
                                         ?>
                                         <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                                             <?php if (empty($subscription['logo'])) { ?>
@@ -268,11 +270,11 @@ foreach ($dashboardWidgetLayout as $entry) {
                             <div class="dashboard-subscriptions-container">
                                 <div class="dashboard-subscriptions-list">
                                     <?php foreach ($upcomingCancellations as $subscription) {
-                                        $subscriptionName = htmlspecialchars($subscription['name']);
+                                        $subscriptionName = htmlSafe($subscription['name']);
                                         $subscriptionPrice = $subscription['price'];
                                         $subscriptionCurrency = $subscription['currency_id'];
                                         $subscriptionDisplayCancellationDate = formatDate($subscription['cancellation_date'], $lang);
-                                        $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                                        $subscriptionDisplayPrice = htmlSafe(formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies));
                                         ?>
                                         <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
                                             <?php if (empty($subscription['logo'])) { ?>
@@ -341,7 +343,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                         <p class="subscription-item-title"><?= translate("monthly_cost", $i18n) ?></p>
                                         <div class="subscription-item-info">
                                             <p class="subscription-item-value">
-                                                <?= CurrencyFormatter::format($totalCostPerMonth, $currencies[$userData['main_currency']]['code']) ?>
+                                                <?= htmlSafe(CurrencyFormatter::format($totalCostPerMonth, $currencies[$userData['main_currency']]['code'])) ?>
                                             </p>
                                         </div>
                                     </div>
@@ -350,7 +352,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= formatPrice($monthlyBudget, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                    <?= htmlSafe(formatPrice($monthlyBudget, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -368,7 +370,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= formatPrice($monthlyBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                    <?= htmlSafe(formatPrice($monthlyBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -377,7 +379,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                                 <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>
                                                 <div class="subscription-item-info">
                                                     <p class="subscription-item-value">
-                                                        <?= formatPrice($monthlyOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                        <?= htmlSafe(formatPrice($monthlyOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                     </p>
                                                 </div>
                                             </div>
@@ -406,7 +408,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                         <p class="subscription-item-title"><?= translate("amount_needed_this_period", $i18n) ?></p>
                                         <div class="subscription-item-info">
                                             <p class="subscription-item-value">
-                                                <?= CurrencyFormatter::format($amountNeededThisPeriod, $currencies[$userData['main_currency']]['code']) ?>
+                                                <?= htmlSafe(CurrencyFormatter::format($amountNeededThisPeriod, $currencies[$userData['main_currency']]['code'])) ?>
                                             </p>
                                         </div>
                                     </div>
@@ -414,7 +416,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                         <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                                         <div class="subscription-item-info">
                                             <p class="subscription-item-value">
-                                                <?= formatPrice($periodBudget, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                <?= htmlSafe(formatPrice($periodBudget, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                             </p>
                                         </div>
                                     </div>
@@ -432,7 +434,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                         <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                                         <div class="subscription-item-info">
                                             <p class="subscription-item-value">
-                                                <?= formatPrice($periodBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                <?= htmlSafe(formatPrice($periodBudgetLeft, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                             </p>
                                         </div>
                                     </div>
@@ -441,7 +443,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= formatPrice($periodOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                    <?= htmlSafe(formatPrice($periodOverBudgetAmount, $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -459,7 +461,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                     if (!empty($instanceRows)) {
                         ?>
                         <div class="budget-subscriptions payment-method-budget">
-                            <h2><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h2>
+                            <h2><?= htmlSafe($title) ?></h2>
                             <?php if (isset($budgetPeriodLabel)) { ?>
                                 <p class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></p>
                             <?php } ?>
@@ -467,7 +469,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                 $showMethodHeading = empty($methodBudget['combined'])
                                     || $customTitle === '';
                                 if ($showMethodHeading) { ?>
-                                    <h3 class="payment-method-budget-name"><?= htmlspecialchars($methodBudget['name'], ENT_QUOTES, 'UTF-8') ?></h3>
+                                    <h3 class="payment-method-budget-name"><?= htmlSafe($methodBudget['name']) ?></h3>
                                 <?php } ?>
                                 <div class="dashboard-subscriptions-container">
                                     <div class="dashboard-subscriptions-list">
@@ -475,7 +477,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("amount_needed_this_period", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($methodBudget['amount_needed'], $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($methodBudget['amount_needed'], $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -483,7 +485,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= formatPrice($methodBudget['budget'], $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                    <?= htmlSafe(formatPrice($methodBudget['budget'], $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -499,7 +501,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= formatPrice($methodBudget['remaining'], $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                    <?= htmlSafe(formatPrice($methodBudget['remaining'], $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -508,7 +510,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                                 <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>
                                                 <div class="subscription-item-info">
                                                     <p class="subscription-item-value">
-                                                        <?= formatPrice($methodBudget['over_budget'], $currencies[$userData['main_currency']]['code'], $currencies) ?>
+                                                        <?= htmlSafe(formatPrice($methodBudget['over_budget'], $currencies[$userData['main_currency']]['code'], $currencies)) ?>
                                                     </p>
                                                 </div>
                                             </div>
@@ -541,7 +543,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate('monthly_cost', $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($totalCostPerMonth, $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($totalCostPerMonth, $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -551,7 +553,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate('yearly_cost', $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($totalCostPerYear, $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($totalCostPerYear, $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -583,7 +585,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate('monthly_savings', $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($totalSavingsPerMonth, $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($totalSavingsPerMonth, $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -591,7 +593,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             <p class="subscription-item-title"><?= translate('yearly_savings', $i18n) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($totalSavingsPerMonth * 12, $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($totalSavingsPerMonth * 12, $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>
@@ -614,10 +616,10 @@ foreach ($dashboardWidgetLayout as $entry) {
                                 <div class="dashboard-subscriptions-list">
                                     <?php foreach ($categoryCostRows as $categoryRow) { ?>
                                         <div class="subscription-item thin">
-                                            <p class="subscription-item-title"><?= htmlspecialchars($categoryRow['name'], ENT_QUOTES, 'UTF-8') ?></p>
+                                            <p class="subscription-item-title"><?= htmlSafe($categoryRow['name']) ?></p>
                                             <div class="subscription-item-info">
                                                 <p class="subscription-item-value">
-                                                    <?= CurrencyFormatter::format($categoryRow['monthly_cost'], $currencies[$userData['main_currency']]['code']) ?>
+                                                    <?= htmlSafe(CurrencyFormatter::format($categoryRow['monthly_cost'], $currencies[$userData['main_currency']]['code'])) ?>
                                                 </p>
                                             </div>
                                         </div>

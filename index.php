@@ -3,6 +3,7 @@
 require_once 'includes/header.php';
 require_once 'includes/getdbkeys.php';
 require_once 'includes/logo_theme_variant.php';
+require_once 'includes/html_text.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/upcoming_cancellations.php';
 

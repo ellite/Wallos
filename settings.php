@@ -2,6 +2,7 @@
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
+require_once 'includes/html_text.php';
 
 $currencies = array();
 $query = "SELECT * FROM currencies WHERE user_id = :userId";
@@ -151,8 +152,8 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 $pmBudgetValue = (float) ($pmBudgetRow['budget'] ?? 0);
                 ?>
                 <div class="form-group-inline payment-method-budget-row">
-                    <label for="payment_method_budget_<?= $pmBudgetId ?>"><?= htmlspecialchars($pmBudgetRow['name'], ENT_QUOTES, 'UTF-8') ?></label>
-                    <span><?= htmlspecialchars($userData['currency_symbol'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+                    <label for="payment_method_budget_<?= $pmBudgetId ?>"><?= htmlSafe($pmBudgetRow['name']) ?></label>
+                    <span><?= htmlSafe($userData['currency_symbol'] ?? '') ?></span>
                     <input type="number" id="payment_method_budget_<?= $pmBudgetId ?>" min="0" step="0.01"
                         value="<?= htmlspecialchars((string) $pmBudgetValue, ENT_QUOTES, 'UTF-8') ?>"
                         data-payment-method-id="<?= $pmBudgetId ?>" autocomplete="off">
