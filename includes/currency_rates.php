@@ -15,8 +15,8 @@
  * lookups that filtered by user; omitting it covers every currency, matching
  * the lookups that resolved a currency by id alone.
  *
- * The map is cached per database connection, so a second connection — a test,
- * or a job that reopens the database — never sees another connection's rates.
+ * The map is cached per database connection, so a second connection - a test,
+ * or a job that reopens the database - never sees another connection's rates.
  *
  * @param SQLite3  $db
  * @param int|null $userId

@@ -5,7 +5,7 @@
  *
  * Backslash must be escaped first, before the other substitutions introduce
  * new backslashes. Raw CRLF/LF are converted to a literal two-character
- * "\n" escape sequence — never leave a real newline in the output, since
+ * "\n" escape sequence - never leave a real newline in the output, since
  * iCalendar treats CRLF as a property delimiter: an unescaped newline lets
  * user-supplied text (e.g. a subscription name or notes) terminate the
  * current property and inject arbitrary calendar content (CWE-93).

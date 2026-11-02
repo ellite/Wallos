@@ -21,4 +21,3 @@ if ($customColorsTableRequired) {
         hover_color TEXT NOT NULL
     )");
 }
-

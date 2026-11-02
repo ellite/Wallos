@@ -12,9 +12,9 @@ require_once 'includes/version.php';
 $secondsInMonth = 30 * 24 * 60 * 60;
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
-        'lifetime' => $secondsInMonth,             
-        'httponly' => true,          
-        'samesite' => 'Lax'          
+        'lifetime' => $secondsInMonth,
+        'httponly' => true,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
@@ -149,7 +149,7 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
         $stmt->bindValue(':email', $reset['email'], SQLITE3_TEXT);
         $result = $stmt->execute();
         $user = $result->fetchArray(SQLITE3_ASSOC);
-        
+
         if ($password == $confirmPassword) {
             // The other half of the same file. Neither write was checked and
             // the success message was unconditional, so a failed UPDATE still
@@ -341,4 +341,4 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
     </script>
 </body>
 
-</html>
+</html>

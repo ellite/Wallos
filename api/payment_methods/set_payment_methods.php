@@ -117,7 +117,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
         $port = parse_url($currentUrl, PHP_URL_PORT) ?: (parse_url($currentUrl, PHP_URL_SCHEME) === 'https' ? 443 : 80);
         $ip = gethostbyname($host);
 
-        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
                       || is_cgnat_ip($ip);
 
         if ($is_private) {
@@ -128,7 +128,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Wallos/1.0');
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
         $imageData = curl_exec($ch);
@@ -154,7 +154,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings)
         }
 
         unset($ch);
-        break; 
+        break;
     }
 
     return ["success" => false, "message" => "Failed to fetch image."];

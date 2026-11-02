@@ -28,7 +28,7 @@ We welcome contributions from the community and look forward to working with you
 5.  **Test your changes:** Ensure that your changes work as expected.
 
     Wallos has a small test suite in `tests/`. It needs no Composer or local PHP
-    installation — it runs in a throwaway container:
+    installation - it runs in a throwaway container:
 
     ```bash
     dev/test.sh             # all cases

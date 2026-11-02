@@ -37,10 +37,10 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
 
         $host = parse_url($currentUrl, PHP_URL_HOST);
         $port = parse_url($currentUrl, PHP_URL_PORT) ?: (parse_url($currentUrl, PHP_URL_SCHEME) === 'https' ? 443 : 80);
-        
+
         $ip = gethostbyname($host);
 
-        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
                       || is_cgnat_ip($ip);
 
         if ($is_private) {
@@ -51,8 +51,8 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Wallos/1.0');
-        
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
+
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
 
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
@@ -63,7 +63,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
             $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
             curl_close($ch);
             if (!$redirectUrl) break;
-            
+
             $currentUrl = $redirectUrl;
             continue;
         }
@@ -80,7 +80,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $i18n, $settings)
         }
 
         unset($ch);
-        break; 
+        break;
     }
 
     return ["success" => false, "message" => "Failed to fetch image."];

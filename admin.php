@@ -574,7 +574,7 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
                     <input type="button" value="Store Total Yearly Cost" class="button tiny mobile-grow"
                         onclick="executeCronJob('storetotalyearlycost')">
                     <input type="button" value="Generate AI Recommendations" class="button tiny mobile-grow"
-                        onclick="executeCronJob('generaterecommendations')">    
+                        onclick="executeCronJob('generaterecommendations')">
                 </div>
                 <div class="inline-row">
                     <textarea id="cronjobResult" class="thin" readonly></textarea>

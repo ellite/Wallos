@@ -1,3 +1,31 @@
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Chrome on Android opens its "Touch to Search" panel when a tap on plain text
+// is not acted on by the page, and most of Wallos is plain text (headings,
+// labels, card text). Chrome treats a tap as handled when the page touches the
+// DOM while handling it, so every click marks a hidden element.
+(function () {
+  const tapHandledMarker = document.createElement('span');
+  tapHandledMarker.hidden = true;
+  tapHandledMarker.setAttribute('aria-hidden', 'true');
+
+  const attachMarker = () => document.body.appendChild(tapHandledMarker);
+  if (document.body) {
+    attachMarker();
+  } else {
+    document.addEventListener('DOMContentLoaded', attachMarker);
+  }
+
+  document.addEventListener('click', () => tapHandledMarker.classList.add('tap-handled'));
+})();
+
 let isDropdownOpen = false;
 
 // Shared loading/empty/error states for the logo & payment icon search popups

@@ -18,9 +18,9 @@ if ($userCount == 0) {
 $secondsInMonth = 30 * 24 * 60 * 60;
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
-        'lifetime' => $secondsInMonth,             
-        'httponly' => true,          
-        'samesite' => 'Lax'          
+        'lifetime' => $secondsInMonth,
+        'httponly' => true,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
@@ -209,7 +209,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && $password_login_di
                     exit();
                 }
 
-                // No TOTP — safe to create remember-me token now
+                // No TOTP - safe to create remember-me token now
                 if ($rememberMe) {
                     $token = bin2hex(random_bytes(32));
                     $addLoginTokens = "INSERT INTO login_tokens (user_id, token) VALUES (:userId, :token)";

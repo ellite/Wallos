@@ -57,7 +57,7 @@ if (
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, $webhook_url);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
     curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($postfields));

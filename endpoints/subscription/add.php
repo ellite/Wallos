@@ -7,6 +7,8 @@ require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/logo_cleanup.php';
+require_once '../../includes/subscription_payers.php';
+require_once '../../includes/subscription_categories.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -40,10 +42,10 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         $parts = parse_url($currentUrl);
         $host = $parts['host'];
         $port = $parts['port'] ?? ($parts['scheme'] === 'https' ? 443 : 80);
-        
+
         $ip = gethostbyname($host);
 
-        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+        if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
             || is_cgnat_ip($ip)) {
             return ['success' => false, 'message' => 'Invalid IP Address.'];
         }
@@ -52,7 +54,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); // Manual handling to re-validate IPs
-        
+
         curl_setopt($ch, CURLOPT_RESOLVE, ["$host:$port:$ip"]);
 
         $imageData = curl_exec($ch);
@@ -67,7 +69,7 @@ function getLogoFromUrl($url, $uploadDir, $name, $settings, $i18n)
             }
 
             $currentUrl = $redirectUrl;
-            continue; 
+            continue;
         }
 
         if ($imageData !== false && $httpCode === 200) {
@@ -242,8 +244,10 @@ $nextPayment = $_POST["next_payment"];
 $autoRenew = isset($_POST['auto_renew']) ? true : false;
 $startDate = $_POST["start_date"];
 $paymentMethodId = $_POST["payment_method_id"];
-$payerUserId = $_POST["payer_user_id"];
-$categoryId = $_POST['category_id'];
+$payerIds = parsePayerIds($_POST["payer_user_id"] ?? "");
+$payerUserId = $payerIds[0] ?? null;
+$categoryIds = parsePayerIds($_POST['category_id'] ?? "");
+$categoryId = $categoryIds[0] ?? null;
 $notes = validate_markdown($_POST["notes"]);
 $url = validate($_POST['url']);
 $logoUrl = validate($_POST['logo-url']);
@@ -288,24 +292,12 @@ if (!$currResult || !$currResult->fetchArray()) {
     rejectForeignId('The specified currency does not exist or does not belong to you.');
 }
 
-if ($categoryId !== null && $categoryId !== '') {
-    $catStmt = $db->prepare("SELECT id FROM categories WHERE id = :id AND user_id = :userId");
-    $catStmt->bindParam(':id', $categoryId, SQLITE3_INTEGER);
-    $catStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $catResult = $catStmt->execute();
-    if (!$catResult || !$catResult->fetchArray()) {
-        rejectForeignId('The specified category does not exist or does not belong to you.');
-    }
+if (!categoriesBelongToUser($db, $userId, $categoryIds)) {
+    rejectForeignId('The specified category does not exist or does not belong to you.');
 }
 
-if ($payerUserId !== null && $payerUserId !== '') {
-    $payerStmt = $db->prepare("SELECT id FROM household WHERE id = :id AND user_id = :userId");
-    $payerStmt->bindParam(':id', $payerUserId, SQLITE3_INTEGER);
-    $payerStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
-    $payerResult = $payerStmt->execute();
-    if (!$payerResult || !$payerResult->fetchArray()) {
-        rejectForeignId('The specified household member does not exist or does not belong to you.');
-    }
+if (!payersBelongToUser($db, $userId, $payerIds)) {
+    rejectForeignId('The specified household member does not exist or does not belong to you.');
 }
 
 if ($paymentMethodId !== null && $paymentMethodId !== '') {
@@ -408,17 +400,17 @@ if (!$isEdit) {
                         next_payment = :nextPayment,
                         auto_renew = :autoRenew,
                         start_date = :startDate,
-                        cycle = :cycle, 
-                        frequency = :frequency, 
-                        notes = :notes, 
+                        cycle = :cycle,
+                        frequency = :frequency,
+                        notes = :notes,
                         payment_method_id = :paymentMethodId,
-                        payer_user_id = :payerUserId, 
-                        category_id = :categoryId, 
-                        notify = :notify, 
-                        inactive = :inactive, 
-                        url = :url, 
-                        notify_days_before = :notifyDaysBefore, 
-                        cancellation_date = :cancellationDate, 
+                        payer_user_id = :payerUserId,
+                        category_id = :categoryId,
+                        notify = :notify,
+                        inactive = :inactive,
+                        url = :url,
+                        notify_days_before = :notifyDaysBefore,
+                        cancellation_date = :cancellationDate,
                         replacement_subscription_id = :replacement_subscription_id";
 
     if ($logo != "") {
@@ -464,6 +456,10 @@ if ($stmt->execute()) {
     if ($logoError !== "") {
         $success['logo_warning'] = $logoError;
     }
+
+    $savedSubscriptionId = $isEdit ? intval($id) : $db->lastInsertRowID();
+    saveSubscriptionPayers($db, $savedSubscriptionId, $payerIds);
+    saveSubscriptionCategories($db, $savedSubscriptionId, $categoryIds);
 
     // The logo was just replaced: drop the previous files if nothing else uses them.
     if ($isEdit && $logo != "") {

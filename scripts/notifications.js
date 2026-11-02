@@ -2,16 +2,16 @@ function openNotificationsSettings(type) {
     // Get all .account-notification-section-settings elements
     var sections = document.querySelectorAll('.account-notification-section-settings');
     var targetSection = document.querySelector(`.account-notification-section-settings[data-type="${type}"]`);
-    
+
     // Remove the is-open class from all elements
     sections.forEach(function(section) {
       if (section !== targetSection) {
         section.classList.remove('is-open');
       }
     });
-  
+
     // Add the is-open class to the element with data-type=type
-  
+
     if (targetSection && !targetSection.classList.contains('is-open')) {
       targetSection.classList.add('is-open');
     } else {
@@ -62,7 +62,7 @@ function saveNotifications() {
 function saveNotificationsEmailButton() {
     const button = document.getElementById("saveNotificationsEmail");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("emailenabled").checked ? 1 : 0;
     const smtpAddress = document.getElementById("smtpaddress").value;
     const smtpPort = document.getElementById("smtpport").value;
@@ -71,7 +71,7 @@ function saveNotificationsEmailButton() {
     const smtpPassword = document.getElementById("smtppassword").value;
     const fromEmail = document.getElementById("fromemail").value;
     const otherEmails = document.getElementById("otheremails").value;
-  
+
     const data = {
       enabled: enabled,
       smtpaddress: smtpAddress,
@@ -85,18 +85,18 @@ function saveNotificationsEmailButton() {
 
     makeFetchCall('endpoints/notifications/saveemailnotifications.php', data, button);
 }
-  
+
 function testNotificationEmailButton()  {
     const button = document.getElementById("testNotificationsEmail");
     button.disabled = true;
-  
+
     const smtpAddress = document.getElementById("smtpaddress").value;
     const smtpPort = document.getElementById("smtpport").value;
     const encryption = document.querySelector('input[name="encryption"]:checked').value;
     const smtpUsername = document.getElementById("smtpusername").value;
     const smtpPassword = document.getElementById("smtppassword").value;
     const fromEmail = document.getElementById("fromemail").value;
-  
+
     const data = {
       smtpaddress: smtpAddress,
       smtpport: smtpPort,
@@ -112,14 +112,14 @@ function testNotificationEmailButton()  {
 function saveNotificationsWebhookButton() {
     const button = document.getElementById("saveNotificationsWebhook");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("webhookenabled").checked ? 1 : 0;
     const webhook_url = document.getElementById("webhookurl").value;
     const headers = document.getElementById("webhookcustomheaders").value;
     const payload = document.getElementById("webhookpayload").value;
     const cancelation_payload = document.getElementById("webhookcancelationpayload").value;
     const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
-  
+
     const data = {
       enabled: enabled,
       webhook_url: webhook_url,
@@ -135,7 +135,7 @@ function saveNotificationsWebhookButton() {
 function testNotificationsWebhookButton() {
     const button = document.getElementById("testNotificationsWebhook");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("webhookenabled").checked ? 1 : 0;
     const requestmethod = document.getElementById("webhookrequestmethod").value;
     const url = document.getElementById("webhookurl").value;
@@ -143,7 +143,7 @@ function testNotificationsWebhookButton() {
     const payload = document.getElementById("webhookpayload").value;
     const cancelation_payload = document.getElementById("webhookcancelationpayload").value;
     const ignore_ssl = document.getElementById("webhookignoressl").checked ? 1 : 0;
-  
+
     const data = {
       enabled: enabled,
       requestmethod: requestmethod,
@@ -160,11 +160,11 @@ function testNotificationsWebhookButton() {
 function saveNotificationsTelegramButton() {
     const button = document.getElementById("saveNotificationsTelegram");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const chat_id = document.getElementById("telegramchatid").value;
     const bot_token = document.getElementById("telegrambottoken").value;
-  
+
     const data = {
       enabled: enabled,
       chat_id: chat_id,
@@ -177,11 +177,11 @@ function saveNotificationsTelegramButton() {
 function testNotificationsTelegramButton() {
     const button = document.getElementById("testNotificationsTelegram");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("telegramenabled").checked ? 1 : 0;
     const bottoken = document.getElementById("telegrambottoken").value;
     const chatid = document.getElementById("telegramchatid").value;
-  
+
     const data = {
       enabled: enabled,
       bottoken: bottoken,
@@ -194,10 +194,10 @@ function testNotificationsTelegramButton() {
 function testNotificationsPushPlusButton() {
     const button = document.getElementById("testNotificationsPushPlus");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("pushplusenabled").checked ? 1 : 0;
     const token = document.getElementById("pushplustoken").value;
-  
+
     const data = {
       enabled: enabled,
       token: token
@@ -209,10 +209,10 @@ function testNotificationsPushPlusButton() {
 function saveNotificationsPushPlusButton() {
     const button = document.getElementById("saveNotificationsPushPlus");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("pushplusenabled").checked ? 1 : 0;
     const token = document.getElementById("pushplustoken").value;
-  
+
     const data = {
       enabled: enabled,
       token: token
@@ -224,12 +224,12 @@ function saveNotificationsPushPlusButton() {
 function testNotificationsMattermostButton() {
     const button = document.getElementById("testNotificationsMattermost");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("mattermostenabled").checked ? 1 : 0;
     const webhook_url = document.getElementById("mattermostwebhookurl").value;
     const bot_username = document.getElementById("mattermostbotusername").value;
     const bot_icon_emoji = document.getElementById("mattermostboticonemoji").value;
-  
+
     const data = {
       enabled: enabled,
       webhook_url: webhook_url,
@@ -243,12 +243,12 @@ function testNotificationsMattermostButton() {
 function saveNotificationsMattermostButton() {
     const button = document.getElementById("saveNotificationsMattermost");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("mattermostenabled").checked ? 1 : 0;
     const webhook_url = document.getElementById("mattermostwebhookurl").value;
     const bot_username = document.getElementById("mattermostbotusername").value;
     const bot_icon_emoji = document.getElementById("mattermostboticonemoji").value;
-  
+
     const data = {
       enabled: enabled,
       webhook_url: webhook_url,
@@ -262,12 +262,12 @@ function saveNotificationsMattermostButton() {
 function saveNotificationsGotifyButton() {
     const button = document.getElementById("saveNotificationsGotify");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("gotifyenabled").checked ? 1 : 0;
     const gotify_url = document.getElementById("gotifyurl").value;
     const token = document.getElementById("gotifytoken").value;
     const ignore_ssl = document.getElementById("gotifyignoressl").checked ? 1 : 0;
-  
+
     const data = {
       enabled: enabled,
       gotify_url: gotify_url,
@@ -282,12 +282,12 @@ function saveNotificationsGotifyButton() {
 function testNotificationsGotifyButton() {
     const button = document.getElementById("testNotificationsGotify");
     button.disabled = true;
-  
+
     const enabled = document.getElementById("gotifyenabled").checked ? 1 : 0;
     const gotify_url = document.getElementById("gotifyurl").value;
     const token = document.getElementById("gotifytoken").value;
     const ignore_ssl = document.getElementById("gotifyignoressl").checked ? 1 : 0;
-  
+
     const data = {
       enabled: enabled,
       gotify_url: gotify_url,
@@ -378,7 +378,7 @@ function testNotificationsNtfyButton() {
   const topic = document.getElementById("ntfytopic").value;
   const headers = document.getElementById("ntfyheaders").value;
   const ignore_ssl = document.getElementById("ntfyignoressl").checked ? 1 : 0;
-  
+
   const data = {
     host: host,
     topic: topic,

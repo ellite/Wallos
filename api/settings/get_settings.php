@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         unset($custom_colors['user_id']);
         $settings['custom_colors'] = $custom_colors;
     }
-    
+
 
     $sql = "SELECT * FROM custom_css_style WHERE user_id = :userId";
     $stmt = $db->prepare($sql);

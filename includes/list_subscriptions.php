@@ -2,6 +2,7 @@
 
 require_once 'i18n/getlang.php';
 require_once __DIR__ . '/currency_rates.php';
+require_once __DIR__ . '/html_text.php';
 
 function getBillingCycle($cycle, $frequency, $i18n)
 {
@@ -88,12 +89,47 @@ function getPriceConverted($price, $currency, $database)
     return wallos_convert_price($price, $currency, $database);
 }
 
+/**
+ * The value a subscription is ranked by when the list is sorted by price: its
+ * price in the main currency, so AED 71.00 does not outrank GBP 55.00 just
+ * because 71 > 55 (#861). Follows the monthly-price display setting, so the
+ * order matches the figures that are shown.
+ */
+function getSortPrice($rawPrice, $currencyId, $mainCurrencyId, $cycle, $frequency, $settings, $database)
+{
+    $price = floatval($rawPrice);
+    if ($currencyId != $mainCurrencyId) {
+        $price = floatval(getPriceConverted($price, $currencyId, $database));
+    }
+    if (isset($settings['showMonthlyPrice']) && $settings['showMonthlyPrice'] === 'true') {
+        $price = getPricePerMonth($cycle, $frequency, $price);
+    }
+    return $price;
+}
+
+/**
+ * Orders the printable list by sort_price, highest first. usort() is stable,
+ * so ties keep the order the database gave them.
+ */
+function sortSubscriptionsByPrice(&$print, $disabledToBottom)
+{
+    usort($print, function ($a, $b) use ($disabledToBottom) {
+        if ($disabledToBottom) {
+            $byInactive = ($a['inactive'] ?? 0) <=> ($b['inactive'] ?? 0);
+            if ($byInactive !== 0) {
+                return $byInactive;
+            }
+        }
+        return ($b['sort_price'] ?? $b['price'] ?? 0) <=> ($a['sort_price'] ?? $a['price'] ?? 0);
+    });
+}
+
 function formatPrice($price, $currencyCode, $currencies)
 {
     $formattedPrice = CurrencyFormatter::format($price, $currencyCode);
     if (strstr($formattedPrice, $currencyCode)) {
         $symbol = $currencyCode;
-        
+
         foreach ($currencies as $currency) {
 
             if ($currency['code'] === $currencyCode) {
@@ -149,17 +185,19 @@ function formatDate($date, $lang = 'en')
     return $formattedDate;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+/**
+ * Orders the list the way it is displayed and works out the section headings
+ * that precede each subscription (lifetime purchases, or the category / payer /
+ * payment-method group, depending on the sort). Shared by the server-rendered
+ * list and the JSON endpoint so both stay in the same order.
+ *
+ * Each returned subscription gets a 'headings' array of plain-text titles.
+ */
+function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom)
 {
     if ($sort === "price") {
-        usort($subscriptions, function ($a, $b) {
-            return $a['price'] < $b['price'] ? 1 : -1;
-        });
-        if ($disabledToBottom === 'true') {
-            usort($subscriptions, function ($a, $b) {
-                return $a['inactive'] - $b['inactive'];
-            });
-        }
+        // Ranked by the main-currency value (sort_price), not the raw number (#861).
+        sortSubscriptionsByPrice($subscriptions, $disabledToBottom === 'true');
     }
 
     // One-time purchases always go to the bottom regardless of sort order
@@ -169,44 +207,87 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
     $currentPayerUserId = 0;
     $currentPaymentMethodId = 0;
     $oneTimeSectionShown = false;
-    foreach ($subscriptions as $subscription) {
+    foreach ($subscriptions as $index => $subscription) {
+        $headings = [];
         if ($subscription['one_time'] && !$oneTimeSectionShown) {
-            ?>
-            <div class="subscription-list-title">
-                <?= translate('lifetime_purchases', $i18n) ?>
-            </div>
-            <?php
+            $headings[] = translate('lifetime_purchases', $i18n);
             $oneTimeSectionShown = true;
         }
         if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
-            ?>
-            <div class="subscription-list-title">
-                <?php
-                if ($subscription['category_id'] == 1) {
-                    echo translate('no_category', $i18n);
-                } else {
-                    echo $categories[$subscription['category_id']]['name'];
-                }
-                ?>
-            </div>
-            <?php
+            $headings[] = $subscription['category_id'] == 1
+                ? translate('no_category', $i18n)
+                : ($categories[$subscription['category_id'] ?? ""]['name'] ?? "");
             $currentCategory = $subscription['category_id'];
         }
         if ($sort == "payer_user_id" && $subscription['payer_user_id'] != $currentPayerUserId) {
-            ?>
-            <div class="subscription-list-title">
-                <?= $members[$subscription['payer_user_id']]['name'] ?>
-            </div>
-            <?php
+            $headings[] = $members[$subscription['payer_user_id'] ?? ""]['name'] ?? "";
             $currentPayerUserId = $subscription['payer_user_id'];
         }
         if ($sort == "payment_method_id" && $subscription['payment_method_id'] != $currentPaymentMethodId) {
+            $headings[] = $subscription['payment_method_name'];
+            $currentPaymentMethodId = $subscription['payment_method_id'];
+        }
+        $subscriptions[$index]['headings'] = $headings;
+    }
+
+    return $subscriptions;
+}
+
+/**
+ * The list as plain data, for the JSON endpoint: the same order and headings as
+ * printSubscriptions(), with display strings (formatted price and date, resolved
+ * titles) already worked out so the client only has to lay them out.
+ */
+function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
+{
+    $items = [];
+    foreach (prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom) as $subscription) {
+        $oneTime = (bool) $subscription['one_time'];
+        $autoRenew = (int) $subscription['auto_renew'] === 1;
+        $hasOriginal = isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price'];
+
+        $items[] = [
+            'id' => (int) $subscription['id'],
+            'name' => htmlToText($subscription['name']),
+            'headings' => array_map('htmlToText', $subscription['headings']),
+            'logo' => $subscription['logo'] !== "" ? $subscription['logo'] : null,
+            'logo_variant' => $subscription['logo_variant'] ?? null,
+            'logo_text_color' => $subscription['logo_text_color'] ?? null,
+            'inactive' => (bool) $subscription['inactive'],
+            'one_time' => $oneTime,
+            'auto_renew' => $autoRenew,
+            'can_renew' => !$autoRenew && !$oneTime,
+            'billing_cycle' => htmlToText($subscription['billing_cycle']),
+            'cycle_title' => htmlToText($oneTime
+                ? $subscription['billing_cycle']
+                : ($subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n))),
+            'next_payment' => formatDate($subscription['next_payment'], $lang),
+            'price' => formatPrice($subscription['price'], $subscription['currency_code'], $currencies),
+            'original_price' => $hasOriginal
+                ? formatPrice($subscription['original_price'], $subscription['original_currency_code'], $currencies)
+                : null,
+            'payment_method_icon' => $subscription['payment_method_icon'] !== "" ? $subscription['payment_method_icon'] : null,
+            'payment_method_name' => htmlToText($subscription['payment_method_name']),
+            'progress' => ($showSubscriptionProgress === 'true' && !$subscription['inactive'])
+                ? min(100, $subscription['progress'])
+                : null,
+        ];
+    }
+
+    return $items;
+}
+
+function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+{
+    $subscriptions = prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom);
+
+    foreach ($subscriptions as $subscription) {
+        foreach ($subscription['headings'] as $heading) {
             ?>
             <div class="subscription-list-title">
-                <?= $subscription['payment_method_name'] ?>
+                <?= htmlSafe($heading) ?>
             </div>
             <?php
-            $currentPaymentMethodId = $subscription['payment_method_id'];
         }
         ?>
         <div class="subscription-container">
@@ -256,9 +337,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
             ?>
 
+            <label class="bulk-select">
+                <input type="checkbox" class="bulk-select-checkbox" value="<?= $subscription['id'] ?>"
+                    onChange="updateBulkSelection()">
+            </label>
             <div class="subscription<?= $subscriptionExtraClasses ?>"
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
-                data-name="<?= $subscription['name'] ?>">
+                data-name="<?= htmlSafe($subscription['name']) ?>">
                 <div class="subscription-main">
                     <span class="logo <?= !$hasLogo ? 'hideOnMobile' : '' ?>">
                         <?php
@@ -269,7 +354,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         }
                         ?>
                     </span>
-                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= $subscription['name'] ?></span>
+                    <span class="name <?= $hasLogo ? 'hideOnMobile' : '' ?>"><?= htmlSafe($subscription['name']) ?></span>
                     <span class="cycle"
                         title="<?= $subscription['one_time'] ? $subscription['billing_cycle'] : ($subscription['auto_renew'] ? translate("automatically_renews", $i18n) : translate("manual_renewal", $i18n)) ?>">
                         <?php
@@ -299,8 +384,10 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
 
                     </span>
                     <span class="payment_method">
+                        <?php if (!empty($subscription['payment_method_icon'])) { ?>
                         <img src="<?= $subscription['payment_method_icon'] ?>"
-                            title="<?= translate('payment_method', $i18n) ?>: <?= $subscription['payment_method_name'] ?>" />
+                            title="<?= htmlSafe(translate('payment_method', $i18n) . ': ' . $subscription['payment_method_name']) ?>" />
+                        <?php } ?>
                     </span>
                     <?php
                     $desktopMenuButtonClass = ""; {
@@ -343,15 +430,18 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                     </ul>
                 </div>
                 <div class="subscription-back" inert>
-                    <button type="button" class="subscription-back-close"
-                        onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
-                        title="<?= translate('cancel', $i18n) ?>">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
+                    <div class="subscription-back-header">
+                        <span class="subscription-back-title"><?= htmlSafe($subscription['name']) ?></span>
+                        <button type="button" class="subscription-back-close"
+                            onClick="event.stopPropagation(); unflipCard(<?= $subscription['id'] ?>)"
+                            title="<?= translate('cancel', $i18n) ?>">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <i class="fa-solid fa-pen-to-square"></i>
-                        <?= translate('edit_subscription', $i18n) ?>
+                        <?= translate('edit', $i18n) ?>
                     </button>
                     <button type="button" class="back-action"
                         onClick="unflipCard(<?= $subscription['id'] ?>); cloneSubscription(event, <?= $subscription['id'] ?>)">

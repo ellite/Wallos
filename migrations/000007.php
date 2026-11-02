@@ -11,4 +11,3 @@ $db->exec('CREATE TABLE IF NOT EXISTS settings (
 
 
 $db->exec('INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background) VALUES (0, 0, 0, 0)');
-

@@ -67,7 +67,7 @@ if ($aiType === 'chatgpt') {
     $apiUrl = rtrim($aiOllamaHost, '/') . '/models';
 
 } else {
-    // Ollama — no API key needed
+    // Ollama - no API key needed
     if (empty($aiOllamaHost)) {
         echo json_encode(["success" => false, "message" => translate('invalid_host', $i18n)]);
         exit;

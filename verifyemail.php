@@ -17,9 +17,9 @@ if ($userCount == 0) {
 $secondsInMonth = 30 * 24 * 60 * 60;
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
-        'lifetime' => $secondsInMonth,             
-        'httponly' => true,          
-        'samesite' => 'Lax'          
+        'lifetime' => $secondsInMonth,
+        'httponly' => true,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
@@ -164,4 +164,4 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     </div>
 </body>
 
-</html>
+</html>

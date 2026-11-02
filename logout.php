@@ -1,12 +1,13 @@
 <?php
 require_once 'includes/connect.php';
 require_once 'includes/oidc_settings.php';
+require_once 'includes/oidc/logout_url.php';
 $secondsInMonth = 30 * 24 * 60 * 60;
 if (session_status() === PHP_SESSION_NONE) {
     session_set_cookie_params([
-        'lifetime' => $secondsInMonth,             
-        'httponly' => true,          
-        'samesite' => 'Lax'          
+        'lifetime' => $secondsInMonth,
+        'httponly' => true,
+        'samesite' => 'Lax'
     ]);
     session_start();
 }
@@ -19,6 +20,7 @@ if (isset($_SESSION['from_oidc']) && $_SESSION['from_oidc'] === true) {
     $oidcConfiguration = wallos_get_effective_oidc_configuration($db);
     $oidcSettings = $oidcConfiguration['settings'];
     $logoutUrl = $oidcSettings['logout_url'] ?? '';
+    $oidcIdToken = $_SESSION['oidc_id_token'] ?? null;
 }
 
 // get token from cookie to remove from DB
@@ -28,8 +30,8 @@ if (isset($_SESSION['from_oidc']) && $_SESSION['from_oidc'] === true) {
 // token behind, and the next request signed the browser straight back in. On a
 // shared machine that is the whole point of logging out.
 //
-// The token identifies the row on its own — it is 32 random bytes and the
-// credential itself — so scoping the delete by user adds nothing and was the
+// The token identifies the row on its own - it is 32 random bytes and the
+// credential itself - so scoping the delete by user adds nothing and was the
 // only reason this failed. The result is checked because a delete that could
 // not run and a token that was not there are different outcomes.
 if (isset($_SESSION['token'])) {
@@ -56,8 +58,12 @@ setcookie('wallos_login', '', $cookieExpire);
 $db->close();
 
 if ($logoutOIDC && !empty($logoutUrl)) {
-    $returnTo = urlencode($oidcSettings['redirect_url'] ?? '');
-    header("Location: $logoutUrl?post_logout_redirect_uri=$returnTo");
+    header('Location: ' . oidc_build_logout_url(
+        $logoutUrl,
+        $oidcSettings['redirect_url'] ?? '',
+        $oidcIdToken,
+        $oidcSettings['client_id'] ?? ''
+    ));
     exit();
 }
 

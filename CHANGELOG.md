@@ -1,5 +1,72 @@
 # Changelog
 
+## [5.10.4](https://github.com/ellite/Wallos/compare/v5.10.3...v5.10.4) (2026-11-01)
+
+
+### Bug Fixes
+
+* missing _ for save_user.php in profile.php  ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **ui:** stop plain-text taps from opening Chrome's Touch to Search ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **vuln:** stored XSS in statistics page names and chart legend ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+* **vuln:** stored XSS in subscriptions list names, headings and filter menus ([#1298](https://github.com/ellite/Wallos/issues/1298)) ([e0f2d1d](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9))
+
+## [5.10.3](https://github.com/ellite/Wallos/compare/v5.10.2...v5.10.3) (2026-10-31)
+
+
+### Bug Fixes
+
+* **vuln:** stored XSS in admin context via unescaped push-service response in sendnotifications.php ([#1295](https://github.com/ellite/Wallos/issues/1295)) ([693d867](https://github.com/ellite/Wallos/commit/693d8676f3e5b0c85e120fc5958ccb82f37ee89c))
+
+## [5.10.2](https://github.com/ellite/Wallos/compare/v5.10.1...v5.10.2) (2026-10-23)
+
+
+### Bug Fixes
+
+* **docker:** fall back to IPv4-only nginx when IPv6 is unavailable ([#1287](https://github.com/ellite/Wallos/issues/1287)) ([a41bae7](https://github.com/ellite/Wallos/commit/a41bae7acdeed1a42f67df1ea9b9e7a982da00e2))
+
+## [5.10.1](https://github.com/ellite/Wallos/compare/v5.10.0...v5.10.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* **docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619) ([a540a9e](https://github.com/ellite/Wallos/commit/a540a9e3146cdf689d88e2e5b2d2f8acbb1e064f))
+* **docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619) ([9e560ed](https://github.com/ellite/Wallos/commit/9e560ed091035b9524aca28e4e6026b2a1bac8f9))
+
+## [5.10.0](https://github.com/ellite/Wallos/compare/v5.9.0...v5.10.0) (2026-10-17)
+
+
+### Features
+
+* **bulk:** polish the bulk toolbar and keep Apply disabled until it has something to apply ([29b5b5d](https://github.com/ellite/Wallos/commit/29b5b5d2a1e62ab97fbef0c817bf60e8e7037e55))
+
+
+### Bug Fixes
+
+* **bulk:** keep payer and category rows in step with bulk delete and set-category ([b3a4d98](https://github.com/ellite/Wallos/commit/b3a4d9879848e7d430d9f700fc2b8ec824dbab7c))
+* **i18n:** rename default names when switching between any two languages ([b3acdc0](https://github.com/ellite/Wallos/commit/b3acdc0672aea5fa73a960c2f6617ef68065812b))
+
+## [5.9.0](https://github.com/ellite/Wallos/compare/v5.8.4...v5.9.0) (2026-10-17)
+
+
+### Features
+
+* **subscriptions:** allow several categories per subscription ([d750eac](https://github.com/ellite/Wallos/commit/d750eacc6b6bb80bc25d365cd378671589d25ffb))
+* **subscriptions:** allow several payers per subscription ([faa0226](https://github.com/ellite/Wallos/commit/faa0226801ca6fc85326efa212c33c8f19525798))
+* **subscriptions:** show card actions as a 2x2 grid ([a224dd2](https://github.com/ellite/Wallos/commit/a224dd2b2dc332673c3043aeb1095a364e8a4302))
+
+
+### Bug Fixes
+
+* **pwa:** rename the static cache when a script or stylesheet changes ([1d37f89](https://github.com/ellite/Wallos/commit/1d37f898d458c97dee70c09767588a58e715af5b))
+* **stats:** drop point labels and dates from the cost trend graph ([3a1da1c](https://github.com/ellite/Wallos/commit/3a1da1c00677766201588cae7baa247b112a1934))
+
+## [5.8.4](https://github.com/ellite/Wallos/compare/v5.8.3...v5.8.4) (2026-10-17)
+
+
+### Bug Fixes
+
+* **i18n:** complete Arabic translation and plural "days before" label ([#1266](https://github.com/ellite/Wallos/issues/1266)) ([ff78a22](https://github.com/ellite/Wallos/commit/ff78a22b994b826bf4e5d2dcd7c5bd9322cd1e02))
+
 ## [5.8.3](https://github.com/ellite/Wallos/compare/v5.8.2...v5.8.3) (2026-10-01)
 
 

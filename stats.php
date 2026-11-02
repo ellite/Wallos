@@ -2,6 +2,7 @@
 require_once 'includes/header.php';
 require_once 'includes/logo_theme_variant.php';
 require_once 'includes/default_names.php';
+require_once 'includes/html_text.php';
 
 
 // Get code of main currency to display on statistics
@@ -61,7 +62,7 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
                 }
                 $selectedClass = $isSelected ? 'selected' : '';
                 ?>
-                <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?>
+                <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= htmlSafe($member['name']) ?>
                 </div>
                 <?php
               }
@@ -97,7 +98,7 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
                 $selectedClass = $isSelected ? 'selected' : '';
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-                  <?= $categoryName ?>
+                  <?= htmlSafe($categoryName) ?>
                 </div>
                 <?php
               }
@@ -126,7 +127,7 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
                 $selectedClass = $isSelected ? 'selected' : '';
                 ?>
                 <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-                  <?= $payment['name'] ?>
+                  <?= htmlSafe($payment['name']) ?>
                 </div>
                 <?php
               }
@@ -246,12 +247,12 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
           $mostExpensiveLogoVariantSrc = !empty($mostExpensiveSubscription['logo_variant']) ? "images/uploads/logos/" . $mostExpensiveSubscription['logo_variant'] : null;
           ?>
           <div class="subtitle">
-            <?= renderThemedLogoImg($mostExpensiveLogoSrc, $mostExpensiveLogoVariantSrc, $mostExpensiveSubscription['logo_text_color'] ?? null, '', 'alt="' . $mostExpensiveSubscription['name'] . '" title="' . $mostExpensiveSubscription['name'] . '"') ?>
+            <?= renderThemedLogoImg($mostExpensiveLogoSrc, $mostExpensiveLogoVariantSrc, $mostExpensiveSubscription['logo_text_color'] ?? null, '', 'alt="' . htmlSafe($mostExpensiveSubscription['name']) . '" title="' . htmlSafe($mostExpensiveSubscription['name']) . '"') ?>
           </div>
           <?php
         } else if (isset($mostExpensiveSubscription['name']) && $mostExpensiveSubscription['name'] != '') {
           ?>
-          <div class="subtitle"><?= $mostExpensiveSubscription['name'] ?></div>
+          <div class="subtitle"><?= htmlSafe($mostExpensiveSubscription['name']) ?></div>
           <?php
         }
         ?>
@@ -268,12 +269,12 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
             $cheapestLogoVariantSrc = !empty($cheapestSubscription['logo_variant']) ? "images/uploads/logos/" . $cheapestSubscription['logo_variant'] : null;
             ?>
             <div class="subtitle">
-              <?= renderThemedLogoImg($cheapestLogoSrc, $cheapestLogoVariantSrc, $cheapestSubscription['logo_text_color'] ?? null, '', 'alt="' . $cheapestSubscription['name'] . '" title="' . $cheapestSubscription['name'] . '"') ?>
+              <?= renderThemedLogoImg($cheapestLogoSrc, $cheapestLogoVariantSrc, $cheapestSubscription['logo_text_color'] ?? null, '', 'alt="' . htmlSafe($cheapestSubscription['name']) . '" title="' . htmlSafe($cheapestSubscription['name']) . '"') ?>
             </div>
             <?php
           } else if (!empty($cheapestSubscription['name'])) {
             ?>
-            <div class="subtitle"><?= $cheapestSubscription['name'] ?></div>
+            <div class="subtitle"><?= htmlSafe($cheapestSubscription['name']) ?></div>
             <?php
           }
           ?>
@@ -573,12 +574,12 @@ $potentialMonthlySavings = get_upcoming_cancellations_monthly_value($upcomingCan
                 $oldestLogoVariantSrc = !empty($oldestSubscription['logo_variant']) ? "images/uploads/logos/" . $oldestSubscription['logo_variant'] : null;
                 ?>
                 <div class="subtitle">
-                  <?= renderThemedLogoImg($oldestLogoSrc, $oldestLogoVariantSrc, $oldestSubscription['logo_text_color'] ?? null, '', 'alt="' . $oldestSubscription['name'] . '" title="' . $oldestSubscription['name'] . '"') ?>
+                  <?= renderThemedLogoImg($oldestLogoSrc, $oldestLogoVariantSrc, $oldestSubscription['logo_text_color'] ?? null, '', 'alt="' . htmlSafe($oldestSubscription['name']) . '" title="' . htmlSafe($oldestSubscription['name']) . '"') ?>
                 </div>
                 <?php
               } else if (!empty($oldestSubscription['name'])) {
                 ?>
-                <div class="subtitle"><?= $oldestSubscription['name'] ?></div>
+                <div class="subtitle"><?= htmlSafe($oldestSubscription['name']) ?></div>
                 <?php
               }
               ?>

@@ -277,10 +277,40 @@ main>.contain {
   display: none;
 }
 
+/* The bulk button exists twice: next to the new subscription button on mobile,
+   with the other tools on desktop. Only one of them is shown. */
+.main-actions-primary {
+  display: contents;
+}
+
+.main-actions .bulk-mode-button-mobile {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .main-actions {
     justify-content: space-between;
     flex-direction: column-reverse;
+  }
+
+  .main-actions-primary {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  /* The bulk button takes the space it needs, the new subscription button the rest */
+  .main-actions-primary > .button {
+    flex: 1 1 auto;
+  }
+
+  .main-actions-primary > .bulk-mode-button-mobile {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .main-actions .bulk-mode-button-desktop {
+    display: none;
   }
 }
 
@@ -613,8 +643,16 @@ button.mobile-action-renew {
 }
 
 .subscription-main {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns:
+    var(--logo-flex-basis)
+    minmax(0, 5fr)
+    minmax(0, 3fr)
+    minmax(0, 3fr)
+    minmax(0, 4fr)
+    auto
+    auto;
+  grid-template-areas: "logo name cycle next price pm actions";
   align-items: center;
   gap: 12px;
   position: relative;
@@ -622,6 +660,7 @@ button.mobile-action-renew {
 }
 
 .subscription-main .actions-expand {
+  grid-area: actions;
   font-size: 21px;
   padding: 8px 16px;
   color: var(--main-color);
@@ -716,8 +755,13 @@ button.mobile-action-renew {
   margin: 0px;
 }
 
+.subscriptions:not(.grid-view) .subscription-main>span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 .subscription .logo {
-  flex-basis: var(--logo-flex-basis);
+  grid-area: logo;
 }
 
 .subscription .logo img {
@@ -755,13 +799,12 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .name {
-  flex-basis: 25%;
+  grid-area: name;
   font-weight: 600;
 }
 
 .subscription .cycle {
-  flex-basis: 16%;
-  flex-grow: 1;
+  grid-area: cycle;
   flex-direction: row;
   align-items: center;
 }
@@ -774,12 +817,12 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .next {
-  flex-basis: 16%;
-  flex-grow: 1;
+  grid-area: next;
   text-transform: capitalize;
 }
 
 .subscription .payment_method {
+  grid-area: pm;
   margin-left: 10px;
   display: flex;
   justify-content: center;
@@ -800,9 +843,14 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 .subscription .price {
-  flex-basis: 8%;
+  grid-area: price;
   justify-content: center;
   flex-direction: row;
+}
+
+.subscriptions:not(.grid-view) .subscription .price .value {
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .subscription .price .original_price {
@@ -826,8 +874,51 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
     display: none;
   }
 
+  .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1.5fr)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto
+      auto;
+    grid-template-areas: "logo cycle next price pm actions";
+  }
+
+  .mobile-navigation .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1.5fr)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto;
+    grid-template-areas: "logo cycle next price pm";
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main {
+    gap: 6px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main>.cycle,
+  .subscriptions:not(.grid-view) .subscription-main>.next,
+  .subscriptions:not(.grid-view) .subscription-main>.price {
+    font-size: 14px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription .payment_method {
+    margin-left: 0px;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main>.cycle>svg {
+    display: none;
+  }
+
+  .subscriptions:not(.grid-view) .subscription-main .actions-expand {
+    padding: 8px 6px;
+  }
+
   .subscription-main>.name {
-    flex-basis: var(--logo-flex-basis);
+    grid-area: logo;
     font-size: 14px;
     font-weight: normal;
     max-height: 38px;
@@ -837,6 +928,25 @@ body.light img.logo-theme-variant[data-native-theme="dark"] {
 }
 
 @media (max-width: 375px) {
+  .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto
+      auto;
+    grid-template-areas: "logo next price pm actions";
+  }
+
+  .mobile-navigation .subscription-main {
+    grid-template-columns:
+      var(--logo-flex-basis)
+      minmax(0, 1fr)
+      minmax(0, 2.1fr)
+      auto;
+    grid-template-areas: "logo next price pm";
+  }
+
   .subscription-main>.cycle {
     display: none;
   }
@@ -1635,6 +1745,116 @@ select {
   background-position: left 15px center;
   padding-right: 15px;
   padding-left: 40px;
+}
+
+.multi-select {
+  position: relative;
+  width: 100%;
+}
+
+.multi-select-toggle {
+  width: 100%;
+  height: 50px;
+  padding: 0 40px 0 15px;
+  font-size: 16px;
+  text-align: left;
+  background-color: var(--input-background-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 4.5 6 8l3.5-3.5' fill='none' stroke='%2364748B' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  color: var(--text-color);
+  cursor: pointer;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.multi-select-toggle:focus,
+.multi-select.is-open .multi-select-toggle {
+  border-color: var(--main-color);
+  box-shadow: var(--focus-ring);
+}
+
+.multi-select-label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.multi-select-options {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  max-height: 240px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+  background-color: var(--input-background-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+}
+
+.multi-select-options[hidden] {
+  display: none;
+}
+
+.multi-select-options li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 11px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: var(--text-color);
+  outline: none;
+  user-select: none;
+}
+
+.multi-select-options li:hover,
+.multi-select-options li:focus-visible {
+  background-color: rgba(var(--main-color-rgb), 0.1);
+}
+
+.multi-select-check {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  background-color: var(--input-background-color);
+  position: relative;
+}
+
+.multi-select-options li[aria-selected="true"] .multi-select-check {
+  background-color: var(--main-color);
+  border-color: var(--main-color);
+}
+
+.multi-select-options li[aria-selected="true"] .multi-select-check::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 9px;
+  border: solid var(--text-color-inverted);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.rtl .multi-select-toggle {
+  text-align: right;
+  padding: 0 15px 0 40px;
+  background-position: left 15px center;
 }
 
 .date-wrapper {
@@ -3073,6 +3293,37 @@ button.dark-theme-button i {
   background-color: rgba(var(--main-color-rgb), 0.18);
 }
 
+.calendar .calendar-event-title {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.calendar .calendar-event-renewal {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.calendar .calendar-event-renewal svg {
+  width: 12px;
+  height: 12px;
+}
+
+.calendar .calendar-event-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calendar .calendar-event-price {
+  display: block;
+  font-size: 10px;
+  opacity: 0.75;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
   .calendar .calendar-header .calendar-cell {
     padding: 10px 0px 8px;
@@ -3096,6 +3347,15 @@ button.dark-theme-button i {
     font-size: 10px;
     padding: 2px 5px;
     border-radius: 5px;
+  }
+
+  .calendar .calendar-event-renewal svg {
+    width: 10px;
+    height: 10px;
+  }
+
+  .calendar .calendar-event-price {
+    font-size: 9px;
   }
 }
 
@@ -3841,6 +4101,114 @@ input[type="radio"]:checked+label::after {
   color: var(--main-color);
 }
 
+.bulk-mode-button.selected {
+  background-color: rgba(var(--main-color-rgb), 0.12);
+  color: var(--main-color);
+}
+
+.bulk-toolbar {
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin-bottom: 15px;
+  background-color: var(--box-background-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 10px;
+}
+
+.bulk-toolbar.is-open {
+  display: flex;
+}
+
+.bulk-toolbar .bulk-select-all {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.bulk-toolbar #bulk-selected-count {
+  color: var(--text-muted);
+  margin-right: auto;
+}
+
+.bulk-toolbar select {
+  max-width: 220px;
+}
+
+.bulk-toolbar input[type="checkbox"],
+.bulk-select input[type="checkbox"] {
+  position: static;
+  opacity: 1;
+  width: 18px;
+  height: 18px;
+  margin: 0px;
+  accent-color: var(--main-color);
+  cursor: pointer;
+}
+
+.bulk-select {
+  display: none;
+  margin: 0px;
+}
+
+.subscriptions.bulk-mode .bulk-select {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.subscriptions.bulk-mode:not(.grid-view) .subscription-container {
+  padding-left: 40px;
+}
+
+.subscriptions.grid-view.bulk-mode .bulk-select {
+  top: 12px;
+  left: 12px;
+  transform: none;
+}
+
+.rtl .subscriptions.bulk-mode .bulk-select {
+  left: auto;
+  right: 14px;
+}
+
+.rtl .subscriptions.bulk-mode:not(.grid-view) .subscription-container {
+  padding-left: 0px;
+  padding-right: 40px;
+}
+
+.rtl .subscriptions.grid-view.bulk-mode .bulk-select {
+  right: 12px;
+}
+
+.subscriptions.bulk-mode .subscription {
+  cursor: pointer;
+}
+
+.subscriptions.bulk-mode .subscription-container:has(.bulk-select-checkbox:checked) .subscription {
+  outline: 2px solid var(--main-color);
+}
+
+@media (max-width: 768px) {
+  .bulk-toolbar select {
+    flex: 1;
+    max-width: none;
+  }
+
+  /* The action select gets a line of its own; the value select it reveals, and the buttons, follow below */
+  .bulk-toolbar #bulk-action {
+    flex-basis: 100%;
+    margin: 2px 0px;
+  }
+}
+
 .subscriptions.grid-view {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -3889,7 +4257,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.logo {
   grid-area: logo;
-  flex-basis: auto;
   justify-content: flex-start;
   height: 42px;
   max-width: 150px;
@@ -3906,7 +4273,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.name {
   grid-area: name;
-  flex-basis: auto;
   justify-content: flex-start;
   text-align: left;
   font-size: 17px;
@@ -3919,7 +4285,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.price {
   grid-area: price;
-  flex-basis: auto;
   justify-content: flex-start;
   align-self: start;
   font-size: 23px;
@@ -3929,8 +4294,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.cycle {
   grid-area: cycle;
-  flex-basis: auto;
-  flex-grow: 0;
   justify-content: flex-start;
   font-size: 13px;
   color: var(--text-muted);
@@ -3938,8 +4301,6 @@ input[type="radio"]:checked+label::after {
 
 .subscriptions.grid-view .subscription-main>.next {
   grid-area: next;
-  flex-basis: auto;
-  flex-grow: 0;
   justify-content: flex-start;
   font-size: 13px;
   color: var(--text-muted);
@@ -4297,6 +4658,21 @@ body.details-open {
   color: var(--main-color);
 }
 
+/* Links in the notes: the browser default blue is unreadable on the dark surface */
+.details-notes a {
+  color: var(--main-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.details-notes a:visited {
+  color: var(--main-color);
+}
+
+.details-notes a:hover {
+  opacity: 0.8;
+}
+
 @media (max-width: 768px) {
   .subscription-details,
   .logo-search,
@@ -4373,10 +4749,10 @@ body.details-open {
 }
 
 .subscriptions.grid-view .subscription-back {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 8px;
   position: absolute;
   inset: 0;
   transform: rotateY(180deg);
@@ -4384,7 +4760,7 @@ body.details-open {
   backface-visibility: hidden;
   background-color: var(--box-background-color);
   border-radius: inherit;
-  padding: 12px 10px;
+  padding: 42px 10px 10px;
   box-sizing: border-box;
   overflow-y: auto;
 }
@@ -4399,21 +4775,30 @@ body.details-open {
 
 .subscription-back .back-action {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 6px;
   width: 100%;
+  min-width: 0;
   border: 1px solid var(--input-border-color);
   background-color: var(--input-background-color);
   color: var(--text-color);
   font-family: Barlow, 'Helvetica Neue', Helvetica, sans-serif;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
-  text-align: start;
-  padding: 8px 12px;
-  border-radius: 8px;
+  line-height: 1.2;
+  text-align: center;
+  padding: 8px 6px;
+  border-radius: 10px;
   cursor: pointer;
   box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+/* Without the renew action there are three tiles: the last one takes the whole row */
+.subscription-back .back-action:last-child:nth-child(even) {
+  grid-column: 1 / -1;
 }
 
 .subscription-back .back-action:hover {
@@ -4423,8 +4808,7 @@ body.details-open {
 
 .subscription-back .back-action>i {
   color: var(--main-color);
-  font-size: 15px;
-  width: 18px;
+  font-size: 20px;
   text-align: center;
 }
 
@@ -4437,10 +4821,31 @@ body.details-open {
   color: var(--error-color);
 }
 
-.subscription-back-close {
+.subscription-back-header {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 6px 0 14px;
+  box-sizing: border-box;
+}
+
+.subscription-back-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.subscription-back-close {
+  flex: 0 0 auto;
   border: none;
   background-color: transparent;
   color: var(--text-muted);
@@ -4450,9 +4855,8 @@ body.details-open {
   cursor: pointer;
 }
 
-.rtl .subscription-back-close {
-  right: auto;
-  left: 8px;
+.rtl .subscription-back-header {
+  padding: 6px 14px 0 6px;
 }
 
 .subscription-back-close:hover {
@@ -4468,18 +4872,18 @@ body.details-open {
 
 @media (max-width: 768px) {
   .subscriptions.grid-view .subscription-back {
-    padding: 8px;
-    gap: 4px;
+    padding: 40px 8px 8px;
+    gap: 6px;
   }
 
   .subscription-back .back-action {
-    font-size: 14px;
-    padding: 6px 10px;
-    gap: 8px;
+    font-size: 12px;
+    padding: 6px 4px;
+    gap: 4px;
   }
 
   .subscription-back .back-action>i {
-    font-size: 14px;
+    font-size: 18px;
   }
 }
 

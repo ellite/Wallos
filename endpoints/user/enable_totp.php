@@ -82,7 +82,7 @@ if ($action === 'verify') {
         }
 
         $clock = new OTPHP\InternalClock();
-        
+
         $totp = OTPHP\TOTP::createFromSecret($secret, $clock);
         $totp->setPeriod(30);
 

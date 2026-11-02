@@ -26,7 +26,7 @@ if (isset($_FILES['file'])) {
 
         $zip = new ZipArchive();
         if ($zip->open($fileDestination) === true) {
-            // Validate all entries before extracting — ZipArchive::extractTo() does not
+            // Validate all entries before extracting - ZipArchive::extractTo() does not
             // guarantee protection against path traversal (Zip Slip), and the extraction
             // target sits under the web root, so a crafted archive could otherwise drop
             // an executable script here (RCE).

@@ -49,7 +49,7 @@ You are a translation assistant.
 Translate the following subscription category names into {$userLanguageName}.
 
 Follow these guidelines:
-- Keep translations short and natural — these are category labels in a subscription tracker.
+- Keep translations short and natural - these are category labels in a subscription tracker.
 - Keep brand names, proper nouns, and abbreviations unchanged.
 - If a name is already in {$userLanguageName}, return it unchanged.
 - Preserve the capitalization style of each name.

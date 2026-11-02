@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 * This migration adds tables to store the date about the new notification methods (telegram, webhooks and gotify)
 * Existing values on the notifications table will be split and migrated to the new tables.
 */

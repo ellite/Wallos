@@ -1,6 +1,6 @@
 <?php
 
-// This migration adds a new column to the webhook_notifications table to store the cancelation payload 
+// This migration adds a new column to the webhook_notifications table to store the cancelation payload
 // Also removes the iterator column as it is not used anymore.
 // The cancelation payload will be used to send cancelation notifications to the webhook
 

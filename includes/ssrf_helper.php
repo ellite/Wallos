@@ -91,17 +91,17 @@ function wallos_extract_embedded_ipv4($ip) {
         return "{$b[13]}.{$b[14]}.{$b[15]}.{$b[16]}";
     }
 
-    // NAT64 64:ff9b::/96 — embedded IPv4 in the last 32 bits
+    // NAT64 64:ff9b::/96 - embedded IPv4 in the last 32 bits
     if ($b[1] === 0x00 && $b[2] === 0x64 && $b[3] === 0xff && $b[4] === 0x9b) {
         return "{$b[13]}.{$b[14]}.{$b[15]}.{$b[16]}";
     }
 
-    // 6to4 2002::/16 — embedded IPv4 in bytes 3-6
+    // 6to4 2002::/16 - embedded IPv4 in bytes 3-6
     if ($b[1] === 0x20 && $b[2] === 0x02) {
         return "{$b[3]}.{$b[4]}.{$b[5]}.{$b[6]}";
     }
 
-    // Teredo 2001:0000::/32 — client IPv4 in the last 32 bits, bitwise-inverted
+    // Teredo 2001:0000::/32 - client IPv4 in the last 32 bits, bitwise-inverted
     if ($b[1] === 0x20 && $b[2] === 0x01 && $b[3] === 0x00 && $b[4] === 0x00) {
         $o1 = ~$b[13] & 0xff;
         $o2 = ~$b[14] & 0xff;
@@ -117,7 +117,7 @@ function wallos_extract_embedded_ipv4($ip) {
  * Determines whether an IP address (IPv4 or IPv6) must be treated as
  * private/reserved for SSRF purposes.
  *
- * Extends PHP's filter_var — which does not flag IPv6 transition ranges — by
+ * Extends PHP's filter_var - which does not flag IPv6 transition ranges - by
  * also rejecting NAT64/6to4/Teredo/IPv4-mapped forms. Those can encode an
  * internal IPv4 destination (e.g. the cloud metadata address) and otherwise
  * pass the guard. Any such transition form is treated as unsafe by default; a
@@ -150,7 +150,7 @@ function wallos_ip_is_private_or_reserved($ip) {
  */
 function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
     $parsedUrl = parse_url($url);
-    
+
     // Fallback if parse_url fails completely
     if (!$parsedUrl || !isset($parsedUrl['host'])) {
         die(json_encode([
@@ -224,7 +224,7 @@ function validate_webhook_url_for_ssrf($url, $db, $i18n, $userId = null) {
 function validate_smtp_host($host, $port, $db) {
     $ip = gethostbyname($host);
 
-    // DNS failure — gethostbyname returns the input unchanged on failure
+    // DNS failure - gethostbyname returns the input unchanged on failure
     if ($ip === $host && filter_var($host, FILTER_VALIDATE_IP) === false) return false;
 
     $is_private = wallos_ip_is_private_or_reserved($ip);
@@ -256,7 +256,7 @@ function validate_smtp_host($host, $port, $db) {
  * Resolves *every* A record for the host (not just one) and validates each
  * individually, so a CDN/anycast-fronted hostname (e.g. behind Cloudflare)
  * keeps the same connection redundancy plain DNS resolution would give it.
- * Only IPs that individually pass the check are ever returned — an IP that
+ * Only IPs that individually pass the check are ever returned - an IP that
  * fails is simply dropped from the candidate list, never let through because
  * a sibling IP passed. That keeps the anti-DNS-rebinding guarantee intact:
  * the caller must pin curl to exactly this returned set (see
@@ -310,7 +310,7 @@ function validate_oidc_endpoint_url($url, $db) {
         ) {
             $validIps[] = $ip;
         }
-        // else: this specific IP is private and not allowlisted — dropped,
+        // else: this specific IP is private and not allowlisted - dropped,
         // never pinned, even though other IPs for this host may have passed.
     }
 
@@ -327,7 +327,7 @@ function validate_oidc_endpoint_url($url, $db) {
 /**
  * Non-fatal variant for use in cron jobs (sendnotifications.php).
  * Returns the same ['host', 'ip', 'port'] array on success, or false on failure.
- * Never calls die() — caller should use continue/skip on false.
+ * Never calls die() - caller should use continue/skip on false.
  * Respects the admin allowlist for private IPs, just like the main function.
  *
  * @param string $url The destination URL to check
@@ -357,7 +357,7 @@ function is_url_safe_for_ssrf($url, $db, $userId = null) {
         $ssrfConfiguration = wallos_get_effective_ssrf_allowlist($db);
 
         if ($userId != 1 && !$ssrfConfiguration['allow_standard_users']) {
-            return false; // private, user is not admin, and standard users aren't opted in — skip silently
+            return false; // private, user is not admin, and standard users aren't opted in - skip silently
         }
 
         $allowlist = $ssrfConfiguration['allowlist'];
@@ -368,7 +368,7 @@ function is_url_safe_for_ssrf($url, $db, $userId = null) {
             !in_array($hostWithPort, $allowlist) &&
             !in_array($ipWithPort, $allowlist)
         ) {
-            return false; // private and not in allowlist — skip silently
+            return false; // private and not in allowlist - skip silently
         }
     }
 

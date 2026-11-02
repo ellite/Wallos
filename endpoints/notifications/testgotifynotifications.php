@@ -44,8 +44,8 @@ if (
 
     // Set the URL and other options
     curl_setopt($ch, CURLOPT_URL, rtrim($url, '/') . "/message?token=" . $token);
-    
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false); 
+
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
     curl_setopt($ch, CURLOPT_RESOLVE, ["{$ssrf['host']}:{$ssrf['port']}:{$ssrf['ip']}"]);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([

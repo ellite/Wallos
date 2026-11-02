@@ -115,7 +115,7 @@ $currencies = [
     ['name' => 'New Taiwan Dollar', 'symbol' => 'NT$', 'code' => 'TWD'],
 ];
 
-$stmt = $db->prepare("INSERT INTO currencies (name, symbol, code, rate, user_id) 
+$stmt = $db->prepare("INSERT INTO currencies (name, symbol, code, rate, user_id)
                       VALUES (:name, :symbol, :code, :rate, :user_id)");
 foreach ($currencies as $currency) {
     $stmt->bindValue(':name', $currency['name'], SQLITE3_TEXT);
@@ -141,7 +141,7 @@ if ($currency) {
 $userData['main_currency'] = $currency['id'];
 
 // Insert settings
-$stmt = $db->prepare("INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav, week_starts_sunday) 
+$stmt = $db->prepare("INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav, week_starts_sunday)
                       VALUES (2, 0, 0, 0, 'blue', 0, :user_id, 0, 0, 0, 0)");
 $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);
 $stmt->execute();

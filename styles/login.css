@@ -366,7 +366,7 @@ input[type="checkbox"]:checked+label::after {
     box-sizing: border-box;
     z-index: 200;
   }
-  
+
   @media (max-width: 768px) {
     .toast {
       bottom: 0px;
@@ -375,16 +375,16 @@ input[type="checkbox"]:checked+label::after {
       width: 100%;
     }
   }
-  
+
   .toast.active {
     transform: translateX(0%);
   }
-  
+
   .toast .toast-content {
     display: flex;
     align-items: center;
   }
-  
+
   .toast-content .toast-icon {
     display: flex;
     align-items: center;
@@ -395,33 +395,33 @@ input[type="checkbox"]:checked+label::after {
     font-size: 20px;
     border-radius: 50%;
   }
-  
+
   .toast-content .toast-icon.error {
     background-color: var(--error-color);
   }
-  
+
   .toast-content .toast-icon.success {
     background-color: var(--success-color);
   }
-  
-  
+
+
   .toast-content .message {
     display: flex;
     flex-direction: column;
     margin: 0 20px;
   }
-  
+
   .toast-content .message .text {
     font-size: 16px;
     font-weight: 400;
     color: #666666;
   }
-  
+
   .toast-content .message .text.text-1 {
     font-weight: 600;
     color: #333;
   }
-  
+
   .toast .close {
     position: absolute;
     top: 10px;
@@ -430,11 +430,11 @@ input[type="checkbox"]:checked+label::after {
     cursor: pointer;
     opacity: 0.7;
   }
-  
+
   .toast .close:hover {
     opacity: 1;
   }
-  
+
   .toast .progress {
     position: absolute;
     bottom: 0;
@@ -442,7 +442,7 @@ input[type="checkbox"]:checked+label::after {
     height: 3px;
     width: 100%;
   }
-  
+
   .toast .progress:before {
     content: "";
     position: absolute;
@@ -451,25 +451,25 @@ input[type="checkbox"]:checked+label::after {
     height: 100%;
     width: 100%;
   }
-  
+
   .toast .progress.error:before {
     background-color: var(--error-color);
   }
-  
+
   .toast .progress.success:before {
     background-color: var(--success-color);
   }
-  
+
   .progress.active:before {
     animation: progress 5s linear forwards;
   }
-  
+
   @keyframes progress {
     100% {
       right: 100%;
     }
   }
-  
+
   /* TOAST END */
 
 /* RESTORE MODAL */

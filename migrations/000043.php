@@ -1,7 +1,7 @@
 <?php
 
-/* * This migration adds a column to the admin table to store a comma-separated 
-* allowlist of hostnames and IPs that can be used in webhook notifications. 
+/* * This migration adds a column to the admin table to store a comma-separated
+* allowlist of hostnames and IPs that can be used in webhook notifications.
 * This prevents SSRF attacks on internal services.
 */
 

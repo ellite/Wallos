@@ -169,7 +169,7 @@ if ($result) {
         $stmt->execute();
 
         // Add settings for that user
-        $query = "INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav, week_starts_sunday) 
+        $query = "INSERT INTO settings (dark_theme, monthly_price, convert_currency, remove_background, color_theme, hide_disabled, user_id, disabled_to_bottom, show_original_price, mobile_nav, week_starts_sunday)
                 VALUES (2, 0, 0, 0, 'blue', 0, :user_id, 0, 0, 0, 0)";
         $stmt = $db->prepare($query);
         $stmt->bindValue(':user_id', $newUserId, SQLITE3_INTEGER);

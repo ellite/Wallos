@@ -517,7 +517,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             $selected = $i == $notifications['days'] ? "selected" : "";
                             ?>
                             <option value="<?= $i ?>" <?= $selected ?>>
-                                <?= $i ?>     <?= translate('day_before', $i18n) ?>
+                                <?= $i ?>     <?= translate('days_before', $i18n) ?>
                             </option>
                             <?php
                         }
@@ -1031,7 +1031,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     if ($category['id'] != 1) {
                         $canDelete = true;
 
-                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE category_id = :categoryId AND user_id = :userId";
+                        $query = "SELECT COUNT(*) as count FROM subscriptions WHERE (category_id = :categoryId OR id IN (SELECT subscription_id FROM subscription_categories WHERE category_id = :categoryId)) AND user_id = :userId";
                         $stmt = $db->prepare($query);
                         $stmt->bindParam(':categoryId', $category['id'], SQLITE3_INTEGER);
                         $stmt->bindParam(':userId', $userId, SQLITE3_INTEGER);
@@ -1361,13 +1361,13 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <option value="openai-compatible" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openai-compatible') ? 'selected' : '' ?>>OpenAI Compatible</option>
                 </select>
             </div>
-            <div class="form-group-inline" id="ai_url_group" 
+            <div class="form-group-inline" id="ai_url_group"
                 <?= (!isset($aiSettings['type']) || !in_array($aiSettings['type'], ['ollama', 'openai-compatible'])) ? 'style="display:none"' : '' ?>>
                 <input type="text" id="ai_ollama_host" name="ai_ollama_host" autocomplete="off"
                     placeholder="<?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openai-compatible') ? 'http://localhost:11434/v1' : 'http://localhost:11434' ?>"
                     value="<?= isset($aiSettings['url']) ? htmlspecialchars($aiSettings['url']) : '' ?>" />
-                    <button type="button" id="fetchModelsButton2" 
-                        class="button thin <?= (!isset($aiSettings['type']) || $aiSettings['type'] != 'ollama') ? 'hidden' : '' ?>" 
+                    <button type="button" id="fetchModelsButton2"
+                        class="button thin <?= (!isset($aiSettings['type']) || $aiSettings['type'] != 'ollama') ? 'hidden' : '' ?>"
                         onclick="fetch_ai_models()">
                         <?= translate('test', $i18n) ?>
                     </button>

@@ -70,17 +70,17 @@ $row = $result->fetchArray(SQLITE3_ASSOC);
 
 if ($row['count'] > 0) {
     // Update existing row
-    $stmt = $db->prepare('UPDATE oauth_settings SET 
-            name = :oidcName, 
-            client_id = :oidcClientId, 
-            client_secret = :oidcClientSecret, 
-            authorization_url = :oidcAuthUrl, 
-            token_url = :oidcTokenUrl, 
-            user_info_url = :oidcUserInfoUrl, 
-            redirect_url = :oidcRedirectUrl, 
-            logout_url = :oidcLogoutUrl, 
-            user_identifier_field = :oidcUserIdentifierField, 
-            scopes = :oidcScopes, 
+    $stmt = $db->prepare('UPDATE oauth_settings SET
+            name = :oidcName,
+            client_id = :oidcClientId,
+            client_secret = :oidcClientSecret,
+            authorization_url = :oidcAuthUrl,
+            token_url = :oidcTokenUrl,
+            user_info_url = :oidcUserInfoUrl,
+            redirect_url = :oidcRedirectUrl,
+            logout_url = :oidcLogoutUrl,
+            user_identifier_field = :oidcUserIdentifierField,
+            scopes = :oidcScopes,
             auth_style = :oidcAuthStyle,
             auto_create_user = :oidcAutoCreateUser,
             password_login_disabled = :oidcPasswordLoginDisabled,

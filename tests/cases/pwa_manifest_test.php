@@ -136,8 +136,10 @@ wallos_test('the legacy service-worker.js stub hands existing registrations over
 wallos_test('the service worker cache name is tied to the app version', function () {
     $source = file_get_contents(WALLOS_ROOT . '/service-worker.php');
 
-    assert_contains("'static-cache-<?= \$version ?>'", $source,
+    assert_contains("'static-cache-<?= \$version ?>-<?= \$assetsStamp ?>'", $source,
         'every release gets a fresh static cache, and activate deletes the old one');
+    assert_contains('filemtime(', $source,
+        'a changed script or stylesheet changes the cache name too, not only a version bump');
     assert_contains("cache: 'reload'", $source,
         'precaching bypasses the HTTP cache so stale files are not stored under the new cache name');
 });

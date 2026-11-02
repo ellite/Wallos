@@ -42,7 +42,7 @@ if (
                               VALUES (:enabled, :webhook_url, :bot_username, :bot_avatar_url, :userId)";
         } else {
             $query = "UPDATE discord_notifications
-                              SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url 
+                              SET enabled = :enabled, webhook_url = :webhook_url, bot_username = :bot_username, bot_avatar_url = :bot_avatar_url
                               WHERE user_id = :userId";
         }
 

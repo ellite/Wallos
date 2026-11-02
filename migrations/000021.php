@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 * This migration adds tables to store the data about a new notification method Ntfy
 */
 

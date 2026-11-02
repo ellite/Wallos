@@ -1,6 +1,6 @@
 <?php
 // This migration adds a "ignore_ssl" column to the webhook_notifications, ntfy_notifications, and gotify_notifications tables
-// This is to allow users to ignore SSL certificate errors when sending notifications 
+// This is to allow users to ignore SSL certificate errors when sending notifications
 // This is useful for self-signed certificates or other cases where the SSL certificate is not valid
 
 // Add the ignore_ssl column to the webhook_notifications table
@@ -29,6 +29,3 @@ $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 if ($columnRequired) {
     $db->exec('ALTER TABLE gotify_notifications ADD COLUMN ignore_ssl INTEGER DEFAULT 0');
 }
-
-
-

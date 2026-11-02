@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 * This migration adds a table to store custom css styles per user
 */
 

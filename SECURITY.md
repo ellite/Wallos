@@ -28,4 +28,3 @@ If you have any security concerns or questions regarding the security of this pr
 ## Responsible Disclosure
 
 I kindly request that you follow responsible disclosure practices and give me reasonable time to address any reported vulnerabilities before making them public.
-

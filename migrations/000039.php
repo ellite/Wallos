@@ -8,7 +8,7 @@ $columnRequired = $columnQuery->fetchArray(SQLITE3_ASSOC) === false;
 
 if ($columnRequired) {
     $db->exec("ALTER TABLE oauth_settings ADD COLUMN password_login_disabled INTEGER DEFAULT 0");
-} 
+}
 
 // Check if ai_settings table exists, if not, create it
 $tableQuery = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='ai_settings'");

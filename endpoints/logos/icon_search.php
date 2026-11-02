@@ -2,7 +2,7 @@
 /*
   Icon search backed by the selfh.st and Dashboard Icons (homarr-labs) collections.
   Both are GitHub-backed icon sets served over jsDelivr with a machine-readable index,
-  so this endpoint just filters cached indexes — no scraping involved.
+  so this endpoint just filters cached indexes - no scraping involved.
   Returns the same JSON shape as search.php: {"results": [{thumbnail, image, ...}]}.
 */
 

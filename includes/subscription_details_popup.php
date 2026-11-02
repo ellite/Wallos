@@ -3,7 +3,7 @@
   Shared subscription details popup (backdrop + dialog + lookups).
   Include once near the end of the page, before the page's own scripts.
   Requires: $i18n, $version, $subscriptions, and the getdbkeys.php arrays.
-  Runs no queries of its own — on some pages $db is already closed here.
+  Runs no queries of its own - on some pages $db is already closed here.
 */
 require_once __DIR__ . '/getdbkeys.php';
 ?>

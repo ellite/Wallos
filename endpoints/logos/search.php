@@ -34,9 +34,9 @@ if (isset($_GET['search'])) {
         $ip = gethostbyname($host);
         $port = parse_url($url, PHP_URL_PORT) ?: (parse_url($url, PHP_URL_SCHEME) === 'https' ? 443 : 80);
 
-        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
                       || is_cgnat_ip($ip);
-        
+
         if ($is_private) return null;
 
         $ch = curl_init();
@@ -44,7 +44,7 @@ if (isset($_GET['search'])) {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-        
+
         if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);

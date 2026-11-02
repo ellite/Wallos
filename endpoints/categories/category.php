@@ -99,7 +99,7 @@ function handleDeleteCategory($db, $userId, $i18n)
 {
     if (isset($_POST['categoryId']) && $_POST['categoryId'] != "" && $_POST['categoryId'] != 1) {
         $categoryId = $_POST['categoryId'];
-        $checkCategory = "SELECT COUNT(*) FROM subscriptions WHERE category_id = :categoryId AND user_id = :userId";
+        $checkCategory = "SELECT COUNT(*) FROM subscriptions WHERE (category_id = :categoryId OR id IN (SELECT subscription_id FROM subscription_categories WHERE category_id = :categoryId)) AND user_id = :userId";
         $checkStmt = $db->prepare($checkCategory);
         $checkStmt->bindParam(':categoryId', $categoryId, SQLITE3_INTEGER);
         $checkStmt->bindParam(':userId', $userId, SQLITE3_INTEGER);

@@ -131,10 +131,10 @@ Analyze the data and give 3 to 7 smart and specific recommendations to reduce su
 Follow these guidelines:
 - Do NOT suggest switching to family or group plans unless two or more different household members are paying for the same or similar service.
 - Recognize known feature overlaps, such as:
-• YouTube Premium includes YouTube Music.
-• Amazon Prime includes Prime Video.
-• Google One, iCloud+, and Proton all offer cloud storage.
-• Real Debrid, All Debrid, and Premiumize offer similar download capabilities.
+- YouTube Premium includes YouTube Music.
+- Amazon Prime includes Prime Video.
+- Google One, iCloud+, and Proton all offer cloud storage.
+- Real Debrid, All Debrid, and Premiumize offer similar download capabilities.
 - Suggest rotating or cancelling subscriptions that serve similar purposes (e.g. multiple streaming or IPTV services).
 - Recommend switching from monthly to yearly plans only if it provides clear savings and the user is likely to keep the service long-term.
 - Suggest looking for promo or new customer deals if a service appears overpriced.
@@ -149,7 +149,7 @@ If possible, all text should be in the user's language: {$userLanguageName}. Oth
 
 Do not include any other text, just the JSON output. Absolutely no additional comments or explanations.
 
-Here is the user’s data:
+Here is the user's data:
 PROMPT;
 
 $prompt .= "\n\n" . json_encode($subscriptionsForAI, JSON_PRETTY_PRINT);

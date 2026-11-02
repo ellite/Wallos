@@ -15,8 +15,8 @@ jobs:
 
       - name: Collect text files
         run: |
-          git ls-files -z \
-            ':!:libs/' ':!:images/' ':!:screenshots/' ':!:*.min.*' ':!:*.svg' \
+          git grep -Iz --name-only -e '' -- \
+            ':!:libs/' ':!:images/' ':!:screenshots/' ':!:webfonts/' ':!:*.min.*' ':!:*.svg' \
             > "$RUNNER_TEMP/files.list"
 
       - name: Fix dubious UTF-8 symbols

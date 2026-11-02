@@ -1,5 +1,5 @@
 <?php
-// Wallos v5 — additional statistics for stats.php.
+// Wallos v5 - additional statistics for stats.php.
 // Requires stats_calculations.php to have run first ($subscriptions, $db, $userId, $userData, $i18n, $lang).
 // All monetary values are converted to the main currency. Lifetime figures assume current prices.
 
@@ -214,7 +214,7 @@ foreach ($activeMonthlyPrices as $monthlyPrice) {
 $histogramDataPoints = [];
 $previousBoundary = 0;
 foreach ($histogramBoundaries as $index => $boundary) {
-    $histogramDataPoints[] = ['label' => "{$previousBoundary}–{$boundary}", 'y' => $histogramCounts[$index]];
+    $histogramDataPoints[] = ['label' => "{$previousBoundary}-{$boundary}", 'y' => $histogramCounts[$index]];
     $previousBoundary = $boundary;
 }
 $histogramDataPoints[] = ['label' => "{$previousBoundary}+", 'y' => $histogramCounts[count($histogramBoundaries)]];

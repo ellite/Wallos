@@ -148,8 +148,8 @@ if (isset($_POST['one-time-code'])) {
             $statement->bindValue(':last_totp_used', $matchedStep, SQLITE3_INTEGER);
             $statement->bindValue(':id', $_SESSION['totp_user_id'], SQLITE3_INTEGER);
 
-            // The login still proceeds if this cannot be stored — the code was
-            // genuine — but the replay window is then unguarded, so say so.
+            // The login still proceeds if this cannot be stored - the code was
+            // genuine - but the replay window is then unguarded, so say so.
             if ($statement->execute() === false) {
                 error_log('Wallos: could not record the used TOTP step for user '
                     . (int) $_SESSION['totp_user_id'] . '; this code stays replayable until it expires');
@@ -329,4 +329,4 @@ if (isset($_POST['one-time-code'])) {
     </div>
 </body>
 
-</html>
+</html>

@@ -19,7 +19,7 @@
             }
           }
           ?>
-          <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= $member['name'] ?>
+          <div class="filter-item <?= $selectedClass ?>" data-memberid="<?= $member['id'] ?>"><?= htmlSafe($member['name']) ?>
           </div>
           <?php
         }
@@ -58,7 +58,7 @@
           }
           ?>
           <div class="filter-item <?= $selectedClass ?>" data-categoryid="<?= $category['id'] ?>">
-            <?= $category['name'] ?>
+            <?= htmlSafe($category['name']) ?>
           </div>
           <?php
         }
@@ -88,7 +88,7 @@
           }
           ?>
           <div class="filter-item <?= $selectedClass ?>" data-paymentid="<?= $payment['id'] ?>">
-            <?= $payment['name'] ?>
+            <?= htmlSafe($payment['name']) ?>
           </div>
           <?php
         }

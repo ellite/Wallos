@@ -35,7 +35,7 @@ if (isset($_GET['search'])) {
         }
 
         $ip = gethostbyname($host);
-        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
+        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
                       || is_cgnat_ip($ip);
 
         if ($is_private) {
@@ -45,10 +45,10 @@ if (isset($_GET['search'])) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
+
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
-        
+
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36');
 
         curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
@@ -84,7 +84,7 @@ if (isset($_GET['search'])) {
             'o'   => 'json',
             'q'   => urldecode($query),
             'vqd' => $vqd,
-            'f'   => ',,,,',   // size,color,type,layout,license → all unset
+            'f'   => ',,,,',   // size,color,type,layout,license -> all unset
             'p'   => '1',      // safesearch on
         ]);
 

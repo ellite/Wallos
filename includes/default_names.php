@@ -201,28 +201,34 @@ function default_payment_methods($language)
  * column changes: subscriptions reference a category and a payment method by
  * id, never by name.
  *
- * @param SQLite3 $db
- * @param int     $userId
- * @param string  $language
+ * @param SQLite3  $db
+ * @param int      $userId
+ * @param string   $language
+ * @param string[] $from The languages the account's default names may still be
+ *                       in. English by default, because that is what the rows
+ *                       of an installation and of a first account are seeded in.
  * @return int how many rows were renamed
  */
-function localize_default_names($db, $userId, $language)
+function localize_default_names($db, $userId, $language, array $from = ['en'])
 {
+    // The language a name is already in has nothing to be renamed to.
+    $from = array_values(array_diff(array_unique($from), [$language]));
+
     $renamed = 0;
 
     $renamed += default_names_rename(
         $db,
-        $db->prepare('UPDATE categories SET name = :name WHERE user_id = :user_id AND name = :english'),
+        'categories',
         $userId,
-        default_categories('en'),
+        array_map('default_categories', $from),
         default_categories($language)
     );
 
     $renamed += default_names_rename(
         $db,
-        $db->prepare('UPDATE payment_methods SET name = :name WHERE user_id = :user_id AND name = :english'),
+        'payment_methods',
         $userId,
-        array_column(default_payment_methods('en'), 'name'),
+        array_map(fn($source) => array_column(default_payment_methods($source), 'name'), $from),
         array_column(default_payment_methods($language), 'name')
     );
 
@@ -230,38 +236,106 @@ function localize_default_names($db, $userId, $language)
 }
 
 /**
- * Runs one prepared rename over a pair of equally ordered name lists.
+ * Renames an account's still-default names when it changes its language.
  *
- * @param SQLite3           $db
- * @param SQLite3Stmt|false $stmt
- * @param int               $userId
- * @param string[]          $english   the name a still-default row carries
- * @param string[]          $localized what it should say instead
+ * Seeding in the account's language covers accounts that are created after it
+ * existed; an account that switches its language later kept the names it was
+ * seeded with, so a household that moved Wallos to German went on reading
+ * "Entertainment" and "Credit Card" in a German interface.
+ *
+ * The guard is here rather than at the call site so it can be tested: a save
+ * that does not touch the language must not rename anything, and neither must
+ * a save that "changes" it to the value it already had.
+ *
+ * Only rows that still carry a default are renamed, which is
+ * localize_default_names()'s own promise: a name somebody chose is never
+ * rewritten, and subscriptions reference a category or payment method by id,
+ * so nothing but the name column moves.
+ *
+ * The default a row carries is the one of the language the account had until
+ * now - German names after a switch to German, so a later switch to French has
+ * to start from those - or English, which is what an account has whose names
+ * were seeded before it ever chose a language.
+ *
+ * @param SQLite3 $db
+ * @param int     $userId
+ * @param string  $before The language the account had.
+ * @param string  $after  The language it has now.
  * @return int how many rows were renamed
  */
-function default_names_rename($db, $stmt, $userId, $english, $localized)
+function localize_default_names_on_language_change($db, $userId, $before, $after)
 {
-    if ($stmt === false) {
+    if ($after === '' || $before === $after) {
         return 0;
+    }
+
+    return localize_default_names($db, $userId, $after, [$before, 'en']);
+}
+
+/**
+ * Renames the rows of one table whose name is a default, into the language
+ * given.
+ *
+ * Every row to rename is found before any is written, and each is renamed by
+ * id. Renaming name by name would let one rename feed the next: a name that
+ * one language gives to the first default and another language to the second
+ * would be renamed twice on the way through.
+ *
+ * A row that matches the defaults of more than one source language is
+ * renamed from the first of them.
+ *
+ * @param SQLite3    $db
+ * @param string     $table     "categories" or "payment_methods"
+ * @param int        $userId
+ * @param string[][] $fromLists the names a still-default row carries, one
+ *                              equally ordered list per source language
+ * @param string[]   $localized what it should say instead
+ * @return int how many rows were renamed
+ */
+function default_names_rename($db, $table, $userId, array $fromLists, $localized)
+{
+    $find = $db->prepare("SELECT id FROM $table WHERE user_id = :user_id AND name = :name");
+    $rename = $db->prepare("UPDATE $table SET name = :name WHERE id = :id AND user_id = :user_id");
+
+    if ($find === false || $rename === false) {
+        return 0;
+    }
+
+    $moves = [];
+
+    foreach ($fromLists as $names) {
+        foreach ($names as $index => $name) {
+            // A brand, or a language that has no translation for this name yet.
+            if (!isset($localized[$index]) || $localized[$index] === $name) {
+                continue;
+            }
+
+            $find->bindValue(':name', $name, SQLITE3_TEXT);
+            $find->bindValue(':user_id', $userId, SQLITE3_INTEGER);
+            $result = $find->execute();
+
+            while ($result !== false && ($row = $result->fetchArray(SQLITE3_ASSOC))) {
+                if (!isset($moves[$row['id']])) {
+                    $moves[$row['id']] = $localized[$index];
+                }
+            }
+
+            $find->reset();
+        }
     }
 
     $renamed = 0;
 
-    foreach ($english as $index => $englishName) {
-        // A brand, or a language that has no translation for this name yet.
-        if ($localized[$index] === $englishName) {
-            continue;
-        }
+    foreach ($moves as $id => $name) {
+        $rename->bindValue(':name', $name, SQLITE3_TEXT);
+        $rename->bindValue(':id', $id, SQLITE3_INTEGER);
+        $rename->bindValue(':user_id', $userId, SQLITE3_INTEGER);
 
-        $stmt->bindValue(':name', $localized[$index], SQLITE3_TEXT);
-        $stmt->bindValue(':user_id', $userId, SQLITE3_INTEGER);
-        $stmt->bindValue(':english', $englishName, SQLITE3_TEXT);
-
-        if ($stmt->execute() !== false) {
+        if ($rename->execute() !== false) {
             $renamed += $db->changes();
         }
 
-        $stmt->reset();
+        $rename->reset();
     }
 
     return $renamed;

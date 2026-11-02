@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
 * This migration adds tables to store the date about the new notification methods (pushover and discord)
 */
 

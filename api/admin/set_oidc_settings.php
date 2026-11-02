@@ -164,17 +164,17 @@ if ($hasConfigChange) {
     $rowCheck = $resultCheck->fetchArray(SQLITE3_ASSOC);
 
     if ($rowCheck['count'] > 0) {
-        $stmtSave = $db->prepare('UPDATE oauth_settings SET 
-                name = :oidcName, 
-                client_id = :oidcClientId, 
-                client_secret = :oidcClientSecret, 
-                authorization_url = :oidcAuthUrl, 
-                token_url = :oidcTokenUrl, 
-                user_info_url = :oidcUserInfoUrl, 
-                redirect_url = :oidcRedirectUrl, 
-                logout_url = :oidcLogoutUrl, 
-                user_identifier_field = :oidcUserIdentifierField, 
-                scopes = :oidcScopes, 
+        $stmtSave = $db->prepare('UPDATE oauth_settings SET
+                name = :oidcName,
+                client_id = :oidcClientId,
+                client_secret = :oidcClientSecret,
+                authorization_url = :oidcAuthUrl,
+                token_url = :oidcTokenUrl,
+                user_info_url = :oidcUserInfoUrl,
+                redirect_url = :oidcRedirectUrl,
+                logout_url = :oidcLogoutUrl,
+                user_identifier_field = :oidcUserIdentifierField,
+                scopes = :oidcScopes,
                 auth_style = :oidcAuthStyle,
                 auto_create_user = :oidcAutoCreateUser,
                 password_login_disabled = :oidcPasswordLoginDisabled,
@@ -202,7 +202,7 @@ if ($hasConfigChange) {
     $stmtSave->bindValue(':oidcAutoCreateUser', $dbSettings['auto_create_user'], SQLITE3_INTEGER);
     $stmtSave->bindValue(':oidcPasswordLoginDisabled', $dbSettings['password_login_disabled'], SQLITE3_INTEGER);
     $stmtSave->bindValue(':oidcRequireEmailVerified', $dbSettings['require_email_verified'], SQLITE3_INTEGER);
-    
+
     $resultSave = $stmtSave->execute();
     if (!$resultSave) {
         echo json_encode([

@@ -6,7 +6,7 @@
 
   The cron's query is inline (the file requires PHPMailer and the notification
   providers, so it cannot be included here), so the test reads the statement out
-  of the file and runs that — asserting against the real SQL, not a copy of it.
+  of the file and runs that - asserting against the real SQL, not a copy of it.
 */
 
 /**

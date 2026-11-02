@@ -35,7 +35,7 @@ function get_upcoming_cancellations($db, $userId)
 
 /**
  * Total monthly cost, in the user's main currency, of everything currently
- * flagged for cancellation — what the user would stop spending by cancelling.
+ * flagged for cancellation - what the user would stop spending by cancelling.
  *
  * Expects getPricePerMonth() and getPriceConverted() from stats_calculations.php.
  *

@@ -32,6 +32,7 @@
 - [Usage](#usage)
 - [Screenshots](#screenshots)
 - [OIDC](#oidc)
+- [AI Recommendations](#ai-recommendations)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
   - [Contributors](#contributors)
@@ -41,7 +42,7 @@
 
 ## Introduction
 
-Wallos is a powerful, open-source, and self-hostable web application designed to empower you in managing your finances with ease. Say goodbye to complicated spreadsheets and expensive financial software – Wallos simplifies the process of tracking expenses and helps you gain better control over your financial life.
+Wallos is a powerful, open-source, and self-hostable web application designed to empower you in managing your finances with ease. Say goodbye to complicated spreadsheets and expensive financial software - Wallos simplifies the process of tracking expenses and helps you gain better control over your financial life.
 
 ## Features
 
@@ -58,16 +59,16 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
 - OIDC with OAuth
-- AI Recommendations with ChatGPT, Gemini or Local Ollama
+- AI Recommendations with ChatGPT, Gemini, OpenRouter, a local Ollama or any OpenAI-compatible API
 
 ## Demo
 
-If you want to try Wallos, a demo is available at [https://demo.wallosapp.com](https://demo.wallosapp.com).  
-The database is reset every 2 hours.  
+If you want to try Wallos, a demo is available at [https://demo.wallosapp.com](https://demo.wallosapp.com).
+The database is reset every 2 hours.
 To access the demo use the following credentials:
 
 ```python
-Username: demo  
+Username: demo
 Password: demo
 ```
 
@@ -101,7 +102,7 @@ See instructions to run Wallos below.
 
 1. Download or clone this repo and move the files into your web root - usually `/var/www/html`
 2. Rename `/db/wallos.empty.db` to `/db/wallos.db`
-3. Open the app in your browser — migrations run automatically on the registration page
+3. Open the app in your browser - migrations run automatically on the registration page
 4. Add the following scripts to your cronjobs with `crontab -e`
 
 ```bash
@@ -186,11 +187,11 @@ services:
 
 ## Usage
 
-Just open the browser and open `ip:port` of the machine running wallos.  
-On the first time you run wallos a user account must be created.  
-Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.  
-Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.  
-If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.  
+Just open the browser and open `ip:port` of the machine running wallos.
+On the first time you run wallos a user account must be created.
+Go to settings and personalise your Avatar and add members of your household. While there add / remove any categories and currencies.
+Get a free API Key from [Fixer](https://fixer.io/#pricing_plan) and add it in the settings.
+If you want to trigger an Update of the exchange rates, change your main currency after adding the API Key, and then change it back to your preferred one.
 
 ## Screenshots
 
@@ -253,14 +254,34 @@ Wallos blocks webhook, SMTP, and OIDC endpoint URLs that resolve to private/link
 
 Setting the `SSRF_ALLOWLIST` environment variable overrides the database value entirely (same full-override semantics as the `OIDC_*` variables above), so the allowlist can be provisioned on first boot with no manual UI step. It accepts a comma-separated list of hosts/IPs, optionally with a port (e.g. `SSRF_ALLOWLIST=auth.example.com,192.168.1.100:8123`). While set, the Security Settings field in the Admin UI is shown but disabled.
 
+## AI Recommendations
+
+Wallos can ask an AI model for ways to save money on your subscriptions.
+Each user sets it up under Settings, in the AI Recommendations section: enable it, choose a provider, then select **Test** to load the available models, pick one and save.
+
+| Provider | Needs |
+| --- | --- |
+| ChatGPT | An OpenAI API key |
+| Gemini | A Google AI Studio API key |
+| OpenRouter | An OpenRouter API key |
+| Local Ollama | The Ollama URL, e.g. `http://localhost:11434` |
+| OpenAI Compatible | The API base URL, e.g. `http://localhost:11434/v1`, and an API key if the server requires one |
+
+**Generate Recommendations** runs it on demand; the run schedule can also repeat it weekly or monthly.
+Recommendations are based on your active subscriptions and household members, and appear on the dashboard.
+When AI is enabled with a model saved and the interface language is not English, the categories section of the settings page can also translate category names into that language.
+
+A local Ollama or OpenAI-compatible server on a private address is blocked unless its host is in the [SSRF allowlist](#ssrf-allowlist).
+For any user other than the first (admin) account, the admin also has to enable **Allow standard users to use the Webhook Allowlist** in the Security Settings. The host still has to be in the allowlist; enabling the setting alone is not enough.
+
 ## API Documentation
 
 Wallos provides a comprehensive API that allows you to interact with the application programmatically. The API documentation is available at [https://api.wallosapp.com/](https://api.wallosapp.com/).
 
 ## Contributing
 
-Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.  
-Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.  
+Feel free to open Pull requests with bug fixes and features. I'll do my best to keep an eye on those.
+Feel free to open issues with bug reports or feature requests. Bug fixes will take priority.
 I welcome contributions from the community and look forward to working with you to improve this project.
 
 ### Contributors

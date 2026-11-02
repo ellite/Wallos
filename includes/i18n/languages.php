@@ -18,7 +18,7 @@ $languages = [
     "it" => ["name" => "Italiano", "dir" => "ltr"],
     "ja" => ["name" => "日本語", "dir" => "ltr"],
     "ko" => ["name" => "한국어", "dir" => "ltr"],
-    "nl" => ["name" => "Nederlands", "dir" => "ltr"], 
+    "nl" => ["name" => "Nederlands", "dir" => "ltr"],
     "pl" => ["name" => "Polski", "dir" => "ltr"],
     "pt" => ["name" => "Português", "dir" => "ltr"],
     "pt_br" => ["name" => "Português Brasileiro", "dir" => "ltr"],
