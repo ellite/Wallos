@@ -110,6 +110,8 @@ $mobileNavigation = $settings['mobile_nav'] ? "mobile-navigation" : "";
     window.lang = "<?= $lang ?>";
     window.colorTheme = <?= json_encode($colorTheme, JSON_HEX_TAG | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_APOS) ?>;
     window.mobileNavigation = "<?= $settings['mobileNavigation'] == "true" ?>";
+    window.defaultAutoRenew = <?= ($settings['defaultAutoRenew'] ?? 'true') === 'true' ? 'true' : 'false' ?>;
+    window.defaultNotifications = <?= ($settings['defaultNotifications'] ?? 'false') === 'true' ? 'true' : 'false' ?>;
     window.csrfToken = "<?= htmlspecialchars(generate_csrf_token()) ?>";
   </script>
   <style>

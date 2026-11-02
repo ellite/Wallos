@@ -172,6 +172,9 @@ function resetForm() {
     setMultiSelection(id, []);
     closeMultiSelect(id);
   });
+  document.querySelector("#auto_renew").checked = window.defaultAutoRenew !== false;
+  document.querySelector("#notifications").checked = window.defaultNotifications === true;
+  toggleNotificationDays();
   toggleOneTimeCycleUI(false);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
