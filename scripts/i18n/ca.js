@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Vols eliminar {count} subscripció(ns)? Això no es pot desfer.",
   bulk_action_success: "{count} subscripció(ns) actualitzada(es)",
   error_bulk_action: "No s'ha pogut aplicar l'acció massiva",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

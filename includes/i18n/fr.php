@@ -541,6 +541,21 @@ $i18n = [
     "payment_method_bank_transfer" => "Virement bancaire",
     "payment_method_direct_debit" => "Prélèvement automatique",
     "payment_method_money" => "Espèces",
+
+    // Folders
+    "folders" => "Dossiers",
+    "folder" => "Dossier",
+    "no_folder" => "Sans dossier",
+    "folder_color" => "Couleur du dossier",
+    "save_folder" => "Enregistrer le dossier",
+    "delete_folder" => "Supprimer le dossier",
+    "folder_saved" => "Dossier enregistré",
+    "folder_removed" => "Dossier supprimé",
+    "failed_add_folder" => "Échec de l'ajout du dossier",
+    "failed_edit_folder" => "Échec de l'enregistrement du dossier",
+    "failed_remove_folder" => "Échec de la suppression du dossier",
+    "per_month" => "mois",
+    "folders_explanation" => "Regroupez vos abonnements dans des dossiers colorés, comme des poches de paiements, et filtrez-les en un clic sur la page des abonnements.",
 ];
 
 

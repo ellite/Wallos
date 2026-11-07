@@ -192,6 +192,21 @@ function renderSubscriptionDetails(subscription) {
   document.querySelector('#details-start-date').textContent = detailsFormatDate(subscription.start_date) || strings.none;
   const categoryIds = subscription.category_ids && subscription.category_ids.length > 0 ? subscription.category_ids : [subscription.category_id];
   document.querySelector('#details-category').textContent = categoryIds.map(id => lookups.categories[id]).filter(Boolean).join(', ') || strings.none;
+
+  const folder = lookups.folders ? lookups.folders[subscription.folder_id] : null;
+  const folderItem = document.querySelector('#details-folder-item');
+  if (folder) {
+    folderItem.classList.remove('hide');
+    const folderValue = document.querySelector('#details-folder');
+    folderValue.innerHTML = "";
+    const folderDot = document.createElement('span');
+    folderDot.className = 'folder-filter-dot';
+    folderDot.style.backgroundColor = folder.color;
+    folderValue.appendChild(folderDot);
+    folderValue.appendChild(document.createTextNode(folder.name));
+  } else {
+    folderItem.classList.add('hide');
+  }
   const payerIds = subscription.payer_user_ids && subscription.payer_user_ids.length > 0 ? subscription.payer_user_ids : [subscription.payer_user_id];
   document.querySelector('#details-payer').textContent = payerIds.map(id => lookups.members[id]).filter(Boolean).join(', ') || strings.none;
 

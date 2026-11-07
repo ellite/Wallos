@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Smazat předplatná ({count})? Tuto akci nelze vrátit.",
   bulk_action_success: "Aktualizováno předplatných: {count}",
   error_bulk_action: "Hromadnou akci se nepodařilo provést",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

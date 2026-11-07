@@ -62,6 +62,10 @@ require_once __DIR__ . '/getdbkeys.php';
       <dt><?= translate('category', $i18n) ?></dt>
       <dd id="details-category"></dd>
     </div>
+    <div class="details-item hide" id="details-folder-item">
+      <dt><?= translate('folder', $i18n) ?></dt>
+      <dd id="details-folder"></dd>
+    </div>
     <div class="details-item">
       <dt><?= translate('paid_by', $i18n) ?></dt>
       <dd id="details-payer"></dd>
@@ -95,6 +99,7 @@ require_once __DIR__ . '/getdbkeys.php';
 <?php
 $detailsLookups = [
   'categories' => new stdClass(),
+  'folders' => new stdClass(),
   'members' => new stdClass(),
   'paymentMethods' => new stdClass(),
   'currencies' => new stdClass(),
@@ -122,6 +127,12 @@ $detailsLookups = [
 ];
 foreach ($categories as $categoryId => $category) {
   $detailsLookups['categories']->{$categoryId} = $category['name'];
+}
+foreach ($folders as $folderId => $folder) {
+  $detailsLookups['folders']->{$folderId} = [
+    'name' => $folder['name'],
+    'color' => $folder['color'],
+  ];
 }
 foreach ($members as $memberId => $member) {
   $detailsLookups['members']->{$memberId} = $member['name'];

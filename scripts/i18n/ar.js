@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "حذف {count} من الاشتراكات؟ لا يمكن التراجع عن ذلك.",
   bulk_action_success: "تم تحديث {count} من الاشتراكات",
   error_bulk_action: "فشل الإجراء الجماعي",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

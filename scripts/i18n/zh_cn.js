@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "确定删除 {count} 个订阅？此操作不可撤销。",
   bulk_action_success: "已更新 {count} 个订阅",
   error_bulk_action: "批量操作失败",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 };

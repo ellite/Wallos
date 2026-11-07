@@ -552,6 +552,20 @@ $i18n = [
     "payment_method_bank_transfer" => "Bank Transfer",
     "payment_method_direct_debit" => "Direct Debit",
     "payment_method_money" => "Money",
+    // Folders
+    "folders" => "Folders",
+    "folder" => "Folder",
+    "no_folder" => "No folder",
+    "folder_color" => "Folder color",
+    "save_folder" => "Save folder",
+    "delete_folder" => "Delete folder",
+    "folder_saved" => "Folder saved",
+    "folder_removed" => "Folder removed",
+    "failed_add_folder" => "Failed to add folder",
+    "failed_edit_folder" => "Failed to save folder",
+    "failed_remove_folder" => "Failed to remove folder",
+    "per_month" => "month",
+    "folders_explanation" => "Group your subscriptions into colored folders, like pockets of payments, and filter them in one tap on the subscriptions page.",
 ];
 
 

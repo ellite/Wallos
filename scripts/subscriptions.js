@@ -223,6 +223,10 @@ function fillEditFormFields(subscription) {
   setMultiSelection("payer_user_select", subscription.payer_user_ids && subscription.payer_user_ids.length > 0
     ? subscription.payer_user_ids
     : [subscription.payer_user_id]);
+  const folderSelect = document.querySelector("#folder");
+  if (folderSelect) {
+    folderSelect.value = subscription.folder_id ?? 0;
+  }
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
@@ -752,7 +756,10 @@ function renderSubscription(subscription, data) {
   const labels = data.labels;
   const icons = data.icons;
   const hasLogo = !!subscription.logo;
-  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual");
+  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual") + (subscription.folder_color ? " in-folder" : "");
+  const folderAttrs = subscription.folder_color
+    ? ` style="--folder-color: ${escapeHtml(subscription.folder_color)}" title="${escapeHtml(subscription.folder_name)}"`
+    : "";
 
   let mobileActions = "";
   if (data.mobile_navigation) {
@@ -790,7 +797,7 @@ function renderSubscription(subscription, data) {
       <label class="bulk-select">
         <input type="checkbox" class="bulk-select-checkbox" value="${id}" onChange="updateBulkSelection()">
       </label>
-      <div class="subscription${extraClasses}" onClick="showSubscriptionDetails(event, ${id})" data-id="${id}" data-name="${escapeHtml(subscription.name)}">
+      <div class="subscription${extraClasses}"${folderAttrs} onClick="showSubscriptionDetails(event, ${id})" data-id="${id}" data-name="${escapeHtml(subscription.name)}">
         <div class="subscription-main">
           <span class="logo ${hasLogo ? "" : "hideOnMobile"}">${hasLogo ? renderSubscriptionLogo(subscription) : icons.logo}</span>
           <span class="name ${hasLogo ? "hideOnMobile" : ""}">${escapeHtml(subscription.name)}</span>
@@ -852,6 +859,9 @@ function fetchSubscriptions(id, event, initiator) {
 
   if (activeFilters['categories'].length > 0) {
     getSubscriptions += `?categories=${activeFilters['categories']}`;
+  }
+  if (activeFilters['folders'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&folders=${activeFilters['folders']}` : `?folders=${activeFilters['folders']}`;
   }
   if (activeFilters['members'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&members=${activeFilters['members']}` : `?members=${activeFilters['members']}`;
@@ -1175,6 +1185,7 @@ function setSwipeElements() {
 
 const activeFilters = [];
 activeFilters['categories'] = [];
+activeFilters['folders'] = [];
 activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
@@ -1241,6 +1252,20 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       } else {
         activeFilters['categories'].push(categoryId);
         this.classList.add('selected');
+      }
+    } else if (this.hasAttribute('data-folderid')) {
+      const folderId = this.getAttribute('data-folderid');
+      if (activeFilters['folders'].includes(folderId)) {
+        const folderIndex = activeFilters['folders'].indexOf(folderId);
+        activeFilters['folders'].splice(folderIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['folders'].push(folderId);
+        this.classList.add('selected');
+      }
+      const folderCard = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+      if (folderCard) {
+        folderCard.classList.toggle('selected', this.classList.contains('selected'));
       }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
@@ -1310,7 +1335,8 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     }
 
-    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
+    if (activeFilters['categories'].length > 0 || activeFilters['folders'].length > 0 ||
+       activeFilters['members'].length > 0 ||
        activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
        activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0 ||
        activeFilters['paidStatus'] !== "") {
@@ -1323,10 +1349,24 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
   });
 });
 
+// The folder chips above the list mirror the folder entries of the filter
+// menu: clicking a chip just clicks its menu counterpart so all the filter
+// bookkeeping lives in one place.
+document.querySelectorAll('.folder-card').forEach(function (chip) {
+  chip.addEventListener('click', function () {
+    const folderId = this.getAttribute('data-folderid');
+    const menuItem = document.querySelector(`.filter-item[data-folderid="${folderId}"]`);
+    if (menuItem) {
+      menuItem.click();
+    }
+  });
+});
+
 function clearFilters() {
   const searchInput = document.querySelector("#search");
   searchInput.value = "";
   activeFilters['categories'] = [];
+  activeFilters['folders'] = [];
   activeFilters['members'] = [];
   activeFilters['payments'] = [];
   activeFilters['state'] = "";
@@ -1336,6 +1376,9 @@ function clearFilters() {
 
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
+  });
+  document.querySelectorAll('.folder-card').forEach(function (chip) {
+    chip.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');
   fetchSubscriptions(null, null, "clearfilters");

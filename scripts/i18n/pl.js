@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Usunąć subskrypcje ({count})? Tej operacji nie można cofnąć.",
   bulk_action_success: "Zaktualizowano subskrypcje: {count}",
   error_bulk_action: "Działanie zbiorcze nie powiodło się",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

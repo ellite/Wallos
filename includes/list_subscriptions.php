@@ -276,7 +276,7 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
  * printSubscriptions(), with display strings (formatted price and date, resolved
  * titles) already worked out so the client only has to lay them out.
  */
-function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
+function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
 {
     $items = [];
     foreach (prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom) as $subscription) {
@@ -292,6 +292,8 @@ function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members,
             'logo_variant' => $subscription['logo_variant'] ?? null,
             'logo_text_color' => $subscription['logo_text_color'] ?? null,
             'inactive' => (bool) $subscription['inactive'],
+            'folder_name' => isset($subscription['folder_id'], $folders[$subscription['folder_id']]) ? htmlToText($folders[$subscription['folder_id']]['name']) : null,
+            'folder_color' => isset($subscription['folder_id'], $folders[$subscription['folder_id']]) ? $folders[$subscription['folder_id']]['color'] : null,
             'one_time' => $oneTime,
             'auto_renew' => $autoRenew,
             'can_renew' => !$autoRenew && !$oneTime,
@@ -315,7 +317,7 @@ function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members,
     return $items;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+function printSubscriptions($subscriptions, $sort, $categories, $folders, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     $subscriptions = prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom);
 
@@ -379,6 +381,13 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 $subscriptionExtraClasses .= " paid";
             }
 
+            $folderStyle = "";
+            $folderId = $subscription['folder_id'] ?? null;
+            if ($folderId !== null && isset($folders[$folderId])) {
+                $subscriptionExtraClasses .= " in-folder";
+                $folderStyle = " style=\"--folder-color: " . htmlspecialchars($folders[$folderId]['color']) . "\" title=\"" . translate('folder', $i18n) . ": " . htmlspecialchars($folders[$folderId]['name']) . "\"";
+            }
+
             $hasLogo = false;
             if ($subscription['logo'] != "") {
                 $hasLogo = true;
@@ -390,7 +399,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 <input type="checkbox" class="bulk-select-checkbox" value="<?= $subscription['id'] ?>"
                     onChange="updateBulkSelection()">
             </label>
-            <div class="subscription<?= $subscriptionExtraClasses ?>"
+            <div class="subscription<?= $subscriptionExtraClasses ?>"<?= $folderStyle ?>
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= htmlSafe($subscription['name']) ?>">
                 <div class="subscription-main">

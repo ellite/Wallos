@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "구독 {count}개를 삭제할까요? 되돌릴 수 없습니다.",
   bulk_action_success: "구독 {count}개를 업데이트했습니다",
   error_bulk_action: "일괄 작업에 실패했습니다",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }
