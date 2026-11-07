@@ -771,7 +771,7 @@ function renderSubscription(subscription, data) {
         <button class="mobile-action-clone" onClick="cloneSubscription(event, ${id})">${icons.clone} Clone</button>
         <button class="mobile-action-delete" onClick="deleteSubscription(event, ${id})">${icons.delete} Delete</button>
         ${subscription.can_renew ? `<button class="mobile-action-renew" onClick="renewSubscription(event, ${id})">${icons.renew} Renew</button>` : ""}
-        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.paid)}</button>` : ""}
+        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})">${icons.paid} ${escapeHtml(labels.paid)}</button>` : ""}
         <button class="mobile-action-edit" onClick="openEditSubscription(event, ${id})">${icons.edit} Edit</button>
       </div>`;
   }

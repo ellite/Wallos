@@ -280,7 +280,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     'manual' => $readIcon('manual'),
   ];
   if ($mobileNavigation) {
-    foreach (['clone', 'delete', 'renew', 'edit'] as $name) {
+    foreach (['clone', 'delete', 'renew', 'edit', 'paid'] as $name) {
       $icons[$name] = $readIcon('mobile-menu/' . $name);
     }
   }

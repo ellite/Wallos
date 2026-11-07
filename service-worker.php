@@ -136,6 +136,7 @@ const staticAssets = [
     'images/siteicons/svg/mobile-menu/delete.php',
     'images/siteicons/svg/mobile-menu/edit.php',
     'images/siteicons/svg/mobile-menu/renew.php',
+    'images/siteicons/svg/mobile-menu/paid.php',
     'images/siteicons/pwa/stats.png',
     'images/siteicons/pwa/settings.png',
     'images/siteicons/pwa/about.png',

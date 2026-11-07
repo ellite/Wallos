@@ -407,7 +407,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $folders, $membe
                     if (!$subscription['one_time'] && !$subscription['inactive'] && empty($subscription['paid_this_cycle'])) {
                         ?>
                         <button class="mobile-action-paid" onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
-                            <i class="fa-solid fa-circle-check"></i>
+                            <?php include $imagePath . "images/siteicons/svg/mobile-menu/paid.php"; ?>
                             <?= translate('paid', $i18n) ?>
                         </button>
                         <?php
