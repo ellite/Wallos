@@ -561,6 +561,21 @@ $i18n = [
     "failed_remove_folder" => "Uklanjanje fascikle nije uspelo",
     "per_month" => "mesec",
     "folders_explanation" => "Grupišite svoje pretplate u obojene fascikle, kao džepove za plaćanja, i filtrirajte ih jednim dodirom na stranici pretplata.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Period plaćanja",
+    "use_custom_period" => "Koristi ovaj period umesto kalendarskih meseci u statistici",
+    "custom_period_active_warning" => "Vaša statistika, kontrolna tabla i kalendar pratiće ovaj period umesto kalendarskih meseci.",
+    "custom_period_same_as_month" => "Ovaj period je isti kao kalendarski mesec, pa se vaša statistika neće promeniti. Postavite datum sidra na dan kada primate platu.",
+    "amount_due_this_period" => "Iznos za plaćanje u ovom periodu",
+    "semimonthly" => "Dva puta mesečno",
+    "budget_second_payday" => "Drugi dan isplate",
+    "last_day_of_month" => "Poslednji dan u mesecu",
+    "instance_telegram_bot" => "Telegram bot instance",
+    "instance_telegram_bot_info" => "Jedan bot za celu instalaciju: svaki nalog koji ostavi svoj token bota praznim šalje preko ovog bota sa svojim ID-om ćaskanja. Ostavite prazno da svaki nalog koristi svog bota.",
+    "instance_telegram_bot_in_use" => "Ova instalacija pruža Telegram bota. Ostavite token praznim da biste ga koristili i unesite ispod svoj ID ćaskanja.",
+    "instance_telegram_saved" => "Telegram bot je sačuvan",
+    "managed_by_environment" => "Upravljaju promenljive okruženja",
 ];
 
 

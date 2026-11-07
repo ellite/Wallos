@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "移除資料夾失敗",
     "per_month" => "月",
     "folders_explanation" => "將訂閱分組到彩色資料夾中，就像付款的口袋，並在訂閱頁面一鍵篩選。",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "付款週期",
+    "use_custom_period" => "在統計中使用此週期而非日曆月",
+    "custom_period_active_warning" => "您的統計、儀表板和日曆將遵循此週期，而非日曆月。",
+    "custom_period_same_as_month" => "此週期與日曆月相同，因此統計資料不會改變。請將錨點日期設為您的發薪日。",
+    "amount_due_this_period" => "本週期應付金額",
+    "semimonthly" => "每月兩次",
+    "budget_second_payday" => "第二個發薪日",
+    "last_day_of_month" => "每月最後一天",
+    "instance_telegram_bot" => "執行個體 Telegram 機器人",
+    "instance_telegram_bot_info" => "整個安裝共用一個機器人：將自己的機器人權杖留空的帳號會透過它傳送，並使用各自的聊天 ID。若希望每個帳號使用自己的機器人，請留空。",
+    "instance_telegram_bot_in_use" => "此安裝提供了一個 Telegram 機器人。將權杖留空即可使用，並在下方輸入您的聊天 ID。",
+    "instance_telegram_saved" => "Telegram 機器人已儲存",
+    "managed_by_environment" => "由環境變數管理",
 ];
 
 

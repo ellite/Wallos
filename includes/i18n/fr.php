@@ -563,6 +563,21 @@ $i18n = [
     "paid" => "Payé",
     "unpaid" => "Non payé",
     "payment_status" => "Statut du paiement",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Période de paiement",
+    "use_custom_period" => "Utiliser cette période plutôt que les mois calendaires dans les statistiques",
+    "custom_period_active_warning" => "Vos statistiques, votre tableau de bord et votre calendrier suivront cette période plutôt que les mois calendaires.",
+    "custom_period_same_as_month" => "Cette période correspond à un mois calendaire, vos statistiques ne changeront donc pas. Définissez la date de référence sur le jour où vous êtes payé.",
+    "amount_due_this_period" => "Montant dû sur cette période",
+    "semimonthly" => "Deux fois par mois",
+    "budget_second_payday" => "Deuxième jour de paie",
+    "last_day_of_month" => "Dernier jour du mois",
+    "instance_telegram_bot" => "Bot Telegram de l'instance",
+    "instance_telegram_bot_info" => "Un seul bot pour toute l'installation : chaque compte qui laisse son propre jeton de bot vide envoie via celui-ci, avec son propre identifiant de discussion. Laissez vide pour que chaque compte utilise son propre bot.",
+    "instance_telegram_bot_in_use" => "Cette installation fournit un bot Telegram. Laissez le jeton vide pour l'utiliser et saisissez votre identifiant de discussion ci-dessous.",
+    "instance_telegram_saved" => "Bot Telegram enregistré",
+    "managed_by_environment" => "Géré par des variables d'environnement",
 ];
 
 

@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "A mappa eltávolítása sikertelen",
     "per_month" => "hó",
     "folders_explanation" => "Csoportosítsa az előfizetéseit színes mappákba, mint a kifizetések zsebei, és szűrje őket egyetlen érintéssel az előfizetések oldalon.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Fizetési időszak",
+    "use_custom_period" => "Ezen időszak használata a naptári hónapok helyett a statisztikákban",
+    "custom_period_active_warning" => "A statisztikái, az irányítópult és a naptár a naptári hónapok helyett ezt az időszakot követik.",
+    "custom_period_same_as_month" => "Ez az időszak megegyezik egy naptári hónappal, ezért a statisztikái nem változnak. Állítsa a horgonydátumot a fizetésnapjára.",
+    "amount_due_this_period" => "Erre az időszakra esedékes összeg",
+    "semimonthly" => "Havonta kétszer",
+    "budget_second_payday" => "Második fizetésnap",
+    "last_day_of_month" => "A hónap utolsó napja",
+    "instance_telegram_bot" => "Példány Telegram-botja",
+    "instance_telegram_bot_info" => "Egy bot az egész telepítéshez: minden fiók, amely üresen hagyja a saját bot tokenjét, ezen keresztül küld a saját csevegőazonosítójával. Hagyja üresen, ha minden fiók saját botot használjon.",
+    "instance_telegram_bot_in_use" => "Ez a telepítés Telegram-botot biztosít. A használatához hagyja üresen a tokent, és adja meg lent a csevegőazonosítóját.",
+    "instance_telegram_saved" => "Telegram-bot mentve",
+    "managed_by_environment" => "Környezeti változók kezelik",
 ]; 
  
  

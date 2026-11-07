@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "No s'ha pogut eliminar la carpeta",
     "per_month" => "mes",
     "folders_explanation" => "Agrupa les subscripcions en carpetes de colors, com butxaques de pagaments, i filtra-les amb un sol toc a la pàgina de subscripcions.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Període de pagament",
+    "use_custom_period" => "Utilitza aquest període en lloc dels mesos naturals a les estadístiques",
+    "custom_period_active_warning" => "Les estadístiques, el tauler i el calendari seguiran aquest període en lloc dels mesos naturals.",
+    "custom_period_same_as_month" => "Aquest període és igual que un mes natural, de manera que les estadístiques no canviaran. Estableix la data d'ancoratge al dia en què cobres.",
+    "amount_due_this_period" => "Import pendent d'aquest període",
+    "semimonthly" => "Dues vegades al mes",
+    "budget_second_payday" => "Segon dia de cobrament",
+    "last_day_of_month" => "Últim dia del mes",
+    "instance_telegram_bot" => "Bot de Telegram de la instal·lació",
+    "instance_telegram_bot_info" => "Un bot per a tota la instal·lació: tots els comptes que deixin buit el seu token de bot envien a través d'aquest, amb el seu propi identificador de xat. Deixa-ho buit perquè cada compte utilitzi un bot propi.",
+    "instance_telegram_bot_in_use" => "Aquesta instal·lació ofereix un bot de Telegram. Deixa el token buit per utilitzar-lo i introdueix a sota el teu identificador de xat.",
+    "instance_telegram_saved" => "Bot de Telegram desat",
+    "managed_by_environment" => "Gestionat per variables d'entorn",
 ];
 
 

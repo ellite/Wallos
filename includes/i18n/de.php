@@ -571,6 +571,16 @@ $i18n = [
     "failed_remove_folder" => "Ordner konnte nicht entfernt werden",
     "per_month" => "Monat",
     "folders_explanation" => "Fassen Sie Ihre Abonnements in farbigen Ordnern zusammen, wie Taschen für Zahlungen, und filtern Sie sie mit einem Fingertipp auf der Abonnement-Seite.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Zahlungszeitraum",
+    "use_custom_period" => "Diesen Zeitraum statt Kalendermonaten in den Statistiken verwenden",
+    "custom_period_active_warning" => "Ihre Statistiken, das Dashboard und der Kalender folgen diesem Zeitraum statt Kalendermonaten.",
+    "custom_period_same_as_month" => "Dieser Zeitraum entspricht einem Kalendermonat, daher ändern sich Ihre Statistiken nicht. Setzen Sie das Ankerdatum auf den Tag, an dem Sie bezahlt werden.",
+    "amount_due_this_period" => "Fälliger Betrag in diesem Zeitraum",
+    "semimonthly" => "Zweimal im Monat",
+    "budget_second_payday" => "Zweiter Zahltag",
+    "last_day_of_month" => "Letzter Tag des Monats",
 ];
 
 

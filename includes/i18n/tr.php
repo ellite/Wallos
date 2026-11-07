@@ -561,6 +561,21 @@ $i18n = [
     "failed_remove_folder" => "Klasör kaldırılamadı",
     "per_month" => "ay",
     "folders_explanation" => "Aboneliklerinizi ödeme ceplerine benzeyen renkli klasörlerde gruplayın ve abonelikler sayfasında tek dokunuşla filtreleyin.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Ödeme dönemi",
+    "use_custom_period" => "İstatistiklerde takvim ayları yerine bu dönemi kullan",
+    "custom_period_active_warning" => "İstatistikleriniz, panonuz ve takviminiz takvim ayları yerine bu dönemi izleyecek.",
+    "custom_period_same_as_month" => "Bu dönem bir takvim ayıyla aynı, bu yüzden istatistikleriniz değişmeyecek. Sabitleme tarihini maaş aldığınız güne ayarlayın.",
+    "amount_due_this_period" => "Bu dönemde ödenecek tutar",
+    "semimonthly" => "Ayda iki kez",
+    "budget_second_payday" => "İkinci maaş günü",
+    "last_day_of_month" => "Ayın son günü",
+    "instance_telegram_bot" => "Örnek Telegram botu",
+    "instance_telegram_bot_info" => "Tüm kurulum için tek bir bot: kendi bot belirtecini boş bırakan her hesap, kendi sohbet kimliğiyle bu bot üzerinden gönderir. Her hesabın kendi botunu kullanması için boş bırakın.",
+    "instance_telegram_bot_in_use" => "Bu kurulum bir Telegram botu sağlar. Kullanmak için belirteci boş bırakın ve aşağıya sohbet kimliğinizi girin.",
+    "instance_telegram_saved" => "Telegram botu kaydedildi",
+    "managed_by_environment" => "Ortam değişkenleri tarafından yönetiliyor",
 ];
 
 

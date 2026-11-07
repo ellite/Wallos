@@ -567,6 +567,21 @@ $i18n = [
     "failed_remove_folder" => "フォルダを削除できませんでした",
     "per_month" => "月",
     "folders_explanation" => "サブスクリプションを色分けしたフォルダ（支払いのポケットのようなもの）にまとめ、サブスクリプションページでワンタップで絞り込めます。",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "支払い期間",
+    "use_custom_period" => "統計でカレンダー月の代わりにこの期間を使用する",
+    "custom_period_active_warning" => "統計、ダッシュボード、カレンダーがカレンダー月ではなくこの期間に従います。",
+    "custom_period_same_as_month" => "この期間はカレンダー月と同じなので、統計は変わりません。基準日を給料日に設定してください。",
+    "amount_due_this_period" => "この期間に支払う金額",
+    "semimonthly" => "月2回",
+    "budget_second_payday" => "2回目の給料日",
+    "last_day_of_month" => "月末日",
+    "instance_telegram_bot" => "インスタンスのTelegramボット",
+    "instance_telegram_bot_info" => "インストール全体で1つのボット：自分のボットトークンを空にしているアカウントは、このボットを通じて各自のチャットIDで送信します。アカウントごとに専用のボットを使う場合は空のままにしてください。",
+    "instance_telegram_bot_in_use" => "このインストールにはTelegramボットが用意されています。使用するにはトークンを空にして、下にチャットIDを入力してください。",
+    "instance_telegram_saved" => "Telegramボットを保存しました",
+    "managed_by_environment" => "環境変数で管理されています",
 ];
 
 

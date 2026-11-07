@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "Map verwijderen mislukt",
     "per_month" => "maand",
     "folders_explanation" => "Groepeer je abonnementen in gekleurde mappen, zoals zakjes voor betalingen, en filter ze met één tik op de abonnementenpagina.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Betalingsperiode",
+    "use_custom_period" => "Gebruik deze periode in plaats van kalendermaanden in de statistieken",
+    "custom_period_active_warning" => "Je statistieken, dashboard en agenda volgen deze periode in plaats van kalendermaanden.",
+    "custom_period_same_as_month" => "Deze periode is gelijk aan een kalendermaand, dus je statistieken veranderen niet. Stel de ankerdatum in op de dag waarop je wordt betaald.",
+    "amount_due_this_period" => "Te betalen bedrag deze periode",
+    "semimonthly" => "Twee keer per maand",
+    "budget_second_payday" => "Tweede betaaldag",
+    "last_day_of_month" => "Laatste dag van de maand",
+    "instance_telegram_bot" => "Instantie-Telegrambot",
+    "instance_telegram_bot_info" => "Eén bot voor de hele installatie: elk account dat zijn eigen bottoken leeg laat, verstuurt via deze bot met zijn eigen chat-id. Laat leeg als elk account een eigen bot moet gebruiken.",
+    "instance_telegram_bot_in_use" => "Deze installatie biedt een Telegrambot. Laat het token leeg om die te gebruiken en vul hieronder je chat-id in.",
+    "instance_telegram_saved" => "Telegrambot opgeslagen",
+    "managed_by_environment" => "Beheerd via omgevingsvariabelen",
 ];
 
 

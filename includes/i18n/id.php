@@ -560,6 +560,21 @@ $i18n = [
     "failed_remove_folder" => "Gagal menghapus folder",
     "per_month" => "bulan",
     "folders_explanation" => "Kelompokkan langganan Anda ke dalam folder berwarna, seperti kantong pembayaran, dan saring dengan satu ketukan di halaman langganan.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Periode pembayaran",
+    "use_custom_period" => "Gunakan periode ini sebagai pengganti bulan kalender dalam statistik",
+    "custom_period_active_warning" => "Statistik, dasbor, dan kalender Anda akan mengikuti periode ini sebagai pengganti bulan kalender.",
+    "custom_period_same_as_month" => "Periode ini sama dengan satu bulan kalender, sehingga statistik Anda tidak akan berubah. Atur tanggal jangkar ke hari Anda menerima gaji.",
+    "amount_due_this_period" => "Jumlah yang harus dibayar pada periode ini",
+    "semimonthly" => "Dua kali sebulan",
+    "budget_second_payday" => "Hari gajian kedua",
+    "last_day_of_month" => "Hari terakhir bulan",
+    "instance_telegram_bot" => "Bot Telegram instans",
+    "instance_telegram_bot_info" => "Satu bot untuk seluruh instalasi: setiap akun yang mengosongkan token bot miliknya mengirim melalui bot ini, dengan ID obrolannya sendiri. Biarkan kosong agar setiap akun memakai bot sendiri.",
+    "instance_telegram_bot_in_use" => "Instalasi ini menyediakan bot Telegram. Biarkan token kosong untuk menggunakannya, dan masukkan ID obrolan Anda di bawah.",
+    "instance_telegram_saved" => "Bot Telegram disimpan",
+    "managed_by_environment" => "Dikelola oleh variabel lingkungan",
 ];
 
 ?>

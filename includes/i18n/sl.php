@@ -561,6 +561,21 @@ $i18n = [
     "failed_remove_folder" => "Mape ni bilo mogoče odstraniti",
     "per_month" => "mesec",
     "folders_explanation" => "Združite svoje naročnine v barvne mape, kot žepe za plačila, in jih filtrirajte z enim dotikom na strani naročnin.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Obdobje plačila",
+    "use_custom_period" => "V statistiki uporabi to obdobje namesto koledarskih mesecev",
+    "custom_period_active_warning" => "Vaša statistika, nadzorna plošča in koledar bodo sledili temu obdobju namesto koledarskim mesecem.",
+    "custom_period_same_as_month" => "To obdobje je enako koledarskemu mesecu, zato se vaša statistika ne bo spremenila. Sidrni datum nastavite na dan, ko prejmete plačo.",
+    "amount_due_this_period" => "Znesek za plačilo v tem obdobju",
+    "semimonthly" => "Dvakrat na mesec",
+    "budget_second_payday" => "Drugi plačilni dan",
+    "last_day_of_month" => "Zadnji dan v mesecu",
+    "instance_telegram_bot" => "Telegram bot namestitve",
+    "instance_telegram_bot_info" => "En bot za celotno namestitev: vsak račun, ki pusti svoj žeton bota prazen, pošilja prek tega bota s svojim ID-jem klepeta. Pustite prazno, če naj vsak račun uporablja svojega bota.",
+    "instance_telegram_bot_in_use" => "Ta namestitev ponuja Telegram bota. Žeton pustite prazen, če ga želite uporabiti, in spodaj vnesite svoj ID klepeta.",
+    "instance_telegram_saved" => "Telegram bot shranjen",
+    "managed_by_environment" => "Upravljajo spremenljivke okolja",
 ];
 
 

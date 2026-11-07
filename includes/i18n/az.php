@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "Qovluq silinmədi",
     "per_month" => "ay",
     "folders_explanation" => "Abunəliklərinizi ödənişlər üçün cib kimi rəngli qovluqlarda qruplaşdırın və abunəliklər səhifəsində bir toxunuşla süzün.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Ödəniş dövrü",
+    "use_custom_period" => "Statistikada təqvim aylarının əvəzinə bu dövrdən istifadə et",
+    "custom_period_active_warning" => "Statistikanız, idarə panelınız və təqviminiz təqvim aylarının əvəzinə bu dövrü izləyəcək.",
+    "custom_period_same_as_month" => "Bu dövr təqvim ayı ilə eynidir, ona görə statistikanız dəyişməyəcək. Dayaq tarixini maaş aldığınız günə təyin edin.",
+    "amount_due_this_period" => "Bu dövr üçün ödəniləcək məbləğ",
+    "semimonthly" => "Ayda iki dəfə",
+    "budget_second_payday" => "İkinci maaş günü",
+    "last_day_of_month" => "Ayın son günü",
+    "instance_telegram_bot" => "Quraşdırma üçün Telegram botu",
+    "instance_telegram_bot_info" => "Bütün quraşdırma üçün bir bot: öz bot tokenini boş buraxan hər hesab bu bot vasitəsilə, öz çat identifikatoru ilə göndərir. Hər hesabın öz botundan istifadə etməsi üçün boş buraxın.",
+    "instance_telegram_bot_in_use" => "Bu quraşdırma Telegram botu təqdim edir. İstifadə etmək üçün tokeni boş buraxın və çat identifikatorunuzu aşağıda daxil edin.",
+    "instance_telegram_saved" => "Telegram botu saxlanıldı",
+    "managed_by_environment" => "Mühit dəyişənləri ilə idarə olunur",
 ];
 
 

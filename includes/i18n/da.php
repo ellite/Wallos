@@ -561,5 +561,20 @@ $i18n = [
     "failed_remove_folder" => "Kunne ikke fjerne mappe",
     "per_month" => "måned",
     "folders_explanation" => "Gruppér dine abonnementer i farvede mapper, som lommer med betalinger, og filtrér dem med et enkelt tryk på abonnementssiden.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Betalingsperiode",
+    "use_custom_period" => "Brug denne periode i stedet for kalendermåneder i statistikken",
+    "custom_period_active_warning" => "Din statistik, dit overblik og din kalender følger denne periode i stedet for kalendermåneder.",
+    "custom_period_same_as_month" => "Denne periode er den samme som en kalendermåned, så din statistik ændrer sig ikke. Sæt ankerdatoen til den dag, du får løn.",
+    "amount_due_this_period" => "Beløb til betaling i denne periode",
+    "semimonthly" => "To gange om måneden",
+    "budget_second_payday" => "Anden lønningsdag",
+    "last_day_of_month" => "Sidste dag i måneden",
+    "instance_telegram_bot" => "Instans-Telegram-bot",
+    "instance_telegram_bot_info" => "Én bot til hele installationen: hver konto, der lader sit eget bot-token stå tomt, sender via denne bot med sit eget chat-id. Lad feltet stå tomt, hvis hver konto skal bruge sin egen bot.",
+    "instance_telegram_bot_in_use" => "Denne installation stiller en Telegram-bot til rådighed. Lad token stå tomt for at bruge den, og angiv dit chat-id nedenfor.",
+    "instance_telegram_saved" => "Telegram-bot gemt",
+    "managed_by_environment" => "Administreres af miljøvariabler",
 ];
 ?>

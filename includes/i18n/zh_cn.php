@@ -582,6 +582,21 @@ $i18n = [
     "failed_remove_folder" => "移除文件夹失败",
     "per_month" => "月",
     "folders_explanation" => "将订阅分组到彩色文件夹中，就像付款的口袋，并在订阅页面一键筛选。",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "付款周期",
+    "use_custom_period" => "在统计中使用此周期而不是日历月",
+    "custom_period_active_warning" => "您的统计、仪表板和日历将遵循此周期，而不是日历月。",
+    "custom_period_same_as_month" => "此周期与日历月相同，因此统计数据不会改变。请将锚点日期设置为您的发薪日。",
+    "amount_due_this_period" => "本周期应付金额",
+    "semimonthly" => "每月两次",
+    "budget_second_payday" => "第二个发薪日",
+    "last_day_of_month" => "每月最后一天",
+    "instance_telegram_bot" => "实例 Telegram 机器人",
+    "instance_telegram_bot_info" => "整个安装共用一个机器人：将自己的机器人令牌留空的账户会通过它发送，并使用各自的聊天 ID。若希望每个账户使用自己的机器人，请留空。",
+    "instance_telegram_bot_in_use" => "此安装提供了一个 Telegram 机器人。将令牌留空即可使用，并在下方输入您的聊天 ID。",
+    "instance_telegram_saved" => "Telegram 机器人已保存",
+    "managed_by_environment" => "由环境变量管理",
 ];
 
 ?>

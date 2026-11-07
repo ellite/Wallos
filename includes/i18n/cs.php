@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "Složku se nepodařilo odstranit",
     "per_month" => "měsíc",
     "folders_explanation" => "Seskupte své předplatné do barevných složek, jako kapsy plateb, a filtrujte je jedním klepnutím na stránce předplatných.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Platební období",
+    "use_custom_period" => "Používat toto období místo kalendářních měsíců ve statistikách",
+    "custom_period_active_warning" => "Vaše statistiky, přehled i kalendář budou sledovat toto období místo kalendářních měsíců.",
+    "custom_period_same_as_month" => "Toto období je stejné jako kalendářní měsíc, takže se vaše statistiky nezmění. Nastavte kotvicí datum na den, kdy dostáváte výplatu.",
+    "amount_due_this_period" => "Částka k úhradě v tomto období",
+    "semimonthly" => "Dvakrát měsíčně",
+    "budget_second_payday" => "Druhý výplatní den",
+    "last_day_of_month" => "Poslední den v měsíci",
+    "instance_telegram_bot" => "Telegram bot instalace",
+    "instance_telegram_bot_info" => "Jeden bot pro celou instalaci: každý účet, který nechá vlastní token bota prázdný, odesílá přes tohoto bota se svým vlastním ID chatu. Nechte prázdné, pokud má každý účet používat vlastního bota.",
+    "instance_telegram_bot_in_use" => "Tato instalace poskytuje Telegram bota. Chcete-li jej použít, nechte token prázdný a níže zadejte své ID chatu.",
+    "instance_telegram_saved" => "Telegram bot uložen",
+    "managed_by_environment" => "Spravováno proměnnými prostředí",
 ];
 
 

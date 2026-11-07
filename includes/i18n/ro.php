@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "Nu s-a putut elimina dosarul",
     "per_month" => "lună",
     "folders_explanation" => "Grupați-vă abonamentele în dosare colorate, ca niște buzunare pentru plăți, și filtrați-le cu o singură atingere în pagina de abonamente.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Perioadă de plată",
+    "use_custom_period" => "Folosește această perioadă în loc de lunile calendaristice în statistici",
+    "custom_period_active_warning" => "Statisticile, panoul și calendarul dvs. vor urma această perioadă în loc de lunile calendaristice.",
+    "custom_period_same_as_month" => "Această perioadă este aceeași cu o lună calendaristică, deci statisticile dvs. nu se vor schimba. Setați data de ancorare la ziua în care sunteți plătit.",
+    "amount_due_this_period" => "Suma de plătit în această perioadă",
+    "semimonthly" => "De două ori pe lună",
+    "budget_second_payday" => "A doua zi de salariu",
+    "last_day_of_month" => "Ultima zi a lunii",
+    "instance_telegram_bot" => "Botul Telegram al instanței",
+    "instance_telegram_bot_info" => "Un singur bot pentru toată instalarea: fiecare cont care își lasă gol propriul token de bot trimite prin acesta, cu propriul ID de chat. Lăsați gol pentru ca fiecare cont să folosească un bot propriu.",
+    "instance_telegram_bot_in_use" => "Această instalare oferă un bot Telegram. Lăsați tokenul gol pentru a-l folosi și introduceți mai jos ID-ul dvs. de chat.",
+    "instance_telegram_saved" => "Botul Telegram a fost salvat",
+    "managed_by_environment" => "Gestionat prin variabile de mediu",
 ];
 
 

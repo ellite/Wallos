@@ -583,6 +583,21 @@ $i18n = [
     "failed_remove_folder" => "Impossibile rimuovere la cartella",
     "per_month" => "mese",
     "folders_explanation" => "Raggruppa i tuoi abbonamenti in cartelle colorate, come tasche di pagamenti, e filtrali con un tocco nella pagina degli abbonamenti.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Periodo di pagamento",
+    "use_custom_period" => "Usa questo periodo al posto dei mesi di calendario nelle statistiche",
+    "custom_period_active_warning" => "Le statistiche, la dashboard e il calendario seguiranno questo periodo al posto dei mesi di calendario.",
+    "custom_period_same_as_month" => "Questo periodo coincide con un mese di calendario, quindi le statistiche non cambieranno. Imposta la data di ancoraggio sul giorno in cui vieni pagato.",
+    "amount_due_this_period" => "Importo dovuto in questo periodo",
+    "semimonthly" => "Due volte al mese",
+    "budget_second_payday" => "Secondo giorno di paga",
+    "last_day_of_month" => "Ultimo giorno del mese",
+    "instance_telegram_bot" => "Bot Telegram dell'istanza",
+    "instance_telegram_bot_info" => "Un solo bot per l'intera installazione: ogni account che lascia vuoto il proprio token del bot invia tramite questo, con il proprio ID chat. Lascia vuoto per far usare a ogni account un bot proprio.",
+    "instance_telegram_bot_in_use" => "Questa installazione fornisce un bot Telegram. Lascia vuoto il token per usarlo e inserisci qui sotto il tuo ID chat.",
+    "instance_telegram_saved" => "Bot Telegram salvato",
+    "managed_by_environment" => "Gestito da variabili d'ambiente",
 ];
 
 ?>

@@ -562,6 +562,21 @@ $i18n = [
     "failed_remove_folder" => "폴더를 삭제하지 못했습니다",
     "per_month" => "월",
     "folders_explanation" => "구독을 결제 주머니처럼 색깔 있는 폴더로 묶고, 구독 페이지에서 한 번의 탭으로 필터링하세요.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "결제 기간",
+    "use_custom_period" => "통계에서 달력 월 대신 이 기간 사용",
+    "custom_period_active_warning" => "통계, 대시보드, 캘린더가 달력 월 대신 이 기간을 따릅니다.",
+    "custom_period_same_as_month" => "이 기간은 달력 월과 같으므로 통계가 바뀌지 않습니다. 기준일을 급여를 받는 날로 설정하세요.",
+    "amount_due_this_period" => "이 기간에 지불할 금액",
+    "semimonthly" => "월 2회",
+    "budget_second_payday" => "두 번째 급여일",
+    "last_day_of_month" => "월의 마지막 날",
+    "instance_telegram_bot" => "인스턴스 Telegram 봇",
+    "instance_telegram_bot_info" => "설치 전체에서 하나의 봇을 사용합니다. 자신의 봇 토큰을 비워 둔 계정은 이 봇을 통해 각자의 채팅 ID로 전송합니다. 계정마다 별도의 봇을 사용하려면 비워 두세요.",
+    "instance_telegram_bot_in_use" => "이 설치에서는 Telegram 봇을 제공합니다. 사용하려면 토큰을 비워 두고 아래에 채팅 ID를 입력하세요.",
+    "instance_telegram_saved" => "Telegram 봇이 저장되었습니다",
+    "managed_by_environment" => "환경 변수로 관리됨",
 ];
 
 

@@ -560,6 +560,21 @@ $i18n = [
     "failed_remove_folder" => "Không thể xóa thư mục",
     "per_month" => "tháng",
     "folders_explanation" => "Nhóm các gói đăng ký của bạn vào các thư mục có màu, như những ngăn đựng khoản thanh toán, và lọc chúng chỉ với một chạm trên trang đăng ký.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Kỳ thanh toán",
+    "use_custom_period" => "Dùng kỳ này thay cho tháng dương lịch trong thống kê",
+    "custom_period_active_warning" => "Thống kê, bảng điều khiển và lịch của bạn sẽ theo kỳ này thay vì tháng dương lịch.",
+    "custom_period_same_as_month" => "Kỳ này giống một tháng dương lịch nên thống kê của bạn sẽ không thay đổi. Hãy đặt ngày neo vào ngày bạn nhận lương.",
+    "amount_due_this_period" => "Số tiền phải trả trong kỳ này",
+    "semimonthly" => "Hai lần mỗi tháng",
+    "budget_second_payday" => "Ngày lương thứ hai",
+    "last_day_of_month" => "Ngày cuối tháng",
+    "instance_telegram_bot" => "Bot Telegram của hệ thống",
+    "instance_telegram_bot_info" => "Một bot cho toàn bộ hệ thống: mỗi tài khoản để trống mã bot riêng sẽ gửi qua bot này, với ID cuộc trò chuyện của riêng mình. Để trống nếu mỗi tài khoản dùng bot riêng.",
+    "instance_telegram_bot_in_use" => "Hệ thống này cung cấp một bot Telegram. Để trống mã để sử dụng bot này và nhập ID cuộc trò chuyện của bạn bên dưới.",
+    "instance_telegram_saved" => "Đã lưu bot Telegram",
+    "managed_by_environment" => "Được quản lý bằng biến môi trường",
 ];
 
 ?>
