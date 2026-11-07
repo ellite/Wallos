@@ -86,7 +86,7 @@
           ?>
           <div class="filter-item <?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>">
             <span class="folder-filter-dot" style="background-color: <?= htmlspecialchars($folder['color']) ?>"></span>
-            <?= $folder['name'] ?>
+            <?= htmlSafe($folder['name']) ?>
           </div>
           <?php
         }

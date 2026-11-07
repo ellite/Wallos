@@ -6,10 +6,11 @@ require_once '../../includes/instance_config.php';
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
-if (
-    !isset($data["bottoken"]) || $data["bottoken"] == "" ||
-    !isset($data["chatid"]) || $data["chatid"] == ""
-) {
+// An empty bot token is allowed: it means the instance bot, if the deployment
+// configured one, the same as it does to the cron.
+$botToken = wallos_telegram_bot_token($db, $data["bottoken"] ?? '');
+
+if ($botToken === "" || !isset($data["chatid"]) || $data["chatid"] == "") {
     $response = [
         "success" => false,
         "message" => translate('fill_mandatory_fields', $i18n)
@@ -20,10 +21,6 @@ if (
     $title = translate('wallos_notification', $i18n);
     $message = translate('test_notification', $i18n);
 
-    // Empty here means the same as it means to the cron: the instance bot,
-    // if the deployment configured one. Otherwise the test would fail for a
-    // user whose notifications work.
-    $botToken = wallos_telegram_bot_token($db, $data["bottoken"] ?? '');
     $chatId = $data["chatid"];
 
     $ch = curl_init();

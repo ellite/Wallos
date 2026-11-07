@@ -291,7 +291,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
         <button type="button" class="folder-card<?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>"
           style="--folder-color: <?= htmlspecialchars($folder['color']) ?>">
           <span class="folder-card-header">
-            <span class="folder-card-name"><?= $folder['name'] ?></span>
+            <span class="folder-card-name"><?= htmlSafe($folder['name']) ?></span>
             <span class="folder-card-check"><i class="fa-solid fa-circle-check"></i></span>
           </span>
           <span class="folder-card-meta"><?= $folderStats[$folder['id']]['count'] ?? 0 ?> <?= translate('subscriptions', $i18n) ?></span>
@@ -623,7 +623,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
           foreach ($folders as $folder) {
             ?>
             <option value="<?= $folder['id'] ?>">
-              <?= $folder['name'] ?>
+              <?= htmlSafe($folder['name']) ?>
             </option>
             <?php
           }
