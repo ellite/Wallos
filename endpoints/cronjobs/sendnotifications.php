@@ -30,7 +30,7 @@ if (php_sapi_name() == 'cli') {
 }
 
 // Get all user ids
-$query = "SELECT id, username FROM user";
+$query = "SELECT id, username, language FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 $periodSummaryColumnCheck = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
@@ -38,12 +38,13 @@ $hasPeriodSummaryColumn = $periodSummaryColumnCheck && $periodSummaryColumnCheck
 
 function getDaysText($days)
 {
+    global $i18n;
     if ($days == 0) {
-        return "Today";
+        return translate('notification_due_today', $i18n);
     } elseif ($days == 1) {
-        return "Tomorrow";
+        return translate('notification_due_tomorrow', $i18n);
     } else {
-        return "In " . $days . " days";
+        return sprintf(translate('notification_due_in_days', $i18n), $days);
     }
 }
 
@@ -61,6 +62,8 @@ function formatPrice($price, $currencyCode, $currencySymbol)
 
 function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includePeriodSummary)
 {
+    global $i18n;
+
     if (empty($perUser) && !$includePeriodSummary) {
         return "";
     }
@@ -70,14 +73,19 @@ function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includeP
     }
 
     if ($name) {
-        $message = $name . ", the following subscriptions are up for renewal:\n";
+        $message = sprintf(translate('notification_renewals_intro_named', $i18n), $name) . "\n";
     } else {
-        $message = "The following subscriptions are up for renewal:\n";
+        $message = translate('notification_renewals_intro', $i18n) . "\n";
     }
 
     foreach ($perUser as $subscription) {
         $dayText = getDaysText($subscription['days']);
-        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+        $message .= sprintf(
+            translate('notification_subscription_line', $i18n),
+            $subscription['name'],
+            $subscription['formatted_price'],
+            $dayText
+        ) . "\n";
     }
 
     if ($includePeriodSummary) {
@@ -89,6 +97,12 @@ function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includeP
 
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
+
+    // Load the recipient's own language so notifications are translated per user.
+    // The cron context has no session, so $i18n would otherwise stay English for
+    // everyone regardless of each user's configured language. See #867.
+    $userLanguage = resolve_language($userToNotify['language'] ?? 'en');
+    require __DIR__ . '/../../includes/i18n/' . $userLanguage . '.php';
     if (php_sapi_name() !== 'cli') {
         echo "For user: " . $userToNotify['username'] . "<br /><br />";
     }
