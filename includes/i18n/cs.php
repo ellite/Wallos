@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Tato instalace poskytuje Telegram bota. Chcete-li jej použít, nechte token prázdný a níže zadejte své ID chatu.",
     "instance_telegram_saved" => "Telegram bot uložen",
     "managed_by_environment" => "Spravováno proměnnými prostředí",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy server instalace",
+    "instance_ntfy_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, publikuje na tento server pod svým vlastním tématem. Hlavičky jsou přihlašovací údaje k tomuto serveru a nikdy se neodesílají na server, který si účet nastavil sám.",
+    "instance_ntfy_server_in_use" => "Tato instalace poskytuje server ntfy. Chcete-li jej použít, nechte server prázdný a níže zadejte své téma.",
+    "instance_ntfy_saved" => "Server ntfy uložen",
 ];
 
 

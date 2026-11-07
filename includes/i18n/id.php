@@ -575,6 +575,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Instalasi ini menyediakan bot Telegram. Biarkan token kosong untuk menggunakannya, dan masukkan ID obrolan Anda di bawah.",
     "instance_telegram_saved" => "Bot Telegram disimpan",
     "managed_by_environment" => "Dikelola oleh variabel lingkungan",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Server ntfy instans",
+    "instance_ntfy_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri memublikasikan ke server ini, dengan topiknya sendiri. Header adalah kredensial untuk server ini dan tidak pernah dikirim ke server yang dikonfigurasi sendiri oleh akun.",
+    "instance_ntfy_server_in_use" => "Instalasi ini menyediakan server ntfy. Biarkan server kosong untuk menggunakannya, dan masukkan topik Anda di bawah.",
+    "instance_ntfy_saved" => "Server ntfy disimpan",
 ];
 
 ?>

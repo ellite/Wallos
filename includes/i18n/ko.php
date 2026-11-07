@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "이 설치에서는 Telegram 봇을 제공합니다. 사용하려면 토큰을 비워 두고 아래에 채팅 ID를 입력하세요.",
     "instance_telegram_saved" => "Telegram 봇이 저장되었습니다",
     "managed_by_environment" => "환경 변수로 관리됨",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "인스턴스 ntfy 서버",
+    "instance_ntfy_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버에 각자의 토픽으로 게시합니다. 헤더는 이 서버의 인증 정보이며, 계정이 직접 설정한 서버로는 전송되지 않습니다.",
+    "instance_ntfy_server_in_use" => "이 설치에서는 ntfy 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 토픽을 입력하세요.",
+    "instance_ntfy_saved" => "ntfy 서버가 저장되었습니다",
 ];
 
 

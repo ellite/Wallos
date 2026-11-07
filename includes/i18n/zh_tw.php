@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "此安裝提供了一個 Telegram 機器人。將權杖留空即可使用，並在下方輸入您的聊天 ID。",
     "instance_telegram_saved" => "Telegram 機器人已儲存",
     "managed_by_environment" => "由環境變數管理",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "執行個體 ntfy 伺服器",
+    "instance_ntfy_server_info" => "整個安裝共用一台伺服器：將自己的伺服器留空的帳號會使用各自的主題發布到這台伺服器。標頭是這台伺服器的憑證，絕不會傳送到帳號自行設定的伺服器。",
+    "instance_ntfy_server_in_use" => "此安裝提供了一台 ntfy 伺服器。將伺服器留空即可使用，並在下方輸入您的主題。",
+    "instance_ntfy_saved" => "ntfy 伺服器已儲存",
 ];
 
 

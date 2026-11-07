@@ -582,6 +582,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "このインストールにはTelegramボットが用意されています。使用するにはトークンを空にして、下にチャットIDを入力してください。",
     "instance_telegram_saved" => "Telegramボットを保存しました",
     "managed_by_environment" => "環境変数で管理されています",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "インスタンスのntfyサーバー",
+    "instance_ntfy_server_info" => "インストール全体で1つのサーバー：自分のサーバーを空にしているアカウントは、このサーバーに各自のトピックで公開します。ヘッダーはこのサーバーの認証情報であり、アカウントが自分で設定したサーバーには送信されません。",
+    "instance_ntfy_server_in_use" => "このインストールにはntfyサーバーが用意されています。使用するにはサーバーを空にして、下にトピックを入力してください。",
+    "instance_ntfy_saved" => "ntfyサーバーを保存しました",
 ];
 
 

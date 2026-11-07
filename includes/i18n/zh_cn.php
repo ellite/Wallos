@@ -597,6 +597,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "此安装提供了一个 Telegram 机器人。将令牌留空即可使用，并在下方输入您的聊天 ID。",
     "instance_telegram_saved" => "Telegram 机器人已保存",
     "managed_by_environment" => "由环境变量管理",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "实例 ntfy 服务器",
+    "instance_ntfy_server_info" => "整个安装共用一台服务器：将自己的服务器留空的账户会使用各自的主题发布到这台服务器。请求头是这台服务器的凭据，绝不会发送到账户自行配置的服务器。",
+    "instance_ntfy_server_in_use" => "此安装提供了一台 ntfy 服务器。将服务器留空即可使用，并在下方输入您的主题。",
+    "instance_ntfy_saved" => "ntfy 服务器已保存",
 ];
 
 ?>

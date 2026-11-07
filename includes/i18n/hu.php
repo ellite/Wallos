@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Ez a telepítés Telegram-botot biztosít. A használatához hagyja üresen a tokent, és adja meg lent a csevegőazonosítóját.",
     "instance_telegram_saved" => "Telegram-bot mentve",
     "managed_by_environment" => "Környezeti változók kezelik",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Példány ntfy-szervere",
+    "instance_ntfy_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre publikál, a saját témája alatt. A fejlécek e szerver hitelesítő adatai, és soha nem kerülnek el olyan szerverre, amelyet a fiók maga állított be.",
+    "instance_ntfy_server_in_use" => "Ez a telepítés ntfy-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a témáját.",
+    "instance_ntfy_saved" => "ntfy-szerver mentve",
 ]; 
  
  

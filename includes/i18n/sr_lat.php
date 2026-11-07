@@ -576,6 +576,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Ova instalacija pruža Telegram bota. Ostavite token praznim da biste ga koristili i unesite ispod svoj ID ćaskanja.",
     "instance_telegram_saved" => "Telegram bot je sačuvan",
     "managed_by_environment" => "Upravljaju promenljive okruženja",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy server instance",
+    "instance_ntfy_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim objavljuje na ovaj server, pod svojom temom. Zaglavlja su akreditivi za ovaj server i nikada se ne šalju na server koji je nalog sam podesio.",
+    "instance_ntfy_server_in_use" => "Ova instalacija pruža ntfy server. Ostavite server praznim da biste ga koristili i unesite ispod svoju temu.",
+    "instance_ntfy_saved" => "ntfy server je sačuvan",
 ];
 
 

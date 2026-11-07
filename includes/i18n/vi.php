@@ -575,6 +575,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Hệ thống này cung cấp một bot Telegram. Để trống mã để sử dụng bot này và nhập ID cuộc trò chuyện của bạn bên dưới.",
     "instance_telegram_saved" => "Đã lưu bot Telegram",
     "managed_by_environment" => "Được quản lý bằng biến môi trường",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Máy chủ ntfy của hệ thống",
+    "instance_ntfy_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ đăng lên máy chủ này, dưới chủ đề riêng của mình. Các tiêu đề là thông tin xác thực của máy chủ này và không bao giờ được gửi đến máy chủ do tài khoản tự cấu hình.",
+    "instance_ntfy_server_in_use" => "Hệ thống này cung cấp một máy chủ ntfy. Để trống máy chủ để sử dụng và nhập chủ đề của bạn bên dưới.",
+    "instance_ntfy_saved" => "Đã lưu máy chủ ntfy",
 ];
 
 ?>

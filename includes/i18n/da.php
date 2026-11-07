@@ -576,5 +576,11 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Denne installation stiller en Telegram-bot til rådighed. Lad token stå tomt for at bruge den, og angiv dit chat-id nedenfor.",
     "instance_telegram_saved" => "Telegram-bot gemt",
     "managed_by_environment" => "Administreres af miljøvariabler",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Instans-ntfy-server",
+    "instance_ntfy_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, udgiver til denne under sit eget emne. Headerne er legitimationen til denne server og sendes aldrig til en server, som en konto selv har konfigureret.",
+    "instance_ntfy_server_in_use" => "Denne installation stiller en ntfy-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit emne nedenfor.",
+    "instance_ntfy_saved" => "ntfy-server gemt",
 ];
 ?>

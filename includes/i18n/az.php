@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Bu quraşdırma Telegram botu təqdim edir. İstifadə etmək üçün tokeni boş buraxın və çat identifikatorunuzu aşağıda daxil edin.",
     "instance_telegram_saved" => "Telegram botu saxlanıldı",
     "managed_by_environment" => "Mühit dəyişənləri ilə idarə olunur",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Quraşdırma üçün ntfy serveri",
+    "instance_ntfy_server_info" => "Bütün quraşdırma üçün bir server: öz serverini boş buraxan hər hesab bu servere, öz mövzusu altında göndərir. Başlıqlar bu serverin etimadnaməsidir və hesabın özünün konfiqurasiya etdiyi serverə heç vaxt göndərilmir.",
+    "instance_ntfy_server_in_use" => "Bu quraşdırma ntfy serveri təqdim edir. İstifadə etmək üçün serveri boş buraxın və mövzunuzu aşağıda daxil edin.",
+    "instance_ntfy_saved" => "ntfy serveri saxlanıldı",
 ];
 
 

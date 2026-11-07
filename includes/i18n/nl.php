@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Deze installatie biedt een Telegrambot. Laat het token leeg om die te gebruiken en vul hieronder je chat-id in.",
     "instance_telegram_saved" => "Telegrambot opgeslagen",
     "managed_by_environment" => "Beheerd via omgevingsvariabelen",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Instantie-ntfy-server",
+    "instance_ntfy_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, publiceert naar deze server onder zijn eigen topic. De headers zijn de inloggegevens van deze server en worden nooit verstuurd naar een server die een account zelf heeft ingesteld.",
+    "instance_ntfy_server_in_use" => "Deze installatie biedt een ntfy-server. Laat de server leeg om die te gebruiken en vul hieronder je topic in.",
+    "instance_ntfy_saved" => "ntfy-server opgeslagen",
 ];
 
 

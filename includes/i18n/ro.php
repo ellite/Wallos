@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Această instalare oferă un bot Telegram. Lăsați tokenul gol pentru a-l folosi și introduceți mai jos ID-ul dvs. de chat.",
     "instance_telegram_saved" => "Botul Telegram a fost salvat",
     "managed_by_environment" => "Gestionat prin variabile de mediu",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Serverul ntfy al instanței",
+    "instance_ntfy_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server publică pe acesta, sub propriul subiect. Antetele sunt credențialele acestui server și nu sunt trimise niciodată către un server configurat de un cont pe cont propriu.",
+    "instance_ntfy_server_in_use" => "Această instalare oferă un server ntfy. Lăsați serverul gol pentru a-l folosi și introduceți mai jos subiectul dvs.",
+    "instance_ntfy_saved" => "Serverul ntfy a fost salvat",
 ];
 
 

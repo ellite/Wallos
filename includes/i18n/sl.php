@@ -576,6 +576,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Ta namestitev ponuja Telegram bota. Žeton pustite prazen, če ga želite uporabiti, in spodaj vnesite svoj ID klepeta.",
     "instance_telegram_saved" => "Telegram bot shranjen",
     "managed_by_environment" => "Upravljajo spremenljivke okolja",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Strežnik ntfy namestitve",
+    "instance_ntfy_server_info" => "En strežnik za celotno namestitev: vsak račun, ki pusti svoj strežnik prazen, objavlja na tem strežniku pod svojo temo. Glave so poverilnice za ta strežnik in se nikoli ne pošiljajo na strežnik, ki ga je račun nastavil sam.",
+    "instance_ntfy_server_in_use" => "Ta namestitev ponuja strežnik ntfy. Strežnik pustite prazen, če ga želite uporabiti, in spodaj vnesite svojo temo.",
+    "instance_ntfy_saved" => "Strežnik ntfy shranjen",
 ];
 
 

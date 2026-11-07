@@ -576,6 +576,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Esta instalação fornece um bot do Telegram. Deixe o token vazio para o usar e introduza abaixo o seu ID de conversa.",
     "instance_telegram_saved" => "Bot do Telegram guardado",
     "managed_by_environment" => "Gerido por variáveis de ambiente",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Servidor ntfy da instância",
+    "instance_ntfy_server_info" => "Um servidor para toda a instalação: todas as contas que deixem o seu próprio servidor vazio publicam neste, sob o seu próprio tópico. Os cabeçalhos são a credencial deste servidor e nunca são enviados para um servidor que uma conta tenha configurado por si.",
+    "instance_ntfy_server_in_use" => "Esta instalação fornece um servidor ntfy. Deixe o servidor vazio para o usar e introduza abaixo o seu tópico.",
+    "instance_ntfy_saved" => "Servidor ntfy guardado",
 ];
 
 ?>

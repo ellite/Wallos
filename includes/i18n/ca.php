@@ -577,6 +577,12 @@ $i18n = [
     "instance_telegram_bot_in_use" => "Aquesta instal·lació ofereix un bot de Telegram. Deixa el token buit per utilitzar-lo i introdueix a sota el teu identificador de xat.",
     "instance_telegram_saved" => "Bot de Telegram desat",
     "managed_by_environment" => "Gestionat per variables d'entorn",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Servidor ntfy de la instal·lació",
+    "instance_ntfy_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor publiquen en aquest, sota el seu propi tema. Les capçaleres són la credencial d'aquest servidor i no s'envien mai a un servidor que un compte hagi configurat pel seu compte.",
+    "instance_ntfy_server_in_use" => "Aquesta instal·lació ofereix un servidor ntfy. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu tema.",
+    "instance_ntfy_saved" => "Servidor ntfy desat",
 ];
 
 
