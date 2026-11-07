@@ -38,15 +38,70 @@ function saveMonthlyBudget() {
     });
 }
 
+// A monthly period anchored on the 1st runs from the 1st to the end of the
+// month, which is the calendar month the statistics already use, so turning it
+// on would change nothing. A semi-monthly period does the same when both
+// paydays are the 1st, because the two collapse to a single start per month.
+// Weekly and fortnightly periods never line up with a month.
+//
+// settings.php decides the same thing on load by asking getActiveBudgetPeriod();
+// this keeps the note honest while the controls are being changed, before
+// anything has been saved.
+function updateSecondPaydayField() {
+  const field = document.getElementById("secondPaydayField");
+  if (!field) {
+    return;
+  }
+
+  field.hidden = document.getElementById("budget_period_type").value !== "semimonthly";
+}
+
+function updateCustomPeriodWarning() {
+  const warning = document.getElementById("customPeriodWarning");
+  if (!warning) {
+    return;
+  }
+
+  const enabled = document.getElementById("use_custom_period").checked;
+  const periodType = document.getElementById("budget_period_type").value;
+  const anchorDate = document.getElementById("budget_period_anchor_date").value;
+  const anchorDay = Number(anchorDate.split("-")[2]);
+  const secondDay = Number(document.getElementById("budget_period_second_day").value);
+
+  const isCalendarMonth = (periodType === "monthly" && anchorDay === 1)
+    || (periodType === "semimonthly" && anchorDay === 1 && secondDay === 1);
+
+  // The two notes contradict each other, so only one is ever shown: saying the
+  // period now drives everything is wrong when the period is a calendar month.
+  warning.hidden = !(enabled && isCalendarMonth);
+
+  const activeNote = document.getElementById("customPeriodActiveWarning");
+  if (activeNote) {
+    activeNote.hidden = !(enabled && !isCalendarMonth);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  ["use_custom_period", "budget_period_type", "budget_period_anchor_date"].forEach((id) => {
+    const control = document.getElementById(id);
+    if (control) {
+      control.addEventListener("change", updateCustomPeriodWarning);
+      control.addEventListener("change", updateSecondPaydayField);
+    }
+  });
+});
+
 function savePeriodBudget() {
   const button = document.getElementById("savePeriodBudget");
   button.disabled = true;
 
   const budget = Number(document.getElementById("period_budget").value || 0);
+  const useCustomPeriod = document.getElementById("use_custom_period").checked;
   const budgetPeriodType = document.getElementById("budget_period_type").value;
   const budgetPeriodAnchorDateInput = document.getElementById("budget_period_anchor_date");
   let budgetPeriodAnchorDate = budgetPeriodAnchorDateInput.value;
-  const validPeriodTypes = ["weekly", "fortnightly", "monthly"];
+  const secondDay = Number(document.getElementById("budget_period_second_day").value);
+  const validPeriodTypes = ["weekly", "fortnightly", "semimonthly", "monthly"];
 
   if (!budgetPeriodAnchorDate || budgetPeriodAnchorDate === "1970-01-01") {
     const today = new Date();
@@ -82,14 +137,17 @@ function savePeriodBudget() {
     },
     body: JSON.stringify({
       period_budget: budget,
+      use_custom_period: useCustomPeriod,
       budget_period_type: budgetPeriodType,
       budget_period_anchor_date: budgetPeriodAnchorDate,
+      budget_period_second_day: secondDay,
     }),
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
+        updateCustomPeriodWarning();
       } else {
         showErrorMessage(data.message || translate('unknown_error'));
       }
