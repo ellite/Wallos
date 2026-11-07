@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.11.1](https://github.com/ellite/Wallos/compare/v5.11.0...v5.11.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* escape folder names on output and let the Telegram test use the instance bot ([259b12e](https://github.com/ellite/Wallos/commit/259b12e862f20f2253cedbfa73bbacc7ed5b6b14))
+
 ## [5.11.0](https://github.com/ellite/Wallos/compare/v5.10.4...v5.11.0) (2026-11-07)
 
 
