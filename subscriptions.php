@@ -142,18 +142,6 @@ foreach ($subscriptions as $subscription) {
   if (isset($payment_methods[$paymentMethodId ?? ""])) {
     $payment_methods[$paymentMethodId ?? ""]['count']++;
   }
-  $folderId = $subscription['folder_id'] ?? null;
-  if ($folderId !== null && isset($folders[$folderId])) {
-    $folders[$folderId]['count']++;
-    if (!$subscription['inactive']) {
-      $folderPrice = floatval($subscription['price']);
-      if ($subscription['currency_id'] != $mainCurrencyId) {
-        $folderPrice = getPriceConverted($folderPrice, $subscription['currency_id'], $db);
-      }
-      $folders[$folderId]['monthly_total'] = ($folders[$folderId]['monthly_total'] ?? 0)
-        + getPricePerMonth($subscription['cycle'], $subscription['frequency'], $folderPrice);
-    }
-  }
 }
 
 if ($sortOrder == "category_id") {
@@ -167,6 +155,9 @@ if ($sortOrder == "payment_method_id") {
     return ($payment_methods[$a['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($payment_methods[$b['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX);
   });
 }
+
+// Folder cards always show each folder's full totals, whatever the list filters are.
+$folderStats = calculateFolderStats($db, $userId, $folders, $mainCurrencyId);
 
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 
@@ -295,7 +286,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             $selectedClass = ' selected';
           }
         }
-        $folderMonthlyTotal = $folder['monthly_total'] ?? 0;
+        $folderMonthlyTotal = $folderStats[$folder['id']]['monthly_total'] ?? 0;
         ?>
         <button type="button" class="folder-card<?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>"
           style="--folder-color: <?= htmlspecialchars($folder['color']) ?>">
@@ -303,7 +294,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
             <span class="folder-card-name"><?= $folder['name'] ?></span>
             <span class="folder-card-check"><i class="fa-solid fa-circle-check"></i></span>
           </span>
-          <span class="folder-card-meta"><?= $folder['count'] ?> <?= translate('subscriptions', $i18n) ?></span>
+          <span class="folder-card-meta"><?= $folderStats[$folder['id']]['count'] ?? 0 ?> <?= translate('subscriptions', $i18n) ?></span>
           <span class="folder-card-total">
             <?= formatPrice($folderMonthlyTotal, $currencies[$mainCurrencyId]['code'], $currencies) ?>
             <span class="folder-card-total-period">/ <?= translate('per_month', $i18n) ?></span>

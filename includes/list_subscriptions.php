@@ -281,7 +281,7 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
  * regardless of the active list filters, so the folder cards stay accurate when
  * the list is refreshed through AJAX.
  */
-function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, $i18n)
+function calculateFolderStats($db, $userId, $folders, $mainCurrencyId)
 {
     $stats = [];
     foreach ($folders as $folderId => $folder) {
@@ -306,8 +306,16 @@ function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, 
         }
     }
 
+    return $stats;
+}
+
+/**
+ * Display strings for the folder cards, for the AJAX refresh.
+ */
+function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, $i18n)
+{
     $payload = [];
-    foreach ($stats as $folderId => $stat) {
+    foreach (calculateFolderStats($db, $userId, $folders, $mainCurrencyId) as $folderId => $stat) {
         $payload[$folderId] = [
             'meta' => $stat['count'] . ' ' . htmlToText(translate('subscriptions', $i18n)),
             'total' => htmlToText(formatPrice($stat['monthly_total'], $currencies[$mainCurrencyId]['code'], $currencies)),
