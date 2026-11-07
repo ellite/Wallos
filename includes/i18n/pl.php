@@ -602,6 +602,12 @@ $i18n = [
     "notification_due_today" => "Dzisiaj",
     "notification_due_tomorrow" => "Jutro",
     "notification_due_in_days" => "Za %d dni",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Poniższe subskrypcje mają zostać anulowane:",
+    "notification_cancellation_intro_named" => "%s, poniższe subskrypcje mają zostać anulowane:",
+    "notification_cancellation_line" => "%s za %s",
+    "wallos_cancellation_notification" => "Powiadomienie o anulowaniu Wallos",
 ];
 
 

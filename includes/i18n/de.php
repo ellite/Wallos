@@ -599,6 +599,12 @@ $i18n = [
     "semimonthly" => "Zweimal im Monat",
     "budget_second_payday" => "Zweiter Zahltag",
     "last_day_of_month" => "Letzter Tag des Monats",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Die folgenden Abos stehen zur Kündigung an:",
+    "notification_cancellation_intro_named" => "%s, die folgenden Abos stehen zur Kündigung an:",
+    "notification_cancellation_line" => "%s für %s",
+    "wallos_cancellation_notification" => "Wallos Kündigungsbenachrichtigung",
 ];
 
 

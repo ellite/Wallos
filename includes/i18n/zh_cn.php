@@ -623,6 +623,12 @@ $i18n = [
     "notification_due_today" => "今天",
     "notification_due_tomorrow" => "明天",
     "notification_due_in_days" => "%d 天后",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "以下订阅即将取消：",
+    "notification_cancellation_intro_named" => "%s，以下订阅即将取消：",
+    "notification_cancellation_line" => "%s：%s",
+    "wallos_cancellation_notification" => "Wallos 取消通知",
 ];
 
 ?>

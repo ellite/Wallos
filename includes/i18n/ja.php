@@ -608,6 +608,12 @@ $i18n = [
     "notification_due_today" => "今日",
     "notification_due_tomorrow" => "明日",
     "notification_due_in_days" => "%d日後",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "次のサブスクリプションが解約の時期です：",
+    "notification_cancellation_intro_named" => "%sさん、次のサブスクリプションが解約の時期です：",
+    "notification_cancellation_line" => "%s：%s",
+    "wallos_cancellation_notification" => "Wallos 解約通知",
 ];
 
 

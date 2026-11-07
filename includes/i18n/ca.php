@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "Avui",
     "notification_due_tomorrow" => "Demà",
     "notification_due_in_days" => "D'aquí a %d dies",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Les subscripcions següents han de cancel·lar-se:",
+    "notification_cancellation_intro_named" => "%s, les subscripcions següents han de cancel·lar-se:",
+    "notification_cancellation_line" => "%s per %s",
+    "wallos_cancellation_notification" => "Notificació de cancel·lació de Wallos",
 ];
 
 

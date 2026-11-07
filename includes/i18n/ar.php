@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "اليوم",
     "notification_due_tomorrow" => "غداً",
     "notification_due_in_days" => "بعد %d يوم",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "الاشتراكات التالية مستحقة للإلغاء:",
+    "notification_cancellation_intro_named" => "%s، الاشتراكات التالية مستحقة للإلغاء:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "إشعار إلغاء Wallos",
 ];
 
 

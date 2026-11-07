@@ -601,6 +601,12 @@ $i18n = [
     "notification_due_today" => "Hari ini",
     "notification_due_tomorrow" => "Besok",
     "notification_due_in_days" => "%d hari lagi",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Langganan berikut akan segera dibatalkan:",
+    "notification_cancellation_intro_named" => "%s, langganan berikut akan segera dibatalkan:",
+    "notification_cancellation_line" => "%s sebesar %s",
+    "wallos_cancellation_notification" => "Notifikasi pembatalan Wallos",
 ];
 
 ?>

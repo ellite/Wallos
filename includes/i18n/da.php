@@ -602,5 +602,11 @@ $i18n = [
     "notification_due_today" => "I dag",
     "notification_due_tomorrow" => "I morgen",
     "notification_due_in_days" => "Om %d dage",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Følgende abonnementer skal opsiges:",
+    "notification_cancellation_intro_named" => "%s, følgende abonnementer skal opsiges:",
+    "notification_cancellation_line" => "%s for %s",
+    "wallos_cancellation_notification" => "Wallos-opsigelsesnotifikation",
 ];
 ?>

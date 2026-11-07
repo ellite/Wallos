@@ -536,7 +536,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             }
                         }
 
-                        $mail->Subject = 'Wallos Notification';
+                        $mail->Subject = translate('wallos_notification', $i18n);
                         $mail->Body = $message;
 
                         if ($mail->send()) {
@@ -1034,7 +1034,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $title = 'Wallos Notification';
+                    $title = translate('wallos_notification', $i18n);
                     $name = $user['name'] ?? "";
                     $message = buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
                     if ($message === "") {
@@ -1105,7 +1105,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         }
 
                         $payload = json_encode([
-                            'title' => 'Wallos Notification',
+                            'title' => translate('wallos_notification', $i18n),
                             'body' => $message,
                         ]);
 

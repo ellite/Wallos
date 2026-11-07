@@ -19,12 +19,39 @@ require_once __DIR__ . '/../../includes/subscription_categories.php';
 require_once __DIR__ . '/../../includes/instance_config.php';
 
 // Get all user ids
-$query = "SELECT id, username FROM user";
+$query = "SELECT id, username, language FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 
+function buildCancellationMessage($name, $perUser)
+{
+    global $i18n;
+
+    if ($name) {
+        $message = sprintf(translate('notification_cancellation_intro_named', $i18n), $name) . "\n";
+    } else {
+        $message = translate('notification_cancellation_intro', $i18n) . "\n";
+    }
+
+    foreach ($perUser as $subscription) {
+        $message .= sprintf(
+            translate('notification_cancellation_line', $i18n),
+            $subscription['name'],
+            $subscription['price']
+        ) . "\n";
+    }
+
+    return $message;
+}
+
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
+
+    // Load the recipient's own language so the notification is translated per
+    // user. The cron context has no session, so $i18n would otherwise stay
+    // English for everyone.
+    $userLanguage = resolve_language($userToNotify['language'] ?? 'en');
+    require __DIR__ . '/../../includes/i18n/' . $userLanguage . '.php';
     if (php_sapi_name() !== 'cli') {
         echo "For user: " . $userToNotify['username'] . "<br />";
     }
@@ -254,11 +281,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $defaultName = $defaultUser['username'];
 
                     foreach ($notifyEmail as $payerUserId => $perUser) {
-                        $message = "The following subscriptions are up for cancellation:\n";
-
-                        foreach ($perUser as $subscription) {
-                            $message .= $subscription['name'] . " for " . $subscription['price'] ."\n";
-                        }
+                        $message = buildCancellationMessage('', $perUser);
 
                         $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
 
@@ -311,7 +334,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                             }
                         }
 
-                        $mail->Subject = 'Wallos Cancellation Notification';
+                        $mail->Subject = translate('wallos_cancellation_notification', $i18n);
                         $mail->Body = $message;
 
                         if ($mail->send()) {
@@ -338,15 +361,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                         $title = translate('wallos_notification', $i18n);
 
-                        if ($user['name']) {
-                            $message = $user['name'] . ", the following subscriptions are up for cancellation:\n";
-                        } else {
-                            $message = "The following subscriptions are up for cancellation:\n";
-                        }
-
-                        foreach ($perUser as $subscription) {
-                            $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-                        }
+                        $message = buildCancellationMessage($user['name'] ?? '', $perUser);
 
                         $postfields = [
                             'content' => $message
@@ -399,15 +414,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                        if ($user['name']) {
-                            $message = $user['name'] . ", the following subscriptions are up for cancellation:\n";
-                        } else {
-                            $message = "The following subscriptions are up for cancellation:\n";
-                        }
-
-                        foreach ($perUser as $subscription) {
-                            $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-                        }
+                        $message = buildCancellationMessage($user['name'] ?? '', $perUser);
 
                         $data = array(
                             'message' => $message,
@@ -456,15 +463,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for cancellation:\n";
-                    } else {
-                        $message = "The following subscriptions are up for cancellation:\n";
-                    }
-
-                    foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-                    }
+                    $message = buildCancellationMessage($user['name'] ?? '', $perUser);
 
                     $data = array(
                         'chat_id' => $telegram['chatId'],
@@ -506,15 +505,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    if ($user['name']) {
-                        $message = $user['name'] . ", the following subscriptions are up for cancellation:\n";
-                    } else {
-                        $message = "The following subscriptions are up for cancellation:\n";
-                    }
-
-                    foreach ($perUser as $subscription) {
-                        $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-                    }
+                    $message = buildCancellationMessage($user['name'] ?? '', $perUser);
 
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, "https://api.pushover.net/1/messages.json");
@@ -553,15 +544,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         $result = $stmt->execute();
                         $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                        if ($user['name']) {
-                            $message = $user['name'] . ", the following subscriptions are up for cancellation:\n";
-                        } else {
-                            $message = "The following subscriptions are up for cancellation:\n";
-                        }
-
-                        foreach ($perUser as $subscription) {
-                            $message .= $subscription['name'] . " for " . $subscription['price'] . "\n";
-                        }
+                        $message = buildCancellationMessage($user['name'] ?? '', $perUser);
 
                         $customheaders = webhook_custom_headers($ntfy["headers"]);
 

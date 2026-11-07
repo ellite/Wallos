@@ -602,6 +602,12 @@ $i18n = [
     "notification_due_today" => "Bugün",
     "notification_due_tomorrow" => "Yarın",
     "notification_due_in_days" => "%d gün sonra",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Aşağıdaki aboneliklerin iptal zamanı geldi:",
+    "notification_cancellation_intro_named" => "%s, aşağıdaki aboneliklerin iptal zamanı geldi:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos iptal bildirimi",
 ];
 
 

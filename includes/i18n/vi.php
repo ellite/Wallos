@@ -601,6 +601,12 @@ $i18n = [
     "notification_due_today" => "Hôm nay",
     "notification_due_tomorrow" => "Ngày mai",
     "notification_due_in_days" => "Sau %d ngày",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Các gói đăng ký sau sắp bị hủy:",
+    "notification_cancellation_intro_named" => "%s, các gói đăng ký sau sắp bị hủy:",
+    "notification_cancellation_line" => "%s với giá %s",
+    "wallos_cancellation_notification" => "Thông báo hủy của Wallos",
 ];
 
 ?>

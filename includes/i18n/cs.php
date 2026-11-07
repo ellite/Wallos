@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "Dnes",
     "notification_due_tomorrow" => "Zítra",
     "notification_due_in_days" => "Za %d dní",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Následující předplatná se blíží ke zrušení:",
+    "notification_cancellation_intro_named" => "%s, následující předplatná se blíží ke zrušení:",
+    "notification_cancellation_line" => "%s za %s",
+    "wallos_cancellation_notification" => "Oznámení o zrušení z Wallos",
 ];
 
 

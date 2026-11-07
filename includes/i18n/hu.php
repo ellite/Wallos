@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "Ma",
     "notification_due_tomorrow" => "Holnap",
     "notification_due_in_days" => "%d nap múlva",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "A következő előfizetések lemondása esedékes:",
+    "notification_cancellation_intro_named" => "%s, a következő előfizetések lemondása esedékes:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos lemondási értesítés",
 ]; 
  
  

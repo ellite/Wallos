@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "오늘",
     "notification_due_tomorrow" => "내일",
     "notification_due_in_days" => "%d일 후",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "다음 구독이 해지될 예정입니다:",
+    "notification_cancellation_intro_named" => "%s님, 다음 구독이 해지될 예정입니다:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos 해지 알림",
 ];
 
 

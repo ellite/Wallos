@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "Astăzi",
     "notification_due_tomorrow" => "Mâine",
     "notification_due_in_days" => "Peste %d zile",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Următoarele abonamente urmează să fie anulate:",
+    "notification_cancellation_intro_named" => "%s, următoarele abonamente urmează să fie anulate:",
+    "notification_cancellation_line" => "%s pentru %s",
+    "wallos_cancellation_notification" => "Notificare de anulare Wallos",
 ];
 
 

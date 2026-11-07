@@ -603,6 +603,12 @@ $i18n = [
     "notification_due_today" => "Vandaag",
     "notification_due_tomorrow" => "Morgen",
     "notification_due_in_days" => "Over %d dagen",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "De volgende abonnementen moeten worden opgezegd:",
+    "notification_cancellation_intro_named" => "%s, de volgende abonnementen moeten worden opgezegd:",
+    "notification_cancellation_line" => "%s voor %s",
+    "wallos_cancellation_notification" => "Wallos-opzeggingsmelding",
 ];
 
 

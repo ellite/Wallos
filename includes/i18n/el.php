@@ -602,6 +602,12 @@ $i18n = [
     "notification_due_today" => "Σήμερα",
     "notification_due_tomorrow" => "Αύριο",
     "notification_due_in_days" => "Σε %d ημέρες",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Οι παρακάτω συνδρομές πρόκειται να ακυρωθούν:",
+    "notification_cancellation_intro_named" => "%s, οι παρακάτω συνδρομές πρόκειται να ακυρωθούν:",
+    "notification_cancellation_line" => "%s για %s",
+    "wallos_cancellation_notification" => "Ειδοποίηση ακύρωσης Wallos",
 ];
 
 

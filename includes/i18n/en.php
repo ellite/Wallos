@@ -597,6 +597,12 @@ $i18n = [
     "failed_remove_folder" => "Failed to remove folder",
     "per_month" => "month",
     "folders_explanation" => "Group your subscriptions into colored folders, like pockets of payments, and filter them in one tap on the subscriptions page.",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "The following subscriptions are up for cancellation:",
+    "notification_cancellation_intro_named" => "%s, the following subscriptions are up for cancellation:",
+    "notification_cancellation_line" => "%s for %s",
+    "wallos_cancellation_notification" => "Wallos Cancellation Notification",
 ];
 
 

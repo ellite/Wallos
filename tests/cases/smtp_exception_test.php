@@ -60,6 +60,12 @@ function curl_exec($url)
     return '{"code":200}';
 }
 
+// The cron reads its titles from the language files; the test only needs a key back.
+function translate($key, $i18n)
+{
+    return $key;
+}
+
 function dispatch($mode, $invalidSender = false)
 {
     $source = file_get_contents(WALLOS_ROOT . '/endpoints/cronjobs/sendnotifications.php');
@@ -77,6 +83,7 @@ function dispatch($mode, $invalidSender = false)
     }
 
     $db = new Database();
+    $i18n = [];
     $userId = 42;
     $notify = $notifyEmail = [1 => [['name' => 'Subscription']], 2 => [['name' => 'Other']]];
     $notifyOtherPayers = [];
