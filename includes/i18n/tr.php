@@ -608,6 +608,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, aşağıdaki aboneliklerin iptal zamanı geldi:",
     "notification_cancellation_line" => "%s: %s",
     "wallos_cancellation_notification" => "Wallos iptal bildirimi",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Örnek bildirimleri",
+    "pushover_application_token" => "Pushover uygulama belirteci",
 ];
 
 

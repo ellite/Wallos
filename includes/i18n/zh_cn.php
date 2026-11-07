@@ -629,6 +629,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s，以下订阅即将取消：",
     "notification_cancellation_line" => "%s：%s",
     "wallos_cancellation_notification" => "Wallos 取消通知",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "实例通知",
+    "pushover_application_token" => "Pushover 应用令牌",
 ];
 
 ?>

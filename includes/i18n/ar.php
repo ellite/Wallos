@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s، الاشتراكات التالية مستحقة للإلغاء:",
     "notification_cancellation_line" => "%s: %s",
     "wallos_cancellation_notification" => "إشعار إلغاء Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "إشعارات النسخة",
+    "pushover_application_token" => "رمز تطبيق Pushover",
 ];
 
 

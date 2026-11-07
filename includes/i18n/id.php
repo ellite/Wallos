@@ -607,6 +607,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, langganan berikut akan segera dibatalkan:",
     "notification_cancellation_line" => "%s sebesar %s",
     "wallos_cancellation_notification" => "Notifikasi pembatalan Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notifikasi instans",
+    "pushover_application_token" => "Token aplikasi Pushover",
 ];
 
 ?>

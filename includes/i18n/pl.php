@@ -608,6 +608,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, poniższe subskrypcje mają zostać anulowane:",
     "notification_cancellation_line" => "%s za %s",
     "wallos_cancellation_notification" => "Powiadomienie o anulowaniu Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Powiadomienia instancji",
+    "pushover_application_token" => "Token aplikacji Pushover",
 ];
 
 

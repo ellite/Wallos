@@ -608,6 +608,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, наступні підписки незабаром будуть скасовані:",
     "notification_cancellation_line" => "%s за %s",
     "wallos_cancellation_notification" => "Сповіщення про скасування Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Сповіщення екземпляра",
+    "pushover_application_token" => "Токен застосунку Pushover",
 ];
 
 ?>

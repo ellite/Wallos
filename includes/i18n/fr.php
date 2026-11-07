@@ -610,6 +610,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, les abonnements suivants arrivent à résiliation :",
     "notification_cancellation_line" => "%s pour %s",
     "wallos_cancellation_notification" => "Notification de résiliation Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notifications de l'instance",
+    "pushover_application_token" => "Jeton d'application Pushover",
 ];
 
 

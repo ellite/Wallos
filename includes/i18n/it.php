@@ -630,6 +630,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, i seguenti abbonamenti sono in scadenza per la cancellazione:",
     "notification_cancellation_line" => "%s per %s",
     "wallos_cancellation_notification" => "Notifica di cancellazione Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notifiche dell'istanza",
+    "pushover_application_token" => "Token dell'applicazione Pushover",
 ];
 
 ?>

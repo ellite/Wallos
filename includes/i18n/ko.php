@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s님, 다음 구독이 해지될 예정입니다:",
     "notification_cancellation_line" => "%s: %s",
     "wallos_cancellation_notification" => "Wallos 해지 알림",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "인스턴스 알림",
+    "pushover_application_token" => "Pushover 애플리케이션 토큰",
 ];
 
 

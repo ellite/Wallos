@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, de volgende abonnementen moeten worden opgezegd:",
     "notification_cancellation_line" => "%s voor %s",
     "wallos_cancellation_notification" => "Wallos-opzeggingsmelding",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Instantiemeldingen",
+    "pushover_application_token" => "Pushover-applicatietoken",
 ];
 
 

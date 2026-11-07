@@ -603,6 +603,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, the following subscriptions are up for cancellation:",
     "notification_cancellation_line" => "%s for %s",
     "wallos_cancellation_notification" => "Wallos Cancellation Notification",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Instance Notifications",
+    "pushover_application_token" => "Pushover Application Token",
 ];
 
 

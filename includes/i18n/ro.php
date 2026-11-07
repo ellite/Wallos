@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, următoarele abonamente urmează să fie anulate:",
     "notification_cancellation_line" => "%s pentru %s",
     "wallos_cancellation_notification" => "Notificare de anulare Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notificările instanței",
+    "pushover_application_token" => "Token de aplicație Pushover",
 ];
 
 

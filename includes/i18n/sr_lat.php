@@ -608,6 +608,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, sledeće pretplate će uskoro biti otkazane:",
     "notification_cancellation_line" => "%s za %s",
     "wallos_cancellation_notification" => "Wallos obaveštenje o otkazivanju",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Obaveštenja instance",
+    "pushover_application_token" => "Token Pushover aplikacije",
 ];
 
 

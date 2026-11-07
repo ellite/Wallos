@@ -608,5 +608,9 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, følgende abonnementer skal opsiges:",
     "notification_cancellation_line" => "%s for %s",
     "wallos_cancellation_notification" => "Wallos-opsigelsesnotifikation",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Instansnotifikationer",
+    "pushover_application_token" => "Pushover-applikationstoken",
 ];
 ?>

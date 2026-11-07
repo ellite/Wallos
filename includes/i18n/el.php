@@ -608,6 +608,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, οι παρακάτω συνδρομές πρόκειται να ακυρωθούν:",
     "notification_cancellation_line" => "%s για %s",
     "wallos_cancellation_notification" => "Ειδοποίηση ακύρωσης Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Ειδοποιήσεις εγκατάστασης",
+    "pushover_application_token" => "Token εφαρμογής Pushover",
 ];
 
 

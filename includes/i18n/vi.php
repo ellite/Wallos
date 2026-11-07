@@ -607,6 +607,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, các gói đăng ký sau sắp bị hủy:",
     "notification_cancellation_line" => "%s với giá %s",
     "wallos_cancellation_notification" => "Thông báo hủy của Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Thông báo của hệ thống",
+    "pushover_application_token" => "Mã ứng dụng Pushover",
 ];
 
 ?>

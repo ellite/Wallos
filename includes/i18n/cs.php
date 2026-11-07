@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, následující předplatná se blíží ke zrušení:",
     "notification_cancellation_line" => "%s za %s",
     "wallos_cancellation_notification" => "Oznámení o zrušení z Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Oznámení instalace",
+    "pushover_application_token" => "Token aplikace Pushover",
 ];
 
 

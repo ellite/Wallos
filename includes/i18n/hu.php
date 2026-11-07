@@ -609,6 +609,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%s, a következő előfizetések lemondása esedékes:",
     "notification_cancellation_line" => "%s: %s",
     "wallos_cancellation_notification" => "Wallos lemondási értesítés",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Példány értesítései",
+    "pushover_application_token" => "Pushover alkalmazástoken",
 ]; 
  
  

@@ -614,6 +614,10 @@ $i18n = [
     "notification_cancellation_intro_named" => "%sさん、次のサブスクリプションが解約の時期です：",
     "notification_cancellation_line" => "%s：%s",
     "wallos_cancellation_notification" => "Wallos 解約通知",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "インスタンスの通知",
+    "pushover_application_token" => "Pushoverアプリケーショントークン",
 ];
 
 
