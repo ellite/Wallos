@@ -35,6 +35,16 @@ require_once __DIR__ . '/getdbkeys.php';
       aria-label="<?= translate('external_url', $i18n) ?>">
       <i class="fa-solid fa-globe"></i>
     </a>
+    <button type="button" class="button secondary-button details-action-button details-mark-paid-button hide"
+      id="details-mark-paid-button" title="<?= translate('mark_as_paid', $i18n) ?>"
+      aria-label="<?= translate('mark_as_paid', $i18n) ?>">
+      <i class="fa-solid fa-circle-check"></i>
+    </button>
+    <button type="button" class="button secondary-button details-action-button details-unmark-paid-button hide"
+      id="details-unmark-paid-button" title="<?= translate('mark_as_unpaid', $i18n) ?>"
+      aria-label="<?= translate('mark_as_unpaid', $i18n) ?>">
+      <i class="fa-regular fa-circle-xmark"></i>
+    </button>
   </div>
   <div class="details-progress-track" id="details-progress-track">
     <span class="details-progress" id="details-progress"></span>
@@ -107,6 +117,7 @@ $detailsLookups = [
     'day_before' => translate('day_before', $i18n),
     'days_before' => translate('days_before', $i18n),
     'none' => translate('none', $i18n),
+    'paid' => translate('paid', $i18n),
   ],
 ];
 foreach ($categories as $categoryId => $category) {
