@@ -128,6 +128,7 @@ function wallos_instance_config_variables()
         'telegram_bot_token' => 'WALLOS_TELEGRAM_BOT_TOKEN',
         'ntfy_server' => 'WALLOS_NTFY_SERVER',
         'ntfy_headers' => 'WALLOS_NTFY_HEADERS',
+        'gotify_server' => 'WALLOS_GOTIFY_SERVER',
     ];
 }
 
@@ -349,4 +350,33 @@ function wallos_ntfy_settings($db, $userHost, $userHeaders)
         'host' => $instanceHost,
         'headers' => trim($userHeaders) !== '' ? $userHeaders : (string) ($settings['ntfy_headers'] ?? ''),
     ];
+}
+
+/**
+ * The Gotify server a notification should be sent to.
+ *
+ * Only the address is shared. A Gotify application token is personal: it names
+ * the application a message arrives under, and each member of a household
+ * keeps their own so their notifications stay theirs. What nobody should have
+ * to look up is where the server is.
+ *
+ * An account with a server of its own keeps it, which is every installation
+ * configured today; an empty field means the instance server, if the
+ * deployment configured one.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userUrl The url on the user's own row.
+ * @return string The server to send to, or '' when there is none.
+ */
+function wallos_gotify_server($db, $userUrl)
+{
+    $userUrl = trim((string) $userUrl);
+
+    if ($userUrl !== '') {
+        return $userUrl;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['gotify_server'] ?? ''));
 }
