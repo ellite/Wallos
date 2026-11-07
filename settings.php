@@ -1,8 +1,6 @@
 <?php
 require_once 'includes/instance_config.php';
-require_once 'includes/instance_config.php';
-require_once 'includes/instance_config.php';
-require_once 'includes/instance_config.php';
+require_once 'includes/html_text.php';
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
@@ -1218,7 +1216,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <input type="color" name="folder-color" class="folder-color-picker"
                             value="<?= htmlspecialchars($folder['color']) ?>"
                             title="<?= translate('folder_color', $i18n) ?>">
-                        <input type="text" name="folder" autocomplete="off" value="<?= htmlspecialchars($folder['name']) ?>"
+                        <input type="text" name="folder" autocomplete="off" value="<?= htmlSafe($folder['name']) ?>"
                             placeholder="<?= translate('folder', $i18n) ?>">
                         <button class="image-button medium" onClick="editFolder(<?= $folder['id'] ?>)" name="save"
                             title="<?= translate('save_folder', $i18n) ?>">

@@ -436,7 +436,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $folders, $membe
             $folderId = $subscription['folder_id'] ?? null;
             if ($folderId !== null && isset($folders[$folderId])) {
                 $subscriptionExtraClasses .= " in-folder";
-                $folderStyle = " style=\"--folder-color: " . htmlspecialchars($folders[$folderId]['color']) . "\" title=\"" . translate('folder', $i18n) . ": " . htmlspecialchars($folders[$folderId]['name']) . "\"";
+                $folderStyle = " style=\"--folder-color: " . htmlspecialchars($folders[$folderId]['color']) . "\" title=\"" . translate('folder', $i18n) . ": " . htmlSafe($folders[$folderId]['name']) . "\"";
             }
 
             $hasLogo = false;
