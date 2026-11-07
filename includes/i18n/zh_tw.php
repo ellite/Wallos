@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "整個安裝共用一台伺服器：將自己的伺服器留空的帳號會使用各自的主題發布到這台伺服器。標頭是這台伺服器的憑證，絕不會傳送到帳號自行設定的伺服器。",
     "instance_ntfy_server_in_use" => "此安裝提供了一台 ntfy 伺服器。將伺服器留空即可使用，並在下方輸入您的主題。",
     "instance_ntfy_saved" => "ntfy 伺服器已儲存",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "執行個體 Gotify 伺服器",
+    "instance_gotify_server_info" => "整個安裝共用一台伺服器：將自己的伺服器留空的帳號會傳送到這台伺服器。只共用位址——每個帳號保留自己的應用程式權杖，因此訊息會出現在各自的 Gotify 應用程式下。",
+    "instance_gotify_server_in_use" => "此安裝提供了一台 Gotify 伺服器。將伺服器留空即可使用，並在下方輸入您自己的應用程式權杖。",
+    "instance_gotify_saved" => "Gotify 伺服器已儲存",
 ];
 
 

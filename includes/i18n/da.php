@@ -582,5 +582,11 @@ $i18n = [
     "instance_ntfy_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, udgiver til denne under sit eget emne. Headerne er legitimationen til denne server og sendes aldrig til en server, som en konto selv har konfigureret.",
     "instance_ntfy_server_in_use" => "Denne installation stiller en ntfy-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit emne nedenfor.",
     "instance_ntfy_saved" => "ntfy-server gemt",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Instans-Gotify-server",
+    "instance_gotify_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, sender til denne. Kun adressen deles - hver konto beholder sit eget applikationstoken, så dens beskeder ankommer under dens egen Gotify-applikation.",
+    "instance_gotify_server_in_use" => "Denne installation stiller en Gotify-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit eget applikationstoken nedenfor.",
+    "instance_gotify_saved" => "Gotify-server gemt",
 ];
 ?>

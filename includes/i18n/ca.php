@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor publiquen en aquest, sota el seu propi tema. Les capçaleres són la credencial d'aquest servidor i no s'envien mai a un servidor que un compte hagi configurat pel seu compte.",
     "instance_ntfy_server_in_use" => "Aquesta instal·lació ofereix un servidor ntfy. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu tema.",
     "instance_ntfy_saved" => "Servidor ntfy desat",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Servidor Gotify de la instal·lació",
+    "instance_gotify_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor envien a aquest. Només es comparteix l'adreça: cada compte conserva el seu propi token d'aplicació, de manera que els seus missatges arriben sota la seva pròpia aplicació de Gotify.",
+    "instance_gotify_server_in_use" => "Aquesta instal·lació ofereix un servidor Gotify. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu propi token d'aplicació.",
+    "instance_gotify_saved" => "Servidor Gotify desat",
 ];
 
 

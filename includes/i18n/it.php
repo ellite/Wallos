@@ -604,6 +604,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Un server per l'intera installazione: ogni account che lascia vuoto il proprio server pubblica su questo, con il proprio argomento. Le intestazioni sono la credenziale di questo server e non vengono mai inviate a un server configurato da un account per conto proprio.",
     "instance_ntfy_server_in_use" => "Questa installazione fornisce un server ntfy. Lascia vuoto il server per usarlo e inserisci qui sotto il tuo argomento.",
     "instance_ntfy_saved" => "Server ntfy salvato",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Server Gotify dell'istanza",
+    "instance_gotify_server_info" => "Un server per l'intera installazione: ogni account che lascia vuoto il proprio server invia a questo. Viene condiviso solo l'indirizzo: ogni account mantiene il proprio token dell'applicazione, così i suoi messaggi arrivano sotto la sua applicazione Gotify.",
+    "instance_gotify_server_in_use" => "Questa installazione fornisce un server Gotify. Lascia vuoto il server per usarlo e inserisci qui sotto il tuo token dell'applicazione.",
+    "instance_gotify_saved" => "Server Gotify salvato",
 ];
 
 ?>

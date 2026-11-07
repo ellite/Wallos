@@ -581,6 +581,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri memublikasikan ke server ini, dengan topiknya sendiri. Header adalah kredensial untuk server ini dan tidak pernah dikirim ke server yang dikonfigurasi sendiri oleh akun.",
     "instance_ntfy_server_in_use" => "Instalasi ini menyediakan server ntfy. Biarkan server kosong untuk menggunakannya, dan masukkan topik Anda di bawah.",
     "instance_ntfy_saved" => "Server ntfy disimpan",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Server Gotify instans",
+    "instance_gotify_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri mengirim ke server ini. Hanya alamatnya yang dibagikan - setiap akun menyimpan token aplikasinya sendiri, sehingga pesannya tiba di bawah aplikasi Gotify miliknya.",
+    "instance_gotify_server_in_use" => "Instalasi ini menyediakan server Gotify. Biarkan server kosong untuk menggunakannya, dan masukkan token aplikasi Anda sendiri di bawah.",
+    "instance_gotify_saved" => "Server Gotify disimpan",
 ];
 
 ?>

@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, publikuje na tento server pod svým vlastním tématem. Hlavičky jsou přihlašovací údaje k tomuto serveru a nikdy se neodesílají na server, který si účet nastavil sám.",
     "instance_ntfy_server_in_use" => "Tato instalace poskytuje server ntfy. Chcete-li jej použít, nechte server prázdný a níže zadejte své téma.",
     "instance_ntfy_saved" => "Server ntfy uložen",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify server instalace",
+    "instance_gotify_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, odesílá na tento server. Sdílí se pouze adresa - každý účet si ponechává vlastní token aplikace, takže jeho zprávy přicházejí pod jeho vlastní aplikací Gotify.",
+    "instance_gotify_server_in_use" => "Tato instalace poskytuje server Gotify. Chcete-li jej použít, nechte server prázdný a níže zadejte vlastní token aplikace.",
+    "instance_gotify_saved" => "Server Gotify uložen",
 ];
 
 

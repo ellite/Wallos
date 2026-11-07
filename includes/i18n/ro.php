@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server publică pe acesta, sub propriul subiect. Antetele sunt credențialele acestui server și nu sunt trimise niciodată către un server configurat de un cont pe cont propriu.",
     "instance_ntfy_server_in_use" => "Această instalare oferă un server ntfy. Lăsați serverul gol pentru a-l folosi și introduceți mai jos subiectul dvs.",
     "instance_ntfy_saved" => "Serverul ntfy a fost salvat",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Serverul Gotify al instanței",
+    "instance_gotify_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server trimite către acesta. Se partajează doar adresa - fiecare cont își păstrează propriul token de aplicație, astfel încât mesajele sale ajung în propria aplicație Gotify.",
+    "instance_gotify_server_in_use" => "Această instalare oferă un server Gotify. Lăsați serverul gol pentru a-l folosi și introduceți mai jos propriul token de aplicație.",
+    "instance_gotify_saved" => "Serverul Gotify a fost salvat",
 ];
 
 

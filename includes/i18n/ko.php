@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버에 각자의 토픽으로 게시합니다. 헤더는 이 서버의 인증 정보이며, 계정이 직접 설정한 서버로는 전송되지 않습니다.",
     "instance_ntfy_server_in_use" => "이 설치에서는 ntfy 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 토픽을 입력하세요.",
     "instance_ntfy_saved" => "ntfy 서버가 저장되었습니다",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "인스턴스 Gotify 서버",
+    "instance_gotify_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버로 전송합니다. 주소만 공유되며, 각 계정은 자신의 애플리케이션 토큰을 유지하므로 메시지는 각자의 Gotify 애플리케이션으로 도착합니다.",
+    "instance_gotify_server_in_use" => "이 설치에서는 Gotify 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 자신의 애플리케이션 토큰을 입력하세요.",
+    "instance_gotify_saved" => "Gotify 서버가 저장되었습니다",
 ];
 
 

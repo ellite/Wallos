@@ -581,6 +581,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ đăng lên máy chủ này, dưới chủ đề riêng của mình. Các tiêu đề là thông tin xác thực của máy chủ này và không bao giờ được gửi đến máy chủ do tài khoản tự cấu hình.",
     "instance_ntfy_server_in_use" => "Hệ thống này cung cấp một máy chủ ntfy. Để trống máy chủ để sử dụng và nhập chủ đề của bạn bên dưới.",
     "instance_ntfy_saved" => "Đã lưu máy chủ ntfy",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Máy chủ Gotify của hệ thống",
+    "instance_gotify_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ gửi đến máy chủ này. Chỉ địa chỉ được chia sẻ - mỗi tài khoản giữ mã ứng dụng riêng, nên tin nhắn của họ đến dưới ứng dụng Gotify của chính họ.",
+    "instance_gotify_server_in_use" => "Hệ thống này cung cấp một máy chủ Gotify. Để trống máy chủ để sử dụng và nhập mã ứng dụng của riêng bạn bên dưới.",
+    "instance_gotify_saved" => "Đã lưu máy chủ Gotify",
 ];
 
 ?>

@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre publikál, a saját témája alatt. A fejlécek e szerver hitelesítő adatai, és soha nem kerülnek el olyan szerverre, amelyet a fiók maga állított be.",
     "instance_ntfy_server_in_use" => "Ez a telepítés ntfy-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a témáját.",
     "instance_ntfy_saved" => "ntfy-szerver mentve",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Példány Gotify-szervere",
+    "instance_gotify_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre küld. Csak a cím közös - minden fiók megtartja a saját alkalmazástokenjét, így az üzenetei a saját Gotify-alkalmazása alatt érkeznek.",
+    "instance_gotify_server_in_use" => "Ez a telepítés Gotify-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a saját alkalmazástokenjét.",
+    "instance_gotify_saved" => "Gotify-szerver mentve",
 ]; 
  
  

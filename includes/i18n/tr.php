@@ -582,6 +582,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Tüm kurulum için tek bir sunucu: kendi sunucusunu boş bırakan her hesap, kendi konusuyla bu sunucuya yayınlar. Başlıklar bu sunucunun kimlik bilgileridir ve bir hesabın kendisinin yapılandırdığı sunucuya asla gönderilmez.",
     "instance_ntfy_server_in_use" => "Bu kurulum bir ntfy sunucusu sağlar. Kullanmak için sunucuyu boş bırakın ve aşağıya konunuzu girin.",
     "instance_ntfy_saved" => "ntfy sunucusu kaydedildi",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Örnek Gotify sunucusu",
+    "instance_gotify_server_info" => "Tüm kurulum için tek bir sunucu: kendi sunucusunu boş bırakan her hesap bu sunucuya gönderir. Yalnızca adres paylaşılır - her hesap kendi uygulama belirtecini korur, böylece mesajları kendi Gotify uygulamasının altında ulaşır.",
+    "instance_gotify_server_in_use" => "Bu kurulum bir Gotify sunucusu sağlar. Kullanmak için sunucuyu boş bırakın ve aşağıya kendi uygulama belirtecinizi girin.",
+    "instance_gotify_saved" => "Gotify sunucusu kaydedildi",
 ];
 
 

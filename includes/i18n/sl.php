@@ -582,6 +582,12 @@ $i18n = [
     "instance_ntfy_server_info" => "En strežnik za celotno namestitev: vsak račun, ki pusti svoj strežnik prazen, objavlja na tem strežniku pod svojo temo. Glave so poverilnice za ta strežnik in se nikoli ne pošiljajo na strežnik, ki ga je račun nastavil sam.",
     "instance_ntfy_server_in_use" => "Ta namestitev ponuja strežnik ntfy. Strežnik pustite prazen, če ga želite uporabiti, in spodaj vnesite svojo temo.",
     "instance_ntfy_saved" => "Strežnik ntfy shranjen",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Strežnik Gotify namestitve",
+    "instance_gotify_server_info" => "En strežnik za celotno namestitev: vsak račun, ki pusti svoj strežnik prazen, pošilja na ta strežnik. Deli se samo naslov - vsak račun obdrži svoj žeton aplikacije, zato njegova sporočila prispejo v njegovo aplikacijo Gotify.",
+    "instance_gotify_server_in_use" => "Ta namestitev ponuja strežnik Gotify. Strežnik pustite prazen, če ga želite uporabiti, in spodaj vnesite svoj žeton aplikacije.",
+    "instance_gotify_saved" => "Strežnik Gotify shranjen",
 ];
 
 

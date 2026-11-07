@@ -582,6 +582,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Um servidor para toda a instalação: cada conta que deixar o próprio servidor vazio publica neste, sob o próprio tópico. Os cabeçalhos são a credencial deste servidor e nunca são enviados a um servidor que uma conta tenha configurado por conta própria.",
     "instance_ntfy_server_in_use" => "Esta instalação fornece um servidor ntfy. Deixe o servidor vazio para usá-lo e informe abaixo o seu tópico.",
     "instance_ntfy_saved" => "Servidor ntfy salvo",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Servidor Gotify da instância",
+    "instance_gotify_server_info" => "Um servidor para toda a instalação: cada conta que deixar o próprio servidor vazio envia para este. Apenas o endereço é compartilhado - cada conta mantém o próprio token de aplicativo, para que suas mensagens cheguem sob o próprio aplicativo Gotify.",
+    "instance_gotify_server_in_use" => "Esta instalação fornece um servidor Gotify. Deixe o servidor vazio para usá-lo e informe abaixo o seu próprio token de aplicativo.",
+    "instance_gotify_saved" => "Servidor Gotify salvo",
 ];
 
 

@@ -584,6 +584,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Un serveur pour toute l'installation : chaque compte qui laisse son propre serveur vide publie sur celui-ci, sous son propre sujet. Les en-têtes sont l'identifiant de ce serveur et ne sont jamais envoyés à un serveur qu'un compte a configuré lui-même.",
     "instance_ntfy_server_in_use" => "Cette installation fournit un serveur ntfy. Laissez le serveur vide pour l'utiliser et saisissez votre sujet ci-dessous.",
     "instance_ntfy_saved" => "Serveur ntfy enregistré",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Serveur Gotify de l'instance",
+    "instance_gotify_server_info" => "Un serveur pour toute l'installation : chaque compte qui laisse son propre serveur vide envoie vers celui-ci. Seule l'adresse est partagée - chaque compte garde son propre jeton d'application, de sorte que ses messages arrivent sous sa propre application Gotify.",
+    "instance_gotify_server_in_use" => "Cette installation fournit un serveur Gotify. Laissez le serveur vide pour l'utiliser et saisissez ci-dessous votre propre jeton d'application.",
+    "instance_gotify_saved" => "Serveur Gotify enregistré",
 ];
 
 

@@ -582,6 +582,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Jeden serwer dla całej instalacji: każde konto, które zostawi własny serwer pusty, publikuje na tym serwerze pod własnym tematem. Nagłówki są danymi uwierzytelniającymi tego serwera i nigdy nie są wysyłane na serwer skonfigurowany przez samo konto.",
     "instance_ntfy_server_in_use" => "Ta instalacja udostępnia serwer ntfy. Zostaw serwer pusty, aby go używać, i wpisz poniżej swój temat.",
     "instance_ntfy_saved" => "Serwer ntfy zapisany",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Serwer Gotify instancji",
+    "instance_gotify_server_info" => "Jeden serwer dla całej instalacji: każde konto, które zostawi własny serwer pusty, wysyła na ten serwer. Współdzielony jest tylko adres - każde konto zachowuje własny token aplikacji, więc jego wiadomości trafiają do jego własnej aplikacji Gotify.",
+    "instance_gotify_server_in_use" => "Ta instalacja udostępnia serwer Gotify. Zostaw serwer pusty, aby go używać, i wpisz poniżej własny token aplikacji.",
+    "instance_gotify_saved" => "Serwer Gotify zapisany",
 ];
 
 

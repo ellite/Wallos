@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Bütün quraşdırma üçün bir server: öz serverini boş buraxan hər hesab bu servere, öz mövzusu altında göndərir. Başlıqlar bu serverin etimadnaməsidir və hesabın özünün konfiqurasiya etdiyi serverə heç vaxt göndərilmir.",
     "instance_ntfy_server_in_use" => "Bu quraşdırma ntfy serveri təqdim edir. İstifadə etmək üçün serveri boş buraxın və mövzunuzu aşağıda daxil edin.",
     "instance_ntfy_saved" => "ntfy serveri saxlanıldı",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Quraşdırma üçün Gotify serveri",
+    "instance_gotify_server_info" => "Bütün quraşdırma üçün bir server: öz serverini boş buraxan hər hesab bu servere göndərir. Yalnız ünvan paylaşılır - hər hesab öz tətbiq tokenini saxlayır, beləliklə mesajları öz Gotify tətbiqi altında çatır.",
+    "instance_gotify_server_in_use" => "Bu quraşdırma Gotify serveri təqdim edir. İstifadə etmək üçün serveri boş buraxın və tətbiq tokeninizi aşağıda daxil edin.",
+    "instance_gotify_saved" => "Gotify serveri saxlanıldı",
 ];
 
 

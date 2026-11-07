@@ -583,6 +583,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, publiceert naar deze server onder zijn eigen topic. De headers zijn de inloggegevens van deze server en worden nooit verstuurd naar een server die een account zelf heeft ingesteld.",
     "instance_ntfy_server_in_use" => "Deze installatie biedt een ntfy-server. Laat de server leeg om die te gebruiken en vul hieronder je topic in.",
     "instance_ntfy_saved" => "ntfy-server opgeslagen",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Instantie-Gotify-server",
+    "instance_gotify_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, verstuurt naar deze server. Alleen het adres wordt gedeeld - elk account houdt zijn eigen applicatietoken, zodat zijn berichten onder zijn eigen Gotify-applicatie aankomen.",
+    "instance_gotify_server_in_use" => "Deze installatie biedt een Gotify-server. Laat de server leeg om die te gebruiken en vul hieronder je eigen applicatietoken in.",
+    "instance_gotify_saved" => "Gotify-server opgeslagen",
 ];
 
 

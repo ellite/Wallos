@@ -582,6 +582,12 @@ $i18n = [
     "instance_ntfy_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim objavljuje na ovaj server, pod svojom temom. Zaglavlja su akreditivi za ovaj server i nikada se ne šalju na server koji je nalog sam podesio.",
     "instance_ntfy_server_in_use" => "Ova instalacija pruža ntfy server. Ostavite server praznim da biste ga koristili i unesite ispod svoju temu.",
     "instance_ntfy_saved" => "ntfy server je sačuvan",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify server instance",
+    "instance_gotify_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim šalje na ovaj server. Deli se samo adresa - svaki nalog zadržava svoj token aplikacije, pa njegove poruke stižu u njegovu Gotify aplikaciju.",
+    "instance_gotify_server_in_use" => "Ova instalacija pruža Gotify server. Ostavite server praznim da biste ga koristili i unesite ispod svoj token aplikacije.",
+    "instance_gotify_saved" => "Gotify server je sačuvan",
 ];
 
 
