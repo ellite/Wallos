@@ -756,10 +756,12 @@ function renderSubscription(subscription, data) {
   const labels = data.labels;
   const icons = data.icons;
   const hasLogo = !!subscription.logo;
-  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual") + (subscription.folder_color ? " in-folder" : "");
+  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual") + (subscription.folder_color ? " in-folder" : "") + (subscription.paid_this_cycle ? " paid" : "");
   const folderAttrs = subscription.folder_color
     ? ` style="--folder-color: ${escapeHtml(subscription.folder_color)}" title="${escapeHtml(subscription.folder_name)}"`
     : "";
+
+  const canMarkPaid = subscription.can_toggle_paid && !subscription.paid_this_cycle;
 
   let mobileActions = "";
   if (data.mobile_navigation) {
@@ -769,6 +771,7 @@ function renderSubscription(subscription, data) {
         <button class="mobile-action-clone" onClick="cloneSubscription(event, ${id})">${icons.clone} Clone</button>
         <button class="mobile-action-delete" onClick="deleteSubscription(event, ${id})">${icons.delete} Delete</button>
         ${subscription.can_renew ? `<button class="mobile-action-renew" onClick="renewSubscription(event, ${id})">${icons.renew} Renew</button>` : ""}
+        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</button>` : ""}
         <button class="mobile-action-edit" onClick="openEditSubscription(event, ${id})">${icons.edit} Edit</button>
       </div>`;
   }
@@ -786,6 +789,15 @@ function renderSubscription(subscription, data) {
     : "";
   const renewBackAction = subscription.can_renew
     ? `<button type="button" class="back-action" onClick="unflipCard(${id}); renewSubscription(event, ${id})"><i class="fa-solid fa-rotate-right"></i> ${escapeHtml(labels.renew)}</button>`
+    : "";
+  let paidItem = "";
+  if (subscription.can_toggle_paid) {
+    paidItem = subscription.paid_this_cycle
+      ? `<li class="mark-paid" title="${escapeHtml(labels.mark_as_unpaid)}" onClick="unmarkPaid(event, ${id})"><i class="fa-regular fa-circle-xmark"></i> ${escapeHtml(labels.mark_as_unpaid)}</li>`
+      : `<li class="mark-paid" title="${escapeHtml(labels.mark_as_paid)}" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</li>`;
+  }
+  const paidBackAction = canMarkPaid
+    ? `<button type="button" class="back-action" onClick="unflipCard(${id}); markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</button>`
     : "";
   const progress = subscription.progress !== null
     ? `<div class="subscription-progress-container"><span class="subscription-progress" style="width: ${Number(subscription.progress)}%;"></span></div>`
@@ -813,6 +825,7 @@ function renderSubscription(subscription, data) {
             <li class="delete" title="${escapeHtml(labels.delete)}" onClick="deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</li>
             <li class="clone" title="${escapeHtml(labels.clone)}" onClick="cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</li>
             ${renewItem}
+            ${paidItem}
           </ul>
         </div>
         <div class="subscription-back" inert>
@@ -825,6 +838,7 @@ function renderSubscription(subscription, data) {
           <button type="button" class="back-action" onClick="unflipCard(${id}); openEditSubscription(event, ${id})"><i class="fa-solid fa-pen-to-square"></i> ${escapeHtml(labels.edit)}</button>
           <button type="button" class="back-action" onClick="unflipCard(${id}); cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</button>
           ${renewBackAction}
+          ${paidBackAction}
           <button type="button" class="back-action delete" onClick="unflipCard(${id}); deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</button>
         </div>
       </div>
