@@ -598,3 +598,30 @@ function saveInstanceGotifyButton() {
       button.disabled = false;
     });
 }
+
+function saveInstancePushoverButton() {
+  const button = document.getElementById("saveInstancePushoverButton");
+  button.disabled = true;
+
+  fetch('endpoints/admin/saveinstancepushover.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ pushovertoken: document.getElementById("pushovertoken").value }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}

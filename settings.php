@@ -2,6 +2,7 @@
 require_once 'includes/instance_config.php';
 require_once 'includes/instance_config.php';
 require_once 'includes/instance_config.php';
+require_once 'includes/instance_config.php';
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
@@ -457,6 +458,10 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
     // say that leaving the field empty is a choice rather than an omission.
     $instanceGotifyServer = trim((string) (wallos_get_admin_settings($db)['gotify_server'] ?? ''));
 
+    // Whether this installation runs a Pushover application of its own, so the
+    // page can say that leaving the field empty is a choice.
+    $instancePushoverToken = trim((string) (wallos_get_admin_settings($db)['pushover_token'] ?? ''));
+
     // Push notifications
     $sql = "SELECT * FROM push_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -769,6 +774,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             placeholder="<?= translate('token', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsPushover['token']) ?>" />
                     </div>
+                    <?php if ($instancePushoverToken !== '' && trim((string) $notificationsPushover['token']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_pushover_application_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
