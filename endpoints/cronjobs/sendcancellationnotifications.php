@@ -16,6 +16,7 @@ require 'settimezone.php';
 require_once __DIR__ . '/../../includes/webhook_headers.php';
 require_once __DIR__ . '/../../includes/subscription_payers.php';
 require_once __DIR__ . '/../../includes/subscription_categories.php';
+require_once __DIR__ . '/../../includes/instance_config.php';
 
 // Get all user ids
 $query = "SELECT id, username FROM user";
@@ -89,7 +90,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $telegramNotificationsEnabled = $row['enabled'];
-        $telegram['botToken'] = $row["bot_token"];
+        // The instance bot when this account has no token of its own.
+        $telegram['botToken'] = wallos_telegram_bot_token($db, $row["bot_token"]);
         $telegram['chatId'] = $row["chat_id"];
     }
 
