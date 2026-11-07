@@ -615,6 +615,14 @@ $i18n = [
     "instance_pushover_application_info" => "整个安装共用一个应用：将自己的应用令牌留空的账户会通过它发送，并使用各自的用户密钥。若希望每个账户注册自己的应用，请留空。",
     "instance_pushover_application_in_use" => "此安装提供了一个 Pushover 应用。将应用令牌留空即可使用，并在下方输入您自己的用户密钥。",
     "instance_pushover_saved" => "Pushover 应用已保存",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "以下订阅即将续订：",
+    "notification_renewals_intro_named" => "%s，以下订阅即将续订：",
+    "notification_subscription_line" => "%s：%s（%s）",
+    "notification_due_today" => "今天",
+    "notification_due_tomorrow" => "明天",
+    "notification_due_in_days" => "%d 天后",
 ];
 
 ?>

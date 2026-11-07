@@ -594,5 +594,13 @@ $i18n = [
     "instance_pushover_application_info" => "Én applikation til hele installationen: hver konto, der lader sit eget applikationstoken stå tomt, sender via denne med sin egen brugernøgle. Lad feltet stå tomt, hvis hver konto skal registrere sin egen applikation.",
     "instance_pushover_application_in_use" => "Denne installation stiller en Pushover-applikation til rådighed. Lad applikationstokenet stå tomt for at bruge den, og angiv din egen brugernøgle nedenfor.",
     "instance_pushover_saved" => "Pushover-applikation gemt",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Følgende abonnementer skal fornyes:",
+    "notification_renewals_intro_named" => "%s, følgende abonnementer skal fornyes:",
+    "notification_subscription_line" => "%s for %s (%s)",
+    "notification_due_today" => "I dag",
+    "notification_due_tomorrow" => "I morgen",
+    "notification_due_in_days" => "Om %d dage",
 ];
 ?>

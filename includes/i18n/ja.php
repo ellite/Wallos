@@ -600,6 +600,14 @@ $i18n = [
     "instance_pushover_application_info" => "インストール全体で1つのアプリケーション：自分のアプリケーショントークンを空にしているアカウントは、このアプリケーションを通じて各自のユーザーキーで送信します。アカウントごとに専用のアプリケーションを登録する場合は空のままにしてください。",
     "instance_pushover_application_in_use" => "このインストールにはPushoverアプリケーションが用意されています。使用するにはアプリケーショントークンを空にして、下に自分のユーザーキーを入力してください。",
     "instance_pushover_saved" => "Pushoverアプリケーションを保存しました",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "次のサブスクリプションが更新の時期です：",
+    "notification_renewals_intro_named" => "%sさん、次のサブスクリプションが更新の時期です：",
+    "notification_subscription_line" => "%s：%s（%s）",
+    "notification_due_today" => "今日",
+    "notification_due_tomorrow" => "明日",
+    "notification_due_in_days" => "%d日後",
 ];
 
 

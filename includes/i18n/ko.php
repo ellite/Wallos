@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "설치 전체에서 하나의 애플리케이션을 사용합니다. 자신의 애플리케이션 토큰을 비워 둔 계정은 이 애플리케이션을 통해 각자의 사용자 키로 전송합니다. 계정마다 별도의 애플리케이션을 등록하려면 비워 두세요.",
     "instance_pushover_application_in_use" => "이 설치에서는 Pushover 애플리케이션을 제공합니다. 사용하려면 애플리케이션 토큰을 비워 두고 아래에 자신의 사용자 키를 입력하세요.",
     "instance_pushover_saved" => "Pushover 애플리케이션이 저장되었습니다",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "다음 구독이 갱신될 예정입니다:",
+    "notification_renewals_intro_named" => "%s님, 다음 구독이 갱신될 예정입니다:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "오늘",
+    "notification_due_tomorrow" => "내일",
+    "notification_due_in_days" => "%d일 후",
 ];
 
 

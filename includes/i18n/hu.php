@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "Egy alkalmazás az egész telepítéshez: minden fiók, amely üresen hagyja a saját alkalmazástokenjét, ezen keresztül küld a saját felhasználói kulcsával. Hagyja üresen, ha minden fiók saját alkalmazást regisztráljon.",
     "instance_pushover_application_in_use" => "Ez a telepítés Pushover-alkalmazást biztosít. A használatához hagyja üresen az alkalmazástokent, és adja meg lent a saját felhasználói kulcsát.",
     "instance_pushover_saved" => "Pushover-alkalmazás mentve",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "A következő előfizetések megújítása esedékes:",
+    "notification_renewals_intro_named" => "%s, a következő előfizetések megújítása esedékes:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "Ma",
+    "notification_due_tomorrow" => "Holnap",
+    "notification_due_in_days" => "%d nap múlva",
 ]; 
  
  

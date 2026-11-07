@@ -596,6 +596,14 @@ $i18n = [
     "instance_pushover_application_info" => "Une application pour toute l'installation : chaque compte qui laisse son propre jeton d'application vide envoie via celle-ci, avec sa propre clé utilisateur. Laissez vide pour que chaque compte enregistre sa propre application.",
     "instance_pushover_application_in_use" => "Cette installation fournit une application Pushover. Laissez le jeton d'application vide pour l'utiliser et saisissez ci-dessous votre propre clé utilisateur.",
     "instance_pushover_saved" => "Application Pushover enregistrée",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Les abonnements suivants arrivent à renouvellement :",
+    "notification_renewals_intro_named" => "%s, les abonnements suivants arrivent à renouvellement :",
+    "notification_subscription_line" => "%s pour %s (%s)",
+    "notification_due_today" => "Aujourd'hui",
+    "notification_due_tomorrow" => "Demain",
+    "notification_due_in_days" => "Dans %d jours",
 ];
 
 

@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "Bütün quraşdırma üçün bir tətbiq: öz tətbiq tokenini boş buraxan hər hesab bu tətbiq vasitəsilə, öz istifadəçi açarı ilə göndərir. Hər hesabın öz tətbiqini qeydiyyatdan keçirməsi üçün boş buraxın.",
     "instance_pushover_application_in_use" => "Bu quraşdırma Pushover tətbiqi təqdim edir. İstifadə etmək üçün tətbiq tokenini boş buraxın və istifadəçi açarınızı aşağıda daxil edin.",
     "instance_pushover_saved" => "Pushover tətbiqi saxlanıldı",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Aşağıdakı abunəliklərin yenilənmə vaxtı çatıb:",
+    "notification_renewals_intro_named" => "%s, aşağıdakı abunəliklərin yenilənmə vaxtı çatıb:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "Bu gün",
+    "notification_due_tomorrow" => "Sabah",
+    "notification_due_in_days" => "%d gün sonra",
 ];
 
 

@@ -594,6 +594,14 @@ $i18n = [
     "instance_pushover_application_info" => "Один застосунок на всю інсталяцію: кожен обліковий запис, що залишив свій токен застосунку порожнім, надсилає через нього зі своїм ключем користувача. Залиште порожнім, щоб кожен обліковий запис реєстрував власний застосунок.",
     "instance_pushover_application_in_use" => "Ця інсталяція надає застосунок Pushover. Залиште токен застосунку порожнім, щоб користуватися ним, і вкажіть нижче власний ключ користувача.",
     "instance_pushover_saved" => "Pushover-застосунок збережено",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Наступні підписки незабаром потрібно продовжити:",
+    "notification_renewals_intro_named" => "%s, наступні підписки незабаром потрібно продовжити:",
+    "notification_subscription_line" => "%s за %s (%s)",
+    "notification_due_today" => "Сьогодні",
+    "notification_due_tomorrow" => "Завтра",
+    "notification_due_in_days" => "Через %d дн.",
 ];
 
 ?>

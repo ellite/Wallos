@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "تطبيق واحد للتثبيت بأكمله: كل حساب يترك رمز تطبيقه الخاص فارغاً يرسل عبر هذا التطبيق، بمفتاح المستخدم الخاص به. اتركه فارغاً ليسجّل كل حساب تطبيقاً خاصاً به.",
     "instance_pushover_application_in_use" => "يوفّر هذا التثبيت تطبيق Pushover. اترك رمز التطبيق فارغاً لاستخدامه، وأدخل مفتاح المستخدم الخاص بك أدناه.",
     "instance_pushover_saved" => "تم حفظ تطبيق Pushover",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "الاشتراكات التالية مستحقة للتجديد:",
+    "notification_renewals_intro_named" => "%s، الاشتراكات التالية مستحقة للتجديد:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "اليوم",
+    "notification_due_tomorrow" => "غداً",
+    "notification_due_in_days" => "بعد %d يوم",
 ];
 
 

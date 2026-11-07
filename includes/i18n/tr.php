@@ -594,6 +594,14 @@ $i18n = [
     "instance_pushover_application_info" => "Tüm kurulum için tek bir uygulama: kendi uygulama belirtecini boş bırakan her hesap, kendi kullanıcı anahtarıyla bu uygulama üzerinden gönderir. Her hesabın kendi uygulamasını kaydetmesi için boş bırakın.",
     "instance_pushover_application_in_use" => "Bu kurulum bir Pushover uygulaması sağlar. Kullanmak için uygulama belirtecini boş bırakın ve aşağıya kendi kullanıcı anahtarınızı girin.",
     "instance_pushover_saved" => "Pushover uygulaması kaydedildi",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Aşağıdaki aboneliklerin yenilenme zamanı geldi:",
+    "notification_renewals_intro_named" => "%s, aşağıdaki aboneliklerin yenilenme zamanı geldi:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "Bugün",
+    "notification_due_tomorrow" => "Yarın",
+    "notification_due_in_days" => "%d gün sonra",
 ];
 
 

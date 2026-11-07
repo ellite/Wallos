@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "O singură aplicație pentru toată instalarea: fiecare cont care își lasă gol propriul token de aplicație trimite prin aceasta, cu propria cheie de utilizator. Lăsați gol pentru ca fiecare cont să își înregistreze o aplicație proprie.",
     "instance_pushover_application_in_use" => "Această instalare oferă o aplicație Pushover. Lăsați tokenul aplicației gol pentru a o folosi și introduceți mai jos propria cheie de utilizator.",
     "instance_pushover_saved" => "Aplicația Pushover a fost salvată",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Următoarele abonamente urmează să fie reînnoite:",
+    "notification_renewals_intro_named" => "%s, următoarele abonamente urmează să fie reînnoite:",
+    "notification_subscription_line" => "%s pentru %s (%s)",
+    "notification_due_today" => "Astăzi",
+    "notification_due_tomorrow" => "Mâine",
+    "notification_due_in_days" => "Peste %d zile",
 ];
 
 

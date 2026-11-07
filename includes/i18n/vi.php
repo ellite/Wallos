@@ -593,6 +593,14 @@ $i18n = [
     "instance_pushover_application_info" => "Một ứng dụng cho toàn bộ hệ thống: mỗi tài khoản để trống mã ứng dụng riêng sẽ gửi qua ứng dụng này, với khóa người dùng của chính mình. Để trống nếu mỗi tài khoản đăng ký ứng dụng riêng.",
     "instance_pushover_application_in_use" => "Hệ thống này cung cấp một ứng dụng Pushover. Để trống mã ứng dụng để sử dụng và nhập khóa người dùng của riêng bạn bên dưới.",
     "instance_pushover_saved" => "Đã lưu ứng dụng Pushover",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Các gói đăng ký sau sắp đến hạn gia hạn:",
+    "notification_renewals_intro_named" => "%s, các gói đăng ký sau sắp đến hạn gia hạn:",
+    "notification_subscription_line" => "%s với giá %s (%s)",
+    "notification_due_today" => "Hôm nay",
+    "notification_due_tomorrow" => "Ngày mai",
+    "notification_due_in_days" => "Sau %d ngày",
 ];
 
 ?>

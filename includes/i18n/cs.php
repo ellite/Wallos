@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "Jedna aplikace pro celou instalaci: každý účet, který nechá vlastní token aplikace prázdný, odesílá přes tuto aplikaci se svým vlastním uživatelským klíčem. Nechte prázdné, pokud má každý účet zaregistrovat vlastní aplikaci.",
     "instance_pushover_application_in_use" => "Tato instalace poskytuje aplikaci Pushover. Chcete-li ji použít, nechte token aplikace prázdný a níže zadejte vlastní uživatelský klíč.",
     "instance_pushover_saved" => "Aplikace Pushover uložena",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Následující předplatná se blíží k obnovení:",
+    "notification_renewals_intro_named" => "%s, následující předplatná se blíží k obnovení:",
+    "notification_subscription_line" => "%s za %s (%s)",
+    "notification_due_today" => "Dnes",
+    "notification_due_tomorrow" => "Zítra",
+    "notification_due_in_days" => "Za %d dní",
 ];
 
 

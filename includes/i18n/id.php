@@ -593,6 +593,14 @@ $i18n = [
     "instance_pushover_application_info" => "Satu aplikasi untuk seluruh instalasi: setiap akun yang mengosongkan token aplikasinya sendiri mengirim melalui aplikasi ini, dengan kunci penggunanya sendiri. Biarkan kosong agar setiap akun mendaftarkan aplikasinya sendiri.",
     "instance_pushover_application_in_use" => "Instalasi ini menyediakan aplikasi Pushover. Biarkan token aplikasi kosong untuk menggunakannya, dan masukkan kunci pengguna Anda sendiri di bawah.",
     "instance_pushover_saved" => "Aplikasi Pushover disimpan",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Langganan berikut akan segera diperpanjang:",
+    "notification_renewals_intro_named" => "%s, langganan berikut akan segera diperpanjang:",
+    "notification_subscription_line" => "%s sebesar %s (%s)",
+    "notification_due_today" => "Hari ini",
+    "notification_due_tomorrow" => "Besok",
+    "notification_due_in_days" => "%d hari lagi",
 ];
 
 ?>

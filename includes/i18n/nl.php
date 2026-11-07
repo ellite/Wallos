@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "Eén applicatie voor de hele installatie: elk account dat zijn eigen applicatietoken leeg laat, verstuurt via deze applicatie met zijn eigen gebruikerssleutel. Laat leeg als elk account een eigen applicatie moet registreren.",
     "instance_pushover_application_in_use" => "Deze installatie biedt een Pushover-applicatie. Laat het applicatietoken leeg om die te gebruiken en vul hieronder je eigen gebruikerssleutel in.",
     "instance_pushover_saved" => "Pushover-applicatie opgeslagen",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "De volgende abonnementen moeten worden verlengd:",
+    "notification_renewals_intro_named" => "%s, de volgende abonnementen moeten worden verlengd:",
+    "notification_subscription_line" => "%s voor %s (%s)",
+    "notification_due_today" => "Vandaag",
+    "notification_due_tomorrow" => "Morgen",
+    "notification_due_in_days" => "Over %d dagen",
 ];
 
 

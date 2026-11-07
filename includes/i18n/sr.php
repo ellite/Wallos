@@ -594,6 +594,14 @@ $i18n = [
     "instance_pushover_application_info" => "Једна апликација за целу инсталацију: сваки налог који остави свој токен апликације празним шаље преко ове апликације са својим корисничким кључем. Оставите празно да сваки налог региструје своју апликацију.",
     "instance_pushover_application_in_use" => "Ова инсталација пружа Pushover апликацију. Оставите токен апликације празним да бисте је користили и унесите испод свој кориснички кључ.",
     "instance_pushover_saved" => "Pushover апликација је сачувана",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Следеће претплате треба ускоро обновити:",
+    "notification_renewals_intro_named" => "%s, следеће претплате треба ускоро обновити:",
+    "notification_subscription_line" => "%s за %s (%s)",
+    "notification_due_today" => "Данас",
+    "notification_due_tomorrow" => "Сутра",
+    "notification_due_in_days" => "За %d дана",
 ];
 
 

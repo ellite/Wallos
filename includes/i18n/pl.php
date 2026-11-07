@@ -594,6 +594,14 @@ $i18n = [
     "instance_pushover_application_info" => "Jedna aplikacja dla całej instalacji: każde konto, które zostawi własny token aplikacji pusty, wysyła przez tę aplikację ze swoim kluczem użytkownika. Zostaw puste, aby każde konto rejestrowało własną aplikację.",
     "instance_pushover_application_in_use" => "Ta instalacja udostępnia aplikację Pushover. Zostaw token aplikacji pusty, aby jej używać, i wpisz poniżej własny klucz użytkownika.",
     "instance_pushover_saved" => "Aplikacja Pushover zapisana",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Poniższe subskrypcje wymagają odnowienia:",
+    "notification_renewals_intro_named" => "%s, poniższe subskrypcje wymagają odnowienia:",
+    "notification_subscription_line" => "%s za %s (%s)",
+    "notification_due_today" => "Dzisiaj",
+    "notification_due_tomorrow" => "Jutro",
+    "notification_due_in_days" => "Za %d dni",
 ];
 
 

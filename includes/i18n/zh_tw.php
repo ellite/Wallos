@@ -595,6 +595,14 @@ $i18n = [
     "instance_pushover_application_info" => "整個安裝共用一個應用程式：將自己的應用程式權杖留空的帳號會透過它傳送，並使用各自的使用者金鑰。若希望每個帳號註冊自己的應用程式，請留空。",
     "instance_pushover_application_in_use" => "此安裝提供了一個 Pushover 應用程式。將應用程式權杖留空即可使用，並在下方輸入您自己的使用者金鑰。",
     "instance_pushover_saved" => "Pushover 應用程式已儲存",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "以下訂閱即將續訂：",
+    "notification_renewals_intro_named" => "%s，以下訂閱即將續訂：",
+    "notification_subscription_line" => "%s：%s（%s）",
+    "notification_due_today" => "今天",
+    "notification_due_tomorrow" => "明天",
+    "notification_due_in_days" => "%d 天後",
 ];
 
 
