@@ -540,6 +540,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Transfer Bank",
     "payment_method_direct_debit" => "Debit Langsung",
     "payment_method_money" => "Uang Tunai",
+
+    // Payment status and folders
+    "mark_as_paid" => "Tandai sudah dibayar",
+    "mark_as_unpaid" => "Tandai belum dibayar",
+    "paid" => "Dibayar",
+    "unpaid" => "Belum dibayar",
+    "payment_status" => "Status pembayaran",
+    "folders" => "Folder",
+    "folder" => "Folder",
+    "no_folder" => "Tanpa folder",
+    "folder_color" => "Warna folder",
+    "save_folder" => "Simpan folder",
+    "delete_folder" => "Hapus folder",
+    "folder_saved" => "Folder disimpan",
+    "folder_removed" => "Folder dihapus",
+    "failed_add_folder" => "Gagal menambahkan folder",
+    "failed_edit_folder" => "Gagal menyimpan folder",
+    "failed_remove_folder" => "Gagal menghapus folder",
+    "per_month" => "bulan",
+    "folders_explanation" => "Kelompokkan langganan Anda ke dalam folder berwarna, seperti kantong pembayaran, dan saring dengan satu ketukan di halaman langganan.",
 ];
 
 ?>

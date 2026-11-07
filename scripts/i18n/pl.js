@@ -63,10 +63,10 @@ let i18n = {
   error_bulk_action: "Działanie zbiorcze nie powiodło się",
   // Folders
   folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder_color: "Kolor folderu",
+  save_folder: "Zapisz folder",
+  delete_folder: "Usuń folder",
+  failed_add_folder: "Nie udało się dodać folderu",
+  failed_save_folder: "Nie udało się zapisać folderu",
+  failed_remove_folder: "Nie udało się usunąć folderu",
 }

@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bančno nakazilo",
     "payment_method_direct_debit" => "Direktna obremenitev",
     "payment_method_money" => "Gotovina",
+
+    // Payment status and folders
+    "mark_as_paid" => "Označi kot plačano",
+    "mark_as_unpaid" => "Označi kot neplačano",
+    "paid" => "Plačano",
+    "unpaid" => "Neplačano",
+    "payment_status" => "Stanje plačila",
+    "folders" => "Mape",
+    "folder" => "Mapa",
+    "no_folder" => "Brez mape",
+    "folder_color" => "Barva mape",
+    "save_folder" => "Shrani mapo",
+    "delete_folder" => "Izbriši mapo",
+    "folder_saved" => "Mapa shranjena",
+    "folder_removed" => "Mapa odstranjena",
+    "failed_add_folder" => "Mape ni bilo mogoče dodati",
+    "failed_edit_folder" => "Mape ni bilo mogoče shraniti",
+    "failed_remove_folder" => "Mape ni bilo mogoče odstraniti",
+    "per_month" => "mesec",
+    "folders_explanation" => "Združite svoje naročnine v barvne mape, kot žepe za plačila, in jih filtrirajte z enim dotikom na strani naročnin.",
 ];
 
 

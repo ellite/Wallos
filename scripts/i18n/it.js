@@ -63,11 +63,11 @@ let i18n = {
   bulk_action_success: "{count} abbonamento/i aggiornato/i",
   error_bulk_action: "Azione di gruppo non riuscita",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Cartella",
+  folder_color: "Colore della cartella",
+  save_folder: "Salva cartella",
+  delete_folder: "Elimina cartella",
+  failed_add_folder: "Impossibile aggiungere la cartella",
+  failed_save_folder: "Impossibile salvare la cartella",
+  failed_remove_folder: "Impossibile rimuovere la cartella",
 }

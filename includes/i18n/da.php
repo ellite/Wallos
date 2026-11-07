@@ -541,5 +541,25 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankoverførsel",
     "payment_method_direct_debit" => "Direkte debitering",
     "payment_method_money" => "Kontanter",
+
+    // Payment status and folders
+    "mark_as_paid" => "Markér som betalt",
+    "mark_as_unpaid" => "Markér som ubetalt",
+    "paid" => "Betalt",
+    "unpaid" => "Ubetalt",
+    "payment_status" => "Betalingsstatus",
+    "folders" => "Mapper",
+    "folder" => "Mappe",
+    "no_folder" => "Ingen mappe",
+    "folder_color" => "Mappefarve",
+    "save_folder" => "Gem mappe",
+    "delete_folder" => "Slet mappe",
+    "folder_saved" => "Mappe gemt",
+    "folder_removed" => "Mappe fjernet",
+    "failed_add_folder" => "Kunne ikke tilføje mappe",
+    "failed_edit_folder" => "Kunne ikke gemme mappe",
+    "failed_remove_folder" => "Kunne ikke fjerne mappe",
+    "per_month" => "måned",
+    "folders_explanation" => "Gruppér dine abonnementer i farvede mapper, som lommer med betalinger, og filtrér dem med et enkelt tryk på abonnementssiden.",
 ];
 ?>

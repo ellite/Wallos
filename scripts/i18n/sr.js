@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Ажурирано претплата: {count}",
   error_bulk_action: "Групна радња није успела",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Фасцикла",
+  folder_color: "Боја фасцикле",
+  save_folder: "Сачувај фасциклу",
+  delete_folder: "Избриши фасциклу",
+  failed_add_folder: "Додавање фасцикле није успело",
+  failed_save_folder: "Чување фасцикле није успело",
+  failed_remove_folder: "Уклањање фасцикле није успело",
 }

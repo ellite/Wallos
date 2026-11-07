@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Банковский перевод",
     "payment_method_direct_debit" => "Прямой дебет",
     "payment_method_money" => "Наличные",
+
+    // Payment status and folders
+    "mark_as_paid" => "Отметить как оплаченную",
+    "mark_as_unpaid" => "Отметить как неоплаченную",
+    "paid" => "Оплачено",
+    "unpaid" => "Не оплачено",
+    "payment_status" => "Статус оплаты",
+    "folders" => "Папки",
+    "folder" => "Папка",
+    "no_folder" => "Без папки",
+    "folder_color" => "Цвет папки",
+    "save_folder" => "Сохранить папку",
+    "delete_folder" => "Удалить папку",
+    "folder_saved" => "Папка сохранена",
+    "folder_removed" => "Папка удалена",
+    "failed_add_folder" => "Не удалось добавить папку",
+    "failed_edit_folder" => "Не удалось сохранить папку",
+    "failed_remove_folder" => "Не удалось удалить папку",
+    "per_month" => "месяц",
+    "folders_explanation" => "Группируйте подписки в цветные папки, как кармашки для платежей, и фильтруйте их одним касанием на странице подписок.",
 ];
 
 

@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "계좌 이체",
     "payment_method_direct_debit" => "자동이체",
     "payment_method_money" => "현금",
+
+    // Payment status and folders
+    "mark_as_paid" => "결제 완료로 표시",
+    "mark_as_unpaid" => "미결제로 표시",
+    "paid" => "결제 완료",
+    "unpaid" => "미결제",
+    "payment_status" => "결제 상태",
+    "folders" => "폴더",
+    "folder" => "폴더",
+    "no_folder" => "폴더 없음",
+    "folder_color" => "폴더 색상",
+    "save_folder" => "폴더 저장",
+    "delete_folder" => "폴더 삭제",
+    "folder_saved" => "폴더가 저장되었습니다",
+    "folder_removed" => "폴더가 삭제되었습니다",
+    "failed_add_folder" => "폴더를 추가하지 못했습니다",
+    "failed_edit_folder" => "폴더를 저장하지 못했습니다",
+    "failed_remove_folder" => "폴더를 삭제하지 못했습니다",
+    "per_month" => "월",
+    "folders_explanation" => "구독을 결제 주머니처럼 색깔 있는 폴더로 묶고, 구독 페이지에서 한 번의 탭으로 필터링하세요.",
 ];
 
 

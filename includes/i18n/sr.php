@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Банковни пренос",
     "payment_method_direct_debit" => "Директно задужење",
     "payment_method_money" => "Готовина",
+
+    // Payment status and folders
+    "mark_as_paid" => "Означи као плаћено",
+    "mark_as_unpaid" => "Означи као неплаћено",
+    "paid" => "Плаћено",
+    "unpaid" => "Неплаћено",
+    "payment_status" => "Статус плаћања",
+    "folders" => "Фасцикле",
+    "folder" => "Фасцикла",
+    "no_folder" => "Без фасцикле",
+    "folder_color" => "Боја фасцикле",
+    "save_folder" => "Сачувај фасциклу",
+    "delete_folder" => "Избриши фасциклу",
+    "folder_saved" => "Фасцикла је сачувана",
+    "folder_removed" => "Фасцикла је уклоњена",
+    "failed_add_folder" => "Додавање фасцикле није успело",
+    "failed_edit_folder" => "Чување фасцикле није успело",
+    "failed_remove_folder" => "Уклањање фасцикле није успело",
+    "per_month" => "месец",
+    "folders_explanation" => "Груписајте своје претплате у обојене фасцикле, као џепове за плаћања, и филтрирајте их једним додиром на страници претплата.",
 ];
 
 

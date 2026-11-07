@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} előfizetés frissítve",
   error_bulk_action: "A tömeges művelet nem sikerült",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Mappa",
+  folder_color: "Mappa színe",
+  save_folder: "Mappa mentése",
+  delete_folder: "Mappa törlése",
+  failed_add_folder: "A mappa hozzáadása sikertelen",
+  failed_save_folder: "A mappa mentése sikertelen",
+  failed_remove_folder: "A mappa eltávolítása sikertelen",
 }

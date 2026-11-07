@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} abonament(e) actualizate",
   error_bulk_action: "Acțiunea în masă a eșuat",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Dosar",
+  folder_color: "Culoarea dosarului",
+  save_folder: "Salvează dosarul",
+  delete_folder: "Șterge dosarul",
+  failed_add_folder: "Nu s-a putut adăuga dosarul",
+  failed_save_folder: "Nu s-a putut salva dosarul",
+  failed_remove_folder: "Nu s-a putut elimina dosarul",
 }

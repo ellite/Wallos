@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Transfer bancar",
     "payment_method_direct_debit" => "Debit direct",
     "payment_method_money" => "Numerar",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marchează ca plătit",
+    "mark_as_unpaid" => "Marchează ca neplătit",
+    "paid" => "Plătit",
+    "unpaid" => "Neplătit",
+    "payment_status" => "Stare plată",
+    "folders" => "Dosare",
+    "folder" => "Dosar",
+    "no_folder" => "Fără dosar",
+    "folder_color" => "Culoarea dosarului",
+    "save_folder" => "Salvează dosarul",
+    "delete_folder" => "Șterge dosarul",
+    "folder_saved" => "Dosar salvat",
+    "folder_removed" => "Dosar eliminat",
+    "failed_add_folder" => "Nu s-a putut adăuga dosarul",
+    "failed_edit_folder" => "Nu s-a putut salva dosarul",
+    "failed_remove_folder" => "Nu s-a putut elimina dosarul",
+    "per_month" => "lună",
+    "folders_explanation" => "Grupați-vă abonamentele în dosare colorate, ca niște buzunare pentru plăți, și filtrați-le cu o singură atingere în pagina de abonamente.",
 ];
 
 

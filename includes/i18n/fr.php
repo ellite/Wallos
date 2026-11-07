@@ -556,6 +556,13 @@ $i18n = [
     "failed_remove_folder" => "Échec de la suppression du dossier",
     "per_month" => "mois",
     "folders_explanation" => "Regroupez vos abonnements dans des dossiers colorés, comme des poches de paiements, et filtrez-les en un clic sur la page des abonnements.",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marquer comme payé",
+    "mark_as_unpaid" => "Marquer comme non payé",
+    "paid" => "Payé",
+    "unpaid" => "Non payé",
+    "payment_status" => "Statut du paiement",
 ];
 
 

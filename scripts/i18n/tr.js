@@ -62,13 +62,13 @@ let i18n = {
   bulk_action_success: "{count} abonelik güncellendi",
   error_bulk_action: "Toplu işlem başarısız oldu",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Klasör",
+  folder_color: "Klasör rengi",
+  save_folder: "Klasörü kaydet",
+  delete_folder: "Klasörü sil",
+  failed_add_folder: "Klasör eklenemedi",
+  failed_save_folder: "Klasör kaydedilemedi",
+  failed_remove_folder: "Klasör kaldırılamadı",
 }
 
 

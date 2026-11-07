@@ -562,6 +562,26 @@ $i18n = [
     "payment_method_bank_transfer" => "银行转账",
     "payment_method_direct_debit" => "直接扣款",
     "payment_method_money" => "现金",
+
+    // Payment status and folders
+    "mark_as_paid" => "标记为已付款",
+    "mark_as_unpaid" => "标记为未付款",
+    "paid" => "已付款",
+    "unpaid" => "未付款",
+    "payment_status" => "付款状态",
+    "folders" => "文件夹",
+    "folder" => "文件夹",
+    "no_folder" => "无文件夹",
+    "folder_color" => "文件夹颜色",
+    "save_folder" => "保存文件夹",
+    "delete_folder" => "删除文件夹",
+    "folder_saved" => "文件夹已保存",
+    "folder_removed" => "文件夹已移除",
+    "failed_add_folder" => "添加文件夹失败",
+    "failed_edit_folder" => "保存文件夹失败",
+    "failed_remove_folder" => "移除文件夹失败",
+    "per_month" => "月",
+    "folders_explanation" => "将订阅分组到彩色文件夹中，就像付款的口袋，并在订阅页面一键筛选。",
 ];
 
 ?>

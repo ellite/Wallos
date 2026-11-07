@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "已更新 {count} 个订阅",
   error_bulk_action: "批量操作失败",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "文件夹",
+  folder_color: "文件夹颜色",
+  save_folder: "保存文件夹",
+  delete_folder: "删除文件夹",
+  failed_add_folder: "添加文件夹失败",
+  failed_save_folder: "保存文件夹失败",
+  failed_remove_folder: "移除文件夹失败",
 };

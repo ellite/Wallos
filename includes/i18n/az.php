@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bank köçürməsi",
     "payment_method_direct_debit" => "Birbaşa debet",
     "payment_method_money" => "Nağd pul",
+
+    // Payment status and folders
+    "mark_as_paid" => "Ödənilmiş kimi qeyd et",
+    "mark_as_unpaid" => "Ödənilməmiş kimi qeyd et",
+    "paid" => "Ödənilib",
+    "unpaid" => "Ödənilməyib",
+    "payment_status" => "Ödəniş statusu",
+    "folders" => "Qovluqlar",
+    "folder" => "Qovluq",
+    "no_folder" => "Qovluq yoxdur",
+    "folder_color" => "Qovluq rəngi",
+    "save_folder" => "Qovluğu saxla",
+    "delete_folder" => "Qovluğu sil",
+    "folder_saved" => "Qovluq saxlanıldı",
+    "folder_removed" => "Qovluq silindi",
+    "failed_add_folder" => "Qovluq əlavə edilmədi",
+    "failed_edit_folder" => "Qovluq saxlanılmadı",
+    "failed_remove_folder" => "Qovluq silinmədi",
+    "per_month" => "ay",
+    "folders_explanation" => "Abunəliklərinizi ödənişlər üçün cib kimi rəngli qovluqlarda qruplaşdırın və abunəliklər səhifəsində bir toxunuşla süzün.",
 ];
 
 

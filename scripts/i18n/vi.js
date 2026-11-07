@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Đã cập nhật {count} đăng ký",
   error_bulk_action: "Thao tác hàng loạt thất bại",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Thư mục",
+  folder_color: "Màu thư mục",
+  save_folder: "Lưu thư mục",
+  delete_folder: "Xóa thư mục",
+  failed_add_folder: "Không thể thêm thư mục",
+  failed_save_folder: "Không thể lưu thư mục",
+  failed_remove_folder: "Không thể xóa thư mục",
 }

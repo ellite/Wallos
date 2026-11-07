@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Banka havalesi",
     "payment_method_direct_debit" => "Otomatik ödeme",
     "payment_method_money" => "Nakit",
+
+    // Payment status and folders
+    "mark_as_paid" => "Ödendi olarak işaretle",
+    "mark_as_unpaid" => "Ödenmedi olarak işaretle",
+    "paid" => "Ödendi",
+    "unpaid" => "Ödenmedi",
+    "payment_status" => "Ödeme durumu",
+    "folders" => "Klasörler",
+    "folder" => "Klasör",
+    "no_folder" => "Klasör yok",
+    "folder_color" => "Klasör rengi",
+    "save_folder" => "Klasörü kaydet",
+    "delete_folder" => "Klasörü sil",
+    "folder_saved" => "Klasör kaydedildi",
+    "folder_removed" => "Klasör kaldırıldı",
+    "failed_add_folder" => "Klasör eklenemedi",
+    "failed_edit_folder" => "Klasör kaydedilemedi",
+    "failed_remove_folder" => "Klasör kaldırılamadı",
+    "per_month" => "ay",
+    "folders_explanation" => "Aboneliklerinizi ödeme ceplerine benzeyen renkli klasörlerde gruplayın ve abonelikler sayfasında tek dokunuşla filtreleyin.",
 ];
 
 

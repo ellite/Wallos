@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Banki átutalás",
     "payment_method_direct_debit" => "Csoportos beszedési megbízás",
     "payment_method_money" => "Készpénz",
+
+    // Payment status and folders
+    "mark_as_paid" => "Megjelölés fizetettként",
+    "mark_as_unpaid" => "Megjelölés nem fizetettként",
+    "paid" => "Fizetve",
+    "unpaid" => "Nincs fizetve",
+    "payment_status" => "Fizetési állapot",
+    "folders" => "Mappák",
+    "folder" => "Mappa",
+    "no_folder" => "Nincs mappa",
+    "folder_color" => "Mappa színe",
+    "save_folder" => "Mappa mentése",
+    "delete_folder" => "Mappa törlése",
+    "folder_saved" => "Mappa mentve",
+    "folder_removed" => "Mappa eltávolítva",
+    "failed_add_folder" => "A mappa hozzáadása sikertelen",
+    "failed_edit_folder" => "A mappa mentése sikertelen",
+    "failed_remove_folder" => "A mappa eltávolítása sikertelen",
+    "per_month" => "hó",
+    "folders_explanation" => "Csoportosítsa az előfizetéseit színes mappákba, mint a kifizetések zsebei, és szűrje őket egyetlen érintéssel az előfizetések oldalon.",
 ]; 
  
  

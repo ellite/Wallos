@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankoverschrijving",
     "payment_method_direct_debit" => "Automatische incasso",
     "payment_method_money" => "Contant geld",
+
+    // Payment status and folders
+    "mark_as_paid" => "Markeren als betaald",
+    "mark_as_unpaid" => "Markeren als onbetaald",
+    "paid" => "Betaald",
+    "unpaid" => "Onbetaald",
+    "payment_status" => "Betalingsstatus",
+    "folders" => "Mappen",
+    "folder" => "Map",
+    "no_folder" => "Geen map",
+    "folder_color" => "Mapkleur",
+    "save_folder" => "Map opslaan",
+    "delete_folder" => "Map verwijderen",
+    "folder_saved" => "Map opgeslagen",
+    "folder_removed" => "Map verwijderd",
+    "failed_add_folder" => "Map toevoegen mislukt",
+    "failed_edit_folder" => "Map opslaan mislukt",
+    "failed_remove_folder" => "Map verwijderen mislukt",
+    "per_month" => "maand",
+    "folders_explanation" => "Groepeer je abonnementen in gekleurde mappen, zoals zakjes voor betalingen, en filter ze met één tik op de abonnementenpagina.",
 ];
 
 

@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankovní převod",
     "payment_method_direct_debit" => "Inkaso",
     "payment_method_money" => "Hotovost",
+
+    // Payment status and folders
+    "mark_as_paid" => "Označit jako zaplacené",
+    "mark_as_unpaid" => "Označit jako nezaplacené",
+    "paid" => "Zaplaceno",
+    "unpaid" => "Nezaplaceno",
+    "payment_status" => "Stav platby",
+    "folders" => "Složky",
+    "folder" => "Složka",
+    "no_folder" => "Bez složky",
+    "folder_color" => "Barva složky",
+    "save_folder" => "Uložit složku",
+    "delete_folder" => "Smazat složku",
+    "folder_saved" => "Složka uložena",
+    "folder_removed" => "Složka odstraněna",
+    "failed_add_folder" => "Složku se nepodařilo přidat",
+    "failed_edit_folder" => "Složku se nepodařilo uložit",
+    "failed_remove_folder" => "Složku se nepodařilo odstranit",
+    "per_month" => "měsíc",
+    "folders_explanation" => "Seskupte své předplatné do barevných složek, jako kapsy plateb, a filtrujte je jedním klepnutím na stránce předplatných.",
 ];
 
 

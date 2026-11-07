@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankovni prenos",
     "payment_method_direct_debit" => "Direktno zaduženje",
     "payment_method_money" => "Gotovina",
+
+    // Payment status and folders
+    "mark_as_paid" => "Označi kao plaćeno",
+    "mark_as_unpaid" => "Označi kao neplaćeno",
+    "paid" => "Plaćeno",
+    "unpaid" => "Neplaćeno",
+    "payment_status" => "Status plaćanja",
+    "folders" => "Fascikle",
+    "folder" => "Fascikla",
+    "no_folder" => "Bez fascikle",
+    "folder_color" => "Boja fascikle",
+    "save_folder" => "Sačuvaj fasciklu",
+    "delete_folder" => "Izbriši fasciklu",
+    "folder_saved" => "Fascikla je sačuvana",
+    "folder_removed" => "Fascikla je uklonjena",
+    "failed_add_folder" => "Dodavanje fascikle nije uspelo",
+    "failed_edit_folder" => "Čuvanje fascikle nije uspelo",
+    "failed_remove_folder" => "Uklanjanje fascikle nije uspelo",
+    "per_month" => "mesec",
+    "folders_explanation" => "Grupišite svoje pretplate u obojene fascikle, kao džepove za plaćanja, i filtrirajte ih jednim dodirom na stranici pretplata.",
 ];
 
 

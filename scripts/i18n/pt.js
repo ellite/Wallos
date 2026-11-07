@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} subscrição(ões) atualizada(s)",
   error_bulk_action: "Não foi possível aplicar a ação em massa",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Pasta",
+  folder_color: "Cor da pasta",
+  save_folder: "Guardar pasta",
+  delete_folder: "Eliminar pasta",
+  failed_add_folder: "Falha ao adicionar a pasta",
+  failed_save_folder: "Falha ao guardar a pasta",
+  failed_remove_folder: "Falha ao remover a pasta",
 };

@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Ažurirano pretplata: {count}",
   error_bulk_action: "Grupna radnja nije uspela",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Fascikla",
+  folder_color: "Boja fascikle",
+  save_folder: "Sačuvaj fasciklu",
+  delete_folder: "Izbriši fasciklu",
+  failed_add_folder: "Dodavanje fascikle nije uspelo",
+  failed_save_folder: "Čuvanje fascikle nije uspelo",
+  failed_remove_folder: "Uklanjanje fascikle nije uspelo",
 }

@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Банківський переказ",
     "payment_method_direct_debit" => "Пряме дебетування",
     "payment_method_money" => "Готівка",
+
+    // Payment status and folders
+    "mark_as_paid" => "Позначити як оплачену",
+    "mark_as_unpaid" => "Позначити як неоплачену",
+    "paid" => "Оплачено",
+    "unpaid" => "Не оплачено",
+    "payment_status" => "Статус оплати",
+    "folders" => "Папки",
+    "folder" => "Папка",
+    "no_folder" => "Без папки",
+    "folder_color" => "Колір папки",
+    "save_folder" => "Зберегти папку",
+    "delete_folder" => "Видалити папку",
+    "folder_saved" => "Папку збережено",
+    "folder_removed" => "Папку видалено",
+    "failed_add_folder" => "Не вдалося додати папку",
+    "failed_edit_folder" => "Не вдалося зберегти папку",
+    "failed_remove_folder" => "Не вдалося видалити папку",
+    "per_month" => "місяць",
+    "folders_explanation" => "Групуйте підписки в кольорові папки, як кишені для платежів, і фільтруйте їх одним дотиком на сторінці підписок.",
 ];
 
 ?>

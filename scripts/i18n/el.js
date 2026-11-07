@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Ενημερώθηκαν {count} συνδρομές",
   error_bulk_action: "Η μαζική ενέργεια απέτυχε",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Φάκελος",
+  folder_color: "Χρώμα φακέλου",
+  save_folder: "Αποθήκευση φακέλου",
+  delete_folder: "Διαγραφή φακέλου",
+  failed_add_folder: "Αποτυχία προσθήκης φακέλου",
+  failed_save_folder: "Αποτυχία αποθήκευσης φακέλου",
+  failed_remove_folder: "Αποτυχία αφαίρεσης φακέλου",
 }

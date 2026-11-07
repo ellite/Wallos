@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "تحويل بنكي",
     "payment_method_direct_debit" => "خصم مباشر",
     "payment_method_money" => "نقدًا",
+
+    // Payment status and folders
+    "mark_as_paid" => "وضع علامة كمدفوع",
+    "mark_as_unpaid" => "وضع علامة كغير مدفوع",
+    "paid" => "مدفوع",
+    "unpaid" => "غير مدفوع",
+    "payment_status" => "حالة الدفع",
+    "folders" => "المجلدات",
+    "folder" => "مجلد",
+    "no_folder" => "بدون مجلد",
+    "folder_color" => "لون المجلد",
+    "save_folder" => "حفظ المجلد",
+    "delete_folder" => "حذف المجلد",
+    "folder_saved" => "تم حفظ المجلد",
+    "folder_removed" => "تمت إزالة المجلد",
+    "failed_add_folder" => "فشلت إضافة المجلد",
+    "failed_edit_folder" => "فشل حفظ المجلد",
+    "failed_remove_folder" => "فشلت إزالة المجلد",
+    "per_month" => "شهر",
+    "folders_explanation" => "نظّم اشتراكاتك في مجلدات ملوّنة، مثل جيوب للمدفوعات، وصفِّها بنقرة واحدة في صفحة الاشتراكات.",
 ];
 
 

@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} abonnement(er) opdateret",
   error_bulk_action: "Massehandlingen mislykkedes",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Mappe",
+  folder_color: "Mappefarve",
+  save_folder: "Gem mappe",
+  delete_folder: "Slet mappe",
+  failed_add_folder: "Kunne ikke tilføje mappe",
+  failed_save_folder: "Kunne ikke gemme mappe",
+  failed_remove_folder: "Kunne ikke fjerne mappe",
 }

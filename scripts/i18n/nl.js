@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} abonnement(en) bijgewerkt",
   error_bulk_action: "Bulkactie mislukt",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Map",
+  folder_color: "Mapkleur",
+  save_folder: "Map opslaan",
+  delete_folder: "Map verwijderen",
+  failed_add_folder: "Map toevoegen mislukt",
+  failed_save_folder: "Map opslaan mislukt",
+  failed_remove_folder: "Map verwijderen mislukt",
 }

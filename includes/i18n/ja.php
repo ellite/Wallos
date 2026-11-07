@@ -547,6 +547,26 @@ $i18n = [
     "payment_method_bank_transfer" => "銀行振込",
     "payment_method_direct_debit" => "口座振替",
     "payment_method_money" => "現金",
+
+    // Payment status and folders
+    "mark_as_paid" => "支払い済みにする",
+    "mark_as_unpaid" => "未払いにする",
+    "paid" => "支払い済み",
+    "unpaid" => "未払い",
+    "payment_status" => "支払い状況",
+    "folders" => "フォルダ",
+    "folder" => "フォルダ",
+    "no_folder" => "フォルダなし",
+    "folder_color" => "フォルダの色",
+    "save_folder" => "フォルダを保存",
+    "delete_folder" => "フォルダを削除",
+    "folder_saved" => "フォルダを保存しました",
+    "folder_removed" => "フォルダを削除しました",
+    "failed_add_folder" => "フォルダを追加できませんでした",
+    "failed_edit_folder" => "フォルダを保存できませんでした",
+    "failed_remove_folder" => "フォルダを削除できませんでした",
+    "per_month" => "月",
+    "folders_explanation" => "サブスクリプションを色分けしたフォルダ（支払いのポケットのようなもの）にまとめ、サブスクリプションページでワンタップで絞り込めます。",
 ];
 
 

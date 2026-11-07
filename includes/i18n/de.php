@@ -546,6 +546,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Überweisung",
     "payment_method_direct_debit" => "Lastschrift",
     "payment_method_money" => "Bargeld",
+
+    // Payment status and folders
+    "mark_as_paid" => "Als bezahlt markieren",
+    "mark_as_unpaid" => "Als unbezahlt markieren",
+    "paid" => "Bezahlt",
+    "unpaid" => "Unbezahlt",
+    "payment_status" => "Zahlungsstatus",
+    "folders" => "Ordner",
+    "folder" => "Ordner",
+    "no_folder" => "Kein Ordner",
+    "folder_color" => "Ordnerfarbe",
+    "save_folder" => "Ordner speichern",
+    "delete_folder" => "Ordner löschen",
+    "folder_saved" => "Ordner gespeichert",
+    "folder_removed" => "Ordner entfernt",
+    "failed_add_folder" => "Ordner konnte nicht hinzugefügt werden",
+    "failed_edit_folder" => "Ordner konnte nicht gespeichert werden",
+    "failed_remove_folder" => "Ordner konnte nicht entfernt werden",
+    "per_month" => "Monat",
+    "folders_explanation" => "Fassen Sie Ihre Abonnements in farbigen Ordnern zusammen, wie Taschen für Zahlungen, und filtern Sie sie mit einem Fingertipp auf der Abonnement-Seite.",
 ];
 
 

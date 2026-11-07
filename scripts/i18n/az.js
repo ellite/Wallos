@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} abunəlik yeniləndi",
   error_bulk_action: "Toplu əməliyyat alınmadı",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Qovluq",
+  folder_color: "Qovluq rəngi",
+  save_folder: "Qovluğu saxla",
+  delete_folder: "Qovluğu sil",
+  failed_add_folder: "Qovluq əlavə edilmədi",
+  failed_save_folder: "Qovluq saxlanılmadı",
+  failed_remove_folder: "Qovluq silinmədi",
 }

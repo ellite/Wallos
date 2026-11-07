@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} suscripción(es) actualizada(s)",
   error_bulk_action: "No se pudo aplicar la acción masiva",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Carpeta",
+  folder_color: "Color de la carpeta",
+  save_folder: "Guardar carpeta",
+  delete_folder: "Eliminar carpeta",
+  failed_add_folder: "No se pudo añadir la carpeta",
+  failed_save_folder: "No se pudo guardar la carpeta",
+  failed_remove_folder: "No se pudo eliminar la carpeta",
 }

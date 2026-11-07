@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Transferência bancária",
     "payment_method_direct_debit" => "Débito direto",
     "payment_method_money" => "Dinheiro",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marcar como pago",
+    "mark_as_unpaid" => "Marcar como não pago",
+    "paid" => "Pago",
+    "unpaid" => "Não pago",
+    "payment_status" => "Estado do pagamento",
+    "folders" => "Pastas",
+    "folder" => "Pasta",
+    "no_folder" => "Sem pasta",
+    "folder_color" => "Cor da pasta",
+    "save_folder" => "Guardar pasta",
+    "delete_folder" => "Eliminar pasta",
+    "folder_saved" => "Pasta guardada",
+    "folder_removed" => "Pasta removida",
+    "failed_add_folder" => "Falha ao adicionar a pasta",
+    "failed_edit_folder" => "Falha ao guardar a pasta",
+    "failed_remove_folder" => "Falha ao remover a pasta",
+    "per_month" => "mês",
+    "folders_explanation" => "Agrupe as suas subscrições em pastas coloridas, como bolsos de pagamentos, e filtre-as com um só toque na página de subscrições.",
 ];
 
 ?>

@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Posodobljene naročnine: {count}",
   error_bulk_action: "Množično dejanje ni uspelo",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Mapa",
+  folder_color: "Barva mape",
+  save_folder: "Shrani mapo",
+  delete_folder: "Izbriši mapo",
+  failed_add_folder: "Mape ni bilo mogoče dodati",
+  failed_save_folder: "Mape ni bilo mogoče shraniti",
+  failed_remove_folder: "Mape ni bilo mogoče odstraniti",
 }

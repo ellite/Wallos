@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "已更新 {count} 個訂閱",
   error_bulk_action: "批次操作失敗",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "資料夾",
+  folder_color: "資料夾顏色",
+  save_folder: "儲存資料夾",
+  delete_folder: "刪除資料夾",
+  failed_add_folder: "新增資料夾失敗",
+  failed_save_folder: "儲存資料夾失敗",
+  failed_remove_folder: "移除資料夾失敗",
 };

@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Aktualizováno předplatných: {count}",
   error_bulk_action: "Hromadnou akci se nepodařilo provést",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Složka",
+  folder_color: "Barva složky",
+  save_folder: "Uložit složku",
+  delete_folder: "Smazat složku",
+  failed_add_folder: "Složku se nepodařilo přidat",
+  failed_save_folder: "Složku se nepodařilo uložit",
+  failed_remove_folder: "Složku se nepodařilo odstranit",
 }

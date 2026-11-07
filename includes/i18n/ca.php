@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Transferència bancària",
     "payment_method_direct_debit" => "Domiciliació bancària",
     "payment_method_money" => "Efectiu",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marca com a pagat",
+    "mark_as_unpaid" => "Marca com a no pagat",
+    "paid" => "Pagat",
+    "unpaid" => "No pagat",
+    "payment_status" => "Estat del pagament",
+    "folders" => "Carpetes",
+    "folder" => "Carpeta",
+    "no_folder" => "Sense carpeta",
+    "folder_color" => "Color de la carpeta",
+    "save_folder" => "Desa la carpeta",
+    "delete_folder" => "Elimina la carpeta",
+    "folder_saved" => "Carpeta desada",
+    "folder_removed" => "Carpeta eliminada",
+    "failed_add_folder" => "No s'ha pogut afegir la carpeta",
+    "failed_edit_folder" => "No s'ha pogut desar la carpeta",
+    "failed_remove_folder" => "No s'ha pogut eliminar la carpeta",
+    "per_month" => "mes",
+    "folders_explanation" => "Agrupa les subscripcions en carpetes de colors, com butxaques de pagaments, i filtra-les amb un sol toc a la pàgina de subscripcions.",
 ];
 
 

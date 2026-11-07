@@ -540,6 +540,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Chuyển khoản ngân hàng",
     "payment_method_direct_debit" => "Ghi nợ trực tiếp",
     "payment_method_money" => "Tiền mặt",
+
+    // Payment status and folders
+    "mark_as_paid" => "Đánh dấu đã thanh toán",
+    "mark_as_unpaid" => "Đánh dấu chưa thanh toán",
+    "paid" => "Đã thanh toán",
+    "unpaid" => "Chưa thanh toán",
+    "payment_status" => "Trạng thái thanh toán",
+    "folders" => "Thư mục",
+    "folder" => "Thư mục",
+    "no_folder" => "Không có thư mục",
+    "folder_color" => "Màu thư mục",
+    "save_folder" => "Lưu thư mục",
+    "delete_folder" => "Xóa thư mục",
+    "folder_saved" => "Đã lưu thư mục",
+    "folder_removed" => "Đã xóa thư mục",
+    "failed_add_folder" => "Không thể thêm thư mục",
+    "failed_edit_folder" => "Không thể lưu thư mục",
+    "failed_remove_folder" => "Không thể xóa thư mục",
+    "per_month" => "tháng",
+    "folders_explanation" => "Nhóm các gói đăng ký của bạn vào các thư mục có màu, như những ngăn đựng khoản thanh toán, và lọc chúng chỉ với một chạm trên trang đăng ký.",
 ];
 
 ?>

@@ -542,6 +542,26 @@ $i18n = [
     "payment_method_bank_transfer" => "銀行轉帳",
     "payment_method_direct_debit" => "自動扣款",
     "payment_method_money" => "現金",
+
+    // Payment status and folders
+    "mark_as_paid" => "標記為已付款",
+    "mark_as_unpaid" => "標記為未付款",
+    "paid" => "已付款",
+    "unpaid" => "未付款",
+    "payment_status" => "付款狀態",
+    "folders" => "資料夾",
+    "folder" => "資料夾",
+    "no_folder" => "無資料夾",
+    "folder_color" => "資料夾顏色",
+    "save_folder" => "儲存資料夾",
+    "delete_folder" => "刪除資料夾",
+    "folder_saved" => "資料夾已儲存",
+    "folder_removed" => "資料夾已移除",
+    "failed_add_folder" => "新增資料夾失敗",
+    "failed_edit_folder" => "儲存資料夾失敗",
+    "failed_remove_folder" => "移除資料夾失敗",
+    "per_month" => "月",
+    "folders_explanation" => "將訂閱分組到彩色資料夾中，就像付款的口袋，並在訂閱頁面一鍵篩選。",
 ];
 
 

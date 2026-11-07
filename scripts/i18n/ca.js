@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} subscripció(ns) actualitzada(es)",
   error_bulk_action: "No s'ha pogut aplicar l'acció massiva",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Carpeta",
+  folder_color: "Color de la carpeta",
+  save_folder: "Desa la carpeta",
+  delete_folder: "Elimina la carpeta",
+  failed_add_folder: "No s'ha pogut afegir la carpeta",
+  failed_save_folder: "No s'ha pogut desar la carpeta",
+  failed_remove_folder: "No s'ha pogut eliminar la carpeta",
 }

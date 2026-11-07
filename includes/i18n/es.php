@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Transferencia bancaria",
     "payment_method_direct_debit" => "Domiciliación bancaria",
     "payment_method_money" => "Efectivo",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marcar como pagado",
+    "mark_as_unpaid" => "Marcar como no pagado",
+    "paid" => "Pagado",
+    "unpaid" => "No pagado",
+    "payment_status" => "Estado del pago",
+    "folders" => "Carpetas",
+    "folder" => "Carpeta",
+    "no_folder" => "Sin carpeta",
+    "folder_color" => "Color de la carpeta",
+    "save_folder" => "Guardar carpeta",
+    "delete_folder" => "Eliminar carpeta",
+    "folder_saved" => "Carpeta guardada",
+    "folder_removed" => "Carpeta eliminada",
+    "failed_add_folder" => "No se pudo añadir la carpeta",
+    "failed_edit_folder" => "No se pudo guardar la carpeta",
+    "failed_remove_folder" => "No se pudo eliminar la carpeta",
+    "per_month" => "mes",
+    "folders_explanation" => "Agrupe sus suscripciones en carpetas de colores, como bolsillos de pagos, y fíltrelas con un solo toque en la página de suscripciones.",
 ];
 
 

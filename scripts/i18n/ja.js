@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "{count} 件のサブスクリプションを更新しました",
   error_bulk_action: "一括操作に失敗しました",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "フォルダ",
+  folder_color: "フォルダの色",
+  save_folder: "フォルダを保存",
+  delete_folder: "フォルダを削除",
+  failed_add_folder: "フォルダを追加できませんでした",
+  failed_save_folder: "フォルダを保存できませんでした",
+  failed_remove_folder: "フォルダを削除できませんでした",
 }

@@ -563,6 +563,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Bonifico bancario",
     "payment_method_direct_debit" => "Addebito diretto",
     "payment_method_money" => "Contanti",
+
+    // Payment status and folders
+    "mark_as_paid" => "Segna come pagato",
+    "mark_as_unpaid" => "Segna come non pagato",
+    "paid" => "Pagato",
+    "unpaid" => "Non pagato",
+    "payment_status" => "Stato del pagamento",
+    "folders" => "Cartelle",
+    "folder" => "Cartella",
+    "no_folder" => "Nessuna cartella",
+    "folder_color" => "Colore della cartella",
+    "save_folder" => "Salva cartella",
+    "delete_folder" => "Elimina cartella",
+    "folder_saved" => "Cartella salvata",
+    "folder_removed" => "Cartella rimossa",
+    "failed_add_folder" => "Impossibile aggiungere la cartella",
+    "failed_edit_folder" => "Impossibile salvare la cartella",
+    "failed_remove_folder" => "Impossibile rimuovere la cartella",
+    "per_month" => "mese",
+    "folders_explanation" => "Raggruppa i tuoi abbonamenti in cartelle colorate, come tasche di pagamenti, e filtrali con un tocco nella pagina degli abbonamenti.",
 ];
 
 ?>

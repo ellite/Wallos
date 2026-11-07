@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Τραπεζική μεταφορά",
     "payment_method_direct_debit" => "Άμεση χρέωση",
     "payment_method_money" => "Μετρητά",
+
+    // Payment status and folders
+    "mark_as_paid" => "Επισήμανση ως πληρωμένο",
+    "mark_as_unpaid" => "Επισήμανση ως απλήρωτο",
+    "paid" => "Πληρωμένο",
+    "unpaid" => "Απλήρωτο",
+    "payment_status" => "Κατάσταση πληρωμής",
+    "folders" => "Φάκελοι",
+    "folder" => "Φάκελος",
+    "no_folder" => "Χωρίς φάκελο",
+    "folder_color" => "Χρώμα φακέλου",
+    "save_folder" => "Αποθήκευση φακέλου",
+    "delete_folder" => "Διαγραφή φακέλου",
+    "folder_saved" => "Ο φάκελος αποθηκεύτηκε",
+    "folder_removed" => "Ο φάκελος αφαιρέθηκε",
+    "failed_add_folder" => "Αποτυχία προσθήκης φακέλου",
+    "failed_edit_folder" => "Αποτυχία αποθήκευσης φακέλου",
+    "failed_remove_folder" => "Αποτυχία αφαίρεσης φακέλου",
+    "per_month" => "μήνα",
+    "folders_explanation" => "Ομαδοποιήστε τις συνδρομές σας σε έγχρωμους φακέλους, σαν θήκες πληρωμών, και φιλτράρετέ τις με ένα άγγιγμα στη σελίδα των συνδρομών.",
 ];
 
 

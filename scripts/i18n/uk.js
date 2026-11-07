@@ -62,11 +62,11 @@ let i18n = {
   bulk_action_success: "Оновлено підписок: {count}",
   error_bulk_action: "Не вдалося виконати масову дію",
   // Folders
-  folder: "Folder",
-  folder_color: "Folder color",
-  save_folder: "Save folder",
-  delete_folder: "Delete folder",
-  failed_add_folder: "Failed to add folder",
-  failed_save_folder: "Failed to save folder",
-  failed_remove_folder: "Failed to remove folder",
+  folder: "Папка",
+  folder_color: "Колір папки",
+  save_folder: "Зберегти папку",
+  delete_folder: "Видалити папку",
+  failed_add_folder: "Не вдалося додати папку",
+  failed_save_folder: "Не вдалося зберегти папку",
+  failed_remove_folder: "Не вдалося видалити папку",
 }

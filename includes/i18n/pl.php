@@ -541,6 +541,26 @@ $i18n = [
     "payment_method_bank_transfer" => "Przelew bankowy",
     "payment_method_direct_debit" => "Polecenie zapłaty",
     "payment_method_money" => "Gotówka",
+
+    // Payment status and folders
+    "mark_as_paid" => "Oznacz jako opłacone",
+    "mark_as_unpaid" => "Oznacz jako nieopłacone",
+    "paid" => "Opłacone",
+    "unpaid" => "Nieopłacone",
+    "payment_status" => "Status płatności",
+    "folders" => "Foldery",
+    "folder" => "Folder",
+    "no_folder" => "Brak folderu",
+    "folder_color" => "Kolor folderu",
+    "save_folder" => "Zapisz folder",
+    "delete_folder" => "Usuń folder",
+    "folder_saved" => "Folder zapisany",
+    "folder_removed" => "Folder usunięty",
+    "failed_add_folder" => "Nie udało się dodać folderu",
+    "failed_edit_folder" => "Nie udało się zapisać folderu",
+    "failed_remove_folder" => "Nie udało się usunąć folderu",
+    "per_month" => "miesiąc",
+    "folders_explanation" => "Grupuj swoje subskrypcje w kolorowych folderach, jak kieszenie na płatności, i filtruj je jednym dotknięciem na stronie subskrypcji.",
 ];
 
 
