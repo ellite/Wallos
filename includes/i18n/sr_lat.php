@@ -588,6 +588,12 @@ $i18n = [
     "instance_gotify_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim šalje na ovaj server. Deli se samo adresa - svaki nalog zadržava svoj token aplikacije, pa njegove poruke stižu u njegovu Gotify aplikaciju.",
     "instance_gotify_server_in_use" => "Ova instalacija pruža Gotify server. Ostavite server praznim da biste ga koristili i unesite ispod svoj token aplikacije.",
     "instance_gotify_saved" => "Gotify server je sačuvan",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Pushover aplikacija instance",
+    "instance_pushover_application_info" => "Jedna aplikacija za celu instalaciju: svaki nalog koji ostavi svoj token aplikacije praznim šalje preko ove aplikacije sa svojim korisničkim ključem. Ostavite prazno da svaki nalog registruje svoju aplikaciju.",
+    "instance_pushover_application_in_use" => "Ova instalacija pruža Pushover aplikaciju. Ostavite token aplikacije praznim da biste je koristili i unesite ispod svoj korisnički ključ.",
+    "instance_pushover_saved" => "Pushover aplikacija je sačuvana",
 ];
 
 

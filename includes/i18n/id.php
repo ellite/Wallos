@@ -587,6 +587,12 @@ $i18n = [
     "instance_gotify_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri mengirim ke server ini. Hanya alamatnya yang dibagikan - setiap akun menyimpan token aplikasinya sendiri, sehingga pesannya tiba di bawah aplikasi Gotify miliknya.",
     "instance_gotify_server_in_use" => "Instalasi ini menyediakan server Gotify. Biarkan server kosong untuk menggunakannya, dan masukkan token aplikasi Anda sendiri di bawah.",
     "instance_gotify_saved" => "Server Gotify disimpan",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplikasi Pushover instans",
+    "instance_pushover_application_info" => "Satu aplikasi untuk seluruh instalasi: setiap akun yang mengosongkan token aplikasinya sendiri mengirim melalui aplikasi ini, dengan kunci penggunanya sendiri. Biarkan kosong agar setiap akun mendaftarkan aplikasinya sendiri.",
+    "instance_pushover_application_in_use" => "Instalasi ini menyediakan aplikasi Pushover. Biarkan token aplikasi kosong untuk menggunakannya, dan masukkan kunci pengguna Anda sendiri di bawah.",
+    "instance_pushover_saved" => "Aplikasi Pushover disimpan",
 ];
 
 ?>

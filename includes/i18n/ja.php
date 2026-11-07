@@ -594,6 +594,12 @@ $i18n = [
     "instance_gotify_server_info" => "インストール全体で1つのサーバー：自分のサーバーを空にしているアカウントは、このサーバーに送信します。共有されるのはアドレスだけで、各アカウントは自分のアプリケーショントークンを保持するため、メッセージは各自のGotifyアプリケーションに届きます。",
     "instance_gotify_server_in_use" => "このインストールにはGotifyサーバーが用意されています。使用するにはサーバーを空にして、下に自分のアプリケーショントークンを入力してください。",
     "instance_gotify_saved" => "Gotifyサーバーを保存しました",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "インスタンスのPushoverアプリケーション",
+    "instance_pushover_application_info" => "インストール全体で1つのアプリケーション：自分のアプリケーショントークンを空にしているアカウントは、このアプリケーションを通じて各自のユーザーキーで送信します。アカウントごとに専用のアプリケーションを登録する場合は空のままにしてください。",
+    "instance_pushover_application_in_use" => "このインストールにはPushoverアプリケーションが用意されています。使用するにはアプリケーショントークンを空にして、下に自分のユーザーキーを入力してください。",
+    "instance_pushover_saved" => "Pushoverアプリケーションを保存しました",
 ];
 
 

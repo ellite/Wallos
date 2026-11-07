@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, odesílá na tento server. Sdílí se pouze adresa - každý účet si ponechává vlastní token aplikace, takže jeho zprávy přicházejí pod jeho vlastní aplikací Gotify.",
     "instance_gotify_server_in_use" => "Tato instalace poskytuje server Gotify. Chcete-li jej použít, nechte server prázdný a níže zadejte vlastní token aplikace.",
     "instance_gotify_saved" => "Server Gotify uložen",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplikace Pushover instalace",
+    "instance_pushover_application_info" => "Jedna aplikace pro celou instalaci: každý účet, který nechá vlastní token aplikace prázdný, odesílá přes tuto aplikaci se svým vlastním uživatelským klíčem. Nechte prázdné, pokud má každý účet zaregistrovat vlastní aplikaci.",
+    "instance_pushover_application_in_use" => "Tato instalace poskytuje aplikaci Pushover. Chcete-li ji použít, nechte token aplikace prázdný a níže zadejte vlastní uživatelský klíč.",
+    "instance_pushover_saved" => "Aplikace Pushover uložena",
 ];
 
 

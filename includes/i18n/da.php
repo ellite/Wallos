@@ -588,5 +588,11 @@ $i18n = [
     "instance_gotify_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, sender til denne. Kun adressen deles - hver konto beholder sit eget applikationstoken, så dens beskeder ankommer under dens egen Gotify-applikation.",
     "instance_gotify_server_in_use" => "Denne installation stiller en Gotify-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit eget applikationstoken nedenfor.",
     "instance_gotify_saved" => "Gotify-server gemt",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Instans-Pushover-applikation",
+    "instance_pushover_application_info" => "Én applikation til hele installationen: hver konto, der lader sit eget applikationstoken stå tomt, sender via denne med sin egen brugernøgle. Lad feltet stå tomt, hvis hver konto skal registrere sin egen applikation.",
+    "instance_pushover_application_in_use" => "Denne installation stiller en Pushover-applikation til rådighed. Lad applikationstokenet stå tomt for at bruge den, og angiv din egen brugernøgle nedenfor.",
+    "instance_pushover_saved" => "Pushover-applikation gemt",
 ];
 ?>

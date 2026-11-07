@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "خادم واحد للتثبيت بأكمله: كل حساب يترك خادمه الخاص فارغاً يرسل إلى هذا الخادم. العنوان فقط هو المشترك، إذ يحتفظ كل حساب برمز التطبيق الخاص به، فتصل رسائله ضمن تطبيق Gotify الخاص به.",
     "instance_gotify_server_in_use" => "يوفّر هذا التثبيت خادم Gotify. اترك الخادم فارغاً لاستخدامه، وأدخل رمز التطبيق الخاص بك أدناه.",
     "instance_gotify_saved" => "تم حفظ خادم Gotify",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "تطبيق Pushover للنسخة",
+    "instance_pushover_application_info" => "تطبيق واحد للتثبيت بأكمله: كل حساب يترك رمز تطبيقه الخاص فارغاً يرسل عبر هذا التطبيق، بمفتاح المستخدم الخاص به. اتركه فارغاً ليسجّل كل حساب تطبيقاً خاصاً به.",
+    "instance_pushover_application_in_use" => "يوفّر هذا التثبيت تطبيق Pushover. اترك رمز التطبيق فارغاً لاستخدامه، وأدخل مفتاح المستخدم الخاص بك أدناه.",
+    "instance_pushover_saved" => "تم حفظ تطبيق Pushover",
 ];
 
 

@@ -587,6 +587,12 @@ $i18n = [
     "instance_gotify_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ gửi đến máy chủ này. Chỉ địa chỉ được chia sẻ - mỗi tài khoản giữ mã ứng dụng riêng, nên tin nhắn của họ đến dưới ứng dụng Gotify của chính họ.",
     "instance_gotify_server_in_use" => "Hệ thống này cung cấp một máy chủ Gotify. Để trống máy chủ để sử dụng và nhập mã ứng dụng của riêng bạn bên dưới.",
     "instance_gotify_saved" => "Đã lưu máy chủ Gotify",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Ứng dụng Pushover của hệ thống",
+    "instance_pushover_application_info" => "Một ứng dụng cho toàn bộ hệ thống: mỗi tài khoản để trống mã ứng dụng riêng sẽ gửi qua ứng dụng này, với khóa người dùng của chính mình. Để trống nếu mỗi tài khoản đăng ký ứng dụng riêng.",
+    "instance_pushover_application_in_use" => "Hệ thống này cung cấp một ứng dụng Pushover. Để trống mã ứng dụng để sử dụng và nhập khóa người dùng của riêng bạn bên dưới.",
+    "instance_pushover_saved" => "Đã lưu ứng dụng Pushover",
 ];
 
 ?>

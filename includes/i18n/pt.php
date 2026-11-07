@@ -588,6 +588,12 @@ $i18n = [
     "instance_gotify_server_info" => "Um servidor para toda a instalação: todas as contas que deixem o seu próprio servidor vazio enviam para este. Apenas o endereço é partilhado - cada conta mantém o seu próprio token de aplicação, para que as suas mensagens cheguem sob a sua própria aplicação Gotify.",
     "instance_gotify_server_in_use" => "Esta instalação fornece um servidor Gotify. Deixe o servidor vazio para o usar e introduza abaixo o seu próprio token de aplicação.",
     "instance_gotify_saved" => "Servidor Gotify guardado",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicação Pushover da instância",
+    "instance_pushover_application_info" => "Uma aplicação para toda a instalação: todas as contas que deixem o seu próprio token de aplicação vazio enviam através desta, com a sua própria chave de utilizador. Deixe vazio para que cada conta registe uma aplicação própria.",
+    "instance_pushover_application_in_use" => "Esta instalação fornece uma aplicação Pushover. Deixe o token de aplicação vazio para a usar e introduza abaixo a sua própria chave de utilizador.",
+    "instance_pushover_saved" => "Aplicação Pushover guardada",
 ];
 
 ?>

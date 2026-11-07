@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, verstuurt naar deze server. Alleen het adres wordt gedeeld - elk account houdt zijn eigen applicatietoken, zodat zijn berichten onder zijn eigen Gotify-applicatie aankomen.",
     "instance_gotify_server_in_use" => "Deze installatie biedt een Gotify-server. Laat de server leeg om die te gebruiken en vul hieronder je eigen applicatietoken in.",
     "instance_gotify_saved" => "Gotify-server opgeslagen",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Instantie-Pushover-applicatie",
+    "instance_pushover_application_info" => "Eén applicatie voor de hele installatie: elk account dat zijn eigen applicatietoken leeg laat, verstuurt via deze applicatie met zijn eigen gebruikerssleutel. Laat leeg als elk account een eigen applicatie moet registreren.",
+    "instance_pushover_application_in_use" => "Deze installatie biedt een Pushover-applicatie. Laat het applicatietoken leeg om die te gebruiken en vul hieronder je eigen gebruikerssleutel in.",
+    "instance_pushover_saved" => "Pushover-applicatie opgeslagen",
 ];
 
 

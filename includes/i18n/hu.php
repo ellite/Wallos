@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre küld. Csak a cím közös - minden fiók megtartja a saját alkalmazástokenjét, így az üzenetei a saját Gotify-alkalmazása alatt érkeznek.",
     "instance_gotify_server_in_use" => "Ez a telepítés Gotify-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a saját alkalmazástokenjét.",
     "instance_gotify_saved" => "Gotify-szerver mentve",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Példány Pushover-alkalmazása",
+    "instance_pushover_application_info" => "Egy alkalmazás az egész telepítéshez: minden fiók, amely üresen hagyja a saját alkalmazástokenjét, ezen keresztül küld a saját felhasználói kulcsával. Hagyja üresen, ha minden fiók saját alkalmazást regisztráljon.",
+    "instance_pushover_application_in_use" => "Ez a telepítés Pushover-alkalmazást biztosít. A használatához hagyja üresen az alkalmazástokent, és adja meg lent a saját felhasználói kulcsát.",
+    "instance_pushover_saved" => "Pushover-alkalmazás mentve",
 ]; 
  
  

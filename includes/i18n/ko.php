@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버로 전송합니다. 주소만 공유되며, 각 계정은 자신의 애플리케이션 토큰을 유지하므로 메시지는 각자의 Gotify 애플리케이션으로 도착합니다.",
     "instance_gotify_server_in_use" => "이 설치에서는 Gotify 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 자신의 애플리케이션 토큰을 입력하세요.",
     "instance_gotify_saved" => "Gotify 서버가 저장되었습니다",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "인스턴스 Pushover 애플리케이션",
+    "instance_pushover_application_info" => "설치 전체에서 하나의 애플리케이션을 사용합니다. 자신의 애플리케이션 토큰을 비워 둔 계정은 이 애플리케이션을 통해 각자의 사용자 키로 전송합니다. 계정마다 별도의 애플리케이션을 등록하려면 비워 두세요.",
+    "instance_pushover_application_in_use" => "이 설치에서는 Pushover 애플리케이션을 제공합니다. 사용하려면 애플리케이션 토큰을 비워 두고 아래에 자신의 사용자 키를 입력하세요.",
+    "instance_pushover_saved" => "Pushover 애플리케이션이 저장되었습니다",
 ];
 
 

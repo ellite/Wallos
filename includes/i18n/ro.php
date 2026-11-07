@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server trimite către acesta. Se partajează doar adresa - fiecare cont își păstrează propriul token de aplicație, astfel încât mesajele sale ajung în propria aplicație Gotify.",
     "instance_gotify_server_in_use" => "Această instalare oferă un server Gotify. Lăsați serverul gol pentru a-l folosi și introduceți mai jos propriul token de aplicație.",
     "instance_gotify_saved" => "Serverul Gotify a fost salvat",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicația Pushover a instanței",
+    "instance_pushover_application_info" => "O singură aplicație pentru toată instalarea: fiecare cont care își lasă gol propriul token de aplicație trimite prin aceasta, cu propria cheie de utilizator. Lăsați gol pentru ca fiecare cont să își înregistreze o aplicație proprie.",
+    "instance_pushover_application_in_use" => "Această instalare oferă o aplicație Pushover. Lăsați tokenul aplicației gol pentru a o folosi și introduceți mai jos propria cheie de utilizator.",
+    "instance_pushover_saved" => "Aplicația Pushover a fost salvată",
 ];
 
 

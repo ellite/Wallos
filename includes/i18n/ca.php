@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor envien a aquest. Només es comparteix l'adreça: cada compte conserva el seu propi token d'aplicació, de manera que els seus missatges arriben sota la seva pròpia aplicació de Gotify.",
     "instance_gotify_server_in_use" => "Aquesta instal·lació ofereix un servidor Gotify. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu propi token d'aplicació.",
     "instance_gotify_saved" => "Servidor Gotify desat",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicació Pushover de la instal·lació",
+    "instance_pushover_application_info" => "Una aplicació per a tota la instal·lació: tots els comptes que deixin buit el seu propi token d'aplicació envien a través d'aquesta, amb la seva pròpia clau d'usuari. Deixa-ho buit perquè cada compte registri una aplicació pròpia.",
+    "instance_pushover_application_in_use" => "Aquesta instal·lació ofereix una aplicació Pushover. Deixa el token d'aplicació buit per utilitzar-la i introdueix a sota la teva pròpia clau d'usuari.",
+    "instance_pushover_saved" => "Aplicació Pushover desada",
 ];
 
 

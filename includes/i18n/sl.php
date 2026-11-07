@@ -588,6 +588,12 @@ $i18n = [
     "instance_gotify_server_info" => "En strežnik za celotno namestitev: vsak račun, ki pusti svoj strežnik prazen, pošilja na ta strežnik. Deli se samo naslov - vsak račun obdrži svoj žeton aplikacije, zato njegova sporočila prispejo v njegovo aplikacijo Gotify.",
     "instance_gotify_server_in_use" => "Ta namestitev ponuja strežnik Gotify. Strežnik pustite prazen, če ga želite uporabiti, in spodaj vnesite svoj žeton aplikacije.",
     "instance_gotify_saved" => "Strežnik Gotify shranjen",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplikacija Pushover namestitve",
+    "instance_pushover_application_info" => "Ena aplikacija za celotno namestitev: vsak račun, ki pusti svoj žeton aplikacije prazen, pošilja prek te aplikacije s svojim uporabniškim ključem. Pustite prazno, če naj vsak račun registrira svojo aplikacijo.",
+    "instance_pushover_application_in_use" => "Ta namestitev ponuja aplikacijo Pushover. Žeton aplikacije pustite prazen, če jo želite uporabiti, in spodaj vnesite svoj uporabniški ključ.",
+    "instance_pushover_saved" => "Aplikacija Pushover shranjena",
 ];
 
 

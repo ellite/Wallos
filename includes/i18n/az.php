@@ -589,6 +589,12 @@ $i18n = [
     "instance_gotify_server_info" => "Bütün quraşdırma üçün bir server: öz serverini boş buraxan hər hesab bu servere göndərir. Yalnız ünvan paylaşılır - hər hesab öz tətbiq tokenini saxlayır, beləliklə mesajları öz Gotify tətbiqi altında çatır.",
     "instance_gotify_server_in_use" => "Bu quraşdırma Gotify serveri təqdim edir. İstifadə etmək üçün serveri boş buraxın və tətbiq tokeninizi aşağıda daxil edin.",
     "instance_gotify_saved" => "Gotify serveri saxlanıldı",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Quraşdırma üçün Pushover tətbiqi",
+    "instance_pushover_application_info" => "Bütün quraşdırma üçün bir tətbiq: öz tətbiq tokenini boş buraxan hər hesab bu tətbiq vasitəsilə, öz istifadəçi açarı ilə göndərir. Hər hesabın öz tətbiqini qeydiyyatdan keçirməsi üçün boş buraxın.",
+    "instance_pushover_application_in_use" => "Bu quraşdırma Pushover tətbiqi təqdim edir. İstifadə etmək üçün tətbiq tokenini boş buraxın və istifadəçi açarınızı aşağıda daxil edin.",
+    "instance_pushover_saved" => "Pushover tətbiqi saxlanıldı",
 ];
 
 

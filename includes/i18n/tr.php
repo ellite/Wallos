@@ -588,6 +588,12 @@ $i18n = [
     "instance_gotify_server_info" => "Tüm kurulum için tek bir sunucu: kendi sunucusunu boş bırakan her hesap bu sunucuya gönderir. Yalnızca adres paylaşılır - her hesap kendi uygulama belirtecini korur, böylece mesajları kendi Gotify uygulamasının altında ulaşır.",
     "instance_gotify_server_in_use" => "Bu kurulum bir Gotify sunucusu sağlar. Kullanmak için sunucuyu boş bırakın ve aşağıya kendi uygulama belirtecinizi girin.",
     "instance_gotify_saved" => "Gotify sunucusu kaydedildi",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Örnek Pushover uygulaması",
+    "instance_pushover_application_info" => "Tüm kurulum için tek bir uygulama: kendi uygulama belirtecini boş bırakan her hesap, kendi kullanıcı anahtarıyla bu uygulama üzerinden gönderir. Her hesabın kendi uygulamasını kaydetmesi için boş bırakın.",
+    "instance_pushover_application_in_use" => "Bu kurulum bir Pushover uygulaması sağlar. Kullanmak için uygulama belirtecini boş bırakın ve aşağıya kendi kullanıcı anahtarınızı girin.",
+    "instance_pushover_saved" => "Pushover uygulaması kaydedildi",
 ];
 
 

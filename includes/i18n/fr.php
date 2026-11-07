@@ -590,6 +590,12 @@ $i18n = [
     "instance_gotify_server_info" => "Un serveur pour toute l'installation : chaque compte qui laisse son propre serveur vide envoie vers celui-ci. Seule l'adresse est partagée - chaque compte garde son propre jeton d'application, de sorte que ses messages arrivent sous sa propre application Gotify.",
     "instance_gotify_server_in_use" => "Cette installation fournit un serveur Gotify. Laissez le serveur vide pour l'utiliser et saisissez ci-dessous votre propre jeton d'application.",
     "instance_gotify_saved" => "Serveur Gotify enregistré",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Application Pushover de l'instance",
+    "instance_pushover_application_info" => "Une application pour toute l'installation : chaque compte qui laisse son propre jeton d'application vide envoie via celle-ci, avec sa propre clé utilisateur. Laissez vide pour que chaque compte enregistre sa propre application.",
+    "instance_pushover_application_in_use" => "Cette installation fournit une application Pushover. Laissez le jeton d'application vide pour l'utiliser et saisissez ci-dessous votre propre clé utilisateur.",
+    "instance_pushover_saved" => "Application Pushover enregistrée",
 ];
 
 
