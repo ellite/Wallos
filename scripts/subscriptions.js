@@ -853,6 +853,22 @@ function renderSubscriptions(data) {
   }).join("");
 }
 
+// Keeps the folder cards above the list in step with the subscriptions: the
+// count and monthly total change when a subscription is added, edited or moved.
+function updateFolderCards(folders) {
+  if (!folders) return;
+  Object.keys(folders).forEach(folderId => {
+    const card = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+    if (!card) return;
+    const meta = card.querySelector('.folder-card-meta');
+    if (meta) meta.textContent = folders[folderId].meta;
+    const total = card.querySelector('.folder-card-total');
+    if (total && total.firstChild && total.firstChild.nodeType === Node.TEXT_NODE) {
+      total.firstChild.nodeValue = ` ${folders[folderId].total} `;
+    }
+  });
+}
+
 function fetchSubscriptions(id, event, initiator) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
@@ -890,6 +906,7 @@ function fetchSubscriptions(id, event, initiator) {
       }
       if (data.success) {
         subscriptionsContainer.innerHTML = renderSubscriptions(data);
+        updateFolderCards(data.folders);
         const mainActions = document.querySelector("#main-actions");
         if (data.total > 0 || data.subscriptions.length > 0) {
           mainActions.classList.remove("hidden");

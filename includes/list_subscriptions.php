@@ -276,6 +276,47 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
  * printSubscriptions(), with display strings (formatted price and date, resolved
  * titles) already worked out so the client only has to lay them out.
  */
+/**
+ * Subscription count and monthly total (in the main currency) of every folder,
+ * regardless of the active list filters, so the folder cards stay accurate when
+ * the list is refreshed through AJAX.
+ */
+function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, $i18n)
+{
+    $stats = [];
+    foreach ($folders as $folderId => $folder) {
+        $stats[$folderId] = ['count' => 0, 'monthly_total' => 0];
+    }
+
+    $stmt = $db->prepare("SELECT price, currency_id, cycle, frequency, inactive, folder_id FROM subscriptions WHERE user_id = :userId AND folder_id IS NOT NULL");
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    while ($result && ($row = $result->fetchArray(SQLITE3_ASSOC))) {
+        $folderId = $row['folder_id'];
+        if (!isset($stats[$folderId])) {
+            continue;
+        }
+        $stats[$folderId]['count']++;
+        if (!$row['inactive']) {
+            $price = floatval($row['price']);
+            if ($row['currency_id'] != $mainCurrencyId) {
+                $price = getPriceConverted($price, $row['currency_id'], $db);
+            }
+            $stats[$folderId]['monthly_total'] += getPricePerMonth($row['cycle'], $row['frequency'], $price);
+        }
+    }
+
+    $payload = [];
+    foreach ($stats as $folderId => $stat) {
+        $payload[$folderId] = [
+            'meta' => $stat['count'] . ' ' . htmlToText(translate('subscriptions', $i18n)),
+            'total' => htmlToText(formatPrice($stat['monthly_total'], $currencies[$mainCurrencyId]['code'], $currencies)),
+        ];
+    }
+
+    return $payload;
+}
+
 function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
 {
     $items = [];

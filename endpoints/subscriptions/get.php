@@ -306,6 +306,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $currencies,
       $lang
     ),
+    'folders' => buildFolderStats($db, $userId, $folders ?? [], $mainCurrencyId, $currencies, $i18n),
     'labels' => $labels,
     'icons' => $icons,
     'messages' => [
