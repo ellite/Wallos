@@ -651,14 +651,6 @@ button.mobile-action-paid {
   border-left: 3px solid var(--success-color);
 }
 
-.subscription-main .actions>li.mark-paid:hover {
-  color: var(--success-color);
-}
-
-.subscription-main .actions>li.mark-paid:hover>i {
-  color: var(--success-color);
-}
-
 .subscription-main {
   display: grid;
   grid-template-columns:
@@ -737,10 +729,6 @@ button.mobile-action-paid {
 
 .subscription-main .actions>li:hover {
   background-color: var(--surface-hover);
-}
-
-.subscription-main .actions>li.delete:hover {
-  background-color: rgba(var(--error-color-rgb), 0.12);
 }
 
 .subscription-main .actions>li.delete:hover>i {
