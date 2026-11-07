@@ -542,6 +542,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankovní převod",
     "payment_method_direct_debit" => "Inkaso",
     "payment_method_money" => "Hotovost",
+
+    // Payment status and folders
+    "mark_as_paid" => "Označit jako zaplacené",
+    "mark_as_unpaid" => "Označit jako nezaplacené",
+    "paid" => "Zaplaceno",
+    "unpaid" => "Nezaplaceno",
+    "payment_status" => "Stav platby",
+    "folders" => "Složky",
+    "folder" => "Složka",
+    "no_folder" => "Bez složky",
+    "folder_color" => "Barva složky",
+    "save_folder" => "Uložit složku",
+    "delete_folder" => "Smazat složku",
+    "folder_saved" => "Složka uložena",
+    "folder_removed" => "Složka odstraněna",
+    "failed_add_folder" => "Složku se nepodařilo přidat",
+    "failed_edit_folder" => "Složku se nepodařilo uložit",
+    "failed_remove_folder" => "Složku se nepodařilo odstranit",
+    "per_month" => "měsíc",
+    "folders_explanation" => "Seskupte své předplatné do barevných složek, jako kapsy plateb, a filtrujte je jedním klepnutím na stránce předplatných.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Platební období",
+    "use_custom_period" => "Používat toto období místo kalendářních měsíců ve statistikách",
+    "custom_period_active_warning" => "Vaše statistiky, přehled i kalendář budou sledovat toto období místo kalendářních měsíců.",
+    "custom_period_same_as_month" => "Toto období je stejné jako kalendářní měsíc, takže se vaše statistiky nezmění. Nastavte kotvicí datum na den, kdy dostáváte výplatu.",
+    "amount_due_this_period" => "Částka k úhradě v tomto období",
+    "semimonthly" => "Dvakrát měsíčně",
+    "budget_second_payday" => "Druhý výplatní den",
+    "last_day_of_month" => "Poslední den v měsíci",
+    "instance_telegram_bot" => "Telegram bot instalace",
+    "instance_telegram_bot_info" => "Jeden bot pro celou instalaci: každý účet, který nechá vlastní token bota prázdný, odesílá přes tohoto bota se svým vlastním ID chatu. Nechte prázdné, pokud má každý účet používat vlastního bota.",
+    "instance_telegram_bot_in_use" => "Tato instalace poskytuje Telegram bota. Chcete-li jej použít, nechte token prázdný a níže zadejte své ID chatu.",
+    "instance_telegram_saved" => "Telegram bot uložen",
+    "managed_by_environment" => "Spravováno proměnnými prostředí",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy server instalace",
+    "instance_ntfy_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, publikuje na tento server pod svým vlastním tématem. Hlavičky jsou přihlašovací údaje k tomuto serveru a nikdy se neodesílají na server, který si účet nastavil sám.",
+    "instance_ntfy_server_in_use" => "Tato instalace poskytuje server ntfy. Chcete-li jej použít, nechte server prázdný a níže zadejte své téma.",
+    "instance_ntfy_saved" => "Server ntfy uložen",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify server instalace",
+    "instance_gotify_server_info" => "Jeden server pro celou instalaci: každý účet, který nechá vlastní server prázdný, odesílá na tento server. Sdílí se pouze adresa - každý účet si ponechává vlastní token aplikace, takže jeho zprávy přicházejí pod jeho vlastní aplikací Gotify.",
+    "instance_gotify_server_in_use" => "Tato instalace poskytuje server Gotify. Chcete-li jej použít, nechte server prázdný a níže zadejte vlastní token aplikace.",
+    "instance_gotify_saved" => "Server Gotify uložen",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplikace Pushover instalace",
+    "instance_pushover_application_info" => "Jedna aplikace pro celou instalaci: každý účet, který nechá vlastní token aplikace prázdný, odesílá přes tuto aplikaci se svým vlastním uživatelským klíčem. Nechte prázdné, pokud má každý účet zaregistrovat vlastní aplikaci.",
+    "instance_pushover_application_in_use" => "Tato instalace poskytuje aplikaci Pushover. Chcete-li ji použít, nechte token aplikace prázdný a níže zadejte vlastní uživatelský klíč.",
+    "instance_pushover_saved" => "Aplikace Pushover uložena",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Následující předplatná se blíží k obnovení:",
+    "notification_renewals_intro_named" => "%s, následující předplatná se blíží k obnovení:",
+    "notification_subscription_line" => "%s za %s (%s)",
+    "notification_due_today" => "Dnes",
+    "notification_due_tomorrow" => "Zítra",
+    "notification_due_in_days" => "Za %d dní",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Následující předplatná se blíží ke zrušení:",
+    "notification_cancellation_intro_named" => "%s, následující předplatná se blíží ke zrušení:",
+    "notification_cancellation_line" => "%s za %s",
+    "wallos_cancellation_notification" => "Oznámení o zrušení z Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Oznámení instalace",
+    "pushover_application_token" => "Token aplikace Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Předplatné bylo úspěšně smazáno",
+    "cannot_open_zip" => "Nepodařilo se vytvořit soubor zálohy",
 ];
 
 

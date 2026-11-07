@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Obrisati pretplate ({count})? Ovo se ne može opozvati.",
   bulk_action_success: "Ažurirano pretplata: {count}",
   error_bulk_action: "Grupna radnja nije uspela",
+  // Folders
+  folder: "Fascikla",
+  folder_color: "Boja fascikle",
+  save_folder: "Sačuvaj fasciklu",
+  delete_folder: "Izbriši fasciklu",
+  failed_add_folder: "Dodavanje fascikle nije uspelo",
+  failed_save_folder: "Čuvanje fascikle nije uspelo",
+  failed_remove_folder: "Uklanjanje fascikle nije uspelo",
 }

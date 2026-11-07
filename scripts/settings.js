@@ -38,15 +38,70 @@ function saveMonthlyBudget() {
     });
 }
 
+// A monthly period anchored on the 1st runs from the 1st to the end of the
+// month, which is the calendar month the statistics already use, so turning it
+// on would change nothing. A semi-monthly period does the same when both
+// paydays are the 1st, because the two collapse to a single start per month.
+// Weekly and fortnightly periods never line up with a month.
+//
+// settings.php decides the same thing on load by asking getActiveBudgetPeriod();
+// this keeps the note honest while the controls are being changed, before
+// anything has been saved.
+function updateSecondPaydayField() {
+  const field = document.getElementById("secondPaydayField");
+  if (!field) {
+    return;
+  }
+
+  field.hidden = document.getElementById("budget_period_type").value !== "semimonthly";
+}
+
+function updateCustomPeriodWarning() {
+  const warning = document.getElementById("customPeriodWarning");
+  if (!warning) {
+    return;
+  }
+
+  const enabled = document.getElementById("use_custom_period").checked;
+  const periodType = document.getElementById("budget_period_type").value;
+  const anchorDate = document.getElementById("budget_period_anchor_date").value;
+  const anchorDay = Number(anchorDate.split("-")[2]);
+  const secondDay = Number(document.getElementById("budget_period_second_day").value);
+
+  const isCalendarMonth = (periodType === "monthly" && anchorDay === 1)
+    || (periodType === "semimonthly" && anchorDay === 1 && secondDay === 1);
+
+  // The two notes contradict each other, so only one is ever shown: saying the
+  // period now drives everything is wrong when the period is a calendar month.
+  warning.hidden = !(enabled && isCalendarMonth);
+
+  const activeNote = document.getElementById("customPeriodActiveWarning");
+  if (activeNote) {
+    activeNote.hidden = !(enabled && !isCalendarMonth);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  ["use_custom_period", "budget_period_type", "budget_period_anchor_date"].forEach((id) => {
+    const control = document.getElementById(id);
+    if (control) {
+      control.addEventListener("change", updateCustomPeriodWarning);
+      control.addEventListener("change", updateSecondPaydayField);
+    }
+  });
+});
+
 function savePeriodBudget() {
   const button = document.getElementById("savePeriodBudget");
   button.disabled = true;
 
   const budget = Number(document.getElementById("period_budget").value || 0);
+  const useCustomPeriod = document.getElementById("use_custom_period").checked;
   const budgetPeriodType = document.getElementById("budget_period_type").value;
   const budgetPeriodAnchorDateInput = document.getElementById("budget_period_anchor_date");
   let budgetPeriodAnchorDate = budgetPeriodAnchorDateInput.value;
-  const validPeriodTypes = ["weekly", "fortnightly", "monthly"];
+  const secondDay = Number(document.getElementById("budget_period_second_day").value);
+  const validPeriodTypes = ["weekly", "fortnightly", "semimonthly", "monthly"];
 
   if (!budgetPeriodAnchorDate || budgetPeriodAnchorDate === "1970-01-01") {
     const today = new Date();
@@ -82,14 +137,17 @@ function savePeriodBudget() {
     },
     body: JSON.stringify({
       period_budget: budget,
+      use_custom_period: useCustomPeriod,
       budget_period_type: budgetPeriodType,
       budget_period_anchor_date: budgetPeriodAnchorDate,
+      budget_period_second_day: secondDay,
     }),
   })
     .then(response => response.json())
     .then(data => {
       if (data.success) {
         showSuccessMessage(data.message);
+        updateCustomPeriodWarning();
       } else {
         showErrorMessage(data.message || translate('unknown_error'));
       }
@@ -414,6 +472,175 @@ function editCategory(categoryId) {
     .catch(error => {
       console.error(error);
       showErrorMessage(translate('failed_save_category'));
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+    });
+}
+
+
+function addFolderButton() {
+  const addButton = document.getElementById("addFolder");
+  addButton.disabled = true;
+
+  fetch('endpoints/folders/folder.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({action: 'add'}),
+  })
+    .then(response => {
+      if (!response.ok) {
+        showErrorMessage(translate('failed_add_folder'));
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      if (responseData.success) {
+        const newFolderId = responseData.folderId;
+        const container = document.getElementById("folders");
+
+        const row = document.createElement("div");
+        row.className = "form-group-inline";
+        row.dataset.folderid = newFolderId;
+
+        const dragIcon = document.createElement("div");
+        dragIcon.className = "drag-icon";
+        dragIcon.innerHTML = '<i class="fa-solid fa-grip-vertical"></i>';
+
+        const colorInput = document.createElement("input");
+        colorInput.type = "color";
+        colorInput.name = "folder-color";
+        colorInput.className = "folder-color-picker";
+        colorInput.value = responseData.color;
+        colorInput.title = translate('folder_color');
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.placeholder = translate('folder');
+        input.name = "folder";
+        input.value = translate('folder');
+
+        const editLink = document.createElement("button");
+        editLink.className = "image-button medium";
+        editLink.name = "save";
+        editLink.onclick = function () {
+          editFolder(newFolderId);
+        };
+        editLink.innerHTML = saveIconContent;
+        editLink.title = translate('save_folder');
+
+        const deleteLink = document.createElement("button");
+        deleteLink.className = "image-button medium";
+        deleteLink.name = "delete";
+        deleteLink.onclick = function () {
+          removeFolder(newFolderId);
+        };
+        deleteLink.innerHTML = deleteIconContent;
+        deleteLink.title = translate('delete_folder');
+
+        row.appendChild(dragIcon);
+        row.appendChild(colorInput);
+        row.appendChild(input);
+        row.appendChild(editLink);
+        row.appendChild(deleteLink);
+        container.appendChild(row);
+      } else {
+        showErrorMessage(responseData.message);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('failed_add_folder'));
+    })
+    .finally(() => {
+      addButton.disabled = false;
+    });
+}
+
+
+function removeFolder(folderId) {
+  fetch('endpoints/folders/folder.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({
+      action: 'delete',
+      folderId: folderId,
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      if (responseData.success) {
+        const divToRemove = document.querySelector(`[data-folderid="${folderId}"]`);
+        if (divToRemove) divToRemove.remove();
+        showSuccessMessage(responseData.message);
+      } else {
+        showErrorMessage(responseData.message || translate('failed_remove_folder'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('failed_remove_folder'));
+    });
+}
+
+
+function editFolder(folderId) {
+  const saveButton = document.querySelector(`div[data-folderid="${folderId}"] button[name="save"]`);
+  const inputElement = document.querySelector(`div[data-folderid="${folderId}"] input[name="folder"]`);
+  const colorElement = document.querySelector(`div[data-folderid="${folderId}"] input[name="folder-color"]`);
+
+  if (!inputElement) return;
+
+  saveButton.classList.add("disabled");
+  saveButton.disabled = true;
+
+  const folderName = inputElement.value;
+  const folderColor = colorElement ? colorElement.value : "";
+
+  fetch('endpoints/folders/folder.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: new URLSearchParams({
+      action: 'edit',
+      folderId: folderId,
+      name: folderName,
+      color: folderColor,
+    }),
+  })
+    .then(response => {
+      saveButton.classList.remove("disabled");
+      saveButton.disabled = false;
+
+      if (!response.ok) {
+        showErrorMessage(translate('failed_save_folder'));
+        throw new Error(translate('network_response_error'));
+      }
+      return response.json();
+    })
+    .then(responseData => {
+      if (responseData.success) {
+        showSuccessMessage(responseData.message);
+      } else {
+        showErrorMessage(responseData.message || translate('failed_save_folder'));
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate('failed_save_folder'));
       saveButton.classList.remove("disabled");
       saveButton.disabled = false;
     });
@@ -1244,6 +1471,47 @@ var sortable = Sortable.create(el, {
     saveCategorySorting();
   },
 });
+
+function saveFolderSorting() {
+  const folders = document.getElementById("folders");
+  const folderIds = Array.from(folders.children).map(f => f.dataset.folderid);
+
+  const formData = new FormData();
+  folderIds.forEach(folderId => formData.append("folderIds[]", folderId));
+  formData.append("action", "sort");
+
+  fetch("endpoints/folders/folder.php", {
+    method: "POST",
+    headers: {"X-CSRF-Token": window.csrfToken},
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      showErrorMessage(translate("unknown_error"));
+    });
+}
+
+var foldersEl = document.getElementById('folders');
+if (foldersEl) {
+  Sortable.create(foldersEl, {
+    handle: '.drag-icon',
+    ghostClass: 'sortable-ghost',
+    delay: 500,
+    delayOnTouchOnly: true,
+    touchStartThreshold: 5,
+    onEnd: function (evt) {
+      saveFolderSorting();
+    },
+  });
+}
 
 function fetch_ai_models() {
   const endpoint = 'endpoints/ai/fetch_models.php';

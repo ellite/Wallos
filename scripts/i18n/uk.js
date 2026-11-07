@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Видалити підписки ({count})? Цю дію не можна скасувати.",
   bulk_action_success: "Оновлено підписок: {count}",
   error_bulk_action: "Не вдалося виконати масову дію",
+  // Folders
+  folder: "Папка",
+  folder_color: "Колір папки",
+  save_folder: "Зберегти папку",
+  delete_folder: "Видалити папку",
+  failed_add_folder: "Не вдалося додати папку",
+  failed_save_folder: "Не вдалося зберегти папку",
+  failed_remove_folder: "Не вдалося видалити папку",
 }

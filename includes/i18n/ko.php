@@ -542,6 +542,81 @@ $i18n = [
     "payment_method_bank_transfer" => "계좌 이체",
     "payment_method_direct_debit" => "자동이체",
     "payment_method_money" => "현금",
+
+    // Payment status and folders
+    "mark_as_paid" => "결제 완료로 표시",
+    "mark_as_unpaid" => "미결제로 표시",
+    "paid" => "결제 완료",
+    "unpaid" => "미결제",
+    "payment_status" => "결제 상태",
+    "folders" => "폴더",
+    "folder" => "폴더",
+    "no_folder" => "폴더 없음",
+    "folder_color" => "폴더 색상",
+    "save_folder" => "폴더 저장",
+    "delete_folder" => "폴더 삭제",
+    "folder_saved" => "폴더가 저장되었습니다",
+    "folder_removed" => "폴더가 삭제되었습니다",
+    "failed_add_folder" => "폴더를 추가하지 못했습니다",
+    "failed_edit_folder" => "폴더를 저장하지 못했습니다",
+    "failed_remove_folder" => "폴더를 삭제하지 못했습니다",
+    "per_month" => "월",
+    "folders_explanation" => "구독을 결제 주머니처럼 색깔 있는 폴더로 묶고, 구독 페이지에서 한 번의 탭으로 필터링하세요.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "결제 기간",
+    "use_custom_period" => "통계에서 달력 월 대신 이 기간 사용",
+    "custom_period_active_warning" => "통계, 대시보드, 캘린더가 달력 월 대신 이 기간을 따릅니다.",
+    "custom_period_same_as_month" => "이 기간은 달력 월과 같으므로 통계가 바뀌지 않습니다. 기준일을 급여를 받는 날로 설정하세요.",
+    "amount_due_this_period" => "이 기간에 지불할 금액",
+    "semimonthly" => "월 2회",
+    "budget_second_payday" => "두 번째 급여일",
+    "last_day_of_month" => "월의 마지막 날",
+    "instance_telegram_bot" => "인스턴스 Telegram 봇",
+    "instance_telegram_bot_info" => "설치 전체에서 하나의 봇을 사용합니다. 자신의 봇 토큰을 비워 둔 계정은 이 봇을 통해 각자의 채팅 ID로 전송합니다. 계정마다 별도의 봇을 사용하려면 비워 두세요.",
+    "instance_telegram_bot_in_use" => "이 설치에서는 Telegram 봇을 제공합니다. 사용하려면 토큰을 비워 두고 아래에 채팅 ID를 입력하세요.",
+    "instance_telegram_saved" => "Telegram 봇이 저장되었습니다",
+    "managed_by_environment" => "환경 변수로 관리됨",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "인스턴스 ntfy 서버",
+    "instance_ntfy_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버에 각자의 토픽으로 게시합니다. 헤더는 이 서버의 인증 정보이며, 계정이 직접 설정한 서버로는 전송되지 않습니다.",
+    "instance_ntfy_server_in_use" => "이 설치에서는 ntfy 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 토픽을 입력하세요.",
+    "instance_ntfy_saved" => "ntfy 서버가 저장되었습니다",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "인스턴스 Gotify 서버",
+    "instance_gotify_server_info" => "설치 전체에서 하나의 서버를 사용합니다. 자신의 서버를 비워 둔 계정은 이 서버로 전송합니다. 주소만 공유되며, 각 계정은 자신의 애플리케이션 토큰을 유지하므로 메시지는 각자의 Gotify 애플리케이션으로 도착합니다.",
+    "instance_gotify_server_in_use" => "이 설치에서는 Gotify 서버를 제공합니다. 사용하려면 서버를 비워 두고 아래에 자신의 애플리케이션 토큰을 입력하세요.",
+    "instance_gotify_saved" => "Gotify 서버가 저장되었습니다",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "인스턴스 Pushover 애플리케이션",
+    "instance_pushover_application_info" => "설치 전체에서 하나의 애플리케이션을 사용합니다. 자신의 애플리케이션 토큰을 비워 둔 계정은 이 애플리케이션을 통해 각자의 사용자 키로 전송합니다. 계정마다 별도의 애플리케이션을 등록하려면 비워 두세요.",
+    "instance_pushover_application_in_use" => "이 설치에서는 Pushover 애플리케이션을 제공합니다. 사용하려면 애플리케이션 토큰을 비워 두고 아래에 자신의 사용자 키를 입력하세요.",
+    "instance_pushover_saved" => "Pushover 애플리케이션이 저장되었습니다",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "다음 구독이 갱신될 예정입니다:",
+    "notification_renewals_intro_named" => "%s님, 다음 구독이 갱신될 예정입니다:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "오늘",
+    "notification_due_tomorrow" => "내일",
+    "notification_due_in_days" => "%d일 후",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "다음 구독이 해지될 예정입니다:",
+    "notification_cancellation_intro_named" => "%s님, 다음 구독이 해지될 예정입니다:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos 해지 알림",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "인스턴스 알림",
+    "pushover_application_token" => "Pushover 애플리케이션 토큰",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "구독이 삭제되었습니다",
+    "cannot_open_zip" => "백업 파일을 만들 수 없습니다",
 ];
 
 

@@ -542,6 +542,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Banki átutalás",
     "payment_method_direct_debit" => "Csoportos beszedési megbízás",
     "payment_method_money" => "Készpénz",
+
+    // Payment status and folders
+    "mark_as_paid" => "Megjelölés fizetettként",
+    "mark_as_unpaid" => "Megjelölés nem fizetettként",
+    "paid" => "Fizetve",
+    "unpaid" => "Nincs fizetve",
+    "payment_status" => "Fizetési állapot",
+    "folders" => "Mappák",
+    "folder" => "Mappa",
+    "no_folder" => "Nincs mappa",
+    "folder_color" => "Mappa színe",
+    "save_folder" => "Mappa mentése",
+    "delete_folder" => "Mappa törlése",
+    "folder_saved" => "Mappa mentve",
+    "folder_removed" => "Mappa eltávolítva",
+    "failed_add_folder" => "A mappa hozzáadása sikertelen",
+    "failed_edit_folder" => "A mappa mentése sikertelen",
+    "failed_remove_folder" => "A mappa eltávolítása sikertelen",
+    "per_month" => "hó",
+    "folders_explanation" => "Csoportosítsa az előfizetéseit színes mappákba, mint a kifizetések zsebei, és szűrje őket egyetlen érintéssel az előfizetések oldalon.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Fizetési időszak",
+    "use_custom_period" => "Ezen időszak használata a naptári hónapok helyett a statisztikákban",
+    "custom_period_active_warning" => "A statisztikái, az irányítópult és a naptár a naptári hónapok helyett ezt az időszakot követik.",
+    "custom_period_same_as_month" => "Ez az időszak megegyezik egy naptári hónappal, ezért a statisztikái nem változnak. Állítsa a horgonydátumot a fizetésnapjára.",
+    "amount_due_this_period" => "Erre az időszakra esedékes összeg",
+    "semimonthly" => "Havonta kétszer",
+    "budget_second_payday" => "Második fizetésnap",
+    "last_day_of_month" => "A hónap utolsó napja",
+    "instance_telegram_bot" => "Példány Telegram-botja",
+    "instance_telegram_bot_info" => "Egy bot az egész telepítéshez: minden fiók, amely üresen hagyja a saját bot tokenjét, ezen keresztül küld a saját csevegőazonosítójával. Hagyja üresen, ha minden fiók saját botot használjon.",
+    "instance_telegram_bot_in_use" => "Ez a telepítés Telegram-botot biztosít. A használatához hagyja üresen a tokent, és adja meg lent a csevegőazonosítóját.",
+    "instance_telegram_saved" => "Telegram-bot mentve",
+    "managed_by_environment" => "Környezeti változók kezelik",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Példány ntfy-szervere",
+    "instance_ntfy_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre publikál, a saját témája alatt. A fejlécek e szerver hitelesítő adatai, és soha nem kerülnek el olyan szerverre, amelyet a fiók maga állított be.",
+    "instance_ntfy_server_in_use" => "Ez a telepítés ntfy-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a témáját.",
+    "instance_ntfy_saved" => "ntfy-szerver mentve",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Példány Gotify-szervere",
+    "instance_gotify_server_info" => "Egy szerver az egész telepítéshez: minden fiók, amely üresen hagyja a saját szerverét, erre a szerverre küld. Csak a cím közös - minden fiók megtartja a saját alkalmazástokenjét, így az üzenetei a saját Gotify-alkalmazása alatt érkeznek.",
+    "instance_gotify_server_in_use" => "Ez a telepítés Gotify-szervert biztosít. A használatához hagyja üresen a szervert, és adja meg lent a saját alkalmazástokenjét.",
+    "instance_gotify_saved" => "Gotify-szerver mentve",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Példány Pushover-alkalmazása",
+    "instance_pushover_application_info" => "Egy alkalmazás az egész telepítéshez: minden fiók, amely üresen hagyja a saját alkalmazástokenjét, ezen keresztül küld a saját felhasználói kulcsával. Hagyja üresen, ha minden fiók saját alkalmazást regisztráljon.",
+    "instance_pushover_application_in_use" => "Ez a telepítés Pushover-alkalmazást biztosít. A használatához hagyja üresen az alkalmazástokent, és adja meg lent a saját felhasználói kulcsát.",
+    "instance_pushover_saved" => "Pushover-alkalmazás mentve",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "A következő előfizetések megújítása esedékes:",
+    "notification_renewals_intro_named" => "%s, a következő előfizetések megújítása esedékes:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "Ma",
+    "notification_due_tomorrow" => "Holnap",
+    "notification_due_in_days" => "%d nap múlva",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "A következő előfizetések lemondása esedékes:",
+    "notification_cancellation_intro_named" => "%s, a következő előfizetések lemondása esedékes:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos lemondási értesítés",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Példány értesítései",
+    "pushover_application_token" => "Pushover alkalmazástoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Az előfizetés sikeresen törölve",
+    "cannot_open_zip" => "A biztonsági mentés fájlja nem hozható létre",
 ]; 
  
  

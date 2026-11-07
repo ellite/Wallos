@@ -540,6 +540,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Chuyển khoản ngân hàng",
     "payment_method_direct_debit" => "Ghi nợ trực tiếp",
     "payment_method_money" => "Tiền mặt",
+
+    // Payment status and folders
+    "mark_as_paid" => "Đánh dấu đã thanh toán",
+    "mark_as_unpaid" => "Đánh dấu chưa thanh toán",
+    "paid" => "Đã thanh toán",
+    "unpaid" => "Chưa thanh toán",
+    "payment_status" => "Trạng thái thanh toán",
+    "folders" => "Thư mục",
+    "folder" => "Thư mục",
+    "no_folder" => "Không có thư mục",
+    "folder_color" => "Màu thư mục",
+    "save_folder" => "Lưu thư mục",
+    "delete_folder" => "Xóa thư mục",
+    "folder_saved" => "Đã lưu thư mục",
+    "folder_removed" => "Đã xóa thư mục",
+    "failed_add_folder" => "Không thể thêm thư mục",
+    "failed_edit_folder" => "Không thể lưu thư mục",
+    "failed_remove_folder" => "Không thể xóa thư mục",
+    "per_month" => "tháng",
+    "folders_explanation" => "Nhóm các gói đăng ký của bạn vào các thư mục có màu, như những ngăn đựng khoản thanh toán, và lọc chúng chỉ với một chạm trên trang đăng ký.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Kỳ thanh toán",
+    "use_custom_period" => "Dùng kỳ này thay cho tháng dương lịch trong thống kê",
+    "custom_period_active_warning" => "Thống kê, bảng điều khiển và lịch của bạn sẽ theo kỳ này thay vì tháng dương lịch.",
+    "custom_period_same_as_month" => "Kỳ này giống một tháng dương lịch nên thống kê của bạn sẽ không thay đổi. Hãy đặt ngày neo vào ngày bạn nhận lương.",
+    "amount_due_this_period" => "Số tiền phải trả trong kỳ này",
+    "semimonthly" => "Hai lần mỗi tháng",
+    "budget_second_payday" => "Ngày lương thứ hai",
+    "last_day_of_month" => "Ngày cuối tháng",
+    "instance_telegram_bot" => "Bot Telegram của hệ thống",
+    "instance_telegram_bot_info" => "Một bot cho toàn bộ hệ thống: mỗi tài khoản để trống mã bot riêng sẽ gửi qua bot này, với ID cuộc trò chuyện của riêng mình. Để trống nếu mỗi tài khoản dùng bot riêng.",
+    "instance_telegram_bot_in_use" => "Hệ thống này cung cấp một bot Telegram. Để trống mã để sử dụng bot này và nhập ID cuộc trò chuyện của bạn bên dưới.",
+    "instance_telegram_saved" => "Đã lưu bot Telegram",
+    "managed_by_environment" => "Được quản lý bằng biến môi trường",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Máy chủ ntfy của hệ thống",
+    "instance_ntfy_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ đăng lên máy chủ này, dưới chủ đề riêng của mình. Các tiêu đề là thông tin xác thực của máy chủ này và không bao giờ được gửi đến máy chủ do tài khoản tự cấu hình.",
+    "instance_ntfy_server_in_use" => "Hệ thống này cung cấp một máy chủ ntfy. Để trống máy chủ để sử dụng và nhập chủ đề của bạn bên dưới.",
+    "instance_ntfy_saved" => "Đã lưu máy chủ ntfy",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Máy chủ Gotify của hệ thống",
+    "instance_gotify_server_info" => "Một máy chủ cho toàn bộ hệ thống: mỗi tài khoản để trống máy chủ riêng sẽ gửi đến máy chủ này. Chỉ địa chỉ được chia sẻ - mỗi tài khoản giữ mã ứng dụng riêng, nên tin nhắn của họ đến dưới ứng dụng Gotify của chính họ.",
+    "instance_gotify_server_in_use" => "Hệ thống này cung cấp một máy chủ Gotify. Để trống máy chủ để sử dụng và nhập mã ứng dụng của riêng bạn bên dưới.",
+    "instance_gotify_saved" => "Đã lưu máy chủ Gotify",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Ứng dụng Pushover của hệ thống",
+    "instance_pushover_application_info" => "Một ứng dụng cho toàn bộ hệ thống: mỗi tài khoản để trống mã ứng dụng riêng sẽ gửi qua ứng dụng này, với khóa người dùng của chính mình. Để trống nếu mỗi tài khoản đăng ký ứng dụng riêng.",
+    "instance_pushover_application_in_use" => "Hệ thống này cung cấp một ứng dụng Pushover. Để trống mã ứng dụng để sử dụng và nhập khóa người dùng của riêng bạn bên dưới.",
+    "instance_pushover_saved" => "Đã lưu ứng dụng Pushover",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Các gói đăng ký sau sắp đến hạn gia hạn:",
+    "notification_renewals_intro_named" => "%s, các gói đăng ký sau sắp đến hạn gia hạn:",
+    "notification_subscription_line" => "%s với giá %s (%s)",
+    "notification_due_today" => "Hôm nay",
+    "notification_due_tomorrow" => "Ngày mai",
+    "notification_due_in_days" => "Sau %d ngày",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Các gói đăng ký sau sắp bị hủy:",
+    "notification_cancellation_intro_named" => "%s, các gói đăng ký sau sắp bị hủy:",
+    "notification_cancellation_line" => "%s với giá %s",
+    "wallos_cancellation_notification" => "Thông báo hủy của Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Thông báo của hệ thống",
+    "pushover_application_token" => "Mã ứng dụng Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Đã xóa gói đăng ký thành công",
+    "cannot_open_zip" => "Không thể tạo tệp sao lưu",
 ];
 
 ?>

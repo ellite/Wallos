@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "確定刪除 {count} 個訂閱？此操作無法復原。",
   bulk_action_success: "已更新 {count} 個訂閱",
   error_bulk_action: "批次操作失敗",
+  // Folders
+  folder: "資料夾",
+  folder_color: "資料夾顏色",
+  save_folder: "儲存資料夾",
+  delete_folder: "刪除資料夾",
+  failed_add_folder: "新增資料夾失敗",
+  failed_save_folder: "儲存資料夾失敗",
+  failed_remove_folder: "移除資料夾失敗",
 };

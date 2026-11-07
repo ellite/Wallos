@@ -136,6 +136,7 @@ const staticAssets = [
     'images/siteicons/svg/mobile-menu/delete.php',
     'images/siteicons/svg/mobile-menu/edit.php',
     'images/siteicons/svg/mobile-menu/renew.php',
+    'images/siteicons/svg/mobile-menu/paid.php',
     'images/siteicons/pwa/stats.png',
     'images/siteicons/pwa/settings.png',
     'images/siteicons/pwa/about.png',
@@ -286,7 +287,19 @@ self.addEventListener('fetch', function (event) {
     // dropped connection) are silently skipped, so without this backfill a
     // once-missed asset would never get cached and its feature (e.g. the
     // stats charts) would stay broken offline forever.
+    //
+    // The pages request assets with "?<version>". A version other than this
+    // worker's means the page is newer than the worker (the first load after a
+    // deploy, before the new worker has taken over), so go to the network:
+    // answering from this worker's cache would pair the new markup with the
+    // previous release's styles and scripts. The cache stays the offline fallback.
     if (staticAssets.some(asset => url.pathname.endsWith(asset))) {
+        if (url.search !== '' && url.search !== '?<?= $version ?>') {
+            event.respondWith(
+                fetch(request).catch(() => caches.match(request, { ignoreSearch: true }))
+            );
+            return;
+        }
         event.respondWith(
             caches.match(request, { ignoreSearch: true }).then(cached => {
                 if (cached) return cached;

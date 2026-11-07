@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Izbrišem naročnine ({count})? Tega ni mogoče razveljaviti.",
   bulk_action_success: "Posodobljene naročnine: {count}",
   error_bulk_action: "Množično dejanje ni uspelo",
+  // Folders
+  folder: "Mapa",
+  folder_color: "Barva mape",
+  save_folder: "Shrani mapo",
+  delete_folder: "Izbriši mapo",
+  failed_add_folder: "Mape ni bilo mogoče dodati",
+  failed_save_folder: "Mape ni bilo mogoče shraniti",
+  failed_remove_folder: "Mape ni bilo mogoče odstraniti",
 }

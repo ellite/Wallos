@@ -51,6 +51,19 @@ if (isset($_GET['category'])) {
   $sql .= " AND " . categoryFilterCondition($categoryIds, $params);
 }
 
+if (isset($_GET['folder'])) {
+  $folderIds = explode(',', $_GET['folder']);
+  $placeholders = array_map(function ($key) {
+    return ":folder{$key}";
+  }, array_keys($folderIds));
+
+  $sql .= " AND folder_id IN (" . implode(',', $placeholders) . ")";
+
+  foreach ($folderIds as $key => $folderId) {
+    $params[":folder{$key}"] = $folderId;
+  }
+}
+
 if (isset($_GET['payment'])) {
   $paymentIds = explode(',', $_GET['payment']);
   $placeholders = array_map(function ($key) {
@@ -142,6 +155,9 @@ if ($sortOrder == "payment_method_id") {
     return ($payment_methods[$a['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($payment_methods[$b['payment_method_id'] ?? ""]['order'] ?? PHP_INT_MAX);
   });
 }
+
+// Folder cards always show each folder's full totals, whatever the list filters are.
+$folderStats = calculateFolderStats($db, $userId, $folders, $mainCurrencyId);
 
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 
@@ -257,6 +273,40 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     <button class="button mobile-grow" id="bulk-apply" onClick="applyBulkAction()" disabled><?= translate('apply', $i18n) ?></button>
     <button class="button secondary-button mobile-grow" onClick="toggleBulkMode()"><?= translate('cancel', $i18n) ?></button>
   </div>
+  <?php
+  if (count($folders) > 0) {
+    ?>
+    <div class="folder-cards" id="folder-cards">
+      <?php
+      foreach ($folders as $folder) {
+        $selectedClass = '';
+        if (isset($_GET['folder'])) {
+          $selectedFolderIds = explode(',', $_GET['folder']);
+          if (in_array($folder['id'], $selectedFolderIds)) {
+            $selectedClass = ' selected';
+          }
+        }
+        $folderMonthlyTotal = $folderStats[$folder['id']]['monthly_total'] ?? 0;
+        ?>
+        <button type="button" class="folder-card<?= $selectedClass ?>" data-folderid="<?= $folder['id'] ?>"
+          style="--folder-color: <?= htmlspecialchars($folder['color']) ?>">
+          <span class="folder-card-header">
+            <span class="folder-card-name"><?= $folder['name'] ?></span>
+            <span class="folder-card-check"><i class="fa-solid fa-circle-check"></i></span>
+          </span>
+          <span class="folder-card-meta"><?= $folderStats[$folder['id']]['count'] ?? 0 ?> <?= translate('subscriptions', $i18n) ?></span>
+          <span class="folder-card-total">
+            <?= formatPrice($folderMonthlyTotal, $currencies[$mainCurrencyId]['code'], $currencies) ?>
+            <span class="folder-card-total-period">/ <?= translate('per_month', $i18n) ?></span>
+          </span>
+        </button>
+        <?php
+      }
+      ?>
+    </div>
+    <?php
+  }
+  ?>
   <div class="subscriptions<?= $subscriptionsView === 'grid' ? ' grid-view' : '' ?>" id="subscriptions">
     <?php
     $formatter = new IntlDateFormatter(
@@ -297,12 +347,14 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
       $print[$id]['payment_method_id'] = $paymentMethodId;
       $print[$id]['category_id'] = $subscription['category_id'];
       $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
+      $print[$id]['folder_id'] = $subscription['folder_id'] ?? null;
       $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
       $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
       $print[$id]['price'] = floatval($subscription['price']);
       $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
       $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
       $print[$id]['inactive'] = $subscription['inactive'];
+      $print[$id]['paid_this_cycle'] = isPaidThisCycle($subscription['paid_at'] ?? null, $cycle, $frequency, $subscription['next_payment']);
       $print[$id]['url'] = $subscription['url'];
       $print[$id]['notes'] = $subscription['notes'];
       $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
@@ -332,7 +384,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
+      printSubscriptions($print, $sort, $categories, $folders, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
     }
 
     $googleSearchEnabled = false;
@@ -559,6 +611,28 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
         <input type="hidden" name="category_id" id="category" value="">
       </div>
     </div>
+
+    <?php
+    if (count($folders) > 0) {
+      ?>
+      <div class="form-group">
+        <label for="folder"><?= translate('folder', $i18n) ?></label>
+        <select id="folder" name="folder_id">
+          <option value="0"><?= translate('no_folder', $i18n) ?></option>
+          <?php
+          foreach ($folders as $folder) {
+            ?>
+            <option value="<?= $folder['id'] ?>">
+              <?= $folder['name'] ?>
+            </option>
+            <?php
+          }
+          ?>
+        </select>
+      </div>
+      <?php
+    }
+    ?>
 
     <div class="form-group-inline grow" id="notifications-group">
       <input type="checkbox" id="notifications" name="notifications" onchange="toggleNotificationDays()">

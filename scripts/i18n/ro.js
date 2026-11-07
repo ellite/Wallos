@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Ștergi {count} abonament(e)? Acțiunea nu poate fi anulată.",
   bulk_action_success: "{count} abonament(e) actualizate",
   error_bulk_action: "Acțiunea în masă a eșuat",
+  // Folders
+  folder: "Dosar",
+  folder_color: "Culoarea dosarului",
+  save_folder: "Salvează dosarul",
+  delete_folder: "Șterge dosarul",
+  failed_add_folder: "Nu s-a putut adăuga dosarul",
+  failed_save_folder: "Nu s-a putut salva dosarul",
+  failed_remove_folder: "Nu s-a putut elimina dosarul",
 }

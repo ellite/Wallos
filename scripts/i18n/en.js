@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Delete {count} subscription(s)? This cannot be undone.",
   bulk_action_success: "{count} subscription(s) updated",
   error_bulk_action: "Bulk action failed",
+  // Folders
+  folder: "Folder",
+  folder_color: "Folder color",
+  save_folder: "Save folder",
+  delete_folder: "Delete folder",
+  failed_add_folder: "Failed to add folder",
+  failed_save_folder: "Failed to save folder",
+  failed_remove_folder: "Failed to remove folder",
 }

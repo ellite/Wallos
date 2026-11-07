@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Smazat předplatná ({count})? Tuto akci nelze vrátit.",
   bulk_action_success: "Aktualizováno předplatných: {count}",
   error_bulk_action: "Hromadnou akci se nepodařilo provést",
+  // Folders
+  folder: "Složka",
+  folder_color: "Barva složky",
+  save_folder: "Uložit složku",
+  delete_folder: "Smazat složku",
+  failed_add_folder: "Složku se nepodařilo přidat",
+  failed_save_folder: "Složku se nepodařilo uložit",
+  failed_remove_folder: "Složku se nepodařilo odstranit",
 }

@@ -125,6 +125,11 @@ function wallos_instance_config_variables()
         'smtp_password' => 'WALLOS_SMTP_PASSWORD',
         'from_email' => 'WALLOS_SMTP_FROM',
         'server_url' => 'WALLOS_SERVER_URL',
+        'telegram_bot_token' => 'WALLOS_TELEGRAM_BOT_TOKEN',
+        'ntfy_server' => 'WALLOS_NTFY_SERVER',
+        'ntfy_headers' => 'WALLOS_NTFY_HEADERS',
+        'gotify_server' => 'WALLOS_GOTIFY_SERVER',
+        'pushover_token' => 'WALLOS_PUSHOVER_TOKEN',
     ];
 }
 
@@ -135,7 +140,7 @@ function wallos_instance_config_variables()
  */
 function wallos_instance_config_secrets()
 {
-    return ['smtp_password'];
+    return ['smtp_password', 'telegram_bot_token', 'ntfy_headers', 'pushover_token'];
 }
 
 /**
@@ -269,4 +274,141 @@ function wallos_fill_managed_form_fields($posted, $fieldColumns, $managedFields,
     }
 
     return $posted;
+}
+
+/**
+ * The Telegram bot a notification should be sent through.
+ *
+ * A bot token names a bot, not a person: one bot can message everybody who has
+ * started a chat with it, so an installation can run a single bot for the whole
+ * household while each user keeps their own chat id. A user who has a token of
+ * their own keeps using it, which is every installation that has this
+ * configured today.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userToken The bot_token on the user's own row.
+ * @return string The token to send with, or '' when there is none.
+ */
+function wallos_telegram_bot_token($db, $userToken)
+{
+    $userToken = trim((string) $userToken);
+
+    if ($userToken !== '') {
+        return $userToken;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['telegram_bot_token'] ?? ''));
+}
+
+/**
+ * The ntfy server and credential a notification should be sent through.
+ *
+ * What is personal about ntfy is the topic. The server address is not: a
+ * household that self-hosts ntfy runs one server, and before this every member
+ * had to know its address and type it in.
+ *
+ * The rule the field already implied, with one guarantee added:
+ *
+ *   - an account with a server of its own keeps it, which is every
+ *     installation configured today,
+ *   - an empty server means the instance server, if the deployment configured
+ *     one,
+ *   - and the instance headers are only ever sent to the instance server.
+ *
+ * That last line is the one to read twice. The headers are a credential for
+ * the server they belong to. An account that points ntfy at a server of its
+ * own must not have the installation's token sent there, so the instance
+ * headers are not merely overridden in that case - they are never read.
+ * An account on the instance server that has headers of its own keeps using
+ * them, which is how a shared server with per-user tokens stays possible.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userHost    The host on the user's own row.
+ * @param mixed   $userHeaders The headers on the user's own row.
+ * @return array{host: string, headers: string} What to send with.
+ */
+function wallos_ntfy_settings($db, $userHost, $userHeaders)
+{
+    $userHost = trim((string) $userHost);
+    $userHeaders = (string) $userHeaders;
+
+    if ($userHost !== '') {
+        return ['host' => $userHost, 'headers' => $userHeaders];
+    }
+
+    $settings = wallos_get_admin_settings($db);
+    $instanceHost = trim((string) ($settings['ntfy_server'] ?? ''));
+
+    if ($instanceHost === '') {
+        // No instance server: nothing changes for this account, including
+        // whatever its headers say.
+        return ['host' => '', 'headers' => $userHeaders];
+    }
+
+    return [
+        'host' => $instanceHost,
+        'headers' => trim($userHeaders) !== '' ? $userHeaders : (string) ($settings['ntfy_headers'] ?? ''),
+    ];
+}
+
+/**
+ * The Gotify server a notification should be sent to.
+ *
+ * Only the address is shared. A Gotify application token is personal: it names
+ * the application a message arrives under, and each member of a household
+ * keeps their own so their notifications stay theirs. What nobody should have
+ * to look up is where the server is.
+ *
+ * An account with a server of its own keeps it, which is every installation
+ * configured today; an empty field means the instance server, if the
+ * deployment configured one.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userUrl The url on the user's own row.
+ * @return string The server to send to, or '' when there is none.
+ */
+function wallos_gotify_server($db, $userUrl)
+{
+    $userUrl = trim((string) $userUrl);
+
+    if ($userUrl !== '') {
+        return $userUrl;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['gotify_server'] ?? ''));
+}
+
+/**
+ * The Pushover application a notification should be sent from.
+ *
+ * An application token names the application a message is sent from, not the
+ * person it reaches: the user key is what names the person, and it stays on
+ * each user's own row. One application for the installation is what a
+ * household wants - before this, every member had to register an application
+ * of their own at pushover.net, so notifications arrived from as many
+ * applications as there are people in the house.
+ *
+ * An account with a token of its own keeps it, which is every installation
+ * configured today; an empty field means the instance application, if the
+ * deployment configured one.
+ *
+ * @param SQLite3 $db
+ * @param mixed   $userToken The token on the user's own row.
+ * @return string The application token to send with, or '' when there is none.
+ */
+function wallos_pushover_token($db, $userToken)
+{
+    $userToken = trim((string) $userToken);
+
+    if ($userToken !== '') {
+        return $userToken;
+    }
+
+    $settings = wallos_get_admin_settings($db);
+
+    return trim((string) ($settings['pushover_token'] ?? ''));
 }

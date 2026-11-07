@@ -541,6 +541,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Банківський переказ",
     "payment_method_direct_debit" => "Пряме дебетування",
     "payment_method_money" => "Готівка",
+
+    // Payment status and folders
+    "mark_as_paid" => "Позначити як оплачену",
+    "mark_as_unpaid" => "Позначити як неоплачену",
+    "paid" => "Оплачено",
+    "unpaid" => "Не оплачено",
+    "payment_status" => "Статус оплати",
+    "folders" => "Папки",
+    "folder" => "Папка",
+    "no_folder" => "Без папки",
+    "folder_color" => "Колір папки",
+    "save_folder" => "Зберегти папку",
+    "delete_folder" => "Видалити папку",
+    "folder_saved" => "Папку збережено",
+    "folder_removed" => "Папку видалено",
+    "failed_add_folder" => "Не вдалося додати папку",
+    "failed_edit_folder" => "Не вдалося зберегти папку",
+    "failed_remove_folder" => "Не вдалося видалити папку",
+    "per_month" => "місяць",
+    "folders_explanation" => "Групуйте підписки в кольорові папки, як кишені для платежів, і фільтруйте їх одним дотиком на сторінці підписок.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Платіжний період",
+    "use_custom_period" => "Використовувати цей період замість календарних місяців у статистиці",
+    "custom_period_active_warning" => "Статистика, панель і календар слідуватимуть цьому періоду замість календарних місяців.",
+    "custom_period_same_as_month" => "Цей період збігається з календарним місяцем, тож статистика не зміниться. Встановіть опорну дату на день отримання зарплати.",
+    "amount_due_this_period" => "Сума до сплати за цей період",
+    "semimonthly" => "Двічі на місяць",
+    "budget_second_payday" => "Другий день виплати",
+    "last_day_of_month" => "Останній день місяця",
+    "instance_telegram_bot" => "Telegram-бот екземпляра",
+    "instance_telegram_bot_info" => "Один бот на всю інсталяцію: кожен обліковий запис, що залишив свій токен бота порожнім, надсилає через нього зі своїм ідентифікатором чату. Залиште порожнім, щоб кожен обліковий запис використовував власного бота.",
+    "instance_telegram_bot_in_use" => "Ця інсталяція надає Telegram-бота. Залиште токен порожнім, щоб користуватися ним, і вкажіть нижче свій ідентифікатор чату.",
+    "instance_telegram_saved" => "Telegram-бота збережено",
+    "managed_by_environment" => "Керується змінними середовища",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy-сервер екземпляра",
+    "instance_ntfy_server_info" => "Один сервер на всю інсталяцію: кожен обліковий запис, що залишив свій сервер порожнім, публікує на цей сервер під своєю темою. Заголовки — це облікові дані цього сервера, вони ніколи не надсилаються на сервер, який обліковий запис налаштував сам.",
+    "instance_ntfy_server_in_use" => "Ця інсталяція надає ntfy-сервер. Залиште сервер порожнім, щоб користуватися ним, і вкажіть нижче свою тему.",
+    "instance_ntfy_saved" => "ntfy-сервер збережено",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify-сервер екземпляра",
+    "instance_gotify_server_info" => "Один сервер на всю інсталяцію: кожен обліковий запис, що залишив свій сервер порожнім, надсилає на цей сервер. Спільною є лише адреса — кожен обліковий запис зберігає власний токен застосунку, тож його повідомлення надходять до його власного застосунку Gotify.",
+    "instance_gotify_server_in_use" => "Ця інсталяція надає Gotify-сервер. Залиште сервер порожнім, щоб користуватися ним, і вкажіть нижче власний токен застосунку.",
+    "instance_gotify_saved" => "Gotify-сервер збережено",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Pushover-застосунок екземпляра",
+    "instance_pushover_application_info" => "Один застосунок на всю інсталяцію: кожен обліковий запис, що залишив свій токен застосунку порожнім, надсилає через нього зі своїм ключем користувача. Залиште порожнім, щоб кожен обліковий запис реєстрував власний застосунок.",
+    "instance_pushover_application_in_use" => "Ця інсталяція надає застосунок Pushover. Залиште токен застосунку порожнім, щоб користуватися ним, і вкажіть нижче власний ключ користувача.",
+    "instance_pushover_saved" => "Pushover-застосунок збережено",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Наступні підписки незабаром потрібно продовжити:",
+    "notification_renewals_intro_named" => "%s, наступні підписки незабаром потрібно продовжити:",
+    "notification_subscription_line" => "%s за %s (%s)",
+    "notification_due_today" => "Сьогодні",
+    "notification_due_tomorrow" => "Завтра",
+    "notification_due_in_days" => "Через %d дн.",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Наступні підписки незабаром будуть скасовані:",
+    "notification_cancellation_intro_named" => "%s, наступні підписки незабаром будуть скасовані:",
+    "notification_cancellation_line" => "%s за %s",
+    "wallos_cancellation_notification" => "Сповіщення про скасування Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Сповіщення екземпляра",
+    "pushover_application_token" => "Токен застосунку Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Підписку успішно видалено",
+    "cannot_open_zip" => "Не вдалося створити файл резервної копії",
 ];
 
 ?>

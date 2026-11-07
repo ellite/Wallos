@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Excluir {count} assinatura(s)? Esta ação não pode ser desfeita.",
   bulk_action_success: "{count} assinatura(s) atualizada(s)",
   error_bulk_action: "Não foi possível aplicar a ação em massa",
+  // Folders
+  folder: "Pasta",
+  folder_color: "Cor da pasta",
+  save_folder: "Salvar pasta",
+  delete_folder: "Excluir pasta",
+  failed_add_folder: "Falha ao adicionar a pasta",
+  failed_save_folder: "Falha ao salvar a pasta",
+  failed_remove_folder: "Falha ao remover a pasta",
 }

@@ -541,6 +541,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Банковни пренос",
     "payment_method_direct_debit" => "Директно задужење",
     "payment_method_money" => "Готовина",
+
+    // Payment status and folders
+    "mark_as_paid" => "Означи као плаћено",
+    "mark_as_unpaid" => "Означи као неплаћено",
+    "paid" => "Плаћено",
+    "unpaid" => "Неплаћено",
+    "payment_status" => "Статус плаћања",
+    "folders" => "Фасцикле",
+    "folder" => "Фасцикла",
+    "no_folder" => "Без фасцикле",
+    "folder_color" => "Боја фасцикле",
+    "save_folder" => "Сачувај фасциклу",
+    "delete_folder" => "Избриши фасциклу",
+    "folder_saved" => "Фасцикла је сачувана",
+    "folder_removed" => "Фасцикла је уклоњена",
+    "failed_add_folder" => "Додавање фасцикле није успело",
+    "failed_edit_folder" => "Чување фасцикле није успело",
+    "failed_remove_folder" => "Уклањање фасцикле није успело",
+    "per_month" => "месец",
+    "folders_explanation" => "Груписајте своје претплате у обојене фасцикле, као џепове за плаћања, и филтрирајте их једним додиром на страници претплата.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Период плаћања",
+    "use_custom_period" => "Користи овај период уместо календарских месеци у статистици",
+    "custom_period_active_warning" => "Ваша статистика, контролна табла и календар пратиће овај период уместо календарских месеци.",
+    "custom_period_same_as_month" => "Овај период је исти као календарски месец, па се ваша статистика неће променити. Поставите датум сидра на дан када примате плату.",
+    "amount_due_this_period" => "Износ за плаћање у овом периоду",
+    "semimonthly" => "Два пута месечно",
+    "budget_second_payday" => "Други дан исплате",
+    "last_day_of_month" => "Последњи дан у месецу",
+    "instance_telegram_bot" => "Telegram бот инстанце",
+    "instance_telegram_bot_info" => "Један бот за целу инсталацију: сваки налог који остави свој токен бота празним шаље преко овог бота са својим ИД-ом ћаскања. Оставите празно да сваки налог користи свог бота.",
+    "instance_telegram_bot_in_use" => "Ова инсталација пружа Telegram бота. Оставите токен празним да бисте га користили и унесите испод свој ИД ћаскања.",
+    "instance_telegram_saved" => "Telegram бот је сачуван",
+    "managed_by_environment" => "Управљају променљиве окружења",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy сервер инстанце",
+    "instance_ntfy_server_info" => "Један сервер за целу инсталацију: сваки налог који остави свој сервер празним објављује на овај сервер, под својом темом. Заглавља су акредитиви за овај сервер и никада се не шаљу на сервер који је налог сам подесио.",
+    "instance_ntfy_server_in_use" => "Ова инсталација пружа ntfy сервер. Оставите сервер празним да бисте га користили и унесите испод своју тему.",
+    "instance_ntfy_saved" => "ntfy сервер је сачуван",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify сервер инстанце",
+    "instance_gotify_server_info" => "Један сервер за целу инсталацију: сваки налог који остави свој сервер празним шаље на овај сервер. Дели се само адреса - сваки налог задржава свој токен апликације, па његове поруке стижу у његову Gotify апликацију.",
+    "instance_gotify_server_in_use" => "Ова инсталација пружа Gotify сервер. Оставите сервер празним да бисте га користили и унесите испод свој токен апликације.",
+    "instance_gotify_saved" => "Gotify сервер је сачуван",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Pushover апликација инстанце",
+    "instance_pushover_application_info" => "Једна апликација за целу инсталацију: сваки налог који остави свој токен апликације празним шаље преко ове апликације са својим корисничким кључем. Оставите празно да сваки налог региструје своју апликацију.",
+    "instance_pushover_application_in_use" => "Ова инсталација пружа Pushover апликацију. Оставите токен апликације празним да бисте је користили и унесите испод свој кориснички кључ.",
+    "instance_pushover_saved" => "Pushover апликација је сачувана",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Следеће претплате треба ускоро обновити:",
+    "notification_renewals_intro_named" => "%s, следеће претплате треба ускоро обновити:",
+    "notification_subscription_line" => "%s за %s (%s)",
+    "notification_due_today" => "Данас",
+    "notification_due_tomorrow" => "Сутра",
+    "notification_due_in_days" => "За %d дана",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Следеће претплате ће ускоро бити отказане:",
+    "notification_cancellation_intro_named" => "%s, следеће претплате ће ускоро бити отказане:",
+    "notification_cancellation_line" => "%s за %s",
+    "wallos_cancellation_notification" => "Wallos обавештење о отказивању",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Обавештења инстанце",
+    "pushover_application_token" => "Токен Pushover апликације",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Претплата је успешно обрисана",
+    "cannot_open_zip" => "Није могуће креирати датотеку резервне копије",
 ];
 
 

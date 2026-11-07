@@ -541,6 +541,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Банковский перевод",
     "payment_method_direct_debit" => "Прямой дебет",
     "payment_method_money" => "Наличные",
+
+    // Payment status and folders
+    "mark_as_paid" => "Отметить как оплаченную",
+    "mark_as_unpaid" => "Отметить как неоплаченную",
+    "paid" => "Оплачено",
+    "unpaid" => "Не оплачено",
+    "payment_status" => "Статус оплаты",
+    "folders" => "Папки",
+    "folder" => "Папка",
+    "no_folder" => "Без папки",
+    "folder_color" => "Цвет папки",
+    "save_folder" => "Сохранить папку",
+    "delete_folder" => "Удалить папку",
+    "folder_saved" => "Папка сохранена",
+    "folder_removed" => "Папка удалена",
+    "failed_add_folder" => "Не удалось добавить папку",
+    "failed_edit_folder" => "Не удалось сохранить папку",
+    "failed_remove_folder" => "Не удалось удалить папку",
+    "per_month" => "месяц",
+    "folders_explanation" => "Группируйте подписки в цветные папки, как кармашки для платежей, и фильтруйте их одним касанием на странице подписок.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Платёжный период",
+    "use_custom_period" => "Использовать этот период вместо календарных месяцев в статистике",
+    "custom_period_active_warning" => "Статистика, панель и календарь будут следовать этому периоду вместо календарных месяцев.",
+    "custom_period_same_as_month" => "Этот период совпадает с календарным месяцем, поэтому статистика не изменится. Установите опорную дату на день получения зарплаты.",
+    "amount_due_this_period" => "Сумма к оплате за этот период",
+    "semimonthly" => "Дважды в месяц",
+    "budget_second_payday" => "Второй день выплаты",
+    "last_day_of_month" => "Последний день месяца",
+    "instance_telegram_bot" => "Telegram-бот экземпляра",
+    "instance_telegram_bot_info" => "Один бот на всю установку: каждая учётная запись, оставившая свой токен бота пустым, отправляет через него со своим идентификатором чата. Оставьте пустым, чтобы каждая учётная запись использовала собственного бота.",
+    "instance_telegram_bot_in_use" => "Эта установка предоставляет Telegram-бота. Оставьте токен пустым, чтобы использовать его, и укажите ниже свой идентификатор чата.",
+    "instance_telegram_saved" => "Telegram-бот сохранён",
+    "managed_by_environment" => "Управляется переменными окружения",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy-сервер экземпляра",
+    "instance_ntfy_server_info" => "Один сервер на всю установку: каждая учётная запись, оставившая свой сервер пустым, публикует на этот сервер под своей темой. Заголовки — это учётные данные этого сервера, они никогда не отправляются на сервер, который учётная запись настроила сама.",
+    "instance_ntfy_server_in_use" => "Эта установка предоставляет ntfy-сервер. Оставьте сервер пустым, чтобы использовать его, и укажите ниже свою тему.",
+    "instance_ntfy_saved" => "ntfy-сервер сохранён",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify-сервер экземпляра",
+    "instance_gotify_server_info" => "Один сервер на всю установку: каждая учётная запись, оставившая свой сервер пустым, отправляет на этот сервер. Общим является только адрес — каждая учётная запись сохраняет собственный токен приложения, поэтому её сообщения приходят в её собственное приложение Gotify.",
+    "instance_gotify_server_in_use" => "Эта установка предоставляет Gotify-сервер. Оставьте сервер пустым, чтобы использовать его, и укажите ниже собственный токен приложения.",
+    "instance_gotify_saved" => "Gotify-сервер сохранён",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Pushover-приложение экземпляра",
+    "instance_pushover_application_info" => "Одно приложение на всю установку: каждая учётная запись, оставившая свой токен приложения пустым, отправляет через него со своим ключом пользователя. Оставьте пустым, чтобы каждая учётная запись регистрировала собственное приложение.",
+    "instance_pushover_application_in_use" => "Эта установка предоставляет приложение Pushover. Оставьте токен приложения пустым, чтобы использовать его, и укажите ниже собственный ключ пользователя.",
+    "instance_pushover_saved" => "Pushover-приложение сохранено",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Следующие подписки скоро нужно продлить:",
+    "notification_renewals_intro_named" => "%s, следующие подписки скоро нужно продлить:",
+    "notification_subscription_line" => "%s за %s (%s)",
+    "notification_due_today" => "Сегодня",
+    "notification_due_tomorrow" => "Завтра",
+    "notification_due_in_days" => "Через %d дн.",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Следующие подписки скоро будут отменены:",
+    "notification_cancellation_intro_named" => "%s, следующие подписки скоро будут отменены:",
+    "notification_cancellation_line" => "%s за %s",
+    "wallos_cancellation_notification" => "Уведомление об отмене Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Уведомления экземпляра",
+    "pushover_application_token" => "Токен приложения Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Подписка успешно удалена",
+    "cannot_open_zip" => "Не удалось создать файл резервной копии",
 ];
 
 

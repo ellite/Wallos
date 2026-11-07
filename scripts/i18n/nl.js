@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "{count} abonnement(en) verwijderen? Dit kan niet ongedaan worden gemaakt.",
   bulk_action_success: "{count} abonnement(en) bijgewerkt",
   error_bulk_action: "Bulkactie mislukt",
+  // Folders
+  folder: "Map",
+  folder_color: "Mapkleur",
+  save_folder: "Map opslaan",
+  delete_folder: "Map verwijderen",
+  failed_add_folder: "Map toevoegen mislukt",
+  failed_save_folder: "Map opslaan mislukt",
+  failed_remove_folder: "Map verwijderen mislukt",
 }

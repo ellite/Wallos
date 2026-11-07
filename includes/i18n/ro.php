@@ -542,6 +542,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Transfer bancar",
     "payment_method_direct_debit" => "Debit direct",
     "payment_method_money" => "Numerar",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marchează ca plătit",
+    "mark_as_unpaid" => "Marchează ca neplătit",
+    "paid" => "Plătit",
+    "unpaid" => "Neplătit",
+    "payment_status" => "Stare plată",
+    "folders" => "Dosare",
+    "folder" => "Dosar",
+    "no_folder" => "Fără dosar",
+    "folder_color" => "Culoarea dosarului",
+    "save_folder" => "Salvează dosarul",
+    "delete_folder" => "Șterge dosarul",
+    "folder_saved" => "Dosar salvat",
+    "folder_removed" => "Dosar eliminat",
+    "failed_add_folder" => "Nu s-a putut adăuga dosarul",
+    "failed_edit_folder" => "Nu s-a putut salva dosarul",
+    "failed_remove_folder" => "Nu s-a putut elimina dosarul",
+    "per_month" => "lună",
+    "folders_explanation" => "Grupați-vă abonamentele în dosare colorate, ca niște buzunare pentru plăți, și filtrați-le cu o singură atingere în pagina de abonamente.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Perioadă de plată",
+    "use_custom_period" => "Folosește această perioadă în loc de lunile calendaristice în statistici",
+    "custom_period_active_warning" => "Statisticile, panoul și calendarul dvs. vor urma această perioadă în loc de lunile calendaristice.",
+    "custom_period_same_as_month" => "Această perioadă este aceeași cu o lună calendaristică, deci statisticile dvs. nu se vor schimba. Setați data de ancorare la ziua în care sunteți plătit.",
+    "amount_due_this_period" => "Suma de plătit în această perioadă",
+    "semimonthly" => "De două ori pe lună",
+    "budget_second_payday" => "A doua zi de salariu",
+    "last_day_of_month" => "Ultima zi a lunii",
+    "instance_telegram_bot" => "Botul Telegram al instanței",
+    "instance_telegram_bot_info" => "Un singur bot pentru toată instalarea: fiecare cont care își lasă gol propriul token de bot trimite prin acesta, cu propriul ID de chat. Lăsați gol pentru ca fiecare cont să folosească un bot propriu.",
+    "instance_telegram_bot_in_use" => "Această instalare oferă un bot Telegram. Lăsați tokenul gol pentru a-l folosi și introduceți mai jos ID-ul dvs. de chat.",
+    "instance_telegram_saved" => "Botul Telegram a fost salvat",
+    "managed_by_environment" => "Gestionat prin variabile de mediu",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Serverul ntfy al instanței",
+    "instance_ntfy_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server publică pe acesta, sub propriul subiect. Antetele sunt credențialele acestui server și nu sunt trimise niciodată către un server configurat de un cont pe cont propriu.",
+    "instance_ntfy_server_in_use" => "Această instalare oferă un server ntfy. Lăsați serverul gol pentru a-l folosi și introduceți mai jos subiectul dvs.",
+    "instance_ntfy_saved" => "Serverul ntfy a fost salvat",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Serverul Gotify al instanței",
+    "instance_gotify_server_info" => "Un singur server pentru toată instalarea: fiecare cont care își lasă gol propriul server trimite către acesta. Se partajează doar adresa - fiecare cont își păstrează propriul token de aplicație, astfel încât mesajele sale ajung în propria aplicație Gotify.",
+    "instance_gotify_server_in_use" => "Această instalare oferă un server Gotify. Lăsați serverul gol pentru a-l folosi și introduceți mai jos propriul token de aplicație.",
+    "instance_gotify_saved" => "Serverul Gotify a fost salvat",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicația Pushover a instanței",
+    "instance_pushover_application_info" => "O singură aplicație pentru toată instalarea: fiecare cont care își lasă gol propriul token de aplicație trimite prin aceasta, cu propria cheie de utilizator. Lăsați gol pentru ca fiecare cont să își înregistreze o aplicație proprie.",
+    "instance_pushover_application_in_use" => "Această instalare oferă o aplicație Pushover. Lăsați tokenul aplicației gol pentru a o folosi și introduceți mai jos propria cheie de utilizator.",
+    "instance_pushover_saved" => "Aplicația Pushover a fost salvată",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Următoarele abonamente urmează să fie reînnoite:",
+    "notification_renewals_intro_named" => "%s, următoarele abonamente urmează să fie reînnoite:",
+    "notification_subscription_line" => "%s pentru %s (%s)",
+    "notification_due_today" => "Astăzi",
+    "notification_due_tomorrow" => "Mâine",
+    "notification_due_in_days" => "Peste %d zile",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Următoarele abonamente urmează să fie anulate:",
+    "notification_cancellation_intro_named" => "%s, următoarele abonamente urmează să fie anulate:",
+    "notification_cancellation_line" => "%s pentru %s",
+    "wallos_cancellation_notification" => "Notificare de anulare Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notificările instanței",
+    "pushover_application_token" => "Token de aplicație Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonamentul a fost șters cu succes",
+    "cannot_open_zip" => "Fișierul de backup nu a putut fi creat",
 ];
 
 

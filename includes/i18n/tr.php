@@ -541,6 +541,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Banka havalesi",
     "payment_method_direct_debit" => "Otomatik ödeme",
     "payment_method_money" => "Nakit",
+
+    // Payment status and folders
+    "mark_as_paid" => "Ödendi olarak işaretle",
+    "mark_as_unpaid" => "Ödenmedi olarak işaretle",
+    "paid" => "Ödendi",
+    "unpaid" => "Ödenmedi",
+    "payment_status" => "Ödeme durumu",
+    "folders" => "Klasörler",
+    "folder" => "Klasör",
+    "no_folder" => "Klasör yok",
+    "folder_color" => "Klasör rengi",
+    "save_folder" => "Klasörü kaydet",
+    "delete_folder" => "Klasörü sil",
+    "folder_saved" => "Klasör kaydedildi",
+    "folder_removed" => "Klasör kaldırıldı",
+    "failed_add_folder" => "Klasör eklenemedi",
+    "failed_edit_folder" => "Klasör kaydedilemedi",
+    "failed_remove_folder" => "Klasör kaldırılamadı",
+    "per_month" => "ay",
+    "folders_explanation" => "Aboneliklerinizi ödeme ceplerine benzeyen renkli klasörlerde gruplayın ve abonelikler sayfasında tek dokunuşla filtreleyin.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Ödeme dönemi",
+    "use_custom_period" => "İstatistiklerde takvim ayları yerine bu dönemi kullan",
+    "custom_period_active_warning" => "İstatistikleriniz, panonuz ve takviminiz takvim ayları yerine bu dönemi izleyecek.",
+    "custom_period_same_as_month" => "Bu dönem bir takvim ayıyla aynı, bu yüzden istatistikleriniz değişmeyecek. Sabitleme tarihini maaş aldığınız güne ayarlayın.",
+    "amount_due_this_period" => "Bu dönemde ödenecek tutar",
+    "semimonthly" => "Ayda iki kez",
+    "budget_second_payday" => "İkinci maaş günü",
+    "last_day_of_month" => "Ayın son günü",
+    "instance_telegram_bot" => "Örnek Telegram botu",
+    "instance_telegram_bot_info" => "Tüm kurulum için tek bir bot: kendi bot belirtecini boş bırakan her hesap, kendi sohbet kimliğiyle bu bot üzerinden gönderir. Her hesabın kendi botunu kullanması için boş bırakın.",
+    "instance_telegram_bot_in_use" => "Bu kurulum bir Telegram botu sağlar. Kullanmak için belirteci boş bırakın ve aşağıya sohbet kimliğinizi girin.",
+    "instance_telegram_saved" => "Telegram botu kaydedildi",
+    "managed_by_environment" => "Ortam değişkenleri tarafından yönetiliyor",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Örnek ntfy sunucusu",
+    "instance_ntfy_server_info" => "Tüm kurulum için tek bir sunucu: kendi sunucusunu boş bırakan her hesap, kendi konusuyla bu sunucuya yayınlar. Başlıklar bu sunucunun kimlik bilgileridir ve bir hesabın kendisinin yapılandırdığı sunucuya asla gönderilmez.",
+    "instance_ntfy_server_in_use" => "Bu kurulum bir ntfy sunucusu sağlar. Kullanmak için sunucuyu boş bırakın ve aşağıya konunuzu girin.",
+    "instance_ntfy_saved" => "ntfy sunucusu kaydedildi",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Örnek Gotify sunucusu",
+    "instance_gotify_server_info" => "Tüm kurulum için tek bir sunucu: kendi sunucusunu boş bırakan her hesap bu sunucuya gönderir. Yalnızca adres paylaşılır - her hesap kendi uygulama belirtecini korur, böylece mesajları kendi Gotify uygulamasının altında ulaşır.",
+    "instance_gotify_server_in_use" => "Bu kurulum bir Gotify sunucusu sağlar. Kullanmak için sunucuyu boş bırakın ve aşağıya kendi uygulama belirtecinizi girin.",
+    "instance_gotify_saved" => "Gotify sunucusu kaydedildi",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Örnek Pushover uygulaması",
+    "instance_pushover_application_info" => "Tüm kurulum için tek bir uygulama: kendi uygulama belirtecini boş bırakan her hesap, kendi kullanıcı anahtarıyla bu uygulama üzerinden gönderir. Her hesabın kendi uygulamasını kaydetmesi için boş bırakın.",
+    "instance_pushover_application_in_use" => "Bu kurulum bir Pushover uygulaması sağlar. Kullanmak için uygulama belirtecini boş bırakın ve aşağıya kendi kullanıcı anahtarınızı girin.",
+    "instance_pushover_saved" => "Pushover uygulaması kaydedildi",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Aşağıdaki aboneliklerin yenilenme zamanı geldi:",
+    "notification_renewals_intro_named" => "%s, aşağıdaki aboneliklerin yenilenme zamanı geldi:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "Bugün",
+    "notification_due_tomorrow" => "Yarın",
+    "notification_due_in_days" => "%d gün sonra",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Aşağıdaki aboneliklerin iptal zamanı geldi:",
+    "notification_cancellation_intro_named" => "%s, aşağıdaki aboneliklerin iptal zamanı geldi:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "Wallos iptal bildirimi",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Örnek bildirimleri",
+    "pushover_application_token" => "Pushover uygulama belirteci",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonelik başarıyla silindi",
+    "cannot_open_zip" => "Yedekleme dosyası oluşturulamadı",
 ];
 
 

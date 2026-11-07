@@ -75,6 +75,11 @@ if ($userIdToDelete == 1 || $userIdToDelete != $userId) {
     $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);
     $result = $stmt->execute();
 
+    // Delete folders
+    $stmt = $db->prepare('DELETE FROM folders WHERE user_id = :id');
+    $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
     // Delete household
     $stmt = $db->prepare('DELETE FROM household WHERE user_id = :id');
     $stmt->bindValue(':id', $userIdToDelete, SQLITE3_INTEGER);

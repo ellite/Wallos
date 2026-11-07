@@ -82,13 +82,15 @@ $upcomingSubscriptions = get_upcoming_payments(
     $settings['upcoming_payments_limit'] ?? 3
 );
 
-// Fetch enabled subscriptions with manual renewal that are overdue
-$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
+// Fetch enabled subscriptions with manual renewal that are overdue (excluding already-paid ones)
+$stmt = $db->prepare("SELECT id, logo, logo_text_color, logo_variant, name, price, currency_id, next_payment, inactive, auto_renew, cycle, frequency, paid_at FROM subscriptions WHERE user_id = :userId AND next_payment < date('now') AND auto_renew = 0 AND inactive = 0 AND cycle != 5 ORDER BY next_payment ASC");
 $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
 $result = $stmt->execute();
 $overdueSubscriptions = [];
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-    $overdueSubscriptions[] = $row;
+    if (!isPaidThisCycle($row['paid_at'] ?? null, $row['cycle'], $row['frequency'], $row['next_payment'])) {
+        $overdueSubscriptions[] = $row;
+    }
 }
 $hasOverdueSubscriptions = !empty($overdueSubscriptions);
 
@@ -369,9 +371,15 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
             </div>
         <?php } ?>
 
-        <?php if (isset($periodBudget) && $periodBudget > 0) { ?>
+        <?php
+        // The period block is about the period, not about the budget: a user who
+        // aligns the period to their payslip wants to see what is left to pay
+        // whether or not they also set an amount to compare it against. The
+        // second arm keeps the block for anyone who had a period budget before
+        // the opt-in existed.
+        if ($periodScopesStatistics || (isset($periodBudget) && $periodBudget > 0)) { ?>
             <div class="budget-subscriptions">
-                <h2><?= translate('period_budget', $i18n) ?></h2>
+                <h2><?= translate(isset($periodBudget) && $periodBudget > 0 ? 'period_budget' : 'payment_period', $i18n) ?></h2>
                 <?php if (isset($budgetPeriodLabel)) { ?>
                     <p class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></p>
                 <?php } ?>
@@ -385,6 +393,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </p>
                             </div>
                         </div>
+                        <?php if (isset($periodBudget) && $periodBudget > 0) { ?>
                         <div class="subscription-item thin">
                             <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                             <div class="subscription-item-info">
@@ -393,6 +402,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </p>
                             </div>
                         </div>
+                        <?php } ?>
                         <?php if (isset($periodBudgetUsed)) { ?>
                             <div class="subscription-item thin">
                                 <p class="subscription-item-title"><?= translate("budget_used", $i18n) ?></p>
@@ -403,6 +413,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </div>
                             </div>
                         <?php } ?>
+                        <?php if (isset($periodBudgetLeft)) { ?>
                         <div class="subscription-item thin">
                             <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                             <div class="subscription-item-info">
@@ -411,6 +422,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </p>
                             </div>
                         </div>
+                        <?php } ?>
                         <?php if (isset($periodOverBudgetAmount) && $periodOverBudgetAmount > 0) { ?>
                             <div class="subscription-item thin">
                                 <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>

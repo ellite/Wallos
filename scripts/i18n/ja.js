@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "{count} 件のサブスクリプションを削除しますか？この操作は元に戻せません。",
   bulk_action_success: "{count} 件のサブスクリプションを更新しました",
   error_bulk_action: "一括操作に失敗しました",
+  // Folders
+  folder: "フォルダ",
+  folder_color: "フォルダの色",
+  save_folder: "フォルダを保存",
+  delete_folder: "フォルダを削除",
+  failed_add_folder: "フォルダを追加できませんでした",
+  failed_save_folder: "フォルダを保存できませんでした",
+  failed_remove_folder: "フォルダを削除できませんでした",
 }

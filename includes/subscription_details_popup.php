@@ -35,6 +35,16 @@ require_once __DIR__ . '/getdbkeys.php';
       aria-label="<?= translate('external_url', $i18n) ?>">
       <i class="fa-solid fa-globe"></i>
     </a>
+    <button type="button" class="button secondary-button details-action-button details-mark-paid-button hide"
+      id="details-mark-paid-button" title="<?= translate('mark_as_paid', $i18n) ?>"
+      aria-label="<?= translate('mark_as_paid', $i18n) ?>">
+      <i class="fa-solid fa-circle-check"></i>
+    </button>
+    <button type="button" class="button secondary-button details-action-button details-unmark-paid-button hide"
+      id="details-unmark-paid-button" title="<?= translate('mark_as_unpaid', $i18n) ?>"
+      aria-label="<?= translate('mark_as_unpaid', $i18n) ?>">
+      <i class="fa-regular fa-circle-xmark"></i>
+    </button>
   </div>
   <div class="details-progress-track" id="details-progress-track">
     <span class="details-progress" id="details-progress"></span>
@@ -51,6 +61,10 @@ require_once __DIR__ . '/getdbkeys.php';
     <div class="details-item">
       <dt><?= translate('category', $i18n) ?></dt>
       <dd id="details-category"></dd>
+    </div>
+    <div class="details-item hide" id="details-folder-item">
+      <dt><?= translate('folder', $i18n) ?></dt>
+      <dd id="details-folder"></dd>
     </div>
     <div class="details-item">
       <dt><?= translate('paid_by', $i18n) ?></dt>
@@ -85,6 +99,7 @@ require_once __DIR__ . '/getdbkeys.php';
 <?php
 $detailsLookups = [
   'categories' => new stdClass(),
+  'folders' => new stdClass(),
   'members' => new stdClass(),
   'paymentMethods' => new stdClass(),
   'currencies' => new stdClass(),
@@ -107,10 +122,17 @@ $detailsLookups = [
     'day_before' => translate('day_before', $i18n),
     'days_before' => translate('days_before', $i18n),
     'none' => translate('none', $i18n),
+    'paid' => translate('paid', $i18n),
   ],
 ];
 foreach ($categories as $categoryId => $category) {
   $detailsLookups['categories']->{$categoryId} = $category['name'];
+}
+foreach ($folders as $folderId => $folder) {
+  $detailsLookups['folders']->{$folderId} = [
+    'name' => $folder['name'],
+    'color' => $folder['color'],
+  ];
 }
 foreach ($members as $memberId => $member) {
   $detailsLookups['members']->{$memberId} = $member['name'];

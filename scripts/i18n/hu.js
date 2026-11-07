@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Törlöd a(z) {count} előfizetést? Ez nem vonható vissza.",
   bulk_action_success: "{count} előfizetés frissítve",
   error_bulk_action: "A tömeges művelet nem sikerült",
+  // Folders
+  folder: "Mappa",
+  folder_color: "Mappa színe",
+  save_folder: "Mappa mentése",
+  delete_folder: "Mappa törlése",
+  failed_add_folder: "A mappa hozzáadása sikertelen",
+  failed_save_folder: "A mappa mentése sikertelen",
+  failed_remove_folder: "A mappa eltávolítása sikertelen",
 }

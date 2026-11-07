@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Slet {count} abonnement(er)? Dette kan ikke fortrydes.",
   bulk_action_success: "{count} abonnement(er) opdateret",
   error_bulk_action: "Massehandlingen mislykkedes",
+  // Folders
+  folder: "Mappe",
+  folder_color: "Mappefarve",
+  save_folder: "Gem mappe",
+  delete_folder: "Slet mappe",
+  failed_add_folder: "Kunne ikke tilføje mappe",
+  failed_save_folder: "Kunne ikke gemme mappe",
+  failed_remove_folder: "Kunne ikke fjerne mappe",
 }

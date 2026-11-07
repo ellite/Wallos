@@ -35,12 +35,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
             $subscriptionData['payer_user_ids'] = getPayersBySubscription($db, [$row])[$row['id']] ?? [];
             $subscriptionData['category_id'] = $row['category_id'];
             $subscriptionData['category_ids'] = getCategoriesBySubscription($db, [$row])[$row['id']] ?? [];
+            $subscriptionData['folder_id'] = $row['folder_id'];
             $subscriptionData['notify'] = $row['notify'];
             $subscriptionData['inactive'] = $row['inactive'];
             $subscriptionData['url'] = htmlspecialchars_decode($row['url'] ?? "");
             $subscriptionData['notify_days_before'] = $row['notify_days_before'];
             $subscriptionData['cancellation_date'] = $row['cancellation_date'];
             $subscriptionData['replacement_subscription_id'] = $row['replacement_subscription_id'];
+            $subscriptionData['paid_at'] = $row['paid_at'];
 
             $subscriptionJson = json_encode($subscriptionData);
             header('Content-Type: application/json');

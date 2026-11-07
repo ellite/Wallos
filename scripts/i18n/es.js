@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "¿Eliminar {count} suscripción(es)? Esto no se puede deshacer.",
   bulk_action_success: "{count} suscripción(es) actualizada(s)",
   error_bulk_action: "No se pudo aplicar la acción masiva",
+  // Folders
+  folder: "Carpeta",
+  folder_color: "Color de la carpeta",
+  save_folder: "Guardar carpeta",
+  delete_folder: "Eliminar carpeta",
+  failed_add_folder: "No se pudo añadir la carpeta",
+  failed_save_folder: "No se pudo guardar la carpeta",
+  failed_remove_folder: "No se pudo eliminar la carpeta",
 }

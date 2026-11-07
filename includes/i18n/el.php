@@ -541,6 +541,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Τραπεζική μεταφορά",
     "payment_method_direct_debit" => "Άμεση χρέωση",
     "payment_method_money" => "Μετρητά",
+
+    // Payment status and folders
+    "mark_as_paid" => "Επισήμανση ως πληρωμένο",
+    "mark_as_unpaid" => "Επισήμανση ως απλήρωτο",
+    "paid" => "Πληρωμένο",
+    "unpaid" => "Απλήρωτο",
+    "payment_status" => "Κατάσταση πληρωμής",
+    "folders" => "Φάκελοι",
+    "folder" => "Φάκελος",
+    "no_folder" => "Χωρίς φάκελο",
+    "folder_color" => "Χρώμα φακέλου",
+    "save_folder" => "Αποθήκευση φακέλου",
+    "delete_folder" => "Διαγραφή φακέλου",
+    "folder_saved" => "Ο φάκελος αποθηκεύτηκε",
+    "folder_removed" => "Ο φάκελος αφαιρέθηκε",
+    "failed_add_folder" => "Αποτυχία προσθήκης φακέλου",
+    "failed_edit_folder" => "Αποτυχία αποθήκευσης φακέλου",
+    "failed_remove_folder" => "Αποτυχία αφαίρεσης φακέλου",
+    "per_month" => "μήνα",
+    "folders_explanation" => "Ομαδοποιήστε τις συνδρομές σας σε έγχρωμους φακέλους, σαν θήκες πληρωμών, και φιλτράρετέ τις με ένα άγγιγμα στη σελίδα των συνδρομών.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Περίοδος πληρωμής",
+    "use_custom_period" => "Χρήση αυτής της περιόδου αντί για ημερολογιακούς μήνες στα στατιστικά",
+    "custom_period_active_warning" => "Τα στατιστικά, ο πίνακας ελέγχου και το ημερολόγιό σας θα ακολουθούν αυτή την περίοδο αντί για ημερολογιακούς μήνες.",
+    "custom_period_same_as_month" => "Αυτή η περίοδος ταυτίζεται με έναν ημερολογιακό μήνα, επομένως τα στατιστικά σας δεν θα αλλάξουν. Ορίστε την ημερομηνία αναφοράς στη μέρα που πληρώνεστε.",
+    "amount_due_this_period" => "Οφειλόμενο ποσό αυτής της περιόδου",
+    "semimonthly" => "Δύο φορές τον μήνα",
+    "budget_second_payday" => "Δεύτερη μέρα πληρωμής",
+    "last_day_of_month" => "Τελευταία ημέρα του μήνα",
+    "instance_telegram_bot" => "Telegram bot της εγκατάστασης",
+    "instance_telegram_bot_info" => "Ένα bot για ολόκληρη την εγκατάσταση: κάθε λογαριασμός που αφήνει κενό το δικό του token στέλνει μέσω αυτού, με το δικό του αναγνωριστικό συνομιλίας. Αφήστε το κενό για να χρησιμοποιεί κάθε λογαριασμός δικό του bot.",
+    "instance_telegram_bot_in_use" => "Αυτή η εγκατάσταση παρέχει ένα Telegram bot. Αφήστε το token κενό για να το χρησιμοποιήσετε και εισαγάγετε παρακάτω το αναγνωριστικό συνομιλίας σας.",
+    "instance_telegram_saved" => "Το Telegram bot αποθηκεύτηκε",
+    "managed_by_environment" => "Διαχειρίζεται από μεταβλητές περιβάλλοντος",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Διακομιστής ntfy της εγκατάστασης",
+    "instance_ntfy_server_info" => "Ένας διακομιστής για ολόκληρη την εγκατάσταση: κάθε λογαριασμός που αφήνει κενό τον δικό του διακομιστή δημοσιεύει σε αυτόν, με το δικό του θέμα. Οι κεφαλίδες είναι τα διαπιστευτήρια αυτού του διακομιστή και δεν στέλνονται ποτέ σε διακομιστή που ρύθμισε ο ίδιος ο λογαριασμός.",
+    "instance_ntfy_server_in_use" => "Αυτή η εγκατάσταση παρέχει έναν διακομιστή ntfy. Αφήστε τον διακομιστή κενό για να τον χρησιμοποιήσετε και εισαγάγετε παρακάτω το θέμα σας.",
+    "instance_ntfy_saved" => "Ο διακομιστής ntfy αποθηκεύτηκε",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Διακομιστής Gotify της εγκατάστασης",
+    "instance_gotify_server_info" => "Ένας διακομιστής για ολόκληρη την εγκατάσταση: κάθε λογαριασμός που αφήνει κενό τον δικό του διακομιστή στέλνει σε αυτόν. Μοιράζεται μόνο η διεύθυνση - κάθε λογαριασμός κρατά το δικό του token εφαρμογής, ώστε τα μηνύματά του να φτάνουν στη δική του εφαρμογή Gotify.",
+    "instance_gotify_server_in_use" => "Αυτή η εγκατάσταση παρέχει έναν διακομιστή Gotify. Αφήστε τον διακομιστή κενό για να τον χρησιμοποιήσετε και εισαγάγετε παρακάτω το δικό σας token εφαρμογής.",
+    "instance_gotify_saved" => "Ο διακομιστής Gotify αποθηκεύτηκε",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Εφαρμογή Pushover της εγκατάστασης",
+    "instance_pushover_application_info" => "Μία εφαρμογή για ολόκληρη την εγκατάσταση: κάθε λογαριασμός που αφήνει κενό το δικό του token εφαρμογής στέλνει μέσω αυτής, με το δικό του κλειδί χρήστη. Αφήστε το κενό για να καταχωρίσει κάθε λογαριασμός δική του εφαρμογή.",
+    "instance_pushover_application_in_use" => "Αυτή η εγκατάσταση παρέχει μια εφαρμογή Pushover. Αφήστε το token εφαρμογής κενό για να τη χρησιμοποιήσετε και εισαγάγετε παρακάτω το δικό σας κλειδί χρήστη.",
+    "instance_pushover_saved" => "Η εφαρμογή Pushover αποθηκεύτηκε",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Οι παρακάτω συνδρομές πρόκειται να ανανεωθούν:",
+    "notification_renewals_intro_named" => "%s, οι παρακάτω συνδρομές πρόκειται να ανανεωθούν:",
+    "notification_subscription_line" => "%s για %s (%s)",
+    "notification_due_today" => "Σήμερα",
+    "notification_due_tomorrow" => "Αύριο",
+    "notification_due_in_days" => "Σε %d ημέρες",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Οι παρακάτω συνδρομές πρόκειται να ακυρωθούν:",
+    "notification_cancellation_intro_named" => "%s, οι παρακάτω συνδρομές πρόκειται να ακυρωθούν:",
+    "notification_cancellation_line" => "%s για %s",
+    "wallos_cancellation_notification" => "Ειδοποίηση ακύρωσης Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Ειδοποιήσεις εγκατάστασης",
+    "pushover_application_token" => "Token εφαρμογής Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Η συνδρομή διαγράφηκε με επιτυχία",
+    "cannot_open_zip" => "Δεν ήταν δυνατή η δημιουργία του αρχείου αντιγράφου ασφαλείας",
 ];
 
 

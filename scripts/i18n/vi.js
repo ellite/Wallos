@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Xóa {count} đăng ký? Không thể hoàn tác.",
   bulk_action_success: "Đã cập nhật {count} đăng ký",
   error_bulk_action: "Thao tác hàng loạt thất bại",
+  // Folders
+  folder: "Thư mục",
+  folder_color: "Màu thư mục",
+  save_folder: "Lưu thư mục",
+  delete_folder: "Xóa thư mục",
+  failed_add_folder: "Không thể thêm thư mục",
+  failed_save_folder: "Không thể lưu thư mục",
+  failed_remove_folder: "Không thể xóa thư mục",
 }

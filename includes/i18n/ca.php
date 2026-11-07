@@ -542,6 +542,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Transferència bancària",
     "payment_method_direct_debit" => "Domiciliació bancària",
     "payment_method_money" => "Efectiu",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marca com a pagat",
+    "mark_as_unpaid" => "Marca com a no pagat",
+    "paid" => "Pagat",
+    "unpaid" => "No pagat",
+    "payment_status" => "Estat del pagament",
+    "folders" => "Carpetes",
+    "folder" => "Carpeta",
+    "no_folder" => "Sense carpeta",
+    "folder_color" => "Color de la carpeta",
+    "save_folder" => "Desa la carpeta",
+    "delete_folder" => "Elimina la carpeta",
+    "folder_saved" => "Carpeta desada",
+    "folder_removed" => "Carpeta eliminada",
+    "failed_add_folder" => "No s'ha pogut afegir la carpeta",
+    "failed_edit_folder" => "No s'ha pogut desar la carpeta",
+    "failed_remove_folder" => "No s'ha pogut eliminar la carpeta",
+    "per_month" => "mes",
+    "folders_explanation" => "Agrupa les subscripcions en carpetes de colors, com butxaques de pagaments, i filtra-les amb un sol toc a la pàgina de subscripcions.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Període de pagament",
+    "use_custom_period" => "Utilitza aquest període en lloc dels mesos naturals a les estadístiques",
+    "custom_period_active_warning" => "Les estadístiques, el tauler i el calendari seguiran aquest període en lloc dels mesos naturals.",
+    "custom_period_same_as_month" => "Aquest període és igual que un mes natural, de manera que les estadístiques no canviaran. Estableix la data d'ancoratge al dia en què cobres.",
+    "amount_due_this_period" => "Import pendent d'aquest període",
+    "semimonthly" => "Dues vegades al mes",
+    "budget_second_payday" => "Segon dia de cobrament",
+    "last_day_of_month" => "Últim dia del mes",
+    "instance_telegram_bot" => "Bot de Telegram de la instal·lació",
+    "instance_telegram_bot_info" => "Un bot per a tota la instal·lació: tots els comptes que deixin buit el seu token de bot envien a través d'aquest, amb el seu propi identificador de xat. Deixa-ho buit perquè cada compte utilitzi un bot propi.",
+    "instance_telegram_bot_in_use" => "Aquesta instal·lació ofereix un bot de Telegram. Deixa el token buit per utilitzar-lo i introdueix a sota el teu identificador de xat.",
+    "instance_telegram_saved" => "Bot de Telegram desat",
+    "managed_by_environment" => "Gestionat per variables d'entorn",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Servidor ntfy de la instal·lació",
+    "instance_ntfy_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor publiquen en aquest, sota el seu propi tema. Les capçaleres són la credencial d'aquest servidor i no s'envien mai a un servidor que un compte hagi configurat pel seu compte.",
+    "instance_ntfy_server_in_use" => "Aquesta instal·lació ofereix un servidor ntfy. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu tema.",
+    "instance_ntfy_saved" => "Servidor ntfy desat",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Servidor Gotify de la instal·lació",
+    "instance_gotify_server_info" => "Un servidor per a tota la instal·lació: tots els comptes que deixin buit el seu propi servidor envien a aquest. Només es comparteix l'adreça: cada compte conserva el seu propi token d'aplicació, de manera que els seus missatges arriben sota la seva pròpia aplicació de Gotify.",
+    "instance_gotify_server_in_use" => "Aquesta instal·lació ofereix un servidor Gotify. Deixa el servidor buit per utilitzar-lo i introdueix a sota el teu propi token d'aplicació.",
+    "instance_gotify_saved" => "Servidor Gotify desat",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicació Pushover de la instal·lació",
+    "instance_pushover_application_info" => "Una aplicació per a tota la instal·lació: tots els comptes que deixin buit el seu propi token d'aplicació envien a través d'aquesta, amb la seva pròpia clau d'usuari. Deixa-ho buit perquè cada compte registri una aplicació pròpia.",
+    "instance_pushover_application_in_use" => "Aquesta instal·lació ofereix una aplicació Pushover. Deixa el token d'aplicació buit per utilitzar-la i introdueix a sota la teva pròpia clau d'usuari.",
+    "instance_pushover_saved" => "Aplicació Pushover desada",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Les subscripcions següents han de renovar-se:",
+    "notification_renewals_intro_named" => "%s, les subscripcions següents han de renovar-se:",
+    "notification_subscription_line" => "%s per %s (%s)",
+    "notification_due_today" => "Avui",
+    "notification_due_tomorrow" => "Demà",
+    "notification_due_in_days" => "D'aquí a %d dies",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Les subscripcions següents han de cancel·lar-se:",
+    "notification_cancellation_intro_named" => "%s, les subscripcions següents han de cancel·lar-se:",
+    "notification_cancellation_line" => "%s per %s",
+    "wallos_cancellation_notification" => "Notificació de cancel·lació de Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notificacions de la instal·lació",
+    "pushover_application_token" => "Token d'aplicació de Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Subscripció eliminada correctament",
+    "cannot_open_zip" => "No s'ha pogut crear el fitxer de còpia de seguretat",
 ];
 
 
