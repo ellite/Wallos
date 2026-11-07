@@ -286,7 +286,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   }
 
   $labels = [];
-  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel', 'mark_as_paid', 'mark_as_unpaid'] as $key) {
+  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel', 'mark_as_paid', 'mark_as_unpaid', 'paid'] as $key) {
     $labels[$key] = htmlToText(translate($key, $i18n));
   }
 

@@ -408,7 +408,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $folders, $membe
                         ?>
                         <button class="mobile-action-paid" onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
                             <i class="fa-solid fa-circle-check"></i>
-                            <?= translate('mark_as_paid', $i18n) ?>
+                            <?= translate('paid', $i18n) ?>
                         </button>
                         <?php
                     }
@@ -583,15 +583,6 @@ function printSubscriptions($subscriptions, $sort, $categories, $folders, $membe
                             onClick="unflipCard(<?= $subscription['id'] ?>); renewSubscription(event, <?= $subscription['id'] ?>)">
                             <i class="fa-solid fa-rotate-right"></i>
                             <?= translate('renew', $i18n) ?>
-                        </button>
-                        <?php
-                    }
-                    if (!$subscription['one_time'] && !$subscription['inactive'] && empty($subscription['paid_this_cycle'])) {
-                        ?>
-                        <button type="button" class="back-action"
-                            onClick="unflipCard(<?= $subscription['id'] ?>); markAsPaid(event, <?= $subscription['id'] ?>)">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <?= translate('mark_as_paid', $i18n) ?>
                         </button>
                         <?php
                     }

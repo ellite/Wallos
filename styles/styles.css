@@ -581,7 +581,13 @@ button.mobile-action-renew {
 }
 
 button.mobile-action-paid {
-  background-color: #188823;
+  background-color: #8e56d6;
+}
+
+.subscription-container>.mobile-actions>button.mobile-action-paid>i {
+  font-size: 25px;
+  line-height: 25px;
+  height: 25px;
 }
 
 .subscription-container>.mobile-actions>button>svg {

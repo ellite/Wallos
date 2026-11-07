@@ -771,7 +771,7 @@ function renderSubscription(subscription, data) {
         <button class="mobile-action-clone" onClick="cloneSubscription(event, ${id})">${icons.clone} Clone</button>
         <button class="mobile-action-delete" onClick="deleteSubscription(event, ${id})">${icons.delete} Delete</button>
         ${subscription.can_renew ? `<button class="mobile-action-renew" onClick="renewSubscription(event, ${id})">${icons.renew} Renew</button>` : ""}
-        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</button>` : ""}
+        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.paid)}</button>` : ""}
         <button class="mobile-action-edit" onClick="openEditSubscription(event, ${id})">${icons.edit} Edit</button>
       </div>`;
   }
@@ -796,9 +796,6 @@ function renderSubscription(subscription, data) {
       ? `<li class="mark-paid" title="${escapeHtml(labels.mark_as_unpaid)}" onClick="unmarkPaid(event, ${id})"><i class="fa-regular fa-circle-xmark"></i> ${escapeHtml(labels.mark_as_unpaid)}</li>`
       : `<li class="mark-paid" title="${escapeHtml(labels.mark_as_paid)}" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</li>`;
   }
-  const paidBackAction = canMarkPaid
-    ? `<button type="button" class="back-action" onClick="unflipCard(${id}); markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</button>`
-    : "";
   const progress = subscription.progress !== null
     ? `<div class="subscription-progress-container"><span class="subscription-progress" style="width: ${Number(subscription.progress)}%;"></span></div>`
     : "";
@@ -838,7 +835,6 @@ function renderSubscription(subscription, data) {
           <button type="button" class="back-action" onClick="unflipCard(${id}); openEditSubscription(event, ${id})"><i class="fa-solid fa-pen-to-square"></i> ${escapeHtml(labels.edit)}</button>
           <button type="button" class="back-action" onClick="unflipCard(${id}); cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</button>
           ${renewBackAction}
-          ${paidBackAction}
           <button type="button" class="back-action delete" onClick="unflipCard(${id}); deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</button>
         </div>
       </div>
@@ -1166,7 +1162,10 @@ function setSwipeElements() {
       let currentX = 0;
       let currentY = 0;
       let translateX = 0;
-      const maxTranslateX = element.classList.contains('manual') ? -240 : -180;
+      // Every action button is 60px wide; the first button is an empty spacer
+      // that stays under the card, so it doesn't count towards the reveal.
+      const actionButtons = element.closest('.subscription-container')?.querySelectorAll('.mobile-actions > button').length ?? 4;
+      const maxTranslateX = -60 * Math.max(1, actionButtons - 1);
 
       element.addEventListener('touchstart', (e) => {
         if (element.closest('.subscriptions.grid-view')) return; // no swipe actions in grid view
