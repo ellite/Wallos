@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "إشعارات النسخة",
     "pushover_application_token" => "رمز تطبيق Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "تم حذف الاشتراك بنجاح",
+    "cannot_open_zip" => "تعذر إنشاء ملف النسخة الاحتياطية",
 ];
 
 

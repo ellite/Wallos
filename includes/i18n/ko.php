@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "인스턴스 알림",
     "pushover_application_token" => "Pushover 애플리케이션 토큰",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "구독이 삭제되었습니다",
+    "cannot_open_zip" => "백업 파일을 만들 수 없습니다",
 ];
 
 

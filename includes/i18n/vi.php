@@ -611,6 +611,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Thông báo của hệ thống",
     "pushover_application_token" => "Mã ứng dụng Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Đã xóa gói đăng ký thành công",
+    "cannot_open_zip" => "Không thể tạo tệp sao lưu",
 ];
 
 ?>

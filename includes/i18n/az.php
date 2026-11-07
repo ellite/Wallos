@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Quraşdırma bildirişləri",
     "pushover_application_token" => "Pushover tətbiq tokeni",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abunəlik uğurla silindi",
+    "cannot_open_zip" => "Ehtiyat nüsxə faylı yaradıla bilmədi",
 ];
 
 

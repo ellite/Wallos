@@ -611,6 +611,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Notifikasi instans",
     "pushover_application_token" => "Token aplikasi Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Langganan berhasil dihapus",
+    "cannot_open_zip" => "Tidak dapat membuat berkas cadangan",
 ];
 
 ?>

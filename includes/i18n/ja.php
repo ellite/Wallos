@@ -618,6 +618,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "インスタンスの通知",
     "pushover_application_token" => "Pushoverアプリケーショントークン",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "サブスクリプションを削除しました",
+    "cannot_open_zip" => "バックアップファイルを作成できませんでした",
 ];
 
 

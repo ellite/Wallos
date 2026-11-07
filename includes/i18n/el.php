@@ -612,6 +612,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Ειδοποιήσεις εγκατάστασης",
     "pushover_application_token" => "Token εφαρμογής Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Η συνδρομή διαγράφηκε με επιτυχία",
+    "cannot_open_zip" => "Δεν ήταν δυνατή η δημιουργία του αρχείου αντιγράφου ασφαλείας",
 ];
 
 

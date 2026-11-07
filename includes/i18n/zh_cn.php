@@ -633,6 +633,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "实例通知",
     "pushover_application_token" => "Pushover 应用令牌",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "订阅已成功删除",
+    "cannot_open_zip" => "无法创建备份文件",
 ];
 
 ?>

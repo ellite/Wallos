@@ -612,6 +612,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Сповіщення екземпляра",
     "pushover_application_token" => "Токен застосунку Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Підписку успішно видалено",
+    "cannot_open_zip" => "Не вдалося створити файл резервної копії",
 ];
 
 ?>

@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Instantiemeldingen",
     "pushover_application_token" => "Pushover-applicatietoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnement succesvol verwijderd",
+    "cannot_open_zip" => "Kan het back-upbestand niet aanmaken",
 ];
 
 

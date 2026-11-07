@@ -128,7 +128,7 @@ if ($apiData['success'] && $apiData['success'] == 1) {
             echo json_encode($response);
         }
     } else {
-        echo json_encode(["success" => true, "message" => translate('apy_key_saved', $i18n)]);
+        echo json_encode(["success" => true, "message" => translate('api_key_saved', $i18n)]);
     }
 } else {
     $response = [

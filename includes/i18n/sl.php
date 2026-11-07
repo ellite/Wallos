@@ -612,6 +612,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Obvestila namestitve",
     "pushover_application_token" => "Žeton aplikacije Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Naročnina je bila uspešno izbrisana",
+    "cannot_open_zip" => "Datoteke varnostne kopije ni bilo mogoče ustvariti",
 ];
 
 

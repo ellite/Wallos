@@ -612,6 +612,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Örnek bildirimleri",
     "pushover_application_token" => "Pushover uygulama belirteci",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonelik başarıyla silindi",
+    "cannot_open_zip" => "Yedekleme dosyası oluşturulamadı",
 ];
 
 

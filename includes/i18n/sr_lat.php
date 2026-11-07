@@ -612,6 +612,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Obaveštenja instance",
     "pushover_application_token" => "Token Pushover aplikacije",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Pretplata je uspešno obrisana",
+    "cannot_open_zip" => "Nije moguće kreirati datoteku rezervne kopije",
 ];
 
 

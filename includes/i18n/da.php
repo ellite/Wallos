@@ -612,5 +612,9 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Instansnotifikationer",
     "pushover_application_token" => "Pushover-applikationstoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnementet blev slettet",
+    "cannot_open_zip" => "Sikkerhedskopifilen kunne ikke oprettes",
 ];
 ?>

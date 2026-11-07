@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Példány értesítései",
     "pushover_application_token" => "Pushover alkalmazástoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Az előfizetés sikeresen törölve",
+    "cannot_open_zip" => "A biztonsági mentés fájlja nem hozható létre",
 ]; 
  
  

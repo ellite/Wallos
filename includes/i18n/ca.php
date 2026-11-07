@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Notificacions de la instal·lació",
     "pushover_application_token" => "Token d'aplicació de Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Subscripció eliminada correctament",
+    "cannot_open_zip" => "No s'ha pogut crear el fitxer de còpia de seguretat",
 ];
 
 

@@ -613,6 +613,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Oznámení instalace",
     "pushover_application_token" => "Token aplikace Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Předplatné bylo úspěšně smazáno",
+    "cannot_open_zip" => "Nepodařilo se vytvořit soubor zálohy",
 ];
 
 

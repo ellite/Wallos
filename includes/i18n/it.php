@@ -634,6 +634,10 @@ $i18n = [
     // Instance notification settings on the admin page
     "instance_notifications" => "Notifiche dell'istanza",
     "pushover_application_token" => "Token dell'applicazione Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abbonamento eliminato con successo",
+    "cannot_open_zip" => "Impossibile creare il file di backup",
 ];
 
 ?>
