@@ -199,7 +199,9 @@ wallos_test('the pay-period migration can run twice', function () {
 wallos_test('only the opt-in flag lets the period take over the statistics', function () {
     // The views must not read $periodDiffersFromCalendarMonth directly for this
     // decision: that variable is true for nearly every migrated account.
-    foreach (['stats.php', 'index.php'] as $page) {
+    // The dashboard period card lives in the widget view index.php includes,
+    // not in the page itself.
+    foreach (['stats.php', 'includes/dashboard_widgets_view.php'] as $page) {
         $source = file_get_contents(WALLOS_ROOT . '/' . $page);
 
         assert_contains('$periodScopesStatistics', $source,
@@ -207,6 +209,11 @@ wallos_test('only the opt-in flag lets the period take over the statistics', fun
         assert_not_contains('if ($periodDiffersFromCalendarMonth)', $source,
             $page . ' does not treat a non-calendar period as consent');
     }
+
+    $index = file_get_contents(WALLOS_ROOT . '/index.php');
+    assert_contains('dashboard_widgets_view.php', $index, 'the dashboard renders the widget view');
+    assert_not_contains('if ($periodDiffersFromCalendarMonth)', $index,
+        'index.php does not treat a non-calendar period as consent');
 });
 
 /**
