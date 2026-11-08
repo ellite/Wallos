@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Eliminar {count} subscrição(ões)? Esta ação não pode ser anulada.",
   bulk_action_success: "{count} subscrição(ões) atualizada(s)",
   error_bulk_action: "Não foi possível aplicar a ação em massa",
+  // Folders
+  folder: "Pasta",
+  folder_color: "Cor da pasta",
+  save_folder: "Guardar pasta",
+  delete_folder: "Eliminar pasta",
+  failed_add_folder: "Falha ao adicionar a pasta",
+  failed_save_folder: "Falha ao guardar a pasta",
+  failed_remove_folder: "Falha ao remover a pasta",
 };

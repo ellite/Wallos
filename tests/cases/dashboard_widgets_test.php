@@ -287,6 +287,17 @@ wallos_test('migration adds payment method budget, widget flags, and layout colu
     $layoutCol = $db->query("SELECT * FROM pragma_table_info('settings') WHERE name='dashboard_widget_layout'");
     assert_true($layoutCol->fetchArray(SQLITE3_ASSOC) !== false, 'dashboard_widget_layout exists');
 
+    $paidAt = $db->query("SELECT * FROM pragma_table_info('subscriptions') WHERE name='paid_at'");
+    assert_true($paidAt->fetchArray(SQLITE3_ASSOC) !== false, 'subscriptions.paid_at exists');
+    $folderId = $db->query("SELECT * FROM pragma_table_info('subscriptions') WHERE name='folder_id'");
+    assert_true($folderId->fetchArray(SQLITE3_ASSOC) !== false, 'subscriptions.folder_id exists');
+    $folders = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='folders'");
+    assert_true($folders->fetchArray(SQLITE3_ASSOC) !== false, 'folders table exists');
+    $customPeriod = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='use_custom_period'");
+    assert_true($customPeriod->fetchArray(SQLITE3_ASSOC) !== false, 'user.use_custom_period exists');
+    $secondDay = $db->query("SELECT * FROM pragma_table_info('user') WHERE name='budget_period_second_day'");
+    assert_true($secondDay->fetchArray(SQLITE3_ASSOC) !== false, 'user.budget_period_second_day exists');
+
     $payers = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='subscription_payers'");
     assert_true($payers->fetchArray(SQLITE3_ASSOC) !== false, 'subscription_payers exists');
     $categories = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='subscription_categories'");

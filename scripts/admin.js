@@ -508,3 +508,137 @@ function saveOidcSettingsButton() {
       button.disabled = false;
     });
 }
+
+function saveInstanceTelegramButton() {
+  const button = document.getElementById("saveInstanceTelegramButton");
+  button.disabled = true;
+
+  const data = {
+    telegrambottoken: document.getElementById("telegrambottoken").value,
+  };
+
+  fetch('endpoints/admin/saveinstancetelegram.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
+function saveInstanceNtfyButton() {
+  const button = document.getElementById("saveInstanceNtfyButton");
+  button.disabled = true;
+
+  const data = {
+    ntfyserver: document.getElementById("ntfyserver").value,
+    ntfyheaders: document.getElementById("ntfyheaders").value,
+  };
+
+  fetch('endpoints/admin/saveinstancentfy.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify(data),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
+function saveInstanceGotifyButton() {
+  const button = document.getElementById("saveInstanceGotifyButton");
+  button.disabled = true;
+
+  fetch('endpoints/admin/saveinstancegotify.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ gotifyserver: document.getElementById("gotifyserver").value }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
+function saveInstancePushoverButton() {
+  const button = document.getElementById("saveInstancePushoverButton");
+  button.disabled = true;
+
+  fetch('endpoints/admin/saveinstancepushover.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': window.csrfToken,
+    },
+    body: JSON.stringify({ pushovertoken: document.getElementById("pushovertoken").value }),
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showSuccessMessage(data.message);
+      } else {
+        showErrorMessage(data.message);
+      }
+      button.disabled = false;
+    })
+    .catch(error => {
+      showErrorMessage(error);
+      button.disabled = false;
+    });
+}
+
+// The instance notification settings share one box with a section per channel,
+// the way the notifications on the settings page do: one open at a time.
+function openInstanceNotificationSettings(type) {
+  const sections = document.querySelectorAll('.account-notification-section-settings[data-type^="instance-"]');
+  const target = document.querySelector(`.account-notification-section-settings[data-type="instance-${type}"]`);
+
+  sections.forEach(function (section) {
+    if (section !== target) {
+      section.classList.remove('is-open');
+    }
+  });
+
+  if (target) {
+    target.classList.toggle('is-open');
+  }
+}

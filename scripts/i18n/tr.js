@@ -61,6 +61,14 @@ let i18n = {
   confirm_bulk_delete: "{count} abonelik silinsin mi? Bu işlem geri alınamaz.",
   bulk_action_success: "{count} abonelik güncellendi",
   error_bulk_action: "Toplu işlem başarısız oldu",
+  // Folders
+  folder: "Klasör",
+  folder_color: "Klasör rengi",
+  save_folder: "Klasörü kaydet",
+  delete_folder: "Klasörü sil",
+  failed_add_folder: "Klasör eklenemedi",
+  failed_save_folder: "Klasör kaydedilemedi",
+  failed_remove_folder: "Klasör kaldırılamadı",
 }
 
 

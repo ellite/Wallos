@@ -586,6 +586,81 @@ $i18n = [
     "payment_method_bank_transfer" => "银行转账",
     "payment_method_direct_debit" => "直接扣款",
     "payment_method_money" => "现金",
+
+    // Payment status and folders
+    "mark_as_paid" => "标记为已付款",
+    "mark_as_unpaid" => "标记为未付款",
+    "paid" => "已付款",
+    "unpaid" => "未付款",
+    "payment_status" => "付款状态",
+    "folders" => "文件夹",
+    "folder" => "文件夹",
+    "no_folder" => "无文件夹",
+    "folder_color" => "文件夹颜色",
+    "save_folder" => "保存文件夹",
+    "delete_folder" => "删除文件夹",
+    "folder_saved" => "文件夹已保存",
+    "folder_removed" => "文件夹已移除",
+    "failed_add_folder" => "添加文件夹失败",
+    "failed_edit_folder" => "保存文件夹失败",
+    "failed_remove_folder" => "移除文件夹失败",
+    "per_month" => "月",
+    "folders_explanation" => "将订阅分组到彩色文件夹中，就像付款的口袋，并在订阅页面一键筛选。",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "付款周期",
+    "use_custom_period" => "在统计中使用此周期而不是日历月",
+    "custom_period_active_warning" => "您的统计、仪表板和日历将遵循此周期，而不是日历月。",
+    "custom_period_same_as_month" => "此周期与日历月相同，因此统计数据不会改变。请将锚点日期设置为您的发薪日。",
+    "amount_due_this_period" => "本周期应付金额",
+    "semimonthly" => "每月两次",
+    "budget_second_payday" => "第二个发薪日",
+    "last_day_of_month" => "每月最后一天",
+    "instance_telegram_bot" => "实例 Telegram 机器人",
+    "instance_telegram_bot_info" => "整个安装共用一个机器人：将自己的机器人令牌留空的账户会通过它发送，并使用各自的聊天 ID。若希望每个账户使用自己的机器人，请留空。",
+    "instance_telegram_bot_in_use" => "此安装提供了一个 Telegram 机器人。将令牌留空即可使用，并在下方输入您的聊天 ID。",
+    "instance_telegram_saved" => "Telegram 机器人已保存",
+    "managed_by_environment" => "由环境变量管理",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "实例 ntfy 服务器",
+    "instance_ntfy_server_info" => "整个安装共用一台服务器：将自己的服务器留空的账户会使用各自的主题发布到这台服务器。请求头是这台服务器的凭据，绝不会发送到账户自行配置的服务器。",
+    "instance_ntfy_server_in_use" => "此安装提供了一台 ntfy 服务器。将服务器留空即可使用，并在下方输入您的主题。",
+    "instance_ntfy_saved" => "ntfy 服务器已保存",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "实例 Gotify 服务器",
+    "instance_gotify_server_info" => "整个安装共用一台服务器：将自己的服务器留空的账户会发送到这台服务器。只共享地址——每个账户保留自己的应用令牌，因此消息会出现在各自的 Gotify 应用下。",
+    "instance_gotify_server_in_use" => "此安装提供了一台 Gotify 服务器。将服务器留空即可使用，并在下方输入您自己的应用令牌。",
+    "instance_gotify_saved" => "Gotify 服务器已保存",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "实例 Pushover 应用",
+    "instance_pushover_application_info" => "整个安装共用一个应用：将自己的应用令牌留空的账户会通过它发送，并使用各自的用户密钥。若希望每个账户注册自己的应用，请留空。",
+    "instance_pushover_application_in_use" => "此安装提供了一个 Pushover 应用。将应用令牌留空即可使用，并在下方输入您自己的用户密钥。",
+    "instance_pushover_saved" => "Pushover 应用已保存",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "以下订阅即将续订：",
+    "notification_renewals_intro_named" => "%s，以下订阅即将续订：",
+    "notification_subscription_line" => "%s：%s（%s）",
+    "notification_due_today" => "今天",
+    "notification_due_tomorrow" => "明天",
+    "notification_due_in_days" => "%d 天后",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "以下订阅即将取消：",
+    "notification_cancellation_intro_named" => "%s，以下订阅即将取消：",
+    "notification_cancellation_line" => "%s：%s",
+    "wallos_cancellation_notification" => "Wallos 取消通知",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "实例通知",
+    "pushover_application_token" => "Pushover 应用令牌",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "订阅已成功删除",
+    "cannot_open_zip" => "无法创建备份文件",
 ];
 
 ?>

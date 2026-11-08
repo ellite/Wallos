@@ -149,7 +149,8 @@ $activeSubscriptions = array_values(array_filter($subscriptions, function ($sub)
 
 $periodType = sanitizeBudgetPeriodType($user['budget_period_type'] ?? 'monthly');
 $anchorDate = sanitizeBudgetAnchorDate($user['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
-$activePeriod = getActiveBudgetPeriod($referenceDate, $periodType, $anchorDate);
+$secondDay = sanitizeBudgetSecondDay($user['budget_period_second_day'] ?? 16);
+$activePeriod = getActiveBudgetPeriod($referenceDate, $periodType, $anchorDate, $secondDay);
 $periodStart = $activePeriod['start'];
 $periodEnd = $activePeriod['end'];
 
@@ -176,6 +177,9 @@ switch ($widgetId) {
                 continue;
             }
             if (strtotime($sub['next_payment']) >= strtotime('today')) {
+                continue;
+            }
+            if (isPaidThisCycle($sub['paid_at'] ?? null, $sub['cycle'] ?? null, $sub['frequency'] ?? null, $sub['next_payment'])) {
                 continue;
             }
             $items[] = [
@@ -273,6 +277,7 @@ switch ($widgetId) {
             'end' => $periodEnd->format('Y-m-d'),
             'label' => $activePeriod['label'],
             'anchor_date' => $anchorDate,
+            'second_day' => $secondDay,
         ];
         $response['period_budget'] = round($periodBudget, 2);
         $response['amount_needed'] = round($amountNeeded, 2);
@@ -364,6 +369,7 @@ switch ($widgetId) {
             'end' => $periodEnd->format('Y-m-d'),
             'label' => $activePeriod['label'],
             'anchor_date' => $anchorDate,
+            'second_day' => $secondDay,
         ];
         $response['methods'] = $methods;
         $response['reference_date'] = $referenceDate->format('Y-m-d');

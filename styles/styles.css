@@ -580,6 +580,11 @@ button.mobile-action-renew {
   background-color: #188823;
 }
 
+button.mobile-action-paid {
+  background-color: #8e56d6;
+}
+
+
 .subscription-container>.mobile-actions>button>svg {
   width: 25px;
   height: 25px;
@@ -640,6 +645,10 @@ button.mobile-action-renew {
 
 .subscription.inactive .payment_method img {
   opacity: 0.4;
+}
+
+.subscription.paid {
+  border-left: 3px solid var(--success-color);
 }
 
 .subscription-main {
@@ -720,10 +729,6 @@ button.mobile-action-renew {
 
 .subscription-main .actions>li:hover {
   background-color: var(--surface-hover);
-}
-
-.subscription-main .actions>li.delete:hover {
-  background-color: rgba(var(--error-color-rgb), 0.12);
 }
 
 .subscription-main .actions>li.delete:hover>i {
@@ -1666,6 +1671,11 @@ header #avatar {
 .updates-list>p>span>a:visited,
 .settings-notes>p>span>a:visited {
   color: var(--accent-color);
+}
+
+/* display:flex above would otherwise win over the hidden attribute. */
+.settings-notes>p[hidden] {
+  display: none;
 }
 
 .settings-notes>p>i {
@@ -3446,6 +3456,15 @@ button.dark-theme-button i {
   flex-shrink: 0;
 }
 
+/* The period grid spans two months, so a day number alone is ambiguous. */
+.calendar .day .day-month {
+  font-size: 0.75em;
+  font-weight: 600;
+  opacity: 0.7;
+  margin-right: 3px;
+  text-transform: uppercase;
+}
+
 .calendar .today .day {
   background-color: var(--main-color);
   color: #fff;
@@ -3545,6 +3564,11 @@ button.dark-theme-button i {
   .calendar .calendar-event-price {
     font-size: 9px;
   }
+}
+
+.calendar-monthly-stats-header .period-range {
+  margin-bottom: 1em;
+  display: block;
 }
 
 .over-budget {
@@ -5131,4 +5155,140 @@ body.details-open {
 
 .api-usage-fill.danger {
   background-color: var(--error-color);
+}
+
+/* Folders ("pockets") */
+.folder-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.folder-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  margin-top: 12px;
+  padding: 16px 16px 14px;
+  border-radius: 4px 14px 14px 14px;
+  border: 1px solid color-mix(in srgb, var(--folder-color) 35%, var(--box-border-color));
+  background: linear-gradient(
+    color-mix(in srgb, var(--folder-color) 16%, var(--box-background-color)),
+    color-mix(in srgb, var(--folder-color) 8%, var(--box-background-color))
+  );
+  color: var(--text-color);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+/* The folder tab */
+.folder-card::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: -1px;
+  width: 45%;
+  min-width: 60px;
+  height: 12px;
+  border-radius: 8px 12px 0 0;
+  border: 1px solid color-mix(in srgb, var(--folder-color) 35%, var(--box-border-color));
+  border-bottom: none;
+  background: color-mix(in srgb, var(--folder-color) 45%, var(--box-background-color));
+}
+
+.folder-card:hover {
+  border-color: var(--folder-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--folder-color) 60%, transparent);
+}
+
+.folder-card.selected {
+  border-color: var(--folder-color);
+  background: linear-gradient(
+    color-mix(in srgb, var(--folder-color) 32%, var(--box-background-color)),
+    color-mix(in srgb, var(--folder-color) 18%, var(--box-background-color))
+  );
+  box-shadow: 0 6px 14px -6px color-mix(in srgb, var(--folder-color) 60%, transparent);
+}
+
+.folder-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+.folder-card-name {
+  font-weight: 600;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.folder-card-check {
+  color: var(--folder-color);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.folder-card.selected .folder-card-check {
+  opacity: 1;
+}
+
+.folder-card-meta {
+  font-size: 13px;
+  opacity: 0.7;
+  text-transform: lowercase;
+}
+
+.folder-card-total {
+  margin-top: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--folder-color) 65%, var(--text-color));
+}
+
+.folder-card-total-period {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+  .folder-cards {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px 12px;
+  }
+
+  .folder-card {
+    padding: 12px 12px 10px;
+  }
+}
+
+.folder-filter-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.folder-color-picker {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  border: 1px solid var(--box-border-color);
+  border-radius: 10px;
+  background-color: var(--box-background-color);
+  cursor: pointer;
 }

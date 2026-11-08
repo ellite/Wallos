@@ -571,6 +571,81 @@ $i18n = [
     "payment_method_bank_transfer" => "銀行振込",
     "payment_method_direct_debit" => "口座振替",
     "payment_method_money" => "現金",
+
+    // Payment status and folders
+    "mark_as_paid" => "支払い済みにする",
+    "mark_as_unpaid" => "未払いにする",
+    "paid" => "支払い済み",
+    "unpaid" => "未払い",
+    "payment_status" => "支払い状況",
+    "folders" => "フォルダ",
+    "folder" => "フォルダ",
+    "no_folder" => "フォルダなし",
+    "folder_color" => "フォルダの色",
+    "save_folder" => "フォルダを保存",
+    "delete_folder" => "フォルダを削除",
+    "folder_saved" => "フォルダを保存しました",
+    "folder_removed" => "フォルダを削除しました",
+    "failed_add_folder" => "フォルダを追加できませんでした",
+    "failed_edit_folder" => "フォルダを保存できませんでした",
+    "failed_remove_folder" => "フォルダを削除できませんでした",
+    "per_month" => "月",
+    "folders_explanation" => "サブスクリプションを色分けしたフォルダ（支払いのポケットのようなもの）にまとめ、サブスクリプションページでワンタップで絞り込めます。",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "支払い期間",
+    "use_custom_period" => "統計でカレンダー月の代わりにこの期間を使用する",
+    "custom_period_active_warning" => "統計、ダッシュボード、カレンダーがカレンダー月ではなくこの期間に従います。",
+    "custom_period_same_as_month" => "この期間はカレンダー月と同じなので、統計は変わりません。基準日を給料日に設定してください。",
+    "amount_due_this_period" => "この期間に支払う金額",
+    "semimonthly" => "月2回",
+    "budget_second_payday" => "2回目の給料日",
+    "last_day_of_month" => "月末日",
+    "instance_telegram_bot" => "インスタンスのTelegramボット",
+    "instance_telegram_bot_info" => "インストール全体で1つのボット：自分のボットトークンを空にしているアカウントは、このボットを通じて各自のチャットIDで送信します。アカウントごとに専用のボットを使う場合は空のままにしてください。",
+    "instance_telegram_bot_in_use" => "このインストールにはTelegramボットが用意されています。使用するにはトークンを空にして、下にチャットIDを入力してください。",
+    "instance_telegram_saved" => "Telegramボットを保存しました",
+    "managed_by_environment" => "環境変数で管理されています",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "インスタンスのntfyサーバー",
+    "instance_ntfy_server_info" => "インストール全体で1つのサーバー：自分のサーバーを空にしているアカウントは、このサーバーに各自のトピックで公開します。ヘッダーはこのサーバーの認証情報であり、アカウントが自分で設定したサーバーには送信されません。",
+    "instance_ntfy_server_in_use" => "このインストールにはntfyサーバーが用意されています。使用するにはサーバーを空にして、下にトピックを入力してください。",
+    "instance_ntfy_saved" => "ntfyサーバーを保存しました",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "インスタンスのGotifyサーバー",
+    "instance_gotify_server_info" => "インストール全体で1つのサーバー：自分のサーバーを空にしているアカウントは、このサーバーに送信します。共有されるのはアドレスだけで、各アカウントは自分のアプリケーショントークンを保持するため、メッセージは各自のGotifyアプリケーションに届きます。",
+    "instance_gotify_server_in_use" => "このインストールにはGotifyサーバーが用意されています。使用するにはサーバーを空にして、下に自分のアプリケーショントークンを入力してください。",
+    "instance_gotify_saved" => "Gotifyサーバーを保存しました",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "インスタンスのPushoverアプリケーション",
+    "instance_pushover_application_info" => "インストール全体で1つのアプリケーション：自分のアプリケーショントークンを空にしているアカウントは、このアプリケーションを通じて各自のユーザーキーで送信します。アカウントごとに専用のアプリケーションを登録する場合は空のままにしてください。",
+    "instance_pushover_application_in_use" => "このインストールにはPushoverアプリケーションが用意されています。使用するにはアプリケーショントークンを空にして、下に自分のユーザーキーを入力してください。",
+    "instance_pushover_saved" => "Pushoverアプリケーションを保存しました",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "次のサブスクリプションが更新の時期です：",
+    "notification_renewals_intro_named" => "%sさん、次のサブスクリプションが更新の時期です：",
+    "notification_subscription_line" => "%s：%s（%s）",
+    "notification_due_today" => "今日",
+    "notification_due_tomorrow" => "明日",
+    "notification_due_in_days" => "%d日後",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "次のサブスクリプションが解約の時期です：",
+    "notification_cancellation_intro_named" => "%sさん、次のサブスクリプションが解約の時期です：",
+    "notification_cancellation_line" => "%s：%s",
+    "wallos_cancellation_notification" => "Wallos 解約通知",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "インスタンスの通知",
+    "pushover_application_token" => "Pushoverアプリケーショントークン",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "サブスクリプションを削除しました",
+    "cannot_open_zip" => "バックアップファイルを作成できませんでした",
 ];
 
 

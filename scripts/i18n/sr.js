@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Обрисати претплате ({count})? Ово се не може опозвати.",
   bulk_action_success: "Ажурирано претплата: {count}",
   error_bulk_action: "Групна радња није успела",
+  // Folders
+  folder: "Фасцикла",
+  folder_color: "Боја фасцикле",
+  save_folder: "Сачувај фасциклу",
+  delete_folder: "Избриши фасциклу",
+  failed_add_folder: "Додавање фасцикле није успело",
+  failed_save_folder: "Чување фасцикле није успело",
+  failed_remove_folder: "Уклањање фасцикле није успело",
 }

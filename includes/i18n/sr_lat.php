@@ -565,6 +565,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankovni prenos",
     "payment_method_direct_debit" => "Direktno zaduženje",
     "payment_method_money" => "Gotovina",
+
+    // Payment status and folders
+    "mark_as_paid" => "Označi kao plaćeno",
+    "mark_as_unpaid" => "Označi kao neplaćeno",
+    "paid" => "Plaćeno",
+    "unpaid" => "Neplaćeno",
+    "payment_status" => "Status plaćanja",
+    "folders" => "Fascikle",
+    "folder" => "Fascikla",
+    "no_folder" => "Bez fascikle",
+    "folder_color" => "Boja fascikle",
+    "save_folder" => "Sačuvaj fasciklu",
+    "delete_folder" => "Izbriši fasciklu",
+    "folder_saved" => "Fascikla je sačuvana",
+    "folder_removed" => "Fascikla je uklonjena",
+    "failed_add_folder" => "Dodavanje fascikle nije uspelo",
+    "failed_edit_folder" => "Čuvanje fascikle nije uspelo",
+    "failed_remove_folder" => "Uklanjanje fascikle nije uspelo",
+    "per_month" => "mesec",
+    "folders_explanation" => "Grupišite svoje pretplate u obojene fascikle, kao džepove za plaćanja, i filtrirajte ih jednim dodirom na stranici pretplata.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Period plaćanja",
+    "use_custom_period" => "Koristi ovaj period umesto kalendarskih meseci u statistici",
+    "custom_period_active_warning" => "Vaša statistika, kontrolna tabla i kalendar pratiće ovaj period umesto kalendarskih meseci.",
+    "custom_period_same_as_month" => "Ovaj period je isti kao kalendarski mesec, pa se vaša statistika neće promeniti. Postavite datum sidra na dan kada primate platu.",
+    "amount_due_this_period" => "Iznos za plaćanje u ovom periodu",
+    "semimonthly" => "Dva puta mesečno",
+    "budget_second_payday" => "Drugi dan isplate",
+    "last_day_of_month" => "Poslednji dan u mesecu",
+    "instance_telegram_bot" => "Telegram bot instance",
+    "instance_telegram_bot_info" => "Jedan bot za celu instalaciju: svaki nalog koji ostavi svoj token bota praznim šalje preko ovog bota sa svojim ID-om ćaskanja. Ostavite prazno da svaki nalog koristi svog bota.",
+    "instance_telegram_bot_in_use" => "Ova instalacija pruža Telegram bota. Ostavite token praznim da biste ga koristili i unesite ispod svoj ID ćaskanja.",
+    "instance_telegram_saved" => "Telegram bot je sačuvan",
+    "managed_by_environment" => "Upravljaju promenljive okruženja",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "ntfy server instance",
+    "instance_ntfy_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim objavljuje na ovaj server, pod svojom temom. Zaglavlja su akreditivi za ovaj server i nikada se ne šalju na server koji je nalog sam podesio.",
+    "instance_ntfy_server_in_use" => "Ova instalacija pruža ntfy server. Ostavite server praznim da biste ga koristili i unesite ispod svoju temu.",
+    "instance_ntfy_saved" => "ntfy server je sačuvan",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Gotify server instance",
+    "instance_gotify_server_info" => "Jedan server za celu instalaciju: svaki nalog koji ostavi svoj server praznim šalje na ovaj server. Deli se samo adresa - svaki nalog zadržava svoj token aplikacije, pa njegove poruke stižu u njegovu Gotify aplikaciju.",
+    "instance_gotify_server_in_use" => "Ova instalacija pruža Gotify server. Ostavite server praznim da biste ga koristili i unesite ispod svoj token aplikacije.",
+    "instance_gotify_saved" => "Gotify server je sačuvan",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Pushover aplikacija instance",
+    "instance_pushover_application_info" => "Jedna aplikacija za celu instalaciju: svaki nalog koji ostavi svoj token aplikacije praznim šalje preko ove aplikacije sa svojim korisničkim ključem. Ostavite prazno da svaki nalog registruje svoju aplikaciju.",
+    "instance_pushover_application_in_use" => "Ova instalacija pruža Pushover aplikaciju. Ostavite token aplikacije praznim da biste je koristili i unesite ispod svoj korisnički ključ.",
+    "instance_pushover_saved" => "Pushover aplikacija je sačuvana",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Sledeće pretplate treba uskoro obnoviti:",
+    "notification_renewals_intro_named" => "%s, sledeće pretplate treba uskoro obnoviti:",
+    "notification_subscription_line" => "%s za %s (%s)",
+    "notification_due_today" => "Danas",
+    "notification_due_tomorrow" => "Sutra",
+    "notification_due_in_days" => "Za %d dana",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Sledeće pretplate će uskoro biti otkazane:",
+    "notification_cancellation_intro_named" => "%s, sledeće pretplate će uskoro biti otkazane:",
+    "notification_cancellation_line" => "%s za %s",
+    "wallos_cancellation_notification" => "Wallos obaveštenje o otkazivanju",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Obaveštenja instance",
+    "pushover_application_token" => "Token Pushover aplikacije",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Pretplata je uspešno obrisana",
+    "cannot_open_zip" => "Nije moguće kreirati datoteku rezervne kopije",
 ];
 
 

@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Διαγραφή {count} συνδρομών; Αυτό δεν μπορεί να αναιρεθεί.",
   bulk_action_success: "Ενημερώθηκαν {count} συνδρομές",
   error_bulk_action: "Η μαζική ενέργεια απέτυχε",
+  // Folders
+  folder: "Φάκελος",
+  folder_color: "Χρώμα φακέλου",
+  save_folder: "Αποθήκευση φακέλου",
+  delete_folder: "Διαγραφή φακέλου",
+  failed_add_folder: "Αποτυχία προσθήκης φακέλου",
+  failed_save_folder: "Αποτυχία αποθήκευσης φακέλου",
+  failed_remove_folder: "Αποτυχία αφαίρεσης φακέλου",
 }

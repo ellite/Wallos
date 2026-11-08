@@ -565,5 +565,80 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankoverførsel",
     "payment_method_direct_debit" => "Direkte debitering",
     "payment_method_money" => "Kontanter",
+
+    // Payment status and folders
+    "mark_as_paid" => "Markér som betalt",
+    "mark_as_unpaid" => "Markér som ubetalt",
+    "paid" => "Betalt",
+    "unpaid" => "Ubetalt",
+    "payment_status" => "Betalingsstatus",
+    "folders" => "Mapper",
+    "folder" => "Mappe",
+    "no_folder" => "Ingen mappe",
+    "folder_color" => "Mappefarve",
+    "save_folder" => "Gem mappe",
+    "delete_folder" => "Slet mappe",
+    "folder_saved" => "Mappe gemt",
+    "folder_removed" => "Mappe fjernet",
+    "failed_add_folder" => "Kunne ikke tilføje mappe",
+    "failed_edit_folder" => "Kunne ikke gemme mappe",
+    "failed_remove_folder" => "Kunne ikke fjerne mappe",
+    "per_month" => "måned",
+    "folders_explanation" => "Gruppér dine abonnementer i farvede mapper, som lommer med betalinger, og filtrér dem med et enkelt tryk på abonnementssiden.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Betalingsperiode",
+    "use_custom_period" => "Brug denne periode i stedet for kalendermåneder i statistikken",
+    "custom_period_active_warning" => "Din statistik, dit overblik og din kalender følger denne periode i stedet for kalendermåneder.",
+    "custom_period_same_as_month" => "Denne periode er den samme som en kalendermåned, så din statistik ændrer sig ikke. Sæt ankerdatoen til den dag, du får løn.",
+    "amount_due_this_period" => "Beløb til betaling i denne periode",
+    "semimonthly" => "To gange om måneden",
+    "budget_second_payday" => "Anden lønningsdag",
+    "last_day_of_month" => "Sidste dag i måneden",
+    "instance_telegram_bot" => "Instans-Telegram-bot",
+    "instance_telegram_bot_info" => "Én bot til hele installationen: hver konto, der lader sit eget bot-token stå tomt, sender via denne bot med sit eget chat-id. Lad feltet stå tomt, hvis hver konto skal bruge sin egen bot.",
+    "instance_telegram_bot_in_use" => "Denne installation stiller en Telegram-bot til rådighed. Lad token stå tomt for at bruge den, og angiv dit chat-id nedenfor.",
+    "instance_telegram_saved" => "Telegram-bot gemt",
+    "managed_by_environment" => "Administreres af miljøvariabler",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Instans-ntfy-server",
+    "instance_ntfy_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, udgiver til denne under sit eget emne. Headerne er legitimationen til denne server og sendes aldrig til en server, som en konto selv har konfigureret.",
+    "instance_ntfy_server_in_use" => "Denne installation stiller en ntfy-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit emne nedenfor.",
+    "instance_ntfy_saved" => "ntfy-server gemt",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Instans-Gotify-server",
+    "instance_gotify_server_info" => "Én server til hele installationen: hver konto, der lader sin egen server stå tom, sender til denne. Kun adressen deles - hver konto beholder sit eget applikationstoken, så dens beskeder ankommer under dens egen Gotify-applikation.",
+    "instance_gotify_server_in_use" => "Denne installation stiller en Gotify-server til rådighed. Lad serveren stå tom for at bruge den, og angiv dit eget applikationstoken nedenfor.",
+    "instance_gotify_saved" => "Gotify-server gemt",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Instans-Pushover-applikation",
+    "instance_pushover_application_info" => "Én applikation til hele installationen: hver konto, der lader sit eget applikationstoken stå tomt, sender via denne med sin egen brugernøgle. Lad feltet stå tomt, hvis hver konto skal registrere sin egen applikation.",
+    "instance_pushover_application_in_use" => "Denne installation stiller en Pushover-applikation til rådighed. Lad applikationstokenet stå tomt for at bruge den, og angiv din egen brugernøgle nedenfor.",
+    "instance_pushover_saved" => "Pushover-applikation gemt",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Følgende abonnementer skal fornyes:",
+    "notification_renewals_intro_named" => "%s, følgende abonnementer skal fornyes:",
+    "notification_subscription_line" => "%s for %s (%s)",
+    "notification_due_today" => "I dag",
+    "notification_due_tomorrow" => "I morgen",
+    "notification_due_in_days" => "Om %d dage",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Følgende abonnementer skal opsiges:",
+    "notification_cancellation_intro_named" => "%s, følgende abonnementer skal opsiges:",
+    "notification_cancellation_line" => "%s for %s",
+    "wallos_cancellation_notification" => "Wallos-opsigelsesnotifikation",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Instansnotifikationer",
+    "pushover_application_token" => "Pushover-applikationstoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnementet blev slettet",
+    "cannot_open_zip" => "Sikkerhedskopifilen kunne ikke oprettes",
 ];
 ?>

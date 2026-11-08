@@ -223,6 +223,10 @@ function fillEditFormFields(subscription) {
   setMultiSelection("payer_user_select", subscription.payer_user_ids && subscription.payer_user_ids.length > 0
     ? subscription.payer_user_ids
     : [subscription.payer_user_id]);
+  const folderSelect = document.querySelector("#folder");
+  if (folderSelect) {
+    folderSelect.value = subscription.folder_id ?? 0;
+  }
 
   const startDate = document.querySelector("#start_date");
   startDate.value = subscription.start_date;
@@ -431,6 +435,69 @@ function renewSubscription(event, id) {
       if (data.success) {
         const newId = data.id;
         fetchSubscriptions(newId, event, "renew");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+
+function markAsPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/mark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "mark_paid");
+        showSuccessMessage(decodeURI(data.message));
+      } else {
+        showErrorMessage(data.message || translate("error"));
+      }
+    })
+    .catch((error) => {
+      showErrorMessage(error.message || translate("error"));
+    });
+}
+
+function unmarkPaid(event, id) {
+  event.stopPropagation();
+  event.preventDefault();
+
+  fetch("endpoints/subscription/unmark_paid.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token": window.csrfToken,
+    },
+    body: JSON.stringify({ id: id }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(translate("network_response_error"));
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.success) {
+        fetchSubscriptions(data.id, event, "unmark_paid");
         showSuccessMessage(decodeURI(data.message));
       } else {
         showErrorMessage(data.message || translate("error"));
@@ -689,7 +756,12 @@ function renderSubscription(subscription, data) {
   const labels = data.labels;
   const icons = data.icons;
   const hasLogo = !!subscription.logo;
-  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual");
+  const extraClasses = (subscription.inactive ? " inactive" : "") + (subscription.auto_renew ? "" : " manual") + (subscription.folder_color ? " in-folder" : "") + (subscription.paid_this_cycle ? " paid" : "");
+  const folderAttrs = subscription.folder_color
+    ? ` style="--folder-color: ${escapeHtml(subscription.folder_color)}" title="${escapeHtml(subscription.folder_name)}"`
+    : "";
+
+  const canMarkPaid = subscription.can_toggle_paid && !subscription.paid_this_cycle;
 
   let mobileActions = "";
   if (data.mobile_navigation) {
@@ -699,6 +771,7 @@ function renderSubscription(subscription, data) {
         <button class="mobile-action-clone" onClick="cloneSubscription(event, ${id})">${icons.clone} Clone</button>
         <button class="mobile-action-delete" onClick="deleteSubscription(event, ${id})">${icons.delete} Delete</button>
         ${subscription.can_renew ? `<button class="mobile-action-renew" onClick="renewSubscription(event, ${id})">${icons.renew} Renew</button>` : ""}
+        ${canMarkPaid ? `<button class="mobile-action-paid" onClick="markAsPaid(event, ${id})">${icons.paid} ${escapeHtml(labels.paid)}</button>` : ""}
         <button class="mobile-action-edit" onClick="openEditSubscription(event, ${id})">${icons.edit} Edit</button>
       </div>`;
   }
@@ -717,6 +790,12 @@ function renderSubscription(subscription, data) {
   const renewBackAction = subscription.can_renew
     ? `<button type="button" class="back-action" onClick="unflipCard(${id}); renewSubscription(event, ${id})"><i class="fa-solid fa-rotate-right"></i> ${escapeHtml(labels.renew)}</button>`
     : "";
+  let paidItem = "";
+  if (subscription.can_toggle_paid) {
+    paidItem = subscription.paid_this_cycle
+      ? `<li class="mark-paid" title="${escapeHtml(labels.mark_as_unpaid)}" onClick="unmarkPaid(event, ${id})"><i class="fa-regular fa-circle-xmark"></i> ${escapeHtml(labels.mark_as_unpaid)}</li>`
+      : `<li class="mark-paid" title="${escapeHtml(labels.mark_as_paid)}" onClick="markAsPaid(event, ${id})"><i class="fa-solid fa-circle-check"></i> ${escapeHtml(labels.mark_as_paid)}</li>`;
+  }
   const progress = subscription.progress !== null
     ? `<div class="subscription-progress-container"><span class="subscription-progress" style="width: ${Number(subscription.progress)}%;"></span></div>`
     : "";
@@ -727,7 +806,7 @@ function renderSubscription(subscription, data) {
       <label class="bulk-select">
         <input type="checkbox" class="bulk-select-checkbox" value="${id}" onChange="updateBulkSelection()">
       </label>
-      <div class="subscription${extraClasses}" onClick="showSubscriptionDetails(event, ${id})" data-id="${id}" data-name="${escapeHtml(subscription.name)}">
+      <div class="subscription${extraClasses}"${folderAttrs} onClick="showSubscriptionDetails(event, ${id})" data-id="${id}" data-name="${escapeHtml(subscription.name)}">
         <div class="subscription-main">
           <span class="logo ${hasLogo ? "" : "hideOnMobile"}">${hasLogo ? renderSubscriptionLogo(subscription) : icons.logo}</span>
           <span class="name ${hasLogo ? "hideOnMobile" : ""}">${escapeHtml(subscription.name)}</span>
@@ -743,6 +822,7 @@ function renderSubscription(subscription, data) {
             <li class="delete" title="${escapeHtml(labels.delete)}" onClick="deleteSubscription(event, ${id})"><i class="fa-solid fa-trash-can"></i> ${escapeHtml(labels.delete)}</li>
             <li class="clone" title="${escapeHtml(labels.clone)}" onClick="cloneSubscription(event, ${id})"><i class="fa-solid fa-copy"></i> ${escapeHtml(labels.clone)}</li>
             ${renewItem}
+            ${paidItem}
           </ul>
         </div>
         <div class="subscription-back" inert>
@@ -783,12 +863,31 @@ function renderSubscriptions(data) {
   }).join("");
 }
 
+// Keeps the folder cards above the list in step with the subscriptions: the
+// count and monthly total change when a subscription is added, edited or moved.
+function updateFolderCards(folders) {
+  if (!folders) return;
+  Object.keys(folders).forEach(folderId => {
+    const card = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+    if (!card) return;
+    const meta = card.querySelector('.folder-card-meta');
+    if (meta) meta.textContent = folders[folderId].meta;
+    const total = card.querySelector('.folder-card-total');
+    if (total && total.firstChild && total.firstChild.nodeType === Node.TEXT_NODE) {
+      total.firstChild.nodeValue = ` ${folders[folderId].total} `;
+    }
+  });
+}
+
 function fetchSubscriptions(id, event, initiator) {
   const subscriptionsContainer = document.querySelector("#subscriptions");
   let getSubscriptions = "endpoints/subscriptions/get.php";
 
   if (activeFilters['categories'].length > 0) {
     getSubscriptions += `?categories=${activeFilters['categories']}`;
+  }
+  if (activeFilters['folders'].length > 0) {
+    getSubscriptions += getSubscriptions.includes("?") ? `&folders=${activeFilters['folders']}` : `?folders=${activeFilters['folders']}`;
   }
   if (activeFilters['members'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&members=${activeFilters['members']}` : `?members=${activeFilters['members']}`;
@@ -805,6 +904,9 @@ function fetchSubscriptions(id, event, initiator) {
   if (activeFilters['notifications'].length > 0) {
     getSubscriptions += getSubscriptions.includes("?") ? `&notifications=${activeFilters['notifications']}` : `?notifications=${activeFilters['notifications']}`;
   }
+  if (activeFilters['paidStatus'] !== "") {
+    getSubscriptions += getSubscriptions.includes("?") ? `&paidStatus=${activeFilters['paidStatus']}` : `?paidStatus=${activeFilters['paidStatus']}`;
+  }
 
   fetch(getSubscriptions)
     .then(response => response.json().catch(() => null).then(data => ({ response, data })))
@@ -814,6 +916,7 @@ function fetchSubscriptions(id, event, initiator) {
       }
       if (data.success) {
         subscriptionsContainer.innerHTML = renderSubscriptions(data);
+        updateFolderCards(data.folders);
         const mainActions = document.querySelector("#main-actions");
         if (data.total > 0 || data.subscriptions.length > 0) {
           mainActions.classList.remove("hidden");
@@ -1059,7 +1162,10 @@ function setSwipeElements() {
       let currentX = 0;
       let currentY = 0;
       let translateX = 0;
-      const maxTranslateX = element.classList.contains('manual') ? -240 : -180;
+      // Every action button is 60px wide; the first button is an empty spacer
+      // that stays under the card, so it doesn't count towards the reveal.
+      const actionButtons = element.closest('.subscription-container')?.querySelectorAll('.mobile-actions > button').length ?? 4;
+      const maxTranslateX = -60 * Math.max(1, actionButtons - 1);
 
       element.addEventListener('touchstart', (e) => {
         if (element.closest('.subscriptions.grid-view')) return; // no swipe actions in grid view
@@ -1109,11 +1215,13 @@ function setSwipeElements() {
 
 const activeFilters = [];
 activeFilters['categories'] = [];
+activeFilters['folders'] = [];
 activeFilters['members'] = [];
 activeFilters['payments'] = [];
 activeFilters['state'] = "";
 activeFilters['renewalType'] = "";
 activeFilters['notifications'] = [];
+activeFilters['paidStatus'] = "";
 
 document.addEventListener("DOMContentLoaded", function () {
   var filtermenu = document.querySelector('#filtermenu-button');
@@ -1175,6 +1283,20 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         activeFilters['categories'].push(categoryId);
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-folderid')) {
+      const folderId = this.getAttribute('data-folderid');
+      if (activeFilters['folders'].includes(folderId)) {
+        const folderIndex = activeFilters['folders'].indexOf(folderId);
+        activeFilters['folders'].splice(folderIndex, 1);
+        this.classList.remove('selected');
+      } else {
+        activeFilters['folders'].push(folderId);
+        this.classList.add('selected');
+      }
+      const folderCard = document.querySelector(`.folder-card[data-folderid="${folderId}"]`);
+      if (folderCard) {
+        folderCard.classList.toggle('selected', this.classList.contains('selected'));
+      }
     } else if (this.hasAttribute('data-memberid')) {
       const memberId = this.getAttribute('data-memberid');
       if (activeFilters['members'].includes(memberId)) {
@@ -1219,6 +1341,18 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
         });
         this.classList.add('selected');
       }
+    } else if (this.hasAttribute('data-paidstatus')) {
+      const paidStatus = this.getAttribute('data-paidstatus');
+      if (activeFilters['paidStatus'] === paidStatus) {
+        activeFilters['paidStatus'] = "";
+        this.classList.remove('selected');
+      } else {
+        activeFilters['paidStatus'] = paidStatus;
+        Array.from(this.parentNode.children).forEach(sibling => {
+          sibling.classList.remove('selected');
+        });
+        this.classList.add('selected');
+      }
     } else if (this.hasAttribute('data-notificationtype')) {
       const notifType = this.getAttribute('data-notificationtype');
       if (activeFilters['notifications'].includes(notifType)) {
@@ -1231,9 +1365,11 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
       }
     }
 
-    if (activeFilters['categories'].length > 0 || activeFilters['members'].length > 0 ||
+    if (activeFilters['categories'].length > 0 || activeFilters['folders'].length > 0 ||
+       activeFilters['members'].length > 0 ||
        activeFilters['payments'].length > 0 || activeFilters['state'] !== "" ||
-       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0) {
+       activeFilters['renewalType'] !== "" || activeFilters['notifications'].length > 0 ||
+       activeFilters['paidStatus'] !== "") {
       document.querySelector('#clear-filters').classList.remove('hide');
     } else {
       document.querySelector('#clear-filters').classList.add('hide');
@@ -1243,18 +1379,36 @@ document.querySelectorAll('.filter-item').forEach(function (item) {
   });
 });
 
+// The folder chips above the list mirror the folder entries of the filter
+// menu: clicking a chip just clicks its menu counterpart so all the filter
+// bookkeeping lives in one place.
+document.querySelectorAll('.folder-card').forEach(function (chip) {
+  chip.addEventListener('click', function () {
+    const folderId = this.getAttribute('data-folderid');
+    const menuItem = document.querySelector(`.filter-item[data-folderid="${folderId}"]`);
+    if (menuItem) {
+      menuItem.click();
+    }
+  });
+});
+
 function clearFilters() {
   const searchInput = document.querySelector("#search");
   searchInput.value = "";
   activeFilters['categories'] = [];
+  activeFilters['folders'] = [];
   activeFilters['members'] = [];
   activeFilters['payments'] = [];
   activeFilters['state'] = "";
   activeFilters['renewalType'] = "";
   activeFilters['notifications'] = [];
+  activeFilters['paidStatus'] = "";
 
   document.querySelectorAll('.filter-item').forEach(function (item) {
     item.classList.remove('selected');
+  });
+  document.querySelectorAll('.folder-card').forEach(function (chip) {
+    chip.classList.remove('selected');
   });
   document.querySelector('#clear-filters').classList.add('hide');
   fetchSubscriptions(null, null, "clearfilters");

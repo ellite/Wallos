@@ -4,6 +4,7 @@ require_once __DIR__ . '/currency_rates.php';
 require_once __DIR__ . '/default_names.php';
 require_once __DIR__ . '/subscription_payers.php';
 require_once __DIR__ . '/subscription_categories.php';
+require_once __DIR__ . '/payments_due.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
@@ -261,17 +262,10 @@ if ($result) {
                     $endOfMonth = new DateTime('last day of this month');
 
                     if ($nextPaymentDate >= $todayVal && $nextPaymentDate <= $endOfMonth) {
-                        $timesToPay = 1;
-                        $daysInMonth = $endOfMonth->diff($todayVal)->days + 1;
+                        // Whole payments only: the next payment is inside the month,
+                        // so it always counts, plus any later ones before the month ends.
                         $daysRemaining = $endOfMonth->diff($nextPaymentDate)->days + 1;
-                        if ($cycle == 1) {
-                            $timesToPay = $daysRemaining / $frequency;
-                        }
-                        if ($cycle == 2) {
-                            $weeksInMonth = ceil($daysInMonth / 7);
-                            $weeksRemaining = ceil($daysRemaining / 7);
-                            $timesToPay = $weeksRemaining / $frequency;
-                        }
+                        $timesToPay = getPaymentsDueInRemainingDays($cycle, $frequency, $daysRemaining);
                         $amountDueThisMonth += $originalSubscriptionPrice * $timesToPay;
                     }
                 }
@@ -321,7 +315,8 @@ if ($result) {
 $today = new DateTime('now');
 $budgetPeriodType = sanitizeBudgetPeriodType($userData['budget_period_type'] ?? 'monthly');
 $budgetPeriodAnchorDate = sanitizeBudgetAnchorDate($userData['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
-$activeBudgetPeriod = getActiveBudgetPeriod($today, $budgetPeriodType, $budgetPeriodAnchorDate);
+$budgetPeriodSecondDay = sanitizeBudgetSecondDay($userData['budget_period_second_day'] ?? 16);
+$activeBudgetPeriod = getActiveBudgetPeriod($today, $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
 $budgetPeriodStart = $activeBudgetPeriod['start'];
 $budgetPeriodEnd = $activeBudgetPeriod['end'];
 $budgetPeriodLabel = $activeBudgetPeriod['label'];
@@ -332,6 +327,13 @@ $calendarMonthStart = new DateTime($today->format('Y-m-01'));
 $calendarMonthEnd = new DateTime($today->format('Y-m-t'));
 $periodDiffersFromCalendarMonth = $budgetPeriodStart->format('Y-m-d') !== $calendarMonthStart->format('Y-m-d')
     || $budgetPeriodEnd->format('Y-m-d') !== $calendarMonthEnd->format('Y-m-d');
+
+// Letting the period take over the statistics is opt-in. Every user carries an
+// anchor date already (migration 000053 seeded it with the day it ran), so the
+// period differing from a calendar month is not on its own a sign that anybody
+// chose it.
+$useCustomPeriod = !empty($userData['use_custom_period']);
+$periodScopesStatistics = $useCustomPeriod && $periodDiffersFromCalendarMonth;
 
 $amountNeededThisPeriod = computeAmountNeededInPeriod($subscriptions ?? [], $today, $budgetPeriodEnd, $db, $userId);
 

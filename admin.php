@@ -386,6 +386,143 @@ $loginDisabledAllowed = $userCount == 1 && $settings['registrations_open'] == 0;
     </section>
 
     <section class="account-section">
+        <header>
+            <h2><?= translate('instance_notifications', $i18n) ?></h2>
+        </header>
+        <div class="account-notifications">
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openInstanceNotificationSettings('telegram')">
+                    <h3>
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <?= translate('telegram', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="instance-telegram">
+                    <div class="form-group-inline">
+                        <?php if (isset($instanceManagedFields['telegram_bot_token'])): ?>
+                            <?php /* A token the deployment owns is never rendered as a value: a mounted
+                                     secret that reaches the page source has left the place it was
+                                     mounted into. The field says it is set, and nothing more. */ ?>
+                            <input type="password" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
+                                placeholder="<?= translate('telegram_bot_token', $i18n) ?>" value=""
+                                <?= oidc_input_attrs('telegram_bot_token', $instanceManagedFields) ?> />
+                        <?php else: ?>
+                            <input type="password" name="telegrambottoken" id="telegrambottoken" autocomplete="off"
+                                placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
+                                value="<?= htmlspecialchars($settings['telegram_bot_token'] ?? '') ?>" />
+                        <?php endif; ?>
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveInstanceTelegramButton" onClick="saveInstanceTelegramButton()" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= translate('instance_telegram_bot_info', $i18n) ?>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openInstanceNotificationSettings('ntfy')">
+                    <h3>
+                        <i class="fa-solid fa-terminal"></i>
+                        Ntfy
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="instance-ntfy">
+                    <div class="form-group-inline">
+                        <input type="text" name="ntfyserver" id="ntfyserver" autocomplete="off"
+                            placeholder="https://ntfy.sh"
+                            value="<?= htmlspecialchars($settings['ntfy_server'] ?? '') ?>"
+                            <?= oidc_input_attrs('ntfy_server', $instanceManagedFields) ?> />
+                    </div>
+                    <div class="form-group-inline">
+                        <?php if (isset($instanceManagedFields['ntfy_headers'])): ?>
+                            <?php /* A credential the deployment owns is never rendered as a value. */ ?>
+                            <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
+                                placeholder="<?= translate('custom_headers', $i18n) ?>"
+                                <?= oidc_input_attrs('ntfy_headers', $instanceManagedFields) ?>></textarea>
+                        <?php else: ?>
+                            <textarea class="thin" name="ntfyheaders" id="ntfyheaders"
+                                placeholder="<?= translate('custom_headers', $i18n) ?>"><?= htmlspecialchars($settings['ntfy_headers'] ?? '') ?></textarea>
+                        <?php endif; ?>
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveInstanceNtfyButton" onClick="saveInstanceNtfyButton()" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= translate('instance_ntfy_server_info', $i18n) ?>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openInstanceNotificationSettings('gotify')">
+                    <h3>
+                        <i class="fa-solid fa-envelopes-bulk"></i>
+                        <?= translate('gotify', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="instance-gotify">
+                    <div class="form-group-inline">
+                        <input type="text" name="gotifyserver" id="gotifyserver" autocomplete="off"
+                            placeholder="https://gotify.example.com"
+                            value="<?= htmlspecialchars($settings['gotify_server'] ?? '') ?>"
+                            <?= oidc_input_attrs('gotify_server', $instanceManagedFields) ?> />
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveInstanceGotifyButton" onClick="saveInstanceGotifyButton()" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= translate('instance_gotify_server_info', $i18n) ?>
+                        </p>
+                    </div>
+                </div>
+            </section>
+            <section class="account-notifications-section">
+                <header class="account-notification-section-header" onclick="openInstanceNotificationSettings('pushover')">
+                    <h3>
+                        <i class="fa-brands fa-pinterest-p"></i>
+                        <?= translate('pushover', $i18n) ?>
+                    </h3>
+                </header>
+                <div class="account-notification-section-settings" data-type="instance-pushover">
+                    <div class="form-group-inline">
+                        <?php if (isset($instanceManagedFields['pushover_token'])): ?>
+                            <?php /* A credential the deployment owns is never rendered as a value. */ ?>
+                            <input type="password" name="pushovertoken" id="pushovertoken" autocomplete="off"
+                                placeholder="<?= translate('pushover_application_token', $i18n) ?>" value=""
+                                <?= oidc_input_attrs('pushover_token', $instanceManagedFields) ?> />
+                        <?php else: ?>
+                            <input type="password" name="pushovertoken" id="pushovertoken" autocomplete="off"
+                                placeholder="<?= translate('pushover_application_token', $i18n) ?>"
+                                value="<?= htmlspecialchars($settings['pushover_token'] ?? '') ?>" />
+                        <?php endif; ?>
+                    </div>
+                    <div class="buttons">
+                        <input type="submit" class="thin mobile-grow" value="<?= translate('save', $i18n) ?>"
+                            id="saveInstancePushoverButton" onClick="saveInstancePushoverButton()" />
+                    </div>
+                    <div class="settings-notes">
+                        <p>
+                            <i class="fa-solid fa-circle-info"></i>
+                            <?= translate('instance_pushover_application_info', $i18n) ?>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <section class="account-section">
     <header>
         <h2><?= translate('security_settings', $i18n) ?></h2> </header>
     <div class="admin-form">

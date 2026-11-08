@@ -62,4 +62,12 @@ let i18n = {
   confirm_bulk_delete: "{count} Abonnement(s) löschen? Dies kann nicht rückgängig gemacht werden.",
   bulk_action_success: "{count} Abonnement(s) aktualisiert",
   error_bulk_action: "Massenaktion fehlgeschlagen",
+  // Folders
+  folder: "Ordner",
+  folder_color: "Ordnerfarbe",
+  save_folder: "Ordner speichern",
+  delete_folder: "Ordner löschen",
+  failed_add_folder: "Ordner konnte nicht hinzugefügt werden",
+  failed_save_folder: "Ordner konnte nicht gespeichert werden",
+  failed_remove_folder: "Ordner konnte nicht entfernt werden",
 }

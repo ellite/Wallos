@@ -55,6 +55,21 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $sql .= " AND " . categoryFilterCondition($allCategories, $params);
   }
 
+  if (isset($_GET['folders']) && $_GET['folders'] != "") {
+    $allFolders = explode(',', $_GET['folders']);
+    $placeholders = array_map(function ($idx) {
+      return ":folders{$idx}";
+    }, array_keys($allFolders));
+
+    $sql .= " AND (" . implode(' OR ', array_map(function ($placeholder) {
+      return "folder_id = {$placeholder}";
+    }, $placeholders)) . ")";
+
+    foreach ($allFolders as $idx => $folder) {
+      $params[":folders{$idx}"] = $folder;
+    }
+  }
+
   if (isset($_GET['payments']) && $_GET['payments'] !== "") {
     $allPayments = explode(',', $_GET['payments']);
     $placeholders = array_map(function ($idx) {
@@ -168,9 +183,19 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 
   $payersBySubscription = getPayersBySubscription($db, $subscriptions);
   $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
+  $paidStatusFilter = isset($_GET['paidStatus']) && in_array($_GET['paidStatus'], ['paid', 'unpaid']) ? $_GET['paidStatus'] : '';
 
   foreach ($subscriptions as $subscription) {
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
+      continue;
+    }
+    $cycle = $subscription['cycle'];
+    $frequency = $subscription['frequency'];
+    $paidThisCycle = isPaidThisCycle($subscription['paid_at'] ?? null, $cycle, $frequency, $subscription['next_payment']);
+    if ($paidStatusFilter === 'paid' && !$paidThisCycle) {
+      continue;
+    }
+    if ($paidStatusFilter === 'unpaid' && $paidThisCycle) {
       continue;
     }
     $id = $subscription['id'];
@@ -179,8 +204,6 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['logo_text_color'] = $subscription['logo_text_color'] ?? null;
     $print[$id]['logo_variant'] = !empty($subscription['logo_variant']) ? "images/uploads/logos/" . $subscription['logo_variant'] : null;
     $print[$id]['name'] = $subscription['name'] ?? "";
-    $cycle = $subscription['cycle'];
-    $frequency = $subscription['frequency'];
     $print[$id]['billing_cycle'] = getBillingCycle($cycle, $frequency, $i18n);
     $print[$id]['one_time'] = ($cycle == 5);
     $paymentMethodId = $subscription['payment_method_id'];
@@ -197,12 +220,14 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $print[$id]['payment_method_id'] = $paymentMethodId;
     $print[$id]['category_id'] = $subscription['category_id'];
     $print[$id]['category_ids'] = $categoriesBySubscription[$id] ?? [];
+    $print[$id]['folder_id'] = $subscription['folder_id'] ?? null;
     $print[$id]['payer_user_id'] = $subscription['payer_user_id'];
     $print[$id]['payer_user_ids'] = $payersBySubscription[$id] ?? [];
     $print[$id]['price'] = floatval($subscription['price']);
     $print[$id]['sort_price'] = getSortPrice($subscription['price'], $subscription['currency_id'], $mainCurrencyId, $cycle, $frequency, $settings, $db);
     $print[$id]['progress'] = getSubscriptionProgress($cycle, $frequency, $subscription['next_payment']);
     $print[$id]['inactive'] = $subscription['inactive'];
+    $print[$id]['paid_this_cycle'] = $paidThisCycle;
     $print[$id]['url'] = $subscription['url'] ?? "";
     $print[$id]['notes'] = $subscription['notes'] ?? "";
     $print[$id]['replacement_subscription_id'] = $subscription['replacement_subscription_id'];
@@ -255,13 +280,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     'manual' => $readIcon('manual'),
   ];
   if ($mobileNavigation) {
-    foreach (['clone', 'delete', 'renew', 'edit'] as $name) {
+    foreach (['clone', 'delete', 'renew', 'edit', 'paid'] as $name) {
       $icons[$name] = $readIcon('mobile-menu/' . $name);
     }
   }
 
   $labels = [];
-  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel'] as $key) {
+  foreach (['payment_method', 'edit_subscription', 'edit', 'delete', 'clone', 'renew', 'cancel', 'mark_as_paid', 'mark_as_unpaid', 'paid'] as $key) {
     $labels[$key] = htmlToText(translate($key, $i18n));
   }
 
@@ -273,6 +298,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $print ?? [],
       $sort,
       $categories,
+      $folders,
       $members,
       $i18n,
       $settings['disabledToBottom'],
@@ -280,6 +306,7 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $currencies,
       $lang
     ),
+    'folders' => buildFolderStats($db, $userId, $folders ?? [], $mainCurrencyId, $currencies, $i18n),
     'labels' => $labels,
     'icons' => $icons,
     'messages' => [

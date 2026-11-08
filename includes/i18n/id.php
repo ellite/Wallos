@@ -564,6 +564,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Transfer Bank",
     "payment_method_direct_debit" => "Debit Langsung",
     "payment_method_money" => "Uang Tunai",
+
+    // Payment status and folders
+    "mark_as_paid" => "Tandai sudah dibayar",
+    "mark_as_unpaid" => "Tandai belum dibayar",
+    "paid" => "Dibayar",
+    "unpaid" => "Belum dibayar",
+    "payment_status" => "Status pembayaran",
+    "folders" => "Folder",
+    "folder" => "Folder",
+    "no_folder" => "Tanpa folder",
+    "folder_color" => "Warna folder",
+    "save_folder" => "Simpan folder",
+    "delete_folder" => "Hapus folder",
+    "folder_saved" => "Folder disimpan",
+    "folder_removed" => "Folder dihapus",
+    "failed_add_folder" => "Gagal menambahkan folder",
+    "failed_edit_folder" => "Gagal menyimpan folder",
+    "failed_remove_folder" => "Gagal menghapus folder",
+    "per_month" => "bulan",
+    "folders_explanation" => "Kelompokkan langganan Anda ke dalam folder berwarna, seperti kantong pembayaran, dan saring dengan satu ketukan di halaman langganan.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Periode pembayaran",
+    "use_custom_period" => "Gunakan periode ini sebagai pengganti bulan kalender dalam statistik",
+    "custom_period_active_warning" => "Statistik, dasbor, dan kalender Anda akan mengikuti periode ini sebagai pengganti bulan kalender.",
+    "custom_period_same_as_month" => "Periode ini sama dengan satu bulan kalender, sehingga statistik Anda tidak akan berubah. Atur tanggal jangkar ke hari Anda menerima gaji.",
+    "amount_due_this_period" => "Jumlah yang harus dibayar pada periode ini",
+    "semimonthly" => "Dua kali sebulan",
+    "budget_second_payday" => "Hari gajian kedua",
+    "last_day_of_month" => "Hari terakhir bulan",
+    "instance_telegram_bot" => "Bot Telegram instans",
+    "instance_telegram_bot_info" => "Satu bot untuk seluruh instalasi: setiap akun yang mengosongkan token bot miliknya mengirim melalui bot ini, dengan ID obrolannya sendiri. Biarkan kosong agar setiap akun memakai bot sendiri.",
+    "instance_telegram_bot_in_use" => "Instalasi ini menyediakan bot Telegram. Biarkan token kosong untuk menggunakannya, dan masukkan ID obrolan Anda di bawah.",
+    "instance_telegram_saved" => "Bot Telegram disimpan",
+    "managed_by_environment" => "Dikelola oleh variabel lingkungan",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Server ntfy instans",
+    "instance_ntfy_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri memublikasikan ke server ini, dengan topiknya sendiri. Header adalah kredensial untuk server ini dan tidak pernah dikirim ke server yang dikonfigurasi sendiri oleh akun.",
+    "instance_ntfy_server_in_use" => "Instalasi ini menyediakan server ntfy. Biarkan server kosong untuk menggunakannya, dan masukkan topik Anda di bawah.",
+    "instance_ntfy_saved" => "Server ntfy disimpan",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Server Gotify instans",
+    "instance_gotify_server_info" => "Satu server untuk seluruh instalasi: setiap akun yang mengosongkan servernya sendiri mengirim ke server ini. Hanya alamatnya yang dibagikan - setiap akun menyimpan token aplikasinya sendiri, sehingga pesannya tiba di bawah aplikasi Gotify miliknya.",
+    "instance_gotify_server_in_use" => "Instalasi ini menyediakan server Gotify. Biarkan server kosong untuk menggunakannya, dan masukkan token aplikasi Anda sendiri di bawah.",
+    "instance_gotify_saved" => "Server Gotify disimpan",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplikasi Pushover instans",
+    "instance_pushover_application_info" => "Satu aplikasi untuk seluruh instalasi: setiap akun yang mengosongkan token aplikasinya sendiri mengirim melalui aplikasi ini, dengan kunci penggunanya sendiri. Biarkan kosong agar setiap akun mendaftarkan aplikasinya sendiri.",
+    "instance_pushover_application_in_use" => "Instalasi ini menyediakan aplikasi Pushover. Biarkan token aplikasi kosong untuk menggunakannya, dan masukkan kunci pengguna Anda sendiri di bawah.",
+    "instance_pushover_saved" => "Aplikasi Pushover disimpan",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Langganan berikut akan segera diperpanjang:",
+    "notification_renewals_intro_named" => "%s, langganan berikut akan segera diperpanjang:",
+    "notification_subscription_line" => "%s sebesar %s (%s)",
+    "notification_due_today" => "Hari ini",
+    "notification_due_tomorrow" => "Besok",
+    "notification_due_in_days" => "%d hari lagi",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Langganan berikut akan segera dibatalkan:",
+    "notification_cancellation_intro_named" => "%s, langganan berikut akan segera dibatalkan:",
+    "notification_cancellation_line" => "%s sebesar %s",
+    "wallos_cancellation_notification" => "Notifikasi pembatalan Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notifikasi instans",
+    "pushover_application_token" => "Token aplikasi Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Langganan berhasil dihapus",
+    "cannot_open_zip" => "Tidak dapat membuat berkas cadangan",
 ];
 
 ?>

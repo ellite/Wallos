@@ -14,7 +14,7 @@ $widgetHasContent = [
     'upcoming' => true,
     'ai' => !empty($aiRecommendations),
     'monthly_budget' => isset($totalCostPerMonth),
-    'period_budget' => isset($periodBudget) && $periodBudget > 0,
+    'period_budget' => !empty($periodScopesStatistics) || (isset($periodBudget) && $periodBudget > 0),
     'subscriptions' => isset($activeSubscriptions) && $activeSubscriptions > 0,
     'savings' => isset($inactiveSubscriptions) && $inactiveSubscriptions > 0,
     'category_cost' => !empty($categoryCostRows),
@@ -395,10 +395,14 @@ foreach ($dashboardWidgetLayout as $entry) {
                     break;
 
                 case 'period_budget':
-                    if (isset($periodBudget) && $periodBudget > 0) {
+                    // Same rule as the pre-widget dashboard: the block is about the
+                    // pay period, so it shows when that period scopes the statistics
+                    // even if no budget amount is set. A previously saved period
+                    // budget still shows when the opt-in is off.
+                    if (!empty($periodScopesStatistics) || (isset($periodBudget) && $periodBudget > 0)) {
                         ?>
                         <div class="budget-subscriptions">
-                            <h2><?= translate('period_budget', $i18n) ?></h2>
+                            <h2><?= translate(isset($periodBudget) && $periodBudget > 0 ? 'period_budget' : 'payment_period', $i18n) ?></h2>
                             <?php if (isset($budgetPeriodLabel)) { ?>
                                 <p class="header-subtitle"><?= translate('current_period', $i18n) ?>: <?= htmlspecialchars($budgetPeriodLabel, ENT_QUOTES, 'UTF-8') ?></p>
                             <?php } ?>
@@ -412,6 +416,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             </p>
                                         </div>
                                     </div>
+                                    <?php if (isset($periodBudget) && $periodBudget > 0) { ?>
                                     <div class="subscription-item thin">
                                         <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
                                         <div class="subscription-item-info">
@@ -420,6 +425,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             </p>
                                         </div>
                                     </div>
+                                    <?php } ?>
                                     <?php if (isset($periodBudgetUsed)) { ?>
                                         <div class="subscription-item thin">
                                             <p class="subscription-item-title"><?= translate("budget_used", $i18n) ?></p>
@@ -430,6 +436,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             </div>
                                         </div>
                                     <?php } ?>
+                                    <?php if (isset($periodBudgetLeft)) { ?>
                                     <div class="subscription-item thin">
                                         <p class="subscription-item-title"><?= translate("budget_remaining", $i18n) ?></p>
                                         <div class="subscription-item-info">
@@ -438,6 +445,7 @@ foreach ($dashboardWidgetLayout as $entry) {
                                             </p>
                                         </div>
                                     </div>
+                                    <?php } ?>
                                     <?php if (isset($periodOverBudgetAmount) && $periodOverBudgetAmount > 0) { ?>
                                         <div class="subscription-item thin">
                                             <p class="subscription-item-title"><?= translate("over_budget", $i18n) ?></p>

@@ -566,6 +566,81 @@ $i18n = [
     "payment_method_bank_transfer" => "تحويل بنكي",
     "payment_method_direct_debit" => "خصم مباشر",
     "payment_method_money" => "نقدًا",
+
+    // Payment status and folders
+    "mark_as_paid" => "وضع علامة كمدفوع",
+    "mark_as_unpaid" => "وضع علامة كغير مدفوع",
+    "paid" => "مدفوع",
+    "unpaid" => "غير مدفوع",
+    "payment_status" => "حالة الدفع",
+    "folders" => "المجلدات",
+    "folder" => "مجلد",
+    "no_folder" => "بدون مجلد",
+    "folder_color" => "لون المجلد",
+    "save_folder" => "حفظ المجلد",
+    "delete_folder" => "حذف المجلد",
+    "folder_saved" => "تم حفظ المجلد",
+    "folder_removed" => "تمت إزالة المجلد",
+    "failed_add_folder" => "فشلت إضافة المجلد",
+    "failed_edit_folder" => "فشل حفظ المجلد",
+    "failed_remove_folder" => "فشلت إزالة المجلد",
+    "per_month" => "شهر",
+    "folders_explanation" => "نظّم اشتراكاتك في مجلدات ملوّنة، مثل جيوب للمدفوعات، وصفِّها بنقرة واحدة في صفحة الاشتراكات.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "فترة الدفع",
+    "use_custom_period" => "استخدم هذه الفترة بدلاً من الأشهر التقويمية في الإحصاءات",
+    "custom_period_active_warning" => "ستتبع إحصاءاتك ولوحة المعلومات والتقويم هذه الفترة بدلاً من الأشهر التقويمية.",
+    "custom_period_same_as_month" => "هذه الفترة مماثلة للشهر التقويمي، لذا لن تتغير إحصاءاتك. اضبط تاريخ الارتكاز على يوم استلام راتبك.",
+    "amount_due_this_period" => "المبلغ المستحق في هذه الفترة",
+    "semimonthly" => "مرتين في الشهر",
+    "budget_second_payday" => "يوم الراتب الثاني",
+    "last_day_of_month" => "آخر يوم من الشهر",
+    "instance_telegram_bot" => "بوت تيليجرام للنسخة",
+    "instance_telegram_bot_info" => "بوت واحد للتثبيت بأكمله: كل حساب يترك رمز البوت الخاص به فارغاً يرسل عبر هذا البوت، بمعرّف الدردشة الخاص به. اتركه فارغاً ليستخدم كل حساب بوتاً خاصاً به.",
+    "instance_telegram_bot_in_use" => "يوفّر هذا التثبيت بوت تيليجرام. اترك الرمز فارغاً لاستخدامه، وأدخل معرّف الدردشة أدناه.",
+    "instance_telegram_saved" => "تم حفظ بوت تيليجرام",
+    "managed_by_environment" => "تتم إدارته بواسطة متغيرات البيئة",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "خادم ntfy للنسخة",
+    "instance_ntfy_server_info" => "خادم واحد للتثبيت بأكمله: كل حساب يترك خادمه الخاص فارغاً ينشر عبر هذا الخادم، تحت موضوعه الخاص. الترويسات هي بيانات اعتماد هذا الخادم ولا تُرسل أبداً إلى خادم قام الحساب بتكوينه بنفسه.",
+    "instance_ntfy_server_in_use" => "يوفّر هذا التثبيت خادم ntfy. اترك الخادم فارغاً لاستخدامه، وأدخل موضوعك أدناه.",
+    "instance_ntfy_saved" => "تم حفظ خادم ntfy",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "خادم Gotify للنسخة",
+    "instance_gotify_server_info" => "خادم واحد للتثبيت بأكمله: كل حساب يترك خادمه الخاص فارغاً يرسل إلى هذا الخادم. العنوان فقط هو المشترك، إذ يحتفظ كل حساب برمز التطبيق الخاص به، فتصل رسائله ضمن تطبيق Gotify الخاص به.",
+    "instance_gotify_server_in_use" => "يوفّر هذا التثبيت خادم Gotify. اترك الخادم فارغاً لاستخدامه، وأدخل رمز التطبيق الخاص بك أدناه.",
+    "instance_gotify_saved" => "تم حفظ خادم Gotify",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "تطبيق Pushover للنسخة",
+    "instance_pushover_application_info" => "تطبيق واحد للتثبيت بأكمله: كل حساب يترك رمز تطبيقه الخاص فارغاً يرسل عبر هذا التطبيق، بمفتاح المستخدم الخاص به. اتركه فارغاً ليسجّل كل حساب تطبيقاً خاصاً به.",
+    "instance_pushover_application_in_use" => "يوفّر هذا التثبيت تطبيق Pushover. اترك رمز التطبيق فارغاً لاستخدامه، وأدخل مفتاح المستخدم الخاص بك أدناه.",
+    "instance_pushover_saved" => "تم حفظ تطبيق Pushover",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "الاشتراكات التالية مستحقة للتجديد:",
+    "notification_renewals_intro_named" => "%s، الاشتراكات التالية مستحقة للتجديد:",
+    "notification_subscription_line" => "%s: %s (%s)",
+    "notification_due_today" => "اليوم",
+    "notification_due_tomorrow" => "غداً",
+    "notification_due_in_days" => "بعد %d يوم",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "الاشتراكات التالية مستحقة للإلغاء:",
+    "notification_cancellation_intro_named" => "%s، الاشتراكات التالية مستحقة للإلغاء:",
+    "notification_cancellation_line" => "%s: %s",
+    "wallos_cancellation_notification" => "إشعار إلغاء Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "إشعارات النسخة",
+    "pushover_application_token" => "رمز تطبيق Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "تم حذف الاشتراك بنجاح",
+    "cannot_open_zip" => "تعذر إنشاء ملف النسخة الاحتياطية",
 ];
 
 

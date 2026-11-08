@@ -566,6 +566,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Bankoverschrijving",
     "payment_method_direct_debit" => "Automatische incasso",
     "payment_method_money" => "Contant geld",
+
+    // Payment status and folders
+    "mark_as_paid" => "Markeren als betaald",
+    "mark_as_unpaid" => "Markeren als onbetaald",
+    "paid" => "Betaald",
+    "unpaid" => "Onbetaald",
+    "payment_status" => "Betalingsstatus",
+    "folders" => "Mappen",
+    "folder" => "Map",
+    "no_folder" => "Geen map",
+    "folder_color" => "Mapkleur",
+    "save_folder" => "Map opslaan",
+    "delete_folder" => "Map verwijderen",
+    "folder_saved" => "Map opgeslagen",
+    "folder_removed" => "Map verwijderd",
+    "failed_add_folder" => "Map toevoegen mislukt",
+    "failed_edit_folder" => "Map opslaan mislukt",
+    "failed_remove_folder" => "Map verwijderen mislukt",
+    "per_month" => "maand",
+    "folders_explanation" => "Groepeer je abonnementen in gekleurde mappen, zoals zakjes voor betalingen, en filter ze met één tik op de abonnementenpagina.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Betalingsperiode",
+    "use_custom_period" => "Gebruik deze periode in plaats van kalendermaanden in de statistieken",
+    "custom_period_active_warning" => "Je statistieken, dashboard en agenda volgen deze periode in plaats van kalendermaanden.",
+    "custom_period_same_as_month" => "Deze periode is gelijk aan een kalendermaand, dus je statistieken veranderen niet. Stel de ankerdatum in op de dag waarop je wordt betaald.",
+    "amount_due_this_period" => "Te betalen bedrag deze periode",
+    "semimonthly" => "Twee keer per maand",
+    "budget_second_payday" => "Tweede betaaldag",
+    "last_day_of_month" => "Laatste dag van de maand",
+    "instance_telegram_bot" => "Instantie-Telegrambot",
+    "instance_telegram_bot_info" => "Eén bot voor de hele installatie: elk account dat zijn eigen bottoken leeg laat, verstuurt via deze bot met zijn eigen chat-id. Laat leeg als elk account een eigen bot moet gebruiken.",
+    "instance_telegram_bot_in_use" => "Deze installatie biedt een Telegrambot. Laat het token leeg om die te gebruiken en vul hieronder je chat-id in.",
+    "instance_telegram_saved" => "Telegrambot opgeslagen",
+    "managed_by_environment" => "Beheerd via omgevingsvariabelen",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Instantie-ntfy-server",
+    "instance_ntfy_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, publiceert naar deze server onder zijn eigen topic. De headers zijn de inloggegevens van deze server en worden nooit verstuurd naar een server die een account zelf heeft ingesteld.",
+    "instance_ntfy_server_in_use" => "Deze installatie biedt een ntfy-server. Laat de server leeg om die te gebruiken en vul hieronder je topic in.",
+    "instance_ntfy_saved" => "ntfy-server opgeslagen",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Instantie-Gotify-server",
+    "instance_gotify_server_info" => "Eén server voor de hele installatie: elk account dat zijn eigen server leeg laat, verstuurt naar deze server. Alleen het adres wordt gedeeld - elk account houdt zijn eigen applicatietoken, zodat zijn berichten onder zijn eigen Gotify-applicatie aankomen.",
+    "instance_gotify_server_in_use" => "Deze installatie biedt een Gotify-server. Laat de server leeg om die te gebruiken en vul hieronder je eigen applicatietoken in.",
+    "instance_gotify_saved" => "Gotify-server opgeslagen",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Instantie-Pushover-applicatie",
+    "instance_pushover_application_info" => "Eén applicatie voor de hele installatie: elk account dat zijn eigen applicatietoken leeg laat, verstuurt via deze applicatie met zijn eigen gebruikerssleutel. Laat leeg als elk account een eigen applicatie moet registreren.",
+    "instance_pushover_application_in_use" => "Deze installatie biedt een Pushover-applicatie. Laat het applicatietoken leeg om die te gebruiken en vul hieronder je eigen gebruikerssleutel in.",
+    "instance_pushover_saved" => "Pushover-applicatie opgeslagen",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "De volgende abonnementen moeten worden verlengd:",
+    "notification_renewals_intro_named" => "%s, de volgende abonnementen moeten worden verlengd:",
+    "notification_subscription_line" => "%s voor %s (%s)",
+    "notification_due_today" => "Vandaag",
+    "notification_due_tomorrow" => "Morgen",
+    "notification_due_in_days" => "Over %d dagen",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "De volgende abonnementen moeten worden opgezegd:",
+    "notification_cancellation_intro_named" => "%s, de volgende abonnementen moeten worden opgezegd:",
+    "notification_cancellation_line" => "%s voor %s",
+    "wallos_cancellation_notification" => "Wallos-opzeggingsmelding",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Instantiemeldingen",
+    "pushover_application_token" => "Pushover-applicatietoken",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnement succesvol verwijderd",
+    "cannot_open_zip" => "Kan het back-upbestand niet aanmaken",
 ];
 
 

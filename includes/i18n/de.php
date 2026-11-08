@@ -255,6 +255,23 @@ $i18n = [
     "smtp_password" => "SMTP Passwort",
     "from_email" => "Absender E-Mail Adresse (optional)",
     "send_to_other_emails" => "Benachrichtigungen auch an die folgenden E-Mail-Adressen senden (verwende ; um sie zu trennen):",
+    "instance_telegram_bot" => "Telegram-Bot der Instanz",
+    "instance_telegram_bot_info" => "Ein Bot für die ganze Installation: Jedes Konto, das kein eigenes Bot-Token einträgt, sendet über diesen Bot, mit seiner eigenen Chat-ID. Leer lassen, damit jedes Konto einen eigenen Bot verwendet.",
+    "instance_telegram_bot_in_use" => "Diese Installation stellt einen Telegram-Bot bereit. Lassen Sie das Token leer, um ihn zu verwenden, und tragen Sie unten Ihre Chat-ID ein.",
+    "instance_telegram_saved" => "Telegram-Bot gespeichert",
+    "instance_ntfy_server" => "ntfy-Server der Instanz",
+    "instance_ntfy_server_info" => "Ein Server für die ganze Installation: Jedes Konto, das keinen eigenen Server einträgt, veröffentlicht auf diesem, unter seinem eigenen Topic. Die Header sind die Zugangsdaten für diesen Server und gehen nie an einen Server, den ein Konto selbst eingetragen hat.",
+    "instance_ntfy_server_in_use" => "Diese Installation stellt einen ntfy-Server bereit. Lassen Sie den Server leer, um ihn zu verwenden, und tragen Sie unten Ihr Topic ein.",
+    "instance_ntfy_saved" => "ntfy-Server gespeichert",
+    "instance_gotify_server" => "Gotify-Server der Instanz",
+    "instance_gotify_server_info" => "Ein Server für die ganze Installation: Jedes Konto, das keinen eigenen Server einträgt, sendet an diesen. Geteilt wird nur die Adresse - jedes Konto behält sein eigenes Anwendungs-Token, damit seine Nachrichten unter seiner eigenen Gotify-Anwendung ankommen.",
+    "instance_gotify_server_in_use" => "Diese Installation stellt einen Gotify-Server bereit. Lassen Sie den Server leer, um ihn zu verwenden, und tragen Sie unten Ihr eigenes Anwendungs-Token ein.",
+    "instance_gotify_saved" => "Gotify-Server gespeichert",
+    "instance_pushover_application" => "Pushover-Anwendung der Instanz",
+    "instance_pushover_application_info" => "Eine Anwendung für die ganze Installation: Jedes Konto, das kein eigenes Anwendungs-Token einträgt, sendet über diese, mit seinem eigenen User-Key. Leer lassen, damit jedes Konto eine eigene Anwendung registriert.",
+    "instance_pushover_application_in_use" => "Diese Installation stellt eine Pushover-Anwendung bereit. Lassen Sie das Anwendungs-Token leer, um sie zu verwenden, und tragen Sie unten Ihren eigenen User-Key ein.",
+    "instance_pushover_saved" => "Pushover-Anwendung gespeichert",
+    "managed_by_environment" => "Über Umgebungsvariablen verwaltet",
     "smtp_info" => "Das SMTP Passwort wird in Klartext übermittelt und gespeichert. Aus Sicherheitsgründen erstelle bitte einen gesonderten Account nur zu diesem Zweck.",
     "telegram" => "Telegram",
     "telegram_bot_token" => "Telegram Bot Token",
@@ -420,6 +437,12 @@ $i18n = [
     // Notifications
     "error_saving_notifications" => "Benachrichtigungsangaben konnten nicht gespeichert werden.",
     "wallos_notification" => "Wallos Benachrichtigung",
+    "notification_renewals_intro" => "Die folgenden Abos stehen zur Verlängerung an:",
+    "notification_renewals_intro_named" => "%s, die folgenden Abos stehen zur Verlängerung an:",
+    "notification_subscription_line" => "%s für %s (%s)",
+    "notification_due_today" => "Heute",
+    "notification_due_tomorrow" => "Morgen",
+    "notification_due_in_days" => "In %d Tagen",
     "test_notification" => "Dies ist eine Test-Benachrichtigung. Wenn du das hier siehst, sind deine Konfigurationen korrekt.",
     "email_error" => "E-Mail konnte nicht gesendet werden",
     "notification_sent_successfuly" => "Benachrichtigung erfolgreich gesendet",
@@ -570,6 +593,50 @@ $i18n = [
     "payment_method_bank_transfer" => "Überweisung",
     "payment_method_direct_debit" => "Lastschrift",
     "payment_method_money" => "Bargeld",
+
+    // Payment status and folders
+    "mark_as_paid" => "Als bezahlt markieren",
+    "mark_as_unpaid" => "Als unbezahlt markieren",
+    "paid" => "Bezahlt",
+    "unpaid" => "Unbezahlt",
+    "payment_status" => "Zahlungsstatus",
+    "folders" => "Ordner",
+    "folder" => "Ordner",
+    "no_folder" => "Kein Ordner",
+    "folder_color" => "Ordnerfarbe",
+    "save_folder" => "Ordner speichern",
+    "delete_folder" => "Ordner löschen",
+    "folder_saved" => "Ordner gespeichert",
+    "folder_removed" => "Ordner entfernt",
+    "failed_add_folder" => "Ordner konnte nicht hinzugefügt werden",
+    "failed_edit_folder" => "Ordner konnte nicht gespeichert werden",
+    "failed_remove_folder" => "Ordner konnte nicht entfernt werden",
+    "per_month" => "Monat",
+    "folders_explanation" => "Fassen Sie Ihre Abonnements in farbigen Ordnern zusammen, wie Taschen für Zahlungen, und filtern Sie sie mit einem Fingertipp auf der Abonnement-Seite.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Zahlungszeitraum",
+    "use_custom_period" => "Diesen Zeitraum statt Kalendermonaten in den Statistiken verwenden",
+    "custom_period_active_warning" => "Ihre Statistiken, das Dashboard und der Kalender folgen diesem Zeitraum statt Kalendermonaten.",
+    "custom_period_same_as_month" => "Dieser Zeitraum entspricht einem Kalendermonat, daher ändern sich Ihre Statistiken nicht. Setzen Sie das Ankerdatum auf den Tag, an dem Sie bezahlt werden.",
+    "amount_due_this_period" => "Fälliger Betrag in diesem Zeitraum",
+    "semimonthly" => "Zweimal im Monat",
+    "budget_second_payday" => "Zweiter Zahltag",
+    "last_day_of_month" => "Letzter Tag des Monats",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Die folgenden Abos stehen zur Kündigung an:",
+    "notification_cancellation_intro_named" => "%s, die folgenden Abos stehen zur Kündigung an:",
+    "notification_cancellation_line" => "%s für %s",
+    "wallos_cancellation_notification" => "Wallos Kündigungsbenachrichtigung",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Benachrichtigungen der Instanz",
+    "pushover_application_token" => "Pushover-Anwendungs-Token",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnement erfolgreich gelöscht",
+    "cannot_open_zip" => "Die Sicherungsdatei konnte nicht erstellt werden",
 ];
 
 

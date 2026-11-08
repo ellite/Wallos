@@ -1,5 +1,51 @@
 # Changelog
 
+## [5.11.1](https://github.com/ellite/Wallos/compare/v5.11.0...v5.11.1) (2026-11-07)
+
+
+### Bug Fixes
+
+* escape folder names on output and let the Telegram test use the instance bot ([259b12e](https://github.com/ellite/Wallos/commit/259b12e862f20f2253cedbfa73bbacc7ed5b6b14))
+
+## [5.11.0](https://github.com/ellite/Wallos/compare/v5.10.4...v5.11.0) (2026-11-07)
+
+
+### Features
+
+* add mark/unmark paid buttons to subscriptions ([#1139](https://github.com/ellite/Wallos/issues/1139), thanks @NodeJSmith) ([e9c9141](https://github.com/ellite/Wallos/commit/e9c91411130b1903de9f1a224b563e4ce0d3fe08))
+* colored folders to group subscriptions ([#1156](https://github.com/ellite/Wallos/issues/1156), thanks @Itaromi) ([591112b](https://github.com/ellite/Wallos/commit/591112b505630943419b39b98335f11ae5d30321))
+* **currency:** add allratestoday.com as a second exchange-rate provider ([#1291](https://github.com/ellite/Wallos/issues/1291), thanks [@cahthuranag](https://github.com/cahthuranag)) ([cc58669](https://github.com/ellite/Wallos/commit/cc58669f1b15b22cd3dfe7db9d7607244208e77e))
+* **notifications:** one Gotify server for the installation, tokens stay personal ([#1234](https://github.com/ellite/Wallos/issues/1234), thanks [@thorstenhornung1](https://github.com/thorstenhornung1)) ([9975646](https://github.com/ellite/Wallos/commit/99756465c8cc023c2aaaaf7920005f9ac713253d))
+* **notifications:** one ntfy server for the installation, topics stay personal ([#1233](https://github.com/ellite/Wallos/issues/1233), thanks [@thorstenhornung1](https://github.com/thorstenhornung1)) ([fcfd3a0](https://github.com/ellite/Wallos/commit/fcfd3a03c811a7031ab3776f4a536defb6e6ff73))
+* **notifications:** one Pushover application for the installation, user keys stay personal ([#1235](https://github.com/ellite/Wallos/issues/1235), thanks [@thorstenhornung1](https://github.com/thorstenhornung1)) ([7f9aed8](https://github.com/ellite/Wallos/commit/7f9aed818ff62d74cfd43f0d02b563fb831b6ff7))
+* **notifications:** one Telegram bot for the installation, chat ids stay personal ([#1232](https://github.com/ellite/Wallos/issues/1232), thanks [@thorstenhornung1](https://github.com/thorstenhornung1)) ([f17b36e](https://github.com/ellite/Wallos/commit/f17b36ebe195d682af68ae839d2d995b6ee8be7b))
+* scope statistics and calendar to the user's pay period ([#1213](https://github.com/ellite/Wallos/issues/1213), thanks [@gwpreston](https://github.com/gwpreston)) ([89a0347](https://github.com/ellite/Wallos/commit/89a034774789a5775287551c4087cacc2a7aac8c))
+
+
+### Bug Fixes
+
+* add all missing translation keys ([aafe406](https://github.com/ellite/Wallos/commit/aafe4068f580f384351c23a7ec612afc8774a901))
+* add missing translation keys for the instance Gotify server ([c53c49b](https://github.com/ellite/Wallos/commit/c53c49b58a467ee2cb84e7787e4540c76644ddd3))
+* add missing translation keys for the instance ntfy server ([85f37fd](https://github.com/ellite/Wallos/commit/85f37fd2281765064bf8160dbd0392ef442faa68))
+* add missing translation keys for the instance Pushover application ([38f75ca](https://github.com/ellite/Wallos/commit/38f75cac201845c3c9ff62510123e220b588c774))
+* add missing translation keys for the pay period and the instance Telegram bot ([cb2011b](https://github.com/ellite/Wallos/commit/cb2011befa57d2f22e0829bdb38b953e87f6cb95))
+* add missing translation keys for the renewal notifications ([df57429](https://github.com/ellite/Wallos/commit/df574290de1f35aa203b3e8ced8508fa0b5a679e))
+* add the missing delete and backup messages and fix the api_key_saved typo ([1fa38f0](https://github.com/ellite/Wallos/commit/1fa38f00e2e5b3f1e1e781d0497748fcdbed26b7))
+* **admin:** group the instance notification settings in an accordion ([10f7993](https://github.com/ellite/Wallos/commit/10f7993d64ec0213c9d31c5e5b967e4a87f30167))
+* continue notifications after SMTP exceptions ([#1281](https://github.com/ellite/Wallos/issues/1281), thanks [@rmtshnik](https://github.com/rmtshnik)) ([e7a4e1a](https://github.com/ellite/Wallos/commit/e7a4e1afedb70b44e7beaa753935afd773b9ad4d))
+* count whole payments in amount due this month ([#1285](https://github.com/ellite/Wallos/issues/1285), thanks [@ganeshmshetty](https://github.com/ganeshmshetty)) ([9ceeb32](https://github.com/ellite/Wallos/commit/9ceeb329078fb89f16dc1f02c85c89b4487ac347))
+* create the database when the file exists but has no tables ([#1302](https://github.com/ellite/Wallos/issues/1302)) ([3cfe578](https://github.com/ellite/Wallos/commit/3cfe578885a663c88f8d7186b6e8495d66299820))
+* **folders:** delete a user's folders together with the account ([7b8f29e](https://github.com/ellite/Wallos/commit/7b8f29eebb57de9c24e525ef6bcd59081647e8b1))
+* **folders:** keep folder cards in step with AJAX list refresh ([e62a047](https://github.com/ellite/Wallos/commit/e62a04720921879ba6b1d906bf4b70d6e304543c))
+* **folders:** show full folder totals on page load too ([41b1a77](https://github.com/ellite/Wallos/commit/41b1a77f52e3215a130480c19cb57078cbff4bb9))
+* **notifications:** translate renewal notifications into each user's language ([#1280](https://github.com/ellite/Wallos/issues/1280), thanks @Hellraiser28) ([0012e3a](https://github.com/ellite/Wallos/commit/0012e3a75800c056edc72f2d6261e32a6d250732))
+* **notifications:** translate the cancellation notifications and the remaining titles ([3a56787](https://github.com/ellite/Wallos/commit/3a5678700f05b438ede15fe6c260585ef735794c))
+* **paid:** drop mark-as-paid from the flipped card, fix the swipe width and restyle the swipe button ([5e9bb76](https://github.com/ellite/Wallos/commit/5e9bb7642a6281c92d26378d0c94d2ffc50568fa))
+* **paid:** show the paid state and actions when the list refreshes through AJAX ([34b4106](https://github.com/ellite/Wallos/commit/34b4106b331ac82da147c5c6a82c991e77800e5b))
+* **paid:** use an outline icon for the swipe paid button ([62c93c5](https://github.com/ellite/Wallos/commit/62c93c5132cd06fd46ae4554ccbe4a7698753ce6))
+* **pwa:** don't pair a newer page with the old worker's cached assets ([#1279](https://github.com/ellite/Wallos/issues/1279), thanks [@iamvicliu](https://github.com/iamvicliu)) ([af86e18](https://github.com/ellite/Wallos/commit/af86e18cced5df590e04b1707d5fa76d04d3956e))
+* **ui:** remove the green and red hover effects from the subscription dropdown ([a449fe3](https://github.com/ellite/Wallos/commit/a449fe3691299cecbd96ba20f7186fa9a46ee619))
+
 ## [5.10.4](https://github.com/ellite/Wallos/compare/v5.10.3...v5.10.4) (2026-11-01)
 
 

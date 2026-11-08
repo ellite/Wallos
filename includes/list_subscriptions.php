@@ -29,16 +29,7 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
     $nextPaymentDate = new DateTime($next_payment);
     $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
 
-    $paymentCycleDays = 30; // Default to monthly
-    if ($cycle === 1) {
-        $paymentCycleDays = 1 * $frequency;
-    } else if ($cycle === 2) {
-        $paymentCycleDays = 7 * $frequency;
-    } else if ($cycle === 3) {
-        $paymentCycleDays = 30 * $frequency;
-    } else if ($cycle === 4) {
-        $paymentCycleDays = 365 * $frequency;
-    }
+    $paymentCycleDays = getPaymentCycleDays($cycle, $frequency);
 
     if ($paymentCycleDays <= 0) {
         return 0;
@@ -61,6 +52,53 @@ function getSubscriptionProgress($cycle, $frequency, $next_payment)
     $subscriptionProgress = ($daysSinceLastPayment / $paymentCycleDays) * 100;
 
     return floor($subscriptionProgress);
+}
+
+if (!function_exists('getPaymentCycleDays')) {
+    function getPaymentCycleDays($cycle, $frequency)
+    {
+        switch ($cycle) {
+            case 1: return 1 * $frequency;
+            case 2: return 7 * $frequency;
+            case 3: return 30 * $frequency;
+            case 4: return 365 * $frequency;
+            default: return 0;
+        }
+    }
+}
+
+if (!function_exists('isPaidThisCycle')) {
+    function isPaidThisCycle($paidAt, $cycle, $frequency, $nextPayment)
+    {
+        if (!$paidAt || $cycle === 5) {
+            return false;
+        }
+
+        $paidDate = new DateTime($paidAt);
+        $nextPaymentDate = new DateTime($nextPayment);
+        $currentDate = new DateTime((new DateTime('now'))->format('Y-m-d'));
+        $paymentCycleDays = getPaymentCycleDays($cycle, $frequency);
+
+        if ($paymentCycleDays <= 0) {
+            return false;
+        }
+
+        if ($currentDate > $nextPaymentDate) {
+            // Overdue: the cycle window runs forward from next_payment
+            $cycleEnd = clone $nextPaymentDate;
+            $cycleEnd->modify('+' . $paymentCycleDays . ' days');
+            return $paidDate >= $nextPaymentDate && $paidDate <= $cycleEnd;
+        }
+
+        // Normal: walk back from next_payment to find the cycle containing today
+        $daysUntilNextPayment = $currentDate->diff($nextPaymentDate)->days;
+        $cyclesBack = max(1, (int) ceil($daysUntilNextPayment / $paymentCycleDays));
+
+        $cycleStart = clone $nextPaymentDate;
+        $cycleStart->modify('-' . ($cyclesBack * $paymentCycleDays) . ' days');
+
+        return $paidDate >= $cycleStart && $paidDate <= $nextPaymentDate;
+    }
 }
 
 function getPricePerMonth($cycle, $frequency, $price)
@@ -238,7 +276,56 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
  * printSubscriptions(), with display strings (formatted price and date, resolved
  * titles) already worked out so the client only has to lay them out.
  */
-function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
+/**
+ * Subscription count and monthly total (in the main currency) of every folder,
+ * regardless of the active list filters, so the folder cards stay accurate when
+ * the list is refreshed through AJAX.
+ */
+function calculateFolderStats($db, $userId, $folders, $mainCurrencyId)
+{
+    $stats = [];
+    foreach ($folders as $folderId => $folder) {
+        $stats[$folderId] = ['count' => 0, 'monthly_total' => 0];
+    }
+
+    $stmt = $db->prepare("SELECT price, currency_id, cycle, frequency, inactive, folder_id FROM subscriptions WHERE user_id = :userId AND folder_id IS NOT NULL");
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+    while ($result && ($row = $result->fetchArray(SQLITE3_ASSOC))) {
+        $folderId = $row['folder_id'];
+        if (!isset($stats[$folderId])) {
+            continue;
+        }
+        $stats[$folderId]['count']++;
+        if (!$row['inactive']) {
+            $price = floatval($row['price']);
+            if ($row['currency_id'] != $mainCurrencyId) {
+                $price = getPriceConverted($price, $row['currency_id'], $db);
+            }
+            $stats[$folderId]['monthly_total'] += getPricePerMonth($row['cycle'], $row['frequency'], $price);
+        }
+    }
+
+    return $stats;
+}
+
+/**
+ * Display strings for the folder cards, for the AJAX refresh.
+ */
+function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, $i18n)
+{
+    $payload = [];
+    foreach (calculateFolderStats($db, $userId, $folders, $mainCurrencyId) as $folderId => $stat) {
+        $payload[$folderId] = [
+            'meta' => $stat['count'] . ' ' . htmlToText(translate('subscriptions', $i18n)),
+            'total' => htmlToText(formatPrice($stat['monthly_total'], $currencies[$mainCurrencyId]['code'], $currencies)),
+        ];
+    }
+
+    return $payload;
+}
+
+function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
 {
     $items = [];
     foreach (prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom) as $subscription) {
@@ -254,7 +341,11 @@ function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members,
             'logo_variant' => $subscription['logo_variant'] ?? null,
             'logo_text_color' => $subscription['logo_text_color'] ?? null,
             'inactive' => (bool) $subscription['inactive'],
+            'folder_name' => isset($subscription['folder_id'], $folders[$subscription['folder_id']]) ? htmlToText($folders[$subscription['folder_id']]['name']) : null,
+            'folder_color' => isset($subscription['folder_id'], $folders[$subscription['folder_id']]) ? $folders[$subscription['folder_id']]['color'] : null,
             'one_time' => $oneTime,
+            'can_toggle_paid' => !$oneTime && !$subscription['inactive'],
+            'paid_this_cycle' => !empty($subscription['paid_this_cycle']),
             'auto_renew' => $autoRenew,
             'can_renew' => !$autoRenew && !$oneTime,
             'billing_cycle' => htmlToText($subscription['billing_cycle']),
@@ -277,7 +368,7 @@ function buildSubscriptionsPayload($subscriptions, $sort, $categories, $members,
     return $items;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+function printSubscriptions($subscriptions, $sort, $categories, $folders, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
 {
     $subscriptions = prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom);
 
@@ -313,6 +404,14 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                         </button>
                         <?php
                     }
+                    if (!$subscription['one_time'] && !$subscription['inactive'] && empty($subscription['paid_this_cycle'])) {
+                        ?>
+                        <button class="mobile-action-paid" onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
+                            <?php include $imagePath . "images/siteicons/svg/mobile-menu/paid.php"; ?>
+                            <?= translate('paid', $i18n) ?>
+                        </button>
+                        <?php
+                    }
                     ?>
                     <button class="mobile-action-edit" onClick="openEditSubscription(event, <?= $subscription['id'] ?>)">
                         <?php include $imagePath . "images/siteicons/svg/mobile-menu/edit.php"; ?>
@@ -329,6 +428,16 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
             if ($subscription['auto_renew'] != 1) {
                 $subscriptionExtraClasses .= " manual";
             }
+            if (!empty($subscription['paid_this_cycle'])) {
+                $subscriptionExtraClasses .= " paid";
+            }
+
+            $folderStyle = "";
+            $folderId = $subscription['folder_id'] ?? null;
+            if ($folderId !== null && isset($folders[$folderId])) {
+                $subscriptionExtraClasses .= " in-folder";
+                $folderStyle = " style=\"--folder-color: " . htmlspecialchars($folders[$folderId]['color']) . "\" title=\"" . translate('folder', $i18n) . ": " . htmlSafe($folders[$folderId]['name']) . "\"";
+            }
 
             $hasLogo = false;
             if ($subscription['logo'] != "") {
@@ -341,7 +450,7 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                 <input type="checkbox" class="bulk-select-checkbox" value="<?= $subscription['id'] ?>"
                     onChange="updateBulkSelection()">
             </label>
-            <div class="subscription<?= $subscriptionExtraClasses ?>"
+            <div class="subscription<?= $subscriptionExtraClasses ?>"<?= $folderStyle ?>
                 onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>"
                 data-name="<?= htmlSafe($subscription['name']) ?>">
                 <div class="subscription-main">
@@ -425,6 +534,25 @@ function printSubscriptions($subscriptions, $sort, $categories, $members, $i18n,
                                 <?= translate('renew', $i18n) ?>
                             </li>
                             <?php
+                        }
+                        if (!$subscription['one_time'] && !$subscription['inactive']) {
+                            if (empty($subscription['paid_this_cycle'])) {
+                            ?>
+                            <li class="mark-paid" title="<?= translate('mark_as_paid', $i18n) ?>"
+                                onClick="markAsPaid(event, <?= $subscription['id'] ?>)">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <?= translate('mark_as_paid', $i18n) ?>
+                            </li>
+                            <?php
+                            } else {
+                            ?>
+                            <li class="mark-paid" title="<?= translate('mark_as_unpaid', $i18n) ?>"
+                                onClick="unmarkPaid(event, <?= $subscription['id'] ?>)">
+                                <i class="fa-regular fa-circle-xmark"></i>
+                                <?= translate('mark_as_unpaid', $i18n) ?>
+                            </li>
+                            <?php
+                            }
                         }
                         ?>
                     </ul>

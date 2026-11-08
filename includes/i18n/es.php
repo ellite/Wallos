@@ -565,6 +565,81 @@ $i18n = [
     "payment_method_bank_transfer" => "Transferencia bancaria",
     "payment_method_direct_debit" => "Domiciliación bancaria",
     "payment_method_money" => "Efectivo",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marcar como pagado",
+    "mark_as_unpaid" => "Marcar como no pagado",
+    "paid" => "Pagado",
+    "unpaid" => "No pagado",
+    "payment_status" => "Estado del pago",
+    "folders" => "Carpetas",
+    "folder" => "Carpeta",
+    "no_folder" => "Sin carpeta",
+    "folder_color" => "Color de la carpeta",
+    "save_folder" => "Guardar carpeta",
+    "delete_folder" => "Eliminar carpeta",
+    "folder_saved" => "Carpeta guardada",
+    "folder_removed" => "Carpeta eliminada",
+    "failed_add_folder" => "No se pudo añadir la carpeta",
+    "failed_edit_folder" => "No se pudo guardar la carpeta",
+    "failed_remove_folder" => "No se pudo eliminar la carpeta",
+    "per_month" => "mes",
+    "folders_explanation" => "Agrupe sus suscripciones en carpetas de colores, como bolsillos de pagos, y fíltrelas con un solo toque en la página de suscripciones.",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Período de pago",
+    "use_custom_period" => "Usar este período en lugar de los meses naturales en las estadísticas",
+    "custom_period_active_warning" => "Sus estadísticas, el panel y el calendario seguirán este período en lugar de los meses naturales.",
+    "custom_period_same_as_month" => "Este período equivale a un mes natural, por lo que sus estadísticas no cambiarán. Establezca la fecha ancla en el día en que cobra.",
+    "amount_due_this_period" => "Importe a pagar en este período",
+    "semimonthly" => "Dos veces al mes",
+    "budget_second_payday" => "Segundo día de cobro",
+    "last_day_of_month" => "Último día del mes",
+    "instance_telegram_bot" => "Bot de Telegram de la instalación",
+    "instance_telegram_bot_info" => "Un bot para toda la instalación: cada cuenta que deje vacío su propio token de bot envía a través de este, con su propio ID de chat. Déjelo vacío para que cada cuenta use un bot propio.",
+    "instance_telegram_bot_in_use" => "Esta instalación ofrece un bot de Telegram. Deje el token vacío para usarlo e introduzca su ID de chat debajo.",
+    "instance_telegram_saved" => "Bot de Telegram guardado",
+    "managed_by_environment" => "Gestionado por variables de entorno",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Servidor ntfy de la instalación",
+    "instance_ntfy_server_info" => "Un servidor para toda la instalación: cada cuenta que deje vacío su propio servidor publica en este, bajo su propio tema. Las cabeceras son la credencial de este servidor y nunca se envían a un servidor que una cuenta haya configurado por su cuenta.",
+    "instance_ntfy_server_in_use" => "Esta instalación ofrece un servidor ntfy. Deje el servidor vacío para usarlo e introduzca su tema debajo.",
+    "instance_ntfy_saved" => "Servidor ntfy guardado",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Servidor Gotify de la instalación",
+    "instance_gotify_server_info" => "Un servidor para toda la instalación: cada cuenta que deje vacío su propio servidor envía a este. Solo se comparte la dirección: cada cuenta conserva su propio token de aplicación, de modo que sus mensajes llegan bajo su propia aplicación de Gotify.",
+    "instance_gotify_server_in_use" => "Esta instalación ofrece un servidor Gotify. Deje el servidor vacío para usarlo e introduzca debajo su propio token de aplicación.",
+    "instance_gotify_saved" => "Servidor Gotify guardado",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Aplicación Pushover de la instalación",
+    "instance_pushover_application_info" => "Una aplicación para toda la instalación: cada cuenta que deje vacío su propio token de aplicación envía a través de esta, con su propia clave de usuario. Déjelo vacío para que cada cuenta registre una aplicación propia.",
+    "instance_pushover_application_in_use" => "Esta instalación ofrece una aplicación Pushover. Deje el token de aplicación vacío para usarla e introduzca debajo su propia clave de usuario.",
+    "instance_pushover_saved" => "Aplicación Pushover guardada",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Las siguientes suscripciones están por renovarse:",
+    "notification_renewals_intro_named" => "%s, las siguientes suscripciones están por renovarse:",
+    "notification_subscription_line" => "%s por %s (%s)",
+    "notification_due_today" => "Hoy",
+    "notification_due_tomorrow" => "Mañana",
+    "notification_due_in_days" => "En %d días",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Las siguientes suscripciones están por cancelarse:",
+    "notification_cancellation_intro_named" => "%s, las siguientes suscripciones están por cancelarse:",
+    "notification_cancellation_line" => "%s por %s",
+    "wallos_cancellation_notification" => "Notificación de cancelación de Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notificaciones de la instalación",
+    "pushover_application_token" => "Token de aplicación de Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Suscripción eliminada correctamente",
+    "cannot_open_zip" => "No se pudo crear el archivo de copia de seguridad",
 ];
 
 

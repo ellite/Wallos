@@ -30,7 +30,7 @@ if (php_sapi_name() == 'cli') {
 }
 
 // Get all user ids
-$query = "SELECT id, username FROM user";
+$query = "SELECT id, username, language FROM user";
 $stmt = $db->prepare($query);
 $usersToNotify = $stmt->execute();
 $periodSummaryColumnCheck = $db->query("SELECT * FROM pragma_table_info('notification_settings') WHERE name='period_summary_at_period_start'");
@@ -38,12 +38,13 @@ $hasPeriodSummaryColumn = $periodSummaryColumnCheck && $periodSummaryColumnCheck
 
 function getDaysText($days)
 {
+    global $i18n;
     if ($days == 0) {
-        return "Today";
+        return translate('notification_due_today', $i18n);
     } elseif ($days == 1) {
-        return "Tomorrow";
+        return translate('notification_due_tomorrow', $i18n);
     } else {
-        return "In " . $days . " days";
+        return sprintf(translate('notification_due_in_days', $i18n), $days);
     }
 }
 
@@ -61,6 +62,8 @@ function formatPrice($price, $currencyCode, $currencySymbol)
 
 function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includePeriodSummary)
 {
+    global $i18n;
+
     if (empty($perUser) && !$includePeriodSummary) {
         return "";
     }
@@ -70,14 +73,19 @@ function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includeP
     }
 
     if ($name) {
-        $message = $name . ", the following subscriptions are up for renewal:\n";
+        $message = sprintf(translate('notification_renewals_intro_named', $i18n), $name) . "\n";
     } else {
-        $message = "The following subscriptions are up for renewal:\n";
+        $message = translate('notification_renewals_intro', $i18n) . "\n";
     }
 
     foreach ($perUser as $subscription) {
         $dayText = getDaysText($subscription['days']);
-        $message .= $subscription['name'] . " for " . $subscription['formatted_price'] . " (" . $dayText . ")\n";
+        $message .= sprintf(
+            translate('notification_subscription_line', $i18n),
+            $subscription['name'],
+            $subscription['formatted_price'],
+            $dayText
+        ) . "\n";
     }
 
     if ($includePeriodSummary) {
@@ -89,6 +97,12 @@ function buildNotificationMessage($name, $perUser, $periodSummaryLine, $includeP
 
 while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     $userId = $userToNotify['id'];
+
+    // Load the recipient's own language so notifications are translated per user.
+    // The cron context has no session, so $i18n would otherwise stay English for
+    // everyone regardless of each user's configured language. See #867.
+    $userLanguage = resolve_language($userToNotify['language'] ?? 'en');
+    require __DIR__ . '/../../includes/i18n/' . $userLanguage . '.php';
     if (php_sapi_name() !== 'cli') {
         echo "For user: " . $userToNotify['username'] . "<br /><br />";
     }
@@ -162,7 +176,10 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $gotifyNotificationsEnabled = $row['enabled'];
-        $gotify['serverUrl'] = $row["url"];
+        // The instance server when this account has none of its own. Resolved
+        // here, before the SSRF check below reads the address. The token stays
+        // the account's own.
+        $gotify['serverUrl'] = wallos_gotify_server($db, $row["url"]);
         $gotify['appToken'] = $row["token"];
         $gotify['ignore_ssl'] = $row["ignore_ssl"];
     }
@@ -175,7 +192,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $telegramNotificationsEnabled = $row['enabled'];
-        $telegram['botToken'] = $row["bot_token"];
+        // The instance bot when this account has no token of its own.
+        $telegram['botToken'] = wallos_telegram_bot_token($db, $row["bot_token"]);
         $telegram['chatId'] = $row["chat_id"];
     }
     // Check if PushPlus notifications are enabled and get the settings
@@ -210,7 +228,9 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $pushoverNotificationsEnabled = $row['enabled'];
         $pushover['user_key'] = $row["user_key"];
-        $pushover['token'] = $row["token"];
+        // The instance application when this account has no token of its own.
+        // The user key stays the account's own.
+        $pushover['token'] = wallos_pushover_token($db, $row["token"]);
     }
 
     // Check if Ntfy notifications are enabled and get the settings
@@ -221,9 +241,12 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
     if ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $ntfyNotificationsEnabled = $row['enabled'];
-        $ntfy['host'] = $row["host"];
+        // The instance server when this account has none of its own. Resolved
+        // here, before the SSRF check below reads the host.
+        $ntfySettings = wallos_ntfy_settings($db, $row["host"], $row["headers"]);
+        $ntfy['host'] = $ntfySettings['host'];
         $ntfy['topic'] = $row["topic"];
-        $ntfy['headers'] = $row["headers"];
+        $ntfy['headers'] = $ntfySettings['headers'];
         $ntfy['ignore_ssl'] = $row["ignore_ssl"];
     }
 
@@ -329,7 +352,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
         $currentDate = new DateTime('now');
 
-        $query = "SELECT main_currency, period_budget, budget_period_type, budget_period_anchor_date FROM user WHERE id = :userId";
+        $query = "SELECT main_currency, period_budget, budget_period_type, budget_period_anchor_date, budget_period_second_day FROM user WHERE id = :userId";
         $stmt = $db->prepare($query);
         $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
         $result = $stmt->execute();
@@ -338,7 +361,8 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
         $mainCurrencyId = $userBudgetConfig['main_currency'];
         $budgetPeriodType = sanitizeBudgetPeriodType($userBudgetConfig['budget_period_type'] ?? 'monthly');
         $budgetPeriodAnchorDate = sanitizeBudgetAnchorDate($userBudgetConfig['budget_period_anchor_date'] ?? getDefaultBudgetAnchorDate());
-        $activeBudgetPeriod = getActiveBudgetPeriod($currentDate, $budgetPeriodType, $budgetPeriodAnchorDate);
+        $budgetPeriodSecondDay = sanitizeBudgetSecondDay($userBudgetConfig['budget_period_second_day'] ?? 16);
+        $activeBudgetPeriod = getActiveBudgetPeriod($currentDate, $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
         $isPeriodStart = $activeBudgetPeriod['start']->format('Y-m-d') === $currentDate->format('Y-m-d');
 
         $query = "SELECT price, currency_id, next_payment, cycle, frequency, inactive, auto_renew FROM subscriptions WHERE user_id = :userId AND inactive = 0";
@@ -456,68 +480,75 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
 
                     $smtpAuth = (isset($email["smtpUsername"]) && $email["smtpUsername"] != "") || (isset($email["smtpPassword"]) && $email["smtpPassword"] != "");
 
-                    $mail = new PHPMailer(true);
-                    $mail->CharSet = "UTF-8";
-                    $mail->isSMTP();
-                    $mail->Timeout = 15;
+                    try {
+                        $mail = new PHPMailer(true);
+                        $mail->CharSet = "UTF-8";
+                        $mail->isSMTP();
+                        $mail->Timeout = 15;
 
-                    $mail->Host = $email['smtpAddress'];
-                    $mail->SMTPAuth = $smtpAuth;
+                        $mail->Host = $email['smtpAddress'];
+                        $mail->SMTPAuth = $smtpAuth;
 
-                    if ($smtpAuth) {
-                        $mail->Username = $email['smtpUsername'];
-                        $mail->Password = $email['smtpPassword'];
-                    }
-
-                    if ($email['encryption'] != "none") {
-                        $mail->SMTPSecure = $email['encryption'];
-                    } else {
-                        $mail->SMTPSecure = false;
-                        $mail->SMTPAutoTLS = false;
-                    }
-
-                    $mail->Port = $email['smtpPort'];
-
-                    $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
-                    $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
-                    $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
-                    $result = $stmt->execute();
-                    $user = $result->fetchArray(SQLITE3_ASSOC);
-
-                    // A payer without an address is skipped, except the primary
-                    // ones, who have always fallen back to the account's email.
-                    if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
-                        echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
-                        continue;
-                    }
-
-                    $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
-                    $name = !empty($user['name']) ? $user['name'] : $defaultName;
-
-                    $mail->setFrom($email['fromEmail'], 'Wallos App');
-                    $mail->addAddress($emailaddress, $name);
-
-                    if (!empty($email['otherEmails'])) {
-                        $list = explode(';', $email['otherEmails']);
-
-                        // Avoid duplicate emails
-                        $list = array_unique($list);
-                        $list = array_filter($list, function ($value) use ($emailaddress) {
-                            return $value !== $emailaddress;
-                        });
-
-                        foreach ($list as $value) {
-                            $mail->addCC(trim($value));
+                        if ($smtpAuth) {
+                            $mail->Username = $email['smtpUsername'];
+                            $mail->Password = $email['smtpPassword'];
                         }
-                    }
 
-                    $mail->Subject = 'Wallos Notification';
-                    $mail->Body = $message;
+                        if ($email['encryption'] != "none") {
+                            $mail->SMTPSecure = $email['encryption'];
+                        } else {
+                            $mail->SMTPSecure = false;
+                            $mail->SMTPAutoTLS = false;
+                        }
 
-                    if ($mail->send()) {
-                        echo "Email Notifications sent<br />";
-                    } else {
-                        echo "Error sending notifications: " . $mail->ErrorInfo . "<br />";
+                        $mail->Port = $email['smtpPort'];
+
+                        $stmt = $db->prepare('SELECT * FROM household WHERE id = :id AND user_id = :ownerId');
+                        $stmt->bindValue(':id', $payerUserId, SQLITE3_INTEGER);
+                        $stmt->bindValue(':ownerId', $userId, SQLITE3_INTEGER);
+                        $result = $stmt->execute();
+                        $user = $result->fetchArray(SQLITE3_ASSOC);
+
+                        // A payer without an address is skipped, except the primary
+                        // ones, who have always fallen back to the account's email.
+                        if (empty($user['email']) && isset($notifyOtherPayers[$payerUserId]) && !isset($notify[$payerUserId])) {
+                            echo "No email set for " . ($user['name'] ?? $payerUserId) . ", skipped.<br />";
+                            continue;
+                        }
+
+                        $emailaddress = !empty($user['email']) ? $user['email'] : $defaultEmail;
+                        $name = !empty($user['name']) ? $user['name'] : $defaultName;
+
+                        $mail->setFrom($email['fromEmail'], 'Wallos App');
+                        $mail->addAddress($emailaddress, $name);
+
+                        if (!empty($email['otherEmails'])) {
+                            $list = explode(';', $email['otherEmails']);
+
+                            // Avoid duplicate emails
+                            $list = array_unique($list);
+                            $list = array_filter($list, function ($value) use ($emailaddress) {
+                                return $value !== $emailaddress;
+                            });
+
+                            foreach ($list as $value) {
+                                $mail->addCC(trim($value));
+                            }
+                        }
+
+                        $mail->Subject = translate('wallos_notification', $i18n);
+                        $mail->Body = $message;
+
+                        if ($mail->send()) {
+                            echo "Email Notifications sent<br />";
+                        } else {
+                            error_log("Email notification failed for user " . (int) $userId . ".");
+                            echo "Error sending email notifications.<br />";
+                        }
+                    } catch (Exception $e) {
+                        // SMTP responses and exception messages may contain secrets.
+                        error_log("Email notification failed for user " . (int) $userId . ".");
+                        echo "Error sending email notifications.<br />";
                     }
                 }
                 }
@@ -1003,7 +1034,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                     $result = $stmt->execute();
                     $user = $result->fetchArray(SQLITE3_ASSOC);
 
-                    $title = 'Wallos Notification';
+                    $title = translate('wallos_notification', $i18n);
                     $name = $user['name'] ?? "";
                     $message = buildNotificationMessage($name, $perUser, $periodSummaryLine, $sendPeriodStartSummaryOnly);
                     if ($message === "") {
@@ -1074,7 +1105,7 @@ while ($userToNotify = $usersToNotify->fetchArray(SQLITE3_ASSOC)) {
                         }
 
                         $payload = json_encode([
-                            'title' => 'Wallos Notification',
+                            'title' => translate('wallos_notification', $i18n),
                             'body' => $message,
                         ]);
 

@@ -1,4 +1,6 @@
 <?php
+require_once 'includes/instance_config.php';
+require_once 'includes/html_text.php';
 require_once 'includes/header.php';
 require_once 'includes/upcoming_payments.php';
 require_once 'includes/webpush_helper.php';
@@ -14,11 +16,22 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     $currencies[$currencyId] = $row;
 }
 $userData['currency_symbol'] = $currencies[$main_currency]['symbol'];
+$useCustomPeriod = !empty($userData['use_custom_period']);
 $budgetPeriodType = $userData['budget_period_type'] ?? 'monthly';
 $budgetPeriodAnchorDate = $userData['budget_period_anchor_date'] ?? date('Y-m-d');
 if ($budgetPeriodAnchorDate === '1970-01-01' || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $budgetPeriodAnchorDate)) {
     $budgetPeriodAnchorDate = date('Y-m-d');
 }
+
+// A monthly period anchored on the 1st is a calendar month, so switching it on
+// changes nothing. The check runs through the same function the statistics use
+// rather than re-deriving the rule, so the warning cannot disagree with them.
+require_once 'includes/budget_period_calculations.php';
+$budgetPeriodSecondDay = sanitizeBudgetSecondDay($userData['budget_period_second_day'] ?? 16);
+$previewPeriod = getActiveBudgetPeriod(new DateTime('now'), $budgetPeriodType, $budgetPeriodAnchorDate, $budgetPeriodSecondDay);
+$customPeriodMatchesCalendarMonth =
+    $previewPeriod['start']->format('Y-m-d') === date('Y-m-01')
+    && $previewPeriod['end']->format('Y-m-d') === date('Y-m-t');
 $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_payments_limit'] ?? 3);
 
 ?>
@@ -41,6 +54,11 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         flex: 1 1 180px;
         min-width: 160px;
         gap: 8px;
+    }
+
+    /* display:flex above would otherwise win over the hidden attribute. */
+    .period-budget-controls .period-budget-field[hidden] {
+        display: none;
     }
 
     .period-budget-controls .period-budget-field label {
@@ -111,12 +129,19 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                 <input type="number" id="period_budget" name="period_budget" autocomplete="off" value="<?= $userData['period_budget'] ?? 0 ?>"
                     placeholder="Budget">
             </div>
+            <div class="form-group-inline">
+                <input type="checkbox" id="use_custom_period" name="use_custom_period" <?= $useCustomPeriod ? "checked" : "" ?>>
+                <label for="use_custom_period">
+                    <?= translate('use_custom_period', $i18n) ?>
+                </label>
+            </div>
             <div class="form-group-inline period-budget-controls">
                 <div class="period-budget-field">
                     <label for="budget_period_type"><?= translate('budget_period', $i18n) ?></label>
                     <select id="budget_period_type" name="budget_period_type">
                         <option value="weekly" <?= $budgetPeriodType === 'weekly' ? 'selected' : '' ?>><?= translate('weekly', $i18n) ?></option>
                         <option value="fortnightly" <?= $budgetPeriodType === 'fortnightly' ? 'selected' : '' ?>><?= translate('fortnightly', $i18n) ?></option>
+                        <option value="semimonthly" <?= $budgetPeriodType === 'semimonthly' ? 'selected' : '' ?>><?= translate('semimonthly', $i18n) ?></option>
                         <option value="monthly" <?= $budgetPeriodType === 'monthly' ? 'selected' : '' ?>><?= translate('monthly', $i18n) ?></option>
                     </select>
                 </div>
@@ -125,11 +150,29 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <input type="date" id="budget_period_anchor_date" name="budget_period_anchor_date"
                         value="<?= htmlspecialchars($budgetPeriodAnchorDate, ENT_QUOTES, 'UTF-8') ?>">
                 </div>
+                <div class="period-budget-field" id="secondPaydayField" <?= $budgetPeriodType === 'semimonthly' ? '' : 'hidden' ?>>
+                    <label for="budget_period_second_day"><?= translate('budget_second_payday', $i18n) ?></label>
+                    <select id="budget_period_second_day" name="budget_period_second_day">
+                        <?php for ($day = 1; $day <= 31; $day++) { ?>
+                            <option value="<?= $day ?>" <?= $budgetPeriodSecondDay === $day ? 'selected' : '' ?>>
+                                <?= $day === 31 ? translate('last_day_of_month', $i18n) : $day ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                </div>
                 <input type="submit" value="<?= translate('save', $i18n) ?>" id="savePeriodBudget" class="period-budget-save" onClick="savePeriodBudget()" />
             </div>
             <div class="settings-notes">
                 <p>
                     <i class="fa-solid fa-circle-info"></i> <?= translate('period_budget_info', $i18n) ?>
+                </p>
+                <p id="customPeriodActiveWarning" <?= ($useCustomPeriod && !$customPeriodMatchesCalendarMonth) ? '' : 'hidden' ?>>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <?= translate('custom_period_active_warning', $i18n) ?>
+                </p>
+                <p id="customPeriodWarning" <?= ($useCustomPeriod && $customPeriodMatchesCalendarMonth) ? '' : 'hidden' ?>>
+                    <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                    <?= translate('custom_period_same_as_month', $i18n) ?>
                 </p>
             </div>
         </div>
@@ -444,6 +487,22 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
         $notificationsNtfy['ignore_ssl'] = 0;
     }
 
+    // Whether this installation runs an ntfy server of its own, so the page can
+    // say that leaving the field empty is a choice rather than an omission.
+    $instanceNtfyServer = trim((string) (wallos_get_admin_settings($db)['ntfy_server'] ?? ''));
+
+    // Whether this installation runs a Telegram bot of its own, so the page can
+    // say that leaving the token empty is a choice rather than an omission.
+    $instanceTelegramBot = trim((string) (wallos_get_admin_settings($db)['telegram_bot_token'] ?? ''));
+
+    // Whether this installation runs a Gotify server of its own, so the page can
+    // say that leaving the field empty is a choice rather than an omission.
+    $instanceGotifyServer = trim((string) (wallos_get_admin_settings($db)['gotify_server'] ?? ''));
+
+    // Whether this installation runs a Pushover application of its own, so the
+    // page can say that leaving the field empty is a choice.
+    $instancePushoverToken = trim((string) (wallos_get_admin_settings($db)['pushover_token'] ?? ''));
+
     // Push notifications
     $sql = "SELECT * FROM push_notifications WHERE user_id = :userId LIMIT 1";
     $stmt = $db->prepare($sql);
@@ -706,6 +765,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <input type="text" name="gotifyurl" id="gotifyurl" autocomplete="off"
                             placeholder="<?= translate('url', $i18n) ?>" value="<?= htmlspecialchars($notificationsGotify['url']) ?>" />
                     </div>
+                    <?php if ($instanceGotifyServer !== '' && trim((string) $notificationsGotify['url']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_gotify_server_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group-inline">
                         <input type="text" name="gotifytoken" id="gotifytoken" autocomplete="off"
                             placeholder="<?= translate('token', $i18n) ?>"
@@ -748,6 +815,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             placeholder="<?= translate('token', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsPushover['token']) ?>" />
                     </div>
+                    <?php if ($instancePushoverToken !== '' && trim((string) $notificationsPushover['token']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_pushover_application_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="buttons">
                         <input type="button" class="secondary-button thin mobile-grow"
@@ -776,6 +851,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                             placeholder="<?= translate('telegram_bot_token', $i18n) ?>"
                             value="<?= htmlspecialchars($notificationsTelegram['bot_token'] ? $notificationsTelegram['bot_token'] : "") ?>" />
                     </div>
+                    <?php if ($instanceTelegramBot !== '' && trim((string) $notificationsTelegram['bot_token']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_telegram_bot_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group-inline">
                         <input type="text" name="telegramchatid" id="telegramchatid" autocomplete="off"
                             placeholder="<?= translate('telegram_chat_id', $i18n) ?>"
@@ -872,6 +955,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         <input type="text" name="ntfyhost" id="ntfyhost" autocomplete="off"
                             placeholder="<?= translate('host', $i18n) ?>" value="<?= htmlspecialchars($notificationsNtfy['host']) ?>" />
                     </div>
+                    <?php if ($instanceNtfyServer !== '' && trim((string) $notificationsNtfy['host']) === ''): ?>
+                        <div class="settings-notes">
+                            <p>
+                                <i class="fa-solid fa-circle-info"></i>
+                                <?= translate('instance_ntfy_server_in_use', $i18n) ?>
+                            </p>
+                        </div>
+                    <?php endif; ?>
                     <div class="form-group-inline">
                         <input type="text" name="ntfytopic" id="ntfytopic" autocomplete="off"
                             placeholder="<?= translate('topic', $i18n) ?>" value="<?= htmlspecialchars($notificationsNtfy['topic']) ?>" />
@@ -1136,6 +1227,61 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
     </section>
 
     <?php
+    $sql = "SELECT * FROM folders WHERE user_id = :userId ORDER BY `order` ASC";
+    $stmt = $db->prepare($sql);
+    $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+    $result = $stmt->execute();
+
+    if ($result) {
+        $folders = array();
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $folders[] = $row;
+        }
+    }
+    ?>
+
+    <section class="account-section">
+        <header>
+            <h2><?= translate('folders', $i18n) ?></h2>
+        </header>
+        <div class="account-categories">
+            <div class="settings-notes">
+                <p>
+                    <i class="fa-solid fa-circle-info"></i> <?= translate('folders_explanation', $i18n) ?>
+                </p>
+            </div>
+            <div id="folders" class="sortable-list">
+                <?php
+                foreach ($folders as $folder) {
+                    ?>
+                    <div class="form-group-inline" data-folderid="<?= $folder['id'] ?>">
+                        <div class=" drag-icon"><i class="fa-solid fa-grip-vertical"></i></div>
+                        <input type="color" name="folder-color" class="folder-color-picker"
+                            value="<?= htmlspecialchars($folder['color']) ?>"
+                            title="<?= translate('folder_color', $i18n) ?>">
+                        <input type="text" name="folder" autocomplete="off" value="<?= htmlSafe($folder['name']) ?>"
+                            placeholder="<?= translate('folder', $i18n) ?>">
+                        <button class="image-button medium" onClick="editFolder(<?= $folder['id'] ?>)" name="save"
+                            title="<?= translate('save_folder', $i18n) ?>">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button class="image-button medium" onClick="removeFolder(<?= $folder['id'] ?>)"
+                            title="<?= translate('delete_folder', $i18n) ?>">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+            <div class="buttons">
+                <input type="submit" value="<?= translate('add', $i18n) ?>" id="addFolder"
+                    onClick="addFolderButton()" class="thin mobile-grow" />
+            </div>
+        </div>
+    </section>
+
+    <?php
     $sql = "SELECT * FROM currencies WHERE user_id = :userId";
     $stmt = $db->prepare($sql);
     $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
@@ -1282,6 +1428,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <option value="0" <?= $provider == 0 ? 'selected' : '' ?>>fixer.io</option>
                     <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
                     <option value="2" <?= $provider == 2 ? 'selected' : '' ?>>frankfurter.dev</option>
+                    <option value="3" <?= $provider == 3 ? 'selected' : '' ?>>allratestoday.com</option>
                 </select>
             </div>
             <div class="buttons">
@@ -1323,6 +1470,12 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <span>
                         https://frankfurter.dev
                         <a href="https://frankfurter.dev" title="Frankfurter" target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                    <span>
+                        https://allratestoday.com
+                        <a href="https://allratestoday.com" title="AllRatesToday" target="_blank">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </span>

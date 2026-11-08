@@ -61,4 +61,12 @@ let i18n = {
   confirm_bulk_delete: "Hapus {count} langganan? Tindakan ini tidak dapat dibatalkan.",
   bulk_action_success: "{count} langganan diperbarui",
   error_bulk_action: "Tindakan massal gagal",
+  // Folders
+  folder: "Folder",
+  folder_color: "Warna folder",
+  save_folder: "Simpan folder",
+  delete_folder: "Hapus folder",
+  failed_add_folder: "Gagal menambahkan folder",
+  failed_save_folder: "Gagal menyimpan folder",
+  failed_remove_folder: "Gagal menghapus folder",
 }

@@ -565,6 +565,83 @@ $i18n = [
     "payment_method_bank_transfer" => "Virement bancaire",
     "payment_method_direct_debit" => "Prélèvement automatique",
     "payment_method_money" => "Espèces",
+
+    // Folders
+    "folders" => "Dossiers",
+    "folder" => "Dossier",
+    "no_folder" => "Sans dossier",
+    "folder_color" => "Couleur du dossier",
+    "save_folder" => "Enregistrer le dossier",
+    "delete_folder" => "Supprimer le dossier",
+    "folder_saved" => "Dossier enregistré",
+    "folder_removed" => "Dossier supprimé",
+    "failed_add_folder" => "Échec de l'ajout du dossier",
+    "failed_edit_folder" => "Échec de l'enregistrement du dossier",
+    "failed_remove_folder" => "Échec de la suppression du dossier",
+    "per_month" => "mois",
+    "folders_explanation" => "Regroupez vos abonnements dans des dossiers colorés, comme des poches de paiements, et filtrez-les en un clic sur la page des abonnements.",
+
+    // Payment status and folders
+    "mark_as_paid" => "Marquer comme payé",
+    "mark_as_unpaid" => "Marquer comme non payé",
+    "paid" => "Payé",
+    "unpaid" => "Non payé",
+    "payment_status" => "Statut du paiement",
+
+    // Pay period and instance Telegram bot
+    "payment_period" => "Période de paiement",
+    "use_custom_period" => "Utiliser cette période plutôt que les mois calendaires dans les statistiques",
+    "custom_period_active_warning" => "Vos statistiques, votre tableau de bord et votre calendrier suivront cette période plutôt que les mois calendaires.",
+    "custom_period_same_as_month" => "Cette période correspond à un mois calendaire, vos statistiques ne changeront donc pas. Définissez la date de référence sur le jour où vous êtes payé.",
+    "amount_due_this_period" => "Montant dû sur cette période",
+    "semimonthly" => "Deux fois par mois",
+    "budget_second_payday" => "Deuxième jour de paie",
+    "last_day_of_month" => "Dernier jour du mois",
+    "instance_telegram_bot" => "Bot Telegram de l'instance",
+    "instance_telegram_bot_info" => "Un seul bot pour toute l'installation : chaque compte qui laisse son propre jeton de bot vide envoie via celui-ci, avec son propre identifiant de discussion. Laissez vide pour que chaque compte utilise son propre bot.",
+    "instance_telegram_bot_in_use" => "Cette installation fournit un bot Telegram. Laissez le jeton vide pour l'utiliser et saisissez votre identifiant de discussion ci-dessous.",
+    "instance_telegram_saved" => "Bot Telegram enregistré",
+    "managed_by_environment" => "Géré par des variables d'environnement",
+
+    // Instance ntfy server
+    "instance_ntfy_server" => "Serveur ntfy de l'instance",
+    "instance_ntfy_server_info" => "Un serveur pour toute l'installation : chaque compte qui laisse son propre serveur vide publie sur celui-ci, sous son propre sujet. Les en-têtes sont l'identifiant de ce serveur et ne sont jamais envoyés à un serveur qu'un compte a configuré lui-même.",
+    "instance_ntfy_server_in_use" => "Cette installation fournit un serveur ntfy. Laissez le serveur vide pour l'utiliser et saisissez votre sujet ci-dessous.",
+    "instance_ntfy_saved" => "Serveur ntfy enregistré",
+
+    // Instance Gotify server
+    "instance_gotify_server" => "Serveur Gotify de l'instance",
+    "instance_gotify_server_info" => "Un serveur pour toute l'installation : chaque compte qui laisse son propre serveur vide envoie vers celui-ci. Seule l'adresse est partagée - chaque compte garde son propre jeton d'application, de sorte que ses messages arrivent sous sa propre application Gotify.",
+    "instance_gotify_server_in_use" => "Cette installation fournit un serveur Gotify. Laissez le serveur vide pour l'utiliser et saisissez ci-dessous votre propre jeton d'application.",
+    "instance_gotify_saved" => "Serveur Gotify enregistré",
+
+    // Instance Pushover application
+    "instance_pushover_application" => "Application Pushover de l'instance",
+    "instance_pushover_application_info" => "Une application pour toute l'installation : chaque compte qui laisse son propre jeton d'application vide envoie via celle-ci, avec sa propre clé utilisateur. Laissez vide pour que chaque compte enregistre sa propre application.",
+    "instance_pushover_application_in_use" => "Cette installation fournit une application Pushover. Laissez le jeton d'application vide pour l'utiliser et saisissez ci-dessous votre propre clé utilisateur.",
+    "instance_pushover_saved" => "Application Pushover enregistrée",
+
+    // Renewal notifications in the recipient's language
+    "notification_renewals_intro" => "Les abonnements suivants arrivent à renouvellement :",
+    "notification_renewals_intro_named" => "%s, les abonnements suivants arrivent à renouvellement :",
+    "notification_subscription_line" => "%s pour %s (%s)",
+    "notification_due_today" => "Aujourd'hui",
+    "notification_due_tomorrow" => "Demain",
+    "notification_due_in_days" => "Dans %d jours",
+
+    // Cancellation notifications in the recipient's language
+    "notification_cancellation_intro" => "Les abonnements suivants arrivent à résiliation :",
+    "notification_cancellation_intro_named" => "%s, les abonnements suivants arrivent à résiliation :",
+    "notification_cancellation_line" => "%s pour %s",
+    "wallos_cancellation_notification" => "Notification de résiliation Wallos",
+
+    // Instance notification settings on the admin page
+    "instance_notifications" => "Notifications de l'instance",
+    "pushover_application_token" => "Jeton d'application Pushover",
+
+    // Messages used by the delete and backup endpoints
+    "subscription_deleted" => "Abonnement supprimé avec succès",
+    "cannot_open_zip" => "Impossible de créer le fichier de sauvegarde",
 ];
 
 
