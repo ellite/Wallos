@@ -101,6 +101,11 @@ jobs:
           # always resolve php:8.3-fpm-alpine fresh, so a rebuild picks up base image security fixes
           pull: true
           platforms: ${{ matrix.platform }}
+          target: runtime
+          build-args: |
+            VERSION=${{ steps.meta.outputs.version }}
+            REVISION=${{ github.sha }}
+            CREATED=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
           labels: ${{ steps.meta.outputs.labels }}
           # PRs never push and never log into a registry, so don't build image
           # refs from vars.DOCKERHUB_TAG - it is empty for fork PRs.
