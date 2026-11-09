@@ -498,6 +498,11 @@ function printSubscriptions($subscriptions, $sort, $categories, $folders, $membe
                             title="<?= htmlSafe(translate('payment_method', $i18n) . ': ' . $subscription['payment_method_name']) ?>" />
                         <?php } ?>
                     </span>
+                    <span class="notify-status<?= $subscription['notify'] ? '' : ' off' ?>"
+                        onClick="toggleSubscriptionNotify(event, <?= $subscription['id'] ?>)"
+                        title="<?= translate('notifications', $i18n) ?>">
+                        <i class="fa-solid <?= $subscription['notify'] ? 'fa-bell' : 'fa-bell-slash' ?>"></i>
+                    </span>
                     <?php
                     $desktopMenuButtonClass = ""; {
                     }
