@@ -1,0 +1,18 @@
+---
+
+formatter:
+  indent: 2
+  max_line_length: 0
+  retain_line_breaks: false
+  retain_line_breaks_single: true
+  pad_line_comments: 1
+  eof_newline: true
+  trim_trailing_whitespace: false
+  include_document_start: true
+  indentless_arrays: false
+  indent_root_array: false
+  force_array_style: block
+  scan_folded_as_literal: true
+  disallow_anchors: false
+  disable_alias_key_correction: false
+  drop_merge_tag: false
