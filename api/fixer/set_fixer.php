@@ -6,7 +6,8 @@ It receives the following parameters:
 - fixer_api_key: the Fixer.io or APILayer API key to save (optional; if empty/omitted, clears the key).
   Not read for providers '2' and '3', which need no account.
 - provider: the provider type (optional; '0' for Fixer.io, '1' for APILayer.com, '2' for
-  Frankfurter, '3' for AllRatesToday, defaults to '0').
+  Frankfurter, '3' for AllRatesToday, '4' for FXMacroData, defaults to '0').
+  FXMacroData takes its own API key in fixer_api_key.
 
 It returns a JSON object with the following properties:
 - success: whether the request was successful (boolean).
@@ -22,6 +23,7 @@ Example response:
 */
 
 require_once '../../includes/connect_endpoint.php';
+require_once '../../includes/fxmacrodata.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 
@@ -65,11 +67,11 @@ $userId = $user['id'];
 $fixerApiKey = isset($_POST['fixer_api_key']) ? trim($_POST['fixer_api_key']) : '';
 $provider = $_POST['provider'] ?? '0';
 
-if (!in_array($provider, ['0', '1', '2', '3', 0, 1, 2, 3], true)) {
+if (!in_array($provider, ['0', '1', '2', '3', '4', 0, 1, 2, 3, 4], true)) {
     echo json_encode([
         'success' => false,
         'title' => 'Invalid provider',
-        'message' => 'Provider must be 0 (Fixer.io), 1 (APILayer.com), 2 (Frankfurter) or 3 (AllRatesToday).'
+        'message' => 'Provider must be 0 (Fixer.io), 1 (APILayer.com), 2 (Frankfurter), 3 (AllRatesToday) or 4 (FXMacroData).'
     ]);
     exit;
 }
@@ -159,7 +161,23 @@ if ($fixerApiKey === '') {
 }
 
 // Validate the API key against the provider
-if ($provider === 1) {
+if ($provider === 4) {
+    // FXMacroData answers a refused key with 401/403 and a reason, not with a
+    // success flag, so its check is made by its own helper and turned into the
+    // shape the code below reads.
+    $check = fxmacrodata_check_key($fixerApiKey);
+
+    if (!$check['valid']) {
+        echo json_encode([
+            'success' => false,
+            'title' => 'Validation error',
+            'message' => 'Invalid API key. ' . $check['message']
+        ]);
+        exit;
+    }
+
+    $response = json_encode(['success' => true]);
+} elseif ($provider === 1) {
     $testKeyUrl = "https://api.apilayer.com/fixer/latest?base=USD&symbols=EUR";
     $context = stream_context_create([
         'http' => [

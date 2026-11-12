@@ -153,7 +153,7 @@ wallos_test('every fetch path offers the provider through the shared helper', fu
         assert_contains('} elseif ((int) $provider === 3) {', $source, $path . ' has a branch for provider 3');
         assert_contains('allratestoday_latest_rates($mainCurrencyCode, $codes)', $source,
             $path . ' asks for the rates in the user\'s main currency');
-        assert_contains('if ((int) $provider === 2 || (int) $provider === 3) {', $source,
+        assert_contains('if ((int) $provider === 2 || (int) $provider === 3 || (int) $provider === 4) {', $source,
             $path . ' makes no conversion on an answer that already is in the main currency');
         assert_not_contains('allratestoday.com/api', $source,
             $path . ' builds no provider URL of its own');
@@ -177,7 +177,7 @@ wallos_test('both save endpoints treat provider 3 as keyless and store it', func
             $path . ' stores the provider that was posted, not a hard-coded 2');
     }
 
-    assert_contains("'3', 0, 1, 2, 3]", allratestoday_source('api/fixer/set_fixer.php'),
+    assert_contains("'3', '4', 0, 1, 2, 3, 4]", allratestoday_source('api/fixer/set_fixer.php'),
         'the REST endpoint accepts provider 3');
 });
 
