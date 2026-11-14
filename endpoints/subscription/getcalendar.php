@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/getdbkeys.php';
+require_once '../../includes/currency_formatter.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
 
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $subscription['category'] = payerNamesLabel(getCategoriesBySubscription($db, [$subscription])[$subscription['id']] ?? [], array_map(fn($c) => $c['name'] ?? '', $categories));
         $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
         $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
-        $subscription['price'] = number_format($subscription['price'], 2);
+        $subscription['price'] = number_format((float) $subscription['price'], CurrencyFormatter::decimalPlaces($subscription['price']));
 
         echo json_encode([
             'success' => true,

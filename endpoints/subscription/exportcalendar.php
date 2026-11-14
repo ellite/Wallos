@@ -2,6 +2,7 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/getdbkeys.php';
+require_once '../../includes/currency_formatter.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
 require_once '../../includes/ical_helper.php';
@@ -31,7 +32,7 @@ if ($subscription) {
     $subscription['payment_method'] = $payment_methods[$subscription['payment_method_id']]['name'];
     $subscription['currency'] = $currencies[$subscription['currency_id']]['symbol'];
     $subscription['trigger'] = $subscription['notify_days_before'] ? $subscription['notify_days_before'] : 1;
-    $subscription['price'] = number_format($subscription['price'], 2);
+    $subscription['price'] = number_format((float) $subscription['price'], CurrencyFormatter::decimalPlaces($subscription['price']));
 
     // Create ICS from subscription information
     $uid = 'wallos-subscription-' . $subscription['id'] . '@wallos';

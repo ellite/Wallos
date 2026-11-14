@@ -3,6 +3,7 @@ set_time_limit(300);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/ssrf_helper.php';
+require_once '../../includes/currency_formatter.php';
 require_once '../../includes/ai_client.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
@@ -101,7 +102,7 @@ foreach ($subscriptions as $row) {
         continue;
     }
 
-    $price = round($row['price'], 2);
+    $price = round($row['price'], CurrencyFormatter::decimalPlaces($row['price']));
     $currencyCode = $currencies[$row['currency_id']]['code'] ?? '';
     $priceFormatted = $currencyCode ? "$price $currencyCode" : "$price";
 

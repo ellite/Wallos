@@ -49,6 +49,7 @@ Example response:
 error_reporting(E_ERROR | E_PARSE);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/inputvalidation.php';
+require_once '../../includes/price_validation.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/subscription_payers.php';
@@ -412,7 +413,15 @@ switch ($action) {
         }
 
         $name = validate($name);
-        $price = floatval($price);
+        $price = normalizeSubscriptionPrice($price);
+        if ($price === null) {
+            echo json_encode([
+                'success' => false,
+                'title' => 'Invalid parameter',
+                'message' => 'Parameter "price" must be greater than zero with at most 8 decimal places.'
+            ]);
+            exit;
+        }
         $currencyId = intval($currencyId);
         $frequency = intval($frequency);
         $cycle = intval($cycle);
@@ -629,7 +638,19 @@ switch ($action) {
 
         // Merge existing values with incoming POST parameters
         $name = isset($_POST['name']) ? validate($_POST['name']) : $subscription['name'];
-        $price = isset($_POST['price']) ? floatval($_POST['price']) : $subscription['price'];
+        if (isset($_POST['price'])) {
+            $price = normalizeSubscriptionPrice($_POST['price']);
+            if ($price === null) {
+                echo json_encode([
+                    'success' => false,
+                    'title' => 'Invalid parameter',
+                    'message' => 'Parameter "price" must be greater than zero with at most 8 decimal places.'
+                ]);
+                exit;
+            }
+        } else {
+            $price = $subscription['price'];
+        }
         $currencyId = isset($_POST['currency_id']) ? intval($_POST['currency_id']) : $subscription['currency_id'];
         $frequency = isset($_POST['frequency']) ? intval($_POST['frequency']) : $subscription['frequency'];
         $cycle = isset($_POST['cycle']) ? intval($_POST['cycle']) : $subscription['cycle'];

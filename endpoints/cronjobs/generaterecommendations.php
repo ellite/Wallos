@@ -3,6 +3,7 @@ set_time_limit(300);
 require_once 'validate.php';
 require_once __DIR__ . '/../../includes/connect_endpoint_crontabs.php';
 require_once __DIR__ . '/../../includes/ssrf_helper.php';
+require_once __DIR__ . '/../../includes/currency_formatter.php';
 
 if (php_sapi_name() === 'cli') {
     $runType = $argv[1] ?? 'weekly';
@@ -159,7 +160,7 @@ foreach ($allAiSettings as $aiSettings) {
     $subscriptionsForAI = [];
     foreach ($subscriptions as $row) {
         if ($row['inactive']) continue;
-        $price = round($row['price'], 2);
+        $price = round($row['price'], CurrencyFormatter::decimalPlaces($row['price']));
         $currencyCode = $currencies[$row['currency_id']]['code'] ?? '';
         $priceFormatted = $currencyCode ? "$price $currencyCode" : "$price";
         $payerName = $members[$row['payer_user_id']]['name'] ?? 'Unknown';

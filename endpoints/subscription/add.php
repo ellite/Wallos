@@ -3,6 +3,7 @@ error_reporting(E_ERROR | E_PARSE);
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 require_once '../../includes/inputvalidation.php';
+require_once '../../includes/price_validation.php';
 require_once '../../includes/getsettings.php';
 require_once '../../includes/ssrf_helper.php';
 require_once '../../includes/logo_theme_variant.php';
@@ -236,7 +237,12 @@ function resizeAndUploadLogo($uploadedFile, $uploadDir, $name, $settings)
 
 $isEdit = isset($_POST['id']) && $_POST['id'] != "";
 $name = validate($_POST["name"]);
-$price = $_POST['price'];
+$price = normalizeSubscriptionPrice($_POST['price'] ?? '');
+if ($price === null) {
+    header('Content-Type: application/json');
+    echo json_encode(['status' => 'Error', 'message' => 'Price must be greater than zero with at most 8 decimal places.']);
+    exit();
+}
 $currencyId = $_POST["currency_id"];
 $frequency = $_POST["frequency"];
 $cycle = $_POST["cycle"];
