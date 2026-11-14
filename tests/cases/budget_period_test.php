@@ -454,3 +454,27 @@ wallos_test('the calendar walks occurrences with the shared helper, not strtotim
     assert_not_contains('months", $date)', $calendar,
         'the overflowing strtotime walk is gone');
 });
+
+wallos_test('the dashboard restores amount due this month alongside the payment period', function () {
+    $source = file_get_contents(WALLOS_ROOT . '/index.php');
+
+    // The calendar-month figure belongs in the payment-period card: a period
+    // can cross a month boundary, so the period amount cannot answer "what is
+    // still due before this month ends?" on its own.
+    $periodStart = strpos($source, 'translate("amount_needed_this_period", $i18n)');
+    assert_true($periodStart !== false, 'the dashboard renders the payment-period amount');
+
+    $periodEnd = strpos($source, 'periodOverBudgetAmount', $periodStart);
+    assert_true($periodEnd !== false, 'the payment-period block has a closing marker');
+
+    $periodBlock = substr($source, $periodStart, $periodEnd - $periodStart);
+    assert_contains('translate("amount_due", $i18n)', $periodBlock,
+        'the calendar-month amount has its own label inside the period card');
+    assert_contains('$amountDueThisMonth', $periodBlock,
+        'the calendar-month amount is rendered from the existing calculation');
+
+    // Accounts that have not opted into a payment period never see that card,
+    // so the same figure has to be available in the monthly budget card too.
+    assert_true(substr_count($source, '$amountDueThisMonth') >= 2,
+        'the calendar-month amount is shown whether or not a payment period is active');
+});
