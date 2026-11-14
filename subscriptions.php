@@ -466,7 +466,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     </div>
 
     <div class="form-group-inline">
-      <input type="number" step="0.01" id="price" name="price" autocomplete="off"
+      <input type="number" step="0.00000001" id="price" name="price" autocomplete="off"
         placeholder="<?= translate('price', $i18n) ?>" required>
       <select id="currency" name="currency_id" placeholder="<?= translate('add_subscription', $i18n) ?>">
         <?php
