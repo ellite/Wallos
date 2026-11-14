@@ -247,11 +247,15 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
     $oneTimeSectionShown = false;
     foreach ($subscriptions as $index => $subscription) {
         $headings = [];
+        $categoryHeadingIndex = null;
+        $categoryHeadingId = null;
         if ($subscription['one_time'] && !$oneTimeSectionShown) {
             $headings[] = translate('lifetime_purchases', $i18n);
             $oneTimeSectionShown = true;
         }
         if ($sort == "category_id" && $subscription['category_id'] != $currentCategory) {
+            $categoryHeadingIndex = count($headings);
+            $categoryHeadingId = (int) $subscription['category_id'];
             $headings[] = $subscription['category_id'] == 1
                 ? translate('no_category', $i18n)
                 : ($categories[$subscription['category_id'] ?? ""]['name'] ?? "");
@@ -266,6 +270,8 @@ function prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $mem
             $currentPaymentMethodId = $subscription['payment_method_id'];
         }
         $subscriptions[$index]['headings'] = $headings;
+        $subscriptions[$index]['category_heading_index'] = $categoryHeadingIndex;
+        $subscriptions[$index]['category_heading_id'] = $categoryHeadingId;
     }
 
     return $subscriptions;
@@ -325,18 +331,24 @@ function buildFolderStats($db, $userId, $folders, $mainCurrencyId, $currencies, 
     return $payload;
 }
 
-function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang)
+function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders, $members, $i18n, $disabledToBottom, $showSubscriptionProgress, $currencies, $lang, $categoryMonthlyTotals = [])
 {
     $items = [];
     foreach (prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom) as $subscription) {
         $oneTime = (bool) $subscription['one_time'];
         $autoRenew = (int) $subscription['auto_renew'] === 1;
         $hasOriginal = isset($subscription['original_price']) && $subscription['original_price'] != $subscription['price'];
+        $categoryHeadingIndex = $subscription['category_heading_index'] ?? null;
+        $categoryHeadingId = $subscription['category_heading_id'] ?? null;
 
         $items[] = [
             'id' => (int) $subscription['id'],
             'name' => htmlToText($subscription['name']),
             'headings' => array_map('htmlToText', $subscription['headings']),
+            'category_heading_index' => $categoryHeadingIndex,
+            'category_heading_total' => $categoryHeadingIndex !== null && $categoryHeadingId !== null
+                ? ($categoryMonthlyTotals[(int) $categoryHeadingId] ?? null)
+                : null,
             'logo' => $subscription['logo'] !== "" ? $subscription['logo'] : null,
             'logo_variant' => $subscription['logo_variant'] ?? null,
             'logo_text_color' => $subscription['logo_text_color'] ?? null,
@@ -368,15 +380,22 @@ function buildSubscriptionsPayload($subscriptions, $sort, $categories, $folders,
     return $items;
 }
 
-function printSubscriptions($subscriptions, $sort, $categories, $folders, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang)
+function printSubscriptions($subscriptions, $sort, $categories, $folders, $members, $i18n, $colorTheme, $imagePath, $disabledToBottom, $mobileNavigation, $showSubscriptionProgress, $currencies, $lang, $categoryMonthlyTotals = [])
 {
     $subscriptions = prepareSubscriptionsForDisplay($subscriptions, $sort, $categories, $members, $i18n, $disabledToBottom);
 
     foreach ($subscriptions as $subscription) {
-        foreach ($subscription['headings'] as $heading) {
+        foreach ($subscription['headings'] as $headingIndex => $heading) {
+            $categoryTotal = null;
+            if ($headingIndex === ($subscription['category_heading_index'] ?? null)) {
+                $categoryTotal = $categoryMonthlyTotals[(int) $subscription['category_heading_id']] ?? null;
+            }
             ?>
             <div class="subscription-list-title">
                 <?= htmlSafe($heading) ?>
+                <?php if ($categoryTotal !== null): ?>
+                    <span class="subscription-list-total"><?= htmlSafe($categoryTotal) ?></span>
+                <?php endif; ?>
             </div>
             <?php
         }

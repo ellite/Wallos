@@ -18,6 +18,7 @@ require_once '../../includes/logo_theme_variant.php';
 include_once '../../includes/list_subscriptions.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
+require_once '../../includes/category_totals.php';
 
 require_once '../../includes/getsettings.php';
 
@@ -185,7 +186,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
   $categoriesBySubscription = getCategoriesBySubscription($db, $subscriptions);
   $paidStatusFilter = isset($_GET['paidStatus']) && in_array($_GET['paidStatus'], ['paid', 'unpaid']) ? $_GET['paidStatus'] : '';
 
-  foreach ($subscriptions as $subscription) {
+  foreach ($subscriptions as $index => $subscription) {
+    $subscriptions[$index]['category_ids'] = $categoriesBySubscription[$subscription['id']] ?? [];
     if ($subscription['inactive'] == 1 && isset($settings['hideDisabledSubscriptions']) && $settings['hideDisabledSubscriptions'] === 'true') {
       continue;
     }
@@ -290,6 +292,24 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     $labels[$key] = htmlToText(translate($key, $i18n));
   }
 
+  // The AJAX refresh renders the same headings as the first page load, so it
+  // gets the same category totals, formatted in the main currency.
+  $categoryTotalLabels = [];
+  if ($sortOrder == "category_id") {
+    $categoryMonthlyTotals = wallos_category_monthly_totals(
+      $subscriptions,
+      array_keys($categories),
+      function ($subscription) use ($db, $userId) {
+        $price = wallos_convert_price($subscription['price'], $subscription['currency_id'], $db, $userId);
+        return getPricePerMonth($subscription['cycle'], $subscription['frequency'], $price);
+      }
+    );
+    $mainCurrencyCode = $currencies[$mainCurrencyId]['code'];
+    foreach ($categoryMonthlyTotals as $categoryId => $monthlyTotal) {
+      $categoryTotalLabels[$categoryId] = htmlToText(formatPrice($monthlyTotal, $mainCurrencyCode, $currencies));
+    }
+  }
+
   echo json_encode([
     'success' => true,
     'total' => count($subscriptions),
@@ -304,7 +324,8 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
       $settings['disabledToBottom'],
       $settings['showSubscriptionProgress'],
       $currencies,
-      $lang
+      $lang,
+      $categoryTotalLabels
     ),
     'folders' => buildFolderStats($db, $userId, $folders ?? [], $mainCurrencyId, $currencies, $i18n),
     'labels' => $labels,
