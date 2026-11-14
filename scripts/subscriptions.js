@@ -857,7 +857,12 @@ function renderSubscriptions(data) {
 
   return data.subscriptions.map(subscription => {
     const headings = subscription.headings
-      .map(heading => `<div class="subscription-list-title">${escapeHtml(heading)}</div>`)
+      .map((heading, index) => {
+        const total = index === subscription.category_heading_index && subscription.category_heading_total
+          ? `<span class="subscription-list-total">${escapeHtml(subscription.category_heading_total)}</span>`
+          : "";
+        return `<div class="subscription-list-title">${escapeHtml(heading)}${total}</div>`;
+      })
       .join("");
     return headings + renderSubscription(subscription, data);
   }).join("");
