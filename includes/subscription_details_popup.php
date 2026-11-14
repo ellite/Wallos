@@ -157,4 +157,5 @@ foreach ($subscriptions as $detailsSubscription) {
 <script>
   window.subscriptionLookups = <?= json_encode($detailsLookups, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>;
 </script>
+<script src="scripts/paid-actions.js?<?= $version ?>"></script>
 <script src="scripts/subscription-details.js?<?= $version ?>"></script>
