@@ -1833,6 +1833,14 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
             </div>
             <div>
                 <div class="form-group-inline">
+                    <input type="checkbox" id="excludeyearlyfrommonthly" name="excludeyearlyfrommonthly"
+                        onChange="setExcludeYearlyFromMonthly()" <?php if ($settings['exclude_yearly_from_monthly'])
+                        echo 'checked'; ?>>
+                    <label for="excludeyearlyfrommonthly"><?= translate('exclude_yearly_from_monthly', $i18n) ?></label>
+                </div>
+            </div>
+            <div>
+                <div class="form-group-inline">
                     <input type="checkbox" id="convertcurrency" name="convertcurrency" onChange="setConvertCurrency()"
                         <?php
                         if ($settings['convert_currency'])

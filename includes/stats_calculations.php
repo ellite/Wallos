@@ -105,6 +105,12 @@ $mostExpensiveSubscription = array();
 $mostExpensiveSubscription['price'] = 0;
 $amountDueThisMonth = 0;
 $totalCostPerMonth = 0;
+// Yearly plans are spread over twelve months for the monthly figure. When the
+// account asks for the monthly figure to be the money that leaves the account
+// this month, they are left out of it, so their monthly share is kept apart:
+// the yearly figure adds them back and is the same either way.
+$totalCostPerMonthWithYearly = 0;
+$excludeYearlyFromMonthly = !empty($settings['exclude_yearly_from_monthly']);
 $totalSavingsPerMonth = 0;
 $totalCostsInReplacementsPerMonth = 0;
 
@@ -231,7 +237,12 @@ if ($result) {
                         $paymentMethodsCount[$paymentMethodId]['count'] += 1;
                     }
                 }
-                $totalCostPerMonth += $price;
+                // A yearly plan is counted in the yearly figure either way; it
+                // only leaves the monthly figure when the account asked for it.
+                $totalCostPerMonthWithYearly += $price;
+                if (!$excludeYearlyFromMonthly || $cycle != 4) {
+                    $totalCostPerMonth += $price;
+                }
                 // The price is split evenly between the people paying for it
                 $payerShare = count($subscriptionPayerIds) > 0 ? $fullPrice / count($subscriptionPayerIds) : 0;
                 foreach ($subscriptionPayerIds as $payerId) {
@@ -296,8 +307,9 @@ if ($result) {
         // Subtract the total cost of replacement subscriptions from the total savings
         $totalSavingsPerMonth -= $totalCostsInReplacementsPerMonth;
 
-        // Calculate yearly price
-        $totalCostPerYear = $totalCostPerMonth * 12;
+        // Calculate yearly price. Built from the total that always counts
+        // yearly plans, so the yearly figure does not move with the setting.
+        $totalCostPerYear = $totalCostPerMonthWithYearly * 12;
 
         // Calculate average subscription monthly cost
         if ($activeSubscriptions > 0) {

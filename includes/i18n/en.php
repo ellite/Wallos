@@ -370,6 +370,7 @@ $i18n = [
     "custom_css" => "Custom CSS",
     "save_custom_css" => "Save Custom CSS",
     "calculate_monthly_price" => "Calculate and show monthly price for all subscriptions",
+    "exclude_yearly_from_monthly" => "Leave yearly subscriptions out of the monthly cost",
     "convert_prices" => "Always convert and show prices on my main currency (slower)",
     "show_original_price" => "Also show original price when conversions or calculations are made",
     "experience" => "Experience",
