@@ -1295,6 +1295,13 @@ function setShowMonthlyPrice() {
   storeSettingsOnDB('monthly_price', value);
 }
 
+function setExcludeYearlyFromMonthly() {
+  const excludeYearlyFromMonthlyCheckbox = document.querySelector("#excludeyearlyfrommonthly");
+  const value = excludeYearlyFromMonthlyCheckbox.checked;
+
+  storeSettingsOnDB('exclude_yearly_from_monthly', value);
+}
+
 function setConvertCurrency() {
   const convertCurrencyCheckbox = document.querySelector("#convertcurrency");
   const value = convertCurrencyCheckbox.checked;
