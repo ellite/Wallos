@@ -401,6 +401,13 @@ switch ($action) {
             $replacementSubscriptionId = null;
         }
 
+        if (!validate_frequency($frequency)) {
+            echo json_encode(['success' => false, 'title' => 'Invalid parameter',
+                'message' => 'Parameter "frequency" must be an integer between 1 and 366.']);
+            exit;
+        }
+        $frequency = (int)$frequency;
+
         // Validate required fields
         if (!$name || trim($name) === '' || $price === null || !$currencyId || !$frequency || !$cycle || !$nextPayment) {
             echo json_encode([
@@ -415,7 +422,7 @@ switch ($action) {
         $price = floatval($price);
         $currencyId = intval($currencyId);
         $frequency = intval($frequency);
-        $cycle = intval($cycle);
+        $cycle = validate_frequency($cycle, 1, 4) ? (int)$cycle : 0;
 
         if (!in_array($cycle, [1, 2, 3, 4], true)) {
             echo json_encode([
@@ -631,8 +638,16 @@ switch ($action) {
         $name = isset($_POST['name']) ? validate($_POST['name']) : $subscription['name'];
         $price = isset($_POST['price']) ? floatval($_POST['price']) : $subscription['price'];
         $currencyId = isset($_POST['currency_id']) ? intval($_POST['currency_id']) : $subscription['currency_id'];
-        $frequency = isset($_POST['frequency']) ? intval($_POST['frequency']) : $subscription['frequency'];
-        $cycle = isset($_POST['cycle']) ? intval($_POST['cycle']) : $subscription['cycle'];
+        $frequency = $_POST['frequency'] ?? $subscription['frequency'];
+        if (!validate_frequency($frequency)) {
+            echo json_encode(['success' => false, 'title' => 'Invalid parameter',
+                'message' => 'Parameter "frequency" must be an integer between 1 and 366.']);
+            exit;
+        }
+        $frequency = (int)$frequency;
+
+        $cycle = $_POST['cycle'] ?? $subscription['cycle'];
+        $cycle = validate_frequency($cycle, 1, 4) ? (int)$cycle : 0;
         $nextPayment = isset($_POST['next_payment']) ? $_POST['next_payment'] : $subscription['next_payment'];
         
         $autoRenew = $subscription['auto_renew'];

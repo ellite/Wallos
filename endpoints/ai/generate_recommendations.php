@@ -7,7 +7,9 @@ require_once '../../includes/ai_client.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
+    $frequency = max(1, (int)$frequency);
     switch ($cycle) {
+    case 5: return 0;
         case 1:  return $price * (30 / $frequency);   // daily
         case 2:  return $price * (4.35 / $frequency); // weekly
         case 3:  return $price / $frequency;          // monthly

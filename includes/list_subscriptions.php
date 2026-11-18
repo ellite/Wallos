@@ -103,6 +103,7 @@ if (!function_exists('isPaidThisCycle')) {
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
+    $frequency = max(1, (int)$frequency);
     switch ($cycle) {
         case 1:
             $numberOfPaymentsPerMonth = (30 / $frequency);

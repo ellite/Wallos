@@ -242,6 +242,21 @@ $frequency = $_POST["frequency"];
 $cycle = $_POST["cycle"];
 $nextPayment = $_POST["next_payment"];
 $autoRenew = isset($_POST['auto_renew']) ? true : false;
+if (!validate_frequency($cycle, 1, 5)) {
+    die(json_encode(['status' => 'Error', 'message' => 'Invalid cycle.']));
+}
+$cycle = (int)$cycle;
+if ($cycle === 5) {
+    $frequency = 1;
+    $autoRenew = false;
+} elseif (!validate_frequency($frequency)) {
+    die(json_encode(['status' => 'Error', 'message' => 'Frequency must be an integer between 1 and 366.']));
+}
+$frequency = (int)$frequency;
+if (!wallos_valid_payment_date($nextPayment)) {
+    die(json_encode(['status' => 'Error', 'message' => 'Invalid next_payment date.']));
+}
+
 $startDate = $_POST["start_date"];
 $paymentMethodId = $_POST["payment_method_id"];
 $payerIds = parsePayerIds($_POST["payer_user_id"] ?? "");

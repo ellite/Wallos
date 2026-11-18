@@ -21,6 +21,13 @@ if ($subscriptionToClone === false) {
     ]));
 }
 
+$subscriptionToClone['cycle'] = in_array((int)$subscriptionToClone['cycle'], [1, 2, 3, 4, 5], true) ? (int)$subscriptionToClone['cycle'] : 3;
+$subscriptionToClone['frequency'] = max(1, min(366, (int)$subscriptionToClone['frequency']));
+if ($subscriptionToClone['cycle'] === 5) {
+    $subscriptionToClone['frequency'] = 1;
+    $subscriptionToClone['auto_renew'] = 0;
+}
+
 $query = "INSERT INTO subscriptions (name, logo, price, currency_id, next_payment, auto_renew, start_date, cycle, frequency, notes, payment_method_id, payer_user_id, category_id, folder_id, notify, url, inactive, notify_days_before, user_id, cancellation_date, replacement_subscription_id) VALUES (:name, :logo, :price, :currency_id, :next_payment, :auto_renew, :start_date, :cycle, :frequency, :notes, :payment_method_id, :payer_user_id, :category_id, :folder_id, :notify, :url, :inactive, :notify_days_before, :user_id, :cancellation_date, :replacement_subscription_id)";
 $cloneStmt = $db->prepare($query);
 $cloneStmt->bindValue(':name', $subscriptionToClone['name'], SQLITE3_TEXT);

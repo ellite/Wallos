@@ -87,13 +87,13 @@ chown -R www-data:www-data /var/www/html/images/uploads/logos
 crontab -d -u root
 
 # Run updatenextpayment.php and wait for it to finish
-/usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php
+timeout 300 /usr/local/bin/php /var/www/html/endpoints/cronjobs/updatenextpayment.php || echo "Warning: updatenextpayment exited with status $?" >&2
 
 # Run updateexchange.php
-/usr/local/bin/php /var/www/html/endpoints/cronjobs/updateexchange.php
+timeout 300 /usr/local/bin/php /var/www/html/endpoints/cronjobs/updateexchange.php || echo "Warning: updateexchange exited with status $?" >&2
 
 # Run checkforupdates.php
-/usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php
+timeout 300 /usr/local/bin/php /var/www/html/endpoints/cronjobs/checkforupdates.php || echo "Warning: checkforupdates exited with status $?" >&2
 
 # Essentially wait until all child processes exit
 wait

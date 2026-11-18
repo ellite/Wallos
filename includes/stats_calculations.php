@@ -8,6 +8,7 @@ require_once __DIR__ . '/payments_due.php';
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
+    $frequency = max(1, (int)$frequency);
     switch ($cycle) {
         case 1:
             $numberOfPaymentsPerMonth = (30 / $frequency);
