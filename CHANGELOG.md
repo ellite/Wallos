@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.11.2](https://github.com/ellite/Wallos/compare/v5.11.1...v5.11.2) (2026-11-18)
+
+
+### Bug Fixes
+
+* validate subscription frequency and harden payment loops against infinite execution ([1c470f8](https://github.com/ellite/Wallos/commit/1c470f8c99648fd4633e94108ceae268dddc5a76))
+
 ## [5.11.1](https://github.com/ellite/Wallos/compare/v5.11.0...v5.11.1) (2026-11-07)
 
 
