@@ -16,8 +16,6 @@ env:
   REGISTRY_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
   IMAGE_NAME: ${{ vars.DOCKERHUB_TAG }}
-  # For release-please, see available types at https://github.com/google-github-actions/release-please-action/tree/v4/?tab=readme-ov-file#release-types-supported
-  PROJECT_TYPE: simple
 
 jobs:
   release:
@@ -29,9 +27,8 @@ jobs:
       - uses: actions/checkout@v4
       - id: rp
         if: github.event_name != 'pull_request' && github.ref_name == 'main'
+        # release type and extra files (includes/version.php) live in release-please-config.json
         uses: google-github-actions/release-please-action@v4
-        with:
-          release-type: ${{ env.PROJECT_TYPE }}
       - name: Prepare tags for Docker meta
         id: tags
         env:
