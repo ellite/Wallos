@@ -19,6 +19,11 @@ $data = json_decode($postData, true);
 // unconfigured: the admin page called it managed, the test said it failed,
 // and nothing explained why. Any field that came back empty and is
 // env-managed is filled in from the effective configuration instead.
+// Only the administrator's SMTP form is backed by the instance configuration.
+// Any other user posts their own settings, and filling a blank field of theirs
+// from the environment would hand the instance SMTP credentials to whatever
+// host they typed in.
+$managedFields = $userId === 1 ? wallos_get_effective_admin_configuration($db)['managed_fields'] : [];
 $data = wallos_fill_managed_form_fields($data, [
     'smtpaddress' => 'smtp_address',
     'smtpport' => 'smtp_port',
@@ -26,7 +31,7 @@ $data = wallos_fill_managed_form_fields($data, [
     'smtpusername' => 'smtp_username',
     'smtppassword' => 'smtp_password',
     'fromemail' => 'from_email',
-], wallos_get_effective_admin_configuration($db)['managed_fields'], wallos_get_admin_settings($db));
+], $managedFields, wallos_get_admin_settings($db));
 
 if (
     !isset($data["smtpaddress"]) || $data["smtpaddress"] == "" ||
