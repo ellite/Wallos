@@ -352,6 +352,17 @@ if (
 
     $result = $stmt->execute();
 
+    if ($result && isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
+        // A new password ends every other remember-me login. The one this
+        // browser is using is kept so the person who just changed it is not
+        // signed out.
+        $keepToken = (string) ($_SESSION['token'] ?? '');
+        $stmt = $db->prepare("DELETE FROM login_tokens WHERE user_id = :userId AND token != :token");
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->bindValue(':token', $keepToken, SQLITE3_TEXT);
+        $stmt->execute();
+    }
+
     if ($result) {
         $cookieExpire = time() + (30 * 24 * 60 * 60);
         $oldLanguage = isset($_COOKIE['language']) ? $_COOKIE['language'] : "en";
