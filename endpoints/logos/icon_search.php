@@ -6,6 +6,18 @@
   Returns the same JSON shape as search.php: {"results": [{thumbnail, image, ...}]}.
 */
 
+require_once '../../includes/connect_endpoint.php';
+
+header('Content-Type: application/json');
+
+// Both searches make the server fetch from a third party on the caller's
+// behalf, so they are for signed-in users only.
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Session expired.']);
+    exit;
+}
+
 const ICON_SEARCH_CACHE_TTL = 86400; // one day
 const ICON_SEARCH_MAX_RESULTS = 24;
 
