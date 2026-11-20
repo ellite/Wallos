@@ -119,6 +119,7 @@ See instructions to run Wallos below.
 ```
 
 5. If your web root is not `/var/www/html/` adjust the cronjobs above accordingly.
+6. **Apache only:** the repo ships a `.htaccess` that denies access to `db/` and `.tmp/` and to `*.db` files. Make sure your virtual host has `AllowOverride All` so it is honored, and check that `https://your-host/db/wallos.db` returns 403. Without it the whole database, including password hashes, can be downloaded. NGINX users get the same protection from the shipped `nginx.conf`.
 
 #### Updating
 
