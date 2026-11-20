@@ -39,34 +39,52 @@ if (isset($_GET['search'])) {
 
     function curlGet($url, $headers = []) {
         $allowedHosts = ['duckduckgo.com', 'search.brave.com'];
-        $host = parse_url($url, PHP_URL_HOST);
-        if (!in_array($host, $allowedHosts)) return null;
 
-        $ip = gethostbyname($host);
-        $port = parse_url($url, PHP_URL_PORT) ?: (parse_url($url, PHP_URL_SCHEME) === 'https' ? 443 : 80);
+        // Redirects are followed by hand, never by libcurl: the host allowlist
+        // and the private-range check have to hold for every hop, not only for
+        // the first URL, or an allowed host's redirect could point the server
+        // at an internal address.
+        for ($hop = 0; $hop <= 3; $hop++) {
+            $parts = parse_url($url);
+            $host = $parts['host'] ?? '';
+            if (($parts['scheme'] ?? '') !== 'https' || !in_array($host, $allowedHosts, true)) {
+                return null;
+            }
+            $port = $parts['port'] ?? 443;
 
-        $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false 
-                      || is_cgnat_ip($ip);
-        
-        if ($is_private) return null;
+            $ip = gethostbyname($host);
+            $is_private = filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+                          || is_cgnat_ip($ip);
+            if ($is_private) {
+                return null;
+            }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
-        
-        if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+            curl_setopt($ch, CURLOPT_PROTOCOLS, CURLPROTO_HTTPS);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+            if (!empty($headers)) curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
 
-        curl_setopt($ch, CURLOPT_RESOLVE, ["{$host}:{$port}:{$ip}"]);
+            if (!applyProxy($ch)) {
+                curl_setopt($ch, CURLOPT_PROXY, '');
+                curl_setopt($ch, CURLOPT_NOPROXY, '*');
+            }
+            $response = curl_exec($ch);
+            $status = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
+            $redirect = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+            unset($ch);
 
-        if (!applyProxy($ch)) {
-            curl_setopt($ch, CURLOPT_PROXY, '');
-            curl_setopt($ch, CURLOPT_NOPROXY, '*');
+            if ($status >= 300 && $status < 400 && $redirect) {
+                $url = $redirect;
+                continue;
+            }
+            return $response ?: null;
         }
-        $response = curl_exec($ch);
-        unset($ch);
-        return $response ?: null;
+        return null;
     }
 
     function getVqdToken($query) {
