@@ -13,6 +13,7 @@ $i18n = [
     "confirm_password" => "Confirm Password",
     "current_password" => "Current Password",
     "current_password_incorrect" => "The current password is incorrect",
+    "too_many_login_attempts" => "Too many failed login attempts. Please wait a few minutes and try again.",
     "main_currency" => "Main Currency",
     "language" => "Language",
     "passwords_dont_match" => "Passwords do not match",

@@ -2,6 +2,7 @@
 require_once 'includes/connect.php';
 require_once 'includes/checkuser.php';
 require_once 'includes/oidc_settings.php';
+require_once 'includes/login_throttle.php';
 
 require_once 'includes/i18n/languages.php';
 require_once 'includes/i18n/getlang.php';
@@ -156,6 +157,7 @@ if ($oidcEnabled) {
 }
 
 $loginFailed = false;
+$loginThrottled = false;
 $hasSuccessMessage = (isset($_GET['validated']) && $_GET['validated'] == "true") || (isset($_GET['registered']) && $_GET['registered'] == true) ? true : false;
 $userEmailWaitingVerification = false;
 $oidcEmailNotVerified = false;
@@ -163,6 +165,9 @@ if (isset($_POST['username']) && isset($_POST['password']) && $password_login_di
     // SSO-only is enforced here, not just by hiding the form: a direct POST
     // must not be able to authenticate with a local password.
     $loginFailed = true;
+} elseif (isset($_POST['username']) && isset($_POST['password']) && wallos_login_is_throttled($db, $_POST['username'], wallos_login_client_ip())) {
+    $loginFailed = true;
+    $loginThrottled = true;
 } elseif (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -180,6 +185,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && $password_login_di
         $main_currency = $row['main_currency'];
         $language = $row['language'];
         if (password_verify($password, $hashedPasswordFromDb)) {
+            wallos_login_clear_failures($db, $username, wallos_login_client_ip());
 
             // Check if the user is in the email_verification table
             $query = "SELECT 1 FROM email_verification WHERE user_id = :userId";
@@ -260,9 +266,11 @@ if (isset($_POST['username']) && isset($_POST['password']) && $password_login_di
 
         } else {
             $loginFailed = true;
+            wallos_login_record_failure($db, $username, wallos_login_client_ip());
         }
     } else {
         $loginFailed = true;
+        wallos_login_record_failure($db, $username, wallos_login_client_ip());
     }
 }
 
@@ -412,6 +420,10 @@ if (isset($_GET['error'])) {
                             <li><i
                                     class="fa-solid fa-triangle-exclamation"></i><?= translate('user_email_waiting_verification', $i18n) ?>
                             </li>
+                            <?php
+                        } elseif ($loginThrottled) {
+                            ?>
+                            <li><i class="fa-solid fa-triangle-exclamation"></i><?= translate('too_many_login_attempts', $i18n) ?></li>
                             <?php
                         } elseif ($oidcEmailNotVerified) {
                             ?>
