@@ -294,6 +294,22 @@ if (
 
     if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $password = $_POST['password'];
+
+        // Changing the password takes the current one, so a session or a
+        // remember-me cookie that someone else got hold of cannot be turned
+        // into a permanent takeover.
+        $currentPassword = (string) ($_POST['current_password'] ?? '');
+        $stmt = $db->prepare("SELECT password FROM user WHERE id = :userId");
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $storedRow = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+        if (!$storedRow || $currentPassword === '' || !password_verify($currentPassword, $storedRow['password'])) {
+            echo json_encode([
+                "success" => false,
+                "message" => translate('current_password_incorrect', $i18n)
+            ]);
+            exit();
+        }
+
         if (isset($_POST['confirm_password'])) {
             $confirm = $_POST['confirm_password'];
             if ($password != $confirm) {
