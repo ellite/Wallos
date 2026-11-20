@@ -294,6 +294,22 @@ if (
 
     if (isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
         $password = $_POST['password'];
+
+        // Changing the password takes the current one, so a session or a
+        // remember-me cookie that someone else got hold of cannot be turned
+        // into a permanent takeover.
+        $currentPassword = (string) ($_POST['current_password'] ?? '');
+        $stmt = $db->prepare("SELECT password FROM user WHERE id = :userId");
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $storedRow = $stmt->execute()->fetchArray(SQLITE3_ASSOC);
+        if (!$storedRow || $currentPassword === '' || !password_verify($currentPassword, $storedRow['password'])) {
+            echo json_encode([
+                "success" => false,
+                "message" => translate('current_password_incorrect', $i18n)
+            ]);
+            exit();
+        }
+
         if (isset($_POST['confirm_password'])) {
             $confirm = $_POST['confirm_password'];
             if ($password != $confirm) {
@@ -335,6 +351,17 @@ if (
     }
 
     $result = $stmt->execute();
+
+    if ($result && isset($_POST['password']) && $_POST['password'] != "" && !$demoMode) {
+        // A new password ends every other remember-me login. The one this
+        // browser is using is kept so the person who just changed it is not
+        // signed out.
+        $keepToken = (string) ($_SESSION['token'] ?? '');
+        $stmt = $db->prepare("DELETE FROM login_tokens WHERE user_id = :userId AND token != :token");
+        $stmt->bindValue(':userId', $userId, SQLITE3_INTEGER);
+        $stmt->bindValue(':token', $keepToken, SQLITE3_TEXT);
+        $stmt->execute();
+    }
 
     if ($result) {
         $cookieExpire = time() + (30 * 24 * 60 * 60);
