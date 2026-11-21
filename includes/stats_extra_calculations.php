@@ -3,6 +3,8 @@
 // Requires stats_calculations.php to have run first ($subscriptions, $db, $userId, $userData, $i18n, $lang).
 // All monetary values are converted to the main currency. Lifetime figures assume current prices.
 
+require_once __DIR__ . '/histogram_buckets.php';
+
 $monthLabelFormatter = null;
 try {
     $monthLabelFormatter = new IntlDateFormatter($lang, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, null, null, 'MMM yy');
@@ -199,25 +201,21 @@ foreach ($currencySpend as $currencyCode => $spend) {
 usort($currencyDataPoints, fn($a, $b) => $b['y'] <=> $a['y']);
 $showCurrencyGraph = count($currencyDataPoints) > 1;
 
-$histogramBoundaries = [5, 10, 20, 50];
-$histogramCounts = array_fill(0, count($histogramBoundaries) + 1, 0);
+$histogramBuckets = wallos_histogram_buckets($activeMonthlyPrices);
+$histogramCounts = array_fill(0, count($histogramBuckets), 0);
+$lastHistogramBucket = count($histogramBuckets) - 1;
 foreach ($activeMonthlyPrices as $monthlyPrice) {
-    $bucketIndex = count($histogramBoundaries);
-    foreach ($histogramBoundaries as $index => $boundary) {
-        if ($monthlyPrice < $boundary) {
-            $bucketIndex = $index;
+    foreach ($histogramBuckets as $index => $bucket) {
+        if ($monthlyPrice < $bucket['max'] || $index === $lastHistogramBucket) {
+            $histogramCounts[$index]++;
             break;
         }
     }
-    $histogramCounts[$bucketIndex]++;
 }
 $histogramDataPoints = [];
-$previousBoundary = 0;
-foreach ($histogramBoundaries as $index => $boundary) {
-    $histogramDataPoints[] = ['label' => "{$previousBoundary}–{$boundary}", 'y' => $histogramCounts[$index]];
-    $previousBoundary = $boundary;
+foreach ($histogramBuckets as $index => $bucket) {
+    $histogramDataPoints[] = ['label' => $bucket['label'], 'y' => $histogramCounts[$index]];
 }
-$histogramDataPoints[] = ['label' => "{$previousBoundary}+", 'y' => $histogramCounts[count($histogramBoundaries)]];
 $showHistogramGraph = count($activeMonthlyPrices) >= 3;
 
 ksort($newSubscriptionsPerYear);
