@@ -10,7 +10,7 @@ function getPriceConverted($price, $currency, $database, $userId)
 function formatCalendarPrice($price, $currencyId, $currencies)
 {
   if (!isset($currencies[$currencyId])) {
-    return number_format((float) $price, 2);
+    return number_format((float) $price, CurrencyFormatter::decimalPlaces($price));
   }
 
   $currency = $currencies[$currencyId];

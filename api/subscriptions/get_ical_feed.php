@@ -10,6 +10,7 @@ It returns a downloadable VCAL file with the active subscriptions
 
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/currency_rates.php';
+require_once '../../includes/currency_formatter.php';
 require_once '../../includes/ical_helper.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
@@ -165,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" || $_SERVER["REQUEST_METHOD"] === "GET
         $subscription['payment_method'] = $subscription['payment_method_name'];
         $subscription['currency'] = isset($currencies[$subscription['currency_id']]) ? $currencies[$subscription['currency_id']]['symbol'] : '';
         $subscription['trigger'] = ($subscription['notify_days_before'] == -1) ? $globalNotificationDays : ($subscription['notify_days_before'] ?: 1);
-        $subscription['price'] = number_format($subscription['price'], 2);
+        $subscription['price'] = number_format((float) $subscription['price'], CurrencyFormatter::decimalPlaces($subscription['price']));
 
         $uid = 'wallos-subscription-' . $subscription['id'] . '@wallos';
         $summary = icalEscape(html_entity_decode($subscription['name'], ENT_QUOTES, 'UTF-8'));
