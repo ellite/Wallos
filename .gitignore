@@ -24,3 +24,13 @@ GEMINI.md
 .github/copilot-instructions.md
 .antigravitycli
 plan.html
+
+# Build artifacts
+/build/
+
+# Editor junk
+*~
+*.swp
+*.swo
+*.orig
+*.rej

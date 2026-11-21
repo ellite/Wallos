@@ -1,43 +1,100 @@
-# Use the php:8.3-fpm-alpine base image
-FROM php:8.3-fpm-alpine
+# syntax=docker/dockerfile:1.7
 
-# Set working directory to /var/www/html
+ARG PHP_VERSION=8.3
+ARG BASE_IMAGE=php:${PHP_VERSION}-fpm-alpine
+
+# ---------------------------------------------------------------------------
+# builder: compile PHP extensions (dev headers stay in this stage only)
+# ---------------------------------------------------------------------------
+FROM ${BASE_IMAGE} AS builder
+
+# hadolint ignore=DL3018,SC2086
+RUN --mount=type=cache,target=/var/cache/apk \
+    apk add --cache-dir /var/cache/apk --virtual .build-deps \
+        $PHPIZE_DEPS \
+        freetype-dev \
+        icu-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+        libzip-dev \
+        sqlite-dev \
+    && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
+    docker-php-ext-install -j"$(nproc)" \
+        calendar \
+        gd \
+        intl \
+        pdo_sqlite \
+        zip
+
+# ---------------------------------------------------------------------------
+# src: prepare application files (no layers leak into the runtime image)
+# ---------------------------------------------------------------------------
+FROM ${BASE_IMAGE} AS src
+
+WORKDIR /src
+COPY . .
+RUN rm -f nginx.conf nginx.default.conf php-fpm.wallos.conf php.wallos.ini && \
+    dos2unix cronjobs startup.sh && \
+    chmod +x startup.sh
+
+# ---------------------------------------------------------------------------
+# runtime: final image
+# ---------------------------------------------------------------------------
+FROM ${BASE_IMAGE} AS runtime
+
+LABEL org.opencontainers.image.title="Wallos" \
+      org.opencontainers.image.description="Open-source, self-hostable personal subscription tracker" \
+      org.opencontainers.image.url="https://github.com/ellite/Wallos" \
+      org.opencontainers.image.source="https://github.com/ellite/Wallos" \
+      org.opencontainers.image.documentation="https://github.com/ellite/Wallos#readme" \
+      org.opencontainers.image.licenses="GPL-3.0-only" \
+      org.opencontainers.image.vendor="ellite"
+
 WORKDIR /var/www/html
 
-# Update packages and install dependencies
-RUN apk upgrade --no-cache && \
-    apk add --no-cache dumb-init shadow sqlite-dev libpng libpng-dev libjpeg-turbo libjpeg-turbo-dev freetype freetype-dev curl autoconf libgomp icu-dev icu-data-full nginx dcron tzdata libzip-dev sqlite libwebp-dev && \
-    docker-php-ext-install pdo pdo_sqlite calendar && \
-    docker-php-ext-enable pdo pdo_sqlite && \
-    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp && \
-    docker-php-ext-install -j$(nproc) gd intl zip
+# Runtime libraries only (no -dev packages, no autoconf)
+# hadolint ignore=DL3018
+RUN --mount=type=cache,target=/var/cache/apk \
+    apk upgrade --cache-dir /var/cache/apk && \
+    apk add --cache-dir /var/cache/apk \
+        curl \
+        dcron \
+        dumb-init \
+        freetype \
+        icu-data-full \
+        icu-libs \
+        libgomp \
+        libjpeg-turbo \
+        libpng \
+        libwebp \
+        libzip \
+        nginx \
+        shadow \
+        sqlite \
+        sqlite-libs \
+        tzdata \
+    && \
+    mkdir -p /var/log/cron
 
-# Copy your PHP application files into the container
-COPY . .
+# Compiled extensions and their ini files from the builder stage
+COPY --link --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --link --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
 
-# Copy Nginx configuration
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx.default.conf /etc/nginx/http.d/default.conf
+# Static configuration
+COPY --link nginx.conf /etc/nginx/nginx.conf
+COPY --link nginx.default.conf /etc/nginx/http.d/default.conf
+COPY --link php-fpm.wallos.conf /usr/local/etc/php-fpm.d/zz-wallos.conf
+COPY --link php.wallos.ini /usr/local/etc/php/conf.d/wallos-uploads.ini
 
-# Remove nginx conf files from webroot
-RUN rm -rf /var/www/html/nginx.conf && \
-    rm -rf /var/www/html/nginx.default.conf
+# Cron
+COPY --link --chmod=0644 --from=src /src/cronjobs /etc/cron.d/cronjobs
+RUN /usr/bin/crontab /etc/cron.d/cronjobs
 
-# Copy the custom crontab file
-COPY cronjobs /etc/cron.d/cronjobs
+# Application (last: most frequently changing layer)
+COPY --link --from=src --chown=www-data:www-data /src /var/www/html
 
-# Convert the line endings, allow read access to the cron file, and create cron log folder
-RUN dos2unix /etc/cron.d/cronjobs && \
-    chmod 0644 /etc/cron.d/cronjobs && \
-    /usr/bin/crontab /etc/cron.d/cronjobs && \
-    mkdir /var/log/cron && \
-    chown -R www-data:www-data /var/www/html && \
-    chmod +x /var/www/html/startup.sh && \
-    echo 'pm.max_children = 15' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    echo 'pm.max_requests = 500' >> /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    printf 'upload_max_filesize = 256M\npost_max_size = 256M\n' > /usr/local/etc/php/conf.d/wallos-uploads.ini
-
-# Expose port 80 for Nginx
 EXPOSE 80
 
 ENTRYPOINT ["dumb-init", "--"]
@@ -46,5 +103,14 @@ ENTRYPOINT ["dumb-init", "--"]
 HEALTHCHECK --interval=2m --timeout=2s --start-period=20s --start-interval=5s --retries=3 \
     CMD ["curl", "-fsS", "http://127.0.0.1/health.php"]
 
-# Start both PHP-FPM, Nginx
 CMD ["/var/www/html/startup.sh"]
+
+# Per-build metadata last so it never invalidates the cache above
+ARG VERSION=dev
+ARG REVISION=unknown
+ARG CREATED=
+ARG BASE_IMAGE
+LABEL org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${REVISION}" \
+      org.opencontainers.image.created="${CREATED}" \
+      org.opencontainers.image.base.name="${BASE_IMAGE}"
