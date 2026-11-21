@@ -315,6 +315,13 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
 
         <?php } ?>
 
+        <?php
+        // The payment-period card measures a different window from the calendar
+        // month, so it does not replace the month-end figure. Decide once
+        // whether that card renders, and show "amount due this month" in
+        // exactly one of the two cards.
+        $showPeriodBlock = $periodScopesStatistics || (isset($periodBudget) && $periodBudget > 0);
+        ?>
         <?php if (isset($totalCostPerMonth)) { ?>
             <div class="budget-subscriptions">
                 <h2><?= translate('monthly_budget', $i18n) ?></h2>
@@ -328,6 +335,16 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 </p>
                             </div>
                         </div>
+                        <?php if (!$showPeriodBlock) { ?>
+                            <div class="subscription-item thin">
+                                <p class="subscription-item-title"><?= translate("amount_due", $i18n) ?></p>
+                                <div class="subscription-item-info">
+                                    <p class="subscription-item-value">
+                                        <?= CurrencyFormatter::format($amountDueThisMonth, $currencies[$userData['main_currency']]['code']) ?>
+                                    </p>
+                                </div>
+                            </div>
+                        <?php } ?>
                         <?php if (isset($monthlyBudget) && $monthlyBudget > 0) { ?>
                             <div class="subscription-item thin">
                                 <p class="subscription-item-title"><?= translate("budget", $i18n) ?></p>
@@ -377,7 +394,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         // whether or not they also set an amount to compare it against. The
         // second arm keeps the block for anyone who had a period budget before
         // the opt-in existed.
-        if ($periodScopesStatistics || (isset($periodBudget) && $periodBudget > 0)) { ?>
+        if ($showPeriodBlock) { ?>
             <div class="budget-subscriptions">
                 <h2><?= translate(isset($periodBudget) && $periodBudget > 0 ? 'period_budget' : 'payment_period', $i18n) ?></h2>
                 <?php if (isset($budgetPeriodLabel)) { ?>
@@ -390,6 +407,14 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             <div class="subscription-item-info">
                                 <p class="subscription-item-value">
                                     <?= CurrencyFormatter::format($amountNeededThisPeriod, $currencies[$userData['main_currency']]['code']) ?>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="subscription-item thin">
+                            <p class="subscription-item-title"><?= translate("amount_due", $i18n) ?></p>
+                            <div class="subscription-item-info">
+                                <p class="subscription-item-value">
+                                    <?= CurrencyFormatter::format($amountDueThisMonth, $currencies[$userData['main_currency']]['code']) ?>
                                 </p>
                             </div>
                         </div>
