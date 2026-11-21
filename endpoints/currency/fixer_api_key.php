@@ -1,6 +1,7 @@
 <?php
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
+require_once '../../includes/fxmacrodata.php';
 
 $newApiKey = isset($_POST["api_key"]) ? trim($_POST["api_key"]) : "";
 $provider = isset($_POST["provider"]) ? $_POST["provider"] : 0;
@@ -53,6 +54,50 @@ if ($provider == 2 || $provider == 3) {
         "success" => true,
         "message" => translate('currency_provider_saved', $i18n)
     ]);
+    exit;
+}
+
+// FXMacroData is reached with an API key, so the key is checked first, and the
+// stored row is only replaced once it has been accepted: a mistyped key must not
+// cost the user the one that was working.
+if ($provider == 4) {
+    $check = fxmacrodata_check_key($newApiKey);
+
+    if (!$check['valid']) {
+        echo json_encode([
+            "success" => false,
+            "message" => translate('invalid_api_key', $i18n)
+        ]);
+        exit;
+    }
+
+    $removeOldKey = "DELETE FROM fixer WHERE user_id = :userId";
+    $stmt = $db->prepare($removeOldKey);
+    $stmt->bindValue(":userId", $userId, SQLITE3_INTEGER);
+
+    if ($stmt->execute() === false) {
+        echo json_encode([
+            "success" => false,
+            "message" => translate('failed_to_store_api_key', $i18n)
+        ]);
+        exit;
+    }
+
+    $insertNewKey = "INSERT INTO fixer (api_key, provider, user_id) VALUES (:api_key, :provider, :userId)";
+    $stmt = $db->prepare($insertNewKey);
+    $stmt->bindValue(":api_key", $newApiKey, SQLITE3_TEXT);
+    $stmt->bindValue(":provider", 4, SQLITE3_INTEGER);
+    $stmt->bindValue(":userId", $userId, SQLITE3_INTEGER);
+
+    if ($stmt->execute() === false) {
+        echo json_encode([
+            "success" => false,
+            "message" => translate('failed_to_store_api_key', $i18n)
+        ]);
+        exit;
+    }
+
+    echo json_encode(["success" => true, "message" => translate('api_key_saved', $i18n)]);
     exit;
 }
 

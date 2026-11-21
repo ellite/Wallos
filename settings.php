@@ -1386,6 +1386,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <option value="1" <?= $provider == 1 ? 'selected' : '' ?>>apilayer.com</option>
                     <option value="2" <?= $provider == 2 ? 'selected' : '' ?>>frankfurter.dev</option>
                     <option value="3" <?= $provider == 3 ? 'selected' : '' ?>>allratestoday.com</option>
+                    <option value="4" <?= $provider == 4 ? 'selected' : '' ?>>fxmacrodata.com</option>
                 </select>
             </div>
             <div class="buttons">
@@ -1418,6 +1419,15 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                         https://apilayer.com
                         <a href="https://apilayer.com/marketplace/fixer-api" title="Get free fixer api key"
                             target="_blank">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </span>
+                </p>
+                <p>
+                    <?= translate('get_key', $i18n) ?>:
+                    <span>
+                        https://fxmacrodata.com
+                        <a href="https://fxmacrodata.com/subscribe?utm_source=wallos&amp;utm_medium=integration&amp;utm_campaign=open_source_integrations&amp;utm_content=settings_get_key" title="FXMacroData" target="_blank">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </span>
