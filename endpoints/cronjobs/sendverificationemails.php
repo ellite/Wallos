@@ -56,6 +56,9 @@ if ($rows) {
         }
         if ($encryption != "none") {
           $mail->SMTPSecure = $encryption;
+        } else {
+          $mail->SMTPSecure = false;
+          $mail->SMTPAutoTLS = false;
         }
         $mail->Port = $smtpPort;
         $mail->setFrom($fromEmail);
