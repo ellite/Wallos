@@ -169,7 +169,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
                         $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
-                        $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                        $subscriptionDisplay = get_dashboard_display_price($subscriptionPrice, $subscriptionCurrency, $userData['main_currency'], $settings, $db, $userId);
+                        $subscriptionDisplayPrice = formatPrice($subscriptionDisplay['price'], $currencies[$subscriptionDisplay['currency_id']]['code'], $currencies);
+                        $subscriptionDisplayOriginalPrice = $subscriptionDisplay['original_price'] !== null
+                            ? formatPrice($subscriptionDisplay['original_price'], $currencies[$subscriptionDisplay['original_currency_id']]['code'], $currencies)
+                            : null;
 
                         ?>
                         <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
@@ -187,7 +191,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             <div class="subscription-item-info">
                                 <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?>
                                 </p>
-                                <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
+                                <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?><?php if ($subscriptionDisplayOriginalPrice !== null) { ?> <span class="original_price">(<?= $subscriptionDisplayOriginalPrice ?>)</span><?php } ?></p>
                             </div>
                         </div>
                         <?php
@@ -216,7 +220,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                         $subscriptionCurrency = $subscription['currency_id'];
                         $subscriptionNextPayment = $subscription['next_payment'];
                         $subscriptionDisplayNextPayment = formatDate($subscriptionNextPayment, $lang);
-                        $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                        $subscriptionDisplay = get_dashboard_display_price($subscriptionPrice, $subscriptionCurrency, $userData['main_currency'], $settings, $db, $userId);
+                        $subscriptionDisplayPrice = formatPrice($subscriptionDisplay['price'], $currencies[$subscriptionDisplay['currency_id']]['code'], $currencies);
+                        $subscriptionDisplayOriginalPrice = $subscriptionDisplay['original_price'] !== null
+                            ? formatPrice($subscriptionDisplay['original_price'], $currencies[$subscriptionDisplay['original_currency_id']]['code'], $currencies)
+                            : null;
 
                         ?>
                         <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
@@ -233,7 +241,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             ?>
                             <div class="subscription-item-info">
                                 <p class="subscription-item-date"> <?= $subscriptionDisplayNextPayment ?></p>
-                                <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
+                                <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?><?php if ($subscriptionDisplayOriginalPrice !== null) { ?> <span class="original_price">(<?= $subscriptionDisplayOriginalPrice ?>)</span><?php } ?></p>
                             </div>
                         </div>
                         <?php
@@ -254,7 +262,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                             $subscriptionPrice = $subscription['price'];
                             $subscriptionCurrency = $subscription['currency_id'];
                             $subscriptionDisplayCancellationDate = formatDate($subscription['cancellation_date'], $lang);
-                            $subscriptionDisplayPrice = formatPrice($subscriptionPrice, $currencies[$subscriptionCurrency]['code'], $currencies);
+                            $subscriptionDisplay = get_dashboard_display_price($subscriptionPrice, $subscriptionCurrency, $userData['main_currency'], $settings, $db, $userId);
+                            $subscriptionDisplayPrice = formatPrice($subscriptionDisplay['price'], $currencies[$subscriptionDisplay['currency_id']]['code'], $currencies);
+                            $subscriptionDisplayOriginalPrice = $subscriptionDisplay['original_price'] !== null
+                                ? formatPrice($subscriptionDisplay['original_price'], $currencies[$subscriptionDisplay['original_currency_id']]['code'], $currencies)
+                                : null;
 
                             ?>
                             <div class="subscription-item" onClick="showSubscriptionDetails(event, <?= $subscription['id'] ?>)" data-id="<?= $subscription['id'] ?>">
@@ -271,7 +283,7 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 ?>
                                 <div class="subscription-item-info">
                                     <p class="subscription-item-date"> <?= $subscriptionDisplayCancellationDate ?></p>
-                                    <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?></p>
+                                    <p class="subscription-item-price"> <?= $subscriptionDisplayPrice ?><?php if ($subscriptionDisplayOriginalPrice !== null) { ?> <span class="original_price">(<?= $subscriptionDisplayOriginalPrice ?>)</span><?php } ?></p>
                                 </div>
                             </div>
                             <?php

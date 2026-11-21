@@ -1,6 +1,50 @@
 <?php
 
+require_once __DIR__ . '/currency_rates.php';
+
 const UPCOMING_PAYMENTS_LIMITS = [3, 5, 10, 20];
+
+/**
+ * Resolve the price a dashboard tile should display.
+ *
+ * The dashboard follows the same rule as the subscriptions list: with
+ * convert_currency enabled, a subscription in another currency is converted
+ * into the user's main currency. show_original_price does not override the
+ * conversion; it only keeps the subscription's own figure for display beside
+ * the converted one.
+ *
+ * @param float|int|string $price
+ * @param int              $currencyId
+ * @param int              $mainCurrencyId
+ * @param array            $settings
+ * @param SQLite3          $db
+ * @param int|null         $userId
+ * @return array{price: float, currency_id: int, original_price: float|null, original_currency_id: int|null}
+ */
+function get_dashboard_display_price($price, $currencyId, $mainCurrencyId, $settings, $db, $userId = null)
+{
+    $price = floatval($price);
+    $display = [
+        'price' => $price,
+        'currency_id' => (int) $currencyId,
+        'original_price' => null,
+        'original_currency_id' => null,
+    ];
+
+    $convert = isset($settings['convertCurrency']) && $settings['convertCurrency'] === 'true';
+
+    if ($convert && $currencyId != $mainCurrencyId) {
+        $display['price'] = wallos_convert_price($price, $currencyId, $db, $userId);
+        $display['currency_id'] = (int) $mainCurrencyId;
+
+        if (isset($settings['showOriginalPrice']) && $settings['showOriginalPrice'] === 'true') {
+            $display['original_price'] = $price;
+            $display['original_currency_id'] = (int) $currencyId;
+        }
+    }
+
+    return $display;
+}
 
 /**
  * Parse a dashboard limit and return null for unsupported values.
