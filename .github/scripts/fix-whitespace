@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+"""Trim trailing whitespace and ensure exactly one newline at end of file.
+
+Usage: fix-whitespace [--check] FILE...
+Rewrites files in place; with --check, only reports and exits 1 on findings.
+Binary and non-UTF-8 files are skipped. CRLF line endings are preserved.
+"""
+
+import sys
+
+
+def normalize(text: str) -> str:
+    """Return `text` with trailing whitespace trimmed and a single final newline."""
+    eol = "\r\n" if "\r\n" in text else "\n"
+    lines = [line.rstrip() for line in text.splitlines()]
+    while lines and not lines[-1]:
+        lines.pop()
+    return eol.join(lines) + eol if lines else ""
+
+
+def main() -> int:
+    """Process all files given on the command line."""
+    args = sys.argv[1:]
+    check = "--check" in args
+    dirty = 0
+    for path in (a for a in args if a != "--check"):
+        try:
+            with open(path, "rb") as handle:
+                raw = handle.read()
+            if b"\0" in raw:
+                continue
+            text = raw.decode("utf-8")
+        except (OSError, UnicodeDecodeError):
+            continue
+        fixed = normalize(text)
+        if fixed == text:
+            continue
+        dirty += 1
+        print(f"{path}: {'needs whitespace fix' if check else 'fixed whitespace'}")
+        if not check:
+            with open(path, "wb") as handle:
+                handle.write(fixed.encode("utf-8"))
+    return 1 if check and dirty else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

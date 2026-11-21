@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""Fail on dubious UTF-8 symbols: invisible, bidi, odd-space and lookalike chars.
+
+With --fix, rewrite files in place where a safe replacement exists.
+
+Deliberately not checked: emoji, check marks and crosses, and Cyrillic/Greek
+letters.
+
+Suppress a finding with a marker in the file's own comment syntax:
+  check-utf8: ignore             on the offending line
+  check-utf8: ignore-next-line   on the line before it
+"""
+
+import sys
+import unicodedata
+
+VERSION = "2026-10-06T15:36:00Z"  # RFC 3339 date-time; bump on EVERY edit to this script (`date -u +%Y-%m-%dT%H:%M:%SZ`)
+
+IGNORE = "check-utf8: ignore"
+IGNORE_NEXT = "check-utf8: ignore-next-line"
+
+# code point -> (reason, ASCII replacement). Code points, not literals, so this
+# file does not trip its own check. A replacement of None means no safe fix.
+KNOWN = {
+    # quotes and primes
+    0x2018: ("left single quote", "'"),
+    0x2019: ("right single quote", "'"),
+    0x201A: ("low single quote", "'"),
+    0x201B: ("reversed single quote", "'"),
+    0x201C: ("left double quote", '"'),
+    0x201D: ("right double quote", '"'),
+    0x201E: ("low double quote", '"'),
+    0x201F: ("reversed double quote", '"'),
+    0x2032: ("prime", "'"),
+    0x2033: ("double prime", '"'),
+    0x2035: ("reversed prime", "'"),
+    0x00B4: ("acute accent", "'"),
+    0x02CB: ("modifier grave accent", "`"),
+    0x02BC: ("modifier apostrophe", "'"),
+    # dashes and underscores not covered by the Pd/Pc categories
+    0x2212: ("minus sign", "-"),
+    0x2017: ("double low line", "_"),
+    # symbols
+    0x2026: ("ellipsis", "..."),
+    0x00D7: ("multiplication sign", "x"),
+    0x2264: ("less-than or equal", "<="),
+    0x2265: ("greater-than or equal", ">="),
+    0x2260: ("not equal", "!="),
+    0x2192: ("right arrow", "->"),
+    0x2190: ("left arrow", "<-"),
+    0x2194: ("left-right arrow", "<->"),
+    0x21D2: ("right double arrow", "=>"),
+    0x21D0: ("left double arrow", "<="),
+    0x21D4: ("left-right double arrow", "<=>"),
+    0x2022: ("bullet", "-"),
+    0x2023: ("triangular bullet", "-"),
+    0x00B7: ("middle dot", "-"),
+    0x2219: ("bullet operator", "-"),
+    0x25CF: ("black circle", "-"),
+    # line breaks
+    0x2028: ("line separator", "\n"),
+    0x2029: ("paragraph separator", "\n"),
+    # invisible but not in the "format" category
+    0x2800: ("braille blank", ""),
+    0x115F: ("hangul choseong filler", ""),
+    0x1160: ("hangul jungseong filler", ""),
+    0x3164: ("hangul filler", ""),
+    0xFFA0: ("halfwidth hangul filler", ""),
+    # broken encoding: nothing to restore
+    0xFFFD: ("replacement character (broken encoding)", None),
+}
+ALLOWED_CONTROLS = {"\n", "\r", "\t"}
+
+
+def describe(char: str) -> tuple[str, str | None] | None:
+    """Return (reason, replacement) if `char` is dubious, else None.
+
+    A replacement of None means there is no safe automatic fix.
+    """
+    if ord(char) in KNOWN:
+        return KNOWN[ord(char)]
+    category = unicodedata.category(char)
+    if category == "Pd" and char != "-":
+        return "dash variant (use '-')", "-"
+    if category == "Pc" and char != "_":
+        return "underscore variant (use '_')", "_"
+    if category == "Cf":
+        return "invisible format character", ""
+    if category == "Zs" and char != " ":
+        return "non-ASCII space", " "
+    if category == "Cc" and char not in ALLOWED_CONTROLS:
+        return "control character", None
+    if category in ("Co", "Cn", "Cs"):
+        return "private-use or unassigned character", None
+    # Fullwidth forms, ligatures, superscripts, circled digits, ...: fix only
+    # when compatibility normalization lands on plain ASCII.
+    folded = unicodedata.normalize("NFKC", char)
+    if folded != char and folded.isascii():
+        return "compatibility character", folded
+    return None
+
+
+def check(path: str, fix: bool) -> int:
+    """Report dubious characters in `path`; return how many remain unfixed."""
+    try:
+        with open(path, encoding="utf-8", newline="") as handle:
+            text = handle.read()
+    except UnicodeDecodeError as exc:
+        print(f"{path}: not valid UTF-8 ({exc.reason} at byte {exc.start})")
+        return 1
+    except OSError:
+        return 0
+    remaining = 0
+    changed = False
+    out = []
+    skip_next = False
+    for number, line in enumerate(text.split("\n"), 1):
+        skip = skip_next or (IGNORE in line and IGNORE_NEXT not in line)
+        skip_next = IGNORE_NEXT in line
+        if skip:
+            out.append(line)
+            continue
+        fixed = []
+        for column, char in enumerate(line, 1):
+            hit = describe(char)
+            if hit is None:
+                fixed.append(char)
+                continue
+            reason, replacement = hit
+            name = unicodedata.name(char, "UNNAMED")
+            if fix and replacement is not None:
+                fixed.append(replacement)
+                changed = True
+                print(f"{path}:{number}:{column}: fixed U+{ord(char):04X} {name}")
+            else:
+                fixed.append(char)
+                remaining += 1
+                print(f"{path}:{number}:{column}: U+{ord(char):04X} {name}: {reason}")
+        out.append("".join(fixed))
+    if changed:
+        with open(path, "w", encoding="utf-8", newline="") as handle:
+            handle.write("\n".join(out))
+    return remaining
+
+
+def main() -> int:
+    """Check all files given on the command line."""
+    args = sys.argv[1:]
+    if "--version" in args:
+        print(f"check-utf8 {VERSION}")
+        return 0
+    fix = "--fix" in args
+    paths = [arg for arg in args if arg != "--fix"]
+    return 1 if sum(check(path, fix) for path in paths) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
