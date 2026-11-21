@@ -7,6 +7,7 @@ require_once 'includes/logo_theme_variant.php';
 include_once 'includes/list_subscriptions.php';
 require_once 'includes/subscription_payers.php';
 require_once 'includes/subscription_categories.php';
+require_once 'includes/category_totals.php';
 
 $sort = "next_payment";
 $sortOrder = $sort;
@@ -144,6 +145,12 @@ foreach ($subscriptions as $subscription) {
   }
 }
 
+// The category totals helper needs every category of a subscription, not only
+// the first one stored on the subscription row.
+foreach ($subscriptions as $index => $subscription) {
+  $subscriptions[$index]['category_ids'] = $categoriesBySubscription[$subscription['id']] ?? [];
+}
+
 if ($sortOrder == "category_id") {
   usort($subscriptions, function ($a, $b) use ($categories) {
     return ($categories[$a['category_id'] ?? ""]['order'] ?? PHP_INT_MAX) <=> ($categories[$b['category_id'] ?? ""]['order'] ?? PHP_INT_MAX);
@@ -158,6 +165,24 @@ if ($sortOrder == "payment_method_id") {
 
 // Folder cards always show each folder's full totals, whatever the list filters are.
 $folderStats = calculateFolderStats($db, $userId, $folders, $mainCurrencyId);
+
+// Category headings show the same monthly totals as the Statistics page:
+// converted to the main currency, normalised to a month and split between the
+// subscription's categories.
+$categoryTotalLabels = [];
+if ($sortOrder == "category_id") {
+  $categoryMonthlyTotals = wallos_category_monthly_totals(
+    $subscriptions,
+    array_keys($categories),
+    function ($subscription) use ($db, $userId) {
+      $price = wallos_convert_price($subscription['price'], $subscription['currency_id'], $db, $userId);
+      return getPricePerMonth($subscription['cycle'], $subscription['frequency'], $price);
+    }
+  );
+  foreach ($categoryMonthlyTotals as $categoryId => $monthlyTotal) {
+    $categoryTotalLabels[$categoryId] = formatPrice($monthlyTotal, $currencies[$mainCurrencyId]['code'], $currencies);
+  }
+}
 
 $headerClass = count($subscriptions) > 0 ? "main-actions" : "main-actions hidden";
 
@@ -384,7 +409,7 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
     }
 
     if (isset($print)) {
-      printSubscriptions($print, $sort, $categories, $folders, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang);
+      printSubscriptions($print, $sort, $categories, $folders, $members, $i18n, $colorTheme, "", $settings['disabledToBottom'], $settings['mobileNavigation'], $settings['showSubscriptionProgress'], $currencies, $lang, $categoryTotalLabels);
     }
 
     $googleSearchEnabled = false;
