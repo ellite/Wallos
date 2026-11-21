@@ -173,6 +173,7 @@ function resetForm() {
     closeMultiSelect(id);
   });
   toggleOneTimeCycleUI(false);
+  toggleCustomIntervalUI(document.querySelector("#cycle")?.value);
   closeLogoSearch();
   const deleteButton = document.querySelector("#deletesub");
   deleteButton.style = 'display: none';
@@ -215,6 +216,11 @@ function fillEditFormFields(subscription) {
   const cycleSelect = document.querySelector("#cycle");
   cycleSelect.value = subscription.cycle;
   toggleOneTimeCycleUI(subscription.cycle == 5);
+  const customDays = document.querySelector("#custom_days");
+  if (customDays) {
+    customDays.value = subscription.cycle == 1 ? subscription.frequency : "";
+  }
+  toggleCustomIntervalUI(cycleSelect.value);
   const paymentSelect = document.querySelector("#payment_method");
   paymentSelect.value = subscription.payment_method_id;
   setMultiSelection("category_select", subscription.category_ids && subscription.category_ids.length > 0
@@ -1051,6 +1057,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (cycleSelectEl) {
     cycleSelectEl.addEventListener("change", function () {
       toggleOneTimeCycleUI(this.value === "5");
+      toggleCustomIntervalUI(this.value);
     });
   }
 });
@@ -1068,6 +1075,19 @@ document.addEventListener('DOMContentLoaded', function () {
     submitButton.disabled = true;
 
     const cycleVal = document.querySelector("#cycle")?.value;
+    if (cycleVal === "custom") {
+      const customDays = document.querySelector("#custom_days");
+      const days = Number(customDays?.value);
+      if (!customDays || !Number.isInteger(days) || days < 1 || days > 366) {
+        showErrorMessage(translate("custom_interval_invalid"));
+        submitButton.disabled = false;
+        return;
+      }
+      // Post the day count as the frequency too, so the pair stored on the
+      // subscription is a plain daily cycle of N days.
+      const frequencySelect = document.querySelector("#frequency");
+      if (frequencySelect) frequencySelect.value = days;
+    }
     if (cycleVal === "5") {
       const freq = document.querySelector("#frequency");
       if (freq) freq.value = 1;
@@ -1556,12 +1576,34 @@ function toggleOneTimeCycleUI(isOneTime) {
   }
 }
 
+function toggleCustomIntervalUI(cycleValue) {
+  const frequencySelect = document.querySelector("#frequency");
+  const customDays = document.querySelector("#custom_days");
+  const isCustom = cycleValue === "custom";
+  const isOneTime = cycleValue === "5";
+
+  if (customDays) {
+    customDays.hidden = !isCustom;
+    customDays.required = isCustom;
+    if (isCustom && !customDays.value && frequencySelect) {
+      customDays.value = frequencySelect.value;
+    }
+  }
+
+  // "Payment every" reads as [days] [cycle] for the fixed cycles, and as
+  // [cycle] [days] for a custom interval, so the frequency select steps aside.
+  if (frequencySelect && !isOneTime) {
+    frequencySelect.style.display = isCustom ? 'none' : '';
+  }
+}
+
 function autoFillNextPaymentDate(e) {
   e.preventDefault();
   const frequencySelect = document.querySelector("#frequency");
   const cycleSelect = document.querySelector("#cycle"); 
   const startDate = document.querySelector("#start_date");
   const nextPayment = document.querySelector("#next_payment"); 
+  const customDays = document.querySelector("#custom_days");
 
   // Do nothing if frequency, cycle, or start date is not set
   if (!frequencySelect.value || !cycleSelect.value || !startDate.value || isNaN(Date.parse(startDate.value))) {
@@ -1570,8 +1612,13 @@ function autoFillNextPaymentDate(e) {
   }
   
   const today = new Date();  
-  const cycle = cycleSelect.value;
-  const frequency = Number(frequencySelect.value);
+  const isCustom = cycleSelect.value === "custom";
+  const cycle = isCustom ? '1' : cycleSelect.value;
+  const frequency = isCustom ? Number(customDays?.value) : Number(frequencySelect.value);
+
+  if (!Number.isInteger(frequency) || frequency < 1) {
+    return;
+  }
 
   const nextDate = new Date(startDate.value);
   let safetyCounter = 0;

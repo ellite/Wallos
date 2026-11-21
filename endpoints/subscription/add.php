@@ -9,6 +9,7 @@ require_once '../../includes/logo_theme_variant.php';
 require_once '../../includes/logo_cleanup.php';
 require_once '../../includes/subscription_payers.php';
 require_once '../../includes/subscription_categories.php';
+require_once '../../includes/subscription_interval.php';
 
 if (!file_exists('../../images/uploads/logos')) {
     mkdir('../../images/uploads/logos', 0777, true);
@@ -240,6 +241,23 @@ $price = $_POST['price'];
 $currencyId = $_POST["currency_id"];
 $frequency = $_POST["frequency"];
 $cycle = $_POST["cycle"];
+$customDays = $_POST['custom_days'] ?? null;
+
+// "Custom" is a form-level choice for an arbitrary number of days. It is
+// stored as a daily cycle with that frequency, so nothing downstream needs to
+// know about it.
+$interval = normalizeSubscriptionInterval($cycle, $frequency, $customDays);
+if ($interval === null) {
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status' => 'Error',
+        'message' => translate('custom_interval_invalid', $i18n),
+    ]);
+    exit();
+}
+$cycle = $interval['cycle'];
+$frequency = $interval['frequency'];
+
 $nextPayment = $_POST["next_payment"];
 $autoRenew = isset($_POST['auto_renew']) ? true : false;
 if (!validate_frequency($cycle, 1, 5)) {

@@ -504,7 +504,11 @@ $subscriptionsView = (isset($_COOKIE['subscriptionsView']) && $_COOKIE['subscrip
                 <?php
               }
               ?>
+              <option value="custom"><?= translate('custom', $i18n) ?></option>
             </select>
+            <input type="number" id="custom_days" name="custom_days" class="custom-days-input" min="1" max="366"
+              step="1" placeholder="<?= translate('days', $i18n) ?>" aria-label="<?= translate('custom_day_interval', $i18n) ?>"
+              hidden>
           </div>
         </div>
         <div class="split33" id="auto-renew-group">
