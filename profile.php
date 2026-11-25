@@ -95,6 +95,11 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
                                 value="<?= htmlspecialchars($userData['email']) ?>" required>
                         </div>
                         <div class="form-group">
+                            <label for="current_password"><?= translate('current_password', $i18n) ?>:</label>
+                            <input type="password" id="current_password" name="current_password" autocomplete="current-password"
+                                <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>
+                        </div>
+                        <div class="form-group">
                             <label for="password"><?= translate('password', $i18n) ?>:</label>
                             <input type="password" id="password" name="password" autocomplete="new-password"
                                 <?= $demoMode ? 'disabled title="Not available on Demo Mode"' : '' ?>>

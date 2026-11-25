@@ -35,6 +35,7 @@ $stmt->close();
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
+    $frequency = max(1, (int)$frequency);
     switch ($cycle) {
         case 1:  return $price * (30 / $frequency);
         case 2:  return $price * (4.35 / $frequency);

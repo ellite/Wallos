@@ -15,7 +15,9 @@ $currentDateString = $currentDate->format('Y-m-d');
 
 function getPricePerMonth($cycle, $frequency, $price)
 {
+    $frequency = max(1, (int)$frequency);
   switch ($cycle) {
+    case 5: return 0;
     case 1:
       $numberOfPaymentsPerMonth = (30 / $frequency);
       return $price * $numberOfPaymentsPerMonth;
@@ -43,6 +45,7 @@ $stmt = $db->prepare($query);
 $result = $stmt->execute();
 
 while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+    try {
     $userId = $row['id'];
     $userCurrencyId = $row['main_currency'];
     $totalYearlyCost = 0;
@@ -70,6 +73,10 @@ while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
     } else {
         echo "Error inserting total yearly cost for user " . $userId . "<br />\n";
     }
+    } catch (Throwable $e) {
+        error_log('Skipping yearly cost for user ' . $row['id'] . ': ' . $e->getMessage());
+    }
+
 }
 
 

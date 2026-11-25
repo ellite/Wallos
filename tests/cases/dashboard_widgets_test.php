@@ -302,6 +302,8 @@ wallos_test('migration adds payment method budget, widget flags, and layout colu
     assert_true($payers->fetchArray(SQLITE3_ASSOC) !== false, 'subscription_payers exists');
     $categories = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='subscription_categories'");
     assert_true($categories->fetchArray(SQLITE3_ASSOC) !== false, 'subscription_categories exists');
+    $loginAttempts = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='login_attempts'");
+    assert_true($loginAttempts->fetchArray(SQLITE3_ASSOC) !== false, 'login_attempts exists');
 
     $db->close();
 });
@@ -401,6 +403,26 @@ wallos_test('savings monthly cost nets out replacement subscriptions', function 
             'frequency' => 1,
         ], $db, 1),
         'monthly cycle price is unchanged when rates are 1'
+    );
+    assert_equals(
+        300.0,
+        wallos_subscription_monthly_cost([
+            'price' => 10,
+            'currency_id' => 1,
+            'cycle' => 1,
+            'frequency' => 0,
+        ], $db, 1),
+        'a zero frequency is treated as every day, not a division by zero'
+    );
+    assert_equals(
+        0.0,
+        wallos_subscription_monthly_cost([
+            'price' => 10,
+            'currency_id' => 1,
+            'cycle' => 5,
+            'frequency' => 0,
+        ], $db, 1),
+        'a one-time purchase adds nothing to monthly cost'
     );
 
     // Inactive Netflix replaced by cheaper active Disney+

@@ -539,6 +539,7 @@ if (!function_exists('wallos_subscription_monthly_cost')) {
             $userId
         );
         $cycle = (int) ($subscription['cycle'] ?? 0);
+        // Match getPricePerMonth: a frequency below 1 would divide by zero.
         $frequency = max(1, (int) ($subscription['frequency'] ?? 1));
 
         switch ($cycle) {

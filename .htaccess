@@ -1,0 +1,17 @@
+# Apache only. The Docker image and nginx.conf deny these paths on their own;
+# this file gives a bare-metal Apache install the same protection. It needs
+# AllowOverride to permit these directives (AllowOverride All, or at least
+# AuthConfig FileInfo Limit).
+
+# The SQLite database, its journals and any backup copies.
+<FilesMatch "\.(db|db-wal|db-shm|db-journal|sqlite|sqlite3)$">
+    Require all denied
+</FilesMatch>
+
+# Nothing under the top-level db/ or .tmp/ is meant to be fetched over HTTP.
+# The pattern is relative to this file, so it works from a sub-folder too and
+# leaves endpoints/db/ alone.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(db|\.tmp)/ - [F]
+</IfModule>

@@ -174,6 +174,17 @@ if (isset($_POST['password']) && $_POST['password'] != "" && isset($_POST['confi
                     . $user['id'] . ': ' . $db->lastErrorMsg());
                 $hasErrorMessage = true;
             } else {
+                // Whoever held an old remember-me login must not outlive the
+                // reset: it is what people do when an account may be taken.
+                $stmt = $db->prepare("DELETE FROM login_tokens WHERE user_id = :id");
+                if ($stmt !== false) {
+                    $stmt->bindValue(':id', $user['id'], SQLITE3_INTEGER);
+                    if ($stmt->execute() === false) {
+                        error_log('Wallos password reset: remember-me logins were not cleared: '
+                            . $db->lastErrorMsg());
+                    }
+                }
+
                 // Only now is the token spent. A token that survives a failed
                 // reset can be used again; one consumed by a failed reset
                 // cannot, and the user has no way to tell which happened.

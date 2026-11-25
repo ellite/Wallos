@@ -461,3 +461,26 @@ wallos_test('the calendar walks occurrences with the shared helper, not strtotim
     assert_not_contains('months", $date)', $calendar,
         'the overflowing strtotime walk is gone');
 });
+
+wallos_test('a zero frequency or invalid payment date does not stall the period walk', function () {
+    $zero = getSubscriptionOccurrencesInRange([
+        'next_payment' => '2026-06-15',
+        'cycle' => 1,
+        'frequency' => 0,
+        'auto_renew' => 1,
+    ], new DateTime('2026-06-01'), new DateTime('2026-06-03'));
+
+    $dates = array_map(fn($date) => $date->format('Y-m-d'), $zero);
+    assert_same(['2026-06-01', '2026-06-02', '2026-06-03'], $dates,
+        'frequency 0 steps one day at a time instead of spinning');
+
+    foreach (['not-a-date', '2026-02-30', '2026-1-01'] as $nextPayment) {
+        $skipped = getSubscriptionOccurrencesInRange([
+            'next_payment' => $nextPayment,
+            'cycle' => 3,
+            'frequency' => 1,
+            'auto_renew' => 1,
+        ], new DateTime('2026-06-01'), new DateTime('2026-06-30'));
+        assert_same([], $skipped, $nextPayment . ' is skipped');
+    }
+});

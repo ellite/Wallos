@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/currency_rates.php';
+require_once __DIR__ . '/inputvalidation.php';
 
 if (!function_exists('sanitizeBudgetPeriodType')) {
     function sanitizeBudgetPeriodType($periodType)
@@ -216,6 +217,8 @@ if (!function_exists('formatBudgetPeriodLabel')) {
 if (!function_exists('getSubscriptionIntervalSpec')) {
     function getSubscriptionIntervalSpec($cycle, $frequency)
     {
+        // Frequency below 1 never advances a date. Floor it the same way
+        // getPricePerMonth and the payment-schedule guard do.
         $frequency = max(1, (int) $frequency);
         $cycle = (int) $cycle;
 
@@ -234,6 +237,9 @@ if (!function_exists('getSubscriptionIntervalSpec')) {
 if (!function_exists('shiftSubscriptionOccurrence')) {
     function shiftSubscriptionOccurrence(DateTime $date, array $subscription, DateTime $anchorDate, $direction)
     {
+        // Same floor as getSubscriptionIntervalSpec. Month and year steps stay
+        // clamped to the anchor day: DateInterval (wallos_advance_payment) turns
+        // 31 Aug + 1 month into 1 Oct and then drifts, so this walk does not use it.
         $frequency = max(1, (int) ($subscription['frequency'] ?? 1));
         $cycle = (int) ($subscription['cycle'] ?? 0);
         $direction = $direction < 0 ? -1 : 1;
@@ -279,7 +285,14 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
             return [];
         }
 
-        $nextPayment = DateTime::createFromFormat('!Y-m-d', trim($subscription['next_payment']));
+        // Reject dates the payment loops reject, including overflow such as
+        // 2026-02-30, instead of rolling them into the next month.
+        $rawNextPayment = trim((string) $subscription['next_payment']);
+        if (!wallos_valid_payment_date($rawNextPayment)) {
+            return [];
+        }
+
+        $nextPayment = DateTime::createFromFormat('!Y-m-d', $rawNextPayment);
         if ($nextPayment === false) {
             return [];
         }
@@ -314,6 +327,8 @@ if (!function_exists('getSubscriptionOccurrencesInRange')) {
         $current = clone $nextPayment;
         $safetyCounter = 0;
 
+        // Same iteration cap as wallos_advance_payment. A step that does not
+        // move the date stops the walk instead of spinning.
         while ($current > $rangeStartDate) {
             $current = shiftSubscriptionOccurrence($current, $subscription, $nextPayment, -1);
             if ($current === null) {

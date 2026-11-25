@@ -2,6 +2,8 @@
 require_once '../../includes/connect_endpoint.php';
 require_once '../../includes/validate_endpoint.php';
 
+require_once __DIR__ . '/../../includes/payment_schedule.php';
+
 $postData = file_get_contents("php://input");
 $data = json_decode($postData, true);
 
@@ -30,27 +32,11 @@ if ($subscriptionToRenew === false) {
     ]));
 }
 
-$nextPaymentDate = new DateTime($subscriptionToRenew['next_payment']);
-$frequency = $subscriptionToRenew['frequency'];
-$cycle = $cycles[$subscriptionToRenew['cycle']]['name'];
-
-// Calculate the interval to add based on the cycle
-$intervalSpec = "P";
-if ($cycle == 'Daily') {
-    $intervalSpec .= "{$frequency}D";
-} elseif ($cycle === 'Weekly') {
-    $intervalSpec .= "{$frequency}W";
-} elseif ($cycle === 'Monthly') {
-    $intervalSpec .= "{$frequency}M";
-} elseif ($cycle === 'Yearly') {
-    $intervalSpec .= "{$frequency}Y";
-}
-
-$interval = new DateInterval($intervalSpec);
-
-// Add intervals until the next payment date is in the future and after current next payment date
-while ($nextPaymentDate < $currentDate || $nextPaymentDate == new DateTime($subscriptionToRenew['next_payment'])) {
-    $nextPaymentDate->add($interval);
+try {
+    $nextPaymentDate = wallos_advance_payment($subscriptionToRenew['next_payment'], $subscriptionToRenew['frequency'], $subscriptionToRenew['cycle'], $currentDate, true);
+} catch (Throwable $e) {
+    http_response_code(400);
+    die(json_encode(['success' => false, 'message' => 'Invalid subscription payment schedule.']));
 }
 
 // Update the subscription's next_payment date
@@ -58,8 +44,6 @@ $updateQuery = "UPDATE subscriptions SET next_payment = :nextPaymentDate WHERE i
 $updateStmt = $db->prepare($updateQuery);
 $updateStmt->bindValue(':nextPaymentDate', $nextPaymentDate->format('Y-m-d'));
 $updateStmt->bindValue(':subscriptionId', $subscriptionId);
-$updateStmt->execute();
-
 if ($updateStmt->execute()) {
     $response = [
         "success" => true,

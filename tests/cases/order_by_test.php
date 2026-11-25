@@ -27,6 +27,7 @@ wallos_test('no query sorts by a string constant', function () {
 
         if ($file->getExtension() !== 'php'
             || strpos($path, 'libs/') === 0
+            || strpos($path, '.paperclip-repositories/') === 0
             || strpos($path, 'tests/') === 0) {
             continue;
         }
