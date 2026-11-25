@@ -1,19 +1,20 @@
 <?php
 
+require_once __DIR__ . '/../../includes/database_bootstrap.php';
+
 $databaseFile = __DIR__ . '/../../db/wallos.db';
 
 // A request that reaches the web server before this script runs makes SQLite
 // create an empty wallos.db. A file without the user table is a database that
-// was never set up, so it is created like a missing one.
-$databaseNeedsCreating = !file_exists($databaseFile);
-if (!$databaseNeedsCreating) {
-    $existingDb = new SQLite3($databaseFile, SQLITE3_OPEN_READONLY);
-    $databaseNeedsCreating = !$existingDb->querySingle("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'user'");
-    $existingDb->close();
-}
-
-if ($databaseNeedsCreating) {
-    echo "Database does not exist. Creating it...\n";
+// was never set up, so it is created like a missing one. A failed probe (locked
+// file, permissions) must not delete the existing database.
+if (wallos_database_needs_create($databaseFile)) {
+    if (file_exists($databaseFile)) {
+        echo "Database file exists but schema is incomplete. Recreating...\n";
+        wallos_remove_database_files($databaseFile);
+    } else {
+        echo "Database does not exist. Creating it...\n";
+    }
     $db = new SQLite3($databaseFile, SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
     $db->busyTimeout(5000);
 

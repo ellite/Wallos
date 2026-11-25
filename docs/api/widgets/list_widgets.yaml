@@ -1,0 +1,87 @@
+get:
+  summary: "List dashboard widgets"
+  description: |
+    Returns the user's dashboard widget catalog in display order (`schema_version: 1`).
+
+    `payment_method_budget` appears once per configured instance with `instance_id`,
+    `payment_method_ids` (empty = every method that has a budget), and `display_mode`
+    (`per_method` or `combined`). Home Assistant / REST clients should call
+    `get_widget` with `widget_id=payment_method_budget` and the chosen `instance_id`.
+  parameters:
+    - name: api_key
+      in: query
+      required: true
+      description: "User API key (also accepted as apiKey, or in JSON body)."
+      schema:
+        type: string
+    - name: apiKey
+      in: query
+      required: false
+      description: "Alias for api_key."
+      schema:
+        type: string
+  responses:
+    '200':
+      description: "Successful catalog response."
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              schema_version:
+                type: integer
+                example: 1
+              widgets:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    widget_id:
+                      type: string
+                      description: "Stable widget id (e.g. period_budget, payment_method_budget)."
+                    enabled:
+                      type: boolean
+                    order:
+                      type: integer
+                      description: "Zero-based dashboard order."
+                    title:
+                      type: string
+                    requires_params:
+                      type: boolean
+                      description: "Always false; optional filters never block a call."
+                    instance_id:
+                      type: string
+                      description: "Present for payment_method_budget instances."
+                    payment_method_ids:
+                      type: array
+                      items:
+                        type: integer
+                      description: "Configured method ids; empty means all methods with a budget."
+                    display_mode:
+                      type: string
+                      enum: [per_method, combined]
+                    default_title:
+                      type: string
+                      description: "Localized default title before a custom title is set."
+          example:
+            success: true
+            schema_version: 1
+            widgets:
+              - widget_id: payment_method_budget
+                enabled: true
+                order: 0
+                title: "Paypal & DB"
+                requires_params: false
+                instance_id: pmb_10bbd4a2
+                payment_method_ids: [1, 4]
+                display_mode: combined
+                default_title: "Payment Method Budget"
+              - widget_id: period_budget
+                enabled: true
+                order: 5
+                title: "Period Budget"
+                requires_params: false
+    '401':
+      description: "Invalid API key (returned as JSON success=false)."
