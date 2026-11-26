@@ -1510,6 +1510,7 @@ $upcomingPaymentsLimit = normalize_upcoming_payments_limit($settings['upcoming_p
                     <option value="chatgpt" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'chatgpt') ? 'selected' : '' ?>>ChatGPT</option>
                     <option value="gemini" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'gemini') ? 'selected' : '' ?>>Gemini</option>
                     <option value="openrouter" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openrouter') ? 'selected' : '' ?>>OpenRouter</option>
+                    <option value="martllm" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'martllm') ? 'selected' : '' ?>>MartLLM</option>
                     <option value="ollama" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'ollama') ? 'selected' : '' ?>>Local Ollama</option>
                     <option value="openai-compatible" <?= (isset($aiSettings['type']) && $aiSettings['type'] == 'openai-compatible') ? 'selected' : '' ?>>OpenAI Compatible</option>
                 </select>

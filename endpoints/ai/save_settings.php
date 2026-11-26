@@ -14,13 +14,13 @@ $aiModel      = isset($data['model']) ? trim($data['model']) : '';
 $aiSchedule   = isset($data['ai_run_schedule']) ? $data['ai_run_schedule'] : "manual";
 
 // Validate type
-if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
+if (empty($aiType) || !in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'martllm', 'ollama', 'openai-compatible'])) {
     echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
     exit;
 }
 
 // API key required only for these
-if (in_array($aiType, ['chatgpt', 'gemini', 'openrouter']) && empty($aiApiKey)) {
+if (in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'martllm']) && empty($aiApiKey)) {
     echo json_encode(["success" => false, "message" => translate('invalid_api_key', $i18n)]);
     exit;
 }

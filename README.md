@@ -59,7 +59,7 @@ Wallos is a powerful, open-source, and self-hostable web application designed to
 - Notifications:  Wallos supports multiple notification methods (email, discord, pushover, telegram, gotify and webhooks). Get notified about your upcoming payments.
 - Multi Language support.
 - OIDC with OAuth
-- AI Recommendations with ChatGPT, Gemini, OpenRouter, a local Ollama or any OpenAI-compatible API
+- AI Recommendations with ChatGPT, Gemini, OpenRouter, MartLLM, a local Ollama or any OpenAI-compatible API
 
 ## Demo
 
@@ -265,6 +265,7 @@ Each user sets it up under Settings, in the AI Recommendations section: enable i
 | ChatGPT | An OpenAI API key |
 | Gemini | A Google AI Studio API key |
 | OpenRouter | An OpenRouter API key |
+| MartLLM | A MartLLM API key |
 | Local Ollama | The Ollama URL, e.g. `http://localhost:11434` |
 | OpenAI Compatible | The API base URL, e.g. `http://localhost:11434/v1`, and an API key if the server requires one |
 

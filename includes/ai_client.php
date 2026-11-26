@@ -201,7 +201,7 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
     $host = $aiSettings['url'] ?? '';
     $apiKey = $aiSettings['api_key'] ?? '';
 
-    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible']) || !$enabled || empty($model)) {
+    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'martllm', 'ollama', 'openai-compatible']) || !$enabled || empty($model)) {
         return ["success" => false, "message" => translate('error', $i18n)];
     }
 
@@ -291,6 +291,13 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
                 'model' => $model,
                 'messages' => [['role' => 'user', 'content' => $prompt]],
             ]));
+        } elseif ($type === 'martllm') {
+            $headers[] = 'Authorization: Bearer ' . $apiKey;
+            curl_setopt($ch, CURLOPT_URL, 'https://api.martllm.com/v1/chat/completions');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+                'model' => $model,
+                'messages' => [['role' => 'user', 'content' => $prompt]],
+            ]));
         }
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
@@ -357,7 +364,7 @@ function ai_complete($aiSettings, $prompt, $db, $i18n, $userId)
 
     $content = null;
 
-    if (in_array($type, ['chatgpt', 'openrouter', 'openai-compatible'])
+    if (in_array($type, ['chatgpt', 'openrouter', 'martllm', 'openai-compatible'])
         && isset($replyData['choices'][0]['message']['content'])) {
         $content = ai_get_text_content($replyData['choices'][0]['message']['content']);
     } elseif ($type === 'gemini'
