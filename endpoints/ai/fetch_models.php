@@ -7,6 +7,7 @@ require_once '../../includes/ssrf_helper.php';
 $chatgptModelsApiUrl = 'https://api.openai.com/v1/models';
 $geminiModelsApiUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
 $openrouterModelsApiUrl = 'https://openrouter.ai/api/v1/models';
+$martllmModelsApiUrl = 'https://api.martllm.com/v1/models';
 
 $input = file_get_contents('php://input');
 $data = json_decode($input, true);
@@ -18,13 +19,13 @@ $aiOllamaHost = isset($data["ollama_host"]) ? trim($data["ollama_host"]) : '';
 $ssrf = null; // Initialize to avoid errors for public API types
 
 // Validate ai-type
-if (!in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible'])) {
+if (!in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'martllm', 'ollama', 'openai-compatible'])) {
     echo json_encode(["success" => false, "message" => translate('error', $i18n)]);
     exit;
 }
 
 // Validate API key for providers that require it
-if (in_array($aiType, ['chatgpt', 'gemini', 'openrouter'])) {
+if (in_array($aiType, ['chatgpt', 'gemini', 'openrouter', 'martllm'])) {
     if (empty($aiApiKey)) {
         echo json_encode(["success" => false, "message" => translate('invalid_api_key', $i18n)]);
         exit;
@@ -42,6 +43,9 @@ if ($aiType === 'chatgpt') {
 } elseif ($aiType === 'openrouter') {
     $headers[] = 'Authorization: Bearer ' . $aiApiKey;
     $apiUrl = $openrouterModelsApiUrl;
+} elseif ($aiType === 'martllm') {
+    $headers[] = 'Authorization: Bearer ' . $aiApiKey;
+    $apiUrl = $martllmModelsApiUrl;
 } elseif ($aiType === 'openai-compatible') {
     if (empty($aiOllamaHost)) {
         echo json_encode(["success" => false, "message" => translate('invalid_host', $i18n)]);

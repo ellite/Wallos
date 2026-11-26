@@ -78,7 +78,7 @@ foreach ($allAiSettings as $aiSettings) {
     $ssrf   = null;
 
     // Validate provider
-    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'ollama', 'openai-compatible']) || empty($model)) {
+    if (!in_array($type, ['chatgpt', 'gemini', 'openrouter', 'martllm', 'ollama', 'openai-compatible']) || empty($model)) {
         $failures[] = ['user_id' => $tempUserId, 'reason' => 'invalid type or model'];
         continue;
     }
@@ -263,6 +263,13 @@ PROMPT;
                 'model'    => $model,
                 'messages' => [['role' => 'user', 'content' => $prompt]],
             ]));
+        } elseif ($type === 'martllm') {
+            $headers[] = 'Authorization: Bearer ' . $apiKey;
+            curl_setopt($ch, CURLOPT_URL, 'https://api.martllm.com/v1/chat/completions');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+                'model'    => $model,
+                'messages' => [['role' => 'user', 'content' => $prompt]],
+            ]));
         }
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
     }
@@ -283,7 +290,7 @@ PROMPT;
     $replyData = json_decode($reply, true);
     $recommendations = null;
 
-    if (in_array($type, ['chatgpt', 'openrouter', 'openai-compatible'])
+    if (in_array($type, ['chatgpt', 'openrouter', 'martllm', 'openai-compatible'])
         && isset($replyData['choices'][0]['message']['content'])) {
         $recommendationsJson = $replyData['choices'][0]['message']['content'];
         $recommendationsJson = preg_replace('/^```json\s*|\s*```$/m', '', $recommendationsJson);
