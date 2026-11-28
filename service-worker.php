@@ -70,6 +70,7 @@ const staticAssets = [
     'scripts/i18n/en.js',
     'scripts/i18n/es.js',
     'scripts/i18n/fr.js',
+    'scripts/i18n/hi.js',
     'scripts/i18n/hu.js',
     'scripts/i18n/id.js',
     'scripts/i18n/it.js',
